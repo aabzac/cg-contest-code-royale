@@ -18,3 +18,16 @@ trust combat benches. Commands: `./gradlew cgValidate -Pquiet=true [-Presync=tru
 
 Greedy `current` vs v00: 100/100 wins (50 maps × 2 seats, seeds 1000-1049); procCheck of the
 merged artifact (54,375 chars): 0 timeouts, first turn ≤165 ms, later ≤10.5 ms.
+
+## 2026-10-28 — tower damage, opponents, visualizer
+Hypothesis: the live tower damage counts distance from the site centre (repo: from the edge).
+Evidence: 722 isolated samples were 1 lower exactly where `int((range - dist + r)/200)` and
+`int((range - dist)/200)` differ. Resync over 98 replays: creep HP corrections 447 -> 1, fully
+consistent games 4 -> 33, plain-turn unit match 89.69%; queen HP corrections 382 -> 319 with the
+same rule for queen shots. Decision: adopted as default (`Rules.TOWER_FROM_CENTER`,
+`TOWER_QUEEN_FROM_CENTER`). Rejected: global TOUCHING_DELTA 8/10/12/15 (site checks diverge
+earlier, matched turns 9472 -> 5375..3736).
+Built `ProcessBot` (external programs in run/bench/procCheck), `boss`/`bossN` specs, frozen
+`v01`, local replay export and a canvas visualizer served by `./gradlew serve`.
+Workflow `code-royale-live-rules` (run wf_841110c2-70b) started for spawn placement,
+movement/collisions, turn order/HP and a second corpus `replays/cg2`.

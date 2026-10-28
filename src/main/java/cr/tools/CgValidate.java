@@ -28,6 +28,8 @@ public final class CgValidate {
     public static final class Result {
         public final List<String> mismatches = new ArrayList<>();
         public int turns, firstBadTurn;
+        /** Unit comparisons: turns without / with a creep spawn in the replay frame, and exact matches. */
+        public int plainTurns, plainExact, spawnTurns, spawnExact;
         public final Map<String, Integer> resynced = new TreeMap<>();
         public String firstResync;
         public String error;
@@ -74,6 +76,8 @@ public final class CgValidate {
         Rules.LEGACY_SPAWN = Boolean.parseBoolean(System.getProperty("legacySpawn", "false"));
         Rules.TURN_BASE = Integer.parseInt(System.getProperty("turnBase", "1"));
         Rules.SPAWN_OFFSET = Integer.getInteger("spawnOffset", 0);
+        Rules.TOWER_FROM_CENTER = Boolean.parseBoolean(System.getProperty("towerFromCenter", "true"));
+        Rules.TOWER_QUEEN_FROM_CENTER = Boolean.parseBoolean(System.getProperty("towerQueenFromCenter", "true"));
         Rules.SPAWN_FIX_EACH = Boolean.getBoolean("spawnFixEach");
         Rules.SPAWN_TOWARDS = !Boolean.getBoolean("spawnNoTowards");
         if (System.getProperty("knightHp") != null) Const.CREEP_HP[Const.KNIGHT] = Integer.getInteger("knightHp");
@@ -85,6 +89,7 @@ public final class CgValidate {
         int ok = 0, bad = 0, err = 0;
         long matchedTurns = 0;
         Map<String, Integer> resyncTotal = new TreeMap<>();
+        int plainTurns = 0, plainExact = 0, spawnTurns = 0, spawnExact = 0;
         Map<String, Integer> kinds = new TreeMap<>();
         for (Path f : files) {
             Result r;
@@ -96,6 +101,7 @@ public final class CgValidate {
             }
             if (r.error != null) { err++; System.out.println("ERROR " + f + ": " + r.error); continue; }
             r.resynced.forEach((k, v) -> resyncTotal.merge(k, v, Integer::sum));
+            plainTurns += r.plainTurns; plainExact += r.plainExact; spawnTurns += r.spawnTurns; spawnExact += r.spawnExact;
             if (r.firstResync != null && verbose) System.out.println("  first resync " + f.getFileName() + ": " + r.firstResync);
             if (r.ok()) { ok++; matchedTurns += r.turns; if (verbose) System.out.println("OK " + f + " turns=" + r.turns); continue; }
             bad++;
@@ -108,6 +114,9 @@ public final class CgValidate {
         System.out.printf("games=%d ok=%d mismatch=%d error=%d matchedTurns=%d%n", files.size(), ok, bad, err, matchedTurns);
         kinds.forEach((k, v) -> System.out.println("  first mismatch kind x" + v + ": " + k));
         if (RESYNC) System.out.println("resynced turns by kind: " + resyncTotal);
+        System.out.printf(java.util.Locale.ROOT, "unit match: plain %d/%d (%.2f%%) spawn %d/%d (%.2f%%)%n",
+            plainExact, plainTurns, 100.0 * plainExact / Math.max(1, plainTurns),
+            spawnExact, spawnTurns, 100.0 * spawnExact / Math.max(1, spawnTurns));
         if (bad + err > 0) System.exit(1);
     }
 
@@ -258,7 +267,18 @@ public final class CgValidate {
         for (CgReplay.Turn t : g.turns) {
             if (s.over) { mm.add("t" + s.turn + " replay continues after simulated end"); break; }
             String[] l0 = CgReplay.lines(t.stdout[0]), l1 = CgReplay.lines(t.stdout[1]);
+            boolean tracing = g.gameId == Long.getLong("traceGame", -1L) && s.turn + 1 == Integer.getInteger("traceTurn", -1);
+            if (tracing) {
+                if (rules.log == null) rules.log = new StringBuilder();
+                rules.trace = true;
+                System.out.println("TRACE g" + g.gameId + " turn " + (s.turn + 1) + " cmds: [" + l0[0] + " | " + l0[1] + "] [" + l1[0] + " | " + l1[1] + "]");
+                System.out.println("  before:\n" + s);
+            }
             rules.resolve(s, Command.parse(l0[0], l0[1], s.nSites), Command.parse(l1[0], l1[1], s.nSites));
+            if (tracing) {
+                rules.trace = false;
+                System.out.println("  log:" + rules.log);
+            }
             int tn = s.turn;
             for (Map.Entry<Integer, List<String>> e : t.view.texts.entrySet()) texts.put(e.getKey(), e.getValue());
             for (int p = 0; p < 2; p++) {
@@ -286,6 +306,9 @@ public final class CgValidate {
             boolean spawned = t.view.registered.values().stream().anyMatch(o -> o.has("type") && !o.get("type").getAsString().equals("Queen"));
             units.update(t.view, texts);
             List<String> got = units.alive(), exp = simUnits(s);
+            if (tracing) System.out.println("  replay units after: " + got + "\n  sim units after:    " + exp);
+            if (spawned) { res.spawnTurns++; if (got.equals(exp)) res.spawnExact++; }
+            else { res.plainTurns++; if (got.equals(exp)) res.plainExact++; }
             if (!got.equals(exp)) {
                 if (RESYNC) {
                     String kind = (spawned ? "units@spawn " : "units ") + diffKind(got, exp);

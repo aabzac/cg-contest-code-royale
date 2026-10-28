@@ -10,7 +10,7 @@ public final class Const {
 
     public static final int STARTING_GOLD = 100;
     public static final int QUEEN_SPEED = 60, QUEEN_RADIUS = 30, QUEEN_MASS = 10000, QUEEN_VISION = 300;
-    public static final int TOUCHING_DELTA = 5;
+    /* live-tunable */ public static int TOUCHING_DELTA = 5;
 
     /* live-tunable */ public static int TOWER_HP_INITIAL = 200, TOWER_HP_INCREMENT = 100, TOWER_HP_MAXIMUM = 800;
     /* live-tunable */ public static int TOWER_CREEP_DAMAGE_MIN = 3, TOWER_CREEP_DAMAGE_CLIMB_DISTANCE = 200;

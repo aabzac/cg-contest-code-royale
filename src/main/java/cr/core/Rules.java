@@ -12,6 +12,11 @@ public final class Rules {
      * build on one site (scheduledBuildings.removeAt(turn % 2)). To be confirmed by replays.
      */
     public static int TURN_BASE = 1;
+    /**
+     * Live: tower damage uses the distance from the site centre (creeps: 447 -> 1 HP corrections
+     * over 98 replays; queen: 382 -> 319). The repository subtracts the site radius.
+     */
+    public static boolean TOWER_FROM_CENTER = true, TOWER_QUEEN_FROM_CENTER = true;
     /** Spawn offset (iter, iter) for both players as before csj/code-royale 8a63cd9. */
     public static boolean LEGACY_SPAWN = false;
 
@@ -24,6 +29,16 @@ public final class Rules {
     public final String[] lastKill = new String[2];
     /** Optional event log for replay inference (null = off). */
     public StringBuilder log;
+    /** With log on: also record unit positions after every phase. */
+    public boolean trace;
+
+    private void tracePositions(GameState s, String phase) {
+        if (log == null || !trace) return;
+        log.append("\n  [").append(phase).append("]");
+        for (int p = 0; p < 2; p++) log.append(String.format(" Q%d(%.3f,%.3f)", p, s.qx[p], s.qy[p]));
+        for (int i = 0; i < s.nCreeps; i++)
+            log.append(String.format(" c%d/o%d/t%d(%.3f,%.3f)hp%d", i, s.cOwner[i], s.cType[i], s.cx[i], s.cy[i], s.cHp[i]));
+    }
 
     public void resolve(GameState s, Command c0, Command c1) {
         if (s.over) throw new IllegalStateException("game over");
@@ -70,6 +85,7 @@ public final class Rules {
             }
         }
 
+        tracePositions(s, "after queen actions");
         int skip = -1;
         if (nAttempt == 2 && attempt0 == attempt1) skip = turnIdx % 2;
         for (int k = 0; k < nSched; k++) {
@@ -85,8 +101,10 @@ public final class Rules {
         }
 
         processCreeps(s);
+        tracePositions(s, "after creeps");
 
         for (int i = 0; i < s.nSites; i++) actStructure(s, i);
+        tracePositions(s, "after structures");
 
         if (s.fixedIncome >= 0) {
             for (int p = 0; p < 2; p++) if (s.active[p]) { s.goldPerTurn[p] = s.fixedIncome; s.gold[p] += s.fixedIncome; }
@@ -235,6 +253,7 @@ public final class Rules {
         for (int step = 0; step < 5; step++) {
             for (int k = 0; k < n; k++) moveCreep(s, order[k], frames);
             ph.fixCollisions(s, 1);
+            tracePositions(s, "substep " + step);
         }
         for (int k = 0; k < n; k++) dealDamage(s, order[k]);
 
@@ -344,14 +363,14 @@ public final class Rules {
                 int range = s.towerRange[i];
                 int t = closestEnemyCreep(s, owner, s.sx[i], s.sy[i]);
                 if (t >= 0 && Physics.lessInt(Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i]), range)) {
-                    double shot = Math.sqrt(Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i])) - s.sr[i];
+                    double shot = Math.sqrt(Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i])) - (TOWER_FROM_CENTER ? 0 : s.sr[i]);
                     double diff = range - shot;
                     int dmg = Const.TOWER_CREEP_DAMAGE_MIN + (int) (diff / Const.TOWER_CREEP_DAMAGE_CLIMB_DISTANCE);
                     if (log != null) log.append(String.format("shot site%d r%d range%d hp%d -> creep(%.0f,%.0f) hp%d dist%.1f shot%.1f dmg%d; ",
                         i, s.sr[i], range, s.towerHp[i], s.cx[t], s.cy[t], s.cHp[t], Math.sqrt(Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i])), shot, dmg));
                     damageCreep(s, t, dmg);
                 } else if (Physics.lessInt(Physics.distSq(s.qx[enemy], s.qy[enemy], s.sx[i], s.sy[i]), range)) {
-                    double shot = Math.sqrt(Physics.distSq(s.qx[enemy], s.qy[enemy], s.sx[i], s.sy[i])) - s.sr[i];
+                    double shot = Math.sqrt(Physics.distSq(s.qx[enemy], s.qy[enemy], s.sx[i], s.sy[i])) - (TOWER_QUEEN_FROM_CENTER ? 0 : s.sr[i]);
                     double diff = range - shot;
                     int dmg = Const.TOWER_QUEEN_DAMAGE_MIN + (int) (diff / Const.TOWER_QUEEN_DAMAGE_CLIMB_DISTANCE);
                     if (log != null) log.append(String.format("shot site%d r%d range%d hp%d -> queen%d hp%d shot%.1f dmg%d; ", i, s.sr[i], range, s.towerHp[i], enemy, s.hp[enemy], shot, dmg));

@@ -12,10 +12,11 @@
 - [x] In-process Referee, LocalRunner (`run`), BenchmarkRunner (`bench`), ProcessCheck (`procCheck`)
 - [ ] Capture live Bronze statement; reconcile constants
 - [ ] Spawn position rule = replays
-- [ ] Tower damage formula = replays
+- [x] Tower damage formula = replays (distance from the site centre)
 - [ ] cgValidate 100% on the corpus (strict mode)
-- [ ] Freeze v01 (greedy) with parameter snapshot; Bronze boss as local opponent
-- [ ] Visualizer (`cgRender` + localhost viewer)
+- [x] Freeze v01 (greedy) with parameter snapshot; repo level-4 boss as a process opponent (`ProcessBot`)
+- [x] Visualizer for local games (`run -Pout`, `serve`, `visualizer/index.html`)
+- [ ] `cgRender`: export CG replays to the visualizer format
 
 ## Phase 2 — leagues
 - [ ] Submit verified v01 (user pastes `build/submit/Player.java`), follow placement

@@ -10,7 +10,7 @@
 | --- | --- |
 | Название контеста | CodinGame Code Royale — постоянная multiplayer-арена (slug `code-royale`, puzzle id 383), не идущий контест |
 | Лига / вариант правил | Лиги: Wood 3 → Wood 2 → Wood 1 → Bronze → Silver → Gold → Legend (`divisionIndex` 0..6). Полные правила открываются с Bronze (referee level 4+); Silver/Gold/Legend новых механик не добавляют. Текущая лига пользователя: не задана |
-| Официальные правила: URL или путь | https://www.codingame.com/multiplayer/bot-programming/code-royale; копии: `docs/rules/` (см. `docs/rules/README.md`) |
+| Официальные правила: URL или путь | https://www.codingame.com/multiplayer/bot-programming/code-royale; live-условие Bronze (последнее изменение правил): `docs/rules/bronze.live.html`; остальные копии и происхождение — `docs/rules/README.md` |
 | Referee: репозиторий, версия / commit | https://github.com/csj/code-royale @ `349924a140258107a5f6f75d5d6bde717e12ae3b` (2019-03-16), Kotlin; локальная копия `refs/referee-csj/` (gitignored, только чтение). Live-statement ссылается на `csj/team-2` → редирект на этот же репозиторий |
 | Известные расхождения правил и referee | Подтверждено: лимит 250 ходов (repo 200), HP рыцаря 25 (repo 30). Не объяснено: позиции спавна крипов, урон башни по крипам (на 1 меньше в части диапазонов). Подробности и доказательства — `docs/rules/inferred.md` |
 | Число игроков, очередность / одновременность ходов | 2 игрока, одновременные ходы. Конфликт BUILD на одном сайте: в чётный ход строит игрок 2, в нечётный — игрок 1 (Bronze+ statement) |
@@ -41,19 +41,19 @@
 | Исходники локального симулятора | `src/main/java/cr/core/` (`Rules`, `Physics`, `MapGen`, `Protocol`, `InputReader`); referee матча `cr/referee/Referee.java` |
 | Сборка | `./gradlew compileJava` (JDK 17, Gradle wrapper 8.11.1) |
 | Тесты | `./gradlew test` |
-| Запуск одного воспроизводимого матча | `./gradlew run -Pbot0=current -Pbot1=v00 -Pseed=1 [-Pprint=1]` |
+| Запуск одного воспроизводимого матча | `./gradlew run -Pbot0=current -Pbot1=v00 -Pseed=1 [-Pprint=1] [-Pout=build/replays/local/<name>.json]`; просмотр: `./gradlew serve` (или конфигурация `visualizer` в `.claude/launch.json`) → `http://localhost:8765/visualizer/index.html?file=/build/replays/local/<name>.json`. Спеки ботов: `current`, `v00`, `v01`, `submit` (собранный Player.java процессом), `boss`/`bossN` (default AI уровня N из `refs/referee-csj`, компилируется в `build/opponents/`), `proc:<команда>` |
 | Запуск серии с заданными seed и перестановкой мест | `./gradlew bench -Pbot1=current -Pbot2=v00 -Pmaps=100 -Pthreads=8 -PseedBase=1000 -PturnMs=50` (каждая карта на обоих местах; отчёт `build/bench/*.json`). Спека бота: `name` или `name?K=v,K2=v` |
 | Сверка симулятора с referee | `./gradlew cgValidate [-Preplays=replays/cg] [-Pverbose=1] [-Presync=true] [-PlogResync=true]` |
 | Профилирование и измерение времени ходов | Не задано |
 | Подготовка файла для отправки на платформу | `./gradlew submit [-Pparams=K=v,...]` → `build/submit/Player.java` (проверка компиляции, лимит 100 000 символов, sha256) |
-| Проверка точного артефакта отдельным процессом | `./gradlew procCheck -Popp=v00 -Pgames=5 -PseedBase=1` (зависит от `submit`; таймауты без запаса: 1000/50 ms) |
+| Проверка точного артефакта отдельным процессом | `./gradlew procCheck -Popp=boss -Pgames=5 -PseedBase=1` (зависит от `submit`; таймауты без запаса: 1000/50 ms; оба места) |
 | Сохранение текущей arena entry перед новой загрузкой | Не задано |
 | Журнал экспериментов и сырые результаты | `docs/DEVLOG.md`, `docs/BOTS.md`, `docs/STATUS.md`, `docs/PLAN.md`; отчёты бенча `build/bench/`; корпуса реплеев — `replays/` (gitignored), манифесты с sha256 — `docs/data/` |
 
 ## Сравнение версий
 
 - Базовая версия: не задана. Указать commit, конфигурацию и способ сборки.
-- Набор соперников: не задан. Зафиксировать версии и правила отбора.
+- Набор соперников (предварительно): `v01` (замороженный жадный, снимок `src/main/resources/cr/bot/versions/v01.properties`), `boss` (default AI уровня 4 из referee-репозитория; кандидат в Bronze boss, не подтверждён). Внешние процессы под нагрузкой могут не укладываться в 50 ms: при бенче против процессов использовать `-Pthreads<=3 -PturnMs=200` и сообщать таймауты.
 - Seed для разработки: не заданы.
 - Отдельный набор для итоговой оценки: не задан.
 - Перестановки сторон / мест и политика случайности: не заданы.

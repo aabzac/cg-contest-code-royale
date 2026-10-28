@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Royale viewer</title>
+<style>
+  :root { --bg: #111418; --panel: #1b2027; --text: #d8dee9; --muted: #8a93a3; --p0: #e5534b; --p1: #4b8be5; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.4 system-ui, sans-serif; }
+  header { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; padding: 8px 16px; background: var(--panel); }
+  header input[type=range] { flex: 1; min-width: 200px; }
+  button { background: #2a313b; color: var(--text); border: 1px solid #3a4250; border-radius: 4px; padding: 4px 10px; cursor: pointer; }
+  #wrap { padding: 8px 16px; }
+  canvas { width: 100%; max-width: 1920px; background: #18301f; border-radius: 4px; display: block; }
+  #info { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; padding: 8px 16px; }
+  .p0 { color: var(--p0); } .p1 { color: var(--p1); }
+  .muted { color: var(--muted); }
+  code { font: 12px ui-monospace, monospace; }
+</style>
+</head>
+<body>
+<header>
+  <button id="play">Play</button>
+  <button id="prev">&lt;</button>
+  <button id="next">&gt;</button>
+  <input id="slider" type="range" min="0" max="0" value="0">
+  <span id="turn">turn 0</span>
+  <label class="muted">speed <select id="speed"><option value="400">slow</option><option value="150" selected>normal</option><option value="40">fast</option></select></label>
+  <span id="title" class="muted"></span>
+</header>
+<div id="wrap"><canvas id="c" width="1920" height="1000"></canvas></div>
+<div id="info"></div>
+<script>
+const params = new URLSearchParams(location.search);
+const file = params.get('file');
+const cv = document.getElementById('c'), g = cv.getContext('2d');
+const slider = document.getElementById('slider');
+const COLORS = ['#e5534b', '#4b8be5'];
+const TYPE = ['K', 'A', 'G'];
+const RADIUS = [20, 25, 40];
+let rep = null, idx = 0, timer = null;
+
+function esc(s) { return String(s).replace(/[&<>]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'}[c])); }
+
+function draw() {
+  const f = rep.frames[idx];
+  g.clearRect(0, 0, 1920, 1000);
+  // tower ranges first
+  rep.sites.forEach(([id, x, y, r], i) => {
+    const st = f.structures[i];
+    if (st[0] === 1) {
+      g.beginPath(); g.arc(x, y, st[3], 0, Math.PI * 2);
+      g.fillStyle = st[1] === 0 ? 'rgba(229,83,75,0.08)' : 'rgba(75,139,229,0.08)'; g.fill();
+      g.strokeStyle = st[1] === 0 ? 'rgba(229,83,75,0.5)' : 'rgba(75,139,229,0.5)'; g.lineWidth = 2; g.stroke();
+    }
+  });
+  rep.sites.forEach(([id, x, y, r], i) => {
+    const [type, owner, p1, p2, gold] = f.structures[i];
+    g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2);
+    g.fillStyle = type < 0 ? '#3b4a3f' : type === 0 ? '#8a7a2a' : type === 1 ? '#4a4f5a' : '#5a4a3a';
+    g.fill();
+    if (owner >= 0) { g.strokeStyle = COLORS[owner]; g.lineWidth = 5; g.stroke(); }
+    g.fillStyle = '#e8e8e8'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.font = '22px system-ui';
+    const label = type === 0 ? `M+${p1}` : type === 1 ? `T${p1}` : type === 2 ? `B${TYPE[p2]}${p1 > 0 ? ' ' + p1 : ''}` : '';
+    g.fillText(label, x, y - 10);
+    g.font = '16px system-ui'; g.fillStyle = '#b8c0b0';
+    g.fillText(`#${id} g${gold}`, x, y + 14);
+  });
+  f.creeps.forEach(([o, t, x, y, hp]) => {
+    g.beginPath(); g.arc(x, y, RADIUS[t], 0, Math.PI * 2);
+    g.fillStyle = COLORS[o]; g.globalAlpha = 0.85; g.fill(); g.globalAlpha = 1;
+    g.fillStyle = '#fff'; g.font = '16px system-ui'; g.fillText(TYPE[t], x, y);
+  });
+  f.queens.forEach(([x, y], p) => {
+    g.beginPath(); g.arc(x, y, 30, 0, Math.PI * 2);
+    g.fillStyle = COLORS[p]; g.fill(); g.strokeStyle = '#fff'; g.lineWidth = 3; g.stroke();
+    g.fillStyle = '#fff'; g.font = 'bold 18px system-ui'; g.fillText(f.hp[p], x, y);
+  });
+  document.getElementById('turn').textContent = `turn ${f.turn} / ${rep.frames[rep.frames.length - 1].turn}`;
+  slider.value = idx;
+  const next = rep.frames[Math.min(idx + 1, rep.frames.length - 1)];
+  document.getElementById('info').innerHTML = [0, 1].map(p => `<div><b class="p${p}">P${p} ${esc(rep.bots[p])}</b> hp ${f.hp[p]} gold ${f.gold[p]}<br>
+    <span class="muted">this turn:</span> <code>${esc(f.cmds[p] || '')}</code><br>
+    <span class="muted">next turn:</span> <code>${esc(idx + 1 < rep.frames.length ? next.cmds[p] : '')}</code></div>`).join('');
+}
+
+function step(d) { idx = Math.max(0, Math.min(rep.frames.length - 1, idx + d)); draw(); }
+function toggle() {
+  if (timer) { clearInterval(timer); timer = null; document.getElementById('play').textContent = 'Play'; return; }
+  document.getElementById('play').textContent = 'Pause';
+  timer = setInterval(() => { if (idx >= rep.frames.length - 1) toggle(); else step(1); }, +document.getElementById('speed').value);
+}
+document.getElementById('play').onclick = toggle;
+document.getElementById('prev').onclick = () => step(-1);
+document.getElementById('next').onclick = () => step(1);
+slider.oninput = () => { idx = +slider.value; draw(); };
+document.addEventListener('keydown', e => { if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1); if (e.key === ' ') { e.preventDefault(); toggle(); } });
+
+if (!file) {
+  document.getElementById('info').textContent = 'Pass ?file=/build/replays/local/<name>.json (create one with ./gradlew run -Pout=...)';
+} else {
+  fetch(file).then(r => { if (!r.ok) throw new Error(r.status + ' ' + file); return r.json(); }).then(j => {
+    rep = j;
+    slider.max = rep.frames.length - 1;
+    document.getElementById('title').textContent = `seed ${rep.seed} — winner ${rep.winner < 0 ? 'draw' : 'P' + rep.winner}`;
+    draw();
+  }).catch(e => { document.getElementById('info').textContent = 'Could not load replay: ' + e.message; });
+}
+</script>
+</body>
+</html>
