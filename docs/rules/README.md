@@ -21,7 +21,9 @@ Known live differences:
   concurrent builds, site gold, tower HP) is identical. The statement is not exact about the
   code: it says site radius 60..110 (generator uses 60..90, confirmed by 98 replays) and towers
   deal damage by distance from the firing-range edge, while replays show the distance is taken
-  from the site centre (see `inferred.md`).
+  from the site centre. The live code also removes dead creeps only at the end of the turn,
+  resolves collisions differently from "at the end of every turn" and caps TRAIN at 30 creeps;
+  the statement mentions none of this (see `inferred.md`, validated on 236 replays).
 
 - Wood 3 live text says the game ends after **250** turns; repo statement and `Referee.kt`
   say 200. Replays of Legend games (2026-10-28) confirm 250 turns.

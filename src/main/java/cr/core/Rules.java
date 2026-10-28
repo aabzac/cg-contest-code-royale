@@ -2,50 +2,23 @@ package cr.core;
 
 
 /**
- * Port of Referee.gameTurn (csj/code-royale@349924a) for one simultaneous turn. Order of
- * evaluation, list orders and comparisons follow the Kotlin source; see docs/rules/README.md for
- * live differences. One instance per thread.
+ * Port of Referee.gameTurn (csj/code-royale@349924a) for one simultaneous turn, with the live
+ * differences inferred from replays (docs/rules/inferred.md). Order of evaluation, list orders
+ * and comparisons follow the Kotlin source otherwise. One instance per thread.
  */
 public final class Rules {
-    /**
-     * Index the SDK passes to gameTurn for the first turn; decides who builds when both players
-     * build on one site (scheduledBuildings.removeAt(turn % 2)). To be confirmed by replays.
-     */
-    public static int TURN_BASE = 1;
-    /**
-     * Live: tower damage uses the distance from the site centre (creeps: 447 -> 1 HP corrections
-     * over 98 replays; queen: 382 -> 319). The repository subtracts the site radius.
-     */
-    public static boolean TOWER_FROM_CENTER = true, TOWER_QUEEN_FROM_CENTER = true;
-    /** Spawn offset (iter, iter) for both players as before csj/code-royale 8a63cd9. */
-    public static boolean LEGACY_SPAWN = false;
-
     private final Physics ph = new Physics();
     private final int[] order = new int[GameState.MAX_CREEPS];
     private final int[] schedPlayer = new int[2], schedSite = new int[2];
     private final String[] schedType = new String[2];
-    /** Diagnostics for the last resolve: warnings per player (referee game summary). */
+    /** Diagnostics for the last resolve: warnings per player, one per line (referee game summary). */
     public final String[] lastWarning = new String[2];
     public final String[] lastKill = new String[2];
-    /** Optional event log for replay inference (null = off). */
-    public StringBuilder log;
-    /** With log on: also record unit positions after every phase. */
-    public boolean trace;
-
-    private void tracePositions(GameState s, String phase) {
-        if (log == null || !trace) return;
-        log.append("\n  [").append(phase).append("]");
-        for (int p = 0; p < 2; p++) log.append(String.format(" Q%d(%.3f,%.3f)", p, s.qx[p], s.qy[p]));
-        for (int i = 0; i < s.nCreeps; i++)
-            log.append(String.format(" c%d/o%d/t%d(%.3f,%.3f)hp%d", i, s.cOwner[i], s.cType[i], s.cx[i], s.cy[i], s.cHp[i]));
-    }
 
     public void resolve(GameState s, Command c0, Command c1) {
         if (s.over) throw new IllegalStateException("game over");
-        int turnIdx = s.turn + TURN_BASE;
         s.goldPerTurn[0] = s.goldPerTurn[1] = 0;
         lastWarning[0] = lastWarning[1] = lastKill[0] = lastKill[1] = null;
-        if (log != null) log.setLength(0);
 
         Command[] cmds = {c0, c1};
         int nSched = 0, nAttempt = 0;
@@ -57,7 +30,7 @@ public final class Rules {
             if (c.kill) { kill(s, p, c.error); killed = true; continue; }
 
             String w = train(s, p, c.train);
-            if (w != null) lastWarning[p] = w;
+            if (w != null) warn(p, w);
 
             boolean buildWarned = false;
             if (c.queen == Command.MOVE) {
@@ -68,10 +41,10 @@ public final class Rules {
                 if (Physics.lessInt(d, Const.QUEEN_RADIUS + s.sr[site] + Const.TOUCHING_DELTA)) {
                     if (s.stType[site] != Const.NONE && s.stOwner[site] == 1 - p) {
                         buildWarned = true;
-                        lastWarning[p] = "Cannot build: owned by enemy player";
+                        warn(p, "Cannot build: owned by enemy player");
                     } else if (s.stType[site] == Const.BARRACKS && s.stOwner[site] == p && s.barrTraining[site]) {
                         buildWarned = true;
-                        lastWarning[p] = "Cannot rebuild: training is in progress";
+                        warn(p, "Cannot rebuild: training is in progress");
                     } else {
                         if (nAttempt == 0) attempt0 = site; else attempt1 = site;
                         nAttempt++;
@@ -85,9 +58,10 @@ public final class Rules {
             }
         }
 
-        tracePositions(s, "after queen actions");
+        // Both queens build on one site: scheduledBuildings.removeAt(turn % 2) with the first turn
+        // numbered 0 (live, as the statement says), so player 1 builds on even 0-based turns.
         int skip = -1;
-        if (nAttempt == 2 && attempt0 == attempt1) skip = turnIdx % 2;
+        if (nAttempt == 2 && attempt0 == attempt1) skip = s.turn % 2;
         for (int k = 0; k < nSched; k++) {
             if (k == skip) continue;
             int p = schedPlayer[k];
@@ -101,15 +75,19 @@ public final class Rules {
         }
 
         processCreeps(s);
-        tracePositions(s, "after creeps");
 
-        for (int i = 0; i < s.nSites; i++) actStructure(s, i);
-        tracePositions(s, "after structures");
+        // Live: towers shoot, then barracks spawn, then mines collect, each group in site order
+        // (the statement's sequence; the repository acts in plain site order). Towers never shoot
+        // creeps spawned this turn and aim at positions from before the spawn collisions.
+        for (int i = 0; i < s.nSites; i++) if (s.stType[i] == Const.TOWER) actStructure(s, i);
+        for (int i = 0; i < s.nSites; i++) if (s.stType[i] == Const.BARRACKS) actStructure(s, i);
+        for (int i = 0; i < s.nSites; i++) if (s.stType[i] == Const.MINE) actStructure(s, i);
 
         if (s.fixedIncome >= 0) {
             for (int p = 0; p < 2; p++) if (s.active[p]) { s.goldPerTurn[p] = s.fixedIncome; s.gold[p] += s.fixedIncome; }
         }
 
+        // Creeps killed this turn stay tower targets and take part in spawn collisions until here.
         s.removeDeadCreeps();
 
         int alive = 0;
@@ -124,6 +102,10 @@ public final class Rules {
         for (int i = 0; i < s.nCreeps; i++) setCreep(s, i, Math.round(s.cx[i]), Math.round(s.cy[i]));
         for (int p = 0; p < 2; p++) setQueen(s, p, Math.round(s.qx[p]), Math.round(s.qy[p]));
         for (int i = 0; i < s.nSites; i++) { s.sx[i] = Math.round(s.sx[i]); s.sy[i] = Math.round(s.sy[i]); }
+    }
+
+    private void warn(int p, String w) {
+        lastWarning[p] = lastWarning[p] == null ? w : lastWarning[p] + "\n" + w;
     }
 
     private void kill(GameState s, int p, String reason) {
@@ -169,6 +151,11 @@ public final class Rules {
         int sum = 0;
         for (int site : sites) sum += Const.CREEP_COST[s.barrType[site]];
         if (sum > s.gold[p]) return "Training too many creeps (" + sum + " total gold requested)";
+        // Live only: living creeps plus requested ones are capped, checked even for an empty TRAIN.
+        int units = 0;
+        for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) units++;
+        for (int site : sites) units += Const.CREEP_COUNT[s.barrType[site]];
+        if (units > Const.CREEP_LIMIT) return "Training too many creeps (" + units + " total units requested; " + Const.CREEP_LIMIT + " maximum)";
         s.gold[p] -= sum;
         for (int site : sites) {
             s.barrProgress[site] = 0;
@@ -253,7 +240,6 @@ public final class Rules {
         for (int step = 0; step < 5; step++) {
             for (int k = 0; k < n; k++) moveCreep(s, order[k], frames);
             ph.fixCollisions(s, 1);
-            tracePositions(s, "substep " + step);
         }
         for (int k = 0; k < n; k++) dealDamage(s, order[k]);
 
@@ -359,22 +345,17 @@ public final class Rules {
                 break;
             }
             case Const.TOWER: {
+                // Live: damage grows with the distance from the site centre (the repository
+                // measures from the site edge, dist - radius).
                 int enemy = 1 - owner;
                 int range = s.towerRange[i];
                 int t = closestEnemyCreep(s, owner, s.sx[i], s.sy[i]);
                 if (t >= 0 && Physics.lessInt(Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i]), range)) {
-                    double shot = Math.sqrt(Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i])) - (TOWER_FROM_CENTER ? 0 : s.sr[i]);
-                    double diff = range - shot;
-                    int dmg = Const.TOWER_CREEP_DAMAGE_MIN + (int) (diff / Const.TOWER_CREEP_DAMAGE_CLIMB_DISTANCE);
-                    if (log != null) log.append(String.format("shot site%d r%d range%d hp%d -> creep(%.0f,%.0f) hp%d dist%.1f shot%.1f dmg%d; ",
-                        i, s.sr[i], range, s.towerHp[i], s.cx[t], s.cy[t], s.cHp[t], Math.sqrt(Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i])), shot, dmg));
-                    damageCreep(s, t, dmg);
+                    double diff = range - Math.sqrt(Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i]));
+                    damageCreep(s, t, Const.TOWER_CREEP_DAMAGE_MIN + (int) (diff / Const.TOWER_CREEP_DAMAGE_CLIMB_DISTANCE));
                 } else if (Physics.lessInt(Physics.distSq(s.qx[enemy], s.qy[enemy], s.sx[i], s.sy[i]), range)) {
-                    double shot = Math.sqrt(Physics.distSq(s.qx[enemy], s.qy[enemy], s.sx[i], s.sy[i])) - (TOWER_QUEEN_FROM_CENTER ? 0 : s.sr[i]);
-                    double diff = range - shot;
-                    int dmg = Const.TOWER_QUEEN_DAMAGE_MIN + (int) (diff / Const.TOWER_QUEEN_DAMAGE_CLIMB_DISTANCE);
-                    if (log != null) log.append(String.format("shot site%d r%d range%d hp%d -> queen%d hp%d shot%.1f dmg%d; ", i, s.sr[i], range, s.towerHp[i], enemy, s.hp[enemy], shot, dmg));
-                    damageQueen(s, enemy, dmg);
+                    double diff = range - Math.sqrt(Physics.distSq(s.qx[enemy], s.qy[enemy], s.sx[i], s.sy[i]));
+                    damageQueen(s, enemy, Const.TOWER_QUEEN_DAMAGE_MIN + (int) (diff / Const.TOWER_QUEEN_DAMAGE_CLIMB_DISTANCE));
                 }
                 s.towerHp[i] -= Const.TOWER_MELT_RATE;
                 s.towerRange[i] = (int) Math.sqrt((s.towerHp[i] * Const.TOWER_COVERAGE_PER_HP + s.sArea[i]) / Math.PI);
@@ -395,24 +376,20 @@ public final class Rules {
         }
     }
 
-    /** Experimental spawn variants for replay inference: offset 0=c*iter 1=+iter 2=-iter; fixEach; towards. */
-    public static int SPAWN_OFFSET = 0;
-    public static boolean SPAWN_FIX_EACH = false, SPAWN_TOWARDS = true;
+    /**
+     * Live spawn offsets: creep number iter of a barracks starts at the site centre plus
+     * SPAWN_CORNER[iter] for both players (the repository uses c*(iter, iter)).
+     */
+    private static final int[][] SPAWN_CORNER = {{1, -1}, {-1, 1}, {1, 1}, {-1, -1}};
 
     private void spawn(GameState s, int site, int owner, int type) {
-        int c = owner == 1 && !LEGACY_SPAWN ? -1 : 1;
-        if (SPAWN_OFFSET == 1) c = 1;
-        if (SPAWN_OFFSET == 2) c = -1;
         int enemy = 1 - owner;
         for (int iter = 0; iter < Const.CREEP_COUNT[type]; iter++) {
             int k = s.addCreep(owner, type, 0.0, 0.0);
             // Unit.location starts at Vector2.Zero; assignments of Zero are ignored.
-            setCreep(s, k, s.sx[site] + c * iter, s.sy[site] + c * iter);
-            if (SPAWN_TOWARDS) {
-                ph.towards(s.cx[k], s.cy[k], s.qx[enemy], s.qy[enemy], 30.0);
-                setCreep(s, k, ph.rx, ph.ry);
-            }
-            if (SPAWN_FIX_EACH) ph.fixCollisions(s, 999);
+            setCreep(s, k, s.sx[site] + SPAWN_CORNER[iter % 4][0], s.sy[site] + SPAWN_CORNER[iter % 4][1]);
+            ph.towards(s.cx[k], s.cy[k], s.qx[enemy], s.qy[enemy], 30.0);
+            setCreep(s, k, ph.rx, ph.ry);
         }
         ph.fixCollisions(s, 999);
     }

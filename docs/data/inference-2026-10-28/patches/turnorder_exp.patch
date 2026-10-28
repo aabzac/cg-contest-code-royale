@@ -1,0 +1,669 @@
+diff -ruN base/src/main/java/cr/core/Const.java turnorder_exp/src/main/java/cr/core/Const.java
+--- base/src/main/java/cr/core/Const.java	2026-10-28 20:52:08.715332400 +0200
++++ turnorder_exp/src/main/java/cr/core/Const.java	2026-10-28 21:59:17.577002200 +0200
+@@ -40,4 +40,10 @@
+     /** Live: knights spawn with 25 HP (8600 of 8600 replay spawns, 2026-10-28); repository says 30. */
+     public static int[] CREEP_HP = {25, 45, 200};
+     public static int[] CREEP_BUILD_TIME = {5, 8, 10};
++    /**
++     * Live: TRAIN is refused when the player's creeps plus the creeps requested exceed this
++     * (summary "Training too many creeps (N total units requested; 30 maximum)", 15 times in the
++     * replays; creeps still in training do not count). Not in the repository; 0 disables.
++     */
++    /* live-tunable */ public static int CREEP_LIMIT = 30;
+ }
+diff -ruN base/src/main/java/cr/core/GameState.java turnorder_exp/src/main/java/cr/core/GameState.java
+--- base/src/main/java/cr/core/GameState.java	2026-10-28 20:52:08.716332600 +0200
++++ turnorder_exp/src/main/java/cr/core/GameState.java	2026-10-28 21:59:17.578004200 +0200
+@@ -39,6 +39,8 @@
+     public int nCreeps;
+     public final double[] cx = new double[MAX_CREEPS], cy = new double[MAX_CREEPS];
+     public final int[] cOwner = new int[MAX_CREEPS], cType = new int[MAX_CREEPS], cHp = new int[MAX_CREEPS];
++    /** Value of {@link #turn} in the resolve that spawned the creep, -1 if unknown (loaded from input). */
++    public final int[] cBorn = new int[MAX_CREEPS];
+ 
+     public void setLevel(int level) {
+         this.level = level;
+@@ -72,12 +74,14 @@
+             System.arraycopy(cOwner, at, cOwner, at + 1, n);
+             System.arraycopy(cType, at, cType, at + 1, n);
+             System.arraycopy(cHp, at, cHp, at + 1, n);
++            System.arraycopy(cBorn, at, cBorn, at + 1, n);
+         }
+         cx[at] = x;
+         cy[at] = y;
+         cOwner[at] = owner;
+         cType[at] = type;
+         cHp[at] = Const.CREEP_HP[type];
++        cBorn[at] = -1;
+         nCreeps++;
+         return at;
+     }
+@@ -93,6 +97,7 @@
+                 cOwner[w] = cOwner[r];
+                 cType[w] = cType[r];
+                 cHp[w] = cHp[r];
++                cBorn[w] = cBorn[r];
+             }
+             w++;
+         }
+@@ -138,6 +143,7 @@
+         System.arraycopy(o.cOwner, 0, cOwner, 0, m);
+         System.arraycopy(o.cType, 0, cType, 0, m);
+         System.arraycopy(o.cHp, 0, cHp, 0, m);
++        System.arraycopy(o.cBorn, 0, cBorn, 0, m);
+     }
+ 
+     /** -1 while running or on a draw, otherwise the winning player. */
+diff -ruN base/src/main/java/cr/core/Rules.java turnorder_exp/src/main/java/cr/core/Rules.java
+--- base/src/main/java/cr/core/Rules.java	2026-10-28 20:52:08.721383500 +0200
++++ turnorder_exp/src/main/java/cr/core/Rules.java	2026-10-28 21:40:58.012187600 +0200
+@@ -20,6 +20,47 @@
+     /** Spawn offset (iter, iter) for both players as before csj/code-royale 8a63cd9. */
+     public static boolean LEGACY_SPAWN = false;
+ 
++    // ---- Turn-order inference switches; defaults = Kotlin order of csj/code-royale@349924a ----
++    /** Creeps lose their 1 HP of aging after the structures act (statement) instead of inside processCreeps. */
++    public static boolean AGE_AFTER_STRUCTURES = false;
++    /** With AGE_AFTER_STRUCTURES: creeps spawned this turn age too. */
++    public static boolean AGE_NEW_CREEPS = false;
++    /** Structures: 0 = site order (Kotlin), 1 = towers, barracks, mines (statement), 2 = barracks, towers, mines. */
++    public static int STRUCT_ORDER = 0;
++    /** Dead-creep removal: 0 = end of turn only (Kotlin), 1 = also after every tower shot, 2 = also after all towers. */
++    public static int DEAD_REMOVAL = 0;
++    /** Towers never target 0-HP creeps (they still collide until removed). */
++    public static boolean TOWER_SKIP_DEAD = false;
++    /** Creeps age (and 0-HP creeps are removed) before they deal damage. */
++    public static boolean AGE_BEFORE_ATTACK = false;
++    /** Extra full collision resolution: 0 = none (Kotlin), 1 = after the creep substeps, 2 = before the end-of-turn snap. */
++    public static int FINAL_FIX = 0;
++    /** Queens tear down enemy mines/barracks right after the builds, before creeps move (Kotlin: after creeps). */
++    public static boolean QUEEN_TEARDOWN_EARLY = false;
++    /** Inference: towers ignore creeps spawned this turn (alternative explanation to STRUCT_ORDER=1). */
++    public static boolean TOWER_SKIP_NEWBORN = false;
++    /** Mines pay before TRAIN costs are checked (income of this turn usable for training). */
++    public static boolean MINES_BEFORE_TRAIN = false;
++
++    /** Tower shots of the last resolve (inference): site, target position, queen flag, damage, target HP before. */
++    public int nShots;
++    public final int[] shotSite = new int[GameState.MAX_SITES], shotDmg = new int[GameState.MAX_SITES], shotHp = new int[GameState.MAX_SITES];
++    public final double[] shotX = new double[GameState.MAX_SITES], shotY = new double[GameState.MAX_SITES];
++    public final boolean[] shotQueen = new boolean[GameState.MAX_SITES], shotNewborn = new boolean[GameState.MAX_SITES];
++    /** Target identity (owner, rank in the owner's creep block; rank -1 = queen) and its position after the structure phase. */
++    public final int[] shotOwner = new int[GameState.MAX_SITES], shotRank = new int[GameState.MAX_SITES];
++    public final double[] shotPostX = new double[GameState.MAX_SITES], shotPostY = new double[GameState.MAX_SITES];
++    /** Knight hits on queens of the last resolve, per attacked player. */
++    public final int[] knightHits = new int[2];
++    /** Positions of the creeps removed as dead during the last resolve (inference). */
++    public int nDead;
++    public final double[] deadX = new double[GameState.MAX_CREEPS], deadY = new double[GameState.MAX_CREEPS];
++
++    private void removeDead(GameState s) {
++        for (int i = 0; i < s.nCreeps; i++) if (s.cHp[i] == 0) { deadX[nDead] = s.cx[i]; deadY[nDead] = s.cy[i]; nDead++; }
++        s.removeDeadCreeps();
++    }
++
+     private final Physics ph = new Physics();
+     private final int[] order = new int[GameState.MAX_CREEPS];
+     private final int[] schedPlayer = new int[2], schedSite = new int[2];
+@@ -46,6 +87,10 @@
+         s.goldPerTurn[0] = s.goldPerTurn[1] = 0;
+         lastWarning[0] = lastWarning[1] = lastKill[0] = lastKill[1] = null;
+         if (log != null) log.setLength(0);
++        nShots = 0;
++        nDead = 0;
++        knightHits[0] = knightHits[1] = 0;
++        if (MINES_BEFORE_TRAIN) for (int i = 0; i < s.nSites; i++) if (s.stType[i] == Const.MINE && s.active[s.stOwner[i]]) actStructure(s, i);
+ 
+         Command[] cmds = {c0, c1};
+         int nSched = 0, nAttempt = 0;
+@@ -100,17 +145,34 @@
+             return;
+         }
+ 
++        if (QUEEN_TEARDOWN_EARLY) queensTearDown(s);
+         processCreeps(s);
+         tracePositions(s, "after creeps");
+ 
+-        for (int i = 0; i < s.nSites; i++) actStructure(s, i);
++        if (STRUCT_ORDER == 0) {
++            for (int i = 0; i < s.nSites; i++) if (!(MINES_BEFORE_TRAIN && s.stType[i] == Const.MINE)) actStructure(s, i);
++        } else {
++            int[] kinds = STRUCT_ORDER == 1 ? new int[]{Const.TOWER, Const.BARRACKS, Const.MINE} : new int[]{Const.BARRACKS, Const.TOWER, Const.MINE};
++            for (int kind : kinds) {
++                if (kind == Const.MINE && MINES_BEFORE_TRAIN) continue;
++                for (int i = 0; i < s.nSites; i++) if (s.stType[i] == kind) actStructure(s, i);
++                if (kind == Const.TOWER && DEAD_REMOVAL == 2) removeDead(s);
++            }
++        }
++        if (STRUCT_ORDER == 0 && DEAD_REMOVAL == 2) removeDead(s);
+         tracePositions(s, "after structures");
++        for (int k = 0; k < nShots; k++) {
++            if (shotRank[k] < 0) { shotPostX[k] = s.qx[shotOwner[k]]; shotPostY[k] = s.qy[shotOwner[k]]; continue; }
++            for (int c = 0, r = 0; c < s.nCreeps; c++) if (s.cOwner[c] == shotOwner[k] && r++ == shotRank[k]) { shotPostX[k] = s.cx[c]; shotPostY[k] = s.cy[c]; break; }
++        }
++        if (AGE_AFTER_STRUCTURES)
++            for (int i = 0; i < s.nCreeps; i++) if (AGE_NEW_CREEPS || s.cBorn[i] != s.turn) damageCreep(s, i, 1);
+ 
+         if (s.fixedIncome >= 0) {
+             for (int p = 0; p < 2; p++) if (s.active[p]) { s.goldPerTurn[p] = s.fixedIncome; s.gold[p] += s.fixedIncome; }
+         }
+ 
+-        s.removeDeadCreeps();
++        removeDead(s);
+ 
+         int alive = 0;
+         for (int p = 0; p < 2; p++) {
+@@ -121,6 +183,7 @@
+         s.turn++;
+         if (alive < 2 || s.turn >= Const.MAX_TURNS) s.over = true;
+ 
++        if (FINAL_FIX == 2) ph.fixCollisions(s, 999);
+         for (int i = 0; i < s.nCreeps; i++) setCreep(s, i, Math.round(s.cx[i]), Math.round(s.cy[i]));
+         for (int p = 0; p < 2; p++) setQueen(s, p, Math.round(s.qx[p]), Math.round(s.qy[p]));
+         for (int i = 0; i < s.nSites; i++) { s.sx[i] = Math.round(s.sx[i]); s.sy[i] = Math.round(s.sy[i]); }
+@@ -169,6 +232,12 @@
+         int sum = 0;
+         for (int site : sites) sum += Const.CREEP_COST[s.barrType[site]];
+         if (sum > s.gold[p]) return "Training too many creeps (" + sum + " total gold requested)";
++        if (Const.CREEP_LIMIT > 0 && sites.length > 0) {
++            int units = 0;
++            for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) units++;
++            for (int site : sites) units += Const.CREEP_COUNT[s.barrType[site]];
++            if (units > Const.CREEP_LIMIT) return "Training too many creeps (" + units + " total units requested; " + Const.CREEP_LIMIT + " maximum)";
++        }
+         s.gold[p] -= sum;
+         for (int site : sites) {
+             s.barrProgress[site] = 0;
+@@ -223,10 +292,16 @@
+     }
+ 
+     private int closestEnemyCreep(GameState s, int owner, double x, double y) {
++        return closestEnemyCreep(s, owner, x, y, false);
++    }
++
++    private int closestEnemyCreep(GameState s, int owner, double x, double y, boolean skipDead) {
+         int best = -1;
+         double bd = 0;
+         for (int i = 0; i < s.nCreeps; i++) {
+             if (s.cOwner[i] == owner) continue;
++            if (skipDead && TOWER_SKIP_DEAD && s.cHp[i] == 0) continue;
++            if (skipDead && TOWER_SKIP_NEWBORN && s.cBorn[i] == s.turn) continue;
+             double d = Physics.distSq(s.cx[i], s.cy[i], x, y);
+             if (best < 0 || d < bd) { best = i; bd = d; }
+         }
+@@ -255,7 +330,9 @@
+             ph.fixCollisions(s, 1);
+             tracePositions(s, "substep " + step);
+         }
+-        for (int k = 0; k < n; k++) dealDamage(s, order[k]);
++        if (FINAL_FIX == 1) ph.fixCollisions(s, 999);
++        if (AGE_BEFORE_ATTACK && !AGE_AFTER_STRUCTURES) for (int k = 0; k < n; k++) damageCreep(s, order[k], 1);
++        for (int k = 0; k < n; k++) if (!(AGE_BEFORE_ATTACK && s.cHp[order[k]] == 0)) dealDamage(s, order[k]);
+ 
+         // Tear down enemy mines
+         for (int k = 0; k < n; k++) {
+@@ -266,9 +343,13 @@
+             if (s.stType[site] == Const.MINE && s.stOwner[site] != s.cOwner[i]) s.clearStructure(site);
+         }
+ 
+-        for (int k = 0; k < n; k++) damageCreep(s, order[k], 1);
++        if (!AGE_AFTER_STRUCTURES && !AGE_BEFORE_ATTACK) for (int k = 0; k < n; k++) damageCreep(s, order[k], 1);
++
++        if (!QUEEN_TEARDOWN_EARLY) queensTearDown(s);
++    }
+ 
+-        // Queens tear down enemy mines and barracks
++    /** Queens tear down enemy mines and barracks they touch (closest site only). */
++    private void queensTearDown(GameState s) {
+         for (int p = 0; p < 2; p++) {
+             if (!s.active[p]) continue;
+             int site = closestSite(s, s.qx[p], s.qy[p]);
+@@ -328,7 +409,7 @@
+         if (type == Const.KNIGHT) {
+             double d = Physics.distSq(s.cx[i], s.cy[i], s.qx[enemy], s.qy[enemy]);
+             if (Physics.lessInt(d, Const.CREEP_RADIUS[type] + Const.QUEEN_RADIUS + Const.CREEP_RANGE[type] + Const.TOUCHING_DELTA))
+-                damageQueen(s, enemy, Const.KNIGHT_DAMAGE);
++            { damageQueen(s, enemy, Const.KNIGHT_DAMAGE); knightHits[enemy]++; }
+         } else if (type == Const.ARCHER) {
+             int t = closestEnemyCreep(s, owner, s.cx[i], s.cy[i]);
+             if (t < 0) return;
+@@ -347,6 +428,11 @@
+         }
+     }
+ 
++    private void recordShot(int site, double x, double y, boolean queen, int dmg, int hpBefore) {
++        int k = nShots++;
++        shotSite[k] = site; shotX[k] = x; shotY[k] = y; shotQueen[k] = queen; shotDmg[k] = dmg; shotHp[k] = hpBefore;
++    }
++
+     private void actStructure(GameState s, int i) {
+         int owner = s.stOwner[i];
+         switch (s.stType[i]) {
+@@ -361,19 +447,33 @@
+             case Const.TOWER: {
+                 int enemy = 1 - owner;
+                 int range = s.towerRange[i];
+-                int t = closestEnemyCreep(s, owner, s.sx[i], s.sy[i]);
++                int t = closestEnemyCreep(s, owner, s.sx[i], s.sy[i], TOWER_SKIP_DEAD || TOWER_SKIP_NEWBORN);
++                if (log != null && trace && t >= 0) {
++                    double best = Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i]);
++                    log.append("\n  [tower ").append(i).append(" candidates]");
++                    for (int c = 0; c < s.nCreeps; c++)
++                        if (s.cOwner[c] != owner && Physics.distSq(s.cx[c], s.cy[c], s.sx[i], s.sy[i]) - best < 1e-3)
++                            log.append(String.format(java.util.Locale.ROOT, " c%d(%.17g,%.17g) d2=%.17g hp%d", c, s.cx[c], s.cy[c], Physics.distSq(s.cx[c], s.cy[c], s.sx[i], s.sy[i]), s.cHp[c]));
++                }
+                 if (t >= 0 && Physics.lessInt(Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i]), range)) {
+                     double shot = Math.sqrt(Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i])) - (TOWER_FROM_CENTER ? 0 : s.sr[i]);
+                     double diff = range - shot;
+                     int dmg = Const.TOWER_CREEP_DAMAGE_MIN + (int) (diff / Const.TOWER_CREEP_DAMAGE_CLIMB_DISTANCE);
+                     if (log != null) log.append(String.format("shot site%d r%d range%d hp%d -> creep(%.0f,%.0f) hp%d dist%.1f shot%.1f dmg%d; ",
+                         i, s.sr[i], range, s.towerHp[i], s.cx[t], s.cy[t], s.cHp[t], Math.sqrt(Physics.distSq(s.cx[t], s.cy[t], s.sx[i], s.sy[i])), shot, dmg));
++                    recordShot(i, s.cx[t], s.cy[t], false, dmg, s.cHp[t]);
++                    shotNewborn[nShots - 1] = s.cBorn[t] == s.turn;
++                    { int r = 0; for (int c = 0; c < t; c++) if (s.cOwner[c] == s.cOwner[t]) r++; shotOwner[nShots - 1] = s.cOwner[t]; shotRank[nShots - 1] = r; }
+                     damageCreep(s, t, dmg);
++                    if (DEAD_REMOVAL == 1 && s.cHp[t] == 0) removeDead(s);
+                 } else if (Physics.lessInt(Physics.distSq(s.qx[enemy], s.qy[enemy], s.sx[i], s.sy[i]), range)) {
+                     double shot = Math.sqrt(Physics.distSq(s.qx[enemy], s.qy[enemy], s.sx[i], s.sy[i])) - (TOWER_QUEEN_FROM_CENTER ? 0 : s.sr[i]);
+                     double diff = range - shot;
+                     int dmg = Const.TOWER_QUEEN_DAMAGE_MIN + (int) (diff / Const.TOWER_QUEEN_DAMAGE_CLIMB_DISTANCE);
+                     if (log != null) log.append(String.format("shot site%d r%d range%d hp%d -> queen%d hp%d shot%.1f dmg%d; ", i, s.sr[i], range, s.towerHp[i], enemy, s.hp[enemy], shot, dmg));
++                    recordShot(i, s.qx[enemy], s.qy[enemy], true, dmg, s.hp[enemy]);
++                    shotNewborn[nShots - 1] = false;
++                    shotOwner[nShots - 1] = enemy; shotRank[nShots - 1] = -1;
+                     damageQueen(s, enemy, dmg);
+                 }
+                 s.towerHp[i] -= Const.TOWER_MELT_RATE;
+@@ -406,6 +506,7 @@
+         int enemy = 1 - owner;
+         for (int iter = 0; iter < Const.CREEP_COUNT[type]; iter++) {
+             int k = s.addCreep(owner, type, 0.0, 0.0);
++            s.cBorn[k] = s.turn;
+             // Unit.location starts at Vector2.Zero; assignments of Zero are ignored.
+             setCreep(s, k, s.sx[site] + c * iter, s.sy[site] + c * iter);
+             if (SPAWN_TOWARDS) {
+diff -ruN base/src/main/java/cr/tools/CgReplay.java turnorder_exp/src/main/java/cr/tools/CgReplay.java
+--- base/src/main/java/cr/tools/CgReplay.java	2026-10-28 20:52:08.732380300 +0200
++++ turnorder_exp/src/main/java/cr/tools/CgReplay.java	2026-10-28 21:59:17.582483500 +0200
+@@ -43,6 +43,8 @@
+         /** Tooltip registrations (entity id → properties) and extra-text updates of this frame. */
+         public final Map<Integer, JsonObject> registered = new HashMap<>();
+         public final Map<Integer, List<String>> texts = new HashMap<>();
++        /** Positions (exact doubles) of the anim events "death" of this frame, in event order. */
++        public final List<double[]> deaths = new ArrayList<>();
+     }
+ 
+     private static final Pattern T_PROP = Pattern.compile("(?:^| )T (\\S*)");
+@@ -92,6 +94,12 @@
+                 v.texts.put(Integer.parseInt(e.getKey()), lines);
+             }
+         }
++        if (frame.has("anims") && frame.get("anims").isJsonArray()) for (JsonElement e : frame.getAsJsonArray("anims")) {
++            JsonObject a = e.getAsJsonObject();
++            if (!a.has("id") || !a.get("id").getAsString().equals("death") || !a.has("params")) continue;
++            JsonObject pr = a.getAsJsonObject("params");
++            v.deaths.add(new double[]{pr.get("x").getAsDouble(), pr.get("y").getAsDouble()});
++        }
+         return v;
+     }
+ 
+diff -ruN base/src/main/java/cr/tools/CgValidate.java turnorder_exp/src/main/java/cr/tools/CgValidate.java
+--- base/src/main/java/cr/tools/CgValidate.java	2026-10-28 20:52:08.730380900 +0200
++++ turnorder_exp/src/main/java/cr/tools/CgValidate.java	2026-10-28 21:40:58.058803600 +0200
+@@ -5,6 +5,7 @@
+ import cr.core.Const;
+ import cr.core.GameState;
+ import cr.core.MapGen;
++import cr.core.Physics;
+ import cr.core.Rules;
+ 
+ import java.io.IOException;
+@@ -31,6 +32,8 @@
+         /** Unit comparisons: turns without / with a creep spawn in the replay frame, and exact matches. */
+         public int plainTurns, plainExact, spawnTurns, spawnExact;
+         public final Map<String, Integer> resynced = new TreeMap<>();
++        /** Event comparison (tower shots from projectile sprites, knight hits from attack animations). */
++        public final Map<String, Integer> events = new TreeMap<>();
+         public String firstResync;
+         public String error;
+         boolean ok() { return error == null && mismatches.isEmpty(); }
+@@ -38,6 +41,8 @@
+ 
+     /** Copy replay unit positions/HP and HUD values into the simulation instead of stopping. */
+     static boolean RESYNC = Boolean.getBoolean("resync");
++    /** With RESYNC: when a player's creep count differs, rebuild its creeps from the replay instead of stopping. */
++    static boolean RESYNC_COUNT = Boolean.getBoolean("resyncCount");
+ 
+     static String diffKind(List<String> got, List<String> exp) {
+         if (got.size() != exp.size()) return "count";
+@@ -80,6 +85,19 @@
+         Rules.TOWER_QUEEN_FROM_CENTER = Boolean.parseBoolean(System.getProperty("towerQueenFromCenter", "true"));
+         Rules.SPAWN_FIX_EACH = Boolean.getBoolean("spawnFixEach");
+         Rules.SPAWN_TOWARDS = !Boolean.getBoolean("spawnNoTowards");
++        if (System.getProperty("ageAfter") != null) Rules.AGE_AFTER_STRUCTURES = Boolean.getBoolean("ageAfter");
++        if (System.getProperty("ageNew") != null) Rules.AGE_NEW_CREEPS = Boolean.getBoolean("ageNew");
++        if (System.getProperty("structOrder") != null) Rules.STRUCT_ORDER = Integer.getInteger("structOrder");
++        if (System.getProperty("deadRemoval") != null) Rules.DEAD_REMOVAL = Integer.getInteger("deadRemoval");
++        if (System.getProperty("towerSkipDead") != null) Rules.TOWER_SKIP_DEAD = Boolean.getBoolean("towerSkipDead");
++        if (System.getProperty("ageBeforeAttack") != null) Rules.AGE_BEFORE_ATTACK = Boolean.getBoolean("ageBeforeAttack");
++        if (System.getProperty("minesBeforeTrain") != null) Rules.MINES_BEFORE_TRAIN = Boolean.getBoolean("minesBeforeTrain");
++        if (System.getProperty("finalFix") != null) Rules.FINAL_FIX = Integer.getInteger("finalFix");
++        if (System.getProperty("queenTeardownEarly") != null) Rules.QUEEN_TEARDOWN_EARLY = Boolean.getBoolean("queenTeardownEarly");
++        if (System.getProperty("towerSkipNewborn") != null) Rules.TOWER_SKIP_NEWBORN = Boolean.getBoolean("towerSkipNewborn");
++        System.out.println("rules: ageAfter=" + Rules.AGE_AFTER_STRUCTURES + " ageNew=" + Rules.AGE_NEW_CREEPS + " structOrder=" + Rules.STRUCT_ORDER
++            + " deadRemoval=" + Rules.DEAD_REMOVAL + " towerSkipDead=" + Rules.TOWER_SKIP_DEAD + " ageBeforeAttack=" + Rules.AGE_BEFORE_ATTACK
++            + " minesBeforeTrain=" + Rules.MINES_BEFORE_TRAIN);
+         if (System.getProperty("knightHp") != null) Const.CREEP_HP[Const.KNIGHT] = Integer.getInteger("knightHp");
+         applyConstOverrides(System.getProperty("consts", ""));
+         List<Path> files;
+@@ -89,6 +107,7 @@
+         int ok = 0, bad = 0, err = 0;
+         long matchedTurns = 0;
+         Map<String, Integer> resyncTotal = new TreeMap<>();
++        Map<String, Integer> eventTotal = new TreeMap<>();
+         int plainTurns = 0, plainExact = 0, spawnTurns = 0, spawnExact = 0;
+         Map<String, Integer> kinds = new TreeMap<>();
+         for (Path f : files) {
+@@ -101,6 +120,7 @@
+             }
+             if (r.error != null) { err++; System.out.println("ERROR " + f + ": " + r.error); continue; }
+             r.resynced.forEach((k, v) -> resyncTotal.merge(k, v, Integer::sum));
++            r.events.forEach((k, v) -> eventTotal.merge(k, v, Integer::sum));
+             plainTurns += r.plainTurns; plainExact += r.plainExact; spawnTurns += r.spawnTurns; spawnExact += r.spawnExact;
+             if (r.firstResync != null && verbose) System.out.println("  first resync " + f.getFileName() + ": " + r.firstResync);
+             if (r.ok()) { ok++; matchedTurns += r.turns; if (verbose) System.out.println("OK " + f + " turns=" + r.turns); continue; }
+@@ -114,6 +134,7 @@
+         System.out.printf("games=%d ok=%d mismatch=%d error=%d matchedTurns=%d%n", files.size(), ok, bad, err, matchedTurns);
+         kinds.forEach((k, v) -> System.out.println("  first mismatch kind x" + v + ": " + k));
+         if (RESYNC) System.out.println("resynced turns by kind: " + resyncTotal);
++        System.out.println("events: " + eventTotal);
+         System.out.printf(java.util.Locale.ROOT, "unit match: plain %d/%d (%.2f%%) spawn %d/%d (%.2f%%)%n",
+             plainExact, plainTurns, 100.0 * plainExact / Math.max(1, plainTurns),
+             spawnExact, spawnTurns, 100.0 * spawnExact / Math.max(1, spawnTurns));
+@@ -186,6 +207,19 @@
+                 }
+                 List<Integer> sim = new ArrayList<>();
+                 for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) sim.add(i);
++                if (sim.size() != ids.size() && RESYNC_COUNT) {
++                    // Rebuild this player's creeps from the replay (creation order = entity id order).
++                    for (int k = sim.size() - 1; k >= 0; k--) { s.cHp[sim.get(k)] = 0; }
++                    s.removeDeadCreeps();
++                    for (int id : ids) {
++                        int ct = -1;
++                        for (int c = 0; c < 3; c++) if (Const.CREEP_NAME[c].equals(type.get(id))) ct = c;
++                        int k = s.addCreep(p, ct, Integer.parseInt(x.get(id)), Integer.parseInt(y.get(id)));
++                        s.cHp[k] = Integer.parseInt(texts.get(id - 2).get(0).replace("Health: ", ""));
++                    }
++                    sim.clear();
++                    for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) sim.add(i);
++                }
+                 if (sim.size() != ids.size()) return false;
+                 for (int k = 0; k < sim.size(); k++) {
+                     int i = sim.get(k), id = ids.get(k);
+@@ -217,6 +251,147 @@
+         }
+     }
+ 
++
++    /**
++     * Replay events decoded from entity updates: entity ids are assigned in creation order, a tower
++     * creates (range circle, sprite animation, projectile); a shot shows the projectile at t=0 with
++     * v=1, location int((source + target) / 2) and scaleX = |target - source| / 200, where source =
++     * site centre - (0, 0.6 * radius). A knight hit sets its character sprite anchorX 0.2 at t=0.7.
++     */
++    static final class Events {
++        int nextId;
++        final Map<Integer, Integer> projSite = new HashMap<>();
++        final Map<Integer, double[]> projLast = new HashMap<>();
++        /** Shots of the current frame: site -> {midX, midY, length}. */
++        final Map<Integer, double[]> shots = new TreeMap<>();
++        /** Knight hits of the current frame per attacked player. */
++        final int[] hits = new int[2];
++        /** Tower shots at each queen (replay / simulation) and replay queen positions after the frame. */
++        final int[] qShots = new int[2], simQShots = new int[2];
++        final Integer[] queenX = new Integer[2], queenY = new Integer[2];
++        /** Death anim positions of the current frame. */
++        final List<double[]> deaths = new ArrayList<>();
++
++        static String update(CgReplay.View v, int id, String time) {
++            String prefix = "U " + id + " " + time + " ";
++            for (String e : v.entities) if (e.startsWith(prefix)) return " " + e.substring(prefix.length());
++            return null;
++        }
++
++        static Double num(String props, String key) {
++            java.util.regex.Matcher m = java.util.regex.Pattern.compile(" " + key + " (-?[0-9.E]+)").matcher(props);
++            Double r = null;
++            while (m.find()) r = Double.parseDouble(m.group(1));
++            return r;
++        }
++
++        void frame(CgReplay.View v, GameState s, Units units) {
++            List<Integer> circles = new ArrayList<>();
++            for (String e : v.entities) if (e.startsWith("C ")) { nextId++; if (e.equals("C C")) circles.add(nextId); }
++            for (int c : circles) {
++                String props = CgReplay.entityProps(v, c);
++                String x = CgReplay.xOf(props), y = CgReplay.yOf(props);
++                if (x == null || y == null) continue;
++                for (int i = 0; i < s.nSites; i++)
++                    if (String.valueOf(Math.round(s.sx[i])).equals(x) && String.valueOf(Math.round(s.sy[i])).equals(y)) projSite.put(c + 2, i);
++            }
++            shots.clear();
++            for (Map.Entry<Integer, Integer> e : projSite.entrySet()) {
++                int id = e.getKey();
++                String u = update(v, id, "0");
++                double[] last = projLast.computeIfAbsent(id, k -> new double[]{Double.NaN, Double.NaN, Double.NaN});
++                if (u == null) continue;
++                Double x = num(u, "x"), y = num(u, "y"), sx = num(u, "sx");
++                if (x != null) last[0] = x;
++                if (y != null) last[1] = y;
++                if (sx != null) last[2] = sx;
++                if (u.contains(" v 1")) shots.put(e.getValue(), new double[]{last[0], last[1], last[2] * 200});
++            }
++            for (Map.Entry<Integer, String> e : units.type.entrySet()) {
++                if (!e.getValue().equals("Q")) continue;
++                int p = units.owner.get(e.getKey());
++                queenX[p] = Integer.parseInt(units.x.get(e.getKey()));
++                queenY[p] = Integer.parseInt(units.y.get(e.getKey()));
++            }
++            hits[0] = hits[1] = 0;
++            for (Map.Entry<Integer, String> e : units.type.entrySet()) {
++                if (!e.getValue().equals("KNIGHT")) continue;
++                String u = update(v, e.getKey() - 1, "0.7");
++                if (u != null && u.contains(" ax 0.2")) hits[1 - units.owner.get(e.getKey())]++;
++            }
++        }
++    }
++
++    /** Compares the simulated tower shots and knight hits of the last resolve with the replay frame. */
++    static void compareEvents(Result res, Events ev, Rules rules, GameState s, long gameId, int tn, boolean posOk, StringBuilder out) {
++        Map<Integer, Integer> simBySite = new HashMap<>();
++        for (int k = 0; k < rules.nShots; k++) simBySite.put(rules.shotSite[k], k);
++        java.util.Set<Integer> sites = new java.util.TreeSet<>(simBySite.keySet());
++        sites.addAll(ev.shots.keySet());
++        for (int site : sites) {
++            Integer k = simBySite.get(site);
++            String sfx = (posOk ? "@posOk" : "") + (k != null && rules.shotNewborn[k] ? "@newborn" : "");
++            double[] r = ev.shots.get(site);
++            double srcX = s.sx[site], srcY = s.sy[site] - s.sr[site] * 0.6;
++            String desc;
++            if (k == null) { res.events.merge("shot replayOnly" + sfx, 1, Integer::sum); desc = "replayOnly"; }
++            else if (r == null && s.stType[site] != Const.TOWER) {
++                // The tower died in its own act: Obstacle.act updates the entities after the structure is gone,
++                // so the projectile of its last shot is never drawn.
++                res.events.merge("shot simOnly towerDied" + sfx, 1, Integer::sum); desc = "simOnlyTowerDied";
++            }
++            else if (r == null) { res.events.merge("shot simOnly" + sfx, 1, Integer::sum); desc = "simOnly"; }
++            else {
++                double tx = rules.shotX[k], ty = rules.shotY[k];
++                double px = rules.shotPostX[k], py = rules.shotPostY[k];
++                if (Math.abs(px - tx) + Math.abs(py - ty) > 1e-9) {
++                    // Target moved after the shot (spawn collisions): which position does the replay projectile point at?
++                    double lenPre = Math.sqrt(Physics.distSq(tx, ty, srcX, srcY)), lenPost = Math.sqrt(Physics.distSq(px, py, srcX, srcY));
++                    String which = Math.abs(lenPre - r[2]) < 2e-3 ? "pre" : (Math.abs(lenPost - r[2]) < 2e-3 ? "post" : "neither");
++                    res.events.merge("movedTarget " + which, 1, Integer::sum);
++                }
++                int mx = (int) ((srcX + tx) / 2.0), my = (int) ((srcY + ty) / 2.0);
++                double len = Math.sqrt(Physics.distSq(tx, ty, srcX, srcY));
++                boolean sameMid = Math.abs(mx - r[0]) <= 1 && Math.abs(my - r[1]) <= 1;
++                if (sameMid && Math.abs(len - r[2]) < 2e-3) { res.events.merge("shot exact" + sfx, 1, Integer::sum); continue; }
++                if (sameMid && Math.abs(len - r[2]) < 3) { res.events.merge("shot near" + sfx, 1, Integer::sum); desc = "near"; }
++                else { res.events.merge("shot otherTarget" + sfx, 1, Integer::sum); desc = "otherTarget"; }
++            }
++            if (out != null) {
++                out.append(String.format(java.util.Locale.ROOT, "SHOT g%d t%d site%d %s%s", gameId, tn, site, desc, sfx));
++                if (k != null) out.append(String.format(java.util.Locale.ROOT, " sim->%s(%.3f,%.3f) hp%d dmg%d len%.4f", rules.shotQueen[k] ? "Q" : "c",
++                    rules.shotX[k], rules.shotY[k], rules.shotHp[k], rules.shotDmg[k], Math.sqrt(Physics.distSq(rules.shotX[k], rules.shotY[k], srcX, srcY))));
++                if (r != null) out.append(String.format(java.util.Locale.ROOT, " rep->(%.1f..%.1f,%.1f..%.1f) len%.4f", 2 * r[0] - srcX, 2 * r[0] + 2 - srcX,
++                    2 * r[1] - srcY, 2 * r[1] + 2 - srcY, r[2]));
++                out.append('\n');
++            }
++        }
++        String sfx = posOk ? "@posOk" : "";
++        // Queen shots per attacked player: replay targets within 3 units of the replay queen position.
++        ev.qShots[0] = ev.qShots[1] = 0;
++        ev.simQShots[0] = ev.simQShots[1] = 0;
++        for (int k = 0; k < rules.nShots; k++) {
++            if (!rules.shotQueen[k]) continue;
++            int p = Math.abs(rules.shotX[k] - s.qx[0]) < 1e-9 && Math.abs(rules.shotY[k] - s.qy[0]) < 1e-9 ? 0 : 1;
++            ev.simQShots[p]++;
++        }
++        for (Map.Entry<Integer, double[]> e : ev.shots.entrySet()) {
++            int site = e.getKey();
++            double[] r = e.getValue();
++            double srcX = s.sx[site], srcY = s.sy[site] - s.sr[site] * 0.6;
++            double tx = 2 * r[0] + 1 - srcX, ty = 2 * r[1] + 1 - srcY;
++            for (int p = 0; p < 2; p++)
++                if (ev.queenX[p] != null && Math.abs(tx - ev.queenX[p]) <= 3 && Math.abs(ty - ev.queenY[p]) <= 3) ev.qShots[p]++;
++        }
++        for (int p = 0; p < 2; p++) {
++            if (rules.knightHits[p] == ev.hits[p]) res.events.merge("knightHits same" + sfx, 1, Integer::sum);
++            else {
++                res.events.merge("knightHits diff" + sfx, 1, Integer::sum);
++                if (out != null) out.append(String.format("HITS g%d t%d queen%d sim%d rep%d%s%n", gameId, tn, p, rules.knightHits[p], ev.hits[p], sfx));
++            }
++        }
++    }
++
+     public static Result validate(CgReplay g) {
+         Result res = new Result();
+         GameState s = MapGen.generate(g.seed, 4);
+@@ -251,6 +426,9 @@
+         List<String> mm = res.mismatches;
+         Units units = new Units();
+         units.update(g.init, texts);
++        Events ev = new Events();
++        ev.frame(g.init, s, units);
++        boolean logShots = Boolean.getBoolean("logShots");
+         for (int i = 0; i < s.nSites; i++) {
+             int ent = siteEntity.get(i);
+             String props = CgReplay.entityProps(g.init, ent);
+@@ -274,6 +452,19 @@
+                 System.out.println("TRACE g" + g.gameId + " turn " + (s.turn + 1) + " cmds: [" + l0[0] + " | " + l0[1] + "] [" + l1[0] + " | " + l1[1] + "]");
+                 System.out.println("  before:\n" + s);
+             }
++            if (Boolean.getBoolean("logTrain")) {
++                for (int p = 0; p < 2; p++) {
++                    Command c = Command.parse(p == 0 ? l0[0] : l1[0], p == 0 ? l0[1] : l1[1], s.nSites);
++                    if (c.kill || c.train.length == 0) continue;
++                    int alive = 0, inTraining = 0, req = 0, cost = 0;
++                    for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) alive++;
++                    for (int i = 0; i < s.nSites; i++) if (s.stType[i] == Const.BARRACKS && s.stOwner[i] == p && s.barrTraining[i]) inTraining += Const.CREEP_COUNT[s.barrType[i]];
++                    for (int site : c.train) if (s.stType[site] == Const.BARRACKS) { req += Const.CREEP_COUNT[s.barrType[site]]; cost += Const.CREEP_COUNT[s.barrType[site]] == 0 ? 0 : Const.CREEP_COST[s.barrType[site]]; }
++                    String sum = t.summary == null ? "" : t.summary.replace("\n", " / ");
++                    if (alive + req + inTraining > 30 || sum.contains("$" + p + ": [WARNING] Training too many"))
++                        System.out.println("TRAIN g" + g.gameId + " t" + (s.turn + 1) + " p" + p + " alive" + alive + " inTraining" + inTraining + " req" + req + " cost" + cost + " gold" + s.gold[p] + " :: " + sum);
++                }
++            }
+             rules.resolve(s, Command.parse(l0[0], l0[1], s.nSites), Command.parse(l1[0], l1[1], s.nSites));
+             if (tracing) {
+                 rules.trace = false;
+@@ -288,6 +479,68 @@
+                 if (hv != null) hud[2 + p] = hv;
+             }
+             if (s.over && (rules.lastKill[0] != null || rules.lastKill[1] != null)) break;
++            // Classify this turn before any correction: unit positions (ignoring HP) equal, extra units only, or position errors.
++            units.update(t.view, texts);
++            ev.frame(t.view, s, units);
++            String cls;
++            {
++                List<String> gotU = units.alive(), expU = simUnits(s);
++                // Positions of every unit present during the turn: alive units plus creeps removed as dead
++                // (replay: exact death-anim positions, rounded like the end-of-turn snap).
++                List<String> gotD = new ArrayList<>(), expD = new ArrayList<>();
++                for (double[] d : t.view.deaths) gotD.add("D " + Math.round(d[0]) + " " + Math.round(d[1]) + " 0");
++                for (int k = 0; k < rules.nDead; k++) expD.add("D " + Math.round(rules.deadX[k]) + " " + Math.round(rules.deadY[k]) + " 0");
++                gotD.sort(null);
++                expD.sort(null);
++                Map<String, Integer> pa = new HashMap<>(), pb = new HashMap<>();
++                for (String u : gotU) { String[] f = u.split(" "); pa.merge(f[2] + " " + f[3], 1, Integer::sum); }
++                for (String u : expU) { String[] f = u.split(" "); pb.merge(f[2] + " " + f[3], 1, Integer::sum); }
++                for (String u : gotD) { String[] f = u.split(" "); pa.merge(f[1] + " " + f[2], 1, Integer::sum); }
++                for (String u : expD) { String[] f = u.split(" "); pb.merge(f[1] + " " + f[2], 1, Integer::sum); }
++                boolean aOnly = false, bOnly = false;
++                for (Map.Entry<String, Integer> e : pa.entrySet()) if (e.getValue() > pb.getOrDefault(e.getKey(), 0)) aOnly = true;
++                for (Map.Entry<String, Integer> e : pb.entrySet()) if (e.getValue() > pa.getOrDefault(e.getKey(), 0)) bOnly = true;
++                cls = aOnly && bOnly ? "posErr" : (aOnly || bOnly ? "countOnly" : "posOk");
++                res.events.merge("turn " + cls, 1, Integer::sum);
++                StringBuilder sb = logShots ? new StringBuilder() : null;
++                compareEvents(res, ev, rules, s, g.gameId, tn, cls.equals("posOk"), sb);
++                if (cls.equals("posOk")) {
++                    List<String> ca = new ArrayList<>(), cb = new ArrayList<>();
++                    for (String u : gotU) if (!u.contains(" Q ")) ca.add(u);
++                    for (String u : expU) if (!u.contains(" Q ")) cb.add(u);
++                    if (!ca.equals(cb)) {
++                        res.events.merge("turn posOk creepHpBad", 1, Integer::sum);
++                        if (logShots) sb.append("HPBAD g" + g.gameId + " t" + tn + " " + diff(ca, cb) + " dead rep" + gotD + " sim" + expD + "\n");
++                    }
++                    // Dead creeps whose exact (double) position the simulation reproduced.
++                    for (double[] d : t.view.deaths) {
++                        boolean found = false;
++                        for (int k = 0; k < rules.nDead && !found; k++)
++                            if (Math.abs(d[0] - rules.deadX[k]) < 1e-6 && Math.abs(d[1] - rules.deadY[k]) < 1e-6) { res.events.merge("death exact@posOk", 1, Integer::sum); found = true; }
++                        if (!found && logShots) {
++                            sb.append(String.format(java.util.Locale.ROOT, "DEATH g%d t%d rep(%.6f,%.6f) sim", g.gameId, tn, d[0], d[1]));
++                            for (int k = 0; k < rules.nDead; k++) sb.append(String.format(java.util.Locale.ROOT, " (%.6f,%.6f)", rules.deadX[k], rules.deadY[k]));
++                            sb.append(t.view.registered.values().stream().anyMatch(o -> o.has("type") && !o.get("type").getAsString().equals("Queen")) ? " spawnTurn" : "").append('\n');
++                        }
++                    }
++                    res.events.merge("death total@posOk", t.view.deaths.size(), Integer::sum);
++                } else if (cls.equals("countOnly") && logShots) sb.append("COUNT g" + g.gameId + " t" + tn + " " + diff(gotU, expU) + " dead rep" + gotD + " sim" + expD + "\n");
++                for (int p = 0; p < 2; p++) {
++                    if (!String.valueOf(s.hp[p]).equals(hud[2 + p])) {
++                        res.events.merge("queenHp bad@" + cls, 1, Integer::sum);
++                        String why = rules.knightHits[p] != ev.hits[p] ? (ev.simQShots[p] != ev.qShots[p] ? "hits+shots" : "hits")
++                            : (ev.simQShots[p] != ev.qShots[p] ? "shots" : "damage");
++                        res.events.merge("queenHp why " + why, 1, Integer::sum);
++                        if (logShots) sb.append("QHP g" + g.gameId + " t" + tn + " p" + p + " rep" + hud[2 + p] + " sim" + s.hp[p] + " " + cls
++                            + " hits sim" + rules.knightHits[p] + " rep" + ev.hits[p] + " qshots sim" + ev.simQShots[p] + " rep" + ev.qShots[p] + " " + why + "\n");
++                    }
++                    if (!String.valueOf(s.gold[p]).equals(hud[p])) {
++                        res.events.merge("gold bad@" + cls, 1, Integer::sum);
++                        if (logShots) sb.append("GOLD g" + g.gameId + " t" + tn + " p" + p + " rep" + hud[p] + " sim" + s.gold[p] + " " + cls + "\n");
++                    }
++                }
++                if (logShots && sb.length() > 0) System.out.print(sb);
++            }
+             for (int p = 0; p < 2; p++) {
+                 if (!String.valueOf(s.gold[p]).equals(hud[p])) {
+                     if (RESYNC) { res.resynced.merge("gold", 1, Integer::sum); s.gold[p] = Integer.parseInt(hud[p]); }
+@@ -304,7 +557,6 @@
+                 if (!exp.equals(texts.get(ent))) mm.add("t" + tn + " site " + i + " " + texts.get(ent) + " vs " + exp);
+             }
+             boolean spawned = t.view.registered.values().stream().anyMatch(o -> o.has("type") && !o.get("type").getAsString().equals("Queen"));
+-            units.update(t.view, texts);
+             List<String> got = units.alive(), exp = simUnits(s);
+             if (tracing) System.out.println("  replay units after: " + got + "\n  sim units after:    " + exp);
+             if (spawned) { res.spawnTurns++; if (got.equals(exp)) res.spawnExact++; }
+--- base/build.gradle	2026-10-28 20:52:08.739935300 +0200
++++ turnorder_exp/build.gradle	2026-10-28 21:59:17.583663900 +0200
+@@ -31,7 +31,7 @@
+     classpath = sourceSets.main.runtimeClasspath
+     mainClass = 'cr.tools.CgValidate'
+     args prop('replays', 'replays/cg'), prop('verbose', '0')
+-    ['legacyOrder', 'legacySpawn', 'turnBase', 'knightHp', 'dumpState', 'spawnOffset', 'spawnFixEach', 'spawnNoTowards', 'quiet', 'resync', 'logResync', 'consts', 'towerFromCenter', 'towerQueenFromCenter', 'traceGame', 'traceTurn'].each { if (project.hasProperty(it)) systemProperty it, project.property(it) }
++    ['legacyOrder', 'legacySpawn', 'turnBase', 'knightHp', 'dumpState', 'spawnOffset', 'spawnFixEach', 'spawnNoTowards', 'quiet', 'resync', 'logResync', 'consts', 'towerFromCenter', 'towerQueenFromCenter', 'traceGame', 'traceTurn', 'ageAfter', 'ageNew', 'structOrder', 'deadRemoval', 'towerSkipDead', 'ageBeforeAttack', 'minesBeforeTrain', 'logShots', 'logTrain', 'resyncCount', 'finalFix', 'queenTeardownEarly', 'towerSkipNewborn'].each { if (project.hasProperty(it)) systemProperty it, project.property(it) }
+ }
+ 
+ // One reproducible match: -Pbot0=current -Pbot1=v00 -Pseed=1 -Pprint=0

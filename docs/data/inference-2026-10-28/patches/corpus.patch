@@ -1,0 +1,112 @@
+diff -ruN base/src/main/java/cr/core/Const.java corpus/src/main/java/cr/core/Const.java
+--- base/src/main/java/cr/core/Const.java	2026-10-28 20:52:08.715332400 +0200
++++ corpus/src/main/java/cr/core/Const.java	2026-10-28 21:29:47.337357900 +0200
+@@ -40,4 +40,11 @@
+     /** Live: knights spawn with 25 HP (8600 of 8600 replay spawns, 2026-10-28); repository says 30. */
+     public static int[] CREEP_HP = {25, 45, 200};
+     public static int[] CREEP_BUILD_TIME = {5, 8, 10};
++    /**
++     * Live only: TRAIN is rejected ("Training too many creeps (N total units requested; 30
++     * maximum)") when the player's live creeps plus the creeps requested exceed this. N matched
++     * live creeps at turn start + requested units in 22/22 warnings over 236 replays, with no
++     * unwarned turn above 30 (2026-10-28).
++     */
++    /* live-tunable */ public static int MAX_CREEPS_PER_PLAYER = 30;
+ }
+diff -ruN base/src/main/java/cr/core/Rules.java corpus/src/main/java/cr/core/Rules.java
+--- base/src/main/java/cr/core/Rules.java	2026-10-28 20:52:08.721383500 +0200
++++ corpus/src/main/java/cr/core/Rules.java	2026-10-28 21:29:43.381023800 +0200
+@@ -9,9 +9,13 @@
+ public final class Rules {
+     /**
+      * Index the SDK passes to gameTurn for the first turn; decides who builds when both players
+-     * build on one site (scheduledBuildings.removeAt(turn % 2)). To be confirmed by replays.
++     * build on one site (scheduledBuildings.removeAt(turn % 2)). Live: 0, i.e. on the t-th turn
++     * (1-based) player 1 builds when t is odd and player 0 when t is even. Evidence (replays/cg2,
++     * 2026-10-28): owner images of the structure built in all 5 observed conflicts (bronze
++     * 896375127 t117/t119/t121, gold 906051728 t119/t120); with legacy entity order, resync of
++     * 906051728 runs 250 turns with 0 and stops at the conflict (t119) with 1.
+      */
+-    public static int TURN_BASE = 1;
++    public static int TURN_BASE = 0;
+     /**
+      * Live: tower damage uses the distance from the site centre (creeps: 447 -> 1 HP corrections
+      * over 98 replays; queen: 382 -> 319). The repository subtracts the site radius.
+@@ -166,8 +170,14 @@
+         for (int i = 0; i < sites.length; i++)
+             for (int j = i + 1; j < sites.length; j++)
+                 if (sites[i] == sites[j]) return "Training from some barracks more than once";
+-        int sum = 0;
+-        for (int site : sites) sum += Const.CREEP_COST[s.barrType[site]];
++        int sum = 0, units = 0;
++        for (int site : sites) { sum += Const.CREEP_COST[s.barrType[site]]; units += Const.CREEP_COUNT[s.barrType[site]]; }
++        int alive = 0;
++        for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) alive++;
++        // Live only (not in csj/code-royale): checked even for an empty TRAIN list. The order
++        // against the gold check is unobserved; both only reject, so the state is the same.
++        if (alive + units > Const.MAX_CREEPS_PER_PLAYER)
++            return "Training too many creeps (" + (alive + units) + " total units requested; " + Const.MAX_CREEPS_PER_PLAYER + " maximum)";
+         if (sum > s.gold[p]) return "Training too many creeps (" + sum + " total gold requested)";
+         s.gold[p] -= sum;
+         for (int site : sites) {
+diff -ruN base/src/main/java/cr/tools/CgValidate.java corpus/src/main/java/cr/tools/CgValidate.java
+--- base/src/main/java/cr/tools/CgValidate.java	2026-10-28 20:52:08.730380900 +0200
++++ corpus/src/main/java/cr/tools/CgValidate.java	2026-10-28 21:29:50.122119200 +0200
+@@ -74,7 +74,7 @@
+         boolean verbose = args.length > 1 && args[1].equals("1");
+         cr.core.Physics.LEGACY_ENTITY_ORDER = Boolean.parseBoolean(System.getProperty("legacyOrder", "false"));
+         Rules.LEGACY_SPAWN = Boolean.parseBoolean(System.getProperty("legacySpawn", "false"));
+-        Rules.TURN_BASE = Integer.parseInt(System.getProperty("turnBase", "1"));
++        Rules.TURN_BASE = Integer.parseInt(System.getProperty("turnBase", String.valueOf(Rules.TURN_BASE)));
+         Rules.SPAWN_OFFSET = Integer.getInteger("spawnOffset", 0);
+         Rules.TOWER_FROM_CENTER = Boolean.parseBoolean(System.getProperty("towerFromCenter", "true"));
+         Rules.TOWER_QUEEN_FROM_CENTER = Boolean.parseBoolean(System.getProperty("towerQueenFromCenter", "true"));
+diff -ruN base/src/test/java/cr/core/RulesTest.java corpus/src/test/java/cr/core/RulesTest.java
+--- base/src/test/java/cr/core/RulesTest.java	2026-10-28 20:52:08.737873900 +0200
++++ corpus/src/test/java/cr/core/RulesTest.java	2026-10-28 21:30:13.450531500 +0200
+@@ -91,6 +91,45 @@
+         assertEquals(1, s.winner());
+     }
+ 
++    /** Both queens touch empty site 4 (343,362 r80) and build towers; towers survive queen contact. */
++    private static int conflictWinner(int turnsPlayed) {
++        GameState s = emptyState();
++        s.turn = turnsPlayed;
++        s.qx[0] = 343; s.qy[0] = 362 - 80 - 30 - 1;
++        s.qx[1] = 343; s.qy[1] = 362 + 80 + 30 + 1;
++        new Rules().resolve(s, Command.build(4, "TOWER"), Command.build(4, "TOWER"));
++        assertEquals(Const.TOWER, s.stType[4]);
++        return s.stOwner[4];
++    }
++
++    /** Live parity (replays/cg2): player 1 wins a build conflict on odd 1-based turns, player 0 on even. */
++    @Test
++    void buildConflictParity() {
++        assertEquals(1, conflictWinner(0), "turn 1");
++        assertEquals(0, conflictWinner(1), "turn 2");
++        assertEquals(1, conflictWinner(118), "turn 119");
++        assertEquals(0, conflictWinner(119), "turn 120");
++    }
++
++    private static boolean trainsWithAlive(int alive) {
++        GameState s = emptyState();
++        s.stType[4] = Const.BARRACKS; s.stOwner[4] = 0; s.barrType[4] = Const.KNIGHT; s.barrTraining[4] = false;
++        for (int i = 0; i < alive; i++) s.addCreep(0, Const.KNIGHT, 100 + 60 * (i % 10), 560 + 60 * (i / 10));
++        s.gold[0] = 1000;
++        Command c = Command.waitCmd();
++        c.train = new int[]{4};
++        new Rules().resolve(s, c, Command.waitCmd());
++        assertEquals(s.barrTraining[4] ? 920 : 1000, s.gold[0]);
++        return s.barrTraining[4];
++    }
++
++    /** Live: at most 30 creeps per player counting the ones requested (4 knights here). */
++    @Test
++    void trainingCapIsThirtyCreeps() {
++        assertTrue(trainsWithAlive(26));
++        assertFalse(trainsWithAlive(27));
++    }
++
+     @Test
+     void inputRoundTrip() throws IOException {
+         GameState s = emptyState();

@@ -1,0 +1,72 @@
+== none
+   failing tests: none
+   cg: games=98 ok=97 mismatch=1 error=0 matchedTurns=15374
+   cg: unit match: plain 13424/13424 (100.00%) spawn 1950/1950 (100.00%)
+   cg: warnings (turns with a summary or simulated warning): exact 113/113
+   cg2: games=138 ok=137 mismatch=1 error=0 matchedTurns=20438
+   cg2: unit match: plain 18330/18330 (100.00%) spawn 2104/2104 (100.00%)
+   cg2: warnings (turns with a summary or simulated warning): exact 3407/3407
+== repo-entity-order
+   failing tests: ['liveCollisionOrderKnightCrowd()', 'liveCollisionOrderQueenPushedByKnight()']
+   cg: games=98 ok=5 mismatch=93 error=0 matchedTurns=4293
+   cg: unit match: plain 3804/3884 (97.94%) spawn 489/502 (97.41%)
+   cg: warnings (turns with a summary or simulated warning): exact 38/38
+   cg2: games=138 ok=24 mismatch=114 error=0 matchedTurns=7074
+   cg2: unit match: plain 6372/6469 (98.50%) spawn 698/715 (97.62%)
+   cg2: warnings (turns with a summary or simulated warning): exact 1163/1163
+== site-order-structures
+   failing tests: ['towersDoNotShootCreepsSpawnedThisTurn()']
+   cg: games=98 ok=27 mismatch=71 error=0 matchedTurns=8353
+   cg: unit match: plain 7435/7435 (100.00%) spawn 918/989 (92.82%)
+   cg: warnings (turns with a summary or simulated warning): exact 31/31
+   cg2: games=138 ok=89 mismatch=49 error=0 matchedTurns=15936
+   cg2: unit match: plain 14305/14305 (100.00%) spawn 1627/1675 (97.13%)
+   cg2: warnings (turns with a summary or simulated warning): exact 2775/2775
+== repo-spawn-offset
+   failing tests: ['spawnUsesLiveCornerOffsets()']
+   cg: games=98 ok=0 mismatch=98 error=0 matchedTurns=1275
+   cg: unit match: plain 1275/1275 (100.00%) spawn 0/98 (0.00%)
+   cg: warnings (turns with a summary or simulated warning): exact 17/17
+   cg2: games=138 ok=3 mismatch=135 error=0 matchedTurns=1427
+   cg2: unit match: plain 1424/1424 (100.00%) spawn 0/135 (0.00%)
+   cg2: warnings (turns with a summary or simulated warning): exact 88/88
+== no-creep-limit
+   failing tests: ['liveCreepLimitRefusesTraining()', 'liveCreepLimitWarnsOnEmptyTrain()']
+   cg: games=98 ok=92 mismatch=6 error=0 matchedTurns=15034
+   cg: unit match: plain 13123/13123 (100.00%) spawn 1916/1916 (100.00%)
+   cg: warnings (turns with a summary or simulated warning): exact 98/103
+   cg2: games=138 ok=136 mismatch=2 error=0 matchedTurns=20431
+   cg2: unit match: plain 18324/18324 (100.00%) spawn 2104/2104 (100.00%)
+   cg2: warnings (turns with a summary or simulated warning): exact 3400/3401
+== turn-base-1
+   failing tests: ['buildConflictParity()']
+   cg: games=98 ok=97 mismatch=1 error=0 matchedTurns=15374
+   cg: unit match: plain 13424/13424 (100.00%) spawn 1950/1950 (100.00%)
+   cg: warnings (turns with a summary or simulated warning): exact 113/113
+   cg2: games=138 ok=136 mismatch=2 error=0 matchedTurns=20306
+   cg2: unit match: plain 18206/18206 (100.00%) spawn 2097/2097 (100.00%)
+   cg2: warnings (turns with a summary or simulated warning): exact 3276/3276
+== dead-removed-after-towers
+   failing tests: ['creepsKilledThisTurnTakePartInSpawnCollisions()']
+   cg: games=98 ok=30 mismatch=68 error=0 matchedTurns=9185
+   cg: unit match: plain 8118/8118 (100.00%) spawn 1067/1135 (94.01%)
+   cg: warnings (turns with a summary or simulated warning): exact 41/41
+   cg2: games=138 ok=59 mismatch=79 error=0 matchedTurns=13050
+   cg2: unit match: plain 11823/11823 (100.00%) spawn 1224/1303 (93.94%)
+   cg2: warnings (turns with a summary or simulated warning): exact 1947/1947
+== last-warning-only
+   failing tests: ['warningsAccumulatePerPlayer()']
+   cg: games=98 ok=97 mismatch=1 error=0 matchedTurns=15374
+   cg: unit match: plain 13424/13424 (100.00%) spawn 1950/1950 (100.00%)
+   cg: warnings (turns with a summary or simulated warning): exact 113/113
+   cg2: games=138 ok=133 mismatch=5 error=0 matchedTurns=20240
+   cg2: unit match: plain 18151/18151 (100.00%) spawn 2089/2089 (100.00%)
+   cg2: warnings (turns with a summary or simulated warning): exact 3212/3216
+== tower-damage-from-edge
+   failing tests: ['towerDamageCountsFromSiteCentre()']
+   cg: games=98 ok=1 mismatch=97 error=0 matchedTurns=2137
+   cg: unit match: plain 1957/2042 (95.84%) spawn 180/192 (93.75%)
+   cg: warnings (turns with a summary or simulated warning): exact 19/19
+   cg2: games=138 ok=4 mismatch=134 error=0 matchedTurns=2974
+   cg2: unit match: plain 2695/2814 (95.77%) spawn 276/291 (94.85%)
+   cg2: warnings (turns with a summary or simulated warning): exact 391/391

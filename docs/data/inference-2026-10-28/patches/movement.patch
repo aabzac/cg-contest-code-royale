@@ -1,0 +1,409 @@
+diff -ruN base/src/main/java/cr/core/Const.java movement/src/main/java/cr/core/Const.java
+--- base/src/main/java/cr/core/Const.java	2026-10-28 20:52:08.715332400 +0200
++++ movement/src/main/java/cr/core/Const.java	2026-10-28 21:28:49.276106400 +0200
+@@ -24,6 +24,12 @@
+     public static final int OBSTACLE_PAIRS_MAX = 12;
+ 
+     /* live-tunable */ public static int KNIGHT_DAMAGE = 1, ARCHER_DAMAGE = 2, ARCHER_DAMAGE_TO_GIANTS = 10;
++    /**
++     * Live only (absent from the repository): TRAIN is refused with "Training too many creeps
++     * (N total units requested; 30 maximum)" when the player's creeps plus the requested ones
++     * exceed this (15 warnings in 98 replays, 2026-10-28). Creeps still in training do not count.
++     */
++    /* live-tunable */ public static int MAX_UNITS = 30;
+     public static final int WOOD_FIXED_INCOME = 10;
+ 
+     // Structure types as sent to the bots.
+diff -ruN base/src/main/java/cr/core/Physics.java movement/src/main/java/cr/core/Physics.java
+--- base/src/main/java/cr/core/Physics.java	2026-10-28 20:52:08.723380000 +0200
++++ movement/src/main/java/cr/core/Physics.java	2026-10-28 21:28:27.260772400 +0200
+@@ -112,9 +112,11 @@
+ 
+     /**
+      * Entity order of Referee.allEntities. Legacy (pre-918c375): per player its creeps then its
+-     * queen; repository head: all creeps, then both queens. Then obstacles.
++     * queen ({@code players.flatMap { it.allUnits() } + obstacles}); repository head: all creeps,
++     * then both queens. Then obstacles. Live CG uses the legacy order: on 98 replays (resync) the
++     * plain-turn unit match goes 89.69% -> 99.98% and queen HP corrections 319 -> 8 (2026-10-28).
+      */
+-    public static boolean LEGACY_ENTITY_ORDER = false;
++    public static boolean LEGACY_ENTITY_ORDER = true;
+ 
+     /** Loads creeps, queens and sites of the state in referee order. */
+     void load(GameState s) {
+diff -ruN base/src/main/java/cr/core/Rules.java movement/src/main/java/cr/core/Rules.java
+--- base/src/main/java/cr/core/Rules.java	2026-10-28 20:52:08.721383500 +0200
++++ movement/src/main/java/cr/core/Rules.java	2026-10-28 21:30:12.234935900 +0200
+@@ -19,6 +19,14 @@
+     public static boolean TOWER_FROM_CENTER = true, TOWER_QUEEN_FROM_CENTER = true;
+     /** Spawn offset (iter, iter) for both players as before csj/code-royale 8a63cd9. */
+     public static boolean LEGACY_SPAWN = false;
++    /**
++     * Live: all towers act before the other structures, so creeps spawned this turn are never shot
++     * on their spawn turn and towers aim at pre-spawn positions (the Bronze statement's order
++     * "Towers shoot ...; Barracks ... new creeps spawned; Mines collect gold"). The repository acts
++     * in site order. Resync, 98 replays (2026-10-28): queen HP corrections 8 -> 0, spawn-turn creep
++     * count corrections 17 -> 0, fully consistent games 80 -> 97.
++     */
++    public static boolean TOWERS_FIRST = true;
+ 
+     private final Physics ph = new Physics();
+     private final int[] order = new int[GameState.MAX_CREEPS];
+@@ -31,6 +39,13 @@
+     public StringBuilder log;
+     /** With log on: also record unit positions after every phase. */
+     public boolean trace;
++    /** Diagnostics (off by default): keep {@link #rawCx} etc. and {@link #lastDead} of the last resolve. */
++    public boolean keepRaw;
++    /** With keepRaw: unit positions of the last resolve before the final rounding. */
++    public final double[] rawCx = new double[GameState.MAX_CREEPS], rawCy = new double[GameState.MAX_CREEPS];
++    public final double[] rawQx = new double[2], rawQy = new double[2];
++    /** With keepRaw: creeps removed as dead at the end of the last resolve, as [owner,ordinal] (creation order within the owner). */
++    public final StringBuilder lastDead = new StringBuilder();
+ 
+     private void tracePositions(GameState s, String phase) {
+         if (log == null || !trace) return;
+@@ -103,13 +118,26 @@
+         processCreeps(s);
+         tracePositions(s, "after creeps");
+ 
+-        for (int i = 0; i < s.nSites; i++) actStructure(s, i);
++        if (TOWERS_FIRST) {
++            for (int i = 0; i < s.nSites; i++) if (s.stType[i] == Const.TOWER) actStructure(s, i);
++            for (int i = 0; i < s.nSites; i++) if (s.stType[i] != Const.TOWER) actStructure(s, i);
++        } else {
++            for (int i = 0; i < s.nSites; i++) actStructure(s, i);
++        }
+         tracePositions(s, "after structures");
+ 
+         if (s.fixedIncome >= 0) {
+             for (int p = 0; p < 2; p++) if (s.active[p]) { s.goldPerTurn[p] = s.fixedIncome; s.gold[p] += s.fixedIncome; }
+         }
+ 
++        if (keepRaw) {
++            lastDead.setLength(0);
++            int[] ordinal = new int[2];
++            for (int i = 0; i < s.nCreeps; i++) {
++                int o = s.cOwner[i], k = ordinal[o]++;
++                if (s.cHp[i] == 0) lastDead.append(lastDead.length() == 0 ? "" : ",").append('[').append(o).append(',').append(k).append(']');
++            }
++        }
+         s.removeDeadCreeps();
+ 
+         int alive = 0;
+@@ -121,6 +149,10 @@
+         s.turn++;
+         if (alive < 2 || s.turn >= Const.MAX_TURNS) s.over = true;
+ 
++        if (keepRaw) {
++            for (int i = 0; i < s.nCreeps; i++) { rawCx[i] = s.cx[i]; rawCy[i] = s.cy[i]; }
++            for (int p = 0; p < 2; p++) { rawQx[p] = s.qx[p]; rawQy[p] = s.qy[p]; }
++        }
+         for (int i = 0; i < s.nCreeps; i++) setCreep(s, i, Math.round(s.cx[i]), Math.round(s.cy[i]));
+         for (int p = 0; p < 2; p++) setQueen(s, p, Math.round(s.qx[p]), Math.round(s.qy[p]));
+         for (int i = 0; i < s.nSites; i++) { s.sx[i] = Math.round(s.sx[i]); s.sy[i] = Math.round(s.sy[i]); }
+@@ -169,6 +201,11 @@
+         int sum = 0;
+         for (int site : sites) sum += Const.CREEP_COST[s.barrType[site]];
+         if (sum > s.gold[p]) return "Training too many creeps (" + sum + " total gold requested)";
++        // Live only: also checked for an empty TRAIN (warning without effect when over the cap).
++        int units = 0;
++        for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) units++;
++        for (int site : sites) units += Const.CREEP_COUNT[s.barrType[site]];
++        if (units > Const.MAX_UNITS) return "Training too many creeps (" + units + " total units requested; " + Const.MAX_UNITS + " maximum)";
+         s.gold[p] -= sum;
+         for (int site : sites) {
+             s.barrProgress[site] = 0;
+diff -ruN base/src/main/java/cr/tools/CgValidate.java movement/src/main/java/cr/tools/CgValidate.java
+--- base/src/main/java/cr/tools/CgValidate.java	2026-10-28 20:52:08.730380900 +0200
++++ movement/src/main/java/cr/tools/CgValidate.java	2026-10-28 21:30:12.234935900 +0200
+@@ -31,6 +31,8 @@
+         /** Unit comparisons: turns without / with a creep spawn in the replay frame, and exact matches. */
+         public int plainTurns, plainExact, spawnTurns, spawnExact;
+         public final Map<String, Integer> resynced = new TreeMap<>();
++        /** Turns with a [WARNING] in the replay summary or the simulation: same set / different. */
++        public int warnSame, warnDiff;
+         public String firstResync;
+         public String error;
+         boolean ok() { return error == null && mismatches.isEmpty(); }
+@@ -72,7 +74,7 @@
+     public static void main(String[] args) throws IOException {
+         Path root = Paths.get(args.length > 0 ? args[0] : "replays/cg");
+         boolean verbose = args.length > 1 && args[1].equals("1");
+-        cr.core.Physics.LEGACY_ENTITY_ORDER = Boolean.parseBoolean(System.getProperty("legacyOrder", "false"));
++        cr.core.Physics.LEGACY_ENTITY_ORDER = Boolean.parseBoolean(System.getProperty("legacyOrder", "true"));
+         Rules.LEGACY_SPAWN = Boolean.parseBoolean(System.getProperty("legacySpawn", "false"));
+         Rules.TURN_BASE = Integer.parseInt(System.getProperty("turnBase", "1"));
+         Rules.SPAWN_OFFSET = Integer.getInteger("spawnOffset", 0);
+@@ -80,8 +82,10 @@
+         Rules.TOWER_QUEEN_FROM_CENTER = Boolean.parseBoolean(System.getProperty("towerQueenFromCenter", "true"));
+         Rules.SPAWN_FIX_EACH = Boolean.getBoolean("spawnFixEach");
+         Rules.SPAWN_TOWARDS = !Boolean.getBoolean("spawnNoTowards");
++        Rules.TOWERS_FIRST = Boolean.parseBoolean(System.getProperty("towersFirst", "true"));
+         if (System.getProperty("knightHp") != null) Const.CREEP_HP[Const.KNIGHT] = Integer.getInteger("knightHp");
+         applyConstOverrides(System.getProperty("consts", ""));
++        if (System.getProperty("dumpPlain") != null) DUMP = new java.io.PrintWriter(Files.newBufferedWriter(Paths.get(System.getProperty("dumpPlain"))));
+         List<Path> files;
+         try (Stream<Path> st = Files.isDirectory(root) ? Files.walk(root) : Stream.of(root)) {
+             files = st.filter(p -> p.getFileName().toString().matches("\\d+\\.json")).sorted().collect(Collectors.toList());
+@@ -89,7 +93,7 @@
+         int ok = 0, bad = 0, err = 0;
+         long matchedTurns = 0;
+         Map<String, Integer> resyncTotal = new TreeMap<>();
+-        int plainTurns = 0, plainExact = 0, spawnTurns = 0, spawnExact = 0;
++        int plainTurns = 0, plainExact = 0, spawnTurns = 0, spawnExact = 0, warnSame = 0, warnDiff = 0;
+         Map<String, Integer> kinds = new TreeMap<>();
+         for (Path f : files) {
+             Result r;
+@@ -102,6 +106,7 @@
+             if (r.error != null) { err++; System.out.println("ERROR " + f + ": " + r.error); continue; }
+             r.resynced.forEach((k, v) -> resyncTotal.merge(k, v, Integer::sum));
+             plainTurns += r.plainTurns; plainExact += r.plainExact; spawnTurns += r.spawnTurns; spawnExact += r.spawnExact;
++            warnSame += r.warnSame; warnDiff += r.warnDiff;
+             if (r.firstResync != null && verbose) System.out.println("  first resync " + f.getFileName() + ": " + r.firstResync);
+             if (r.ok()) { ok++; matchedTurns += r.turns; if (verbose) System.out.println("OK " + f + " turns=" + r.turns); continue; }
+             bad++;
+@@ -111,12 +116,14 @@
+             String kind = r.mismatches.get(0).replaceAll("^t\\d+ ", "").replaceAll("[-\\d]+", "#");
+             kinds.merge(kind, 1, Integer::sum);
+         }
++        if (DUMP != null) DUMP.close();
+         System.out.printf("games=%d ok=%d mismatch=%d error=%d matchedTurns=%d%n", files.size(), ok, bad, err, matchedTurns);
+         kinds.forEach((k, v) -> System.out.println("  first mismatch kind x" + v + ": " + k));
+         if (RESYNC) System.out.println("resynced turns by kind: " + resyncTotal);
+         System.out.printf(java.util.Locale.ROOT, "unit match: plain %d/%d (%.2f%%) spawn %d/%d (%.2f%%)%n",
+             plainExact, plainTurns, 100.0 * plainExact / Math.max(1, plainTurns),
+             spawnExact, spawnTurns, 100.0 * spawnExact / Math.max(1, spawnTurns));
++        System.out.printf("warnings (turns with a summary warning): same %d differ %d%n", warnSame, warnDiff);
+         if (bad + err > 0) System.exit(1);
+     }
+ 
+@@ -204,6 +211,31 @@
+             return true;
+         }
+ 
++        /** Replay creeps of owner p in creation order (dead excluded) as "[x,y,hp]" JSON, plus queens. */
++        String orderedJson() {
++            StringBuilder b = new StringBuilder("[");
++            for (int p = 0; p < 2; p++) {
++                if (p > 0) b.append(',');
++                b.append('[');
++                boolean first = true;
++                for (int id : new java.util.TreeSet<>(type.keySet())) {
++                    if (type.get(id).equals("Q") || owner.get(id) != p) continue;
++                    List<String> t = texts.get(id - 2);
++                    if (t != null && !t.isEmpty() && t.get(0).equals("Health: 0")) continue;
++                    if (!first) b.append(',');
++                    first = false;
++                    b.append('[').append(x.get(id)).append(',').append(y.get(id)).append(',')
++                        .append(t == null || t.isEmpty() ? "-1" : t.get(0).replace("Health: ", "")).append(']');
++                }
++                b.append(']');
++            }
++            b.append(",[");
++            int[][] q = new int[2][];
++            for (int id : type.keySet()) if (type.get(id).equals("Q")) q[owner.get(id)] = new int[]{Integer.parseInt(x.get(id)), Integer.parseInt(y.get(id))};
++            b.append('[').append(q[0][0]).append(',').append(q[0][1]).append("],[").append(q[1][0]).append(',').append(q[1][1]).append("]]]");
++            return b.toString();
++        }
++
+         List<String> alive() {
+             List<String> r = new ArrayList<>();
+             for (int id : type.keySet()) {
+@@ -217,11 +249,52 @@
+         }
+     }
+ 
++    /**
++     * -PdumpPlain=file: one JSON line per non-spawn turn (with -PdumpSpawn=true also spawn turns):
++     * start state, queen commands, replay units after the turn (per owner in creation order, then
++     * queens), simulated positions before rounding, and dead creeps as [owner,ordinal].
++     */
++    static java.io.PrintWriter DUMP;
++
++    static String jsonStr(String s) {
++        if (s == null) return "null";
++        return "\"" + s.replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
++    }
++
++    static String startJson(GameState s) {
++        StringBuilder b = new StringBuilder("{\"q\":[");
++        for (int p = 0; p < 2; p++) b.append(p > 0 ? "," : "").append('[').append(s.qx[p]).append(',').append(s.qy[p]).append(',').append(s.hp[p]).append(']');
++        b.append("],\"c\":[");
++        for (int i = 0; i < s.nCreeps; i++)
++            b.append(i > 0 ? "," : "").append('[').append(s.cOwner[i]).append(',').append(s.cType[i]).append(',').append(s.cx[i]).append(',').append(s.cy[i]).append(',').append(s.cHp[i]).append(']');
++        b.append("],\"s\":[");
++        for (int i = 0; i < s.nSites; i++)
++            b.append(i > 0 ? "," : "").append('[').append(s.sx[i]).append(',').append(s.sy[i]).append(',').append(s.sr[i]).append(',').append(s.stType[i]).append(',').append(s.stOwner[i]).append(']');
++        b.append("]}");
++        return b.toString();
++    }
++
++    static String simEndJson(GameState s, Rules r) {
++        StringBuilder b = new StringBuilder("[[");
++        for (int p = 0; p < 2; p++) {
++            if (p > 0) b.append("],[");
++            boolean first = true;
++            for (int i = 0; i < s.nCreeps; i++) {
++                if (s.cOwner[i] != p) continue;
++                b.append(first ? "" : ",").append('[').append(r.rawCx[i]).append(',').append(r.rawCy[i]).append(',').append(s.cHp[i]).append(']');
++                first = false;
++            }
++        }
++        b.append("],[[").append(r.rawQx[0]).append(',').append(r.rawQy[0]).append("],[").append(r.rawQx[1]).append(',').append(r.rawQy[1]).append("]]]");
++        return b.toString();
++    }
++
+     public static Result validate(CgReplay g) {
+         Result res = new Result();
+         GameState s = MapGen.generate(g.seed, 4);
+         Rules rules = new Rules();
+         if (Boolean.getBoolean("logResync")) rules.log = new StringBuilder();
++        rules.keepRaw = DUMP != null;
+ 
+         // Entity ids: sites from tooltip registrations, HUD texts by their fixed screen positions.
+         Map<Integer, Integer> siteEntity = new HashMap<>();
+@@ -274,12 +347,23 @@
+                 System.out.println("TRACE g" + g.gameId + " turn " + (s.turn + 1) + " cmds: [" + l0[0] + " | " + l0[1] + "] [" + l1[0] + " | " + l1[1] + "]");
+                 System.out.println("  before:\n" + s);
+             }
++            String start = DUMP != null ? startJson(s) : null;
+             rules.resolve(s, Command.parse(l0[0], l0[1], s.nSites), Command.parse(l1[0], l1[1], s.nSites));
+             if (tracing) {
+                 rules.trace = false;
+                 System.out.println("  log:" + rules.log);
+             }
+             int tn = s.turn;
++            {
++                // Warnings: replay game summary vs simulated (diagnostic counter only).
++                java.util.Set<String> rw = new java.util.TreeSet<>(), sw = new java.util.TreeSet<>();
++                if (t.summary != null) for (String line : t.summary.split("\n| \\| ")) if (line.contains("[WARNING]")) rw.add(line.trim());
++                for (int p = 0; p < 2; p++) if (rules.lastWarning[p] != null) sw.add("$" + p + ": [WARNING] " + rules.lastWarning[p]);
++                if (!rw.isEmpty() || !sw.isEmpty()) {
++                    if (rw.equals(sw)) res.warnSame++; else res.warnDiff++;
++                    if (!rw.equals(sw) && Boolean.getBoolean("logResync")) System.out.println("WARN g" + g.gameId + " t" + tn + " replay " + rw + " sim " + sw);
++                }
++            }
+             for (Map.Entry<Integer, List<String>> e : t.view.texts.entrySet()) texts.put(e.getKey(), e.getValue());
+             for (int p = 0; p < 2; p++) {
+                 String gv = CgReplay.textOf(CgReplay.entityProps(t.view, goldId[p]));
+@@ -290,11 +374,11 @@
+             if (s.over && (rules.lastKill[0] != null || rules.lastKill[1] != null)) break;
+             for (int p = 0; p < 2; p++) {
+                 if (!String.valueOf(s.gold[p]).equals(hud[p])) {
+-                    if (RESYNC) { res.resynced.merge("gold", 1, Integer::sum); s.gold[p] = Integer.parseInt(hud[p]); }
++                    if (RESYNC) { res.resynced.merge("gold", 1, Integer::sum); if (Boolean.getBoolean("logResync")) System.out.println("RESYNC g" + g.gameId + " t" + tn + " gold" + p + " replay " + hud[p] + " sim " + s.gold[p]); s.gold[p] = Integer.parseInt(hud[p]); }
+                     else mm.add("t" + tn + " gold" + p + " " + hud[p] + " vs " + s.gold[p]);
+                 }
+                 if (!String.valueOf(s.hp[p]).equals(hud[2 + p])) {
+-                    if (RESYNC) { res.resynced.merge("queenHp", 1, Integer::sum); s.hp[p] = Integer.parseInt(hud[2 + p]); if (s.score[p] >= 0) s.score[p] = s.hp[p]; }
++                    if (RESYNC) { res.resynced.merge("queenHp", 1, Integer::sum); if (Boolean.getBoolean("logResync")) System.out.println("RESYNC g" + g.gameId + " t" + tn + " queenHp" + p + " replay " + hud[2 + p] + " sim " + s.hp[p]); s.hp[p] = Integer.parseInt(hud[2 + p]); if (s.score[p] >= 0) s.score[p] = s.hp[p]; }
+                     else mm.add("t" + tn + " queenHp" + p + " " + hud[2 + p] + " vs " + s.hp[p]);
+                 }
+             }
+@@ -309,6 +393,10 @@
+             if (tracing) System.out.println("  replay units after: " + got + "\n  sim units after:    " + exp);
+             if (spawned) { res.spawnTurns++; if (got.equals(exp)) res.spawnExact++; }
+             else { res.plainTurns++; if (got.equals(exp)) res.plainExact++; }
++            if (DUMP != null && (!spawned || Boolean.getBoolean("dumpSpawn"))) {
++                DUMP.println("{\"g\":" + g.gameId + ",\"t\":" + tn + ",\"spawn\":" + spawned + ",\"ok\":" + got.equals(exp) + ",\"c0\":" + jsonStr(l0[0]) + ",\"c1\":" + jsonStr(l1[0])
++                    + ",\"start\":" + start + ",\"rep\":" + units.orderedJson() + ",\"sim\":" + simEndJson(s, rules) + ",\"dead\":[" + rules.lastDead + "]}");
++            }
+             if (!got.equals(exp)) {
+                 if (RESYNC) {
+                     String kind = (spawned ? "units@spawn " : "units ") + diffKind(got, exp);
+diff -ruN base/src/test/java/cr/core/RulesTest.java movement/src/test/java/cr/core/RulesTest.java
+--- base/src/test/java/cr/core/RulesTest.java	2026-10-28 20:52:08.737873900 +0200
++++ movement/src/test/java/cr/core/RulesTest.java	2026-10-28 21:28:42.113605800 +0200
+@@ -104,4 +104,84 @@
+         assertEquals(s.gold[1], r.state.gold[0]);
+         assertEquals(s.sr[7], r.state.sr[7]);
+     }
++
++    /** Start of a replay turn: generated map, queen positions, creeps {owner, type, x, y, hp}. */
++    private static GameState replayTurn(long seed, int[] queens, int[][] creeps) {
++        GameState s = MapGen.generate(seed, 4);
++        s.qx[0] = queens[0]; s.qy[0] = queens[1]; s.qx[1] = queens[2]; s.qy[1] = queens[3];
++        for (int[] c : creeps) s.cHp[s.addCreep(c[0], c[1], c[2], c[3])] = c[4];
++        return s;
++    }
++
++    /**
++     * CG game 892855131 (seed 316391638) turn 26: queen 0 is pushed out of site 6, then by an
++     * enemy knight. Live collision order (player 0 creeps, queen 0, player 1 creeps, queen 1,
++     * sites) gives the replay's (613,457); the repository order gives (613,456).
++     */
++    @Test
++    void liveCollisionOrderQueenPushedByKnight() {
++        GameState s = replayTurn(316391638L, new int[]{606, 449, 1364, 515}, new int[][]{{1, Const.KNIGHT, 625, 400, 4}});
++        new Rules().resolve(s, Command.build(6, "MINE"), Command.build(7, "MINE"));
++        assertEquals(613, s.qx[0]); assertEquals(457, s.qy[0]);
++        assertEquals(1307, s.qx[1]); assertEquals(534, s.qy[1]);
++    }
++
++    /** CG game 892851569 (seed 160691458) turn 24: seven knights, three of them on queen 0. */
++    @Test
++    void liveCollisionOrderKnightCrowd() {
++        GameState s = replayTurn(160691458L, new int[]{415, 329, 1413, 380}, new int[][]{
++            {1, Const.KNIGHT, 473, 319, 10}, {1, Const.KNIGHT, 412, 275, 2}, {1, Const.KNIGHT, 451, 285, 10},
++            {1, Const.KNIGHT, 1482, 740, 25}, {1, Const.KNIGHT, 1385, 858, 25}, {1, Const.KNIGHT, 1440, 747, 25},
++            {1, Const.KNIGHT, 1388, 803, 25}});
++        new Rules().resolve(s, Command.build(18, "MINE"), Command.build(15, "MINE"));
++        int[][] replay = {{456, 321}, {389, 289}, {431, 293}, {1388, 705}, {1297, 811}, {1347, 710}, {1306, 766}};
++        assertEquals(replay.length, s.nCreeps);
++        for (int i = 0; i < replay.length; i++) {
++            assertEquals(replay[i][0], s.cx[i], "creep " + i + " x");
++            assertEquals(replay[i][1], s.cy[i], "creep " + i + " y");
++        }
++        assertEquals(401, s.qx[0]); assertEquals(341, s.qy[0]);
++    }
++
++    @Test
++    void liveUnitCapRefusesTraining() {
++        for (int knights : new int[]{27, 26}) {
++            GameState s = emptyState();
++            s.stType[3] = Const.BARRACKS; s.stOwner[3] = 1; s.barrType[3] = Const.KNIGHT;
++            s.gold[1] = 200;
++            for (int i = 0; i < knights; i++) s.addCreep(1, Const.KNIGHT, 1700, 100 + 30 * i);
++            Rules r = new Rules();
++            r.resolve(s, Command.waitCmd(), Command.waitCmd().train(3));
++            if (knights == 27) {
++                assertEquals("Training too many creeps (31 total units requested; 30 maximum)", r.lastWarning[1]);
++                assertEquals(200, s.gold[1]);
++                assertFalse(s.barrTraining[3]);
++            } else {
++                assertNull(r.lastWarning[1]);
++                assertEquals(120, s.gold[1]);
++                assertTrue(s.barrTraining[3]);
++            }
++        }
++    }
++
++    @Test
++    void liveUnitCapWarnsOnEmptyTrain() {
++        GameState s = emptyState();
++        for (int i = 0; i < 31; i++) s.addCreep(1, Const.KNIGHT, 1700, 100 + 25 * i);
++        Rules r = new Rules();
++        r.resolve(s, Command.waitCmd(), Command.waitCmd());
++        assertEquals("Training too many creeps (31 total units requested; 30 maximum)", r.lastWarning[1]);
++    }
++
++    /** Barracks at site 2 completes next to an enemy tower at site 18: towers act before spawning. */
++    @Test
++    void liveTowersShootBeforeBarracksSpawn() {
++        GameState s = emptyState();
++        s.stType[18] = Const.TOWER; s.stOwner[18] = 0; s.towerHp[18] = 800; s.towerRange[18] = 510;
++        s.stType[2] = Const.BARRACKS; s.stOwner[2] = 1; s.barrType[2] = Const.KNIGHT;
++        s.barrTraining[2] = true; s.barrProgress[2] = Const.CREEP_BUILD_TIME[Const.KNIGHT] - 1;
++        new Rules().resolve(s, Command.waitCmd(), Command.waitCmd());
++        assertEquals(4, s.nCreeps);
++        for (int i = 0; i < 4; i++) assertEquals(Const.CREEP_HP[Const.KNIGHT], s.cHp[i], "spawned creep " + i + " shot");
++    }
+ }
+--- base/build.gradle	2026-10-28 20:52:08.739935300 +0200
++++ movement/build.gradle	2026-10-28 21:29:51.041025400 +0200
+@@ -33,3 +33,3 @@
+     args prop('replays', 'replays/cg'), prop('verbose', '0')
+-    ['legacyOrder', 'legacySpawn', 'turnBase', 'knightHp', 'dumpState', 'spawnOffset', 'spawnFixEach', 'spawnNoTowards', 'quiet', 'resync', 'logResync', 'consts', 'towerFromCenter', 'towerQueenFromCenter', 'traceGame', 'traceTurn'].each { if (project.hasProperty(it)) systemProperty it, project.property(it) }
++    ['legacyOrder', 'legacySpawn', 'turnBase', 'knightHp', 'dumpState', 'spawnOffset', 'spawnFixEach', 'spawnNoTowards', 'quiet', 'resync', 'logResync', 'consts', 'towerFromCenter', 'towerQueenFromCenter', 'traceGame', 'traceTurn', 'dumpPlain', 'dumpSpawn', 'towersFirst'].each { if (project.hasProperty(it)) systemProperty it, project.property(it) }
+ }

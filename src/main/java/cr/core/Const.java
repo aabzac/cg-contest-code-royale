@@ -24,6 +24,13 @@ public final class Const {
     public static final int OBSTACLE_PAIRS_MAX = 12;
 
     /* live-tunable */ public static int KNIGHT_DAMAGE = 1, ARCHER_DAMAGE = 2, ARCHER_DAMAGE_TO_GIANTS = 10;
+    /**
+     * Live only (not in the repository): TRAIN is refused with "Training too many creeps (N total
+     * units requested; 30 maximum)" when the player's living creeps plus the requested ones exceed
+     * this. Creeps still in training do not count; the gold check comes first (22 warnings in 236
+     * replays, 2026-10-28).
+     */
+    /* live-tunable */ public static int CREEP_LIMIT = 30;
     public static final int WOOD_FIXED_INCOME = 10;
 
     // Structure types as sent to the bots.

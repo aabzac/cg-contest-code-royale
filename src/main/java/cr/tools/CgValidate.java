@@ -21,7 +21,8 @@ import java.util.stream.Stream;
 
 /**
  * Replays CG games through {@link Rules} and compares the map, HUD (gold, queen health), site
- * tooltips (gold, structure, tower range/health) every turn, the end turn, scores and ranks.
+ * tooltips (gold, structure, tower range/health), units (owner, type, position, health) and
+ * summary warnings every turn, the end turn, scores and ranks.
  * Read-only: never modifies or drops inputs. Usage: CgValidate &lt;file|dir&gt; [verbose 0|1].
  */
 public final class CgValidate {
@@ -30,6 +31,8 @@ public final class CgValidate {
         public int turns, firstBadTurn;
         /** Unit comparisons: turns without / with a creep spawn in the replay frame, and exact matches. */
         public int plainTurns, plainExact, spawnTurns, spawnExact;
+        /** Turns with a [WARNING] in the replay summary or the simulation, and those with the same set. */
+        public int warnTurns, warnExact;
         public final Map<String, Integer> resynced = new TreeMap<>();
         public String firstResync;
         public String error;
@@ -72,15 +75,6 @@ public final class CgValidate {
     public static void main(String[] args) throws IOException {
         Path root = Paths.get(args.length > 0 ? args[0] : "replays/cg");
         boolean verbose = args.length > 1 && args[1].equals("1");
-        cr.core.Physics.LEGACY_ENTITY_ORDER = Boolean.parseBoolean(System.getProperty("legacyOrder", "false"));
-        Rules.LEGACY_SPAWN = Boolean.parseBoolean(System.getProperty("legacySpawn", "false"));
-        Rules.TURN_BASE = Integer.parseInt(System.getProperty("turnBase", "1"));
-        Rules.SPAWN_OFFSET = Integer.getInteger("spawnOffset", 0);
-        Rules.TOWER_FROM_CENTER = Boolean.parseBoolean(System.getProperty("towerFromCenter", "true"));
-        Rules.TOWER_QUEEN_FROM_CENTER = Boolean.parseBoolean(System.getProperty("towerQueenFromCenter", "true"));
-        Rules.SPAWN_FIX_EACH = Boolean.getBoolean("spawnFixEach");
-        Rules.SPAWN_TOWARDS = !Boolean.getBoolean("spawnNoTowards");
-        if (System.getProperty("knightHp") != null) Const.CREEP_HP[Const.KNIGHT] = Integer.getInteger("knightHp");
         applyConstOverrides(System.getProperty("consts", ""));
         List<Path> files;
         try (Stream<Path> st = Files.isDirectory(root) ? Files.walk(root) : Stream.of(root)) {
@@ -89,7 +83,7 @@ public final class CgValidate {
         int ok = 0, bad = 0, err = 0;
         long matchedTurns = 0;
         Map<String, Integer> resyncTotal = new TreeMap<>();
-        int plainTurns = 0, plainExact = 0, spawnTurns = 0, spawnExact = 0;
+        int plainTurns = 0, plainExact = 0, spawnTurns = 0, spawnExact = 0, warnTurns = 0, warnExact = 0;
         Map<String, Integer> kinds = new TreeMap<>();
         for (Path f : files) {
             Result r;
@@ -102,6 +96,7 @@ public final class CgValidate {
             if (r.error != null) { err++; System.out.println("ERROR " + f + ": " + r.error); continue; }
             r.resynced.forEach((k, v) -> resyncTotal.merge(k, v, Integer::sum));
             plainTurns += r.plainTurns; plainExact += r.plainExact; spawnTurns += r.spawnTurns; spawnExact += r.spawnExact;
+            warnTurns += r.warnTurns; warnExact += r.warnExact;
             if (r.firstResync != null && verbose) System.out.println("  first resync " + f.getFileName() + ": " + r.firstResync);
             if (r.ok()) { ok++; matchedTurns += r.turns; if (verbose) System.out.println("OK " + f + " turns=" + r.turns); continue; }
             bad++;
@@ -117,6 +112,7 @@ public final class CgValidate {
         System.out.printf(java.util.Locale.ROOT, "unit match: plain %d/%d (%.2f%%) spawn %d/%d (%.2f%%)%n",
             plainExact, plainTurns, 100.0 * plainExact / Math.max(1, plainTurns),
             spawnExact, spawnTurns, 100.0 * spawnExact / Math.max(1, spawnTurns));
+        System.out.printf("warnings (turns with a summary or simulated warning): exact %d/%d%n", warnExact, warnTurns);
         if (bad + err > 0) System.exit(1);
     }
 
@@ -221,7 +217,6 @@ public final class CgValidate {
         Result res = new Result();
         GameState s = MapGen.generate(g.seed, 4);
         Rules rules = new Rules();
-        if (Boolean.getBoolean("logResync")) rules.log = new StringBuilder();
 
         // Entity ids: sites from tooltip registrations, HUD texts by their fixed screen positions.
         Map<Integer, Integer> siteEntity = new HashMap<>();
@@ -267,18 +262,7 @@ public final class CgValidate {
         for (CgReplay.Turn t : g.turns) {
             if (s.over) { mm.add("t" + s.turn + " replay continues after simulated end"); break; }
             String[] l0 = CgReplay.lines(t.stdout[0]), l1 = CgReplay.lines(t.stdout[1]);
-            boolean tracing = g.gameId == Long.getLong("traceGame", -1L) && s.turn + 1 == Integer.getInteger("traceTurn", -1);
-            if (tracing) {
-                if (rules.log == null) rules.log = new StringBuilder();
-                rules.trace = true;
-                System.out.println("TRACE g" + g.gameId + " turn " + (s.turn + 1) + " cmds: [" + l0[0] + " | " + l0[1] + "] [" + l1[0] + " | " + l1[1] + "]");
-                System.out.println("  before:\n" + s);
-            }
             rules.resolve(s, Command.parse(l0[0], l0[1], s.nSites), Command.parse(l1[0], l1[1], s.nSites));
-            if (tracing) {
-                rules.trace = false;
-                System.out.println("  log:" + rules.log);
-            }
             int tn = s.turn;
             for (Map.Entry<Integer, List<String>> e : t.view.texts.entrySet()) texts.put(e.getKey(), e.getValue());
             for (int p = 0; p < 2; p++) {
@@ -306,7 +290,6 @@ public final class CgValidate {
             boolean spawned = t.view.registered.values().stream().anyMatch(o -> o.has("type") && !o.get("type").getAsString().equals("Queen"));
             units.update(t.view, texts);
             List<String> got = units.alive(), exp = simUnits(s);
-            if (tracing) System.out.println("  replay units after: " + got + "\n  sim units after:    " + exp);
             if (spawned) { res.spawnTurns++; if (got.equals(exp)) res.spawnExact++; }
             else { res.plainTurns++; if (got.equals(exp)) res.plainExact++; }
             if (!got.equals(exp)) {
@@ -314,9 +297,20 @@ public final class CgValidate {
                     String kind = (spawned ? "units@spawn " : "units ") + diffKind(got, exp);
                     res.resynced.merge(kind, 1, Integer::sum);
                     if (res.firstResync == null) res.firstResync = "t" + tn + " " + kind + " " + diff(got, exp);
-                    if (Boolean.getBoolean("logResync")) System.out.println("RESYNC g" + g.gameId + " t" + tn + " " + kind + " " + diff(got, exp) + " LOG " + rules.log);
+                    if (Boolean.getBoolean("logResync")) System.out.println("RESYNC g" + g.gameId + " t" + tn + " " + kind + " " + diff(got, exp));
                     if (!units.resync(s)) mm.add("t" + tn + " units (resync failed) " + diff(got, exp));
                 } else mm.add("t" + tn + " units " + diff(got, exp));
+            }
+            // Warnings of the game summary ("$p: [WARNING] text"); they never change the state.
+            java.util.Set<String> rw = new java.util.TreeSet<>(), sw = new java.util.TreeSet<>();
+            if (t.summary != null) for (String line : t.summary.split("\n| \\| ")) if (line.contains("[WARNING]")) rw.add(line.trim());
+            for (int p = 0; p < 2; p++)
+                if (rules.lastWarning[p] != null) for (String w : rules.lastWarning[p].split("\n")) sw.add("$" + p + ": [WARNING] " + w);
+            if (!rw.isEmpty() || !sw.isEmpty()) {
+                res.warnTurns++;
+                if (rw.equals(sw)) res.warnExact++;
+                else if (RESYNC) res.resynced.merge("warnings", 1, Integer::sum);
+                else mm.add("t" + tn + " warnings " + rw + " vs " + sw);
             }
             if (!mm.isEmpty()) res.firstBadTurn = tn;
             if (!mm.isEmpty() && Boolean.getBoolean("dumpState")) mm.add("state:\n" + s + "replay units " + got);
@@ -330,6 +324,8 @@ public final class CgValidate {
         int w = s.winner();
         int cgWinner = g.ranks[0] == g.ranks[1] ? -1 : (g.ranks[0] < g.ranks[1] ? 0 : 1);
         if (w != cgWinner) mm.add("winner " + cgWinner + " vs " + w);
+        // End-of-game mismatches: every simulated turn matched.
+        if (!mm.isEmpty() && res.firstBadTurn == 0) res.firstBadTurn = s.turn + 1;
         return res;
     }
 }

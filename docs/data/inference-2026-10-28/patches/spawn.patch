@@ -1,0 +1,288 @@
+diff -ruN base/src/main/java/cr/core/Physics.java spawn/src/main/java/cr/core/Physics.java
+--- base/src/main/java/cr/core/Physics.java	2026-10-28 20:52:08.723380000 +0200
++++ spawn/src/main/java/cr/core/Physics.java	2026-10-28 21:22:22.494202500 +0200
+@@ -112,9 +112,11 @@
+ 
+     /**
+      * Entity order of Referee.allEntities. Legacy (pre-918c375): per player its creeps then its
+-     * queen; repository head: all creeps, then both queens. Then obstacles.
++     * queen; repository head: all creeps, then both queens. Then obstacles. Live: legacy (with
++     * the live spawn rule, 98 replays: resync plain-turn unit match 89.95% -> 99.98%, spawn
++     * turns 89.22% -> 100%; strict: 94/98 games fully consistent).
+      */
+-    public static boolean LEGACY_ENTITY_ORDER = false;
++    public static boolean LEGACY_ENTITY_ORDER = true;
+ 
+     /** Loads creeps, queens and sites of the state in referee order. */
+     void load(GameState s) {
+diff -ruN base/src/main/java/cr/core/Rules.java spawn/src/main/java/cr/core/Rules.java
+--- base/src/main/java/cr/core/Rules.java	2026-10-28 20:52:08.721383500 +0200
++++ spawn/src/main/java/cr/core/Rules.java	2026-10-28 21:28:55.848736500 +0200
+@@ -103,7 +103,10 @@
+         processCreeps(s);
+         tracePositions(s, "after creeps");
+ 
++        nPending = 0;
+         for (int i = 0; i < s.nSites; i++) actStructure(s, i);
++        if (SPAWN_TIMING == 1) spawnPending(s);
++        if (END_FIX == 1) ph.fixCollisions(s, 999);
+         tracePositions(s, "after structures");
+ 
+         if (s.fixedIncome >= 0) {
+@@ -111,6 +114,8 @@
+         }
+ 
+         s.removeDeadCreeps();
++        if (SPAWN_TIMING == 2) spawnPending(s);
++        if (END_FIX == 2) ph.fixCollisions(s, 999);
+ 
+         int alive = 0;
+         for (int p = 0; p < 2; p++) {
+@@ -387,7 +392,8 @@
+                 if (s.barrProgress[i] == Const.CREEP_BUILD_TIME[s.barrType[i]]) {
+                     s.barrProgress[i] = 0;
+                     s.barrTraining[i] = false;
+-                    spawn(s, i, owner, s.barrType[i]);
++                    if (SPAWN_TIMING == 0) spawn(s, i, owner, s.barrType[i]);
++                    else pendingSite[nPending++] = i;
+                 }
+                 break;
+             }
+@@ -395,9 +401,40 @@
+         }
+     }
+ 
+-    /** Experimental spawn variants for replay inference: offset 0=c*iter 1=+iter 2=-iter; fixEach; towards. */
+-    public static int SPAWN_OFFSET = 0;
++    /**
++     * Spawn offset variants for replay inference: 0=c*iter (repository) 1=+iter 2=-iter
++     * 3=live corner offsets {@link #SPAWN_CORNER} (default); fixEach; towards.
++     */
++    public static int SPAWN_OFFSET = 3;
+     public static boolean SPAWN_FIX_EACH = false, SPAWN_TOWARDS = true;
++    /**
++     * Live: creep number iter starts at site centre + SPAWN_CORNER[iter] for both players, then
++     * moves 30 towards the enemy queen; fixCollisions(999) follows each barracks. Replay frames
++     * commit this pre-collision position at time 0: the integer offsets fit 8528/8636 spawned
++     * creeps (98 replays; the misses are rounded queen positions); a 0.05 grid around each corner
++     * fits worse. Giants use the first corner; archers (count 2) assumed to use the first two.
++     */
++    static final int[][] SPAWN_CORNER = {{1, -1}, {-1, 1}, {1, 1}, {-1, -1}};
++
++    /**
++     * When completed barracks spawn: 0 = inside the structure loop (repository), 1 = after all
++     * structures acted, in site order, before dead creeps are removed (live, default: towers
++     * never shoot creeps spawned this turn and creeps killed this turn still take part in the
++     * spawn collisions), 2 = after dead creeps are removed at the end of the turn.
++     */
++    public static int SPAWN_TIMING = 1;
++    /** Inference switch (rejected): global fixCollisions(999) every turn: 0 = none, 1 = after structures, 2 = after dead creeps removal. */
++    public static int END_FIX = 0;
++    private final int[] pendingSite = new int[GameState.MAX_SITES];
++    private int nPending;
++
++    private void spawnPending(GameState s) {
++        for (int k = 0; k < nPending; k++) {
++            int i = pendingSite[k];
++            spawn(s, i, s.stOwner[i], s.barrType[i]);
++        }
++        nPending = 0;
++    }
+ 
+     private void spawn(GameState s, int site, int owner, int type) {
+         int c = owner == 1 && !LEGACY_SPAWN ? -1 : 1;
+@@ -407,7 +444,8 @@
+         for (int iter = 0; iter < Const.CREEP_COUNT[type]; iter++) {
+             int k = s.addCreep(owner, type, 0.0, 0.0);
+             // Unit.location starts at Vector2.Zero; assignments of Zero are ignored.
+-            setCreep(s, k, s.sx[site] + c * iter, s.sy[site] + c * iter);
++            if (SPAWN_OFFSET == 3) setCreep(s, k, s.sx[site] + SPAWN_CORNER[iter % 4][0], s.sy[site] + SPAWN_CORNER[iter % 4][1]);
++            else setCreep(s, k, s.sx[site] + c * iter, s.sy[site] + c * iter);
+             if (SPAWN_TOWARDS) {
+                 ph.towards(s.cx[k], s.cy[k], s.qx[enemy], s.qy[enemy], 30.0);
+                 setCreep(s, k, ph.rx, ph.ry);
+diff -ruN base/src/main/java/cr/tools/CgValidate.java spawn/src/main/java/cr/tools/CgValidate.java
+--- base/src/main/java/cr/tools/CgValidate.java	2026-10-28 20:52:08.730380900 +0200
++++ spawn/src/main/java/cr/tools/CgValidate.java	2026-10-28 21:22:22.510164400 +0200
+@@ -30,6 +30,10 @@
+         public int turns, firstBadTurn;
+         /** Unit comparisons: turns without / with a creep spawn in the replay frame, and exact matches. */
+         public int plainTurns, plainExact, spawnTurns, spawnExact;
++        /** Newly spawned creeps only: (turn, player) groups and creeps compared / exact. */
++        public int newGroups, newGroupsExact, newCreeps, newCreepsExact;
++        /** Spawn turns by (pre-existing units exact?, new creeps exact?). */
++        public final Map<String, Integer> spawnClass = new TreeMap<>();
+         public final Map<String, Integer> resynced = new TreeMap<>();
+         public String firstResync;
+         public String error;
+@@ -72,13 +76,15 @@
+     public static void main(String[] args) throws IOException {
+         Path root = Paths.get(args.length > 0 ? args[0] : "replays/cg");
+         boolean verbose = args.length > 1 && args[1].equals("1");
+-        cr.core.Physics.LEGACY_ENTITY_ORDER = Boolean.parseBoolean(System.getProperty("legacyOrder", "false"));
++        cr.core.Physics.LEGACY_ENTITY_ORDER = Boolean.parseBoolean(System.getProperty("legacyOrder", String.valueOf(cr.core.Physics.LEGACY_ENTITY_ORDER)));
+         Rules.LEGACY_SPAWN = Boolean.parseBoolean(System.getProperty("legacySpawn", "false"));
+         Rules.TURN_BASE = Integer.parseInt(System.getProperty("turnBase", "1"));
+-        Rules.SPAWN_OFFSET = Integer.getInteger("spawnOffset", 0);
++        Rules.SPAWN_OFFSET = Integer.getInteger("spawnOffset", Rules.SPAWN_OFFSET);
+         Rules.TOWER_FROM_CENTER = Boolean.parseBoolean(System.getProperty("towerFromCenter", "true"));
+         Rules.TOWER_QUEEN_FROM_CENTER = Boolean.parseBoolean(System.getProperty("towerQueenFromCenter", "true"));
+         Rules.SPAWN_FIX_EACH = Boolean.getBoolean("spawnFixEach");
++        Rules.SPAWN_TIMING = Integer.getInteger("spawnTiming", Rules.SPAWN_TIMING);
++        Rules.END_FIX = Integer.getInteger("endFix", Rules.END_FIX);
+         Rules.SPAWN_TOWARDS = !Boolean.getBoolean("spawnNoTowards");
+         if (System.getProperty("knightHp") != null) Const.CREEP_HP[Const.KNIGHT] = Integer.getInteger("knightHp");
+         applyConstOverrides(System.getProperty("consts", ""));
+@@ -90,6 +96,8 @@
+         long matchedTurns = 0;
+         Map<String, Integer> resyncTotal = new TreeMap<>();
+         int plainTurns = 0, plainExact = 0, spawnTurns = 0, spawnExact = 0;
++        int newGroups = 0, newGroupsExact = 0, newCreeps = 0, newCreepsExact = 0;
++        Map<String, Integer> spawnClass = new TreeMap<>();
+         Map<String, Integer> kinds = new TreeMap<>();
+         for (Path f : files) {
+             Result r;
+@@ -102,6 +110,8 @@
+             if (r.error != null) { err++; System.out.println("ERROR " + f + ": " + r.error); continue; }
+             r.resynced.forEach((k, v) -> resyncTotal.merge(k, v, Integer::sum));
+             plainTurns += r.plainTurns; plainExact += r.plainExact; spawnTurns += r.spawnTurns; spawnExact += r.spawnExact;
++            newGroups += r.newGroups; newGroupsExact += r.newGroupsExact; newCreeps += r.newCreeps; newCreepsExact += r.newCreepsExact;
++            r.spawnClass.forEach((k, v) -> spawnClass.merge(k, v, Integer::sum));
+             if (r.firstResync != null && verbose) System.out.println("  first resync " + f.getFileName() + ": " + r.firstResync);
+             if (r.ok()) { ok++; matchedTurns += r.turns; if (verbose) System.out.println("OK " + f + " turns=" + r.turns); continue; }
+             bad++;
+@@ -117,6 +127,10 @@
+         System.out.printf(java.util.Locale.ROOT, "unit match: plain %d/%d (%.2f%%) spawn %d/%d (%.2f%%)%n",
+             plainExact, plainTurns, 100.0 * plainExact / Math.max(1, plainTurns),
+             spawnExact, spawnTurns, 100.0 * spawnExact / Math.max(1, spawnTurns));
++        System.out.printf(java.util.Locale.ROOT, "new creeps: groups %d/%d (%.2f%%) creeps %d/%d (%.2f%%)%n",
++            newGroupsExact, newGroups, 100.0 * newGroupsExact / Math.max(1, newGroups),
++            newCreepsExact, newCreeps, 100.0 * newCreepsExact / Math.max(1, newCreeps));
++        System.out.println("spawn turns by (old units, new creeps): " + spawnClass);
+         if (bad + err > 0) System.exit(1);
+     }
+ 
+@@ -217,6 +231,54 @@
+         }
+     }
+ 
++    /**
++     * Compares only the creeps registered in this frame (creation order) with the last creeps of
++     * the same player's block in the simulation (insertion order).
++     */
++    static void compareNew(Result res, GameState s, CgReplay.View v, Units units, long gameId, int tn) {
++        List<String> repNew = new ArrayList<>(), simNew = new ArrayList<>();
++        StringBuilder b = new StringBuilder();
++        boolean allNew = true;
++        for (int p = 0; p < 2; p++) {
++            List<Integer> ids = new ArrayList<>();
++            for (Map.Entry<Integer, JsonObject> e : v.registered.entrySet()) {
++                String ty = e.getValue().has("type") ? e.getValue().get("type").getAsString() : "";
++                if (ty.equals("Site") || ty.equals("Queen")) continue;
++                if (units.owner.get(e.getKey()) == p) ids.add(e.getKey());
++            }
++            if (ids.isEmpty()) continue;
++            ids.sort(null);
++            List<Integer> sim = new ArrayList<>();
++            for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) sim.add(i);
++            res.newGroups++;
++            boolean all = true;
++            for (int k = 0; k < ids.size(); k++) {
++                int id = ids.get(k);
++                List<String> t = units.texts.get(id - 2);
++                String hp = t == null || t.isEmpty() ? "?" : t.get(0).replace("Health: ", "");
++                String rep = p + " " + units.type.get(id) + " " + units.x.get(id) + " " + units.y.get(id) + " " + hp;
++                int si = sim.size() - ids.size() + k;
++                String got = si < 0 ? "none" : p + " " + Const.CREEP_NAME[s.cType[sim.get(si)]] + " " + Math.round(s.cx[sim.get(si)]) + " " + Math.round(s.cy[sim.get(si)]) + " " + s.cHp[sim.get(si)];
++                repNew.add(rep);
++                simNew.add(got);
++                res.newCreeps++;
++                if (rep.equals(got)) res.newCreepsExact++;
++                else all = false;
++                b.append(" [").append(rep).append(" | ").append(got).append(']');
++            }
++            if (all) res.newGroupsExact++;
++            else allNew = false;
++        }
++        // Pre-existing units: everything except the creeps registered in this frame.
++        List<String> repOld = units.alive(), simOld = simUnits(s);
++        for (String x : repNew) repOld.remove(x);
++        for (String x : simNew) simOld.remove(x);
++        boolean oldOk = repOld.equals(simOld);
++        res.spawnClass.merge((oldOk ? "oldOk" : "oldBad") + "/" + (allNew ? "newOk" : "newBad"), 1, Integer::sum);
++        if (!allNew && Boolean.getBoolean("logNew"))
++            System.out.println("NEW g" + gameId + " t" + tn + (oldOk ? " OLD-OK" : " old-bad " + diff(repOld, simOld)) + " replay|sim" + b);
++    }
++
+     public static Result validate(CgReplay g) {
+         Result res = new Result();
+         GameState s = MapGen.generate(g.seed, 4);
+@@ -305,6 +367,7 @@
+             }
+             boolean spawned = t.view.registered.values().stream().anyMatch(o -> o.has("type") && !o.get("type").getAsString().equals("Queen"));
+             units.update(t.view, texts);
++            if (spawned) compareNew(res, s, t.view, units, g.gameId, tn);
+             List<String> got = units.alive(), exp = simUnits(s);
+             if (tracing) System.out.println("  replay units after: " + got + "\n  sim units after:    " + exp);
+             if (spawned) { res.spawnTurns++; if (got.equals(exp)) res.spawnExact++; }
+diff -ruN base/src/test/java/cr/core/RulesTest.java spawn/src/test/java/cr/core/RulesTest.java
+--- base/src/test/java/cr/core/RulesTest.java	2026-10-28 20:52:08.737873900 +0200
++++ spawn/src/test/java/cr/core/RulesTest.java	2026-10-28 21:27:43.329843900 +0200
+@@ -91,6 +91,46 @@
+         assertEquals(1, s.winner());
+     }
+ 
++    /** CG game 892851569 (seed 160691458) turn 8: player 1's knight barracks on site 5 completes. */
++    private static GameState spawnTurn892851569() {
++        GameState s = MapGen.generate(160691458L, 4);
++        assertEquals(1477, s.sx[5]); assertEquals(836, s.sy[5]); assertEquals(74, s.sr[5]);
++        s.qx[0] = 246; s.qy[0] = 319;
++        s.qx[1] = 1647; s.qy[1] = 744;
++        s.stType[5] = Const.BARRACKS; s.stOwner[5] = 1; s.barrType[5] = Const.KNIGHT;
++        s.barrTraining[5] = true; s.barrProgress[5] = Const.CREEP_BUILD_TIME[Const.KNIGHT] - 1;
++        return s;
++    }
++
++    @Test
++    void spawnUsesLiveCornerOffsets() {
++        GameState s = spawnTurn892851569();
++        new Rules().resolve(s, Command.waitCmd(), Command.waitCmd());
++        // Replay frame, creation order: centre + (1,-1), (-1,1), (1,1), (-1,-1), 30 towards the
++        // enemy queen, then collisions push the knights out of the barracks.
++        int[][] exp = {{1476, 740}, {1385, 860}, {1435, 750}, {1387, 805}};
++        assertEquals(4, s.nCreeps);
++        for (int k = 0; k < 4; k++) {
++            assertEquals(1, s.cOwner[k]);
++            assertEquals(exp[k][0], s.cx[k], "x of knight " + k);
++            assertEquals(exp[k][1], s.cy[k], "y of knight " + k);
++            assertEquals(Const.CREEP_HP[Const.KNIGHT], s.cHp[k]);
++        }
++    }
++
++    @Test
++    void towersDoNotShootCreepsSpawnedThisTurn() {
++        GameState s = spawnTurn892851569();
++        // Enemy tower on site 19 (acts after site 5 in the structure loop) covers the barracks.
++        s.stType[19] = Const.TOWER; s.stOwner[19] = 0; s.towerHp[19] = 400;
++        s.towerRange[19] = (int) Math.sqrt((400 * Const.TOWER_COVERAGE_PER_HP + s.sArea[19]) / Math.PI);
++        int queenHp = s.hp[1];
++        new Rules().resolve(s, Command.waitCmd(), Command.waitCmd());
++        assertEquals(4, s.nCreeps);
++        for (int k = 0; k < 4; k++) assertEquals(Const.CREEP_HP[Const.KNIGHT], s.cHp[k], "knight " + k);
++        assertTrue(s.hp[1] < queenHp, "the tower shoots the queen instead");
++    }
++
+     @Test
+     void inputRoundTrip() throws IOException {
+         GameState s = emptyState();
+--- base/build.gradle	2026-10-28 20:52:08.739935300 +0200
++++ spawn/build.gradle	2026-10-28 21:25:58.873997900 +0200
+@@ -31,7 +31,7 @@
+     classpath = sourceSets.main.runtimeClasspath
+     mainClass = 'cr.tools.CgValidate'
+     args prop('replays', 'replays/cg'), prop('verbose', '0')
+-    ['legacyOrder', 'legacySpawn', 'turnBase', 'knightHp', 'dumpState', 'spawnOffset', 'spawnFixEach', 'spawnNoTowards', 'quiet', 'resync', 'logResync', 'consts', 'towerFromCenter', 'towerQueenFromCenter', 'traceGame', 'traceTurn'].each { if (project.hasProperty(it)) systemProperty it, project.property(it) }
++    ['legacyOrder', 'legacySpawn', 'turnBase', 'knightHp', 'dumpState', 'spawnOffset', 'spawnTiming', 'endFix', 'logNew', 'spawnFixEach', 'spawnNoTowards', 'quiet', 'resync', 'logResync', 'consts', 'towerFromCenter', 'towerQueenFromCenter', 'traceGame', 'traceTurn'].each { if (project.hasProperty(it)) systemProperty it, project.property(it) }
+ }
+ 
+ // One reproducible match: -Pbot0=current -Pbot1=v00 -Pseed=1 -Pprint=0

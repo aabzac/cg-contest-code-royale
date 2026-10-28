@@ -8,7 +8,7 @@ package cr.core;
 public final class Physics {
     public double rx, ry;
 
-    // Collision scratch: entities in referee order (creeps, queens, obstacles).
+    // Collision scratch: entities in referee order (per player creeps then queen, obstacles).
     final double[] ex, ey;
     final int[] er, em;
     final boolean[] unit;
@@ -111,22 +111,16 @@ public final class Physics {
     }
 
     /**
-     * Entity order of Referee.allEntities. Legacy (pre-918c375): per player its creeps then its
-     * queen; repository head: all creeps, then both queens. Then obstacles.
+     * Loads creeps, queens and sites in the live order of Referee.allEntities: per player its
+     * creeps (creation order) then its queen, then the obstacles. This is the pre-918c375
+     * {@code players.flatMap { it.allUnits() } + obstacles}; the repository head lists all creeps
+     * before both queens, which the replays contradict (docs/rules/inferred.md).
      */
-    public static boolean LEGACY_ENTITY_ORDER = false;
-
-    /** Loads creeps, queens and sites of the state in referee order. */
     void load(GameState s) {
         clear();
-        if (LEGACY_ENTITY_ORDER) {
-            for (int p = 0; p < 2; p++) {
-                for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) addCreep(s, i);
-                add(s.qx[p], s.qy[p], Const.QUEEN_RADIUS, Const.QUEEN_MASS, true);
-            }
-        } else {
-            for (int i = 0; i < s.nCreeps; i++) addCreep(s, i);
-            for (int p = 0; p < 2; p++) add(s.qx[p], s.qy[p], Const.QUEEN_RADIUS, Const.QUEEN_MASS, true);
+        for (int p = 0; p < 2; p++) {
+            for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) addCreep(s, i);
+            add(s.qx[p], s.qy[p], Const.QUEEN_RADIUS, Const.QUEEN_MASS, true);
         }
         for (int i = 0; i < s.nSites; i++) add(s.sx[i], s.sy[i], s.sr[i], 0, false);
     }
@@ -137,14 +131,9 @@ public final class Physics {
 
     void store(GameState s) {
         int k = 0;
-        if (LEGACY_ENTITY_ORDER) {
-            for (int p = 0; p < 2; p++) {
-                for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) { s.cx[i] = ex[k]; s.cy[i] = ey[k]; k++; }
-                s.qx[p] = ex[k]; s.qy[p] = ey[k]; k++;
-            }
-        } else {
-            for (int i = 0; i < s.nCreeps; i++, k++) { s.cx[i] = ex[k]; s.cy[i] = ey[k]; }
-            for (int p = 0; p < 2; p++, k++) { s.qx[p] = ex[k]; s.qy[p] = ey[k]; }
+        for (int p = 0; p < 2; p++) {
+            for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == p) { s.cx[i] = ex[k]; s.cy[i] = ey[k]; k++; }
+            s.qx[p] = ex[k]; s.qy[p] = ey[k]; k++;
         }
         for (int i = 0; i < s.nSites; i++, k++) { s.sx[i] = ex[k]; s.sy[i] = ey[k]; }
     }

@@ -27,11 +27,12 @@ test {
 def prop(String name, String dflt) { project.hasProperty(name) ? project.property(name).toString() : dflt }
 
 // Validate the rules engine against downloaded CG replays: -Preplays=replays/cg (file or directory)
+// [-Presync=true] [-PlogResync=true] [-Pquiet=true] [-PdumpState=true] [-Pconsts=NAME=v,ARR[i]=v]
 tasks.register('cgValidate', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'cr.tools.CgValidate'
     args prop('replays', 'replays/cg'), prop('verbose', '0')
-    ['legacyOrder', 'legacySpawn', 'turnBase', 'knightHp', 'dumpState', 'spawnOffset', 'spawnFixEach', 'spawnNoTowards', 'quiet', 'resync', 'logResync', 'consts', 'towerFromCenter', 'towerQueenFromCenter', 'traceGame', 'traceTurn'].each { if (project.hasProperty(it)) systemProperty it, project.property(it) }
+    ['dumpState', 'quiet', 'resync', 'logResync', 'consts'].each { if (project.hasProperty(it)) systemProperty it, project.property(it) }
 }
 
 // One reproducible match: -Pbot0=current -Pbot1=v00 -Pseed=1 -Pprint=0 [-Pout=build/replays/local/s1.json]
