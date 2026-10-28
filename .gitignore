@@ -11,3 +11,7 @@
 /.idea/
 *.iml
 /.claude/worktrees/
+
+# Build
+/.gradle/
+/build/

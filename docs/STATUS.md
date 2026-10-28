@@ -1,14 +1,13 @@
 # Status
 
-- Date: 2026-10-28. Phase 0 (orientation) done; phase 1 (infrastructure) not started.
-- Game: Code Royale, permanent multiplayer arena. No live contest deadline.
-- Arena entry / league / boss: unknown (to be provided by the user).
-- Selected version: none. Uploaded agent: none. Pending candidate: none.
-- Rules: `docs/rules/` (Wood 3 live + all 4 referee statement levels). Referee
-  `csj/code-royale@349924a` in `refs/referee-csj/` (gitignored). Live max turns = 250 (repo: 200).
-- Leaderboard 2026-10-28: 6302 players; Legend 108, Gold 343, Silver 194, Bronze 2295,
-  Wood 1/2/3 1370/1229/769. Top 50: C++ 21, Java 19, Rust 4. Snapshot `docs/data/leaderboard-2026-10-28.json`.
-- Corpus: 88 replays of top-10 Legend agents, `replays/cg/legend-top/`; manifest
-  `docs/data/replays-legend-top-2026-10-28.json` (gameId, seed, sha256, slots, ranks, turns).
-  Replay views use the SDK entity module (not a game-specific event format): state must be
-  rebuilt by simulation from seed + both players' stdout.
+- Date: 2026-10-28. Phase 0 done; phase 1 infrastructure built, **simulator not validated**.
+- Game: Code Royale, permanent multiplayer arena (`code-royale`). No deadline.
+- Arena entry: `aabzac`, agent 3315948 (Java, submission 17067866, updated 2026-10-18),
+  Bronze, local rank 559/2295, score 19.64, placement complete (2026-10-28). Last 10 games: 2 wins.
+  Battles + 10 replays saved in `replays/cg/arena-3315948/`. Old code, not from this project.
+- Bronze boss: not identified (not in API battle lists). Candidate: `refs/referee-csj/config/level4/Boss.java`.
+- Selected version: none. Uploaded from this project: none. Pending candidate: none (`current` = greedy).
+- Simulator: map, economy, building, queen moves match all 98 replays until the first creep spawn;
+  spawn positions and tower damage differ (see `docs/rules/inferred.md`). Benches are not
+  trustworthy for combat-heavy differences until fixed.
+- Blocker: live Bronze statement (expert rules, unit table) to be captured verbatim.
