@@ -1,0 +1,1943 @@
+{
+ "fetched": "2026-10-28",
+ "source": "top-10 Legend agents, up to 10 last done battles each",
+ "path": "replays/cg/legend-top",
+ "games": [
+  {
+   "gameId": 911205390,
+   "seed": "seed=189753697",
+   "sha256": "43eede747f4d5d49b1c631dab865dbd851abe8947879759fb04cd378c99dc43c",
+   "players": [
+    [
+     0,
+     "tachan",
+     6810526
+    ],
+    [
+     1,
+     "aCat",
+     6802987
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911207414,
+   "seed": "seed=471350508",
+   "sha256": "1d6719959ce7b18abd27b1e63a3fe2995fdfcc68a762a84d3546b6b5314aa51c",
+   "players": [
+    [
+     0,
+     "Shand",
+     6719462
+    ],
+    [
+     1,
+     "tachan",
+     6810526
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 96
+  },
+  {
+   "gameId": 911207460,
+   "seed": "seed=700230344",
+   "sha256": "b6b2717df4aabed1308040ae6a036e6f35aad6173a6b0196db2259b86db11fc3",
+   "players": [
+    [
+     0,
+     "tachan",
+     6810526
+    ],
+    [
+     1,
+     "RoboStac",
+     1886979
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 238
+  },
+  {
+   "gameId": 911207546,
+   "seed": "seed=518490406",
+   "sha256": "2e081aaa2552c7bbc05c8c26f9b6e1b4be2f6b82eaf2435c4178f62325ddb070",
+   "players": [
+    [
+     0,
+     "tachan",
+     6810526
+    ],
+    [
+     1,
+     "viewlagoon",
+     6394986
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 152
+  },
+  {
+   "gameId": 911207665,
+   "seed": "seed=105615446",
+   "sha256": "baef4873066cdef96597365fa82eba8193bb7296e5af32d7f11fcba3a2490437",
+   "players": [
+    [
+     0,
+     "tachan",
+     6810526
+    ],
+    [
+     1,
+     "aCat",
+     6802987
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911207744,
+   "seed": "seed=107624652",
+   "sha256": "4609ad4a83162ff2a64a46d9ccecd33fe89cb9a6525ed070b16250d7e93e03a2",
+   "players": [
+    [
+     0,
+     "aCat",
+     6802987
+    ],
+    [
+     1,
+     "tachan",
+     6810526
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911207834,
+   "seed": "seed=913332018",
+   "sha256": "096f7a572544d60e3bd96e04540629387c9eccb4570a3e3ccf06ffe23bca7028",
+   "players": [
+    [
+     0,
+     "tachan",
+     6810526
+    ],
+    [
+     1,
+     "Shand",
+     6719462
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911207893,
+   "seed": "seed=254630821",
+   "sha256": "3d70274e0038e41c30a2b2d6794b01103d58d65f4738c1707469ee29ccb3f23b",
+   "players": [
+    [
+     0,
+     "tachan",
+     6810526
+    ],
+    [
+     1,
+     "N3l",
+     6788158
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911420980,
+   "seed": "seed=362628664",
+   "sha256": "fe508fab7304f5fb4d624ba8b7a3ffeb00e23b2e2dcdc3ada7496629a34d0c3c",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6811859
+    ],
+    [
+     1,
+     "tachan",
+     6810526
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911421058,
+   "seed": "seed=460572665",
+   "sha256": "163e1627961f934951610fa9440695e4706f5177373095defc8e9444f3c8b7e8",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6811859
+    ],
+    [
+     1,
+     "tachan",
+     6810526
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 70
+  },
+  {
+   "gameId": 911421331,
+   "seed": "seed=779294980",
+   "sha256": "38280cd0007f276e04d33ff01f88249698a73228bdcdccab5f9fbfe1e910c9cc",
+   "players": [
+    [
+     0,
+     "aCat",
+     6802987
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6811859
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 209
+  },
+  {
+   "gameId": 911421635,
+   "seed": "seed=19216133",
+   "sha256": "fc8f3cc22149baadb6168f92f48f0954020657b5af4226200019d0a80bd76d51",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6811859
+    ],
+    [
+     1,
+     "tachan",
+     6810526
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911421687,
+   "seed": "seed=543856722",
+   "sha256": "89ad95ed67f2721d2a2f51df9b9b69e0390918150bed0bf89929595acb449cbc",
+   "players": [
+    [
+     0,
+     "aCat",
+     6802987
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6811859
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 131
+  },
+  {
+   "gameId": 911425280,
+   "seed": "seed=835058975",
+   "sha256": "be406813eaed284a32a77a65eb882ce010aee5eb5c5d008c68bf4c9e687a525f",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6811859
+    ],
+    [
+     1,
+     "aCat",
+     6802987
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 152
+  },
+  {
+   "gameId": 911425900,
+   "seed": "seed=852412430",
+   "sha256": "750b359e5cfdba9c8436aa12fe904d8f572fac43e3d8a9a691e6b268f92e7907",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6811859
+    ],
+    [
+     1,
+     "Shand",
+     6719462
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911491540,
+   "seed": "seed=526710491",
+   "sha256": "eb1ec281978bd2df5529ca0bad5732ec4e78f1bbb8e9862331c79104003352a3",
+   "players": [
+    [
+     0,
+     "Shand",
+     6719462
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 171
+  },
+  {
+   "gameId": 911491592,
+   "seed": "seed=902749938",
+   "sha256": "91984354e463c2ff16662aaec41a2353c96e751034033135dc125cd4c2dcf258",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "RoboStac",
+     1886979
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 176
+  },
+  {
+   "gameId": 911491648,
+   "seed": "seed=579768167",
+   "sha256": "fd6756fb373c7cb6b9eafcc803e5e20d8740201a782bd93b23cd9c3b59e03d84",
+   "players": [
+    [
+     0,
+     "aCat",
+     6802987
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 118
+  },
+  {
+   "gameId": 911491755,
+   "seed": "seed=397151426",
+   "sha256": "e3c165ea0cfc61266916f0aa7f468886fe35fb1a61769ceb34ce1652376fbcae",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "aCat",
+     6802987
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 134
+  },
+  {
+   "gameId": 911491877,
+   "seed": "seed=99495693",
+   "sha256": "c781509e39f62b3c2eda9cee999ff9009bdfb715f7fd2de87cded23f7c77fea4",
+   "players": [
+    [
+     0,
+     "aCat",
+     6802987
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 167
+  },
+  {
+   "gameId": 911492207,
+   "seed": "seed=901611805",
+   "sha256": "934b1806263ff80b3e56a20a5abac1244799e1ae8b92bcd9fff7d0b9edf5add8",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "zasmu",
+     6802286
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 113
+  },
+  {
+   "gameId": 911492267,
+   "seed": "seed=340837697",
+   "sha256": "850c1507464bcd648dda968fbac453419c5270743ee558204cafb17b4bd45592",
+   "players": [
+    [
+     0,
+     "RoboStac",
+     1886979
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 170
+  },
+  {
+   "gameId": 911492327,
+   "seed": "seed=403326836",
+   "sha256": "ca422273c6aa636da7ad85ad5ce6de32acd3c209a43638777b920808d600df21",
+   "players": [
+    [
+     0,
+     "viewlagoon",
+     6394986
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 145
+  },
+  {
+   "gameId": 911492551,
+   "seed": "seed=257365019",
+   "sha256": "e55907ae9a76140e897b785fd7c619dd6e487e1990688019d351dc47d7b416a6",
+   "players": [
+    [
+     0,
+     "viewlagoon",
+     6394986
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 131
+  },
+  {
+   "gameId": 911492603,
+   "seed": "seed=176640422",
+   "sha256": "c84bb2f570ef0320e43e8f8c2d227a4a6cfb96d680f48537c8dce7241431e187",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "N3l",
+     6788158
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 186
+  },
+  {
+   "gameId": 911492659,
+   "seed": "seed=559658676",
+   "sha256": "bb659beb4055d1adb4803822639ac8ca849df0f8ff83cf6ef0bb074f4905d7af",
+   "players": [
+    [
+     0,
+     "N3l",
+     6788158
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911492883,
+   "seed": "seed=43246021",
+   "sha256": "cc85d55bd70c67e0bd54c18235be3cbac7437867c4c4ad928555b29879db513f",
+   "players": [
+    [
+     0,
+     "Shand",
+     6719462
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 193
+  },
+  {
+   "gameId": 911493059,
+   "seed": "seed=769302577",
+   "sha256": "1f9c71bb174b3babf8878463f3c094c379fbb99ce549d83d10fdf68c4d135ea9",
+   "players": [
+    [
+     0,
+     "N3l",
+     6788158
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 104
+  },
+  {
+   "gameId": 911493205,
+   "seed": "seed=290251525",
+   "sha256": "46b8e45957152ef7f890a9badf02c4acc013eddb529524902240256966069109",
+   "players": [
+    [
+     0,
+     "N3l",
+     6788158
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911493296,
+   "seed": "seed=251899601",
+   "sha256": "f779bc6ed1e41db13af9df229945ea6e65f00a44cd03c453b6b39bdb8b1251f9",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Shand",
+     6719462
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 141
+  },
+  {
+   "gameId": 911493386,
+   "seed": "seed=442569973",
+   "sha256": "0eb944b216315589c7e4109b087de15c4063abde73120b22000c408ef954bd0b",
+   "players": [
+    [
+     0,
+     "zasmu",
+     6802286
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 119
+  },
+  {
+   "gameId": 911493433,
+   "seed": "seed=933216612",
+   "sha256": "d34d4c1ccad7b6ff7dd918e9d9364ff03819e4acfb0efe5e9b502296afa4dc06",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Agade",
+     1886983
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 177
+  },
+  {
+   "gameId": 911493484,
+   "seed": "seed=503375081",
+   "sha256": "227e86e7ceba74f8690b3d42f82c3a55f6408952fcae0c0c7af5ee8870d4a64f",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Shand",
+     6719462
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 199
+  },
+  {
+   "gameId": 911493514,
+   "seed": "seed=401076447",
+   "sha256": "b47379eaad0ab46d73ec9a8bcd6e5b763576483e7194e8cd7eb1262c4cff4fc5",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "RoboStac",
+     1886979
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911493570,
+   "seed": "seed=255617591",
+   "sha256": "2075e44de0c9c96db2fda0154d9617bc0cc338ac9e0a02ec2711b4e6056d4f0b",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "N3l",
+     6788158
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 116
+  },
+  {
+   "gameId": 911493622,
+   "seed": "seed=325039489",
+   "sha256": "71061c64860a538f5358836b4aa4cdff178ab85ddd26a2c524814fa3149d1971",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "zasmu",
+     6802286
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 156
+  },
+  {
+   "gameId": 911493718,
+   "seed": "seed=586779120",
+   "sha256": "ff33c56263e905ddc4eae56c6fac726130d81a4f676ef023c3bba0a8afa971db",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "N3l",
+     6788158
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911493749,
+   "seed": "seed=699316395",
+   "sha256": "52db237859d36d0018dde509f257ea4bf517ac564a921614440175e0c3e4713d",
+   "players": [
+    [
+     0,
+     "Agade",
+     1886983
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911493861,
+   "seed": "seed=255151334",
+   "sha256": "b8698c8b870fc66c0526b687e5258fef67d904f938e0e0749760a66c7d532529",
+   "players": [
+    [
+     0,
+     "Shand",
+     6719462
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911493903,
+   "seed": "seed=115167842",
+   "sha256": "00b2490b783fd26f03672bed16e2b928f611f5524f603ba0ac6a7e403b87e36b",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Agade",
+     1886983
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911493955,
+   "seed": "seed=474248348",
+   "sha256": "5ebcad6f5fe91f94d9359764fefcd6eb017bda10e0aba52153bcccfc40a59dea",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "RoboStac",
+     1886979
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 101
+  },
+  {
+   "gameId": 911493984,
+   "seed": "seed=355140075",
+   "sha256": "579ec5ffd14dedf9fd2c3e56ab041dcaec95b6038c66593e59abc0719e8e8511",
+   "players": [
+    [
+     0,
+     "Shand",
+     6719462
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 116
+  },
+  {
+   "gameId": 911494021,
+   "seed": "seed=550961349",
+   "sha256": "895c60dad889f567eb648881df34849e6b188a39807d9cd48c5890303365ec82",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Shand",
+     6719462
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 72
+  },
+  {
+   "gameId": 911494041,
+   "seed": "seed=590240392",
+   "sha256": "e03362e636c1194da2b0c301470941efaba2228d02595e513d5536923bbc452d",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "RoboStac",
+     1886979
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 180
+  },
+  {
+   "gameId": 911494076,
+   "seed": "seed=465033668",
+   "sha256": "f9c3e268733044f3dd1461919480ad78eee3aee840df78922959e4b6a6d93a86",
+   "players": [
+    [
+     0,
+     "Agade",
+     1886983
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 195
+  },
+  {
+   "gameId": 911494151,
+   "seed": "seed=779223388",
+   "sha256": "e56f98433628794611014d33c88e2f085b9949a35ddb53adb735f0e41b5c385b",
+   "players": [
+    [
+     0,
+     "viewlagoon",
+     6394986
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 157
+  },
+  {
+   "gameId": 911494194,
+   "seed": "seed=157229213",
+   "sha256": "390b03486a4b1d644001b70eb0c6678a59b925f409f879cc9ae335d3eb81dda3",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "viewlagoon",
+     6394986
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 92
+  },
+  {
+   "gameId": 911494246,
+   "seed": "seed=433899683",
+   "sha256": "f4188ea619dd0afd10975ec916c1734b846103a7e321b1027deb2eb18f87ac62",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "RoboStac",
+     1886979
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 117
+  },
+  {
+   "gameId": 911494288,
+   "seed": "seed=299194119",
+   "sha256": "2debc462b9e319566a802a4bc07c108df96bbd595e0bc5bfc7d6701e9e558057",
+   "players": [
+    [
+     0,
+     "Pduhard-",
+     6783909
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911494333,
+   "seed": "seed=361256577",
+   "sha256": "101d559ceb3803c033ce69e9d5fd0d6c23d6e9c102905da0b9fc0d6e2bac2ca2",
+   "players": [
+    [
+     0,
+     "Agade",
+     1886983
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 157
+  },
+  {
+   "gameId": 911494385,
+   "seed": "seed=806981244",
+   "sha256": "7afa28ea721a95e7c08835a299df823a7447d56bcd464c8555245d4c47a96e36",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Shand",
+     6719462
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 140
+  },
+  {
+   "gameId": 911494412,
+   "seed": "seed=413496540",
+   "sha256": "ef26a9a1c3b043bc8e2378e0810c3bc43737eb1adef209ebd1ee97c62ef8e79d",
+   "players": [
+    [
+     0,
+     "zasmu",
+     6802286
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 85
+  },
+  {
+   "gameId": 911494436,
+   "seed": "seed=430903525",
+   "sha256": "43e79372bbda8430274fc1c5af6ac26854697f0b7d960b9a5f928c033c5f8203",
+   "players": [
+    [
+     0,
+     "RoboStac",
+     1886979
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 154
+  },
+  {
+   "gameId": 911494465,
+   "seed": "seed=304486492",
+   "sha256": "1150064d0271512bb46fb0e37ad368540f56758cd7e4662411626941bdb23112",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Pduhard-",
+     6783909
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911494514,
+   "seed": "seed=472287217",
+   "sha256": "209c9f6b258873a9a2d310c7d2ba3b16a4285be285d05d00559ed96003b45dca",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "zasmu",
+     6802286
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 220
+  },
+  {
+   "gameId": 911494556,
+   "seed": "seed=444239501",
+   "sha256": "a65e5ddbb6ce50a68e50bd0c7df06d99a824461ca313c225c3fd97d2a0d48959",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Shand",
+     6719462
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 121
+  },
+  {
+   "gameId": 911494577,
+   "seed": "seed=802470002",
+   "sha256": "3343e73c2ac673d42afa8f5e362de542c720bcdafd86686fc4bba12205f0bc81",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "viewlagoon",
+     6394986
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 93
+  },
+  {
+   "gameId": 911494614,
+   "seed": "seed=369795623",
+   "sha256": "4d3ac230efb78518bfb5af2c9ecce2b457a85ca6c7841aed0eed08dcfa1f0582",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "RoboStac",
+     1886979
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 107
+  },
+  {
+   "gameId": 911494637,
+   "seed": "seed=402552449",
+   "sha256": "0abe19bdc956174dc45578f391034a0c0348b2c6c37c9acc57c5c905be0c48ea",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Pduhard-",
+     6783909
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 200
+  },
+  {
+   "gameId": 911494676,
+   "seed": "seed=679572356",
+   "sha256": "1e407bf5f7f4b5c0f8c25637d9d84f8ec3ef46d5ac3842c95e20ad45240b71fa",
+   "players": [
+    [
+     0,
+     "RoboStac",
+     1886979
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 165
+  },
+  {
+   "gameId": 911494709,
+   "seed": "seed=670602590",
+   "sha256": "a4596bf33534fbbc1196a6b4c6411396476087d5721e9e07c54a5037757d462b",
+   "players": [
+    [
+     0,
+     "N3l",
+     6788158
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 135
+  },
+  {
+   "gameId": 911494745,
+   "seed": "seed=614819197",
+   "sha256": "99e923149335327d576b31275be999b15447f0c278bcc203ed73d0bd54e88e20",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Pduhard-",
+     6783909
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 130
+  },
+  {
+   "gameId": 911494781,
+   "seed": "seed=262186092",
+   "sha256": "2171e430f2720de2e7dfff332afe2b763d4b9deaa7dbbe7a161528a0ab730df8",
+   "players": [
+    [
+     0,
+     "viewlagoon",
+     6394986
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 134
+  },
+  {
+   "gameId": 911494809,
+   "seed": "seed=655645418",
+   "sha256": "a95ab139f4bb7c5a5e623101120046cafdc45efe58dc550d7733ba85dcc0948d",
+   "players": [
+    [
+     0,
+     "Pduhard-",
+     6783909
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 79
+  },
+  {
+   "gameId": 911494833,
+   "seed": "seed=75539821",
+   "sha256": "bd646d029db384a8be56b9e9d32887c01f91cabb27b9419cd6d77b7abce0bc5f",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "viewlagoon",
+     6394986
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 95
+  },
+  {
+   "gameId": 911494855,
+   "seed": "seed=180302913",
+   "sha256": "9c3569d6d874761f6643be3b04188e1898414490a7dffae599d7c1516de1b650",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Agade",
+     1886983
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 167
+  },
+  {
+   "gameId": 911494900,
+   "seed": "seed=98570638",
+   "sha256": "e3747375d1ce0a422ca0175fe58dd2fdc6bb80417a75ab6e19314040a521b109",
+   "players": [
+    [
+     0,
+     "N3l",
+     6788158
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911494927,
+   "seed": "seed=375198481",
+   "sha256": "704b981229434d09cddf743328597c10a16c98b4b50a226dc3d32ac82c8478b3",
+   "players": [
+    [
+     0,
+     "aCat",
+     6802987
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 135
+  },
+  {
+   "gameId": 911494961,
+   "seed": "seed=505194088",
+   "sha256": "87027282e9938f99f24791aa1bc6fe7a95705fdb1165e18d803091f1332c8198",
+   "players": [
+    [
+     0,
+     "Agade",
+     1886983
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911495041,
+   "seed": "seed=549529290",
+   "sha256": "398a767ebe73071a144d1c77c59cc33dc288f9ccd513a6aba34a8fa78de7b4b6",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "viewlagoon",
+     6394986
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 62
+  },
+  {
+   "gameId": 911495060,
+   "seed": "seed=347675103",
+   "sha256": "b323b17e20ca1d70fe369764ea8ade1a7c699413a07e8c4f19e0197527d1d14a",
+   "players": [
+    [
+     0,
+     "zasmu",
+     6802286
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 82
+  },
+  {
+   "gameId": 911495081,
+   "seed": "seed=917553240",
+   "sha256": "c4bd184df530eea51a8bf688df9ecc408a3ff62506ae8238e7e7f584e13fd429",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Pduhard-",
+     6783909
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911495128,
+   "seed": "seed=57966655",
+   "sha256": "80797f973b8871965fe2e536635d323ef392891129ef585e3c527f7768985a04",
+   "players": [
+    [
+     0,
+     "Agade",
+     1886983
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911495171,
+   "seed": "seed=388517907",
+   "sha256": "cd846276932990bf271bb2a3631a06984cd00eea60d0c92131fe132d414730af",
+   "players": [
+    [
+     0,
+     "Pduhard-",
+     6783909
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 139
+  },
+  {
+   "gameId": 911495205,
+   "seed": "seed=531221971",
+   "sha256": "b9bfc896deb272d68a9378b96ef241f140c5e0e9f233f19e7caa96ceed5f7c85",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Agade",
+     1886983
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911495272,
+   "seed": "seed=839069209",
+   "sha256": "f36ce9f0df5feb34dce40ac1dafc538e7f59c00c7603d460eb23e020f0975171",
+   "players": [
+    [
+     0,
+     "zasmu",
+     6802286
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 113
+  },
+  {
+   "gameId": 911495295,
+   "seed": "seed=537536914",
+   "sha256": "3e0c9c0ba5e2bdd37f6e8a130222eeecf47515720148c407d46b50a3938f626a",
+   "players": [
+    [
+     0,
+     "zasmu",
+     6802286
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 87
+  },
+  {
+   "gameId": 911495314,
+   "seed": "seed=486767680",
+   "sha256": "7f218a8017ba7c6d0648ed83bff4c650fc3141d8ecb0a82fcf41e1cd237ff65b",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "viewlagoon",
+     6394986
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 136
+  },
+  {
+   "gameId": 911495352,
+   "seed": "seed=346082088",
+   "sha256": "8a3cad353b25b4478d8cb248a0e8706e30a3f9c9af39d32db19ed2136cf1b46b",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Pduhard-",
+     6783909
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 152
+  },
+  {
+   "gameId": 911495389,
+   "seed": "seed=246064247",
+   "sha256": "9ce07a9f887f919b220288f2263e2c2297a01307b1a1d2aa7bd9d695584ddaff",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "zasmu",
+     6802286
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 132
+  },
+  {
+   "gameId": 911495407,
+   "seed": "seed=566226914",
+   "sha256": "d7911a0580de47ce4426d18dc500e1f6b6ccc5ca0f7756d81b7df6e7cb60b3e0",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Pduhard-",
+     6783909
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 50
+  },
+  {
+   "gameId": 911495423,
+   "seed": "seed=106886174",
+   "sha256": "b5c9ba7ab23cb5de0ed2793cf4cbd7aa2cfa10028862b4eecd054e15f45b99d6",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "zasmu",
+     6802286
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 103
+  },
+  {
+   "gameId": 911495477,
+   "seed": "seed=931716784",
+   "sha256": "de42f7761db4747c139b5051dc91d0af2113403e08d004b8400724915c8923fa",
+   "players": [
+    [
+     0,
+     "viewlagoon",
+     6394986
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 125
+  },
+  {
+   "gameId": 911495530,
+   "seed": "seed=288146283",
+   "sha256": "8d223e28d7c61013671d937d97fe6b6ec68d94590a9e69a5b371cdf74de63ee5",
+   "players": [
+    [
+     0,
+     "Agade",
+     1886983
+    ],
+    [
+     1,
+     "NotVerySmart",
+     6812269
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 116
+  },
+  {
+   "gameId": 911495588,
+   "seed": "seed=817525142",
+   "sha256": "ccf68ec8de29b45a1719c030127af2c46597053279926559a5acee52d04f6a27",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "Pduhard-",
+     6783909
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  },
+  {
+   "gameId": 911495634,
+   "seed": "seed=722406039",
+   "sha256": "6c67c1868b3d834e021771a2dd17740ccbfa65e512723c8f46fa3a056fafbba0",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "N3l",
+     6788158
+    ]
+   ],
+   "ranks": [
+    0,
+    1
+   ],
+   "turns": 95
+  },
+  {
+   "gameId": 911495654,
+   "seed": "seed=464614982",
+   "sha256": "cd7b3c3bb1a4b79ef08d594dbec5c7ae5730eb668385c3052112d452752cb55e",
+   "players": [
+    [
+     0,
+     "NotVerySmart",
+     6812269
+    ],
+    [
+     1,
+     "N3l",
+     6788158
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 115
+  },
+  {
+   "gameId": 912269904,
+   "seed": "seed=740601067",
+   "sha256": "d70415f32ac4ec8aa0d3e14c228f5f9eade1b93cf386b32943d9fde39e8d9948",
+   "players": [
+    [
+     0,
+     "RoboStac",
+     1886979
+    ],
+    [
+     1,
+     "EpiFlop",
+     6817567
+    ]
+   ],
+   "ranks": [
+    1,
+    0
+   ],
+   "turns": 250
+  }
+ ]
+}

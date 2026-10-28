@@ -1,0 +1,13 @@
+# BEGIN cg-agent-kit: generated skills, recreated by python .ai/sync.py sync .
+/.agents/skills/*
+/.claude/skills/*
+# END cg-agent-kit
+
+# Local corpora and third-party references (see docs/data manifests)
+/replays/
+/refs/
+
+# IDE
+/.idea/
+*.iml
+/.claude/worktrees/

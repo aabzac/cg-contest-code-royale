@@ -1,0 +1,29 @@
+{
+  "commit": "31481e6aead33ece7594f6b10d73cf671abdf04e",
+  "files": {
+    ".agents/skills/cg-bot-contest/SKILL.md": "d9d4745b6c77e899c1f0c2f44239ab19d62405f8fb1f7d0c25734e5eb035be1f",
+    ".agents/skills/cg-bot-contest/architecture.md": "52b1637ee0f2907099d4e94560466a304f37e61156f32e0e3897f0004c07e2fe",
+    ".agents/skills/cg-bot-contest/pitfalls.md": "70c34f601d1557a637c6aafa36a2e0d198fffe59f21eed4ab1e98a3e5f77322b",
+    ".agents/skills/cg-compare-bots/SKILL.md": "79c452e26df09550ce062d41416ac1f8a211550eee2c929f8541fed95f3a51a0",
+    ".agents/skills/cg-fetch-replays/SKILL.md": "972385df2a680ff0025e6bf97950ff3334738cbc4b181e05f5c62ddf66c4e09c",
+    ".agents/skills/cg-profile-bot/SKILL.md": "4b52cf8c32f3db148c1ccf3e27ed2eea94b95debc68a3338290979b0c1c4cb1e",
+    ".agents/skills/cg-promote-bot/SKILL.md": "c1177ba5d5b1d2ec395f27c9ba2f9b03bd9b2b52f0cdf195e5ed4e9c9e842044",
+    ".agents/skills/cg-promote-bot/references/back-track-king-policy.md": "49967eeeae15fdbefd419fd3f91707f238e98d52ec8258b42004a0d1241ada88",
+    ".agents/skills/cg-promote-bot/references/practical-300-1000.md": "dbcf4284bd04206869ebb6ec895ceb79a82ca7c75859d9fc9abd5438d0a43067",
+    ".agents/skills/cg-validate-simulator/SKILL.md": "ade652a877dbd63d4848bfd7e449e5ff932e56f12fa07462cb781accda28366e",
+    ".ai/sync.py": "0e5a5b7a9e1a647a41b51bce7760f9d35d486cbf6a52bdf99c78dc1a58497b0f",
+    ".claude/skills/cg-bot-contest/SKILL.md": "d9d4745b6c77e899c1f0c2f44239ab19d62405f8fb1f7d0c25734e5eb035be1f",
+    ".claude/skills/cg-bot-contest/architecture.md": "52b1637ee0f2907099d4e94560466a304f37e61156f32e0e3897f0004c07e2fe",
+    ".claude/skills/cg-bot-contest/pitfalls.md": "70c34f601d1557a637c6aafa36a2e0d198fffe59f21eed4ab1e98a3e5f77322b",
+    ".claude/skills/cg-compare-bots/SKILL.md": "79c452e26df09550ce062d41416ac1f8a211550eee2c929f8541fed95f3a51a0",
+    ".claude/skills/cg-fetch-replays/SKILL.md": "972385df2a680ff0025e6bf97950ff3334738cbc4b181e05f5c62ddf66c4e09c",
+    ".claude/skills/cg-profile-bot/SKILL.md": "4b52cf8c32f3db148c1ccf3e27ed2eea94b95debc68a3338290979b0c1c4cb1e",
+    ".claude/skills/cg-promote-bot/SKILL.md": "c1177ba5d5b1d2ec395f27c9ba2f9b03bd9b2b52f0cdf195e5ed4e9c9e842044",
+    ".claude/skills/cg-promote-bot/references/back-track-king-policy.md": "49967eeeae15fdbefd419fd3f91707f238e98d52ec8258b42004a0d1241ada88",
+    ".claude/skills/cg-promote-bot/references/practical-300-1000.md": "dbcf4284bd04206869ebb6ec895ceb79a82ca7c75859d9fc9abd5438d0a43067",
+    ".claude/skills/cg-validate-simulator/SKILL.md": "ade652a877dbd63d4848bfd7e449e5ff932e56f12fa07462cb781accda28366e",
+    "AGENTS.md": "95c36ba266cc4c8f5a2c41087a5d718f14ba720701aa705faa0282bf64e95657",
+    "CLAUDE.md": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49"
+  },
+  "schema_version": 1
+}

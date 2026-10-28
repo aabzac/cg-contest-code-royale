@@ -1,0 +1,11 @@
+{
+  "agents": [
+    "claude",
+    "codex"
+  ],
+  "commit_skills": false,
+  "ref": "master",
+  "repository": "https://github.com/aabzac/cg-agent-kit.git",
+  "schema_version": 1,
+  "update": "tracking"
+}

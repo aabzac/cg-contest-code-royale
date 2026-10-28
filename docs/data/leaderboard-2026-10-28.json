@@ -1,0 +1,157 @@
+{
+ "fetched": "2026-10-28",
+ "service": "Leaderboards/getFilteredPuzzleLeaderboard",
+ "slug": "code-royale",
+ "totalPlayers": 6302,
+ "leagues": {
+  "Wood 3": 769,
+  "Wood 2": 1229,
+  "Wood 1": 1370,
+  "Bronze": 2295,
+  "Silver": 194,
+  "Gold": 343,
+  "Legend": 108
+ },
+ "top20": [
+  {
+   "rank": 1,
+   "pseudo": "zasmu",
+   "score": 43.36,
+   "programmingLanguage": "C++",
+   "agentId": 6802286
+  },
+  {
+   "rank": 2,
+   "pseudo": "viewlagoon",
+   "score": 36.97,
+   "programmingLanguage": "C++",
+   "agentId": 6394986
+  },
+  {
+   "rank": 3,
+   "pseudo": "NotVerySmart",
+   "score": 34.72,
+   "programmingLanguage": "C++",
+   "agentId": 6812269
+  },
+  {
+   "rank": 4,
+   "pseudo": "Pduhard-",
+   "score": 33.39,
+   "programmingLanguage": "C++",
+   "agentId": 6783909
+  },
+  {
+   "rank": 5,
+   "pseudo": "Agade",
+   "score": 31.9,
+   "programmingLanguage": "C++",
+   "agentId": 1886983
+  },
+  {
+   "rank": 6,
+   "pseudo": "N3l",
+   "score": 31.67,
+   "programmingLanguage": "C++",
+   "agentId": 6788158
+  },
+  {
+   "rank": 7,
+   "pseudo": "Shand",
+   "score": 30.77,
+   "programmingLanguage": "C++",
+   "agentId": 6719462
+  },
+  {
+   "rank": 8,
+   "pseudo": "aCat",
+   "score": 29.71,
+   "programmingLanguage": "C++",
+   "agentId": 6802987
+  },
+  {
+   "rank": 9,
+   "pseudo": "tachan",
+   "score": 29.66,
+   "programmingLanguage": "Rust",
+   "agentId": 6810526
+  },
+  {
+   "rank": 10,
+   "pseudo": "RoboStac",
+   "score": 29.61,
+   "programmingLanguage": "C++",
+   "agentId": 1886979
+  },
+  {
+   "rank": 11,
+   "pseudo": "Xyze",
+   "score": 28.7,
+   "programmingLanguage": "C++",
+   "agentId": 2502754
+  },
+  {
+   "rank": 12,
+   "pseudo": "Waffle3z",
+   "score": 28.27,
+   "programmingLanguage": "C++",
+   "agentId": 6801534
+  },
+  {
+   "rank": 13,
+   "pseudo": "MyNameShallBeHere",
+   "score": 28.24,
+   "programmingLanguage": "C",
+   "agentId": 5398015
+  },
+  {
+   "rank": 14,
+   "pseudo": "Zylo",
+   "score": 28.16,
+   "programmingLanguage": "Java",
+   "agentId": 6794237
+  },
+  {
+   "rank": 15,
+   "pseudo": "KaZede",
+   "score": 28.15,
+   "programmingLanguage": "C++",
+   "agentId": 6693460
+  },
+  {
+   "rank": 16,
+   "pseudo": "Azkellas",
+   "score": 28.14,
+   "programmingLanguage": "C++",
+   "agentId": 5314030
+  },
+  {
+   "rank": 17,
+   "pseudo": "DTKCat",
+   "score": 28.01,
+   "programmingLanguage": "C++",
+   "agentId": 5538164
+  },
+  {
+   "rank": 18,
+   "pseudo": "LeRenard",
+   "score": 27.79,
+   "programmingLanguage": "C++",
+   "agentId": 2653880
+  },
+  {
+   "rank": 19,
+   "pseudo": "Wazaa",
+   "score": 27.58,
+   "programmingLanguage": "C++",
+   "agentId": 2138812
+  },
+  {
+   "rank": 20,
+   "pseudo": "Wazabis",
+   "score": 27.56,
+   "programmingLanguage": "C++",
+   "agentId": 2140156
+  }
+ ]
+}
