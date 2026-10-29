@@ -12,13 +12,15 @@ class BotFactoryTest {
         assertEquals(4, v01.MAX_TOWERS);
         assertEquals(1, v01.BARRACKS);
         // every Params field must be present in the snapshot, so new live defaults cannot leak in silently
-        Params probe = new Params();
-        probe.INCOME_TARGET = -999;
-        probe.apply(new java.util.Properties() {{
+        String spec = new java.util.Properties() {{
             try (java.io.InputStream in = BotFactory.class.getResourceAsStream("versions/v01.properties")) { load(in); }
             catch (java.io.IOException e) { throw new IllegalStateException(e); }
-        }}.getProperty("PARAMS"));
-        assertEquals(v01.toString(), probe.toString());
+        }}.getProperty("PARAMS");
+        java.util.Set<String> keys = new java.util.TreeSet<>(), fields = new java.util.TreeSet<>();
+        for (String kv : spec.split(",")) keys.add(kv.substring(0, kv.indexOf('=')).trim());
+        for (java.lang.reflect.Field f : Params.class.getFields())
+            if (!java.lang.reflect.Modifier.isStatic(f.getModifiers())) fields.add(f.getName());
+        assertEquals(fields, keys);
     }
 
     @Test

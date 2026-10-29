@@ -1,0 +1,141 @@
+{
+ "fetched": "2026-10-28T23:13:05+0200",
+ "services": [
+  "Leaderboards/getFilteredPuzzleLeaderboard [code-royale, null, global, {active, LEAGUE, bronze}]",
+  "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]"
+ ],
+ "entry": {
+  "rank": 1202,
+  "localRank": 559,
+  "score": 19.64,
+  "eligibleForPromotion": false,
+  "programmingLanguage": "Java",
+  "updateTime": 1792280813304,
+  "creationTime": 1606168904603,
+  "percentage": 100,
+  "agentId": 3315948,
+  "inProgress": false,
+  "league": 3,
+  "leagueAgents": 2295,
+  "pseudo": "aabzac"
+ },
+ "leagueListed": 1000,
+ "leagueTotal": 2295,
+ "battles": {
+  "count": 10,
+  "done": 10,
+  "wins": 2,
+  "games": [
+   {
+    "gameId": 909614601,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 17067866,
+    "opponent": {
+     "pseudo": "ChuOkupai",
+     "agentId": 6800021,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 906082538,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 17067866,
+    "opponent": {
+     "pseudo": "gpoussel_",
+     "agentId": 6765394,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 898283419,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 17067866,
+    "opponent": {
+     "pseudo": "BlackEagle542",
+     "agentId": 6600999,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 897727991,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 17067866,
+    "opponent": {
+     "pseudo": "Waffle3z",
+     "agentId": 6588278,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 896424306,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 17067866,
+    "opponent": {
+     "pseudo": "paraphoenixir",
+     "agentId": 6563748,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 896375280,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 17067866,
+    "opponent": {
+     "pseudo": "paraphoenixir",
+     "agentId": 6561988,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 895962098,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 17067866,
+    "opponent": {
+     "pseudo": "CodingTurtle",
+     "agentId": 6553626,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 895529937,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 17067866,
+    "opponent": {
+     "pseudo": "ftegan",
+     "agentId": 6543919,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 892855131,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 17067866,
+    "opponent": {
+     "pseudo": "BlackEagle542",
+     "agentId": 6506875,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 892851569,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 17067866,
+    "opponent": {
+     "pseudo": "BlackEagle542",
+     "agentId": 6506842,
+     "rank": 0
+    }
+   }
+  ]
+ }
+}

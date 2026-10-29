@@ -1,0 +1,180 @@
+package cr.submit;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.HexFormat;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+class FileMergerTest {
+    private static final String OK = "class Player { public static void main(String[] a) { } }\n";
+    private static final String OK2 = "class Player { public static void main(String[] a) { System.exit(0); } }\n";
+
+    @Test
+    void mergedSourceIsAsciiWithLfAndTheRequestedParams() throws IOException {
+        String src = FileMerger.merge(FileMerger.shippedFiles(), "MAX_TOWERS=3");
+        assertEquals(-1, src.indexOf('\r'));
+        assertEquals(-1, FileMerger.firstNonAscii(src));
+        assertTrue(src.contains("\nclass Player {\n"));
+        assertTrue(src.contains("public static final String PARAMS = \"MAX_TOWERS=3\";"));
+    }
+
+    /** The text must not depend on the checkout: LF and CRLF copies elsewhere give the same file. */
+    @Test
+    void lfAndCrlfCopiesMergeToTheSameText(@TempDir Path tmp) throws IOException {
+        String expected = FileMerger.merge(FileMerger.shippedFiles(), "");
+        assertEquals(expected, FileMerger.merge(tmp.resolve("lf"), copyShipped(tmp.resolve("lf"), t -> t), ""), "LF");
+        assertEquals(expected, FileMerger.merge(tmp.resolve("crlf"), copyShipped(tmp.resolve("crlf"), t -> t.replace("\n", "\r\n")), ""), "CRLF");
+    }
+
+    @Test
+    void loneCrAndNonAsciiAreRejectedWithTheirLine(@TempDir Path tmp) throws IOException {
+        List<Path> copies = copyShipped(tmp, t -> t);
+        Path victim = copies.get(0);
+        String text = Files.readString(victim, StandardCharsets.UTF_8);
+
+        Files.writeString(victim, "// one\r// still line one for Java\n" + text, StandardCharsets.UTF_8);
+        String msg = assertThrows(IllegalStateException.class, () -> FileMerger.merge(tmp, copies, "")).getMessage();
+        assertTrue(msg.startsWith("CR without LF at ") && msg.endsWith(victim.getFileName() + ":1"), msg);
+
+        Files.writeString(victim, "// one\n// café\n" + text, StandardCharsets.UTF_8);
+        msg = assertThrows(IllegalStateException.class, () -> FileMerger.merge(tmp, copies, "")).getMessage();
+        assertTrue(msg.startsWith("non-ASCII character U+00E9 at ") && msg.endsWith(victim.getFileName() + ":2"), msg);
+    }
+
+    @Test
+    void paramsThatDoNotApplyOrDoNotFitTheLiteralAreRejected() {
+        assertThrows(IllegalArgumentException.class, () -> FileMerger.merge(FileMerger.shippedFiles(), "NO_SUCH_KEY=1"));
+        assertThrows(IllegalArgumentException.class, () -> FileMerger.merge(FileMerger.shippedFiles(), "MAX_TOWERS=x"));
+        // Integer.parseInt accepts the fullwidth digit three; the US-ASCII artifact cannot hold it
+        assertThrows(IllegalArgumentException.class, () -> FileMerger.merge(FileMerger.shippedFiles(), "MAX_TOWERS=３"));
+    }
+
+    @Test
+    void aNonAsciiFileNameAndAMissingOrDoubledParamsMarkerAreRejected(@TempDir Path tmp) throws IOException {
+        List<Path> copies = copyShipped(tmp.resolve("name"), t -> t);
+        Path odd = copies.get(0).resolveSibling("Zzé.java");
+        Files.writeString(odd, "final class Zzx {}\n", StandardCharsets.US_ASCII);
+        copies.add(odd);
+        String msg = assertThrows(IllegalStateException.class, () -> FileMerger.merge(tmp.resolve("name"), copies, "")).getMessage();
+        assertTrue(msg.startsWith("non-ASCII character U+00E9 at merged line "), msg);
+
+        String marker = "public static final String PARAMS = \"\";";
+        List<Path> twice = copyShipped(tmp.resolve("twice"), t -> t.replace(marker, marker + " // " + marker));
+        msg = assertThrows(IllegalStateException.class, () -> FileMerger.merge(tmp.resolve("twice"), twice, "")).getMessage();
+        assertEquals("PARAMS marker must occur exactly once", msg);
+
+        List<Path> none = copyShipped(tmp.resolve("none"), t -> t.replace(marker, "public static final String PARAMS = null;"));
+        msg = assertThrows(IllegalStateException.class, () -> FileMerger.merge(tmp.resolve("none"), none, "")).getMessage();
+        assertEquals("PARAMS marker must occur exactly once", msg);
+    }
+
+    /** A quote in -Pparams can split the argument on Windows; the rest must not be dropped silently. */
+    @Test
+    void moreThanOneArgumentIsRejectedBeforeAnythingIsTouched(@TempDir Path tmp) {
+        Path out = tmp.resolve("submit");
+        assertThrows(IllegalArgumentException.class, () -> FileMerger.run(new String[]{"MAX_TOWERS=3", ",BARRACKS=2"}, out));
+        assertFalse(Files.exists(out));
+    }
+
+    /** What ./gradlew submit does, into a temporary directory: the merged file compiles. */
+    @Test
+    void runBuildsTheShippedFilesAndReportsTheirSha256(@TempDir Path tmp) throws Exception {
+        Path out = tmp.resolve("submit");
+        String summary = FileMerger.run(new String[]{""}, out);
+        String sha = HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(Files.readAllBytes(out.resolve("Player.java"))));
+        assertTrue(summary.endsWith("sha256=" + sha), summary);
+        assertTrue(Files.exists(out.resolve("classes/Player.class")));
+        assertFalse(Files.exists(tmp.resolve("submit.new")) || Files.exists(tmp.resolve("submit.old")));
+    }
+
+    @Test
+    void aFailedCompileLeavesTheOldArtifactWhole(@TempDir Path tmp) throws IOException {
+        Path out = tmp.resolve("submit");
+        FileMerger.build(out, OK);
+        Map<String, String> before = snapshot(out);
+        String msg = assertThrows(IllegalStateException.class, () -> FileMerger.build(out, "class Player { int x = \"no\"; }\n")).getMessage();
+        assertEquals("merged file does not compile", msg);
+        assertEquals(before, snapshot(out));
+        assertFalse(Files.exists(tmp.resolve("submit.new")) || Files.exists(tmp.resolve("submit.old")));
+    }
+
+    @Test
+    void leftoversOfAnInterruptedBuildAreClearedFirst(@TempDir Path tmp) throws IOException {
+        Path out = tmp.resolve("submit");
+        FileMerger.build(out, OK2);
+        Files.createDirectories(tmp.resolve("submit.new/classes"));
+        Files.writeString(tmp.resolve("submit.new/classes/Stale.class"), "stale");
+        Files.createDirectories(tmp.resolve("submit.old/classes"));
+        Files.writeString(tmp.resolve("submit.old/Player.java"), OK2);
+        FileMerger.build(out, OK);
+        assertEquals(OK, Files.readString(out.resolve("Player.java")));
+        assertEquals(Set.of("Player.java", Path.of("classes", "Player.class").toString()), snapshot(out).keySet(), "no stale file mixed in");
+        assertFalse(Files.exists(tmp.resolve("submit.new")) || Files.exists(tmp.resolve("submit.old")));
+    }
+
+    /** Windows cannot rename a directory with an open file inside: the old artifact must stay as it was. */
+    @Test
+    void anOldArtifactThatCannotBeMovedStaysWhole(@TempDir Path tmp) throws IOException {
+        assumeTrue(System.getProperty("os.name").startsWith("Windows"), "file locking as on Windows");
+        Path out = tmp.resolve("submit");
+        FileMerger.build(out, OK);
+        Map<String, String> before = snapshot(out);
+        try (InputStream held = Files.newInputStream(out.resolve("classes/Player.class"))) {
+            assertThrows(IOException.class, () -> FileMerger.build(out, OK2));
+        }
+        assertEquals(before, snapshot(out));
+        assertFalse(Files.exists(tmp.resolve("submit.new")) || Files.exists(tmp.resolve("submit.old")));
+    }
+
+    @Test
+    void firstNonAsciiFindsTheCharacter() {
+        assertEquals(-1, FileMerger.firstNonAscii("Referee -> bot\n"));
+        assertEquals(8, FileMerger.firstNonAscii("Referee → bot"));
+    }
+
+    /** Relative path -> sha256 of every file under dir. */
+    private static Map<String, String> snapshot(Path dir) throws IOException {
+        Map<String, String> m = new TreeMap<>();
+        try (Stream<Path> st = Files.walk(dir)) {
+            for (Path p : (Iterable<Path>) st.filter(Files::isRegularFile)::iterator) {
+                try {
+                    m.put(dir.relativize(p).toString(), HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(Files.readAllBytes(p))));
+                } catch (java.security.NoSuchAlgorithmException e) {
+                    throw new IllegalStateException(e);
+                }
+            }
+        }
+        return m;
+    }
+
+    /** Copies the shipped files under root at their paths relative to SRC; edit gets each text with LF endings. */
+    private static List<Path> copyShipped(Path root, UnaryOperator<String> edit) throws IOException {
+        List<Path> copies = new ArrayList<>();
+        for (Path f : FileMerger.shippedFiles()) {
+            Path c = root.resolve(FileMerger.SRC.relativize(f).toString());
+            Files.createDirectories(c.getParent());
+            Files.writeString(c, edit.apply(Files.readString(f, StandardCharsets.UTF_8).replace("\r\n", "\n")), StandardCharsets.UTF_8);
+            copies.add(c);
+        }
+        return copies;
+    }
+}

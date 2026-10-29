@@ -32,6 +32,8 @@ public final class Referee {
         public final int[] slow = new int[2];
         public final int[] timeouts = new int[2];
         public final String[] error = new String[2];
+        /** Process bots only: see {@link ProcessBot#extraLines}. */
+        public final int[] extraLines = new int[2];
         public List<String> replay;  // optional: per-turn command lines
         /** Optional visualizer data: static sites and one frame per turn (state after it). */
         public List<int[]> sites;
@@ -135,13 +137,15 @@ public final class Referee {
                     String text = Protocol.turnInput(s, p);
                     long budget = (s.turn == 0 ? 1000 : turnMs) * 1_000_000L;
                     String l0, l1;
-                    long t0 = System.nanoTime();
+                    long t0 = System.nanoTime(), dt;
                     if (bots[p] instanceof ProcessBot) {
                         ProcessBot pb = (ProcessBot) bots[p];
                         pb.send(text);
                         l0 = pb.readLine(t0 + budget);
                         l1 = l0 == null ? null : pb.readLine(t0 + budget);
                         if (l1 == null) r.timeouts[p]++;
+                        // Until the second line arrived, not until this thread took it.
+                        dt = (l1 == null ? System.nanoTime() : pb.lastArrivalNanos()) - t0;
                     } else {
                         feeds[p].push(text);
                         readers[p].readTurn();
@@ -155,8 +159,8 @@ public final class Referee {
                         }
                         l0 = c == null ? null : c.queenLine();
                         l1 = c == null ? null : c.trainLine();
+                        dt = System.nanoTime() - t0;
                     }
-                    long dt = System.nanoTime() - t0;
                     r.totalNanos[p] += dt;
                     if (s.turn == 0) r.maxFirstNanos[p] = Math.max(r.maxFirstNanos[p], dt);
                     else r.maxNanos[p] = Math.max(r.maxNanos[p], dt);
@@ -175,7 +179,12 @@ public final class Referee {
             Thread.currentThread().interrupt();
             throw new IllegalStateException(e);
         } finally {
-            for (Bot b : bots) if (b instanceof ProcessBot) ((ProcessBot) b).close();
+            for (int p = 0; p < 2; p++) {
+                if (!(bots[p] instanceof ProcessBot)) continue;
+                ProcessBot pb = (ProcessBot) bots[p];
+                pb.close();
+                r.extraLines[p] = pb.extraLines();
+            }
         }
         r.turns = s.turn;
         r.winner = s.winner();

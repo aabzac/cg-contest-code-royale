@@ -1,7 +1,7 @@
 package cr.core;
 
 
-/** Referee → bot input (Player.kt printObstacleInit/printObstaclePerTurn, Referee.sendGameStates). */
+/** Referee -> bot input (Player.kt printObstacleInit/printObstaclePerTurn, Referee.sendGameStates). */
 public final class Protocol {
     private Protocol() {}
 

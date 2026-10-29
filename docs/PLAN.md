@@ -23,4 +23,29 @@
   `docs/data/inference-2026-10-28/tools/corpus/`)
 
 ## Phase 2 — leagues
-- [ ] Submit verified v01 (user pastes `build/submit/Player.java`), follow placement
+- [x] Pre-submission audit of the artifact (protocol, CG runtime, legality, identity):
+  `docs/data/presubmit-audit-2026-10-29.json`
+- [x] Fixes from the audit: turn-0 warm-up, fallback output, ASCII/LF artifact with checked params,
+  procCheck compares the process with in-process `current` and times answers by arrival
+- [x] Recheck of the fixed artifact `5bace689` (`docs/data/presubmit-recheck-2026-10-29.json`);
+  its tooling findings fixed (procCheck strictness, submit atomicity, tests), artifact unchanged
+- [x] Recheck of that tooling (`docs/data/tooling-recheck-2026-10-29.json`): opponent kills, leftover
+  and late lines, wrapper children, JVM option variables, FileMerger edges fixed; artifact unchanged
+- [x] Review of those fixes (same file, `fixes_review`): rerun command with params, timeout notes,
+  env names in any case, swap-in build, tests 47 → 59; artifact unchanged
+- [ ] Submit v01 (user pastes `build/submit/Player.java`), follow placement with `tools/arena_snapshot.py`
+- [ ] After each promotion: capture the statement, reconcile the rules, re-run `cgValidate`
+
+## Phase 3 — strength (backlog from the audit)
+- [ ] Promotion policy for candidates after v01, set before the first comparison
+- [ ] Queen stalls when a site blocks the straight path to a far BUILD target (worst 43 turns)
+- [ ] TRAIN choice respecting the 30-creep cap (only matters with more than one barracks)
+- [ ] Seat asymmetry in greedy self-play (player 0 won 187, player 1 110 of 300 games): bot
+  tie-breaks or rules?
+- [ ] Runner, before the next upload (each changes the artifact): the fallback answers before it
+  prints the stack trace; the warm-up bot gets its own Params and `init`; a testable game loop so the
+  fallback and the turn deadline get unit tests; optionally count the warm-up cap from JVM start
+- [ ] Before any bot simulates with `Rules`: keep the global seat in `InputReader` (the build-conflict
+  parity depends on it)
+- [ ] Optional: warm `nextInt` and the println path past their JIT thresholds (bursts up to 20 ms on
+  one slow core at turns 24-26, 127, 191)

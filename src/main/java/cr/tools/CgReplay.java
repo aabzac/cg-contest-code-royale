@@ -40,7 +40,7 @@ public final class CgReplay {
 
     public static final class View {
         public final List<String> entities = new ArrayList<>();
-        /** Tooltip registrations (entity id → properties) and extra-text updates of this frame. */
+        /** Tooltip registrations (entity id -> properties) and extra-text updates of this frame. */
         public final Map<Integer, JsonObject> registered = new HashMap<>();
         public final Map<Integer, List<String>> texts = new HashMap<>();
     }

@@ -15,6 +15,9 @@ public final class InputReader {
 
     public final GameState state = new GameState();
     public int touchedSite = -1;
+    /** System.nanoTime() right after the first token of the last turn: the turn's start as the bot sees it. */
+    public long turnStartNanos;
+    private int turns;
     /** Sites whose gold/maxMineSize were observed at least once. */
     public final boolean[] goldKnown = new boolean[GameState.MAX_SITES];
 
@@ -61,6 +64,8 @@ public final class InputReader {
     public void readTurn() throws IOException {
         GameState s = state;
         s.gold[0] = nextInt();
+        turnStartNanos = System.nanoTime();
+        s.turn = turns++;
         touchedSite = nextInt();
         for (int k = 0; k < s.nSites; k++) {
             int id = nextInt();

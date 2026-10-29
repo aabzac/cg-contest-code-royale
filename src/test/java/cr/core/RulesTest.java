@@ -299,4 +299,24 @@ class RulesTest {
         assertEquals(s.gold[1], r.state.gold[0]);
         assertEquals(s.sr[7], r.state.sr[7]);
     }
+
+    /** The bot's state carries the referee's turn counter (Rules uses it for the build-conflict parity). */
+    @Test
+    void inputCountsTurnsLikeTheReferee() throws IOException {
+        GameState s = MapGen.generate(7, 4);
+        Rules rules = new Rules();
+        StringBuilder text = new StringBuilder(Protocol.initInput(s));
+        int[] turns = new int[5];
+        for (int k = 0; k < turns.length; k++) {
+            turns[k] = s.turn;
+            text.append(Protocol.turnInput(s, 1));
+            rules.resolve(s, Command.waitCmd(), Command.waitCmd());
+        }
+        InputReader r = new InputReader(new ByteArrayInputStream(text.toString().getBytes(StandardCharsets.US_ASCII)));
+        r.readInit();
+        for (int turn : turns) {
+            r.readTurn();
+            assertEquals(turn, r.state.turn);
+        }
+    }
 }
