@@ -17,5 +17,5 @@ benches need a larger `turnMs` or fewer threads.
 
 | Date | Artifact | Source | League | Agent | Placement |
 | --- | --- | --- | --- | --- | --- |
-| 2026-10-18 | old code, not in this project | — | Bronze | 3315948, submission 17067866 | rank 559/2295, score 19.64 (2026-10-28) |
-| pending | `build/submit/Player.java` sha256 `5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a`, 56,780 chars, default params | v01 = `current`, commit 9e78ac4 + phase 2 changes | Bronze | — | — |
+| 2026-10-18 | old code, not in this project | — | Bronze | 3315948, submission 17067866; replaced 2026-10-29 by 6823071 | rank 559/2295, score 19.64 (2026-10-28) |
+| 2026-10-29 08:17 | `build/submit/Player.java` sha256 `5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a`, 56,780 chars, default params | v01 = `current`, commit 80e404c | Bronze | 6823071, submission 41591829 (policy P0) | complete 09:36: rank 736/2296, score 18.24; 60 games, 36 wins (seat 0: 21 of 33, seat 1: 15 of 27); every game identical to the artifact (`cgAttribute`, 7,230 turns); `docs/data/arena-6823071-placement-2026-10-29.json` |

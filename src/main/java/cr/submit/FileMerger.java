@@ -44,7 +44,7 @@ public final class FileMerger {
     }
 
     /** Merges the shipped files with the params in args into outDir; returns the summary line. */
-    static String run(String[] args, Path outDir) throws Exception {
+    public static String run(String[] args, Path outDir) throws Exception {
         // On Windows a quote in -Pparams does not survive the command line and can split the argument.
         if (args.length > 1) throw new IllegalArgumentException("expected at most one params argument, got " + args.length + ": " + List.of(args));
         String params = args.length > 0 ? args[0] : "";

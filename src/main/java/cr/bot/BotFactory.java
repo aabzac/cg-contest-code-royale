@@ -30,6 +30,9 @@ public final class BotFactory {
         int q = spec.indexOf('?');
         if (q >= 0 && !spec.startsWith("proc:")) { name = spec.substring(0, q); overrides = spec.substring(q + 1); }
         if (name.startsWith("proc:")) return new ProcessBot(name, Arrays.asList(name.substring(5).trim().split("\\s+")), false);
+        // Their parameters are fixed when they are built (submit: ./gradlew submit -Pparams=...).
+        if (!overrides.isEmpty() && (name.equals("submit") || name.startsWith("boss") || name.equals("v00")))
+            throw new IllegalArgumentException(name + " takes no parameters: " + spec);
         if (name.equals("submit")) {
             if (!Files.exists(Paths.get("build/submit/classes/Player.class"))) throw new IllegalStateException("run ./gradlew submit first");
             return new ProcessBot(name, List.of("java", "-cp", "build/submit/classes", "Player"), false);

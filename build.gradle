@@ -35,6 +35,14 @@ tasks.register('cgValidate', JavaExec) {
     ['dumpState', 'quiet', 'resync', 'logResync', 'consts'].each { if (project.hasProperty(it)) systemProperty it, project.property(it) }
 }
 
+// Which code an arena agent ran: its validated CG games against a bot's lines (replays and agent required)
+// -Preplays=replays/cg/arena-<agentId>/games -Pagent=<agentId> [-Pbot=submit|file:<Player.java>|<spec>]
+tasks.register('cgAttribute', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.tools.CgAttribute'
+    args prop('replays', ''), prop('bot', 'submit'), prop('agent', '')
+}
+
 // One reproducible match: -Pbot0=current -Pbot1=v00 -Pseed=1 -Pprint=0 [-Pout=build/replays/local/s1.json]
 tasks.register('run', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath

@@ -30,6 +30,15 @@ class BotFactoryTest {
         assertThrows(IllegalArgumentException.class, () -> BotFactory.snapshot("v99"));
     }
 
+    /** Their parameters are fixed when they are built: an override would be dropped silently. */
+    @Test
+    void programsAndV00TakeNoParameters() {
+        assertThrows(IllegalArgumentException.class, () -> BotFactory.create("submit?MAX_TOWERS=3"));
+        assertThrows(IllegalArgumentException.class, () -> BotFactory.create("boss?MAX_TOWERS=3"));
+        assertThrows(IllegalArgumentException.class, () -> BotFactory.create("boss4?MAX_TOWERS=3"));
+        assertThrows(IllegalArgumentException.class, () -> BotFactory.create("v00?MAX_TOWERS=3"));
+    }
+
     @Test
     void overridesApplyOnTopOfSnapshot() {
         assertEquals("v01", BotFactory.create("v01?MAX_TOWERS=2").name());

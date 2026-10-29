@@ -212,3 +212,59 @@ same evidence file): no blocker.
   "no conclusion".
 
 Decision: policy P0, upload `5bace689` as the first agent from this project.
+
+## 2026-10-29 — v01 on the arena as agent 6823071
+
+- Upload: the user pasted `build/submit/Player.java` sha256 `5bace689…` (commit 80e404c, default
+  params). CG created agent 6823071 (submission 41591829) in Bronze at 08:17 (leaderboard
+  `creationTime`), replacing the old entry 3315948 under policy P0.
+- Placement, followed with `tools/arena_snapshot.py` every 3 minutes and every minute from 85 %
+  (36 snapshots, `docs/data/arena-6823071-placement-2026-10-29.json`):
+  - 20 % at 08:21: rank 1175/2296, score 15.12;
+  - complete at 09:36 (`percentage` 100, `inProgress` false): rank 736/2296, score 18.24, 60 games,
+    36 wins (seat 0: 21 of 33, seat 1: 15 of 27); no promotion.
+  - In the same league the old entry stood at 559/2295 with 19.64 on 2026-10-28. That is one placement
+    against an older rating in a changing pool: an observation, not a verdict, and no policy decides
+    on it (P0 replaced the entry by the user's decision).
+- Which code played. Two new tools:
+  - `tools/arena_games.py` downloads an agent's finished games unchanged and writes a manifest
+    (`docs/data/arena-6823071-games-2026-10-29.json`);
+  - `cgAttribute` (`cr.tools.CgAttribute` with `cr.referee.Follow`) replays each game through
+    CgValidate, then on the validated turns compares the bot's two lines with the agent's recorded
+    stdout, while the game advances with the recorded commands of both players.
+
+  Results on all 60 placement games:
+  - cgValidate strict 60/60, 7,230 turns;
+  - the artifact `5bace689`, compiled from its hashed bytes: SAME in 60 of 60, 7,230 turns;
+  - current and v01: SAME in 60 of 60;
+  - controls: v00 is DIFF in 60 of 60; every opponent seat is DIFF in 60 of 60 (48 from turn 0);
+    the old agent's 10 games are DIFF in 10 of 10.
+
+  So agent 6823071 behaved as `5bace689` on every decision of its placement. This is behaviour on the
+  positions reached: the identity of the pasted file rests on the user's upload.
+- Review of the tools (wf_0f5ffee8-bfe: 2 reviewers, 6 skeptics). The claim held. The tools had gaps,
+  none affecting it:
+  - high: a game counted as SAME when the comparison stopped early; a bot going silent at turn 30
+    passed with exit code 0;
+  - medium: `submit?K=v` ran the unchanged artifact;
+  - medium: a stale unfinished row in a saved battle list could hide a downloaded game;
+  - medium: test gaps (14 of 34 one-edit mutants survived);
+  - low: the printed hash was not tied to the classes that ran; partly validated games passed;
+    `arena_games.py` aborted on a malformed game and did not pause after errors; no reason was given
+    when the record outlasts the simulated game.
+- Fixed:
+  - per-game verdicts SAME, DIFF, PARTIAL and ERROR, with exit code 0 only when every game is SAME;
+    a missing answer is a difference;
+  - BotFactory refuses parameters for submit, boss and v00;
+  - a Java bot (`submit`, `file:<path>`) is compiled from the bytes whose sha256 is printed;
+  - battle lists merge by "finished wins", a stored file counts as finished, and the live list is
+    saved;
+  - `-Preplays` and `-Pagent` are required, and a pseudo of several agents is an error.
+
+  Tests 59 → 74, including a real-game test on two placement games, skipped without the replays.
+  21 one-edit mutants of the new code: 20 caught, and the 21st after an added test.
+
+Decision: none under P0; v01 stays live. The next step is the user's: keep it and start phase 3, or
+roll back to the old code they kept.
+
+Decision (the user, after the placement): keep v01; no rollback.

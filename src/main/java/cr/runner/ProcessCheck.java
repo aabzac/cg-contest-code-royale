@@ -176,7 +176,7 @@ public final class ProcessCheck {
     }
 
     /** The value of the single CGRunner.PARAMS literal of a merged source ("" for the defaults). */
-    static String artifactParams(String src) {
+    public static String artifactParams(String src) {
         Matcher m = Pattern.compile("public static final String PARAMS = \"([^\"]*)\";").matcher(src);
         if (!m.find()) throw new IllegalStateException("PARAMS literal not found in the artifact");
         String params = m.group(1);

@@ -1,0 +1,2230 @@
+{
+ "what": "Upload of the v01 artifact as agent 6823071 (Bronze): placement followed with tools/arena_snapshot.py",
+ "upload": {
+  "by": "the user, pasting build/submit/Player.java into the CG IDE and pressing Submit",
+  "artifact": {
+   "path": "build/submit/Player.java",
+   "sha256": "5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a",
+   "chars": 56780,
+   "params": "",
+   "effective": "INCOME_TARGET=10,MAX_TOWERS=4,BARRACKS=1,SEED=1,DEBUG=0",
+   "source": "commit 80e404c3232377bcf73df34f8ea99ed7baeb0975 (./gradlew submit reproduces the bytes from a clean export)"
+  },
+  "bot": "v01 = current (greedy)",
+  "policy": "P0: replaces the old entry 3315948 by the user's decision, no local comparison with it",
+  "agentId": 6823071,
+  "replaces": 3315948,
+  "league": "bronze (divisionIndex 3)",
+  "creationTime": "leaderboard creationTime 1793254636705 = 2026-10-29T08:17:16+02:00"
+ },
+ "follow": "arena_snapshot.py every 180 s, every 60 s from 85 %; stop at percentage 100 with inProgress false (the first such snapshot is the placement result) or on a change of league or agent id",
+ "progress": [
+  {
+   "fetched": "2026-10-29T08:21:30+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 20,
+   "inProgress": false,
+   "localRank": 1175,
+   "leagueAgents": 2296,
+   "score": 15.12,
+   "battles": 13,
+   "done": 12,
+   "wins": 9
+  },
+  {
+   "fetched": "2026-10-29T08:22:37+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 21,
+   "inProgress": false,
+   "localRank": 1093,
+   "leagueAgents": 2296,
+   "score": 15.92,
+   "battles": 14,
+   "done": 13,
+   "wins": 10
+  },
+  {
+   "fetched": "2026-10-29T08:25:40+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 25,
+   "inProgress": false,
+   "localRank": 1137,
+   "leagueAgents": 2296,
+   "score": 15.61,
+   "battles": 16,
+   "done": 15,
+   "wins": 11
+  },
+  {
+   "fetched": "2026-10-29T08:28:43+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 28,
+   "inProgress": false,
+   "localRank": 928,
+   "leagueAgents": 2296,
+   "score": 16.93,
+   "battles": 18,
+   "done": 17,
+   "wins": 13
+  },
+  {
+   "fetched": "2026-10-29T08:31:46+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 33,
+   "inProgress": false,
+   "localRank": 862,
+   "leagueAgents": 2296,
+   "score": 17.47,
+   "battles": 20,
+   "done": 20,
+   "wins": 15
+  },
+  {
+   "fetched": "2026-10-29T08:34:49+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 35,
+   "inProgress": false,
+   "localRank": 766,
+   "leagueAgents": 2296,
+   "score": 17.99,
+   "battles": 22,
+   "done": 22,
+   "wins": 16
+  },
+  {
+   "fetched": "2026-10-29T08:37:52+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 38,
+   "inProgress": false,
+   "localRank": 931,
+   "leagueAgents": 2296,
+   "score": 16.87,
+   "battles": 23,
+   "done": 23,
+   "wins": 16
+  },
+  {
+   "fetched": "2026-10-29T08:40:55+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 41,
+   "inProgress": false,
+   "localRank": 809,
+   "leagueAgents": 2296,
+   "score": 17.78,
+   "battles": 26,
+   "done": 25,
+   "wins": 18
+  },
+  {
+   "fetched": "2026-10-29T08:43:58+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 45,
+   "inProgress": false,
+   "localRank": 689,
+   "leagueAgents": 2296,
+   "score": 18.63,
+   "battles": 28,
+   "done": 28,
+   "wins": 20
+  },
+  {
+   "fetched": "2026-10-29T08:47:01+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 50,
+   "inProgress": false,
+   "localRank": 863,
+   "leagueAgents": 2296,
+   "score": 17.46,
+   "battles": 31,
+   "done": 30,
+   "wins": 20
+  },
+  {
+   "fetched": "2026-10-29T08:50:05+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 53,
+   "inProgress": false,
+   "localRank": 860,
+   "leagueAgents": 2296,
+   "score": 17.48,
+   "battles": 33,
+   "done": 32,
+   "wins": 21
+  },
+  {
+   "fetched": "2026-10-29T08:53:08+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 56,
+   "inProgress": false,
+   "localRank": 858,
+   "leagueAgents": 2296,
+   "score": 17.49,
+   "battles": 35,
+   "done": 34,
+   "wins": 22
+  },
+  {
+   "fetched": "2026-10-29T08:56:11+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 60,
+   "inProgress": false,
+   "localRank": 856,
+   "leagueAgents": 2296,
+   "score": 17.51,
+   "battles": 37,
+   "done": 36,
+   "wins": 23
+  },
+  {
+   "fetched": "2026-10-29T08:59:15+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 63,
+   "inProgress": false,
+   "localRank": 856,
+   "leagueAgents": 2296,
+   "score": 17.51,
+   "battles": 39,
+   "done": 39,
+   "wins": 25
+  },
+  {
+   "fetched": "2026-10-29T09:02:18+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 66,
+   "inProgress": false,
+   "localRank": 851,
+   "leagueAgents": 2296,
+   "score": 17.54,
+   "battles": 41,
+   "done": 40,
+   "wins": 25
+  },
+  {
+   "fetched": "2026-10-29T09:05:21+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 70,
+   "inProgress": false,
+   "localRank": 849,
+   "leagueAgents": 2296,
+   "score": 17.55,
+   "battles": 42,
+   "done": 42,
+   "wins": 26
+  },
+  {
+   "fetched": "2026-10-29T09:08:24+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 71,
+   "inProgress": false,
+   "localRank": 808,
+   "leagueAgents": 2296,
+   "score": 17.8,
+   "battles": 44,
+   "done": 44,
+   "wins": 28
+  },
+  {
+   "fetched": "2026-10-29T09:11:27+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 75,
+   "inProgress": false,
+   "localRank": 736,
+   "leagueAgents": 2296,
+   "score": 18.28,
+   "battles": 46,
+   "done": 45,
+   "wins": 29
+  },
+  {
+   "fetched": "2026-10-29T09:14:30+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 78,
+   "inProgress": false,
+   "localRank": 729,
+   "leagueAgents": 2296,
+   "score": 18.3,
+   "battles": 47,
+   "done": 47,
+   "wins": 30
+  },
+  {
+   "fetched": "2026-10-29T09:17:33+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 81,
+   "inProgress": false,
+   "localRank": 727,
+   "leagueAgents": 2296,
+   "score": 18.32,
+   "battles": 50,
+   "done": 50,
+   "wins": 31
+  },
+  {
+   "fetched": "2026-10-29T09:20:36+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 86,
+   "inProgress": false,
+   "localRank": 697,
+   "leagueAgents": 2296,
+   "score": 18.54,
+   "battles": 52,
+   "done": 52,
+   "wins": 33
+  },
+  {
+   "fetched": "2026-10-29T09:21:40+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 86,
+   "inProgress": false,
+   "localRank": 697,
+   "leagueAgents": 2296,
+   "score": 18.54,
+   "battles": 53,
+   "done": 52,
+   "wins": 33
+  },
+  {
+   "fetched": "2026-10-29T09:22:43+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 88,
+   "inProgress": false,
+   "localRank": 727,
+   "leagueAgents": 2296,
+   "score": 18.35,
+   "battles": 53,
+   "done": 53,
+   "wins": 33
+  },
+  {
+   "fetched": "2026-10-29T09:23:46+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 88,
+   "inProgress": false,
+   "localRank": 727,
+   "leagueAgents": 2296,
+   "score": 18.35,
+   "battles": 54,
+   "done": 54,
+   "wins": 33
+  },
+  {
+   "fetched": "2026-10-29T09:24:49+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 90,
+   "inProgress": false,
+   "localRank": 744,
+   "leagueAgents": 2296,
+   "score": 18.18,
+   "battles": 54,
+   "done": 54,
+   "wins": 33
+  },
+  {
+   "fetched": "2026-10-29T09:25:52+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 90,
+   "inProgress": false,
+   "localRank": 744,
+   "leagueAgents": 2296,
+   "score": 18.18,
+   "battles": 54,
+   "done": 54,
+   "wins": 33
+  },
+  {
+   "fetched": "2026-10-29T09:26:55+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 90,
+   "inProgress": false,
+   "localRank": 744,
+   "leagueAgents": 2296,
+   "score": 18.18,
+   "battles": 55,
+   "done": 54,
+   "wins": 33
+  },
+  {
+   "fetched": "2026-10-29T09:27:58+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 91,
+   "inProgress": false,
+   "localRank": 761,
+   "leagueAgents": 2296,
+   "score": 18.0,
+   "battles": 56,
+   "done": 55,
+   "wins": 33
+  },
+  {
+   "fetched": "2026-10-29T09:29:01+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 93,
+   "inProgress": false,
+   "localRank": 742,
+   "leagueAgents": 2296,
+   "score": 18.19,
+   "battles": 57,
+   "done": 56,
+   "wins": 34
+  },
+  {
+   "fetched": "2026-10-29T09:30:04+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 95,
+   "inProgress": false,
+   "localRank": 725,
+   "leagueAgents": 2296,
+   "score": 18.38,
+   "battles": 57,
+   "done": 57,
+   "wins": 35
+  },
+  {
+   "fetched": "2026-10-29T09:31:07+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 95,
+   "inProgress": false,
+   "localRank": 725,
+   "leagueAgents": 2296,
+   "score": 18.38,
+   "battles": 58,
+   "done": 57,
+   "wins": 35
+  },
+  {
+   "fetched": "2026-10-29T09:32:10+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 96,
+   "inProgress": false,
+   "localRank": 738,
+   "leagueAgents": 2296,
+   "score": 18.21,
+   "battles": 58,
+   "done": 58,
+   "wins": 35
+  },
+  {
+   "fetched": "2026-10-29T09:33:13+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 96,
+   "inProgress": false,
+   "localRank": 738,
+   "leagueAgents": 2296,
+   "score": 18.21,
+   "battles": 58,
+   "done": 58,
+   "wins": 35
+  },
+  {
+   "fetched": "2026-10-29T09:34:17+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 96,
+   "inProgress": false,
+   "localRank": 738,
+   "leagueAgents": 2296,
+   "score": 18.21,
+   "battles": 59,
+   "done": 58,
+   "wins": 35
+  },
+  {
+   "fetched": "2026-10-29T09:35:20+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 98,
+   "inProgress": false,
+   "localRank": 722,
+   "leagueAgents": 2296,
+   "score": 18.4,
+   "battles": 60,
+   "done": 59,
+   "wins": 36
+  },
+  {
+   "fetched": "2026-10-29T09:36:23+0200",
+   "agentId": 6823071,
+   "league": 3,
+   "percentage": 100,
+   "inProgress": false,
+   "localRank": 736,
+   "leagueAgents": 2296,
+   "score": 18.24,
+   "battles": 60,
+   "done": 60,
+   "wins": 36
+  }
+ ],
+ "firstSnapshot": {
+  "fetched": "2026-10-29T08:21:30+0200",
+  "services": [
+   "Leaderboards/getFilteredPuzzleLeaderboard [code-royale, null, global, {active, KEYWORD, aabzac}]",
+   "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]"
+  ],
+  "entry": {
+   "rank": 1818,
+   "localRank": 1175,
+   "score": 15.12,
+   "eligibleForPromotion": false,
+   "programmingLanguage": "Java",
+   "updateTime": 1793254863024,
+   "creationTime": 1793254636705,
+   "percentage": 20,
+   "agentId": 6823071,
+   "inProgress": false,
+   "league": 3,
+   "leagueAgents": 2296,
+   "pseudo": "aabzac"
+  },
+  "leagueTotal": 2296,
+  "battles": {
+   "count": 13,
+   "done": 12,
+   "wins": 9,
+   "games": [
+    {
+     "gameId": 913028438,
+     "done": false,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": null
+    },
+    {
+     "gameId": 913028174,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "MichaelDeRoos",
+      "agentId": 1937499,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027751,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Fankrys",
+      "agentId": 2440568,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027390,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "voxelbugged",
+      "agentId": 4074594,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027389,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Brutus79",
+      "agentId": 2742118,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027388,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "grosanno",
+      "agentId": 3103494,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027387,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "JeanGaudiau",
+      "agentId": 3122199,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027386,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "YannBrun",
+      "agentId": 2328376,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027385,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "mnahkies",
+      "agentId": 2691142,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913027384,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "liz22",
+      "agentId": 2133874,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027383,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Ristone",
+      "agentId": 3914461,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027382,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Flo22",
+      "agentId": 2459670,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913027381,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "mpushkin",
+      "agentId": 3920585,
+      "rank": 0
+     }
+    }
+   ]
+  }
+ },
+ "completedSnapshot": {
+  "fetched": "2026-10-29T09:36:23+0200",
+  "services": [
+   "Leaderboards/getFilteredPuzzleLeaderboard [code-royale, null, global, {active, KEYWORD, aabzac}]",
+   "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]"
+  ],
+  "entry": {
+   "rank": 1379,
+   "localRank": 736,
+   "score": 18.24,
+   "eligibleForPromotion": false,
+   "programmingLanguage": "Java",
+   "updateTime": 1793259336550,
+   "creationTime": 1793254636705,
+   "percentage": 100,
+   "agentId": 6823071,
+   "inProgress": false,
+   "league": 3,
+   "leagueAgents": 2296,
+   "pseudo": "aabzac"
+  },
+  "leagueTotal": 2296,
+  "battles": {
+   "count": 60,
+   "done": 60,
+   "wins": 36,
+   "games": [
+    {
+     "gameId": 913047581,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "NiceCoder",
+      "agentId": 4427996,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913047245,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Natorade",
+      "agentId": 6198770,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913046493,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "TcF_Escanor",
+      "agentId": 4769826,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913045966,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "vmmcg97",
+      "agentId": 2408205,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913045722,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "PACO_Pelo78",
+      "agentId": 4026458,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913045325,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Kylkanaan",
+      "agentId": 3321457,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913044449,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "slow-mo",
+      "agentId": 4277806,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913044030,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Simplyzero",
+      "agentId": 2509256,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913043583,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "OC_1",
+      "agentId": 3138399,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913043183,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "L_hermythe",
+      "agentId": 3683025,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913042777,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Avatar256",
+      "agentId": 1897478,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913042530,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "FredL",
+      "agentId": 2322736,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913042271,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "BorisDP",
+      "agentId": 3152152,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913041784,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "sybernatuz",
+      "agentId": 2321720,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913041392,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "CyrilMaitre",
+      "agentId": 2022028,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913041015,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "GamesterB",
+      "agentId": 2646511,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913040342,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "royal_cheese",
+      "agentId": 4376398,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913040082,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Dark-Helmet",
+      "agentId": 4076841,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913039446,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Paloudi",
+      "agentId": 5567593,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913039005,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Agavan",
+      "agentId": 3480129,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913038523,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "chrisboucrot",
+      "agentId": 4526254,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913037970,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "p1100i",
+      "agentId": 2646260,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913037661,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Aethis",
+      "agentId": 2659319,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913037328,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "CaptainSteve",
+      "agentId": 2234353,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913036963,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "OxPuRe",
+      "agentId": 3708600,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913036589,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "GrantWard",
+      "agentId": 3318419,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913035931,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "TomA",
+      "agentId": 2426588,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913035656,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Toteuch",
+      "agentId": 2680726,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913035375,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "qubits",
+      "agentId": 2487877,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913035060,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Aquaphobe",
+      "agentId": 3680015,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913034623,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Ironsolaris",
+      "agentId": 2591450,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913034318,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "SuperStrange",
+      "agentId": 2435348,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913034040,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "1501609820",
+      "agentId": 3070923,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913033594,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Nestop",
+      "agentId": 5607822,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913033257,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "AnakinSkywanker",
+      "agentId": 2221098,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913032953,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Aethis",
+      "agentId": 2659319,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913032692,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "skrr",
+      "agentId": 6088402,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913031900,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Tortuga_Grande",
+      "agentId": 2610398,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913031611,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Kujar",
+      "agentId": 4520126,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913031091,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Alex92500",
+      "agentId": 3453045,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913030674,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "bigpoopypants",
+      "agentId": 2462736,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913030429,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "CaptainSteve",
+      "agentId": 2234353,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913030048,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Andrgis",
+      "agentId": 5782958,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913029786,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Alathreon",
+      "agentId": 3135756,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913029477,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "fzpifjzeo",
+      "agentId": 4065378,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913029012,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "MatteoR",
+      "agentId": 2596978,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913028708,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "AlekseiIvanov",
+      "agentId": 2092865,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913028438,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "miszu",
+      "agentId": 4388308,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913028174,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "MichaelDeRoos",
+      "agentId": 1937499,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027751,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Fankrys",
+      "agentId": 2440568,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027390,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "voxelbugged",
+      "agentId": 4074594,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027389,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Brutus79",
+      "agentId": 2742118,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027388,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "grosanno",
+      "agentId": 3103494,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027387,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "JeanGaudiau",
+      "agentId": 3122199,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027386,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "YannBrun",
+      "agentId": 2328376,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027385,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "mnahkies",
+      "agentId": 2691142,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913027384,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "liz22",
+      "agentId": 2133874,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027383,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Ristone",
+      "agentId": 3914461,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913027382,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "Flo22",
+      "agentId": 2459670,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913027381,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41591829,
+     "opponent": {
+      "pseudo": "mpushkin",
+      "agentId": 3920585,
+      "rank": 0
+     }
+    }
+   ]
+  }
+ },
+ "attribution": {
+  "claim": "Agent 6823071 behaved as artifact 5bace689 (v01 = current, default params) on every decision of its 60 placement games: 7230 turns, 33 games on seat 0 and 27 on seat 1. This is behaviour on the positions the games reached, not an attestation of the uploaded file, whose identity rests on the user's upload; parameters that change play give DIFF (reviewer's runs: MAX_TOWERS 3/5, INCOME_TARGET 9/11, BARRACKS 2), unused ones (SEED, DEBUG) cannot be told apart.",
+  "tool": "cgAttribute = cr.tools.CgAttribute + cr.referee.Follow (added after commit 80e404c, uncommitted at the time of the runs); each game is replayed through CgValidate, then on the validated turns the bot's two lines are compared with the agent's recorded stdout while the game advances with the recorded commands of both players",
+  "data": "docs/data/arena-6823071-games-2026-10-29.json (manifest; raw games in replays/cg/arena-6823071/games, gitignored)",
+  "validate": {
+   "command": "./gradlew cgValidate -Preplays=replays/cg/arena-6823071/games",
+   "result": [
+    "games=60 ok=60 mismatch=0 error=0 matchedTurns=7230",
+    "unit match: plain 6359/6359 (100.00%) spawn 871/871 (100.00%)",
+    "warnings (turns with a summary or simulated warning): exact 1268/1268"
+   ]
+  },
+  "runs": [
+   {
+    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6823071/games -Pagent=6823071 -Pbot=submit",
+    "result": [
+     "bot submit: build/submit/Player.java sha256=5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a params=\"\"",
+     "attribution of 6823071 to submit: games=60 same=60 differ=0 partial=0 error=0 comparedTurns=7230"
+    ]
+   },
+   {
+    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6823071/games -Pagent=6823071 -Pbot=current",
+    "result": [
+     "bot current",
+     "attribution of 6823071 to current: games=60 same=60 differ=0 partial=0 error=0 comparedTurns=7230"
+    ]
+   },
+   {
+    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6823071/games -Pagent=6823071 -Pbot=v01",
+    "result": [
+     "bot v01",
+     "attribution of 6823071 to v01: games=60 same=60 differ=0 partial=0 error=0 comparedTurns=7230"
+    ]
+   },
+   {
+    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6823071/games -Pagent=6823071 -Pbot=v00",
+    "result": [
+     "bot v00",
+     "attribution of 6823071 to v00: games=60 same=0 differ=60 partial=0 error=0 comparedTurns=7230"
+    ]
+   }
+  ],
+  "perGame": [
+   {
+    "gameId": 913027381,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 82,
+    "turns": 82,
+    "validated": 82,
+    "diffs": 0
+   },
+   {
+    "gameId": 913027382,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 136,
+    "turns": 136,
+    "validated": 136,
+    "diffs": 0
+   },
+   {
+    "gameId": 913027383,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 39,
+    "turns": 39,
+    "validated": 39,
+    "diffs": 0
+   },
+   {
+    "gameId": 913027384,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 54,
+    "turns": 54,
+    "validated": 54,
+    "diffs": 0
+   },
+   {
+    "gameId": 913027385,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 103,
+    "turns": 103,
+    "validated": 103,
+    "diffs": 0
+   },
+   {
+    "gameId": 913027386,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 94,
+    "turns": 94,
+    "validated": 94,
+    "diffs": 0
+   },
+   {
+    "gameId": 913027387,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 78,
+    "turns": 78,
+    "validated": 78,
+    "diffs": 0
+   },
+   {
+    "gameId": 913027388,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 78,
+    "turns": 78,
+    "validated": 78,
+    "diffs": 0
+   },
+   {
+    "gameId": 913027389,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 35,
+    "turns": 35,
+    "validated": 35,
+    "diffs": 0
+   },
+   {
+    "gameId": 913027390,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 175,
+    "turns": 175,
+    "validated": 175,
+    "diffs": 0
+   },
+   {
+    "gameId": 913027751,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 207,
+    "turns": 207,
+    "validated": 207,
+    "diffs": 0
+   },
+   {
+    "gameId": 913028174,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 57,
+    "turns": 57,
+    "validated": 57,
+    "diffs": 0
+   },
+   {
+    "gameId": 913028438,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 47,
+    "turns": 47,
+    "validated": 47,
+    "diffs": 0
+   },
+   {
+    "gameId": 913028708,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 113,
+    "turns": 113,
+    "validated": 113,
+    "diffs": 0
+   },
+   {
+    "gameId": 913029012,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 119,
+    "turns": 119,
+    "validated": 119,
+    "diffs": 0
+   },
+   {
+    "gameId": 913029477,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 86,
+    "turns": 86,
+    "validated": 86,
+    "diffs": 0
+   },
+   {
+    "gameId": 913029786,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 110,
+    "turns": 110,
+    "validated": 110,
+    "diffs": 0
+   },
+   {
+    "gameId": 913030048,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 27,
+    "turns": 27,
+    "validated": 27,
+    "diffs": 0
+   },
+   {
+    "gameId": 913030429,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 52,
+    "turns": 52,
+    "validated": 52,
+    "diffs": 0
+   },
+   {
+    "gameId": 913030674,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0
+   },
+   {
+    "gameId": 913031091,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 214,
+    "turns": 214,
+    "validated": 214,
+    "diffs": 0
+   },
+   {
+    "gameId": 913031611,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 56,
+    "turns": 56,
+    "validated": 56,
+    "diffs": 0
+   },
+   {
+    "gameId": 913031900,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 80,
+    "turns": 80,
+    "validated": 80,
+    "diffs": 0
+   },
+   {
+    "gameId": 913032692,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 65,
+    "turns": 65,
+    "validated": 65,
+    "diffs": 0
+   },
+   {
+    "gameId": 913032953,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0
+   },
+   {
+    "gameId": 913033257,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 93,
+    "turns": 93,
+    "validated": 93,
+    "diffs": 0
+   },
+   {
+    "gameId": 913033594,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 79,
+    "turns": 79,
+    "validated": 79,
+    "diffs": 0
+   },
+   {
+    "gameId": 913034040,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 52,
+    "turns": 52,
+    "validated": 52,
+    "diffs": 0
+   },
+   {
+    "gameId": 913034318,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 62,
+    "turns": 62,
+    "validated": 62,
+    "diffs": 0
+   },
+   {
+    "gameId": 913034623,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0
+   },
+   {
+    "gameId": 913035060,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 31,
+    "turns": 31,
+    "validated": 31,
+    "diffs": 0
+   },
+   {
+    "gameId": 913035375,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 154,
+    "turns": 154,
+    "validated": 154,
+    "diffs": 0
+   },
+   {
+    "gameId": 913035656,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 115,
+    "turns": 115,
+    "validated": 115,
+    "diffs": 0
+   },
+   {
+    "gameId": 913035931,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0
+   },
+   {
+    "gameId": 913036589,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 35,
+    "turns": 35,
+    "validated": 35,
+    "diffs": 0
+   },
+   {
+    "gameId": 913036963,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 120,
+    "turns": 120,
+    "validated": 120,
+    "diffs": 0
+   },
+   {
+    "gameId": 913037328,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 56,
+    "turns": 56,
+    "validated": 56,
+    "diffs": 0
+   },
+   {
+    "gameId": 913037661,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0
+   },
+   {
+    "gameId": 913037970,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0
+   },
+   {
+    "gameId": 913038523,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 127,
+    "turns": 127,
+    "validated": 127,
+    "diffs": 0
+   },
+   {
+    "gameId": 913039005,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 76,
+    "turns": 76,
+    "validated": 76,
+    "diffs": 0
+   },
+   {
+    "gameId": 913039446,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 242,
+    "turns": 242,
+    "validated": 242,
+    "diffs": 0
+   },
+   {
+    "gameId": 913040082,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 76,
+    "turns": 76,
+    "validated": 76,
+    "diffs": 0
+   },
+   {
+    "gameId": 913040342,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0
+   },
+   {
+    "gameId": 913041015,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 158,
+    "turns": 158,
+    "validated": 158,
+    "diffs": 0
+   },
+   {
+    "gameId": 913041392,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 131,
+    "turns": 131,
+    "validated": 131,
+    "diffs": 0
+   },
+   {
+    "gameId": 913041784,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0
+   },
+   {
+    "gameId": 913042271,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 108,
+    "turns": 108,
+    "validated": 108,
+    "diffs": 0
+   },
+   {
+    "gameId": 913042530,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 95,
+    "turns": 95,
+    "validated": 95,
+    "diffs": 0
+   },
+   {
+    "gameId": 913042777,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0
+   },
+   {
+    "gameId": 913043183,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 211,
+    "turns": 211,
+    "validated": 211,
+    "diffs": 0
+   },
+   {
+    "gameId": 913043583,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 176,
+    "turns": 176,
+    "validated": 176,
+    "diffs": 0
+   },
+   {
+    "gameId": 913044030,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 86,
+    "turns": 86,
+    "validated": 86,
+    "diffs": 0
+   },
+   {
+    "gameId": 913044449,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 53,
+    "turns": 53,
+    "validated": 53,
+    "diffs": 0
+   },
+   {
+    "gameId": 913045325,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 205,
+    "turns": 205,
+    "validated": 205,
+    "diffs": 0
+   },
+   {
+    "gameId": 913045722,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 46,
+    "turns": 46,
+    "validated": 46,
+    "diffs": 0
+   },
+   {
+    "gameId": 913045966,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 45,
+    "turns": 45,
+    "validated": 45,
+    "diffs": 0
+   },
+   {
+    "gameId": 913046493,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 67,
+    "turns": 67,
+    "validated": 67,
+    "diffs": 0
+   },
+   {
+    "gameId": 913047245,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 92,
+    "turns": 92,
+    "validated": 92,
+    "diffs": 0
+   },
+   {
+    "gameId": 913047581,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 82,
+    "turns": 82,
+    "validated": 82,
+    "diffs": 0
+   }
+  ],
+  "controls": {
+   "opponentSeats": {
+    "command": "java -cp <main classes;gson> cr.tools.CgAttribute <game> current <opponent agentId>, per game",
+    "verdicts": {
+     "DIFF": 60
+    },
+    "note": "every opponent differs from our bot, 48 of them from turn 0, the latest at turn 9"
+   },
+   "oldAgent": "10 games of the old agent 3315948 with bot current: same=0 differ=10 (first difference at turn 0: the old code built a MINE first)",
+   "silentAtTurn30": "the artifact with 'if (turn == 30) System.exit(0);' on 2 games: DIFF 2/2, 'stopped at turn 30: the bot did not answer', exit 1",
+   "byteCopy": "file:<scratch copy of 5bace689 kept at build time> on the first 16 games: same=16, 1503 turns",
+   "refused": "-Pbot=submit?MAX_TOWERS=5: IllegalArgumentException 'submit takes no parameters'",
+   "pseudoOfTwoAgents": "pseudo aabzac over one game of 3315948 and one of 6823071: 'ERROR aabzac matched several agents [3315948, 6823071]', exit 1"
+  },
+  "review": {
+   "workflow": "cr-attribution-review, run wf_0f5ffee8-bfe, 2026-10-29: 2 reviewers (code and tests; data tool and evidence) and 6 skeptics, one per serious finding (cap 3 per lens)",
+   "result": "the claim held for the 16 games then available; the tools had gaps, none affecting it",
+   "findings": [
+    {
+     "id": "DL-1",
+     "severity": "blocker",
+     "file": "src/main/java/cr/referee/Follow.java",
+     "line": 77,
+     "title": "cgAttribute reports SAME and exits 0 when the bot stops answering mid-game"
+    },
+    {
+     "id": "DL-2",
+     "severity": "medium",
+     "file": "src/main/java/cr/tools/CgAttribute.java",
+     "line": 29,
+     "title": "-Pbot=submit?K=v silently runs the unmodified artifact and attributes the result to the requested spec"
+    },
+    {
+     "id": "DL-3",
+     "severity": "medium",
+     "file": "tools/arena_games.py",
+     "line": 40,
+     "title": "Saved-list merge lets a stale done=false row hide a finished, already downloaded game; the last argument wins, not the freshest row"
+    },
+    {
+     "id": "DL-4",
+     "severity": "low",
+     "file": "src/main/java/cr/tools/CgAttribute.java",
+     "line": 31,
+     "title": "The printed sha256 identifies build/submit/Player.java, but the run executes build/submit/classes; nothing ties the two"
+    },
+    {
+     "id": "DL-5",
+     "severity": "low",
+     "file": "src/main/java/cr/tools/CgAttribute.java",
+     "line": 53,
+     "title": "Partly validated games count as SAME and exit 0"
+    },
+    {
+     "id": "DL-6",
+     "severity": "low",
+     "file": "tools/arena_games.py",
+     "line": 53,
+     "title": "Malformed responses or a truncated body abort the whole run with no manifest; a game with ranks null is stored and then breaks every later run"
+    },
+    {
+     "id": "DL-7",
+     "severity": "low",
+     "file": "tools/arena_games.py",
+     "line": 31,
+     "title": "No pause after a failed request, contrary to 'Calls are paced one second apart'"
+    },
+    {
+     "id": "DL-8",
+     "severity": "info",
+     "file": "C:/Users/garus/AppData/Local/Temp/claude/C--Disk-D-Programming-CG-cg-contest-code-royale/e5f4d102-26bd-4f74-986e-7960068e5e9a/scratchpad/arena/games-manifest-1.json",
+     "line": null,
+     "title": "The evidence covers the first 16 finished placement games, not the whole placement"
+    },
+    {
+     "id": "DL-9",
+     "severity": "info",
+     "file": "src/main/java/cr/tools/CgAttribute.java",
+     "line": 31,
+     "title": "SAME shows behavior on reached positions, not the identity of the uploaded file"
+    },
+    {
+     "id": "DL-10",
+     "severity": "info",
+     "file": "tools/arena_games.py",
+     "line": 100,
+     "title": "wins follows CG ranks: rank ties are excluded, but a score tie that CG breaks counts as a win for seat 0"
+    },
+    {
+     "id": "F1",
+     "severity": "high",
+     "file": "src/main/java/cr/tools/CgAttribute.java",
+     "line": 53,
+     "title": "A game counts as SAME (exit 0) when the comparison stopped early, including when the bot under test stopped answering"
+    },
+    {
+     "id": "F2",
+     "severity": "medium",
+     "file": "src/main/java/cr/tools/CgAttribute.java",
+     "line": 29,
+     "title": "'submit?K=v' is accepted, but the overrides are silently dropped, so the summary attributes the agent to parameters that never ran"
+    },
+    {
+     "id": "F3",
+     "severity": "medium",
+     "file": "src/test/java/cr/tools/CgAttributeTest.java",
+     "line": 7,
+     "title": "No test covers CgAttribute.main or recorded(): the verdict, exit code, seat passing and validated-turn passing can regress unnoticed"
+    },
+    {
+     "id": "F4",
+     "severity": "medium",
+     "file": "src/test/java/cr/referee/FollowTest.java",
+     "line": 15,
+     "title": "FollowTest does not cover: the TRAIN-line comparison, advancing with the recorded commands, the no-answer stop, the end of the loop, and closing the process"
+    },
+    {
+     "id": "F5",
+     "severity": "low",
+     "file": "src/main/java/cr/referee/Follow.java",
+     "line": 59,
+     "title": "When the record continues after the simulated end, Follow stops without a reason and validatedTurns counts a turn the simulation never had"
+    },
+    {
+     "id": "F6",
+     "severity": "info",
+     "file": "src/main/java/cr/tools/CgAttribute.java",
+     "line": 73,
+     "title": "'Turns whose input state CgValidate confirmed' overstates: the turn-0 queen positions and gold, and several derived input fields, are never compared"
+    },
+    {
+     "id": "F7",
+     "severity": "info",
+     "file": "src/main/java/cr/tools/CgAttribute.java",
+     "line": 85,
+     "title": "A recorded one-line answer 'X\\n' is read with second line \"\" instead of missing, so Follow would report DIFF rather than stop"
+    },
+    {
+     "id": "F8",
+     "severity": "info",
+     "file": "build.gradle",
+     "line": 43,
+     "title": "The default cgAttribute arguments mix the user's two agents and other players' games"
+    },
+    {
+     "id": "F9",
+     "severity": "info",
+     "file": "C:\\Users\\garus\\AppData\\Local\\Temp\\claude\\C--Disk-D-Programming-CG-cg-contest-code-royale\\e5f4d102-26bd-4f74-986e-7960068e5e9a\\scratchpad\\arena\\games-manifest-1.json",
+     "line": null,
+     "title": "Claim scope: 16 finished games out of 17 battle rows; one battle was not finished when the games were downloaded"
+    }
+   ],
+   "verdicts": [
+    {
+     "id": "DL-2",
+     "real": true,
+     "severity": "medium"
+    },
+    {
+     "id": "DL-3",
+     "real": true,
+     "severity": "medium"
+    },
+    {
+     "id": "F2",
+     "real": true,
+     "severity": "low"
+    },
+    {
+     "id": "DL-1",
+     "real": true,
+     "severity": "high"
+    },
+    {
+     "id": "F3",
+     "real": true,
+     "severity": "low"
+    },
+    {
+     "id": "F1",
+     "real": true,
+     "severity": "medium"
+    }
+   ],
+   "decisions": {
+    "DL-1/F1": {
+     "verified": "real (skeptics: high and medium)",
+     "decision": "fixed",
+     "fix": "per-game verdicts SAME / DIFF / PARTIAL / ERROR: SAME needs every recorded turn compared without a difference; no answer where the agent answered is DIFF; other early stops are PARTIAL; exit code 0 only when every game is SAME. Follow.Result carries a Stop kind. Control: the artifact going silent at turn 30 is now DIFF, exit 1 (was SAME, exit 0)"
+    },
+    "DL-2/F2": {
+     "verified": "real (medium and low)",
+     "decision": "fixed",
+     "fix": "BotFactory refuses parameters for submit, boss and v00 (their parameters are fixed when built); CgAttribute prints the artifact's PARAMS next to its sha256"
+    },
+    "DL-3": {
+     "verified": "real (medium)",
+     "decision": "fixed",
+     "fix": "arena_games.py: a finished row replaces an unfinished one whatever the order; a stored file counts as finished; the live battle list is saved next to the games for later merges"
+    },
+    "DL-4": {
+     "verified": "not verified (cap)",
+     "decision": "fixed",
+     "fix": "submit and file:<path> compile the hashed bytes into a temporary directory and run those classes, so the printed sha256 names the code that runs"
+    },
+    "DL-5": {
+     "verified": "not verified (cap)",
+     "decision": "fixed with DL-1",
+     "fix": "a partly validated game is PARTIAL and fails the run"
+    },
+    "DL-6": {
+     "verified": "not verified (cap)",
+     "decision": "fixed",
+     "fix": "describe() checks agents (index, agentId), ranks and scores (two each) and refereeInput; any exception for one game is recorded as a failure and the run goes on"
+    },
+    "DL-7": {
+     "verified": "not verified (cap)",
+     "decision": "fixed",
+     "fix": "one second after every call, also a failed one; 429, 5xx and network errors retried after 5, 20 and 60 s"
+    },
+    "DL-8/F9": {
+     "verified": "info",
+     "decision": "done",
+     "fix": "games downloaded and attributed again after the placement ended; the claim names the number of games and turns"
+    },
+    "DL-9": {
+     "verified": "info",
+     "decision": "adopted in the wording",
+     "fix": "claim: agent 6823071 behaved as artifact 5bace689 on every decision of the placement games; the identity of the pasted file rests on the user's upload; parameters that change play (MAX_TOWERS 3/5, INCOME_TARGET 9/11, BARRACKS 2) give DIFF, unused ones (SEED, DEBUG) cannot be told apart"
+    },
+    "DL-10": {
+     "verified": "info",
+     "decision": "fixed",
+     "fix": "wins documented as CG ranks; scoreTies counted in the manifest summary"
+    },
+    "F3": {
+     "verified": "real (low)",
+     "decision": "fixed",
+     "fix": "main split into run() (exit code) and verdict(); tests for verdict(), recorded()/lines(), run() on an empty and an unreadable directory, and a real-game test (two placement games, gitignored, skipped without them): current and the merged artifact built in a temp dir SAME, v00 and the opponent's seat DIFF, a tampered summary PARTIAL"
+    },
+    "F4": {
+     "verified": "not verified (cap)",
+     "decision": "fixed",
+     "fix": "FollowTest: TRAIN-only difference, extra line shifting the answers while the recorded game goes on, a bot that stops answering (HalfEcho), the simulated end, a missing and a cut-short record, the process closed (BYE)"
+    },
+    "F5": {
+     "verified": "not verified (cap)",
+     "decision": "fixed",
+     "fix": "Stop.GAME_OVER when the record goes on after the simulated end; such a game is PARTIAL"
+    },
+    "F6": {
+     "verified": "info",
+     "decision": "documented",
+     "fix": "validatedTurns Javadoc names what CgValidate compares and which input fields are derived (an error there can only give a false DIFF)"
+    },
+    "F7": {
+     "verified": "info",
+     "decision": "fixed",
+     "fix": "an answer cut short ('X\\n') has no second line and stops the comparison as a missing record instead of a DIFF; an empty second line ('X\\n\\n') is kept"
+    },
+    "F8": {
+     "verified": "info",
+     "decision": "fixed",
+     "fix": "cgAttribute requires -Preplays and -Pagent; a pseudo that matches several agent ids is an error"
+    }
+   },
+   "afterFixes": {
+    "tests": "./gradlew test: 74/74, 0 skipped (FollowTest 6, CgAttributeTest 8 incl. a real-game test on two placement games, BotFactoryTest 4)",
+    "mutations": [
+     "base: rc=0 18s",
+     "F01 KILLED rc=1 21s",
+     "F07 KILLED rc=1 19s",
+     "F08 KILLED rc=1 102s",
+     "F10 KILLED rc=1 16s",
+     "F14 KILLED rc=1 18s",
+     "F20 KILLED rc=1 18s",
+     "F21 KILLED rc=1 19s",
+     "F22 KILLED rc=1 18s",
+     "F23 KILLED rc=1 18s",
+     "C07 KILLED rc=1 19s",
+     "C07b KILLED rc=1 17s",
+     "C08 KILLED rc=1 17s",
+     "C09 KILLED rc=1 15s",
+     "C10 KILLED rc=1 17s",
+     "C11 KILLED rc=1 17s",
+     "C12 KILLED rc=1 18s",
+     "C13 KILLED rc=1 20s",
+     "C14 SURVIVED rc=0 17s",
+     "C15 KILLED rc=1 42s",
+     "C16 KILLED rc=1 16s",
+     "B01 KILLED rc=1 18s"
+    ],
+    "mutationsNote": "21 one-edit mutants of Follow, CgAttribute and BotFactory against FollowTest, CgAttributeTest and BotFactoryTest in a private copy: 20 killed; C14 (the several-agents check) survived, a test was added and it is killed now"
+   }
+  }
+ }
+}

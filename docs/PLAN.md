@@ -33,11 +33,17 @@
   and late lines, wrapper children, JVM option variables, FileMerger edges fixed; artifact unchanged
 - [x] Review of those fixes (same file, `fixes_review`): rerun command with params, timeout notes,
   env names in any case, swap-in build, tests 47 → 59; artifact unchanged
-- [ ] Submit v01 (user pastes `build/submit/Player.java`), follow placement with `tools/arena_snapshot.py`
+- [x] Submit v01: the user pasted `5bace689` (agent 6823071, 2026-10-29 08:17); placement complete at
+  09:36, rank 736/2296, score 18.24, 60 games, 36 wins (`docs/data/arena-6823071-placement-2026-10-29.json`)
+- [x] Which code played: `tools/arena_games.py` and `cgAttribute`; all 60 placement games identical to
+  the artifact; tools reviewed (wf_0f5ffee8-bfe) and fixed, tests 59 → 74
 - [ ] After each promotion: capture the statement, reconcile the rules, re-run `cgValidate`
 
 ## Phase 3 — strength (backlog from the audit)
 - [ ] Promotion policy for candidates after v01, set before the first comparison
+- [ ] Find the gap: the 24 lost placement games (`replays/cg/arena-6823071/games`, manifest in
+  `docs/data/arena-6823071-games-2026-10-29.json`); v01 placed 736/2296 (18.24), the old code stood at
+  559/2295 (19.64)
 - [ ] Queen stalls when a site blocks the straight path to a far BUILD target (worst 43 turns)
 - [ ] TRAIN choice respecting the 30-creep cap (only matters with more than one barracks)
 - [ ] Seat asymmetry in greedy self-play (player 0 won 187, player 1 110 of 300 games): bot
