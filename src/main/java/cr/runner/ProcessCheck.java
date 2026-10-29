@@ -4,6 +4,8 @@ import cr.bot.Bot;
 import cr.bot.BotFactory;
 import cr.referee.ProcessBot;
 import cr.referee.Referee;
+import cr.submit.Build;
+import cr.submit.CGRunner;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -12,19 +14,20 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Runs the merged build/submit/Player as a real process over the protocol on both seats
  * against an opponent spec. No timeout grace: a late answer is a timeout (kill). Each game is
  * replayed with the in-process "current" bot (with the artifact's PARAMS) in place of the process,
- * and every command line of both players must be the same; a game where the opponent was killed
+ * and every command line of both players must be the same, except that the artifact prints its build
+ * marker where current's turn-0 TRAIN line is empty (it must print exactly that marker, see
+ * CGRunner.marker); a game where the opponent was killed
  * (timeout or invalid output) in either run cannot be compared and fails the check as well. So does
  * any extra output line and any stderr line other than the runner's SLOW report (a stack trace from
  * its fallback, say).
  * This shows that packaging leaves the source bot's play unchanged on the positions the games
- * reach; it does not test the bot's logic. The artifact's sha256 and PARAMS are printed first, and a
+ * reach; it does not test the bot's logic. The artifact's sha256, PARAMS, build id (checked against
+ * its content) and config id are printed first, and a
  * game with a timeout prints a command that rebuilds the same artifact and replays that seed.
  * Usage: ProcessCheck opponentSpec games seedBase
  */
@@ -35,10 +38,11 @@ public final class ProcessCheck {
         if (games < 1) throw new IllegalArgumentException("games must be at least 1");
         long seedBase = Long.parseLong(args[2]);
         byte[] artifact = Files.readAllBytes(Paths.get("build/submit/Player.java"));
-        String params = artifactParams(new String(artifact, StandardCharsets.US_ASCII));
+        String text = new String(artifact, StandardCharsets.US_ASCII);
+        String params = artifactParams(text), build = Build.of(text);
         String current = params.isEmpty() ? "current" : "current?" + params;
         System.out.println("artifact build/submit/Player.java sha256=" + HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(artifact))
-            + " params=\"" + params + "\"");
+            + " params=\"" + params + "\" build=" + (build.isEmpty() ? "none" : build) + " config=" + Build.describeConfig(text));
         String rerun = rerunCommand(params, opp);
         Tally t = new Tally();
         int stderrShown = 0;
@@ -48,7 +52,8 @@ public final class ProcessCheck {
                 ProcessBot sub = new ProcessBot("submit", List.of("java", "-cp", "build/submit/classes", "Player"), true);
                 Referee.Result r = play(seed, seat, sub, BotFactory.create(opp));
                 Referee.Result ref = play(seed, seat, BotFactory.create(current), BotFactory.create(opp));
-                Game v = judge(r, ref, seat, sub.lateLines(), sub.killedAtClose(), sub.stderr());
+                String marker = CGRunner.marker(build, r.sites.size());
+                Game v = judge(r, ref, seat, marker, sub.lateLines(), sub.killedAtClose(), sub.stderr());
                 String at = "seed " + seed + " seat " + seat;
                 for (String n : v.notes)
                     if (!n.startsWith("stderr: ") || stderrShown++ < 20) System.out.println(at + " " + n);
@@ -89,10 +94,11 @@ public final class ProcessCheck {
 
     /**
      * Judges the artifact's game r (artifact in seat) against the replay ref with in-process current.
+     * marker: the TRAIN line the artifact prints on turn 0 in place of an empty one (null: none).
      * Only SLOW reports are allowed on stderr; the first 20 other lines of the game become notes.
      * killedAtClose: the artifact had to be killed after the game (see ProcessBot.killedAtClose).
      */
-    static Game judge(Referee.Result r, Referee.Result ref, int seat, int lateLines, boolean killedAtClose, List<String> stderr) {
+    static Game judge(Referee.Result r, Referee.Result ref, int seat, String marker, int lateLines, boolean killedAtClose, List<String> stderr) {
         Game v = new Game();
         int o = 1 - seat;
         v.win = r.winner == seat;
@@ -123,12 +129,26 @@ public final class ProcessCheck {
             return v;
         }
         v.compared = true;
-        int d = firstDifference(r.replay, ref.replay);
+        List<String> expected = withMarker(ref.replay, seat, marker);
+        int d = firstDifference(r.replay, expected);
         v.same = d < 0;
         if (!v.same)
             v.notes.add("differs from current at line " + d + ": " + (d < r.replay.size() ? r.replay.get(d) : "<end>")
-                + " vs " + (d < ref.replay.size() ? ref.replay.get(d) : "<end>"));
+                + " vs " + (d < expected.size() ? expected.get(d) : "<end>"));
         return v;
+    }
+
+    /**
+     * The lines the artifact in seat must produce where current produced replay: the same, with the
+     * marker in place of an empty TRAIN on turn 0 (the seat's line comes first for player 0, second for 1).
+     */
+    static List<String> withMarker(List<String> replay, int seat, String marker) {
+        if (marker == null || replay.size() <= seat) return replay;
+        String line = replay.get(seat), empty = " | TRAIN";
+        if (!line.startsWith(seat + " ") || !line.endsWith(empty)) return replay;
+        List<String> lines = new ArrayList<>(replay);
+        lines.set(seat, line.substring(0, line.length() - "TRAIN".length()) + marker);
+        return lines;
     }
 
     /**
@@ -177,11 +197,7 @@ public final class ProcessCheck {
 
     /** The value of the single CGRunner.PARAMS literal of a merged source ("" for the defaults). */
     public static String artifactParams(String src) {
-        Matcher m = Pattern.compile("public static final String PARAMS = \"([^\"]*)\";").matcher(src);
-        if (!m.find()) throw new IllegalStateException("PARAMS literal not found in the artifact");
-        String params = m.group(1);
-        if (m.find()) throw new IllegalStateException("more than one PARAMS literal in the artifact");
-        return params;
+        return Build.params(src);
     }
 
     /** Index of the first differing line, or -1 if the lists are equal. */

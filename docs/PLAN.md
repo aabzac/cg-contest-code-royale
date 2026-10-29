@@ -37,10 +37,18 @@
   09:36, rank 736/2296, score 18.24, 60 games, 36 wins (`docs/data/arena-6823071-placement-2026-10-29.json`)
 - [x] Which code played: `tools/arena_games.py` and `cgAttribute`; all 60 placement games identical to
   the artifact; tools reviewed (wf_0f5ffee8-bfe) and fixed, tests 59 → 74
+- [x] v01 upload 2 (the user re-submitted the same bytes, agent 6823455): 16.08 after 18.24, every game
+  identical to the artifact; first noise measurement, M ≈ 3.05 (`docs/arena-uploads.md`)
+- [x] Build marker: the artifact prints its build id on turn 0 as a TRAIN of sites 0-15 (referee warning
+  only); `arena_games.py` and `cgAttribute` read it; artifact `1e5d1a79…` (build `e5417a83`) checked
+- [ ] Upload the marked artifact (the user): v01 upload 3, the third noise sample and the first live check
+  of the marker (its warning in cgValidate, the markers in the manifest)
 - [ ] After each promotion: capture the statement, reconcile the rules, re-run `cgValidate`
 
 ## Phase 3 — strength (backlog from the audit)
-- [ ] Promotion policy for candidates after v01, set before the first comparison
+- [x] Arena step of the promotion policy: P1, two uploads per version (`docs/arena-uploads.md`,
+  `tools/arena_compare.py`)
+- [ ] Local part of the policy (proxy, screen, replication), set before the first comparison
 - [ ] Find the gap: the 24 lost placement games (`replays/cg/arena-6823071/games`, manifest in
   `docs/data/arena-6823071-games-2026-10-29.json`); v01 placed 736/2296 (18.24), the old code stood at
   559/2295 (19.64)

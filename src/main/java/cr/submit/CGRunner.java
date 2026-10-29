@@ -17,6 +17,8 @@ public final class CGRunner {
     static final int WARM_MOVE = 1, WARM_BUILD = 2, WARM_TRAIN = 4;
     /** Parameters of the submitted bot ("" = defaults); FileMerger sets them and checks that they apply. */
     public static final String PARAMS = "";
+    /** Build id of the artifact (8 hex digits; "" in the sources), set by FileMerger and printed on turn 0, see {@link #marker}. */
+    public static final String BUILD = "";
 
     public static void main(String[] args) throws Exception {
         InputReader in = new InputReader(System.in);
@@ -48,13 +50,34 @@ public final class CGRunner {
                 c = null;
             }
             if (c == null) c = Command.waitCmd();
+            String train = c.trainLine();
+            if (turn == 0 && train.equals("TRAIN")) {
+                String m = marker(BUILD, in.state.nSites);
+                if (m != null) train = m;
+            }
             System.out.println(c.queenLine());
-            System.out.println(c.trainLine());
+            System.out.println(train);
             System.out.flush();
             long ms = (System.nanoTime() - start) / 1_000_000L;
             if (ms > budget) System.err.println(new StringBuilder("SLOW turn ").append(turn).append(' ').append(ms).append("ms"));
             turn++;
         }
+    }
+
+    /**
+     * The turn-0 TRAIN line that carries the build id: one site id 0-15 per hex digit. No barracks exist
+     * on turn 0, so the referee only warns "Cannot spawn from N: not a barracks" and trains nothing,
+     * while the replay keeps the line. null without an 8-digit id or with fewer than 16 sites.
+     */
+    public static String marker(String build, int nSites) {
+        if (build.length() != 8 || nSites < 16) return null;
+        StringBuilder b = new StringBuilder("TRAIN");
+        for (int i = 0; i < 8; i++) {
+            int d = "0123456789abcdef".indexOf(build.charAt(i));
+            if (d < 0) return null;
+            b.append(' ').append(d);
+        }
+        return b.toString();
     }
 
     /**

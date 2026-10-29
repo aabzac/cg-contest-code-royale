@@ -23,7 +23,8 @@ import java.util.stream.Stream;
 
 /**
  * Merges the shipped sources into build/submit/Player.java (top-level types become static
- * nested classes of Player), sets CGRunner.PARAMS, compiles the result and checks its size.
+ * nested classes of Player), sets CGRunner.PARAMS and CGRunner.BUILD (see {@link Build}), compiles
+ * the result and checks its size.
  * The file is ASCII with LF line endings and the same file order whatever the checkout and OS, so
  * its sha256 identifies the code. All checks run before anything is touched, and the new artifact
  * replaces the old one only once it has compiled, so build/submit always holds a complete artifact:
@@ -50,10 +51,11 @@ public final class FileMerger {
         String params = args.length > 0 ? args[0] : "";
         List<Path> files = shippedFiles();
         String src = merge(files, params);
+        String build = Build.of(src), config = Build.config(src);
         Path out = build(outDir, src);
         String sha = HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(src.getBytes(StandardCharsets.US_ASCII)));
-        return String.format("%s: %d chars (limit %d), %d files, params=\"%s\" (effective %s), sha256=%s",
-            out, src.length(), MAX_CHARS, files.size(), params, new Params().apply(params), sha);
+        return String.format("%s: %d chars (limit %d), %d files, params=\"%s\" (effective %s), build=%s, config=%s, sha256=%s",
+            out, src.length(), MAX_CHARS, files.size(), params, new Params().apply(params), build, config, sha);
     }
 
     /**
@@ -123,9 +125,11 @@ public final class FileMerger {
     }
 
     /**
-     * The merged Player.java text; each file is headed by its path relative to root. Fails on params
-     * that do not apply or do not fit the PARAMS literal, on non-ASCII sources or file names, on a CR
-     * outside CRLF and unless the PARAMS marker occurs exactly once.
+     * The merged Player.java text; each file is headed by its path relative to root. Its BUILD literal
+     * holds the {@link Build#id} of the same text with an empty one. Fails on params that do not apply
+     * or do not fit the PARAMS literal, on non-ASCII sources or file names, on a CR outside CRLF, unless
+     * the PARAMS and BUILD markers occur exactly once, and unless the result passes {@link Build#of}
+     * (no second BUILD literal) and {@link Build#config} (the runner's section once, last).
      */
     static String merge(Path root, List<Path> files, String params) throws IOException {
         for (int i = 0; i < params.length(); i++) {
@@ -171,7 +175,12 @@ public final class FileMerger {
         int bad = firstNonAscii(merged);
         if (bad >= 0)
             throw new IllegalStateException(String.format("non-ASCII character U+%04X at merged line %d", (int) merged.charAt(bad), lineOf(merged, bad)));
-        return merged;
+        at = merged.indexOf(Build.EMPTY);
+        if (at < 0 || merged.indexOf(Build.EMPTY, at + 1) >= 0) throw new IllegalStateException("BUILD marker must occur exactly once");
+        String built = merged.replace(Build.EMPTY, "public static final String BUILD = \"" + Build.id(merged) + "\";");
+        Build.of(built);
+        Build.config(built);
+        return built;
     }
 
     /** 1-based line of the character at index i. */

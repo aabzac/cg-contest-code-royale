@@ -268,3 +268,113 @@ Decision: none under P0; v01 stays live. The next step is the user's: keep it an
 roll back to the old code they kept.
 
 Decision (the user, after the placement): keep v01; no rollback.
+
+## 2026-10-29 — v01 uploaded again; policy P1; build marker
+
+**Upload 2.** The user kept v01 and re-submitted the same `build/submit/Player.java` (`5bace689…`) at
+14:03: agent 6823455, submission 41593274, Bronze. The placement was not watched. The first snapshot, at
+20:51, found it complete: score 16.08 (leaderboard update 15:51; 60 games, none after the placement),
+rank 1067/2294 at 20:51, 31 wins (seat 0: 20 of 30, seat 1: 11 of 30).
+- 6823071's battle list is empty now, as Back Track King saw after a replacement. Its 60 placement games
+  were saved at 09:36; games it played after its placement, if any, are lost.
+- `tools/arena_games.py`: 60 games, `docs/data/arena-6823455-games-2026-10-29.json`. cgValidate: 60/60
+  games, 6,413 turns, warnings exact 1,335/1,335. `cgAttribute -Pbot=submit` (then `5bace689`): SAME in
+  60/60 (6,413 turns); v00: DIFF in 60/60.
+
+**Noise.** The same bytes placed at 18.24 and 16.08 (ranks 736 and about 1067): SD 1.53, M = 2 SD ≈ 3.05
+CG points (one pair). `tools/arena_compare.py` gives performance ratings of 18.16 ± 0.38 and 16.78 ± 0.37
+(logistic scale 1.32, fitted on 120 games): 1.38 ± 0.53 apart for identical code, 2.6 standard errors at
+that scale (about 2.3 with the weakly identified scale profiled out, see the review below). The rating
+follows the placement score, and its standard error understates the spread between placements. The
+opponents' median scores were 17.82 and 16.81, the win rates 60.0 and 51.7 %. Only 2 opponents were shared.
+
+**Policy P1.** The user pointed to Back Track King's two-series rule (its `docs/arena-uploads.md`, adopted
+there 2026-10-27). Adopted for the arena step in `docs/arena-uploads.md`: two uploads per version; roll
+back when the mean placement score is below the selected version's by more than M and the pooled rating
+below by more than 2 SE; roll back early when upload 1 is below by more than 2 M; otherwise there is no
+clear sign that the candidate is worse (not a proof that it is not). Registry
+`docs/data/arena-uploads.json`, tool `tools/arena_compare.py`. The local part (proxy, screen) remains for
+phase 3. With M ≈ 3 the arena step only catches large regressions.
+
+**Build marker.** The user asked for the bot's version in a first-turn message. Code Royale has no
+message: the referee kills on a token after WAIT or MOVE (after BUILD unless the build warns first), and a
+TRAIN token must be an existing site id. A TRAIN of a site without barracks only warns: the local replays
+hold 352 such warnings in 21 games, all from single-site TRAINs, none fatal (corrected from "80 in 12",
+which left out the 6823455 games). In 906359074 and 906522694 a turn-0 TRAIN of the site being built on
+got that warning, so no barracks exist when the turn-0 TRAIN is processed. The first-offending-site order
+is seen live only in the 69 per-site warnings on multi-site TRAINs (all `Barracks N is training`); it
+matches the repo referee and our `Rules`. So the artifact prints its build id on turn 0 as
+`TRAIN d1 … d8`, each hex digit a site id 0-15. Bronze maps have 24 sites; under 16 there is no marker.
+An 8-site TRAIN of barracks was seen live (912219998, 17 turns, warnings only). Eight sites without
+barracks, or a repeated site, have not been: the first marked upload is their check.
+- `FileMerger` writes the build id into `CGRunner.BUILD`: the first 8 hex digits of the sha256 of the
+  artifact text with an empty literal (`cr.submit.Build`). `submit` prints it; `procCheck` and
+  `cgAttribute` check it against the content. After the reviews, a config id too: the merged code from
+  `class Player {` to the runner section plus PARAMS as written, shared by builds that differ only in the
+  runner (`5bace689` and `1e5d1a79`: `4194117d`).
+- `CGRunner` replaces an exactly empty turn-0 TRAIN line with the marker, also after the fallback.
+- `procCheck` requires exactly the marker where in-process `current` printed an empty turn-0 TRAIN.
+  `Follow` and `cgAttribute` excuse a recorded marker for a bot with an empty TRAIN there and require it
+  exactly from a bot that prints one; they print the markers per game and in the summary.
+  `arena_games.py` records each game's marker.
+- Tests 74 → 84, then 89 after the review: marker encoding and decoding, build and config id checks, a
+  real process game with the marker on turn 0 only, the referee warning in `Rules`, the procCheck and
+  Follow rules, a real placement game with and without the marker. Python: `tools/test_arena_tools.py`,
+  12 offline tests.
+- New artifact: sha256 `1e5d1a79…`, 57,884 chars, build `e5417a83` (turn 0: `TRAIN 14 5 4 1 7 10 8 3`),
+  default params. procCheck vs v01, 100 maps @5000: 200/200 identical to current, 99 wins, 0 timeouts,
+  max first turn 124 ms, later 2.8 ms. vs boss, 100 maps @6000: 200/200, 178 wins, 0 timeouts, max first
+  turn 219 ms, later 9.6 ms.
+
+**Review** (workflow wf_ea643ec7-3d7). Four reviewers covered marker safety, the build id, comparison
+semantics and the statistics and policy. A refuting verifier then checked every finding. Of 26 findings,
+22 were confirmed, all low or medium; none could cost games on CG. The 4 refuted ones: a CRLF copy
+failing the byte-exact build id (by design), the recorded attribution string (it pins the artifact by
+sha256), and two wording points. Fixes:
+- `arena_compare.py` checks the registry, with exit code 2 on any problem:
+  - one config id per label (new `Build.config`);
+  - each manifest's agentId and its games' markers against the entry;
+  - unique uploads and agents; leagues in lower case.
+- A placement ended by a promotion (`promotedTo`) has no placement score. A promoted candidate is kept and
+  the baseline is rebuilt in the new league. A missing score or rating no longer crashes the tool.
+- `FileMerger` runs `Build.of` and `Build.config` before writing, so a second BUILD literal no longer
+  replaces the old artifact.
+- `Follow` and `cgAttribute` read the recorded marker from the record itself: it is reported also when
+  turn 0 is not compared or the game fails later.
+- `Build.of` returns "" for an artifact without a literal (built before the marker), and `describe`
+  prints "invalid (…)" for a bad one.
+- Tests now pin both conditions of the marker excuse (both one-term mutants caught), a game whose turn 0
+  is not validated still reports its marker, and the config id is tested. Javadocs corrected.
+- Docs corrected:
+  - the live evidence (352 in 21, single-site; the 8-site form not seen live);
+  - the rating's role (pooled: second rollback condition; per upload: context);
+  - "no clear sign that it is worse" instead of "clearly not worse";
+  - the 2.6 SE caveat (scale 95 % interval about 0.76-2.81, profiled z about 2.3);
+  - the old entry's dates (created 2020-11-23, last score update 2026-10-17, UTC);
+  - P1 as "the same configuration", and the promotion rule.
+
+**Second check** (workflow wf_0774530d-666). Two checkers covered the code and the docs, and another agent
+tried to refute each finding. Of 13 findings, 10 were confirmed (8 distinct, low or medium) and 3
+refuted. Fixes:
+- The config id no longer hashes the import header, which the runner's imports join, so a runner-only
+  import keeps it. It hashes PARAMS as written (documented). For both v01 artifacts it is now `4194117d`;
+  the first definition gave `9471ad53`.
+- `arena_compare.py`:
+  - a game without a marker (an agent that missed turn 0) is listed, not refused; with a build, at least
+    one game must carry it;
+  - a candidate with an upload still placing gets "pending";
+  - the league must be a league name (null and typos refused), and agent and upload must be numbers;
+  - a manifest that does not load is a registry problem (exit 2), not a traceback.
+- `FollowTest` forces the bot's empty turn-5 TRAIN, so the turn guard stays pinned whatever `current`
+  does.
+- Docs: the live evidence (the per-site warnings on multi-site lines are all "is training", and those
+  lines also drew 381 creep warnings; an 8-site barracks TRAIN was seen live), and the old entry's dates
+  in UTC, in BOTS too.
+
+After the fixes the artifact is unchanged: `1e5d1a79`, build `e5417a83`, config `4194117d`. A short
+procCheck vs v01 (5 maps) gave 10/10. `cgAttribute` of upload 2 against the kept copy
+`replays/artifacts/5bace689/Player.java` (gitignored) gave SAME in 60/60, build none, config `4194117d`,
+markers none in all 60. Tests: Java 89, Python 12.
+
+Decision: v01 stays selected, with its Bronze baseline of two uploads (mean 17.16). The marked artifact
+plays as v01 and is ready as its upload 3; uploading it is the user's call.

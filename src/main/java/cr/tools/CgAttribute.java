@@ -5,6 +5,7 @@ import cr.bot.BotFactory;
 import cr.referee.Follow;
 import cr.referee.ProcessBot;
 import cr.runner.ProcessCheck;
+import cr.submit.Build;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -18,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -34,6 +37,10 @@ import java.util.stream.Stream;
  * Per game: SAME (every recorded turn compared, no difference), DIFF (a difference, or no answer where
  * the agent answered), PARTIAL (no difference, but not every turn compared: an unvalidated state, a
  * missing record or an earlier simulated end), ERROR. Exit code 0 only when every game is SAME.
+ * The build and config ids of a Java file and the build marker recorded on turn 0 of each game are
+ * printed. A bot that prints a marker must repeat the recorded one; a bot with an empty turn-0 TRAIN
+ * line (in-process, or an artifact built before the marker) is excused it ({@link Follow}). So SAME
+ * alone does not name the build: the recorded markers do.
  */
 public final class CgAttribute {
     /** Reading deadline per turn for process bots: identity, not timing, is checked here. */
@@ -58,15 +65,20 @@ public final class CgAttribute {
             int same = 0, differ = 0, partial = 0, failed = 0;
             long turns = 0;
             Set<Long> agents = new TreeSet<>();
+            Map<String, Integer> markers = new TreeMap<>();
             for (Path f : files) {
-                String id = f.getFileName().toString().replace(".json", "");
+                String id = f.getFileName().toString().replace(".json", ""), marker = null;
                 try {
                     CgReplay g = CgReplay.load(f);
                     int seat = seatOf(g, who);
                     if (seat < 0) { failed++; out.println("ERROR " + id + ": " + who + " did not play"); continue; }
                     agents.add(g.agentId[seat]);
+                    List<List<String[]>> rec = recorded(g);
+                    // From the record itself, so a game that fails later still reports what it printed.
+                    marker = rec.get(seat).isEmpty() ? null : Build.decode(rec.get(seat).get(0)[1]);
+                    markers.merge(marker == null ? "none" : marker, 1, Integer::sum);
                     int n = g.turns.size(), valid = validatedTurns(CgValidate.validate(g), n);
-                    Follow.Result r = Follow.follow(g.seed, seat, recorded(g), bots.get(), valid, TURN_MS);
+                    Follow.Result r = Follow.follow(g.seed, seat, rec, bots.get(), valid, TURN_MS);
                     turns += r.turns;
                     String v = verdict(r, n);
                     if (v.equals("SAME")) same++;
@@ -75,18 +87,19 @@ public final class CgAttribute {
                     out.println(v + " " + id + " seat " + seat + " vs " + g.pseudo[1 - seat] + ": compared " + r.turns + " of " + n
                         + " turns (validated " + valid + "), diffs " + r.diffs
                         + (r.firstDiff >= 0 ? ", first at turn " + r.firstDiff + ": recorded [" + r.expected + "] bot [" + r.got + "]" : "")
-                        + (r.stopped != null ? "; stopped at " + r.stopped : ""));
+                        + (r.stopped != null ? "; stopped at " + r.stopped : "")
+                        + (marker != null ? "; marker " + marker : ""));
                 } catch (Exception e) {
                     failed++;
-                    out.println("ERROR " + id + ": " + e);
+                    out.println("ERROR " + id + ": " + e + (marker != null ? "; marker " + marker : ""));
                 }
             }
             if (agents.size() > 1) {
                 failed++;
                 out.println("ERROR " + who + " matched several agents " + agents + ": give an agentId");
             }
-            out.printf("attribution of %s to %s: games=%d same=%d differ=%d partial=%d error=%d comparedTurns=%d%n",
-                who, spec, files.size(), same, differ, partial, failed, turns);
+            out.printf("attribution of %s to %s: games=%d same=%d differ=%d partial=%d error=%d comparedTurns=%d markers=%s%n",
+                who, spec, files.size(), same, differ, partial, failed, turns, markers);
             return differ + partial + failed > 0 || files.isEmpty() ? 1 : 0;
         } finally {
             try (Stream<Path> st = Files.walk(tmp)) {
@@ -117,7 +130,8 @@ public final class CgAttribute {
             params = "no PARAMS literal";
         }
         out.println("bot " + spec + ": " + src.toString().replace('\\', '/') + " sha256="
-            + HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(code)) + " " + params);
+            + HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(code)) + " " + params + " build=" + Build.describe(text)
+            + " config=" + Build.describeConfig(text));
         Path java = tmp.resolve("Player.java"), classes = tmp.resolve("classes");
         Files.createDirectories(classes);
         Files.write(java, code);

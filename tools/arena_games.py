@@ -11,9 +11,10 @@ Usage: python -I tools/arena_games.py <agentId> <raw_dir> <manifest.json> [battl
   5xx and network errors are retried after 5, 20 and 60 s.
 
 The manifest lists per game: the agent's seat (gameResult agents[].index), opponent, ranks, scores,
-seed, frame count, sha256 and size, and per failure the reason. Wins follow CG's ranks, which also
-order games with equal scores (scoreTies counts those). Refetch: POST gameResult/findByGameId
-[gameId, null] and compare sha256.
+seed, frame count, sha256 and size, the build marker of the agent's turn-0 TRAIN line (CGRunner.marker,
+null without one), and per failure the reason. Wins follow CG's ranks, which also order games with
+equal scores (scoreTies counts those). Refetch: POST gameResult/findByGameId [gameId, null] and
+compare sha256.
 """
 import glob
 import hashlib
@@ -73,6 +74,24 @@ def battles_of(agent, saved, raw_dir, tag):
     return rows, len(live)
 
 
+MARKER_SITES = [str(d) for d in range(16)]
+
+
+def marker(train_line):
+    """The build id a TRAIN line carries ("TRAIN" and 8 site ids 0-15, one per hex digit), or None (cr.submit.Build.decode)."""
+    t = (train_line or "").split(" ")
+    if len(t) != 9 or t[0] != "TRAIN" or any(s not in MARKER_SITES for s in t[1:]):
+        return None
+    return "".join("%x" % int(s) for s in t[1:])
+
+
+def turn0_marker(frames, seat):
+    """The marker in the seat's first answer (frames carry the in-game index as agentId), or None."""
+    first = next((f for f in frames[1:] if f.get("agentId") == seat), None)
+    lines = ((first or {}).get("stdout") or "").split("\n")
+    return marker(lines[1]) if len(lines) > 1 else None
+
+
 def describe(raw, gid, agent):
     """Manifest record of a response, or raises ValueError for one that is not a complete two-player game."""
     g = json.loads(raw.decode("utf-8"))
@@ -97,6 +116,7 @@ def describe(raw, gid, agent):
         "opponent": {"pseudo": (opp.get("codingamer") or {}).get("pseudo"), "agentId": opp["agentId"],
                      "ratingAtFetch": opp.get("score")},
         "ranks": g["ranks"], "scores": g["scores"], "seed": seed, "frames": len(g["frames"]),
+        "marker": turn0_marker(g["frames"], seat),
         "sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw),
     }
 
@@ -134,21 +154,24 @@ def main():
                    if os.path.basename(p)[:-5].isdigit() and int(os.path.basename(p)[:-5]) not in rows)
     wins = sum(1 for g in games if g["ranks"][g["seat"]] < g["ranks"][1 - g["seat"]])
     ties = sum(1 for g in games if g["scores"][0] == g["scores"][1])
+    markers = {}
+    for g in games:
+        markers[g["marker"] or "none"] = markers.get(g["marker"] or "none", 0) + 1
     out = {
         "fetched": stamp, "agentId": agent,
         "services": ["gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]", "gameResult/findByGameId [gameId, null]"],
         "raw": raw_dir.replace("\\", "/") + "/<gameId>.json (gitignored), unchanged response bytes; battle lists battles-<time>.json",
         "battleRows": {"live": live, "merged": len(rows), "savedLists": [p.replace("\\", "/") for p in saved],
                        "notDone": pending},
-        "summary": {"games": len(games), "wins": wins, "scoreTies": ties, "failures": len(failures),
-                    "filesNotInLists": stray},
+        "summary": {"games": len(games), "wins": wins, "scoreTies": ties, "markers": dict(sorted(markers.items())),
+                    "failures": len(failures), "filesNotInLists": stray},
         "games": games, "failures": failures,
     }
     with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
         f.write("\n")
-    print("games %d wins %d score ties %d failures %d not done %d (live list %d, merged %d)"
-          % (len(games), wins, ties, len(failures), pending, live, len(rows)))
+    print("games %d wins %d score ties %d markers %s failures %d not done %d (live list %d, merged %d)"
+          % (len(games), wins, ties, dict(sorted(markers.items())), len(failures), pending, live, len(rows)))
 
 
 if __name__ == "__main__":

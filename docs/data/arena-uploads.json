@@ -1,0 +1,32 @@
+{
+ "what": "Arena uploads of this project, one entry per CG agent; tools/arena_compare.py reads and checks it (policy P1, docs/arena-uploads.md). A label holds one configuration (artifact.config, cr.submit.Build.config: the artifact text before the runner section plus PARAMS). An upload whose placement ended in a promotion gets promotedTo and no placement score. Scores compare within one league only.",
+ "uploads": [
+  {
+   "label": "v01",
+   "upload": 1,
+   "agent": 6823071,
+   "submission": 41591829,
+   "league": "bronze",
+   "artifact": {"sha256": "5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a", "build": null, "config": "4194117d", "source": "commit 80e404c, default params"},
+   "created": "2026-10-29T08:17:16+02:00",
+   "placement": {"score": 18.24, "rank": 736, "agents": 2296, "games": 60, "firstCompleteSnapshot": "2026-10-29T09:36:23+02:00", "watched": true},
+   "snapshots": "docs/data/arena-6823071-placement-2026-10-29.json",
+   "games": "docs/data/arena-6823071-games-2026-10-29.json",
+   "attribution": "cgAttribute against 5bace689 (then build/submit): SAME in 60 of 60 games, 7,230 turns",
+   "replaced": "2026-10-29T14:03:05+02:00 by upload 2; its battle list is empty since"
+  },
+  {
+   "label": "v01",
+   "upload": 2,
+   "agent": 6823455,
+   "submission": 41593274,
+   "league": "bronze",
+   "artifact": {"sha256": "5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a", "build": null, "config": "4194117d", "source": "the same bytes as upload 1, re-submitted by the user"},
+   "created": "2026-10-29T14:03:05+02:00",
+   "placement": {"score": 16.08, "rank": 1067, "rankNote": "rank at 20:51, not at completion", "agents": 2294, "games": 60, "firstCompleteSnapshot": "2026-10-29T20:51:30+02:00", "watched": false, "lastUpdate": "2026-10-29T15:51:36+02:00 (leaderboard updateTime; 60 games, no game after placement)"},
+   "snapshots": "docs/data/arena-6823455-placement-2026-10-29.json",
+   "games": "docs/data/arena-6823455-games-2026-10-29.json",
+   "attribution": "cgAttribute against 5bace689 (then build/submit, 20:53): SAME in 60 of 60 games, 6,413 turns"
+  }
+ ]
+}

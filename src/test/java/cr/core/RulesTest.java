@@ -266,6 +266,25 @@ class RulesTest {
         assertNull(r.lastWarning[0]);
     }
 
+    /**
+     * The build marker (CGRunner.marker) on turn 0: a warning about its first site, nothing trained and
+     * no gold spent. Live replays show this for single-site TRAINs of sites without barracks, and the
+     * first offending site of multi-site TRAINs for barracks in training; eight sites without barracks
+     * follow the referee's per-site order and are checked live by the first marked upload.
+     */
+    @Test
+    void theTurnZeroBuildMarkerOnlyWarns() {
+        GameState marked = MapGen.generate(1, 4), plain = MapGen.generate(1, 4);
+        Command m = Command.parse("WAIT", "TRAIN 5 11 10 12 14 6 8 9", marked.nSites);
+        assertFalse(m.kill, m.error);
+        Rules r = new Rules();
+        r.resolve(marked, m, Command.parse("WAIT", "TRAIN", marked.nSites));
+        assertEquals("Cannot spawn from 5: not a barracks", r.lastWarning[0]);
+        assertNull(r.lastKill[0]);
+        new Rules().resolve(plain, Command.parse("WAIT", "TRAIN", plain.nSites), Command.parse("WAIT", "TRAIN", plain.nSites));
+        assertEquals(plain.toString(), marked.toString());
+    }
+
     /** Both queens touch empty site 4 (343,362 r80) and build towers; towers survive queen contact. */
     private static int conflictWinner(int turnsPlayed) {
         GameState s = emptyState();

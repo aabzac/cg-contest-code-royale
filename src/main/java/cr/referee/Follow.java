@@ -7,6 +7,7 @@ import cr.core.InputReader;
 import cr.core.MapGen;
 import cr.core.Protocol;
 import cr.core.Rules;
+import cr.submit.Build;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +19,9 @@ import java.util.Objects;
  * game always advances with the recorded commands of both players, so a difference does not change
  * the later input. Equal lines on every turn show that the recorded player behaved as this bot on
  * the positions the game reached; they are not a proof of the same code elsewhere.
+ * A recorded build marker (the turn-0 TRAIN line of CGRunner.marker) must be printed exactly by a bot
+ * that prints one; a bot with an empty TRAIN line there (in-process, or built before the marker) is
+ * excused it, since the line only makes the referee warn.
  */
 public final class Follow {
     /** Why the comparison ended before the recorded game did. */
@@ -42,6 +46,8 @@ public final class Follow {
         public Stop stop = Stop.NONE;
         /** The stop with its turn, or null. */
         public String stopped;
+        /** The build id in the recorded turn-0 TRAIN line of the seat, or null. */
+        public String marker;
 
         void stop(Stop kind, int turn, String why) {
             stop = kind;
@@ -65,6 +71,8 @@ public final class Follow {
         ProcessBot pb = bot instanceof ProcessBot ? (ProcessBot) bot : null;
         Result r = new Result();
         int n = Math.min(recorded.get(0).size(), recorded.get(1).size());
+        // A property of the record, read whether or not turn 0 gets compared.
+        if (n > 0) r.marker = Build.decode(recorded.get(seat).get(0)[1]);
         try {
             String init = Protocol.initInput(s);
             if (pb != null) {
@@ -96,7 +104,8 @@ public final class Follow {
                 }
                 if (l1 == null) { r.stop(Stop.NO_ANSWER, t, "the bot did not answer in " + turnMs + " ms"); break; }
                 r.turns++;
-                if (!Objects.equals(l0, mine[0]) || !Objects.equals(l1, mine[1])) {
+                boolean excused = t == 0 && r.marker != null && l1.equals("TRAIN");
+                if (!Objects.equals(l0, mine[0]) || !excused && !Objects.equals(l1, mine[1])) {
                     if (r.diffs++ == 0) {
                         r.firstDiff = t;
                         r.expected = mine[0] + " | " + mine[1];

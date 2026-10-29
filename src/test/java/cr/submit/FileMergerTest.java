@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -87,6 +88,66 @@ class FileMergerTest {
         assertEquals("PARAMS marker must occur exactly once", msg);
     }
 
+    /** The id follows the code and the params; an edited artifact no longer matches it. */
+    @Test
+    void theBuildIdNamesTheMergedText() throws IOException {
+        String a = FileMerger.merge(FileMerger.shippedFiles(), ""), b = FileMerger.merge(FileMerger.shippedFiles(), "MAX_TOWERS=3");
+        String id = Build.of(a);
+        assertTrue(id.matches("[0-9a-f]{8}"), id);
+        assertEquals(id, Build.id(a.replace("BUILD = \"" + id + "\";", "BUILD = \"\";")));
+        assertEquals(id, Build.of(FileMerger.merge(FileMerger.shippedFiles(), "")), "the same inputs give the same id");
+        assertNotEquals(id, Build.of(b));
+        assertThrows(IllegalStateException.class, () -> Build.of(a + "// edited\n"));
+    }
+
+    @Test
+    void aMissingOrDoubledBuildMarkerIsRejected(@TempDir Path tmp) throws IOException {
+        List<Path> twice = copyShipped(tmp.resolve("twice"), t -> t.replace(Build.EMPTY, Build.EMPTY + " // " + Build.EMPTY));
+        String msg = assertThrows(IllegalStateException.class, () -> FileMerger.merge(tmp.resolve("twice"), twice, "")).getMessage();
+        assertEquals("BUILD marker must occur exactly once", msg);
+        List<Path> none = copyShipped(tmp.resolve("none"), t -> t.replace(Build.EMPTY, "public static final String BUILD = \"x\";"));
+        msg = assertThrows(IllegalStateException.class, () -> FileMerger.merge(tmp.resolve("none"), none, "")).getMessage();
+        assertEquals("BUILD marker must occur exactly once", msg);
+        // merge refuses it, so run never reaches build(): the old artifact stays
+        List<Path> second = copyShipped(tmp.resolve("second"), t -> t.replace(Build.EMPTY, Build.EMPTY + " // public static final String BUILD = \"5bace689\";"));
+        msg = assertThrows(IllegalStateException.class, () -> FileMerger.merge(tmp.resolve("second"), second, "")).getMessage();
+        assertEquals("more than one BUILD literal in the artifact", msg);
+    }
+
+    /** The config id names the bot and its params: a change to the runner keeps it, a change to the bot does not. */
+    @Test
+    void theConfigIdFollowsTheBotNotTheRunner(@TempDir Path tmp) throws IOException {
+        String base = Build.config(FileMerger.merge(FileMerger.shippedFiles(), ""));
+        // a new constant and an import of the runner's own (imports go into the shared header)
+        List<Path> runner = copyShipped(tmp.resolve("runner"), t -> t.contains("class CGRunner")
+            ? t.replace("static final long WARM_UP_MS = 300;", "static final long WARM_UP_MS = 301;").replace("import cr.bot.Bot;", "import cr.bot.Bot;\nimport java.io.PrintStream;")
+            : t);
+        String changed = FileMerger.merge(tmp.resolve("runner"), runner, "");
+        assertTrue(changed.contains("WARM_UP_MS = 301;") && (changed.startsWith("import java.io.PrintStream;") || changed.contains("\nimport java.io.PrintStream;")),
+            changed.substring(0, 300));
+        assertEquals(base, Build.config(changed));
+        List<Path> bot = copyShipped(tmp.resolve("bot"), t -> t.contains("class MainBot") ? t + "// changed\n" : t);
+        assertNotEquals(base, Build.config(FileMerger.merge(tmp.resolve("bot"), bot, "")));
+        assertNotEquals(base, Build.config(FileMerger.merge(FileMerger.shippedFiles(), "MAX_TOWERS=3")));
+    }
+
+    /**
+     * The built program in a real game: its turn-0 TRAIN line is the marker of its build id and no
+     * later line is one, and the referee only warns about it.
+     */
+    @Test
+    void theArtifactPrintsItsMarkerOnTurnZeroOnly(@TempDir Path tmp) throws Exception {
+        Path out = tmp.resolve("submit");
+        FileMerger.run(new String[]{""}, out);
+        String id = Build.of(Files.readString(out.resolve("Player.java"), StandardCharsets.US_ASCII));
+        cr.referee.Referee.Result r = cr.referee.Referee.play(1, cr.bot.BotFactory.create("v00"),
+            new cr.referee.ProcessBot("artifact", List.of("java", "-cp", out.resolve("classes").toString(), "Player"), false), true, 1000);
+        assertTrue(r.error[1] == null && r.timeouts[1] == 0 && r.extraLines[1] == 0, r.error[1]);
+        assertTrue(r.replay.get(1).startsWith("1 ") && r.replay.get(1).endsWith(" | " + CGRunner.marker(id, r.sites.size())), r.replay.get(1));
+        for (int i = 2; i < r.replay.size(); i++)
+            assertEquals(null, Build.decode(r.replay.get(i).substring(r.replay.get(i).indexOf(" | ") + 3)), r.replay.get(i));
+    }
+
     /** A quote in -Pparams can split the argument on Windows; the rest must not be dropped silently. */
     @Test
     void moreThanOneArgumentIsRejectedBeforeAnythingIsTouched(@TempDir Path tmp) {
@@ -102,6 +163,8 @@ class FileMergerTest {
         String summary = FileMerger.run(new String[]{""}, out);
         String sha = HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(Files.readAllBytes(out.resolve("Player.java"))));
         assertTrue(summary.endsWith("sha256=" + sha), summary);
+        String text = Files.readString(out.resolve("Player.java"), StandardCharsets.US_ASCII);
+        assertTrue(summary.contains(", build=" + Build.of(text) + ", config=" + Build.config(text) + ", "), summary);
         assertTrue(Files.exists(out.resolve("classes/Player.class")));
         assertFalse(Files.exists(tmp.resolve("submit.new")) || Files.exists(tmp.resolve("submit.old")));
     }

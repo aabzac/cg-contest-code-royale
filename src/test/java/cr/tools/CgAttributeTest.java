@@ -150,8 +150,10 @@ class CgAttributeTest {
 
     /**
      * Two placement games of agent 6823071 (gitignored replays; skipped without them): seat 0 in
-     * 913027389, seat 1 in 913027383. The merged artifact, built here from the shipped sources, and
-     * current match both; v00 and the opponent's seat do not; an unvalidated state stops the comparison.
+     * 913027389, seat 1 in 913027383, played by a build without the marker. current matches both; an
+     * artifact of today's sources differs at turn 0 only, by its marker, and matches once the replay
+     * carries that marker and the referee's warning about it. v00 and the opponent's seat do not match;
+     * an unvalidated state stops the comparison, and the recorded marker is still reported.
      */
     @Test
     void realPlacementGamesAreAttributedToTheBotThatPlayedThem(@TempDir Path tmp) throws Exception {
@@ -161,11 +163,45 @@ class CgAttributeTest {
         for (String id : List.of("913027389", "913027383")) Files.copy(games.resolve(id + ".json"), two.resolve(id + ".json"));
 
         assertEquals(0, CgAttribute.run(two, "current", "6823071", quiet()));
+        // an artifact of today's sources prints its marker on turn 0, which the recorded (older) build did not
         String artifact = cr.submit.FileMerger.run(new String[]{""}, tmp.resolve("submit"));
         assertTrue(artifact.contains("sha256="), artifact);
+        String id = cr.submit.Build.of(Files.readString(tmp.resolve("submit/Player.java"), StandardCharsets.US_ASCII));
+        String marker = cr.submit.CGRunner.marker(id, 24);
         ByteArrayOutputStream log = new ByteArrayOutputStream();
-        assertEquals(0, CgAttribute.run(two, "file:" + tmp.resolve("submit/Player.java"), "6823071", new PrintStream(log, true, StandardCharsets.UTF_8)));
-        assertTrue(log.toString(StandardCharsets.UTF_8).contains("same=2 differ=0 partial=0 error=0"), log.toString(StandardCharsets.UTF_8));
+        assertEquals(1, CgAttribute.run(two, "file:" + tmp.resolve("submit/Player.java"), "6823071", new PrintStream(log, true, StandardCharsets.UTF_8)));
+        String text = log.toString(StandardCharsets.UTF_8);
+        assertTrue(text.contains(" build=" + id) && text.contains("same=0 differ=2 partial=0 error=0") && text.contains("markers={none=2}"), text);
+        assertTrue(text.matches("(?s).*DIFF 913027389 seat 0 vs Brutus79: compared 35 of 35 turns \\(validated 35\\), diffs 1, first at turn 0: "
+            + "recorded \\[[A-Z0-9 -]+ \\| TRAIN\\] bot \\[[A-Z0-9 -]+ \\| " + marker + "\\]\\R.*"), text);
+
+        // the same game as that build would have played it: its marker and the referee's warning about it
+        JsonObject withMarker = JsonParser.parseString(Files.readString(games.resolve("913027389.json"))).getAsJsonObject();
+        JsonObject turn0 = withMarker.getAsJsonArray("frames").get(1).getAsJsonObject(), key0 = withMarker.getAsJsonArray("frames").get(2).getAsJsonObject();
+        String out0 = turn0.get("stdout").getAsString();
+        assertTrue(out0.endsWith("\nTRAIN\n"), out0);
+        turn0.addProperty("stdout", out0.substring(0, out0.length() - "TRAIN\n".length()) + marker + "\n");
+        String summary = key0.has("summary") && !key0.get("summary").isJsonNull() ? key0.get("summary").getAsString() : "";
+        key0.addProperty("summary", summary + "$0: [WARNING] Cannot spawn from " + Character.digit(id.charAt(0), 16) + ": not a barracks\n");
+        Path markedDir = Files.createDirectories(tmp.resolve("marked"));
+        Files.writeString(markedDir.resolve("913027389.json"), withMarker.toString());
+        log.reset();
+        assertEquals(0, CgAttribute.run(markedDir, "file:" + tmp.resolve("submit/Player.java"), "6823071", new PrintStream(log, true, StandardCharsets.UTF_8)));
+        assertTrue(log.toString(StandardCharsets.UTF_8).contains("diffs 0; marker " + id), log.toString(StandardCharsets.UTF_8));
+        log.reset();
+        assertEquals(0, CgAttribute.run(markedDir, "current", "6823071", new PrintStream(log, true, StandardCharsets.UTF_8)));
+        assertTrue(log.toString(StandardCharsets.UTF_8).contains("markers={" + id + "=1}"), log.toString(StandardCharsets.UTF_8));
+        // another seed: the map does not match, no turn is validated or compared, the marker is still reported
+        String input = withMarker.get("refereeInput").getAsString();
+        java.util.regex.Matcher seed = java.util.regex.Pattern.compile("seed=(-?\\d+)").matcher(input);
+        assertTrue(seed.find(), input);
+        withMarker.addProperty("refereeInput", input.replace(seed.group(), "seed=" + (Long.parseLong(seed.group(1)) + 1)));
+        Files.writeString(markedDir.resolve("913027389.json"), withMarker.toString());
+        log.reset();
+        assertEquals(1, CgAttribute.run(markedDir, "current", "6823071", new PrintStream(log, true, StandardCharsets.UTF_8)));
+        text = log.toString(StandardCharsets.UTF_8);
+        assertTrue(text.contains("compared 0 of 35 turns (validated 0), diffs 0; stopped at turn 0: not validated; marker " + id)
+            && text.contains("markers={" + id + "=1}"), text);
         assertEquals(1, CgAttribute.run(two, "v00", "6823071", quiet()));
         assertEquals(1, CgAttribute.run(two.resolve("913027389.json"), "current", "2742118", quiet()), "the opponent's seat");
 

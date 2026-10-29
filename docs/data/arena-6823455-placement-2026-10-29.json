@@ -1,0 +1,690 @@
+{
+ "fetched": "2026-10-29T20:51:30+0200",
+ "services": [
+  "Leaderboards/getFilteredPuzzleLeaderboard [code-royale, null, global, {active, KEYWORD, aabzac}]",
+  "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]"
+ ],
+ "entry": {
+  "rank": 1712,
+  "localRank": 1067,
+  "score": 16.08,
+  "eligibleForPromotion": false,
+  "programmingLanguage": "Java",
+  "updateTime": 1793281896478,
+  "creationTime": 1793275385243,
+  "percentage": 100,
+  "agentId": 6823455,
+  "inProgress": false,
+  "league": 3,
+  "leagueAgents": 2294,
+  "pseudo": "aabzac"
+ },
+ "leagueTotal": 2294,
+ "battles": {
+  "count": 60,
+  "done": 60,
+  "wins": 31,
+  "games": [
+   {
+    "gameId": 913134234,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "binaryescape",
+     "agentId": 5005354,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913133320,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "PGRBryant",
+     "agentId": 2455998,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913132869,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "d3d3",
+     "agentId": 3976583,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913132623,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "desm-it",
+     "agentId": 4388190,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913132038,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "lazyDog",
+     "agentId": 2647563,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913131365,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Tueur_dombres",
+     "agentId": 5371412,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913130940,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "thesystemantic",
+     "agentId": 1881686,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913130495,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "lazyDog",
+     "agentId": 2647563,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913130174,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Louise-Francoise",
+     "agentId": 3678027,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913129317,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "PapyPouley",
+     "agentId": 4736533,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913128974,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Andrgis",
+     "agentId": 5782958,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913128605,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Silly_Turtle",
+     "agentId": 2250539,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913128317,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Tobeker",
+     "agentId": 5033383,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913127635,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "ZXPlaner",
+     "agentId": 2602270,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913127239,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "yann_2",
+     "agentId": 5314362,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913126812,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Programming_Doge",
+     "agentId": 1889892,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913126287,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Muad-Dib",
+     "agentId": 2481832,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913125020,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Ammko128",
+     "agentId": 5847742,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913124628,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "iter",
+     "agentId": 2438317,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913123326,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Baltilius",
+     "agentId": 2121095,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913122910,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "chernovig",
+     "agentId": 2497228,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913122392,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Silly_Turtle",
+     "agentId": 2250539,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913121911,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "NeoGen",
+     "agentId": 2012237,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913121521,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "bor",
+     "agentId": 1863925,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913121088,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Flat_Erick",
+     "agentId": 4023820,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913120807,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Daxmawal",
+     "agentId": 3120005,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913120489,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Vaekor",
+     "agentId": 2357304,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913120149,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Aquaphobe",
+     "agentId": 3680015,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913119798,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "qtiee",
+     "agentId": 4429207,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913119371,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "DCVolo",
+     "agentId": 4226326,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913118929,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Leo_Leclerc",
+     "agentId": 4703935,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913117730,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "MiningMath",
+     "agentId": 4306284,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913117346,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "PapyPouley",
+     "agentId": 4736533,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913116893,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "TiPoix",
+     "agentId": 4484765,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913116565,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "vivacit",
+     "agentId": 4488669,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913116166,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Octet8",
+     "agentId": 5756640,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913115776,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "gl",
+     "agentId": 1865338,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913115402,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "MowMow",
+     "agentId": 2457730,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913115033,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Wolfsbane",
+     "agentId": 2413276,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913114724,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "desm-it",
+     "agentId": 4388190,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913114190,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "stolyaroleh",
+     "agentId": 4436424,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913113838,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "jouretz",
+     "agentId": 1955832,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913113341,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "knght",
+     "agentId": 4406226,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913113062,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "_papar_",
+     "agentId": 2211864,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913112680,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Noob_Pythoner",
+     "agentId": 2580256,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913112153,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "kenlime2010",
+     "agentId": 4581852,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913111900,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "AntoniosKC",
+     "agentId": 5546889,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913111606,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "CBaz",
+     "agentId": 2496365,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913111056,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Hartke",
+     "agentId": 3039085,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913110788,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "GBOT",
+     "agentId": 2230763,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913110374,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Kanaho",
+     "agentId": 2152568,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913110373,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "CIR3_Francois_Bcr",
+     "agentId": 4487367,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913110372,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "130",
+     "agentId": 5575881,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913110371,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "dmingues",
+     "agentId": 4317949,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913110370,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "TheDrakonir",
+     "agentId": 3135087,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913110369,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Soawn",
+     "agentId": 2245828,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913110368,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Maldo",
+     "agentId": 2465440,
+     "rank": 1
+    }
+   },
+   {
+    "gameId": 913110367,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "pusiux",
+     "agentId": 1878311,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913110366,
+    "done": true,
+    "myRank": 1,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "Just_Ice",
+     "agentId": 5140578,
+     "rank": 0
+    }
+   },
+   {
+    "gameId": 913110365,
+    "done": true,
+    "myRank": 0,
+    "submissionId": 41593274,
+    "opponent": {
+     "pseudo": "origabay",
+     "agentId": 2704210,
+     "rank": 1
+    }
+   }
+  ]
+ }
+}
