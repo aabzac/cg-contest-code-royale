@@ -15,3 +15,4 @@
 # Build
 /.gradle/
 /build/
+/.playwright-mcp/

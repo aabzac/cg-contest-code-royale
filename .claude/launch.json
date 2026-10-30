@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "visualizer",
-      "runtimeExecutable": "java",
-      "runtimeArgs": ["-cp", "build/classes/java/main", "cr.tools.Serve", "8765"],
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "gradlew.bat", "serve"],
       "port": 8765
     }
   ]

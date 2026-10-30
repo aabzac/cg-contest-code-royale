@@ -979,3 +979,36 @@ adjusted their imports for `python -I` and updated discovery commands. All 44 te
 `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`. The first sandboxed run could not
 access its default temporary directories; the successful run set TEMP and TMP to `build/test-tmp`
 for that process only. No test behavior changed.
+
+## 2026-10-31 — arena dashboard and recorded replay viewer
+
+Implemented the user's first stage: overview, opponents, filtered games and replay navigation
+within the same selection. Before changes: `902a3d029d415b2c30711b534286f2d449da78a3`, clean tree.
+Usage, data semantics and limitations are maintained in `docs/visualizer.md`.
+
+The catalog reads the upload registry and manifests; an individual raw replay is loaded on demand
+through `/api/replay`. `CgViewReplay` decodes recorded SDK entities and tooltips without running a bot
+or simulator. Local replay links remain supported. URL state preserves filters, ordering, page,
+game and turn; returning from a game restores the list's scroll position. The server stays on
+loopback and rejects paths outside the repository. Updated the launcher to use the Gradle runtime
+classpath and regenerated project instructions from the locked local kit.
+
+Validation:
+- `node --test visualizer/tests/catalog.test.mjs`: 6 passed. Includes real manifests, rank-based
+  outcomes, equal scores, disqualifications, league/legacy separation, opponent filters and partial data.
+- `./gradlew.bat test --tests cr.tools.CgViewReplayTest --tests cr.tools.ServeTest`: 4 passed,
+  none skipped. All 430 saved arena games decoded with no ownership warnings; commands and outcomes
+  matched their sources, including 7 disqualifications and 3 equal-score games. Synthetic fixtures
+  exercise building ownership changes, deaths, training, missing commands and local JSON handling;
+  HTTP checks cover MIME types, missing files and path containment.
+- Browser checks at 1440 px and 390 px: overview, opponent drilldown, empty search, combined
+  loss/side filters, next/previous replay, list pagination, direct local playback, seeking and reload.
+  Returning from game 31 of a 420-game selection restored page 2 and its scroll position.
+  Simulated missing manifest, missing registry and missing raw replay retained usable navigation
+  and explicit error/partial-data messages. A persisted pagehide/pageshow event check confirmed
+  playback controls remain active after the lifecycle cleanup fix.
+- Syntax and whitespace checks passed. Local QA captures are ignored under `build/`; browser
+  automation output is ignored under `.playwright-mcp/`.
+
+No platform requests, replay-byte changes, bot changes or simulator changes. Strength benchmarks
+and full simulator validation were not run because this change only reads existing recorded games.

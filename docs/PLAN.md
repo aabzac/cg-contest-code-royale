@@ -18,7 +18,7 @@
 - [ ] Tie-break at equal scores: collect more tie games
 - [x] Freeze v01 (greedy) with parameter snapshot; repo level-4 boss as a process opponent (`ProcessBot`)
 - [x] Visualizer for local games (`run -Pout`, `serve`, `visualizer/index.html`)
-- [ ] `cgRender`: export CG replays to the visualizer format
+- [x] Arena dashboard and recorded CG replay playback, with filters and navigation through a selection (`docs/visualizer.md`)
 - [ ] Replay fetch tool in the repository (the corpus scripts are archived in
   `docs/data/inference-2026-10-28/tools/corpus/`)
 

@@ -50,7 +50,7 @@ tasks.register('run', JavaExec) {
     args prop('bot0', 'current'), prop('bot1', 'v00'), prop('seed', '1'), prop('print', '0'), prop('out', '')
 }
 
-// Visualizer server: http://localhost:8765/visualizer/index.html?file=/build/replays/local/<file>.json
+// Arena dashboard and recorded replay viewer: http://localhost:8765/visualizer/ (also ?file=...)
 tasks.register('serve', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'cr.tools.Serve'
