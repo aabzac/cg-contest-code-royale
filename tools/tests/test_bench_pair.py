@@ -1,6 +1,6 @@
 """Offline tests of tools/bench_pair.py (pairing of bench reports, policy P2 gates).
 
-Run: python -B -I -m unittest discover -s tools -p "test_*.py"   (no network)
+Run: python -B -I -m unittest discover -s tools/tests -p "test_*.py"   (no network)
 """
 import contextlib
 import io
@@ -10,7 +10,7 @@ import sys
 import tempfile
 import unittest
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import bench_pair  # noqa: E402
 
 

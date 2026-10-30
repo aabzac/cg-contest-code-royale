@@ -1,6 +1,6 @@
 """Offline tests of tools/arena_games.py (marker reading) and tools/arena_compare.py (registry checks, statistics, P1 verdicts).
 
-Run: python -B -I -m unittest discover -s tools -p "test_*.py"   (no network)
+Run: python -B -I -m unittest discover -s tools/tests -p "test_*.py"   (no network)
 """
 import contextlib
 import io
@@ -11,7 +11,7 @@ import sys
 import tempfile
 import unittest
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import arena_compare  # noqa: E402
 import arena_games  # noqa: E402
 

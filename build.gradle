@@ -36,7 +36,7 @@ tasks.register('cgValidate', JavaExec) {
 }
 
 // Which code an arena agent ran: its validated CG games against a bot's lines (replays and agent required)
-// -Preplays=replays/cg/arena-<agentId>/games -Pagent=<agentId> [-Pbot=submit|file:<Player.java>|<spec>]
+// -Preplays=replays/arena/<version>/<league>/upload-NN/games -Pagent=<agentId> [-Pbot=submit|file:<Player.java>|<spec>]
 tasks.register('cgAttribute', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'cr.tools.CgAttribute'

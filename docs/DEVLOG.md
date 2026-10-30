@@ -319,7 +319,7 @@ barracks, or a repeated site, have not been: the first marked upload is their ch
   `arena_games.py` records each game's marker.
 - Tests 74 → 84, then 89 after the review: marker encoding and decoding, build and config id checks, a
   real process game with the marker on turn 0 only, the referee warning in `Rules`, the procCheck and
-  Follow rules, a real placement game with and without the marker. Python: `tools/test_arena_tools.py`,
+  Follow rules, a real placement game with and without the marker. Python: `tools/tests/test_arena_tools.py`,
   12 offline tests.
 - New artifact: sha256 `1e5d1a79…`, 57,884 chars, build `e5417a83` (turn 0: `TRAIN 14 5 4 1 7 10 8 3`),
   default params. procCheck vs v01, 100 maps @5000: 200/200 identical to current, 99 wins, 0 timeouts,
@@ -393,7 +393,7 @@ commit 2641aa9) on 2026-10-29 at 22:50: agent 6824680, submission 41596829, Bron
 - Placement record `docs/data/arena-6824680-placement-2026-10-29.json`: every snapshot, the first
   completed one, and the attribution with its controls. Games manifest
   `docs/data/arena-6824680-games-2026-10-29.json`. Snapshots and raw responses are in
-  `replays/cg/arena-6824680/placement-raw` (gitignored). Registry entry: v01 upload 3.
+  `replays/arena/v01/bronze/upload-03/snapshots` (gitignored). Registry entry: v01 upload 3.
 
 **The marker live.** This was the first live check of eight sites without barracks:
 - All 60 games carry `TRAIN 14 5 4 1 7 10 8 3` on turn 0.
@@ -670,7 +670,7 @@ The user asked for a commit and for v02 on the arena. Commit 0606c2c holds P2 an
 
 **Before the Submit**: the live entry 6824680 was saved at 09:32 (18.98, rank 651/2291, 60 battles,
 `docs/data/arena-6824680-presubmit-2026-10-30.json`). It played no game after its placement, and all 60
-games are stored (`replays/cg/arena-6824680/games`, manifest `docs/data/arena-6824680-games-2026-10-29.json`).
+games are stored (`replays/arena/v01/bronze/upload-03/games`, manifest `docs/data/arena-6824680-games-2026-10-29.json`).
 The watcher still saw 60 battles at 09:55.
 
 **The upload, by the agent with the user's explicit permission.** The user was on a phone and asked for
@@ -932,3 +932,50 @@ What only the Markdown had moved into the page: the UNSTICK and version-reproduc
 and two UNSTICK cases (already touching the site; builds on a touched site left alone). Turn times stay
 where they were: the 2026-10-28 process run in this log, the procCheck maxima per artifact in
 `docs/BOTS.md`. Pointers changed in `.ai/project.md` and `docs/BOTS.md`.
+
+## 2026-10-31 — arena replay directories and automatic download destinations
+
+The user chose version → league → upload and authorized moving existing captures and updating the
+downloaders. Before changes: `d44a016257ce0c3a2629e299a77fb9c5a9e6d7da`, clean working tree.
+The layout and commands now live in `docs/arena-uploads.md`, Replay storage; the registry remains
+the source of upload identity. No bot, simulator or artifact changed, and no platform request was made.
+
+- Moved every file in the old `replays/cg/arena-*` directories, with SHA-256 checks before and after;
+  removed only the emptied directories. Compact inventory hashes, mapping and exceptions:
+  `docs/data/arena-layout-2026-10-31.json`. The one-off local preflight/move script and detailed plan
+  are `build/migrate_arena.py` and `build/arena-migration-before.json` (ignored).
+- Some historical pre-submit captures were filed under the next upload even though the responses
+  still named its predecessor. Reassigned these by the actual agent in the raw response, preserving
+  the bytes; the mapping records every exception. Also corrected the v03 upload-2 placement report's
+  existing snapshots-directory typo, which had pointed at v02 upload 2.
+- Added a manifest and `legacyUploads` entry for the pre-project bot. It stays outside P1 comparisons.
+  Updated manifest paths and active callers, including the real-replay test fixture and PV1 reader.
+  Archived inference scripts and feature CSV bytes retain their historical paths; their READMEs point
+  to the mapping. Project commands were regenerated from `.ai/project.md` using the locked local kit.
+- Downloaders resolve directories through the registry, merge saved lists/cache/manifest IDs and
+  keep failed completed-game IDs for retry. They preserve conflicting markers under `unknown`,
+  preserve rejected list responses outside automatic discovery, and route snapshots by the observed
+  agent. A replacement agent cannot overwrite an existing predecessor's compact snapshot.
+
+Validation:
+- `python -B -I tools/arena_games.py <agent> --offline --manifest build/arena-layout-check-<agent>.json`
+  for every registered and legacy upload: all saved games recovered, zero failures, original
+  per-game records unchanged (the oldest manifest's absent marker fields compare as null).
+- All files checked against the pre-move SHA-256 inventory; all recorded saved-list paths resolve.
+- `python -B -I tools/arena_compare.py --candidate v03 --selected v02 --out build/arena-compare-after-layout.json`:
+  complete JSON report identical to `build/arena-compare-before-layout.json`.
+- `python -B -I docs/data/pv1-2026-10-30/pv1.py`: all output lines identical to the pre-move run and
+  the preserved `pv1.txt`.
+- `./gradlew.bat test --tests cr.tools.CgAttributeTest`: all eight tests passed, none skipped;
+  the relocated real replay is still exercised. Full simulator/strength runs were unnecessary:
+  executable game behavior and replay bytes did not change.
+- Python downloader regressions: `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: all 44 passed;
+  cover empty live lists, recovery after failed download, absent markers, conflicting markers,
+  rejected responses followed by a successful retry, unknown/promoted agents and snapshot preservation.
+- `python -B -I .ai/sync.py sync . --source ../cg-agent-kit`, its `check` command and `git diff --check` passed.
+
+Follow-up at the user's request: moved the three `tools/test_*.py` files into `tools/tests`,
+adjusted their imports for `python -I` and updated discovery commands. All 44 tests passed with
+`python -B -I -m unittest discover -s tools/tests -p "test_*.py"`. The first sandboxed run could not
+access its default temporary directories; the successful run set TEMP and TMP to `build/test-tmp`
+for that process only. No test behavior changed.

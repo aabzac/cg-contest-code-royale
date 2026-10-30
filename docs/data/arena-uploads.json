@@ -188,5 +188,19 @@
    "attribution": "cgAttribute against the kept copy replays/artifacts/d6266d41/Player.java: SAME in 60 of 60 games, 8,286 turns; marker cd1f3d33 in 60 of 60",
    "submittedBy": "the agent in the built-in browser, with the user’s explicit permission (2026-10-30)"
   }
+ ],
+ "legacyUploads": [
+  {
+   "label": "legacy",
+   "upload": 1,
+   "agent": 3315948,
+   "submission": 17067866,
+   "league": "bronze",
+   "artifact": {
+    "build": null
+   },
+   "games": "docs/data/arena-3315948-games-2026-10-31.json",
+   "source": "Pre-project user entry; saved last battles dated 2026-10-28. Source code unavailable; excluded from P1 comparisons."
+  }
  ]
 }

@@ -161,7 +161,7 @@ class CgAttributeTest {
      */
     @Test
     void realPlacementGamesAreAttributedToTheBotThatPlayedThem(@TempDir Path tmp) throws Exception {
-        Path games = Path.of("replays/cg/arena-6823071/games");
+        Path games = Path.of("replays/arena/v01/bronze/upload-01/games");
         assumeTrue(Files.exists(games.resolve("913027389.json")) && Files.exists(games.resolve("913027383.json")), "no local replays");
         Path two = Files.createDirectories(tmp.resolve("two"));
         for (String id : List.of("913027389", "913027383")) Files.copy(games.resolve(id + ".json"), two.resolve(id + ".json"));

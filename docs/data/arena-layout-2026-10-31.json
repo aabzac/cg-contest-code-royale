@@ -1,0 +1,324 @@
+{
+ "date": "2026-10-31",
+ "revisionBefore": "d44a016257ce0c3a2629e299a77fb9c5a9e6d7da",
+ "workingTreeBefore": "clean",
+ "what": "Arena layout migration; every file SHA-256 checked before and after. Games also checked against all existing upload manifests. No network calls.",
+ "layout": "replays/arena/<label>/<league>/upload-NN/{games,snapshots,checks}",
+ "mapping": "Numeric JSON -> games/<filename>; .log -> checks/<filename>; all other files -> snapshots/<filename>. No filename collisions within an upload.",
+ "digestDefinition": "SHA-256 of UTF-8 lines sorted by filename: filename + space + sha256 + LF; same before and after.",
+ "uploads": [
+  {
+   "agent": 6823071,
+   "old": "replays/cg/arena-6823071",
+   "new": "replays/arena/v01/bronze/upload-01",
+   "files": 169,
+   "games": 60,
+   "bytes": 19438491,
+   "contentInventorySha256": "a2fec9810ff2ea05cf9fcd75a6e818bf3ad4908f75415eedc82918904f1d0a41"
+  },
+  {
+   "agent": 6823455,
+   "old": "replays/cg/arena-6823455",
+   "new": "replays/arena/v01/bronze/upload-02",
+   "files": 67,
+   "games": 60,
+   "bytes": 15747326,
+   "contentInventorySha256": "3e2b8b0967e56c669be0acc5c7ca52d4f5467eaed7a32c9b32e73afde4b38998"
+  },
+  {
+   "agent": 6824680,
+   "old": "replays/cg/arena-6824680",
+   "new": "replays/arena/v01/bronze/upload-03",
+   "files": 267,
+   "games": 60,
+   "bytes": 17416992,
+   "contentInventorySha256": "3652872fc4d0a5eca1013aa59fdb164f6c0cf11f9bac49bb486aa311f15029a1"
+  },
+  {
+   "agent": 6826276,
+   "old": "replays/cg/arena-6826276",
+   "new": "replays/arena/v02/bronze/upload-01",
+   "files": 324,
+   "games": 60,
+   "bytes": 17859372,
+   "contentInventorySha256": "e578810363472fd572955dab0047a37a53f6ad207cc21a26052267e3c3344f21"
+  },
+  {
+   "agent": 6827094,
+   "old": "replays/cg/arena-6827094",
+   "new": "replays/arena/v02/bronze/upload-02",
+   "files": 223,
+   "games": 60,
+   "bytes": 19495989,
+   "contentInventorySha256": "47885949ea6bb81981a9f67b5f0f3d51313de1268159f53a1faa83eb8c6b3c3d"
+  },
+  {
+   "agent": 6827580,
+   "old": "replays/cg/arena-6827580",
+   "new": "replays/arena/v03/bronze/upload-01",
+   "files": 205,
+   "games": 60,
+   "bytes": 25943056,
+   "contentInventorySha256": "923633f574d7794430fce2ed10f9dda13f5ef753e3bf8f7abcba6f21ded86e47"
+  },
+  {
+   "agent": 6828013,
+   "old": "replays/cg/arena-6828013",
+   "new": "replays/arena/v03/bronze/upload-02",
+   "files": 113,
+   "games": 60,
+   "bytes": 20419103,
+   "contentInventorySha256": "387227e5a391d6fd4e015c62b70807f873336ca5b9743d443674b7ae232c3fcd"
+  },
+  {
+   "agent": 3315948,
+   "old": "replays/cg/arena-3315948",
+   "new": "replays/arena/legacy/bronze/upload-01",
+   "files": 15,
+   "games": 10,
+   "bytes": 3161455,
+   "contentInventorySha256": "98e49ba3780e68f1b50c3f19b24536094329c7d4934bd0556421c2da4aef5b63"
+  }
+ ],
+ "snapshotReassignments": [
+  {
+   "old": "replays/cg/arena-6824680/placement-raw/battles-20261029-224925.json",
+   "new": "replays/arena/v01/bronze/upload-02/snapshots/battles-20261029-224925.json",
+   "sourceAgent": 6824680,
+   "observedAgent": 6823455,
+   "sha256": "e4606d60a6f9e9c5d2e7b8893202c1658ad6abe0445ee9bf25077e0fdc541c13"
+  },
+  {
+   "old": "replays/cg/arena-6824680/placement-raw/leaderboard-aabzac-20261029-224925.json",
+   "new": "replays/arena/v01/bronze/upload-02/snapshots/leaderboard-aabzac-20261029-224925.json",
+   "sourceAgent": 6824680,
+   "observedAgent": 6823455,
+   "sha256": "b6eba6406461408cf1090d989e2835ff68fa8872a1768b4e2fe95fbeedbe8012"
+  },
+  {
+   "old": "replays/cg/arena-6824680/placement-raw/poll-20261029-224925.json",
+   "new": "replays/arena/v01/bronze/upload-02/snapshots/poll-20261029-224925.json",
+   "sourceAgent": 6824680,
+   "observedAgent": 6823455,
+   "sha256": "d30f7333415c19b39c163ea0c7fc128cd5c647948f03551a7d364b6ec7f3d339"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/battles-20261030-093405.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/battles-20261030-093405.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "7477c084510285224adb6b7ff4551d35353d34e502f5125166c525e6c7b8da91"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/battles-20261030-093708.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/battles-20261030-093708.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "7477c084510285224adb6b7ff4551d35353d34e502f5125166c525e6c7b8da91"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/battles-20261030-094011.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/battles-20261030-094011.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "7477c084510285224adb6b7ff4551d35353d34e502f5125166c525e6c7b8da91"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/battles-20261030-094314.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/battles-20261030-094314.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "7477c084510285224adb6b7ff4551d35353d34e502f5125166c525e6c7b8da91"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/battles-20261030-094617.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/battles-20261030-094617.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "7477c084510285224adb6b7ff4551d35353d34e502f5125166c525e6c7b8da91"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/battles-20261030-094919.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/battles-20261030-094919.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "7477c084510285224adb6b7ff4551d35353d34e502f5125166c525e6c7b8da91"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/battles-20261030-095222.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/battles-20261030-095222.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "7477c084510285224adb6b7ff4551d35353d34e502f5125166c525e6c7b8da91"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/battles-20261030-095525.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/battles-20261030-095525.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "7477c084510285224adb6b7ff4551d35353d34e502f5125166c525e6c7b8da91"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/battles-20261030-095828.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/battles-20261030-095828.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "7477c084510285224adb6b7ff4551d35353d34e502f5125166c525e6c7b8da91"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/leaderboard-aabzac-20261030-093405.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/leaderboard-aabzac-20261030-093405.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "3bb06fdc17ecbb349f70f43225c1048815ba9c8e29e52a5adc4fa72939cd066f"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/leaderboard-aabzac-20261030-093708.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/leaderboard-aabzac-20261030-093708.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "3bb06fdc17ecbb349f70f43225c1048815ba9c8e29e52a5adc4fa72939cd066f"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/leaderboard-aabzac-20261030-094011.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/leaderboard-aabzac-20261030-094011.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "3bb06fdc17ecbb349f70f43225c1048815ba9c8e29e52a5adc4fa72939cd066f"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/leaderboard-aabzac-20261030-094314.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/leaderboard-aabzac-20261030-094314.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "9b3d12bb4b8a3c56dd9ad65d15a9469d5fa14b04ad14c70de4ff6d29ffe2e47d"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/leaderboard-aabzac-20261030-094617.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/leaderboard-aabzac-20261030-094617.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "9b3d12bb4b8a3c56dd9ad65d15a9469d5fa14b04ad14c70de4ff6d29ffe2e47d"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/leaderboard-aabzac-20261030-094919.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/leaderboard-aabzac-20261030-094919.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "9b3d12bb4b8a3c56dd9ad65d15a9469d5fa14b04ad14c70de4ff6d29ffe2e47d"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/leaderboard-aabzac-20261030-095222.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/leaderboard-aabzac-20261030-095222.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "9b3d12bb4b8a3c56dd9ad65d15a9469d5fa14b04ad14c70de4ff6d29ffe2e47d"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/leaderboard-aabzac-20261030-095525.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/leaderboard-aabzac-20261030-095525.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "9b3d12bb4b8a3c56dd9ad65d15a9469d5fa14b04ad14c70de4ff6d29ffe2e47d"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/raw/leaderboard-aabzac-20261030-095828.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/leaderboard-aabzac-20261030-095828.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "9b3d12bb4b8a3c56dd9ad65d15a9469d5fa14b04ad14c70de4ff6d29ffe2e47d"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/snapshot-20261030-093405.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/snapshot-20261030-093405.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "47fa7a9d96f2d5c29d3029ff4bfad66bc7027fa5dd8a3c623dfa430ea662ee57"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/snapshot-20261030-093708.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/snapshot-20261030-093708.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "8e990c1682105afa9964a8de98ea71554010071674844126d176a6446ca9563a"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/snapshot-20261030-094011.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/snapshot-20261030-094011.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "cbeb7cdbdd5bb5e5876e99646ad42e672edaef3f9c523cbdc2ee4c1d0351f118"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/snapshot-20261030-094314.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/snapshot-20261030-094314.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "f0bd846d671b194f886068f629f5ab1cef9270360e677ed4a5779672accdf3d9"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/snapshot-20261030-094616.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/snapshot-20261030-094616.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "1070336e3402d689c7c12eb777a1afdffeab67843c96f739c4f95ef537a28dd8"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/snapshot-20261030-094919.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/snapshot-20261030-094919.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "57044a355191c009757e463ccba0ba0e00c21e07fff0678e2678e3747dff5b92"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/snapshot-20261030-095222.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/snapshot-20261030-095222.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "d61d718930ed96374b4dd1a3643652360281f89b6fc8b7789a586b116b1277c4"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/snapshot-20261030-095525.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/snapshot-20261030-095525.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "dd16ae8741bc04e7105e37b8feb6dbb1234dc2d6ba5c9464c162f1e8a31eba1e"
+  },
+  {
+   "old": "replays/cg/arena-6826276/placement-raw/snapshot-20261030-095828.json",
+   "new": "replays/arena/v01/bronze/upload-03/snapshots/snapshot-20261030-095828.json",
+   "sourceAgent": 6826276,
+   "observedAgent": 6824680,
+   "sha256": "c4b762b18725dc9196ffc5de4d16eba13272255089bd36d1ad70d073e3fb7d2c"
+  },
+  {
+   "old": "replays/cg/arena-6827580/placement-raw/raw/leaderboard-aabzac-20261030-164341.json",
+   "new": "replays/arena/v02/bronze/upload-02/snapshots/leaderboard-aabzac-20261030-164341.json",
+   "sourceAgent": 6827580,
+   "observedAgent": 6827094,
+   "sha256": "a6573b9df59e57dd150daab0b21b165d200a5cda12385cb25c3a600d3d10f6b8"
+  },
+  {
+   "old": "replays/cg/arena-6827580/placement-raw/snapshot-20261030-164341.json",
+   "new": "replays/arena/v02/bronze/upload-02/snapshots/snapshot-20261030-164341.json",
+   "sourceAgent": 6827580,
+   "observedAgent": 6827094,
+   "sha256": "bbc25825c276f2f1057706d1a1150a748a5bf562af6a6ec665ca1f74315d5f6e"
+  },
+  {
+   "old": "replays/cg/arena-6828013/placement-raw/raw/leaderboard-aabzac-20261030-185400.json",
+   "new": "replays/arena/v03/bronze/upload-01/snapshots/leaderboard-aabzac-20261030-185400.json",
+   "sourceAgent": 6828013,
+   "observedAgent": 6827580,
+   "sha256": "6d44468ea45f4a59b06c3d5c975c2d0d5b8c3bcba1c293afd76aeaae82acd2f3"
+  },
+  {
+   "old": "replays/cg/arena-6828013/placement-raw/snapshot-20261030-185359.json",
+   "new": "replays/arena/v03/bronze/upload-01/snapshots/snapshot-20261030-185359.json",
+   "sourceAgent": 6828013,
+   "observedAgent": 6827580,
+   "sha256": "1ab60c0d82db0b8b6870068e318730470a779769dcebd53c06afc5e3025db6a6"
+  }
+ ],
+ "snapshotReassignmentsNote": "Pre-submit captures were under the next upload even though the response still named its predecessor; relocated by the actual aabzac agent in the immutable response. The aggregate hashes above follow the source inventory including these exceptions."
+}

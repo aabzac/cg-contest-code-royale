@@ -19,8 +19,8 @@ their play loses games, and what do stronger players do differently?
     `docs/data/replays-cg2-2026-10-28.json`;
   - `replays/cg/legend-top`: 88 games.
 - **Command:** `./gradlew cgStudy -Pout=build/study/features.csv "-Preplays=replays/cg2
-  replays/cg/arena-6823071/games replays/cg/arena-6823455/games replays/cg/arena-6824680/games
-  replays/cg/arena-6826276/games replays/cg/arena-6827094/games replays/cg/legend-top"`. The output is
+  replays/arena/v01/bronze/upload-01/games replays/arena/v01/bronze/upload-02/games replays/arena/v01/bronze/upload-03/games
+  replays/arena/v02/bronze/upload-01/games replays/arena/v02/bronze/upload-02/games replays/cg/legend-top"`. The output is
   kept as `replays/study/features-2026-10-30.csv` (gitignored, sha256 `2fe77d5c…`).
 - **Scripts here:** `groups.py` gives medians by group (output `groups-raw.txt`); `towers.py` gives our
   results against towers and how we lose (output `towers.txt`).
@@ -91,3 +91,5 @@ Caveats:
    turn 75), and Legend players keep 2 knight barracks. The evidence is weaker; test after 1.
 3. **Queen safety:** we lose most games to a killed queen. Early towers already cover part of this; a
    flee rule for when no tower exists is a smaller follow-up.
+
+After the arena layout migration (2026-10-31), the stored feature CSV retains its original bytes and historical `file` column. The command above uses current paths; regenerated rows have relocated `file` values. Mapping: `docs/data/arena-layout-2026-10-31.json`.

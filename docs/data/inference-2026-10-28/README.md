@@ -41,6 +41,11 @@ The scripts contain the paths of the session scratchpad they ran in (`.../scratc
 Run them with `python -I` after adjusting the paths. The heavy per-turn dumps (about 300 MB) are
 not kept; the patches' `-PdumpPlain`/`-PdumpSpawn` switches regenerate them.
 
+Since 2026-10-31 the original `replays/cg` corpus is split between `replays/cg/legend-top` and
+`replays/arena/legacy/bronze/upload-01/games`. Include both when reproducing an archived check of
+the original 98 games; `replays/cg2` is unchanged. The scripts and recorded outputs remain historical
+evidence. Path mapping: `docs/data/arena-layout-2026-10-31.json`.
+
 ## Reproducing the experiments
 
 The patches were made against the source tree of commit `f53933f`. Their `build.gradle` hunks

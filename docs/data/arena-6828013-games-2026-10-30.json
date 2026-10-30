@@ -5,26 +5,26 @@
   "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]",
   "gameResult/findByGameId [gameId, null]"
  ],
- "raw": "replays/cg/arena-6828013/games/<gameId>.json (gitignored), unchanged response bytes; battle lists battles-<time>.json",
+ "raw": "replays/arena/v03/bronze/upload-02/games/<gameId>.json (gitignored), unchanged response bytes; battle lists in replays/arena/v03/bronze/upload-02/snapshots",
  "battleRows": {
   "live": 60,
   "merged": 60,
   "savedLists": [
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-185702.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-190005.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-190308.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-190611.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-190914.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-191216.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-191519.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-191822.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-192125.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-192428.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-192731.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-192834.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-192937.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-193040.json",
-   "replays/cg/arena-6828013/placement-raw/raw/battles-20261030-193143.json"
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-185702.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-190005.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-190308.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-190611.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-190914.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-191216.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-191519.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-191822.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-192125.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-192428.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-192731.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-192834.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-192937.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-193040.json",
+   "replays/arena/v03/bronze/upload-02/snapshots/battles-20261030-193143.json"
   ],
   "notDone": 0
  },
@@ -1360,5 +1360,7 @@
    "bytes": 258207
   }
  ],
- "failures": []
+ "failures": [],
+ "rawDirectory": "replays/arena/v03/bronze/upload-02/games",
+ "snapshotDirectory": "replays/arena/v03/bronze/upload-02/snapshots"
 }

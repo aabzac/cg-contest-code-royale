@@ -1,0 +1,246 @@
+{
+ "indexed": "2026-10-31",
+ "agentId": 3315948,
+ "source": "Existing raw responses and battles-2026-10-28.json, saved 2026-10-28; no network requests during migration.",
+ "battleRows": {
+  "savedLists": [
+   "replays/arena/legacy/bronze/upload-01/snapshots/battles-2026-10-28.json"
+  ]
+ },
+ "summary": {
+  "games": 10,
+  "wins": 2,
+  "scoreTies": 0,
+  "markers": {
+   "none": 10
+  },
+  "failures": 0,
+  "filesNotInLists": []
+ },
+ "games": [
+  {
+   "gameId": 892851569,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "BlackEagle542",
+    "agentId": 6506842,
+    "ratingAtFetch": 22.85336842596907
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    54.0
+   ],
+   "seed": "160691458",
+   "frames": 103,
+   "marker": null,
+   "sha256": "bcbb18aaa4914cfcd4180a0363f79ce03fbc166277e5ad8104579465cb43fef2",
+   "bytes": 119646
+  },
+  {
+   "gameId": 892855131,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "BlackEagle542",
+    "agentId": 6506875,
+    "ratingAtFetch": 24.689235595911327
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    7.0
+   ],
+   "seed": "316391638",
+   "frames": 111,
+   "marker": null,
+   "sha256": "e92a6b4cddf68ff161b314f56ab555ce3a079ba92c5aeee1fa284f7e296f96c1",
+   "bytes": 133252
+  },
+  {
+   "gameId": 895529937,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "ftegan",
+    "agentId": 6543919,
+    "ratingAtFetch": 24.06199526505763
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    18.0,
+    0.0
+   ],
+   "seed": "367177363",
+   "frames": 91,
+   "marker": null,
+   "sha256": "e2762f07153e170118a912df530b90af47a4b5f79d2eb53533b44af92454c40d",
+   "bytes": 107150
+  },
+  {
+   "gameId": 895962098,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "CodingTurtle",
+    "agentId": 6553626,
+    "ratingAtFetch": 20.059047576647277
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    38.0,
+    0.0
+   ],
+   "seed": "765447968",
+   "frames": 133,
+   "marker": null,
+   "sha256": "85538ec5c3a94c2caf6dfba78d4b5d47eddac3f77674af6cd8fab2fac3af2f42",
+   "bytes": 161040
+  },
+  {
+   "gameId": 896375280,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "paraphoenixir",
+    "agentId": 6561988,
+    "ratingAtFetch": 22.643335200020317
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    15.0,
+    0.0
+   ],
+   "seed": "817940497",
+   "frames": 111,
+   "marker": null,
+   "sha256": "dd9f2fa65e0a5624c4ddd1c2a016d3c84847c690e66ef88efe9d972e63c1b821",
+   "bytes": 132020
+  },
+  {
+   "gameId": 896424306,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "paraphoenixir",
+    "agentId": 6563748,
+    "ratingAtFetch": 21.655125471903396
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    40.0,
+    0.0
+   ],
+   "seed": "243749184",
+   "frames": 293,
+   "marker": null,
+   "sha256": "976f770d676211546023d35ec21895e8a1c29de053c0a8f5ee0df2ee3575b1a8",
+   "bytes": 349542
+  },
+  {
+   "gameId": 897727991,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Waffle3z",
+    "agentId": 6588278,
+    "ratingAtFetch": 20.10720552225938
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    80.0
+   ],
+   "seed": "599863331",
+   "frames": 129,
+   "marker": null,
+   "sha256": "ebeb1d1df564340f5ee214582a7d564082f9e612f4b1e7f0caa491bac6236527",
+   "bytes": 142548
+  },
+  {
+   "gameId": 898283419,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "BlackEagle542",
+    "agentId": 6600999,
+    "ratingAtFetch": 22.771588304185332
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    12.0,
+    0.0
+   ],
+   "seed": "503142854",
+   "frames": 97,
+   "marker": null,
+   "sha256": "abb9b4c77ebf7a565292bc6066c183c2d57e84491343b0df2f6f974246d36916",
+   "bytes": 109326
+  },
+  {
+   "gameId": 906082538,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "gpoussel_",
+    "agentId": 6765394,
+    "ratingAtFetch": 22.642381579052348
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    61.0,
+    0.0
+   ],
+   "seed": "937255394",
+   "frames": 227,
+   "marker": null,
+   "sha256": "e20bbe000f9994e8f1d831ccc897ed76002abe08e166522701586854aa688f7e",
+   "bytes": 261387
+  },
+  {
+   "gameId": 909614601,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "ChuOkupai",
+    "agentId": 6800021,
+    "ratingAtFetch": 23.342380028956683
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    63.0
+   ],
+   "seed": "277743146",
+   "frames": 227,
+   "marker": null,
+   "sha256": "988f01abac8f0d8adf34d7d8950ef0ace1ceec1e7e1e82fba8301a56e83287f4",
+   "bytes": 305165
+  }
+ ],
+ "failures": [],
+ "rawDirectory": "replays/arena/legacy/bronze/upload-01/games",
+ "snapshotDirectory": "replays/arena/legacy/bronze/upload-01/snapshots",
+ "raw": "replays/arena/legacy/bronze/upload-01/games/<gameId>.json (gitignored), unchanged response bytes; battle lists in replays/arena/legacy/bronze/upload-01/snapshots"
+}

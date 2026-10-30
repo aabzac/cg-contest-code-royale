@@ -21,7 +21,7 @@
   "creationTime": "leaderboard creationTime 1793307054170 = 2026-10-29T22:50:54+02:00",
   "beforeUpload": "docs/data/arena-6823455-presubmit-2026-10-29.json (6823455 at 22:48:55) and docs/data/arena-6823455-games-2026-10-29.json (its 60 games, fetched 22:48:58)"
  },
- "follow": "arena_snapshot.py every 180 s, every 60 s from 85 %; stop at percentage 100 with inProgress false (the first such snapshot is the placement result) or on a change of league or agent id. One interval was 7.7 min (00:15:00 to 00:22:41); no snapshot failed. Snapshots and raw responses: replays/cg/arena-6824680/placement-raw (gitignored).",
+ "follow": "arena_snapshot.py every 180 s, every 60 s from 85 %; stop at percentage 100 with inProgress false (the first such snapshot is the placement result) or on a change of league or agent id. One interval was 7.7 min (00:15:00 to 00:22:41); no snapshot failed. Snapshots and raw responses: replays/arena/v01/bronze/upload-03/snapshots (gitignored).",
  "previousAgentLastSeen": {
   "fetched": "2026-10-29T22:49:25+0200",
   "agentId": 6823455,
@@ -1474,9 +1474,9 @@
  "attribution": {
   "claim": "Agent 6824680 behaved as artifact 1e5d1a79 (v01 = current, default params) on every decision of its 60 placement games: 6222 turns, 33 games on seat 0 and 27 on seat 1. Every game carries the marker e5417a83 on turn 0, and the referee only warned there (cgValidate matches the warnings). This is behaviour on the positions the games reached plus a self-reported build id, not an attestation of the uploaded file. The unmarked v01 artifact and in-process current match too (the marker is excused for a bot without one); parameters that change play give DIFF in part of the games (MAX_TOWERS=3: 18 of 60, INCOME_TARGET=11: 21 of 60); unused ones (SEED, DEBUG) cannot be told apart.",
   "tool": "cgAttribute = cr.tools.CgAttribute + cr.referee.Follow at commit 2641aa9; each game is replayed through CgValidate, then on the validated turns the bot's two lines are compared with the agent's recorded stdout while the game advances with the recorded commands of both players",
-  "data": "docs/data/arena-6824680-games-2026-10-29.json (manifest; raw games in replays/cg/arena-6824680/games, gitignored)",
+  "data": "docs/data/arena-6824680-games-2026-10-29.json (manifest; raw games in replays/arena/v01/bronze/upload-03/games, gitignored)",
   "validate": {
-   "command": "./gradlew cgValidate -Preplays=replays/cg/arena-6824680/games",
+   "command": "./gradlew cgValidate -Preplays=replays/arena/v01/bronze/upload-03/games",
    "result": [
     "games=60 ok=60 mismatch=0 error=0 matchedTurns=6222",
     "unit match: plain 5443/5443 (100.00%) spawn 779/779 (100.00%)",
@@ -1485,7 +1485,7 @@
   },
   "runs": [
    {
-    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6824680/games -Pagent=6824680 -Pbot=file:replays/artifacts/1e5d1a79/Player.java",
+    "command": "./gradlew cgAttribute -Preplays=replays/arena/v01/bronze/upload-03/games -Pagent=6824680 -Pbot=file:replays/artifacts/1e5d1a79/Player.java",
     "result": [
      "bot file:replays/artifacts/1e5d1a79/Player.java: replays/artifacts/1e5d1a79/Player.java sha256=1e5d1a79f113347a00a68e51172602bf44c23d56670ebf85db0c99592c6741fd params=\"\" build=e5417a83 config=4194117d",
      "attribution of 6824680 to file:replays/artifacts/1e5d1a79/Player.java: games=60 same=60 differ=0 partial=0 error=0 comparedTurns=6222 markers={e5417a83=60}"
@@ -1493,7 +1493,7 @@
     "role": "the uploaded artifact (kept copy, sha256 1e5d1a79)"
    },
    {
-    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6824680/games -Pagent=6824680 -Pbot=file:replays/artifacts/5bace689/Player.java",
+    "command": "./gradlew cgAttribute -Preplays=replays/arena/v01/bronze/upload-03/games -Pagent=6824680 -Pbot=file:replays/artifacts/5bace689/Player.java",
     "result": [
      "bot file:replays/artifacts/5bace689/Player.java: replays/artifacts/5bace689/Player.java sha256=5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a params=\"\" build=none config=4194117d",
      "attribution of 6824680 to file:replays/artifacts/5bace689/Player.java: games=60 same=60 differ=0 partial=0 error=0 comparedTurns=6222 markers={e5417a83=60}"
@@ -1501,7 +1501,7 @@
     "role": "control: v01's artifact before the marker (same config 4194117d, no marker); the recorded marker is excused, so SAME"
    },
    {
-    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6824680/games -Pagent=6824680 -Pbot=current",
+    "command": "./gradlew cgAttribute -Preplays=replays/arena/v01/bronze/upload-03/games -Pagent=6824680 -Pbot=current",
     "result": [
      "bot current",
      "attribution of 6824680 to current: games=60 same=60 differ=0 partial=0 error=0 comparedTurns=6222 markers={e5417a83=60}"
@@ -1509,7 +1509,7 @@
     "role": "control: in-process current at commit 2641aa9 (empty turn-0 TRAIN, excused)"
    },
    {
-    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6824680/games -Pagent=6824680 -Pbot=\"current?MAX_TOWERS=3\"",
+    "command": "./gradlew cgAttribute -Preplays=replays/arena/v01/bronze/upload-03/games -Pagent=6824680 -Pbot=\"current?MAX_TOWERS=3\"",
     "result": [
      "bot current?MAX_TOWERS=3",
      "attribution of 6824680 to current?MAX_TOWERS=3: games=60 same=42 differ=18 partial=0 error=0 comparedTurns=6222 markers={e5417a83=60}"
@@ -1517,7 +1517,7 @@
     "role": "control: a parameter that changes play (exit code 1)"
    },
    {
-    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6824680/games -Pagent=6824680 -Pbot=\"current?INCOME_TARGET=11\"",
+    "command": "./gradlew cgAttribute -Preplays=replays/arena/v01/bronze/upload-03/games -Pagent=6824680 -Pbot=\"current?INCOME_TARGET=11\"",
     "result": [
      "bot current?INCOME_TARGET=11",
      "attribution of 6824680 to current?INCOME_TARGET=11: games=60 same=39 differ=21 partial=0 error=0 comparedTurns=6222 markers={e5417a83=60}"

@@ -141,7 +141,7 @@ python -I tools/bench_pair.py common replays/bench/<exp>/boss-cand.json replays/
 G3 is run the same way with `-Pbot2=old`. For a targeted fix, use `direct ... --min-score 0.5
 --max-changed 0.1` and `common ... --min-delta -0.01` against `boss`. `bench_pair.py` exits with 0 when
 every gate passes, 1 when one fails, and 2 when the input or the series is invalid. Its tests run with the
-other tools' tests: `python -B -I -m unittest discover -s tools -p "test_*.py"`.
+other tools' tests: `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`.
 
 ## Local results against the arena
 

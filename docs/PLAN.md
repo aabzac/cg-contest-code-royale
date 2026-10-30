@@ -65,7 +65,8 @@
   (a second knight barracks or more knights; queen safety when no tower is near; giants or archers
   against towers)
 - [ ] A local opponent with giants (they break towers; 12 % of the arena opponents build them)
-- [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/cg/arena-<agent>/games`,
+- [x] Organize our arena replays by version, league and upload; downloaders use the registry (`docs/arena-uploads.md`, Replay storage)
+- [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/arena/v01/bronze/upload-<NN>/games`,
   manifests `docs/data/arena-<agent>-games-2026-10-29.json` for 6823071, 6823455 and 6824680)
 - [x] Queen stalls when a site blocks the straight path to a far BUILD target (worst 43 turns): flag
   `UNSTICK` (off by default), tests on two captured positions, `stallScan`; passed P2 as a targeted fix

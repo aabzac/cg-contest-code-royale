@@ -23,13 +23,14 @@ step of the promotion policy. The local screen a candidate passes before its fir
    0 (see "Build marker").
 2. **Before every Submit, save the live entry**: `tools/arena_snapshot.py` and `tools/arena_games.py`.
    CG lists the games of the live agent only: 6823071's list was empty after the re-upload.
-3. The user submits. Follow the placement with `arena_snapshot.py` (every 3 minutes, every minute from
+3. The user submits. Register the new agent in `docs/data/arena-uploads.json` with its label, league,
+   upload number, artifact, games-manifest path and pending placement (no invented score). Follow the placement with `arena_snapshot.py` (every 3 minutes, every minute from
    85 %) until `percentage` is 100 and `inProgress` is false. That first snapshot is the upload's
    **placement score**.
 4. Download the games (`arena_games.py`). Check the code with `cgAttribute` against a kept copy of the
    uploaded artifact, `-Pbot=file:replays/artifacts/<first 8 hex of its sha256>/Player.java` (gitignored;
-   `build/submit` changes with every build), and check the markers in the manifest. Then add the upload to
-   `docs/data/arena-uploads.json` with its build and config ids, and its row to `docs/BOTS.md` (Uploads).
+   `build/submit` changes with every build), and check the markers in the manifest. Then complete the
+   registry entry with placement and attribution evidence, and its row in `docs/BOTS.md` (Uploads).
    Where everything else goes: `.ai/project.md`, row "Записи после загрузки, эксперимента или решения".
 5. **Upload the same configuration again** (normally the same artifact) and repeat 3-4 (upload 2).
 6. Decide within the current league with
@@ -71,13 +72,52 @@ another agent or does not load, whose league is not a league name, or whose game
 than the entry's build, or none of them carries that build. Games without a marker (no turn-0 answer)
 are listed, not refused. A candidate with an upload still placing gets "pending".
 
+## Replay storage
+
+Our arena captures live under `replays/arena/<label>/<league>/upload-NN/`:
+`games/<gameId>.json` holds unchanged CodinGame responses, `snapshots/` holds battle lists and
+leaderboard captures, and `checks/` holds retained attribution/validation logs. Upload numbers
+come from the registry; re-uploading a build does not create a new version. Keep the number unique
+within a label, as required by `arena_compare.py`, including after promotion to another league.
+External study/validation corpora remain in `replays/cg/legend-top` and `replays/cg2`.
+
+`docs/data/arena-uploads.json` is the source for agent-to-version/league/upload identity. Its
+`legacyUploads` array indexes pre-project captures and is excluded from P1 comparisons. Compact
+games manifests stay in `docs/data/`; their `rawDirectory` and `snapshotDirectory` fields locate
+the ignored files. Do not derive a version from the current source tree or from a folder name.
+
+Run from the repository root:
+
+```text
+python -B -I tools/arena_games.py 6828013
+python -B -I tools/arena_snapshot.py 6828013 aabzac bronze docs/data/arena-6828013-presubmit-2026-10-31.json
+python -B -I tools/arena_games.py 6828013 --offline --manifest build/arena-6828013-check.json
+```
+
+Both downloaders select storage from the registry; the games manifest defaults to its `games`
+field. Register a pending upload before downloading its games. The games downloader automatically
+merges saved battle lists, existing games and previous manifest IDs, including after replacement
+empties the live list. `--saved-list PATH` adds a list from elsewhere; `--registry PATH` selects an
+alternate registry. `--offline` makes no requests and reports missing completed games as failures.
+
+Snapshots follow the actual observed agent and league. An unregistered replacement/promotion goes
+to `replays/arena/unknown/<league>/agent-<id>/snapshots`; register it before fetching games. Those
+saved lists are automatically reused after registration. A known but conflicting turn-0 build marker
+puts the replay in that agent's `unknown/.../games` directory and fails the fetch; missing markers
+are retained as null (old builds and startup failures). Identity checks still require `cgAttribute`.
+Failures produce a nonzero exit status; responses already saved are preserved.
+
+The 2026-10-31 migration and original-to-current path mapping are recorded in
+`docs/data/arena-layout-2026-10-31.json`. Historical raw captures, logs and derived CSV bytes are
+unchanged; their embedded old paths can be resolved through that mapping.
+
 ## Tools
 
 - `tools/arena_snapshot.py`: the leaderboard row (by pseudo) and the live battle list.
 - `tools/arena_games.py`: the games of an agent and their manifest, including each game's build marker.
 - `./gradlew cgAttribute`: which code played, from the validated replays.
 - `tools/arena_compare.py`: checks `docs/data/arena-uploads.json` against the manifests and makes no
-  requests. Offline tests: `python -B -I -m unittest discover -s tools -p "test_*.py"`.
+  requests. Offline tests: `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`.
   - Per upload: placement score, record and seats, the opponents' median score, and the performance
     rating. The rating is the opponent score at which the upload would score 50 %, from a logistic fit
     against the opponents' scores at download time. The scale is shared by the league's uploads (profile

@@ -22,7 +22,7 @@
   "creationTime": "leaderboard creationTime 1793379225379 = 2026-10-30T18:53:45+02:00",
   "beforeUpload": "docs/data/arena-6826276-presubmit-2026-10-30.json (6826276 at 2026-10-30T18:52:57+0200, 60 battles, no game after its placement; its 60 games stored, manifest docs/data/arena-6826276-games-2026-10-30.json)"
  },
- "follow": "arena_snapshot.py every 180 s, every 60 s from 85 % (a scratch loop); stop at percentage 100 with inProgress false. No snapshot failed; this placement took 38 minutes. Snapshots and raw responses: replays/cg/arena-6827094/placement-raw (gitignored).",
+ "follow": "arena_snapshot.py every 180 s, every 60 s from 85 % (a scratch loop); stop at percentage 100 with inProgress false. No snapshot failed; this placement took 38 minutes. Snapshots and raw responses: replays/arena/v03/bronze/upload-02/snapshots (gitignored).",
  "previousAgentLastSeen": {
   "fetched": "2026-10-30T18:52:57+0200",
   "agentId": 6827580,
@@ -1093,9 +1093,9 @@
  "attribution": {
   "claim": "Agent 6828013 behaved as artifact d6266d41 (v03, default params) on every decision of its 60 placement games: 8286 turns, 34 games on seat 0 and 26 on seat 1. Every game carries the marker cd1f3d33 on turn 0, and the referee only warned there. In-process v02 differs in all 60 (a different strategy). This is behaviour on the positions the games reached plus a self-reported build id, not an attestation of the uploaded file.",
   "tool": "cgAttribute = cr.tools.CgAttribute at commit a3e48fc (tracked code unchanged since)",
-  "data": "docs/data/arena-6828013-games-2026-10-30.json (manifest; raw games in replays/cg/arena-6828013/games, gitignored)",
+  "data": "docs/data/arena-6828013-games-2026-10-30.json (manifest; raw games in replays/arena/v03/bronze/upload-02/games, gitignored)",
   "validate": {
-   "command": "./gradlew cgValidate -Preplays=replays/cg/arena-6828013/games -Pquiet=true",
+   "command": "./gradlew cgValidate -Preplays=replays/arena/v03/bronze/upload-02/games -Pquiet=true",
    "result": [
     "games=60 ok=60 mismatch=0 error=0 matchedTurns=8286",
     "unit match: plain 7544/7544 (100.00%) spawn 742/742 (100.00%)",
@@ -1105,7 +1105,7 @@
   },
   "runs": [
    {
-    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6828013/games -Pagent=6828013 -Pbot=file:replays/artifacts/d6266d41/Player.java",
+    "command": "./gradlew cgAttribute -Preplays=replays/arena/v03/bronze/upload-02/games -Pagent=6828013 -Pbot=file:replays/artifacts/d6266d41/Player.java",
     "result": [
      "bot file:replays/artifacts/d6266d41/Player.java: replays/artifacts/d6266d41/Player.java sha256=d6266d41b6562158146d24a191742ecb0a9c10242cae6b04910933c397007524 params=\"\" build=cd1f3d33 config=12070467",
      "attribution of 6828013 to file:replays/artifacts/d6266d41/Player.java: games=60 same=60 differ=0 partial=0 error=0 comparedTurns=8286 markers={cd1f3d33=60}"
@@ -1113,7 +1113,7 @@
     "role": "the uploaded artifact (kept copy, sha256 d6266d41)"
    },
    {
-    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6828013/games -Pagent=6828013 -Pbot=v02",
+    "command": "./gradlew cgAttribute -Preplays=replays/arena/v03/bronze/upload-02/games -Pagent=6828013 -Pbot=v02",
     "result": [
      "DIFF 913548762 seat 1 vs Vakema: compared 98 of 98 turns (validated 98), diffs 42, first at turn 10: recorded [BUILD 23 TOWER | TRAIN] bot [BUILD 23 MINE | TRAIN]; marker cd1f3d33",
      "DIFF 913548763 seat 0 vs thomas.colibert: compared 250 of 250 turns (validated 250), diffs 54, first at turn 8: recorded [BUILD 4 TOWER | TRAIN] bot [BUILD 4 MINE | TRAIN]; marker cd1f3d33",

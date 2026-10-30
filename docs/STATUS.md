@@ -23,8 +23,9 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   of P2).
 - Policies: P2 locally (`docs/local-screen.md`), then `submit` and both `procCheck`, then P1 on the arena
   (`docs/arena-uploads.md`, `tools/arena_compare.py`, registry `docs/data/arena-uploads.json`).
-- Simulator: live rules in `cr.core`, listed in `docs/rules/inferred.md`; corpora `replays/cg` (98) and
-  `replays/cg2` (138, Bronze/Silver/Gold). Open questions:
+- Simulator: live rules in `cr.core`, listed in `docs/rules/inferred.md`; original validation corpora
+  `replays/cg/legend-top` (88), `replays/arena/legacy/bronze/upload-01/games` (10) and
+  `replays/cg2` (138, Bronze/Silver/Gold). Arena storage: `docs/arena-uploads.md`, Replay storage. Open questions:
   - the tie-break at equal scores: CG ranks player 0 first in every known game (`docs/rules/inferred.md`),
     while the simulator scores a draw;
   - the survivor's score after an opponent's mid-game timeout, one game off by 1 HP.

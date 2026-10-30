@@ -2,7 +2,7 @@
 
 Run from the repository root: python -B -I docs/data/pv1-2026-10-30/pv1.py > docs/data/pv1-2026-10-30/pv1.txt
 Reads the games manifests of v01's three Bronze placements (docs/data/arena-<agent>-games-2026-10-29.json), their
-replays (replays/cg/arena-<agent>/games, gitignored; re-fetched by gameId with tools/arena_games.py) and the two pilot
+replays (the manifest's rawDirectory, gitignored; re-fetched by gameId with tools/arena_games.py) and the two pilot
 bench reports of 2026-10-30 (replays/bench/pilot-2026-10-30, gitignored; the commands are in docs/DEVLOG.md).
 """
 import collections
@@ -41,7 +41,7 @@ def arena():
         with open("docs/data/arena-%s-games-2026-10-29.json" % agent, encoding="utf-8") as f:
             manifest = json.load(f)
         for g in manifest["games"]:
-            with open("replays/cg/arena-%s/games/%s.json" % (agent, g["gameId"]), encoding="utf-8") as f:
+            with open(os.path.join(manifest["rawDirectory"], "%s.json" % g["gameId"]), encoding="utf-8") as f:
                 frames = json.load(f)["frames"]
             out = {0: [], 1: []}
             for fr in frames:
