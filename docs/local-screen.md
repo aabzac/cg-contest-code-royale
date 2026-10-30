@@ -149,5 +149,5 @@ Each uploaded candidate is listed here: its local S against the selected version
 
 | Candidate | Local S vs selected (block) | P1 outcome |
 | --- | --- | --- |
-| v03 (early towers) | 0.8146 (CI 0.8015-0.8278) against v02, evaluation block 1 (402000-403999) | 23.25 and 20.67, mean 21.96 against v02's 17.81 (+4.15; pooled rating 21.75 against 17.68): not clearly worse, v03 selected (2026-10-30). The arena agrees with the local direction |
-| v02 (UNSTICK) | 0.5032 (CI 0.5005-0.5060) against v01, evaluation block 0 (400000-401999) | 17.23 and 18.40, mean 17.81 against v01's 17.77: not clearly worse, v02 selected (2026-10-30). v02 played as v01 in 58 and 56 of 60 games, so the arena saw no effect either way |
+| v03 (early towers) | 0.8146 (CI 0.8015-0.8278) against v02, evaluation block 1 (402000-403999) | +4.15 over v02 (P1 means of two uploads, `docs/arena-uploads.md`): not clearly worse, v03 selected (2026-10-30). The arena agrees with the local direction |
+| v02 (UNSTICK) | 0.5032 (CI 0.5005-0.5060) against v01, evaluation block 0 (400000-401999) | +0.05 over v01 (P1 means, `docs/arena-uploads.md`): not clearly worse, v02 selected (2026-10-30). v02 played as v01 in 58 and 56 of 60 games, so the arena saw no effect either way |

@@ -29,7 +29,8 @@ step of the promotion policy. The local screen a candidate passes before its fir
 4. Download the games (`arena_games.py`). Check the code with `cgAttribute` against a kept copy of the
    uploaded artifact, `-Pbot=file:replays/artifacts/<first 8 hex of its sha256>/Player.java` (gitignored;
    `build/submit` changes with every build), and check the markers in the manifest. Then add the upload to
-   `docs/data/arena-uploads.json` with its build and config ids.
+   `docs/data/arena-uploads.json` with its build and config ids, and its row to `docs/BOTS.md` (Uploads).
+   Where everything else goes: `.ai/project.md`, row "Записи после загрузки, эксперимента или решения".
 5. **Upload the same configuration again** (normally the same artifact) and repeat 3-4 (upload 2).
 6. Decide within the current league with
    `python -I tools/arena_compare.py --candidate <label> --selected <label>`:
@@ -39,7 +40,7 @@ step of the promotion policy. The local screen a candidate passes before its fir
      its baseline and to the noise sample.
    - **Early rollback**: when upload 1 alone is below the selected mean by more than 2 M, skip upload 2.
    - **Otherwise** there is no clear sign that the candidate is worse, and it becomes the selected version
-     (frozen copy, `docs/BOTS.md`, `docs/STATUS.md`). This does not show that it is not worse: with M ≈ 3,
+     (frozen copy, `docs/BOTS.md`, `docs/STATUS.md`, an entry in `docs/SUMMARY.md`). This does not show that it is not worse: with M ≈ 3,
      a candidate up to about 3 points worse passes.
 7. **M = 2 × the SD of placement scores between uploads of one configuration**, pooled over the versions
    with two or more placement scores in the league. With two uploads per version the SD of a difference

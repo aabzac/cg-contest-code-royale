@@ -33,17 +33,16 @@
   and late lines, wrapper children, JVM option variables, FileMerger edges fixed; artifact unchanged
 - [x] Review of those fixes (same file, `fixes_review`): rerun command with params, timeout notes,
   env names in any case, swap-in build, tests 47 → 59; artifact unchanged
-- [x] Submit v01: the user pasted `5bace689` (agent 6823071, 2026-10-29 08:17); placement complete at
-  09:36, rank 736/2296, score 18.24, 60 games, 36 wins (`docs/data/arena-6823071-placement-2026-10-29.json`)
+- [x] Submit v01: the user pasted `5bace689` (agent 6823071, 2026-10-29 08:17; `docs/BOTS.md`, Uploads)
 - [x] Which code played: `tools/arena_games.py` and `cgAttribute`; all 60 placement games identical to
   the artifact; tools reviewed (wf_0f5ffee8-bfe) and fixed, tests 59 → 74
-- [x] v01 upload 2 (the user re-submitted the same bytes, agent 6823455): 16.08 after 18.24, every game
-  identical to the artifact; first noise measurement, M ≈ 3.05 (`docs/arena-uploads.md`)
+- [x] v01 upload 2 (the user re-submitted the same bytes, agent 6823455): every game identical to the
+  artifact; the first noise measurement (`docs/arena-uploads.md`)
 - [x] Build marker: the artifact prints its build id on turn 0 as a TRAIN of sites 0-15 (referee warning
   only); `arena_games.py` and `cgAttribute` read it; artifact `1e5d1a79…` (build `e5417a83`) checked
-- [x] Upload the marked artifact (the user, agent 6824680, 2026-10-29 22:50): v01 upload 3 placed 18.98;
-  the marker in all 60 games, its turn-0 warning matched by cgValidate, every game identical to
-  `1e5d1a79`; three-upload noise M = 3.01, 2 df, provisional (`docs/arena-uploads.md`)
+- [x] Upload the marked artifact (the user, agent 6824680, 2026-10-29 22:50): v01 upload 3; the marker in
+  all 60 games, its turn-0 warning matched by cgValidate, every game identical to `1e5d1a79`
+  (`docs/BOTS.md`, `docs/arena-uploads.md`)
 - [ ] After each promotion: capture the statement, reconcile the rules, re-run `cgValidate`
 
 ## Phase 3 — strength (backlog from the audit)
@@ -56,33 +55,25 @@
 - [ ] Bronze boss's exact score from an IDE game (`gameResult.agents[].score`); now only above about 27.1
 - [ ] A local opponent with archers or giants (24 % of v01's arena opponents build them; both local
   opponents play knights only)
-- [x] Study 2026-10-30 (`docs/data/study-2026-10-30/`): we build towers late and few (first at turn 31,
-  most 2) while stronger players build them by turn 15-19 and hold 3-5. Our towers at turn 50 go with
-  our wins (32 → 59 → 83 %). Locally, early towers (`INCOME_TARGET` 2-3, `MAX_TOWERS` 6-8) score 0.78-0.80
-  against v02 on development seeds and beat it against every profile. Next: the P2 strategy screen of
-  one arm
-- [x] Early towers, P2 strategy track (`docs/data/exp-2026-10-30-towers/`): `INCOME_TARGET=3,MAX_TOWERS=8`.
-  The screen gave S 0.797 against v02 and the final evaluation 0.815, with `boss` +5 to +8 pp. Frozen as
-  v03, the local champion
-- [x] v03 on the arena under P1: 23.25 and 20.67 (agents 6827580 and 6828013), mean 21.96 against v02's
-  17.81. Verdict: not clearly worse, so v03 is selected; both measures put it about 4 points above v02.
-  M = 2.92 (4 df)
-- [ ] Next strength step towards the boss (above about 27.1; v03 at about 22): candidates from the study
+- [x] Study 2026-10-30 (`docs/data/study-2026-10-30/`): we build towers late and few, stronger players
+  early and many; early towers win locally. Next: the P2 strategy screen of one arm
+- [x] Early towers, P2 strategy track (`docs/data/exp-2026-10-30-towers/`): `INCOME_TARGET=3,MAX_TOWERS=8`
+  passed the screen and the final evaluation; frozen as v03, the local champion
+- [x] v03 on the arena under P1 (agents 6827580 and 6828013): not clearly worse, so v03 is selected
+  (`docs/arena-uploads.md`)
+- [ ] Next strength step towards the boss (the gap: `docs/STATUS.md`): candidates from the study
   (a second knight barracks or more knights; queen safety when no tower is near; giants or archers
   against towers)
 - [ ] A local opponent with giants (they break towers; 12 % of the arena opponents build them)
 - [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/cg/arena-<agent>/games`,
-  manifests `docs/data/arena-<agent>-games-2026-10-29.json` for 6823071, 6823455 and 6824680); v01
-  placed 18.24, 16.08 and 18.98 (mean 17.77), the old code stood at 559/2295 (19.64)
+  manifests `docs/data/arena-<agent>-games-2026-10-29.json` for 6823071, 6823455 and 6824680)
 - [x] Queen stalls when a site blocks the straight path to a far BUILD target (worst 43 turns): flag
   `UNSTICK` (off by default), tests on two captured positions, `stallScan`; passed P2 as a targeted fix
-  on screen block 0 (S 0.5046 against v01, Δ 0 against `boss`, 7.3 % of the maps changed;
-  `docs/data/exp-2026-10-30-unstick/`)
+  on screen block 0 (`docs/data/exp-2026-10-30-unstick/`)
 - [x] Adopt UNSTICK into the local champion: default 1, v02 frozen (2026-10-30, the user's call)
-- [x] v02 on the arena under P1 (two uploads; the user's choice, below P2's S ≥ 0.60 recommendation):
-  17.23 and 18.40 (agents 6826276 and 6827094, 2026-10-30), mean 17.81 against v01's 17.77. P1 verdict:
-  not clearly worse, so v02 is selected. v02 played as v01 in 58 and 56 of 60 games, so this shows no gain
-  either; M = 2.64 (3 df)
+- [x] v02 on the arena under P1 (agents 6826276 and 6827094; the user's choice, below P2's S ≥ 0.60
+  recommendation): not clearly worse, so v02 is selected, with no gain either: it played as v01 in most
+  games (`docs/arena-uploads.md`)
 - [ ] Slow slides along a site: UNSTICK with steps under 5 counted as standing changed 13.6 % of the
   development maps (S 0.507 there), a strategy candidate
 - [ ] Remaining 1-2 turn stalls on BUILDs towards towers (fleeing, or idling at home)

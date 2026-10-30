@@ -905,3 +905,20 @@ The user allowed the re-upload ("Да").
   kept copy is `replays/artifacts/d6266d41/Player.java`.
 - The gap to the boss (above about 27.1): about 5.1 points from v03's mean, about 3.9 from its better
   placement.
+
+## 2026-10-30 — records: a summary for the user, one place per fact
+
+The user found the commits after an upload or an experiment too long and chose to keep a short summary
+for themselves apart from the agents' records. An upload commit had 3,400-3,800 lines: about 97 %
+pretty-printed JSON evidence, plus 100-130 lines of text over 8-9 files that repeated the same numbers.
+- `docs/SUMMARY.md`, in Russian: the state now, then 3-5 lines per decision, without hashes or ids.
+- One place per fact (`.ai/project.md`, row "Записи после загрузки, эксперимента или решения"): uploads
+  in `docs/BOTS.md` and `docs/data/arena-uploads.json`, P1 and M in `docs/arena-uploads.md`, the work and
+  its evidence in this log, `docs/STATUS.md` the current state only, `docs/PLAN.md` ticks with pointers.
+- Removed duplicates: the history of replaced agents in STATUS; the current-state section of
+  `.ai/project.md` (10.6 KB that every session loaded through `AGENTS.md`) and its rows that changed with
+  each upload (upload lists, M history, rollback artifacts, tie games); numbers in PLAN items and in
+  `docs/local-screen.md`. The old texts: `git show 60f0b59:docs/STATUS.md`, `git show 60f0b59:.ai/project.md`.
+- Check: of the 194 numbers, ids, hashes, times and paths in the removed lines, 192 appear in the
+  remaining docs. The snapshot of 3315948 went into its BOTS row; `presubmit-*` is a pattern whose files
+  PLAN names. The JSON evidence keeps its format (one value per line).
