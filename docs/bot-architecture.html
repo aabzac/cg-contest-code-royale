@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Royale MainBot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column (~760px) with wide blocks for diagrams; sections keyed by a sticky table of contents on desktop */
+:root {
+  --bg: #f5f6f9;
+  --panel: #ffffff;
+  --fg: #1b2030;
+  --muted: #5b6377;
+  --line: #d9dde7;
+  --me: #2a55c9;        /* our queen / player 0 */
+  --me-soft: #e3eafb;
+  --foe: #c23b4a;       /* enemy / player 1 */
+  --foe-soft: #f8e3e6;
+  --gold: #a87711;
+  --gold-soft: #f6ecd2;
+  --ok: #2c7a4b;
+  --code-bg: #eef0f5;
+  --f-display: "Unbounded", "Golos Text", system-ui, sans-serif;
+  --f-body: "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151d; --panel: #1a1e29; --fg: #e4e7ef; --muted: #9aa2b5; --line: #2c3242;
+    --me: #7d9df0; --me-soft: #1f2a48; --foe: #ec7a86; --foe-soft: #3d1f25;
+    --gold: #e0b450; --gold-soft: #3a2f16; --ok: #6cc28f; --code-bg: #20252f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12151d; --panel: #1a1e29; --fg: #e4e7ef; --muted: #9aa2b5; --line: #2c3242;
+  --me: #7d9df0; --me-soft: #1f2a48; --foe: #ec7a86; --foe-soft: #3d1f25;
+  --gold: #e0b450; --gold-soft: #3a2f16; --ok: #6cc28f; --code-bg: #20252f;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg); color: var(--fg);
+  font-family: var(--f-body); font-size: 16px; line-height: 1.6;
+}
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 80px;
+  display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 48px;
+}
+nav.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 24px); align-self: start; font-size: 14px; }
+nav.toc a { display: block; color: var(--muted); text-decoration: none; padding: 4px 0 4px 12px; border-left: 2px solid var(--line); }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--me); border-left-color: var(--me); outline: none; }
+main { min-width: 0; display: flex; flex-direction: column; gap: 56px; }
+@media (max-width: 860px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 24px; padding-block: 24px 56px; }
+  nav.toc { position: static; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  nav.toc a { border-left: 0; padding: 0; }
+}
+header .eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(28px, 5vw, 44px); line-height: 1.1; margin: 8px 0 16px; text-wrap: balance; }
+h2 { font-family: var(--f-display); font-weight: 500; font-size: 24px; line-height: 1.2; margin: 0 0 16px; text-wrap: balance; }
+h3 { font-size: 17px; font-weight: 600; margin: 24px 0 8px; }
+p, li { max-width: 68ch; }
+p { margin: 0 0 12px; }
+.lead { font-size: 18px; color: var(--fg); }
+.muted { color: var(--muted); }
+code { font-family: var(--f-mono); font-size: .88em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+a { color: var(--me); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-top: 24px; }
+.fact { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+.fact b { display: block; font-family: var(--f-mono); font-size: 20px; font-variant-numeric: tabular-nums; }
+.fact span { font-size: 13px; color: var(--muted); }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px; overflow-x: auto; }
+pre.code {
+  font-family: var(--f-mono); font-size: 13.5px; line-height: 1.55; background: var(--panel);
+  border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; overflow-x: auto; margin: 0; tab-size: 4;
+}
+pre.code .k { color: var(--me); font-weight: 600; }
+pre.code .c { color: var(--muted); font-style: italic; }
+pre.code .s { color: var(--gold); }
+pre.code .f { color: var(--foe); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .05em; }
+td.num { font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tbl { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+.tbl table th:first-child, .tbl table td:first-child { padding-left: 16px; }
+.pill { display: inline-block; font-family: var(--f-mono); font-size: 12px; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.pill.me { background: var(--me-soft); color: var(--me); }
+.pill.foe { background: var(--foe-soft); color: var(--foe); }
+.pill.gold { background: var(--gold-soft); color: var(--gold); }
+.prio { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; counter-reset: p; }
+.prio li { counter-increment: p; position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px 12px 52px; max-width: none; }
+.prio li::before { content: counter(p); position: absolute; left: 18px; top: 11px; font-family: var(--f-display); font-weight: 700; font-size: 18px; line-height: 1.4; color: var(--me); }
+.prio b { display: block; margin-bottom: 2px; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.weak { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.weak li { padding: 10px 14px; border-left: 3px solid var(--foe); background: var(--panel); border-radius: 0 6px 6px 0; max-width: none; }
+.weak li.mid { border-left-color: var(--gold); }
+svg text { font-family: var(--f-body); }
+pre.mermaid { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; overflow-x: auto; margin: 0; }
+pre.mermaid svg { display: block; margin: 0 auto; }
+.pipe-box { container-type: inline-size; }
+.pipe { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px; }
+.pipe li { position: relative; max-width: none; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.pipe li b { display: block; font-family: var(--f-mono); font-size: 13px; font-weight: 600; color: var(--me); overflow-wrap: anywhere; }
+.pipe li span { display: block; font-size: 13px; line-height: 1.4; color: var(--muted); }
+.pipe li + li::before { content: "→"; position: absolute; left: -21px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+@container (max-width: 620px) {
+  .pipe { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .pipe li + li::before { content: "↓"; left: 50%; top: -21px; transform: translateX(-50%); }
+}
+.cap { font-size: 13px; color: var(--muted); margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<nav class="toc" aria-label="Содержание">
+  <a href="#overview">Кратко</a>
+  <a href="#pipeline">Один ход: от stdin до stdout</a>
+  <a href="#flow">Решение королевы</a>
+  <a href="#pseudo">Псевдокод</a>
+  <a href="#target">Выбор цели на карте</a>
+  <a href="#unstick">UNSTICK</a>
+  <a href="#train">TRAIN</a>
+  <a href="#params">Параметры и версии</a>
+  <a href="#files">Карта файлов</a>
+  <a href="#gaps">Чего бот не делает</a>
+</nav>
+
+<main>
+<header id="overview">
+  <div class="eyebrow">cr.bot.current.MainBot · = v03 · коммит 18b8311 · Bronze</div>
+  <h1>Архитектура текущего бота</h1>
+  <p class="lead">Бот жадный и без поиска. Каждый ход он смотрит только на текущее состояние и проходит фиксированную лестницу правил. Сначала один барак рыцарей, потом шахты до дохода 3, потом до 8 башен. Если рядом вражеские рыцари, королева бежит к своей башне. Все бараки, на которые хватает золота, тренируют каждый ход.</p>
+  <p class="muted">Состояние между ходами — только две вещи: сторона старта (<code>homeLeft</code>) и план обхода UNSTICK. Дедлайн передаётся в <code>play</code>, но не читается: бюджет 50 ms бот не использует.</p>
+  <p class="muted">Страница описывает код на коммите 18b8311 и лежит в репозитории как <code>docs/bot-architecture.html</code>, рядом — английская текстовая версия <code>docs/bot-architecture.md</code>. При изменении правил в <code>MainBot.play</code> обе нужно обновить.</p>
+  <div class="facts">
+    <div class="fact"><b>~200</b><span>строк в MainBot.java</span></div>
+    <div class="fact"><b>4</b><span>параметра стратегии (Params)</span></div>
+    <div class="fact"><b>1 → 3 → 8</b><span>барак → доход → башни</span></div>
+    <div class="fact"><b>21.96</b><span>средний placement v03 в Bronze</span></div>
+  </div>
+</header>
+
+<section id="pipeline">
+  <h2>Один ход: от stdin до stdout</h2>
+  <p>На CodinGame всё склеено в один <code>Player.java</code> (<code>FileMerger</code>). Точка входа — <code>CGRunner.main</code>. Локальный referee и бенч зовут тот же <code>MainBot.play</code> внутри процесса, так что логика бота одна и та же.</p>
+  <div class="pipe-box">
+    <ol class="pipe">
+      <li><b>stdin</b><span>gold, touchedSite, сайты, юниты</span></li>
+      <li><b>InputReader</b><span>разбор ввода; игрок 0 = я</span></li>
+      <li><b>GameState</b><span>массивы сайтов и крипов</span></li>
+      <li><b>MainBot.play</b><span>правила → Command</span></li>
+      <li><b>stdout</b><span>строка 1: WAIT, MOVE или BUILD; строка 2: TRAIN</span></li>
+    </ol>
+  </div>
+  <h3>Что делает раннер вокруг бота</h3>
+  <ul>
+    <li><b>Init.</b> Читает сайты; золото неизвестных сайтов оценивается как 225, <code>maxMineSize</code> как 2, пока королева не увидит реальные значения.</li>
+    <li><b>Ход 0, прогрев.</b> До 300 ms бот-одноразка играет на изменённых копиях состояния (касание сайта, бегство от рыцаря, все башни свои), чтобы загрузка классов и лямбд прошла в 1000-мс ходу, а не в 50-мс.</li>
+    <li><b>Ход 0, метка.</b> Если TRAIN пустой, вместо него печатается build id: 8 hex-цифр как id сайтов. Referee ругается «not a barracks» и ничего не делает, а метка остаётся в реплее.</li>
+    <li><b>Защита.</b> Любое исключение в <code>play</code> даёт <code>WAIT</code> + пустой TRAIN. Ход дольше бюджета пишет <code>SLOW turn</code> в stderr.</li>
+  </ul>
+</section>
+
+<section id="flow">
+  <h2>Решение королевы</h2>
+  <p>Правила проверяются сверху вниз; первое сработавшее даёт команду. «Угроза» — число вражеских рыцарей ближе 250 к королеве.</p>
+  <pre class="mermaid">
+flowchart TD
+  S(["ход"]) --> C["посчитать доход, бараки, башни<br/>и угрозу: рыцари врага ближе 250"]
+  C --> T1{{"касаюсь сайта вне радиуса<br/>вражеской башни?"}}
+  T1 -- да --> R1["правила касания, по порядку:<br/>своя шахта не полна, нет угрозы: MINE<br/>своя башня, HP ниже 700: TOWER<br/>пустой сайт: шаг лестницы"]
+  R1 -- сработало --> B1(["BUILD этого сайта"])
+  R1 -- ничего --> TH
+  T1 -- нет --> TH
+  TH{{"угроза?"}} -- да --> FT["BUILD своей башни, ближайшей<br/>к королеве; без башен MOVE домой"]
+  TH -- нет --> NQ{{"лестница не выполнена<br/>и есть подходящий сайт?"}}
+  NQ -- да --> US["BUILD сайта, ближайшего<br/>к середине пути к дому;<br/>UNSTICK может заменить на MOVE"]
+  NQ -- нет --> FB["BUILD своей башни, ближайшей<br/>к дому; без башен MOVE домой"]
+  </pre>
+  <p class="cap">Лестница: нет барака → BARRACKS-KNIGHT; доход ниже 3, на сайте есть золото и нет угрозы → MINE; башен меньше 8 → TOWER. Если правило касания не дало команды (чужой сайт, шахта на максимуме, угроза мешает шахте, лестница выполнена), решение уходит ниже, к угрозе. Рыцари врага — единственная угроза, которую бот видит; лучники и гиганты не считаются.</p>
+  <h3>Что легко упустить</h3>
+  <ul>
+    <li>Правила касания не смотрят на лестницу. Если рыцари не помешают, каждая построенная шахта прокачивается до максимума, поэтому доход может превысить <code>INCOME_TARGET</code>. Каждая новая башня подкачивается (+100 HP за BUILD), пока у неё не станет хотя бы 700 HP.</li>
+    <li>Угроза останавливает на сайте касания только шахту: барак и башню королева всё равно строит, а бегство идёт после них.</li>
+    <li>Когда лестница выполнена (или подходящих сайтов не осталось), королева стоит у своей башни возле дома и строит её снова и снова.</li>
+  </ul>
+</section>
+
+<section id="pseudo">
+  <h2>Псевдокод</h2>
+  <p>Сжатый пересказ <code>MainBot.play</code>. Значения параметров — v03.</p>
+<pre class="code"><span class="k">play</span>(state, touched):
+    income  = Σ rate своих шахт
+    barracks, towers = число своих бараков, башен
+    home    = угол старта: (0,0) или (1920,1000)
+    threat  = #{ <span class="f">вражеский рыцарь</span> : dist(рыцарь, королева) &lt; 250 }
+
+    <span class="c">// 1. Касаюсь сайта — действую на месте</span>
+    <span class="k">if</span> touched ≥ 0 <span class="k">and not</span> underEnemyTower(touched):
+        <span class="k">if</span> своя шахта <span class="k">and</span> rate &lt; maxMineSize <span class="k">and</span> threat == 0: cmd = BUILD touched MINE
+        <span class="k">elif</span> своя башня <span class="k">and</span> hp &lt; 700:                       cmd = BUILD touched TOWER
+        <span class="k">elif</span> сайт пустой:
+            <span class="k">if</span>   barracks &lt; <span class="s">BARRACKS(1)</span>:                         cmd = BUILD touched BARRACKS-KNIGHT
+            <span class="k">elif</span> income &lt; <span class="s">INCOME_TARGET(3)</span> <span class="k">and</span> gold &gt; 0 <span class="k">and</span> threat == 0:
+                                                              cmd = BUILD touched MINE
+            <span class="k">elif</span> towers &lt; <span class="s">MAX_TOWERS(8)</span>:                       cmd = BUILD touched TOWER
+
+    <span class="c">// 2. Бегство</span>
+    <span class="k">if</span> cmd == null <span class="k">and</span> threat &gt; 0:
+        tw  = своя башня, ближайшая к королеве
+        cmd = tw ? BUILD tw TOWER : MOVE home
+
+    <span class="c">// 3. Идти к следующему сайту</span>
+    <span class="k">if</span> cmd == null:
+        <span class="k">if</span> лестница не выполнена:
+            target = argmin dist(site, (queen + home) / 2)
+                     среди пустых сайтов не под вражеской башней
+                     (пока строим шахты — только с золотом &gt; 0)
+        <span class="k">if</span> target:
+            cmd = BUILD target (BARRACKS-KNIGHT | MINE | TOWER по лестнице)
+            <span class="k">if</span> <span class="s">UNSTICK</span>: cmd = unstick(cmd)     <span class="c">// может стать MOVE в обход</span>
+        <span class="k">else</span>:
+            tw  = своя башня, ближайшая к дому
+            cmd = tw ? BUILD tw TOWER : MOVE home
+
+    <span class="c">// 4. Тренировка: жадно, по порядку id</span>
+    <span class="k">for</span> барак <span class="k">in</span> свои бараки (не тренирующие):
+        <span class="k">if</span> gold ≥ цена: gold -= цена; train += барак
+
+    <span class="k">return</span> cmd + TRAIN train</pre>
+</section>
+
+<section id="target">
+  <h2>Выбор цели на карте</h2>
+  <p>Цель — пустой сайт, ближайший не к королеве, а к середине отрезка «королева → домашний угол». Так стройка тянется к своему углу, и база получается компактной: бараки, шахты и башни рядом, бегство короткое. Сайты под вражеской башней (центр сайта в радиусе башни) пропускаются.</p>
+  <div class="panel">
+    <svg viewBox="0 0 640 360" width="100%" role="img" aria-label="Схема выбора цели: середина между королевой и домашним углом, ближайший к ней пустой сайт">
+      <rect x="20" y="20" width="600" height="312" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+      <!-- enemy tower range -->
+      <circle cx="470" cy="150" r="80" fill="var(--foe-soft)" stroke="var(--foe)" stroke-dasharray="4 4"/>
+      <circle cx="470" cy="150" r="16" fill="var(--foe)"/>
+      <text x="470" y="245" text-anchor="middle" font-size="12" fill="var(--foe)">вражеская башня</text>
+      <!-- sites -->
+      <circle cx="120" cy="110" r="18" fill="var(--panel)" stroke="var(--muted)"/>
+      <circle cx="200" cy="200" r="20" fill="var(--panel)" stroke="var(--me)" stroke-width="3"/>
+      <circle cx="320" cy="90" r="18" fill="var(--panel)" stroke="var(--muted)"/>
+      <circle cx="430" cy="170" r="18" fill="var(--panel)" stroke="var(--muted)"/>
+      <text x="430" y="174" text-anchor="middle" font-size="14" fill="var(--foe)">✕</text>
+      <circle cx="90" cy="250" r="18" fill="var(--me-soft)" stroke="var(--me)"/>
+      <text x="90" y="254" text-anchor="middle" font-size="11" fill="var(--me)">BRK</text>
+      <circle cx="300" cy="270" r="18" fill="var(--panel)" stroke="var(--muted)"/>
+      <!-- home -->
+      <rect x="20" y="20" width="14" height="14" fill="var(--me)"/>
+      <text x="42" y="32" font-size="12" fill="var(--me)">дом (0,0)</text>
+      <!-- queen and midpoint -->
+      <line x1="34" y1="34" x2="370" y2="300" stroke="var(--me)" stroke-dasharray="3 5"/>
+      <circle cx="370" cy="300" r="11" fill="var(--me)"/>
+      <text x="386" y="304" font-size="12" fill="var(--fg)">королева</text>
+      <circle cx="202" cy="167" r="5" fill="var(--gold)"/>
+      <text x="212" y="160" font-size="12" fill="var(--gold)">середина</text>
+      <line x1="202" y1="167" x2="200" y2="181" stroke="var(--gold)" stroke-width="2"/>
+      <text x="200" y="236" text-anchor="middle" font-size="12" font-weight="600" fill="var(--me)">цель</text>
+    </svg>
+  </div>
+  <p class="cap">Схема, не масштаб. Сайт за вражеской башней отброшен, барак уже свой, из пустых ближе всего к жёлтой точке — обведённый.</p>
+</section>
+
+<section id="unstick">
+  <h2>UNSTICK: обход застревания</h2>
+  <p><code>BUILD</code> ведёт королеву прямо к центру сайта. Если по прямой стоит другой сайт, коллизия отталкивает её назад, и она стоит на месте (в v01 до 43 ходов). UNSTICK срабатывает только для BUILD к следующей цели, не для бегства.</p>
+  <ol class="prio">
+    <li><b>Продолжить начатый обход</b>Если в прошлый ход был обход к этому же сайту и ходы обхода остались, сделать ещё один MOVE тем же курсом, если он сдвигает королеву хотя бы на 2.</li>
+    <li><b>Проверить прямой шаг</b><code>Physics.queenStep</code> предсказывает шаг: скорость 60, 5 проходов коллизий, только сайты, без юнитов. Если шаг сдвигает королеву или она начинает касаться сайта, остаётся обычный BUILD.</li>
+    <li><b>Перебрать курсы</b>24 курса: отклонение ±15°, ±30°, … ±180° от прямой. По каждому 1–6 ходов MOVE, затем прямая до касания (горизонт 25 ходов).</li>
+    <li><b>Выбрать лучший</b>Меньше всего ходов до касания; при равенстве — меньший угол, +15° раньше −15°, меньше ходов MOVE. Сделать первый MOVE, остальные запомнить.</li>
+  </ol>
+  <p class="cap">MOVE ставится на 200 вперёд по курсу и обрезается краем поля. Если ни один план не находит касания, остаётся BUILD.</p>
+</section>
+
+<section id="train">
+  <h2>TRAIN</h2>
+  <p>Каждый ход перебираются свои бараки по возрастанию id. Барак, который не тренирует и на который хватает золота, тренирует; золото уменьшается. Барак у бота один и только рыцарский: 4 рыцаря за 80 золота, 5 ходов. Лимит 30 крипов на игрока не проверяется: это важно только при нескольких бараках.</p>
+</section>
+
+<section id="params">
+  <h2>Параметры и версии</h2>
+  <p>Все версии — один и тот же жадный бот; различаются снимком <code>Params</code> и флагом UNSTICK. <code>current</code> сейчас играет как v03.</p>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Версия</th><th>INCOME_TARGET</th><th>MAX_TOWERS</th><th>BARRACKS</th><th>UNSTICK</th><th>Arena Bronze</th></tr></thead>
+    <tbody>
+      <tr><td>v00 <span class="muted">WaitBot</span></td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="muted">только WAIT, для тестов</td></tr>
+      <tr><td>v01</td><td class="num">10</td><td class="num">4</td><td class="num">1</td><td class="num">0</td><td class="num">17.77 <span class="muted">(3 загрузки)</span></td></tr>
+      <tr><td>v02</td><td class="num">10</td><td class="num">4</td><td class="num">1</td><td class="num">1</td><td class="num">17.81 <span class="muted">(2)</span></td></tr>
+      <tr><td>v03 <span class="pill me">выбрана</span></td><td class="num">3</td><td class="num">8</td><td class="num">1</td><td class="num">1</td><td class="num">21.96 <span class="muted">(2)</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="cap">Параметры задаются строкой <code>K=v,K2=v</code> (<code>Params.apply</code>), неизвестный ключ — ошибка. Для артефакта — <code>./gradlew submit -Pparams=…</code>; в бенче — <code>current?K=v</code>.</p>
+</section>
+
+<section id="files">
+  <h2>Карта файлов</h2>
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Файл</th><th>Роль</th><th>Идёт в Player.java</th></tr></thead>
+    <tbody>
+      <tr><td><code>cr/bot/Bot.java</code></td><td>Интерфейс: <code>init</code>, <code>play(state, touched, deadline)</code></td><td><span class="pill me">да</span></td></tr>
+      <tr><td><code>cr/bot/current/MainBot.java</code></td><td>Вся стратегия и UNSTICK</td><td><span class="pill me">да</span></td></tr>
+      <tr><td><code>cr/bot/Params.java</code></td><td>Настраиваемые веса</td><td><span class="pill me">да</span></td></tr>
+      <tr><td><code>cr/submit/CGRunner.java</code></td><td>Цикл CG, прогрев, метка build id</td><td><span class="pill me">да</span></td></tr>
+      <tr><td><code>cr/core/InputReader.java</code></td><td>Парсер протокола, «игрок 0 = я»</td><td><span class="pill me">да</span></td></tr>
+      <tr><td><code>cr/core/GameState.java</code>, <code>Const</code>, <code>Command</code></td><td>Состояние массивами, константы live, команды</td><td><span class="pill me">да</span></td></tr>
+      <tr><td><code>cr/core/Physics.java</code></td><td>Коллизии; <code>queenStep</code> для UNSTICK</td><td><span class="pill me">да</span></td></tr>
+      <tr><td><code>cr/core/Rules.java</code>, <code>Protocol</code></td><td>Полный симулятор хода и вывод referee</td><td><span class="pill me">да</span> <span class="muted">весь cr/core, кроме MapGen; бот не использует</span></td></tr>
+      <tr><td><code>cr/core/MapGen</code>, <code>cr/referee/</code>, <code>cr/bot/BotFactory</code></td><td>Карты, локальный матч, бенч, спеки ботов</td><td class="muted">нет</td></tr>
+      <tr><td><code>cr/bot/v01…v03/GreedyBot</code></td><td>Замороженные копии для сравнений</td><td class="muted">нет</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="gaps">
+  <h2>Чего бот не делает</h2>
+  <p>Это прямо следует из кода; что из этого стоит сил, решают эксперименты по P2.</p>
+  <ul class="weak">
+    <li>Не смотрит вперёд: нет симуляции ходов, хотя полный симулятор (<code>Rules</code>) сверен с реплеями и даже входит в артефакт.</li>
+    <li>Строит только рыцарей и один барак. Нет лучников против рыцарей и гигантов против башен.</li>
+    <li>Видит угрозу только от рыцарей ближе 250. Не реагирует на вражеских гигантов у своих башен.</li>
+    <li>Не целится во вражеские шахты и бараки: королева сносит их простым касанием, но целью выбирает только пустые сайты.</li>
+    <li class="mid">Не думает о своей атаке: рыцари идут к королеве врага сами, бот не выбирает момент и не копит золото на волну.</li>
+    <li class="mid">После лестницы плана нет: королева стоит у башни возле дома и строит её снова и снова.</li>
+    <li class="mid">Не проверяет лимит 30 крипов (важно только при нескольких бараках) и не использует бюджет времени.</li>
+  </ul>
+</section>
+</main>
+</div>
+
+<!-- Diagrams: mermaid from the CDN, coloured from the page tokens; offline their source stays visible as text. -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+<script>
+(function () {
+  if (!window.mermaid) return;
+  var blocks = Array.prototype.slice.call(document.querySelectorAll("pre.mermaid"));
+  // innerHTML, not textContent: the <br/> inside labels are elements, and mermaid reads them back from innerHTML.
+  var sources = blocks.map(function (b) { return b.innerHTML; });
+  function token(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function render() {
+    blocks.forEach(function (b, i) { b.removeAttribute("data-processed"); b.innerHTML = sources[i]; });
+    mermaid.initialize({
+      startOnLoad: false, theme: "base", securityLevel: "strict",
+      fontFamily: getComputedStyle(document.body).fontFamily,
+      themeVariables: {
+        background: token("--panel"), primaryColor: token("--panel"), primaryBorderColor: token("--me"),
+        primaryTextColor: token("--fg"), textColor: token("--fg"), lineColor: token("--muted"),
+        secondaryColor: token("--me-soft"), tertiaryColor: token("--bg"), edgeLabelBackground: token("--panel"),
+        fontSize: "14px"
+      },
+      flowchart: { nodeSpacing: 30, rankSpacing: 40, wrappingWidth: 320 }
+    });
+    // Shrink a wide diagram to fit, but not below 80 %: past that its block scrolls sideways.
+    mermaid.run({ nodes: blocks }).then(function () {
+      blocks.forEach(function (b) {
+        var svg = b.querySelector("svg");
+        if (svg && svg.viewBox && svg.viewBox.baseVal) svg.style.minWidth = Math.round(svg.viewBox.baseVal.width * 0.8) + "px";
+      });
+    });
+  }
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(render);
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+})();
+</script>
+</body>
+</html>

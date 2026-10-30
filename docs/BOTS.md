@@ -2,6 +2,8 @@
 
 Simulator validated 2026-10-28 on 236 replays (`docs/rules/inferred.md`). Numbers marked
 "old engine" were measured before the live rules and are not comparable with later ones.
+How `current` decides each turn: `docs/bot-architecture.md` (in Russian with diagrams:
+`docs/bot-architecture.html`).
 
 | Id | Description | Params | Evidence |
 | --- | --- | --- | --- |
