@@ -35,14 +35,15 @@ Result in strict mode (no corrections): **97/98 and 137/138 games match on every
 
 ## Not explained
 
-1. **Tie-break.** Three games end with equal scores:
+1. **Tie-break.** Four games end with equal scores:
    - 911493205 (turn 250, 11:11);
    - 908057307 (both queens die on turn 72, 0:0);
-   - 913398184 (v02's placement, 2026-10-30, both queens die on turn 38, 0:0).
+   - 913398184 (v02 upload 1, 2026-10-30, both queens die on turn 38, 0:0);
+   - 913453290 (v02 upload 2, 2026-10-30, turn 250, 50:50).
 
-   CG ranks player 0 first in all three, while the simulator calls a draw (`winner 0 vs -1`). A
-   tie-break by seat would fit all three; it is not adopted on three samples. No game of v01's
-   180 placement games had equal scores.
+   CG ranks player 0 first in all four, while the simulator calls a draw (`winner 0 vs -1`). A
+   tie-break by seat would fit all four; it is not adopted on four samples. No game of v01's 180
+   placement games had equal scores.
 
 ## Statement vs live code
 

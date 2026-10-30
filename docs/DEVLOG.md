@@ -735,3 +735,42 @@ and pressing Submit. This was a one-time permission; the standing rule stays tha
 
 Local against arena (`docs/local-screen.md`): v02 locally S 0.5032 against v01 (evaluation block 0);
 arena upload 1 17.23 against v01's mean 17.77, P1 pending.
+
+## 2026-10-30 — v02 upload 2 placed 18.40; P1: not clearly worse, v02 selected
+
+The user allowed the re-upload ("Да" to re-uploading the same artifact in the IDE).
+- Before the Submit, 6826276 was saved at 13:11:22 (17.23, rank 891, 60 battles, all already in its
+  manifest; `docs/data/arena-6826276-presubmit-2026-10-30.json`).
+- The IDE still held v02: its saved code had sha256 `527244968dbe…`, and after a reload the editor showed
+  1486 lines. No code swap was needed.
+- "Test in arena", then Yes: submission 41599649 at 13:12:18, agent 6827094.
+
+**Placement** (`docs/data/arena-6827094-placement-2026-10-30.json`, followed as before):
+- Complete at 15:16:06: score **18.40**, rank 715/2289, 60 games.
+- 36 wins by CG ranks (seat 0: 19 of 26, seat 1: 17 of 34). One of them is game 913453290, 50:50 HP at
+  turn 250, where CG ranked player 0 (v02) first; the battle list counts 35.
+- Two wins are opponents' turn-0 timeouts (913449112, 913469680). v02 was never removed.
+
+**Which code played** (manifest `docs/data/arena-6827094-games-2026-10-30.json`, 0 failures):
+- cgValidate: 59/60, all 7,084 turns, warnings exact 1101/1101. The one mismatch is the winner of the
+  tie game 913453290: the fourth known tie, and the fourth ranked player 0 first (`docs/rules/inferred.md`).
+- `cgAttribute` against `replays/artifacts/52724496/Player.java`: SAME 60/60, 7,084 turns, marker
+  `a2c71dbb` 60/60.
+- Control, in-process v01: DIFF in 4 of 60. UNSTICK changed the play in games 913452154 (turn 61),
+  913453290 (turn 167), 913457400 (turn 64) and 913463667 (turn 88).
+
+**P1** (`python -I tools/arena_compare.py --candidate v02 --selected v01`, logistic scale 1.35):
+
+| label | uploads | placement | mean | SD | pooled performance |
+| --- | --- | --- | --- | --- | --- |
+| v01 | 3 | 18.24, 16.08, 18.98 | 17.77 | 1.51 | 17.92 ± 0.23 (180 games) |
+| v02 | 2 | 17.23, 18.40 | 17.81 | 0.83 | 17.68 ± 0.29 (120 games) |
+
+- Noise: pooled SD 1.32 on 3 df, **M = 2.64** (95 % interval about 1.5-9.8; provisional).
+- Verdict: **not clearly worse**. The mean is +0.05 against −M = −2.64, and the pooled rating −0.24
+  against −2 SE = −0.75.
+- Under P1, v02 becomes the selected version. Its Bronze baseline is these two uploads (mean 17.81).
+- This shows no gain. v02 played as v01 in 58 and 56 of its 60 games, and the arena cannot see a fix of
+  this size: its two placements are in effect two more samples of v01's noise.
+- Rollback artifact: a clean export of a3e48fc rebuilds `527244968dbe…` byte for byte (`./gradlew
+  submit`, 2026-10-30). The kept copy is `replays/artifacts/52724496/Player.java`.

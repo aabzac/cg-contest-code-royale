@@ -64,9 +64,10 @@
   on screen block 0 (S 0.5046 against v01, Δ 0 against `boss`, 7.3 % of the maps changed;
   `docs/data/exp-2026-10-30-unstick/`)
 - [x] Adopt UNSTICK into the local champion: default 1, v02 frozen (2026-10-30, the user's call)
-- [ ] v02 on the arena under P1 (two uploads; the user's choice, below P2's S ≥ 0.60 recommendation):
-  upload 1 placed 17.23 (agent 6826276, 2026-10-30; v02 played as v01 in 58 of 60 games); P1 asks for
-  upload 2
+- [x] v02 on the arena under P1 (two uploads; the user's choice, below P2's S ≥ 0.60 recommendation):
+  17.23 and 18.40 (agents 6826276 and 6827094, 2026-10-30), mean 17.81 against v01's 17.77. P1 verdict:
+  not clearly worse, so v02 is selected. v02 played as v01 in 58 and 56 of 60 games, so this shows no gain
+  either; M = 2.64 (3 df)
 - [ ] Slow slides along a site: UNSTICK with steps under 5 counted as standing changed 13.6 % of the
   development maps (S 0.507 there), a strategy candidate
 - [ ] Remaining 1-2 turn stalls on BUILDs towards towers (fleeing, or idling at home)

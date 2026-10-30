@@ -218,3 +218,33 @@ the mean, SD and M, the pooled rating and the shared opponents come from
   Greedy self-play leans the same way (player 0 won 187, player 1 110 of 300). This is a phase 3 item in
   `docs/PLAN.md`.
 - Shared opponents: 2-3 players per pair of uploads, context only.
+
+## First candidate: v02, two uploads (2026-10-30)
+
+v02 is v01 with the targeted fix UNSTICK (`docs/local-screen.md`). Its P2 final evaluation gave S 0.5032
+against v01. The user chose to upload it anyway, although P2 recommends an upload from S ≥ 0.60 only.
+The agent submitted both uploads in the desktop app's built-in browser, each with the user's explicit
+permission, and checked CG's saved IDE code by sha256 against the artifact.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v02/upload-1 | 6826276 | 17.23, rank 891/2289 | 60 | 61.7 ± 6.3 | 19 of 30 | 18 of 30 | 16.02 | 16.74 ± 0.43 |
+| v02/upload-2 | 6827094 | 18.40, rank 715/2289 | 60 | 60.0 ± 6.3 | 19 of 26 | 17 of 34 | 18.00 | 18.39 ± 0.39 |
+
+- **Same code:** `cgAttribute` finds every game identical to `52724496` (5,983 and 7,084 turns), with the
+  marker `a2c71dbb` in all 120.
+  - In-process v01 differs in 2 and in 4 games, so UNSTICK changed the play in 6 of 120.
+  - The marker repeats site 11, and live it only warned.
+  - Opponents' turn-0 timeouts: 1 and 2 games. v02 was never removed.
+- **Ties:** one tie game in each placement, 0:0 and 50:50. CG ranked player 0 first in both, as in the
+  two earlier known ties.
+- **Verdict** (`python -I tools/arena_compare.py --candidate v02 --selected v01`, logistic scale 1.35):
+  **not clearly worse**.
+  - The mean is 17.81 against 17.77, +0.05 against −M.
+  - The pooled rating is 17.68 ± 0.29 against 17.92 ± 0.23, −0.24 against −2 SE = −0.75.
+  - v02 becomes the selected version, with its Bronze baseline these two uploads.
+- **Noise:** v01's three uploads and v02's two pool to SD 1.32 on 3 df, **M = 2.64**. That is still
+  provisional: the 95 % interval of M is about 1.5-9.8. Since v02 played as v01 in 114 of 120 games, its
+  pair is in effect more samples of v01's spread.
+- **Matchmaking:** after upload 1's first 10 games, CG scheduled no battle for about 26 minutes (10:01 to
+  10:27), then resumed. A re-submit would not have helped, so the user waited.
