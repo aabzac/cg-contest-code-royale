@@ -25,10 +25,11 @@
 - Selected version: v01 (= `current` with its defaults, greedy), baseline in Bronze 18.24, 16.08 and
   18.98, mean 17.77. Live: `1e5d1a79…` (commit 2641aa9 rebuilds it byte for byte; kept copy
   `replays/artifacts/1e5d1a79/Player.java`). Pending strategy candidate: none.
-- Targeted fix `UNSTICK` (queen stalls; `Params.UNSTICK`, off by default) passed P2 on screen block 0:
-  S 0.5046 (CI 0.5018-0.5075) against v01, Δ 0 against `boss`, 146 of 2000 maps changed; stall turns
-  739 → 53 and no streak over 2 turns (`docs/data/exp-2026-10-30-unstick/`). Adoption as the default (and
-  a frozen v02) waits for the user.
+- Local champion: v02 = v01 with the targeted fix `UNSTICK` (queen stalls), frozen 2026-10-30
+  (`cr.bot.v02.GreedyBot`, `versions/v02.properties`); `current` defaults to it. UNSTICK passed P2 on
+  screen block 0: S 0.5046 (CI 0.5018-0.5075) against v01, Δ 0 against `boss`, 146 of 2000 maps changed;
+  stall turns 739 → 53 (`docs/data/exp-2026-10-30-unstick/`). The user chose to test v02 on the arena
+  (P1 candidate, upload 1 being prepared), although P2 recommends uploads only from S ≥ 0.60.
 - Bronze boss: "Princess Boss" (arenabossId 175, agentInitialId 1870317, division 219), from the IDE
   session 2026-10-28; its battles are not listed by `findLastBattlesByAgentId`. It stands above about
   27.1: on the Bronze leaderboard of 2026-10-30 08:21 the top rows were 27.75 (placing), 27.14, 27.01 and

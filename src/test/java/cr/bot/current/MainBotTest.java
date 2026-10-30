@@ -108,15 +108,30 @@ class MainBotTest {
         assertEquals(off.queenLine(), on.queenLine());
     }
 
-    /** With every flag off, current plays v01's games command for command. */
+    /** With UNSTICK off, current plays v01's games command for command. */
     @Test
-    void withoutFlagsCurrentPlaysAsV01() {
+    void withUnstickOffCurrentPlaysAsV01() {
         for (long seed = 10470; seed < 10480; seed++) {
             Referee.Result mirror = Referee.play(seed, BotFactory.create("v01"), BotFactory.create("v01"), true, 50);
-            Referee.Result c0 = Referee.play(seed, BotFactory.create("current"), BotFactory.create("v01"), true, 50);
-            Referee.Result c1 = Referee.play(seed, BotFactory.create("v01"), BotFactory.create("current"), true, 50);
+            Referee.Result c0 = Referee.play(seed, BotFactory.create("current?UNSTICK=0"), BotFactory.create("v01"), true, 50);
+            Referee.Result c1 = Referee.play(seed, BotFactory.create("v01"), BotFactory.create("current?UNSTICK=0"), true, 50);
             assertEquals(mirror.replay, c0.replay, "seed " + seed + " seat 0");
             assertEquals(mirror.replay, c1.replay, "seed " + seed + " seat 1");
+        }
+    }
+
+    /** With its defaults, current plays the frozen v02's games command for command (seeds with UNSTICK detours). */
+    @Test
+    void withDefaultsCurrentPlaysAsV02() {
+        for (long seed : new long[]{10035, 10062, 10206, 10394, 10477, 200002, 200035, 200060}) {
+            for (String opp : new String[]{"v01", "v02"}) {
+                Referee.Result v0 = Referee.play(seed, BotFactory.create("v02"), BotFactory.create(opp), true, 50);
+                Referee.Result c0 = Referee.play(seed, BotFactory.create("current"), BotFactory.create(opp), true, 50);
+                Referee.Result v1 = Referee.play(seed, BotFactory.create(opp), BotFactory.create("v02"), true, 50);
+                Referee.Result c1 = Referee.play(seed, BotFactory.create(opp), BotFactory.create("current"), true, 50);
+                assertEquals(v0.replay, c0.replay, "seed " + seed + " seat 0 against " + opp);
+                assertEquals(v1.replay, c1.replay, "seed " + seed + " seat 1 against " + opp);
+            }
         }
     }
 }

@@ -630,3 +630,19 @@ The step-5 variant also speeds up slow slides. It is a broad change, kept as a l
 
 Decision: UNSTICK passes P2 as a targeted fix. Under P2 it joins the local champion. Whether it becomes
 the `current` default and v02 is frozen is the user's call, so the default stays 0 for now.
+
+## 2026-10-30 — v02 frozen; the user sends it to the arena
+
+The user asked for a commit and for v02 on the arena. Commit 0606c2c holds P2 and UNSTICK, still off.
+
+- v02 = `cr.bot.v02.GreedyBot`, a copy of `MainBot` at 0606c2c (only the class name and the header differ).
+  Its snapshot `versions/v02.properties` is v01's with UNSTICK=1.
+- `Params.UNSTICK` now defaults to 1, so `current` plays as v02. `current?UNSTICK=0` plays as v01.
+- Tests (Java 96 → 97):
+  - `MainBotTest.withDefaultsCurrentPlaysAsV02`: current and v02 give identical replays on 8 seeds with
+    detours, on both seats, against v01 and v02;
+  - the v01 equivalence test now uses `current?UNSTICK=0`;
+  - `BotFactoryTest` checks the v02 snapshot.
+- P2 recommends an upload only when the local champion scores S ≥ 0.60 against the selected version on a
+  final-evaluation block. v02 is at about 0.505, so the arena cannot show its gain (M ≈ 3). The user
+  chose to test it there anyway; under P1 a decision needs two uploads.

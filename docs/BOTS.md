@@ -7,13 +7,14 @@ Simulator validated 2026-10-28 on 236 replays (`docs/rules/inferred.md`). Number
 | --- | --- | --- | --- |
 | v00 | WAIT + empty TRAIN (frozen) | — | — |
 | v01 | frozen copy of the greedy bot (`cr.bot.v01.GreedyBot`), 2026-10-28 | `versions/v01.properties`: INCOME_TARGET=10, MAX_TOWERS=4, BARRACKS=1, SEED=1, DEBUG=0 | = current at freeze: current vs v01 0.500 (20 maps, 20/0/20; old engine 17/6/17) |
-| current | greedy: 1 knight barracks, mines to income 10, up to 4 towers, flee to towers | defaults in `Params` | vs v00 100/100 (50 maps, seeds 1000-1049); vs boss (repo level-4 default AI as a process) 0.950 ± 0.047, 76/0/4 (40 maps, seeds 1000-1039, threads 3, turnMs 200, 0 timeouts; old engine 80/80); artifact `5bace689…` (2026-10-29): procCheck 540/540 games identical to current, 0 timeouts; tooling recheck 1,560/1,562 in 11 runs (the other 2 from one turn-0 stall, not reproduced); fresh seeds boss 50@9000 and v01 50@8000 100/100 each; after each of the two rounds of tooling fixes 400/400 (DEVLOG 2026-10-29) |
+| v02 | frozen copy of current at 0606c2c (`cr.bot.v02.GreedyBot`), 2026-10-30: v01 with UNSTICK on | `versions/v02.properties`: INCOME_TARGET=10, MAX_TOWERS=4, BARRACKS=1, UNSTICK=1, SEED=1, DEBUG=0 | = current at freeze (`MainBotTest.withDefaultsCurrentPlaysAsV02`); P2 targeted fix on screen block 0: S 0.5046 (CI 0.5018-0.5075) against v01, Δ 0 against `boss` |
+| current | greedy: 1 knight barracks, mines to income 10, up to 4 towers, flee to towers; UNSTICK on by default since 2026-10-30 (= v02) | defaults in `Params` | measured as v01, before UNSTICK: vs v00 100/100 (50 maps, seeds 1000-1049); vs boss (repo level-4 default AI as a process) 0.950 ± 0.047, 76/0/4 (40 maps, seeds 1000-1039, threads 3, turnMs 200, 0 timeouts; old engine 80/80); artifact `5bace689…` (2026-10-29): procCheck 540/540 games identical to current, 0 timeouts; tooling recheck 1,560/1,562 in 11 runs (the other 2 from one turn-0 stall, not reproduced); fresh seeds boss 50@9000 and v01 50@8000 100/100 each; after each of the two rounds of tooling fixes 400/400 (DEVLOG 2026-10-29) |
 
-Flags of `current` (off by default, so the defaults play as v01; `MainBotTest` checks it on 10 seeds):
+Flags of `current` (`current?UNSTICK=0` plays as v01, the defaults as v02; `MainBotTest` checks both):
 
 | Flag | What | Evidence |
 | --- | --- | --- |
-| `UNSTICK=1` | detour when the BUILD towards the next site to take would leave the queen standing | P2 targeted fix, screen block 0 (seeds 200000-201999), 2026-10-30: S 0.5046 (CI 0.5018-0.5075) against v01, Δ 0.0000 against `boss`, 146 of 2000 maps changed; stall turns 739 → 53 (`docs/data/exp-2026-10-30-unstick/`) |
+| `UNSTICK=1` (default since v02) | detour when the BUILD towards the next site to take would leave the queen standing | P2 targeted fix, screen block 0 (seeds 200000-201999), 2026-10-30: S 0.5046 (CI 0.5018-0.5075) against v01, Δ 0.0000 against `boss`, 146 of 2000 maps changed; stall turns 739 → 53 (`docs/data/exp-2026-10-30-unstick/`) |
 
 External opponents:
 - `boss` = `refs/referee-csj/config/level4/Boss.java` (csj/code-royale@349924a), run as a process: the Default

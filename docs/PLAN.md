@@ -63,7 +63,8 @@
   `UNSTICK` (off by default), tests on two captured positions, `stallScan`; passed P2 as a targeted fix
   on screen block 0 (S 0.5046 against v01, Δ 0 against `boss`, 7.3 % of the maps changed;
   `docs/data/exp-2026-10-30-unstick/`)
-- [ ] Adopt UNSTICK into the local champion: default 1 and a frozen v02 (the user's call)
+- [x] Adopt UNSTICK into the local champion: default 1, v02 frozen (2026-10-30, the user's call)
+- [ ] v02 on the arena under P1 (two uploads; the user's choice, below P2's S ≥ 0.60 recommendation)
 - [ ] Slow slides along a site: UNSTICK with steps under 5 counted as standing changed 13.6 % of the
   development maps (S 0.507 there), a strategy candidate
 - [ ] Remaining 1-2 turn stalls on BUILDs towards towers (fleeing, or idling at home)

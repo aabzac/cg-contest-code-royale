@@ -19,9 +19,9 @@ public final class Params {
     /**
      * 1: when the BUILD towards the next site to take would leave the queen standing (a site straight
      * ahead pushes her back, or two sites wedge her), she detours with MOVEs (MainBot.unstick).
-     * 0 plays as v01. Phase 3 candidate (docs/local-screen.md, targeted fix).
+     * 0 plays as v01. A P2 targeted fix (docs/local-screen.md); on by default since v02 (2026-10-30).
      */
-    public int UNSTICK = 0;
+    public int UNSTICK = 1;
     public long SEED = 1;
     public int DEBUG = 0;
 
