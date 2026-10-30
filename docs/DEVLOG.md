@@ -646,3 +646,28 @@ The user asked for a commit and for v02 on the arena. Commit 0606c2c holds P2 an
 - P2 recommends an upload only when the local champion scores S ≥ 0.60 against the selected version on a
   final-evaluation block. v02 is at about 0.505, so the arena cannot show its gain (M ≈ 3). The user
   chose to test it there anyway; under P1 a decision needs two uploads.
+
+**Final evaluation** (P2, final-evaluation block 0 = seeds 400000-401999, commit a3e48fc;
+`docs/data/exp-2026-10-30-v02-eval/`):
+- G0 passed; G1 v02 against v01 S = 0.5032 (CI 0.5005-0.5060, 110 of 2000 maps changed); G2 Δ = +0.0010
+  against `boss`.
+- G3 skipped (no `old`). The upload recommendation (S ≥ 0.60) is not met.
+- Stall scan on the block:
+  - v01: 464 stall turns, 15 games with 10+;
+  - v02: 74 stall turns, 3 games with 10+.
+- v02's three long stalls are early BUILDs to a mine where her own knight stands against the queen. The
+  sites-only prediction sees a step, so UNSTICK does not fire. A later idea (PLAN): judge being stuck
+  from the previous turn too.
+
+**Artifact**: `./gradlew submit` from a3e48fc gives `527244968dbe…`.
+- 64,230 chars, build `a2c71dbb`, config `173dd43b`; kept copy `replays/artifacts/52724496/Player.java`.
+- procCheck against v01 (100 maps from 5000) and against `boss` (100 maps from 6000): 200/200 identical to
+  current each, 0 timeouts, 0 kills, 0 extra/late/stderr lines. The longest first turn was 158.5/184.2 ms,
+  the longest later turn 3.4/3.5 ms.
+- The marker `TRAIN 10 2 12 7 1 13 11 11` repeats site 11, which has not been seen live. In the repo
+  referee (`Referee.kt:178-189`) the per-site check comes first and warns at site 10 on turn 0. The
+  duplicate check after it is a warning too. Upload 1 is the live check.
+
+**Before the Submit**: the live entry 6824680 was saved at 09:32 (18.98, rank 651/2291, 60 battles,
+`docs/data/arena-6824680-presubmit-2026-10-30.json`). It played no game after its placement, and all 60
+games are stored (`replays/cg/arena-6824680/games`, manifest `docs/data/arena-6824680-games-2026-10-29.json`).

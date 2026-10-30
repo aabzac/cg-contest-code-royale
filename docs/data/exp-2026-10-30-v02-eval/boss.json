@@ -1,0 +1,114 @@
+{
+ "mode": "common",
+ "inputs": [
+  {
+   "botA": "v02",
+   "botB": "boss",
+   "effectiveA": "v02 INCOME_TARGET=10,MAX_TOWERS=4,BARRACKS=1,UNSTICK=1,SEED=1,DEBUG=0",
+   "effectiveB": "boss sha256=a1a3f04371a52de63adaba5c0114ee1abd563d8ccf7d6c9525cce919b4f605f0",
+   "seedBase": 400000,
+   "maps": 500,
+   "turnMs": 200,
+   "threads": 3,
+   "java": "17.0.12",
+   "revision": {
+    "commit": "a3e48fc575e60ee598e2276ade8570aaa7336d35",
+    "status": [],
+    "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked": {}
+   },
+   "path": "replays/bench/exp-2026-10-30-v02-eval/boss-cand.json",
+   "sha256": "1618485de5b07f27b5b220e4db221733f17ad642285b07c10590abec2e7d1b1c"
+  },
+  {
+   "botA": "v01",
+   "botB": "boss",
+   "effectiveA": "v01 INCOME_TARGET=10,MAX_TOWERS=4,BARRACKS=1,UNSTICK=0,SEED=1,DEBUG=0",
+   "effectiveB": "boss sha256=a1a3f04371a52de63adaba5c0114ee1abd563d8ccf7d6c9525cce919b4f605f0",
+   "seedBase": 400000,
+   "maps": 500,
+   "turnMs": 200,
+   "threads": 3,
+   "java": "17.0.12",
+   "revision": {
+    "commit": "a3e48fc575e60ee598e2276ade8570aaa7336d35",
+    "status": [],
+    "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "untracked": {}
+   },
+   "path": "replays/bench/exp-2026-10-30-v02-eval/boss-ctrl.json",
+   "sha256": "d77bcda87fd4e7ce788d4a435797a3b9434cf95c62f3e17c35d7cf00d9f39a52"
+  }
+ ],
+ "maps": 500,
+ "keptMaps": 500,
+ "droppedMaps": [],
+ "candidate": {
+  "mean": 0.927,
+  "sd": 0.1816231646786714,
+  "lower": 0.9110800276936022,
+  "upper": 0.9429199723063979
+ },
+ "control": {
+  "mean": 0.926,
+  "sd": 0.18259430813342856,
+  "lower": 0.9099949032165972,
+  "upper": 0.9420050967834029
+ },
+ "delta": {
+  "mean": 0.001,
+  "sd": 0.022360679774997897,
+  "lower": -0.0009599999999999999,
+  "upper": 0.00296
+ },
+ "candidateRecord": {
+  "seat0": {
+   "wins": 497,
+   "draws": 0,
+   "losses": 3
+  },
+  "seat1": {
+   "wins": 429,
+   "draws": 2,
+   "losses": 69
+  }
+ },
+ "controlRecord": {
+  "seat0": {
+   "wins": 497,
+   "draws": 0,
+   "losses": 3
+  },
+  "seat1": {
+   "wins": 428,
+   "draws": 2,
+   "losses": 70
+  }
+ },
+ "changedMaps": [
+  400001,
+  400012,
+  400022,
+  400083,
+  400113,
+  400283,
+  400346,
+  400347,
+  400391,
+  400443,
+  400489
+ ],
+ "candidateFailures": {
+  "errors": 0,
+  "timeouts": 0,
+  "slow": 0,
+  "extraLines": 0
+ },
+ "candidateFailureSeeds": [],
+ "gates": {
+  "G0": true,
+  "delta >= -0.02": true
+ },
+ "policy": "P2",
+ "verdict": "pass"
+}

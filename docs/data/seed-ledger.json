@@ -6,10 +6,13 @@
   "screen": "block k = seeds 200000 + 2000 k .. 200000 + 2000 k + 1999, one fresh block per candidate; in-process series play all 2000 maps, process opponents the first 500",
   "evaluation": "block k = seeds 400000 + 2000 k .. 400000 + 2000 k + 1999, one fresh block per upload candidate, used once"
  },
- "next": {"screen": 1, "evaluation": 0},
+ "next": {"screen": 1, "evaluation": 1},
  "used": [
   {"pool": "screen", "k": 0, "seeds": "200000-201999", "date": "2026-10-30", "experiment": "docs/data/exp-2026-10-30-unstick",
    "candidate": "current?UNSTICK=1", "control": "v01", "series": "direct and mirror on 2000 maps, boss on 200000-200499, stallScan on 2000 maps",
-   "verdict": "pass (targeted fix)"}
+   "verdict": "pass (targeted fix)"},
+  {"pool": "evaluation", "k": 0, "seeds": "400000-401999", "date": "2026-10-30", "experiment": "docs/data/exp-2026-10-30-v02-eval",
+   "candidate": "v02", "control": "v01", "series": "direct and mirror on 2000 maps, boss on 400000-400499, stallScan on 2000 maps",
+   "verdict": "G0-G2 pass (G3 skipped, no old); S 0.5032 < 0.60, below the upload recommendation; the user uploads anyway"}
  ]
 }

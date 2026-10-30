@@ -68,6 +68,9 @@
 - [ ] Slow slides along a site: UNSTICK with steps under 5 counted as standing changed 13.6 % of the
   development maps (S 0.507 there), a strategy candidate
 - [ ] Remaining 1-2 turn stalls on BUILDs towards towers (fleeing, or idling at home)
+- [ ] Stalls UNSTICK misses because a unit blocks the queen: the sites-only prediction sees a step, while
+  her own knight stops it (v02, 3 games of 4000 on block 400000). Idea: also treat a BUILD that left her
+  in place on the previous turn as stuck
 - [ ] TRAIN choice respecting the 30-creep cap (only matters with more than one barracks)
 - [ ] Seat asymmetry in greedy self-play (player 0 won 187, player 1 110 of 300 games): bot
   tie-breaks or rules? On the arena too: v01 won 63 of 96 games on seat 0 and 40 of 84 on seat 1 over
