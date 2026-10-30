@@ -922,3 +922,13 @@ pretty-printed JSON evidence, plus 100-130 lines of text over 8-9 files that rep
 - Check: of the 194 numbers, ids, hashes, times and paths in the removed lines, 192 appear in the
   remaining docs. The snapshot of 3315948 went into its BOTS row; `presubmit-*` is a pattern whose files
   PLAN names. The JSON evidence keeps its format (one value per line).
+
+## 2026-10-30 — the bot architecture: the HTML page only
+
+The user kept `docs/bot-architecture.html` (Russian, with diagrams) as the only description of the bot
+and dropped its English twin `docs/bot-architecture.md` (`git show 148fa07:docs/bot-architecture.md`).
+What only the Markdown had moved into the page: the UNSTICK and version-reproduction test names, the
+`Params` snapshot path, the SLOW threshold (limit minus 10 ms), the last seen site values being kept,
+and two UNSTICK cases (already touching the site; builds on a touched site left alone). Turn times stay
+where they were: the 2026-10-28 process run in this log, the procCheck maxima per artifact in
+`docs/BOTS.md`. Pointers changed in `.ai/project.md` and `docs/BOTS.md`.

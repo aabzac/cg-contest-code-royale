@@ -141,7 +141,7 @@ pre.mermaid svg { display: block; margin: 0 auto; }
   <h1>Архитектура текущего бота</h1>
   <p class="lead">Бот жадный и без поиска. Каждый ход он смотрит только на текущее состояние и проходит фиксированную лестницу правил. Сначала один барак рыцарей, потом шахты до дохода 3, потом до 8 башен. Если рядом вражеские рыцари, королева бежит к своей башне. Все бараки, на которые хватает золота, тренируют каждый ход.</p>
   <p class="muted">Состояние между ходами — только две вещи: сторона старта (<code>homeLeft</code>) и план обхода UNSTICK. Дедлайн передаётся в <code>play</code>, но не читается: бюджет 50 ms бот не использует.</p>
-  <p class="muted">Страница описывает код на коммите 18b8311 и лежит в репозитории как <code>docs/bot-architecture.html</code>, рядом — английская текстовая версия <code>docs/bot-architecture.md</code>. При изменении правил в <code>MainBot.play</code> обе нужно обновить.</p>
+  <p class="muted">Страница описывает код на коммите 18b8311 и лежит в репозитории как <code>docs/bot-architecture.html</code>; другого описания бота нет. При изменении правил в <code>MainBot.play</code> её нужно обновить.</p>
   <div class="facts">
     <div class="fact"><b>~200</b><span>строк в MainBot.java</span></div>
     <div class="fact"><b>4</b><span>параметра стратегии (Params)</span></div>
@@ -164,10 +164,10 @@ pre.mermaid svg { display: block; margin: 0 auto; }
   </div>
   <h3>Что делает раннер вокруг бота</h3>
   <ul>
-    <li><b>Init.</b> Читает сайты; золото неизвестных сайтов оценивается как 225, <code>maxMineSize</code> как 2, пока королева не увидит реальные значения.</li>
+    <li><b>Init.</b> Читает сайты; золото неизвестных сайтов оценивается как 225, <code>maxMineSize</code> как 2, пока королева не увидит реальные значения (обзор 300); потом хранятся последние увиденные.</li>
     <li><b>Ход 0, прогрев.</b> До 300 ms бот-одноразка играет на изменённых копиях состояния (касание сайта, бегство от рыцаря, все башни свои), чтобы загрузка классов и лямбд прошла в 1000-мс ходу, а не в 50-мс.</li>
     <li><b>Ход 0, метка.</b> Если TRAIN пустой, вместо него печатается build id: 8 hex-цифр как id сайтов. Referee ругается «not a barracks» и ничего не делает, а метка остаётся в реплее.</li>
-    <li><b>Защита.</b> Любое исключение в <code>play</code> даёт <code>WAIT</code> + пустой TRAIN. Ход дольше бюджета пишет <code>SLOW turn</code> в stderr.</li>
+    <li><b>Защита.</b> Любое исключение в <code>play</code> даёт <code>WAIT</code> + пустой TRAIN. Ход дольше бюджета (лимит минус 10 ms) пишет <code>SLOW turn</code> в stderr.</li>
   </ul>
 </section>
 
@@ -277,14 +277,14 @@ flowchart TD
 
 <section id="unstick">
   <h2>UNSTICK: обход застревания</h2>
-  <p><code>BUILD</code> ведёт королеву прямо к центру сайта. Если по прямой стоит другой сайт, коллизия отталкивает её назад, и она стоит на месте (в v01 до 43 ходов). UNSTICK срабатывает только для BUILD к следующей цели, не для бегства.</p>
+  <p><code>BUILD</code> ведёт королеву прямо к центру сайта. Если по прямой стоит другой сайт, коллизия отталкивает её назад, и она стоит на месте (в v01 до 43 ходов). UNSTICK (<code>MainBot.unstick</code>, <code>Params.UNSTICK=1</code> с v02) срабатывает только для BUILD к следующей цели: стройку на сайте касания и бегство он не трогает.</p>
   <ol class="prio">
     <li><b>Продолжить начатый обход</b>Если в прошлый ход был обход к этому же сайту и ходы обхода остались, сделать ещё один MOVE тем же курсом, если он сдвигает королеву хотя бы на 2.</li>
-    <li><b>Проверить прямой шаг</b><code>Physics.queenStep</code> предсказывает шаг: скорость 60, 5 проходов коллизий, только сайты, без юнитов. Если шаг сдвигает королеву или она начинает касаться сайта, остаётся обычный BUILD.</li>
+    <li><b>Проверить прямой шаг</b><code>Physics.queenStep</code> предсказывает шаг: скорость 60, 5 проходов коллизий, только сайты, без юнитов. Если королева уже касается сайта, шаг сдвигает её или она начинает касаться сайта, остаётся обычный BUILD.</li>
     <li><b>Перебрать курсы</b>24 курса: отклонение ±15°, ±30°, … ±180° от прямой. По каждому 1–6 ходов MOVE, затем прямая до касания (горизонт 25 ходов).</li>
     <li><b>Выбрать лучший</b>Меньше всего ходов до касания; при равенстве — меньший угол, +15° раньше −15°, меньше ходов MOVE. Сделать первый MOVE, остальные запомнить.</li>
   </ol>
-  <p class="cap">MOVE ставится на 200 вперёд по курсу и обрезается краем поля. Если ни один план не находит касания, остаётся BUILD.</p>
+  <p class="cap">MOVE ставится на 200 вперёд по курсу и обрезается краем поля. Если ни один план не находит касания, остаётся BUILD. Тесты: <code>MainBotTest.aSiteStraightAheadIsWalkedAround</code>, <code>twoSitesThatWedgeTheQueenAreWalkedAround</code>, <code>aFreeWalkKeepsTheBuild</code>.</p>
 </section>
 
 <section id="train">
@@ -294,7 +294,7 @@ flowchart TD
 
 <section id="params">
   <h2>Параметры и версии</h2>
-  <p>Все версии — один и тот же жадный бот; различаются снимком <code>Params</code> и флагом UNSTICK. <code>current</code> сейчас играет как v03.</p>
+  <p>Все версии — один и тот же жадный бот; различаются снимком <code>Params</code> (<code>src/main/resources/cr/bot/versions/vNN.properties</code>) и флагом UNSTICK. <code>current</code> сейчас играет как v03.</p>
   <div class="tbl">
   <table>
     <thead><tr><th>Версия</th><th>INCOME_TARGET</th><th>MAX_TOWERS</th><th>BARRACKS</th><th>UNSTICK</th><th>Arena Bronze</th></tr></thead>
@@ -306,7 +306,7 @@ flowchart TD
     </tbody>
   </table>
   </div>
-  <p class="cap">Параметры задаются строкой <code>K=v,K2=v</code> (<code>Params.apply</code>), неизвестный ключ — ошибка. Для артефакта — <code>./gradlew submit -Pparams=…</code>; в бенче — <code>current?K=v</code>.</p>
+  <p class="cap">Параметры задаются строкой <code>K=v,K2=v</code> (<code>Params.apply</code>), неизвестный ключ — ошибка. Для артефакта — <code>./gradlew submit -Pparams=…</code>; в бенче — <code>current?K=v</code>. Что <code>current</code> воспроизводит замороженные версии, проверяют <code>MainBotTest.withUnstickOffCurrentPlaysAsV01</code>, <code>withV02ParamsCurrentPlaysAsV02</code> и <code>withDefaultsCurrentPlaysAsV03</code>.</p>
 </section>
 
 <section id="files">
