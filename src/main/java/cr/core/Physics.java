@@ -143,4 +143,24 @@ public final class Physics {
         fixCollisions(maxIterations);
         store(s);
     }
+
+    /**
+     * Where a queen at (x,y) told to walk towards (tx,ty) ends the turn if only the sites stand in her
+     * way: the step of {@link Const#QUEEN_SPEED}, the collision passes of a turn without spawns (one
+     * per creep sub-step, {@code passes} = 5) and the final rounding, into {@link #rx}/{@link #ry}.
+     * Only sites she can reach are loaded: a step and a push back are at most 121 long. A prediction
+     * for bots: units are ignored, and Rules does not call it.
+     */
+    public void queenStep(GameState s, double x, double y, double tx, double ty, int passes) {
+        towards(x, y, tx, ty, Const.QUEEN_SPEED);
+        clear();
+        add(rx, ry, Const.QUEEN_RADIUS, Const.QUEEN_MASS, true);
+        for (int i = 0; i < s.nSites; i++) {
+            double reach = s.sr[i] + Const.QUEEN_RADIUS + 2 * Const.QUEEN_SPEED + 10;
+            if (distSq(s.sx[i], s.sy[i], x, y) < reach * reach) add(s.sx[i], s.sy[i], s.sr[i], 0, false);
+        }
+        for (int it = 0; it < passes; it++) if (!collisionCheck(0.0)) break;
+        rx = Math.round(ex[0]);
+        ry = Math.round(ey[0]);
+    }
 }

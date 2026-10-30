@@ -12,7 +12,18 @@ import cr.core.Physics;
  * flees from close enemy knights towards its towers. Trains whenever affordable.
  */
 public final class MainBot implements Bot {
+    /** Collision passes of a turn without spawns, one per creep sub-step (Rules.processCreeps). */
+    private static final int PASSES = 5;
+    /** A predicted step shorter than this counts as standing still (creeps make a stuck queen wobble by a unit). */
+    private static final double MIN_STEP = 2;
+    /** UNSTICK's plans: up to this many detour moves, and this many turns until the queen touches the site. */
+    private static final int MAX_DETOUR = 6, HORIZON = 25;
+
     private final Params p;
+    private final Physics ph = new Physics();
+    /** UNSTICK's detour: the BUILD site it serves, the turn of its last move, its heading (radians) and the moves left. */
+    private int detourSite = -1, detourTurn, detourLeft;
+    private double detourHeading;
 
     public MainBot(Params p) { this.p = p; }
 
@@ -85,6 +96,7 @@ public final class MainBot implements Bot {
             if (target >= 0) {
                 String what = barracks < p.BARRACKS ? "BARRACKS-KNIGHT" : income < p.INCOME_TARGET ? "MINE" : "TOWER";
                 cmd = Command.build(target, what);
+                if (p.UNSTICK == 1) cmd = unstick(s, cmd);
             } else {
                 int tw = nearest(s, hx, hy, i -> s.stType[i] == Const.TOWER && s.stOwner[i] == 0);
                 cmd = tw >= 0 ? Command.build(tw, "TOWER") : Command.move((int) hx, (int) hy);
@@ -101,6 +113,89 @@ public final class MainBot implements Bot {
             }
         }
         return cmd.train(java.util.Arrays.copyOf(train, n));
+    }
+
+    /**
+     * UNSTICK, for the BUILD towards the next site to take. Such a BUILD walks the queen straight at
+     * the site's centre. When that step would leave her standing (a site straight ahead pushes her
+     * back, or two sites wedge her; v01 stood up to 43 turns), she detours: MOVEs on one heading, then
+     * the straight walk. The plan is predicted with the sites only ({@link Physics#queenStep}):
+     * headings turn from the straight line in 15-degree steps, with 1 to {@link #MAX_DETOUR} moves,
+     * and the plan that touches the site in the fewest turns wins (ties: the smaller turn, +15 degrees
+     * before -15, fewer moves). Its moves go on over the next turns while they move her and the BUILD
+     * site stays the same. Fleeing to a tower is left alone: there she may stand.
+     */
+    private Command unstick(GameState s, Command build) {
+        int t = build.site;
+        double qx = s.qx[0], qy = s.qy[0];
+        if (detourSite == t && detourTurn == s.turn - 1 && detourLeft > 0) {
+            Command m = heading(qx, qy, detourHeading);
+            if (steps(s, qx, qy, m.x, m.y)) {
+                detourTurn = s.turn;
+                detourLeft--;
+                return m;
+            }
+        }
+        detourSite = -1;
+        if (touches(s, t, qx, qy) || advances(s, qx, qy, t)) return build;
+        double a0 = Math.atan2(s.sy[t] - qy, s.sx[t] - qx);
+        int bestTurns = Integer.MAX_VALUE, bestMoves = 0;
+        double bestHeading = 0;
+        for (int k = 1; k <= 12; k++) {
+            for (int sign = 1; sign >= -1; sign -= 2) {
+                double a = a0 + sign * k * Math.PI / 12, x = qx, y = qy;
+                for (int n = 1; n <= MAX_DETOUR && n < bestTurns; n++) {
+                    Command m = heading(x, y, a);
+                    if (!steps(s, x, y, m.x, m.y)) break;
+                    x = ph.rx;
+                    y = ph.ry;
+                    int walk = walkTurns(s, x, y, t, Math.min(HORIZON, bestTurns - 1) - n);
+                    if (walk >= 0 && n + walk < bestTurns) {
+                        bestTurns = n + walk;
+                        bestMoves = n;
+                        bestHeading = a;
+                    }
+                }
+            }
+        }
+        if (bestTurns == Integer.MAX_VALUE) return build;
+        detourSite = t;
+        detourTurn = s.turn;
+        detourHeading = bestHeading;
+        detourLeft = bestMoves - 1;
+        return heading(qx, qy, bestHeading);
+    }
+
+    private static boolean touches(GameState s, int site, double x, double y) {
+        return Physics.lessInt(Physics.distSq(s.sx[site], s.sy[site], x, y), s.sr[site] + Const.QUEEN_RADIUS + Const.TOUCHING_DELTA);
+    }
+
+    /** Whether walking from (x,y) towards (tx,ty) moves the queen at least {@link #MIN_STEP}; she ends in ph.rx, ph.ry. */
+    private boolean steps(GameState s, double x, double y, double tx, double ty) {
+        ph.queenStep(s, x, y, tx, ty, PASSES);
+        return Physics.distSq(ph.rx, ph.ry, x, y) >= MIN_STEP * MIN_STEP;
+    }
+
+    /** Whether the straight step from (x,y) towards the site makes her touch it or moves her; she ends in ph.rx, ph.ry. */
+    private boolean advances(GameState s, double x, double y, int site) {
+        return steps(s, x, y, s.sx[site], s.sy[site]) || touches(s, site, ph.rx, ph.ry);
+    }
+
+    /** Turns the straight walk from (x,y) needs to touch the site, or -1 if she stands still first or needs more than max. */
+    private int walkTurns(GameState s, double x, double y, int site, int max) {
+        for (int n = 0; n <= max; n++) {
+            if (touches(s, site, x, y)) return n;
+            if (!advances(s, x, y, site)) return -1;
+            x = ph.rx;
+            y = ph.ry;
+        }
+        return -1;
+    }
+
+    /** A MOVE 200 ahead on the heading, kept on the board. */
+    private static Command heading(double x, double y, double a) {
+        return Command.move((int) Math.max(0, Math.min(Const.WIDTH, Math.round(x + 200 * Math.cos(a)))),
+            (int) Math.max(0, Math.min(Const.HEIGHT, Math.round(y + 200 * Math.sin(a)))));
     }
 
     private Boolean homeLeft;

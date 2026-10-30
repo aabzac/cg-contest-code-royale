@@ -49,11 +49,24 @@
 ## Phase 3 — strength (backlog from the audit)
 - [x] Arena step of the promotion policy: P1, two uploads per version (`docs/arena-uploads.md`,
   `tools/arena_compare.py`)
-- [ ] Local part of the policy (proxy, screen, replication), set before the first comparison
+- [x] Local part of the policy: P2, 2026-10-30 (`docs/local-screen.md`, `tools/bench_pair.py`, ledger
+  `docs/data/seed-ledger.json`, proxy validation PV1 `docs/data/pv1-2026-10-30/`)
+- [ ] `old` opponent: the user puts the code of 3315948 into `refs/old-3315948/Player.java`; then the PV1
+  calibration (v01 should score about 0.22 against it) and G3 for later candidates
+- [ ] Bronze boss's exact score from an IDE game (`gameResult.agents[].score`); now only above about 27.1
+- [ ] A local opponent with archers or giants (24 % of v01's arena opponents build them; both local
+  opponents play knights only)
 - [ ] Find the gap: the 77 lost placement games of v01's three uploads (`replays/cg/arena-<agent>/games`,
   manifests `docs/data/arena-<agent>-games-2026-10-29.json` for 6823071, 6823455 and 6824680); v01
   placed 18.24, 16.08 and 18.98 (mean 17.77), the old code stood at 559/2295 (19.64)
-- [ ] Queen stalls when a site blocks the straight path to a far BUILD target (worst 43 turns)
+- [x] Queen stalls when a site blocks the straight path to a far BUILD target (worst 43 turns): flag
+  `UNSTICK` (off by default), tests on two captured positions, `stallScan`; passed P2 as a targeted fix
+  on screen block 0 (S 0.5046 against v01, Δ 0 against `boss`, 7.3 % of the maps changed;
+  `docs/data/exp-2026-10-30-unstick/`)
+- [ ] Adopt UNSTICK into the local champion: default 1 and a frozen v02 (the user's call)
+- [ ] Slow slides along a site: UNSTICK with steps under 5 counted as standing changed 13.6 % of the
+  development maps (S 0.507 there), a strategy candidate
+- [ ] Remaining 1-2 turn stalls on BUILDs towards towers (fleeing, or idling at home)
 - [ ] TRAIN choice respecting the 30-creep cap (only matters with more than one barracks)
 - [ ] Seat asymmetry in greedy self-play (player 0 won 187, player 1 110 of 300 games): bot
   tie-breaks or rules? On the arena too: v01 won 63 of 96 games on seat 0 and 40 of 84 on seat 1 over

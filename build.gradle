@@ -57,11 +57,19 @@ tasks.register('serve', JavaExec) {
     args prop('port', '8765')
 }
 
-// Paired bench: -Pbot1=current -Pbot2=v00 -Pmaps=100 -Pthreads=8 -PseedBase=1000 -PturnMs=50
+// Paired bench: -Pbot1=current -Pbot2=v00 -Pmaps=100 -Pthreads=8 -PseedBase=1000 -PturnMs=50 [-Pout=replays/bench/<exp>/<name>.json]
 tasks.register('bench', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'cr.runner.BenchmarkRunner'
-    args prop('bot1', 'current'), prop('bot2', 'v00'), prop('maps', '100'), prop('threads', '8'), prop('seedBase', '1000'), prop('turnMs', '50')
+    args prop('bot1', 'current'), prop('bot2', 'v00'), prop('maps', '100'), prop('threads', '8'), prop('seedBase', '1000'), prop('turnMs', '50'), prop('out', '')
+}
+
+// Queen stalls (BUILD to an untouched site, queen did not move) of a bot on both seats:
+// -Pbot=current -Popp=v01 -Pmaps=500 -PseedBase=10000 [-Pthreads=8]
+tasks.register('stallScan', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.tools.StallScan'
+    args prop('bot', 'current'), prop('opp', 'v01'), prop('maps', '500'), prop('seedBase', '10000'), prop('threads', '8')
 }
 
 // Merge shipped sources into build/submit/Player.java and compile it: -Pparams="K=v,..."

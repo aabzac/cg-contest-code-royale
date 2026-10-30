@@ -10,6 +10,38 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RulesTest {
+    /**
+     * Physics.queenStep, the bots' prediction of a walk among the sites, lands where Rules.resolve
+     * puts a queen alone on the board (turn 0: no creeps, no structures), from random starts to
+     * random targets, including steps that sites cut short.
+     */
+    @Test
+    void queenStepPredictsTheRules() {
+        java.util.Random rnd = new java.util.Random(7);
+        Physics ph = new Physics();
+        int compared = 0, blocked = 0;
+        for (long seed : new long[]{10394, 10477, 277743146L}) {
+            for (int k = 0; k < 400; k++) {
+                GameState s = MapGen.generate(seed, 4);
+                int x = 30 + rnd.nextInt(Const.WIDTH - 60), y = 30 + rnd.nextInt(Const.HEIGHT - 60);
+                if (Physics.distSq(x, y, s.qx[1], s.qy[1]) < 250 * 250) continue;
+                int tx = rnd.nextInt(Const.WIDTH + 1), ty = rnd.nextInt(Const.HEIGHT + 1);
+                s.qx[0] = x;
+                s.qy[0] = y;
+                ph.queenStep(s, x, y, tx, ty, 5);
+                double px = ph.rx, py = ph.ry;
+                ph.towards(x, y, tx, ty, Const.QUEEN_SPEED);
+                if (Math.round(ph.rx) != px || Math.round(ph.ry) != py) blocked++;
+                new Rules().resolve(s, Command.move(tx, ty), Command.waitCmd());
+                assertEquals(px, s.qx[0], "seed " + seed + " from " + x + "," + y + " to " + tx + "," + ty);
+                assertEquals(py, s.qy[0], "seed " + seed + " from " + x + "," + y + " to " + tx + "," + ty);
+                compared++;
+            }
+        }
+        assertTrue(compared > 1000, "compared " + compared);
+        assertTrue(blocked > 50, "steps cut short by a site: " + blocked);
+    }
+
     @Test
     void kotlinSplitKeepsEmptyTokens() {
         assertEquals(List.of("TRAIN", ""), Command.split("TRAIN "));

@@ -489,3 +489,144 @@ the docs after the fixes, each followed by a refuting verifier.
 
 Decision: v01 stays selected. Its Bronze baseline is three uploads, mean 17.77, and the live entry is
 upload 3 (`1e5d1a79`, which plays as v01). The policy is unchanged.
+
+## 2026-10-30 — phase 3: local screen P2 adopted
+
+The user chose to start phase 3 with the local part of the promotion policy, then the queen-stall
+candidate. They approved the proposal as made: policy P2, `docs/local-screen.md`. The old bot joins the
+opponent panel as `old`, and the Bronze boss's exact rating is left for later.
+
+**Pilot** on development seeds, before the proposal:
+- `./gradlew bench "-Pbot1=current?MAX_TOWERS=3" -Pbot2=v01 -Pmaps=500 -Pthreads=8 -PseedBase=1000 -PturnMs=50`:
+  - score 0.486 ± 0.015, W/D/L 485/2/513; the candidate won 316 games on seat 0 and 169 on seat 1;
+  - 1,000 games took 8.8 s, Gradle included;
+  - in 439 of the 500 maps each bot won one game; the map score's SD is 0.172.
+- `./gradlew bench -Pbot1=v01 -Pbot2=boss -Pmaps=60 -Pthreads=3 -PseedBase=1000 -PturnMs=200`: score 0.950 ±
+  0.038, W/D/L 114/0/6, 0 timeouts; 120 games took 13.9 s.
+- The raw reports are in `replays/bench/pilot-2026-10-30/` (sha256 `f18df820…` and `6351f301…`).
+- Every bot is deterministic: ours run with SEED=1, and `Boss.java` has no Random. A rerun repeats the games.
+
+**Target.**
+- Source: the public Bronze leaderboard at 08:21 (`Leaderboards/getFilteredPuzzleLeaderboard`, LEAGUE
+  bronze, active), 2291 players.
+- The top rows stood at 27.75 (an agent created at 08:01, 33 % placed), then 27.14, 27.01 and 27.00. No
+  row was eligible for promotion. aabzac 6824680 was at local rank 651 with 18.98.
+- So the boss stands above about 27.1, about 9 points over v01's pooled rating of 17.92.
+- Snapshot: `docs/data/leaderboard-bronze-2026-10-30.json`; the raw response is in `replays/cg/leaderboard/`
+  (sha256 `d96b4b87…`).
+
+**The local `boss` is not the live boss.** `refs/referee-csj/config/level4/Boss.java` is the "Default AI":
+- one knight barracks on the site nearest the queen, mines to income 10, then towers;
+- TRAIN whenever it has 80 gold, and no evasion.
+
+v01 beats it in 95 % of games. If the live boss played like this, it would rate far below v01, while it
+stands above 27.1. So `boss` is a floor in P2.
+
+**Proxy validation PV1** (`docs/data/pv1-2026-10-30/pv1.py`, output `pv1.txt`):
+- Arena, v01's 180 placement games:
+  - opponents built knight barracks in 96 % of games, archers in 17 %, giants in 12 % (either: 24 %),
+    towers in 92 % and mines in 94 %;
+  - v01 won 70 of 129 games against knight-only opponents (54 %), 16 of 22 against archer and knight
+    players, 6 of 12 against giant and knight players, and 3 of 9 against players with all three;
+  - games lasted 110.4 turns on average (median 86.5), and 13 % reached the limit.
+- Local:
+  - v01 against `boss`: 81.8 turns, none at the limit;
+  - the near-mirror above: 151.7 turns, 11 % at the limit.
+- Both local opponents play knights only. A local opponent with archers or giants is a PLAN item.
+
+**P2 in short:**
+- Fresh blocks of 2000 maps: screen `200000 + 2000·k`, final evaluation `400000 + 2000·k`
+  (`docs/data/seed-ledger.json`).
+- Gates:
+  - G0: no failure of the candidate.
+  - G1: S against the control, lower 95 % bound > 0.50.
+  - G2: Δ against `boss` ≥ −2 pp on 500 maps.
+  - G3: Δ against `old` ≥ −2 pp on 500 maps, once its code is in place.
+  - A targeted fix (fewer than 10 % of the maps changed) needs G0, S ≥ 0.500, Δ ≥ −1 pp against `boss` and
+    a regression test.
+- Replication only when several arms shared a block. Upload recommendation at S ≥ 0.60 against the
+  selected version on a final-evaluation block.
+- Calibration with `old`: from the arena ratings, v01 should score about 0.22 against it.
+
+**Tools:**
+- `BenchmarkRunner`:
+  - counts slow turns and timeouts per game;
+  - the report records both specs' `BotFactory.describe` (full parameters, or a program source's sha256),
+    the commit with its status, the sha256 of the tracked diff and of each untracked file, the threads and
+    the Java version;
+  - `-Pout=<path>` sets the report path.
+- `BotFactory`: the spec `old` compiles `refs/old-3315948/Player.java` into `build/opponents/old`.
+- `tools/bench_pair.py`: direct and common modes, the gates as options, dropped maps, and maps changed
+  from the control's mirror. It has 10 offline tests; Python tests went from 13 to 23, Java tests to 90.
+- Smoke run on 20 development maps: `current?MAX_TOWERS=3` against v01, with the v01 mirror. S 0.500;
+  12 of 20 maps changed, so it is a broad change; G0 passed.
+
+## 2026-10-30 — first candidate: UNSTICK (queen stalls), passed P2 as a targeted fix
+
+**The bug.** A BUILD towards a site the queen does not touch walks her straight at the site's centre
+(`Rules`: `moveQueen` to the site). A site on that line pushes her straight back, and the rounding of
+positions keeps the equilibrium. The audit's scanner was not committed, so `cr.tools.StallScan`
+(`./gradlew stallScan`) rebuilds it:
+- A stall turn is a BUILD to a site the queen does not touch that leaves her where she was.
+- On seeds 10000-10499 (current against v01, 1000 games) it reproduces the audit exactly: 240 stall
+  turns, 44 streaks [1:18, 2-4:10, 5-9:9, 10-19:5, 20-39:1, 40+:1], and 5 games with 10+ turns, 3 of them
+  not won.
+
+Two shapes:
+- **Head-on**: the blocking site's centre lies exactly on the line, as in seeds 10477, 10206, 10035 and
+  10062. The worst case is 10477, seat 1, turns 51-93: 43 turns pressed against her own barracks on site
+  20, on `BUILD 12 MINE`.
+- **Wedge**: in seed 10394 the queen at 1551,710 touches sites 13 and 8. Her line to site 3 runs between
+  them through a 27-unit gap; she is 60 wide.
+
+**The flag.** `Params.UNSTICK` is 0 by default; the v01 snapshot gains `UNSTICK=0`, which `GreedyBot`
+does not read. With 1, `MainBot.unstick` handles the BUILD towards the next site to take:
+- If the straight step, predicted with the sites only, moves the queen less than 2 and does not make her
+  touch the site, she detours.
+- The prediction is `Physics.queenStep`: the step, 5 collision passes and the rounding, with only the
+  sites she can reach loaded.
+- The detour plan: a heading turned from the straight line in 15-degree steps, 1-6 MOVEs on it, then the
+  straight walk. The plan that touches the site in the fewest turns (within 25) wins, and its MOVEs go on
+  over the next turns.
+- Fleeing to a tower is left alone.
+
+**Development** on seeds 10000-10499 only, each variant against v01 with the v01 mirror (500 maps):
+
+| Variant | Changed maps | S | Note |
+| --- | --- | --- | --- |
+| trigger: the step gains < 1 towards the site; one detour step | 142 (28.4 %) | 0.498 | sliding along a site gains little too |
+| trigger: the predicted position does not change | 11 (2.2 %) | 0.500 | the wedge still 4 turns: creeps make the queen wobble by a unit, and one detour step led back into the wedge |
+| planner, steps < 5 count as standing, every BUILD | 324 (64.8 %) | 0.501 | fleeing to a tower moves little on purpose |
+| planner only on the next site to take; plan kept on consecutive turns | 157 (31.4 %) | 0.506 | longest turn 29 ms |
+| a step that ends touching the site counts as progress | 68 (13.6 %) | 0.507 | the queen at exactly r + 35 counted as stuck |
+| `queenStep` loads only reachable sites | 68 (13.6 %) | 0.507 | same games, longest turn 3.7 ms |
+| steps < 2 count as standing (**screened**) | 22 (4.4 %) | 0.500 | stall turns 9, all on BUILDs towards towers |
+
+The step-5 variant also speeds up slow slides. It is a broad change, kept as a later idea.
+
+**Tests** (Java 90 → 96):
+- `RulesTest.queenStepPredictsTheRules`: `queenStep` lands where `Rules.resolve` puts a lone queen, over
+  more than 1000 random walks on three maps.
+- `MainBotTest`:
+  - the two captured positions, as the exact input text seat 1 read
+    (`src/test/resources/cr/bot/current/`): with UNSTICK=0 the bot sends the stalling BUILD and never
+    arrives; with 1 it MOVEs and touches the site within 10 and 15 turns;
+  - a free walk keeps the BUILD;
+  - with no flag on, current plays v01's commands on 10 seeds, on both seats.
+- `StallScanTest`: the whole games of seeds 10477 and 10394. Streaks of 43 and 17 turns without the flag,
+  at most 2 with it.
+
+**Screen** (P2, targeted-fix track, fresh block 0 = seeds 200000-201999;
+`docs/data/exp-2026-10-30-unstick/`, hypothesis and commands written before the run):
+- Direct, against v01, 2000 maps: S = 0.5046 (95 % CI 0.5018-0.5075), W/D/L 2002/33/1965. 146 of 2000 maps
+  changed (7.3 %).
+- Against `boss`, 500 maps: Δ = 0.0000 (CI −0.0028..0.0028).
+- G0: no failure; longest turn 5.4 ms.
+- Every gate passes. The lower bound would clear G1 of a strategy candidate too (context only).
+- Mechanism on the block, 4000 games:
+  - stall turns 739 → 53; streaks 144 → 49, the longest 25 → 2;
+  - games with a 10+ streak 14 → 0 (5 of the 14 not won).
+- After the screen only a comment of `MainBot` changed. 400 of 400 rerun games were identical.
+
+Decision: UNSTICK passes P2 as a targeted fix. Under P2 it joins the local champion. Whether it becomes
+the `current` default and v02 is frozen is the user's call, so the default stays 0 for now.

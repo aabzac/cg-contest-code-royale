@@ -3,8 +3,8 @@
 Status: **adopted 2026-10-29** at the user's suggestion, after they re-uploaded v01 to see the noise.
 Taken from Back Track King's `docs/arena-uploads.md` (adopted there 2026-10-27, repository
 `summer-challenge-2026-back-track-king` at `07a708c`), with this project's tools. It sets the arena
-step of the promotion policy. The local screen a candidate passes before its first upload is still to
-be set (phase 3, before the first comparison).
+step of the promotion policy. The local screen a candidate passes before its first upload is policy P2
+(`docs/local-screen.md`, adopted 2026-10-30).
 
 ## Why
 

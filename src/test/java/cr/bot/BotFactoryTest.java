@@ -36,11 +36,23 @@ class BotFactoryTest {
         assertThrows(IllegalArgumentException.class, () -> BotFactory.create("submit?MAX_TOWERS=3"));
         assertThrows(IllegalArgumentException.class, () -> BotFactory.create("boss?MAX_TOWERS=3"));
         assertThrows(IllegalArgumentException.class, () -> BotFactory.create("boss4?MAX_TOWERS=3"));
+        assertThrows(IllegalArgumentException.class, () -> BotFactory.create("old?MAX_TOWERS=3"));
         assertThrows(IllegalArgumentException.class, () -> BotFactory.create("v00?MAX_TOWERS=3"));
     }
 
     @Test
     void overridesApplyOnTopOfSnapshot() {
         assertEquals("v01", BotFactory.create("v01?MAX_TOWERS=2").name());
+    }
+
+    /** Experiment records name what played: every parameter of an in-process bot, a program's source hash. */
+    @Test
+    void describeGivesTheEffectiveConfiguration() {
+        assertEquals("current " + new Params().apply("MAX_TOWERS=3"), BotFactory.describe("current?MAX_TOWERS=3"));
+        assertEquals("v01 " + BotFactory.snapshot("v01").apply("MAX_TOWERS=2"), BotFactory.describe("v01?MAX_TOWERS=2"));
+        assertEquals("proc:java -cp x Player", BotFactory.describe("proc:java -cp x Player"));
+        assertTrue(BotFactory.describe("boss").matches("boss sha256=([0-9a-f]{64}|missing)"));
+        assertTrue(BotFactory.describe("old").matches("old sha256=([0-9a-f]{64}|missing)"));
+        assertThrows(IllegalArgumentException.class, () -> BotFactory.describe("v99"));
     }
 }
