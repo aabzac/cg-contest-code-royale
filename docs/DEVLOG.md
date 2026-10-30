@@ -671,3 +671,67 @@ The user asked for a commit and for v02 on the arena. Commit 0606c2c holds P2 an
 **Before the Submit**: the live entry 6824680 was saved at 09:32 (18.98, rank 651/2291, 60 battles,
 `docs/data/arena-6824680-presubmit-2026-10-30.json`). It played no game after its placement, and all 60
 games are stored (`replays/cg/arena-6824680/games`, manifest `docs/data/arena-6824680-games-2026-10-29.json`).
+The watcher still saw 60 battles at 09:55.
+
+**The upload, by the agent with the user's explicit permission.** The user was on a phone and asked for
+the upload without their help. In the desktop app's built-in browser they were signed in to CodinGame.
+The user allowed, in words, swapping the code in the IDE's Play request for v02, checking it by sha256
+and pressing Submit. This was a one-time permission; the standing rule stays that the user uploads.
+- **Getting the text in:**
+  - CG's page blocks requests to http addresses (CSP `connect-src data: https: wss:`), and the built-in
+    browser opens no tab from page script. So the text came through `window.name`: a relay page on
+    127.0.0.1 set it, the same tab then navigated to the IDE, and the page read it there.
+  - On the IDE page its sha256 was `527244968dbe…`. `window.name` was cleared right after.
+- **The editor:** Monaco ignores synthetic input: neither Ctrl+V nor a synthetic paste event changed it.
+- **Play:** a page hook replaced the code in the IDE's own `TestSession/play` request (one field) with
+  v02, and the IDE played against Princess Boss.
+  - On turn 0 the bot printed `TRAIN 10 2 12 7 1 13 11 11`. The referee only warned `Cannot spawn from
+    10: not a barracks` and the game went on: the first live repeated marker site, as `Referee.kt`
+    predicted.
+  - The play response was cut off in the tool output, so the boss's score was not read.
+- **Checks:**
+  - CG's saved IDE code (`TestSession/startTestSession`, `answer.code`) then had sha256 `527244968dbe…`.
+  - After a reload the editor held it (1486 lines).
+- **Submit:** the IDE's button is now labelled "Test in arena" (class `submit`); CG asked "You did not
+  test your answer" and the agent confirmed. Submission 41598763 (`TestSession/submit`) at 09:58:49;
+  the saved code is still `527244968dbe…`. Agent 6826276, Bronze, placement started: 10 battles queued.
+- **Before the upload, the IDE's code was not the v01 artifact byte for byte:** 57,884 chars with the
+  final newline replaced by a space (`}\n\n} `). That is upload 3's IDE text; the play matched
+  `1e5d1a79` (`cgAttribute` SAME 60/60) and the difference is whitespace.
+
+## 2026-10-30 — v02 upload 1 placed 17.23; P1 asks for upload 2
+
+**Placement** (agent 6826276, Bronze; `docs/data/arena-6826276-placement-2026-10-30.json`):
+- Followed by snapshots every 3 minutes, every minute from 85 %. The first 10 games were done by
+  10:00:46 (4 wins, 9.02).
+- Then CG scheduled no battle until about 10:27. The user thought of re-submitting; the 10 games showed
+  nothing wrong (marker in all, no referee removal of v02), so they waited, and the games resumed.
+- Complete at 12:50:07: score **17.23**, rank 891/2289, 60 games, 37 wins (seat 0: 19 of 30, seat 1: 18
+  of 30).
+- One win is an opponent's turn-0 timeout (913406622, score −1). v02 was never removed.
+
+**Which code played** (manifest `docs/data/arena-6826276-games-2026-10-30.json`):
+- cgValidate: 59/60 games, every one of 5,983 turns matches, warnings exact 1164/1164.
+  - The repeated-site marker's turn-0 warning (`Cannot spawn from 10`) is matched.
+  - The one mismatch is the winner of game 913398184: both queens died on turn 38 (0:0), and CG ranked
+    player 0 first while the simulator calls a draw. That is the third known tie game, and CG put
+    player 0 first in all three (`docs/rules/inferred.md`).
+- `cgAttribute` against the kept copy `replays/artifacts/52724496/Player.java`: SAME in 60/60, 5,983
+  turns, marker `a2c71dbb` in 60/60.
+- Control, in-process v01: DIFF in 2 of 60 (913407360 from turn 20, 913424791 from turn 167). UNSTICK
+  changed the play in only those two games.
+- The first manifest run also merged the battle lists saved before the Submit. Those hold 6824680's
+  games, so it listed 60 failures ("agent 6826276 not among the players"). It was rerun with the new
+  agent's lists only (10:01 on): 60 games, 0 failures.
+
+**P1** (`python -I tools/arena_compare.py --candidate v02 --selected v01`, registry entry v02 upload 1):
+- v02 upload 1: 17.23, win rate 61.7 %, opponents' median 16.02, performance 16.75 ± 0.43 (logistic scale
+  refitted to 1.36).
+- v01: mean 17.77, pooled performance 17.92 ± 0.24. M = 3.01 (pooled over v01 only).
+- Verdict: **upload the candidate again**. Upload 1 is 0.54 below the selected mean, far from early
+  rollback (2M = 6.03). A decision needs upload 2.
+- Context: v02 played as v01 in 58 of 60 games, so the gap in score and rating against v01's uploads is
+  placement noise. It is one more sample of the spread between placements of near-identical code.
+
+Local against arena (`docs/local-screen.md`): v02 locally S 0.5032 against v01 (evaluation block 0);
+arena upload 1 17.23 against v01's mean 17.77, P1 pending.

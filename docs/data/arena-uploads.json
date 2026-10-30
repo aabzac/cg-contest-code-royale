@@ -7,9 +7,21 @@
    "agent": 6823071,
    "submission": 41591829,
    "league": "bronze",
-   "artifact": {"sha256": "5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a", "build": null, "config": "4194117d", "source": "commit 80e404c, default params"},
+   "artifact": {
+    "sha256": "5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a",
+    "build": null,
+    "config": "4194117d",
+    "source": "commit 80e404c, default params"
+   },
    "created": "2026-10-29T08:17:16+02:00",
-   "placement": {"score": 18.24, "rank": 736, "agents": 2296, "games": 60, "firstCompleteSnapshot": "2026-10-29T09:36:23+02:00", "watched": true},
+   "placement": {
+    "score": 18.24,
+    "rank": 736,
+    "agents": 2296,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-10-29T09:36:23+02:00",
+    "watched": true
+   },
    "snapshots": "docs/data/arena-6823071-placement-2026-10-29.json",
    "games": "docs/data/arena-6823071-games-2026-10-29.json",
    "attribution": "cgAttribute against 5bace689 (then build/submit): SAME in 60 of 60 games, 7,230 turns",
@@ -21,9 +33,23 @@
    "agent": 6823455,
    "submission": 41593274,
    "league": "bronze",
-   "artifact": {"sha256": "5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a", "build": null, "config": "4194117d", "source": "the same bytes as upload 1, re-submitted by the user"},
+   "artifact": {
+    "sha256": "5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a",
+    "build": null,
+    "config": "4194117d",
+    "source": "the same bytes as upload 1, re-submitted by the user"
+   },
    "created": "2026-10-29T14:03:05+02:00",
-   "placement": {"score": 16.08, "rank": 1067, "rankNote": "rank at 20:51, not at completion", "agents": 2294, "games": 60, "firstCompleteSnapshot": "2026-10-29T20:51:30+02:00", "watched": false, "lastUpdate": "2026-10-29T15:51:36+02:00 (leaderboard updateTime; 60 games, no game after placement)"},
+   "placement": {
+    "score": 16.08,
+    "rank": 1067,
+    "rankNote": "rank at 20:51, not at completion",
+    "agents": 2294,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-10-29T20:51:30+02:00",
+    "watched": false,
+    "lastUpdate": "2026-10-29T15:51:36+02:00 (leaderboard updateTime; 60 games, no game after placement)"
+   },
    "snapshots": "docs/data/arena-6823455-placement-2026-10-29.json",
    "games": "docs/data/arena-6823455-games-2026-10-29.json",
    "attribution": "cgAttribute against 5bace689 (then build/submit, 20:53): SAME in 60 of 60 games, 6,413 turns; again before upload 3, against the kept copy replays/artifacts/5bace689/Player.java: SAME in 60 of 60",
@@ -35,12 +61,51 @@
    "agent": 6824680,
    "submission": 41596829,
    "league": "bronze",
-   "artifact": {"sha256": "1e5d1a79f113347a00a68e51172602bf44c23d56670ebf85db0c99592c6741fd", "build": "e5417a83", "config": "4194117d", "source": "commit 2641aa9, default params; v01 with the turn-0 build marker (kept copy replays/artifacts/1e5d1a79/Player.java)"},
+   "artifact": {
+    "sha256": "1e5d1a79f113347a00a68e51172602bf44c23d56670ebf85db0c99592c6741fd",
+    "build": "e5417a83",
+    "config": "4194117d",
+    "source": "commit 2641aa9, default params; v01 with the turn-0 build marker (kept copy replays/artifacts/1e5d1a79/Player.java)"
+   },
    "created": "2026-10-29T22:50:54+02:00",
-   "placement": {"score": 18.98, "rank": 654, "agents": 2294, "games": 60, "firstCompleteSnapshot": "2026-10-30T00:47:44+02:00", "watched": true},
+   "placement": {
+    "score": 18.98,
+    "rank": 654,
+    "agents": 2294,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-10-30T00:47:44+02:00",
+    "watched": true
+   },
    "snapshots": "docs/data/arena-6824680-placement-2026-10-29.json",
    "games": "docs/data/arena-6824680-games-2026-10-29.json",
-   "attribution": "cgAttribute against the kept copy replays/artifacts/1e5d1a79/Player.java: SAME in 60 of 60 games, 6,222 turns; marker e5417a83 in 60 of 60"
+   "attribution": "cgAttribute against the kept copy replays/artifacts/1e5d1a79/Player.java: SAME in 60 of 60 games, 6,222 turns; marker e5417a83 in 60 of 60",
+   "replaced": "2026-10-30T09:58:49+02:00 by v02 upload 1"
+  },
+  {
+   "label": "v02",
+   "upload": 1,
+   "agent": 6826276,
+   "submission": 41598763,
+   "league": "bronze",
+   "artifact": {
+    "sha256": "527244968dbe3d44abeea2706cc129dff166e341d29351a9f8fe8de18da965a9",
+    "build": "a2c71dbb",
+    "config": "173dd43b",
+    "source": "commit a3e48fc, default params (UNSTICK=1); kept copy replays/artifacts/52724496/Player.java"
+   },
+   "created": "2026-10-30T09:58:49+02:00",
+   "placement": {
+    "score": 17.23,
+    "rank": 891,
+    "agents": 2289,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-10-30T12:50:07+02:00",
+    "watched": true
+   },
+   "snapshots": "docs/data/arena-6826276-placement-2026-10-30.json",
+   "games": "docs/data/arena-6826276-games-2026-10-30.json",
+   "attribution": "cgAttribute against the kept copy replays/artifacts/52724496/Player.java: SAME in 60 of 60 games, 5,983 turns; marker a2c71dbb in 60 of 60; in-process v01 differs in 2 of 60",
+   "submittedBy": "the agent in the built-in browser, with the user’s explicit permission (2026-10-30)"
   }
  ]
 }

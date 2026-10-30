@@ -149,4 +149,4 @@ Each uploaded candidate is listed here: its local S against the selected version
 
 | Candidate | Local S vs selected (block) | P1 outcome |
 | --- | --- | --- |
-| none yet | | |
+| v02 (UNSTICK) | 0.5032 (CI 0.5005-0.5060) against v01, evaluation block 0 (400000-401999) | upload 1: 17.23 against v01's mean 17.77; v02 played as v01 in 58 of 60 games; pending upload 2 |
