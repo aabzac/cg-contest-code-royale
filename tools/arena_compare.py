@@ -19,7 +19,8 @@ all uploads of the league (profile likelihood; 2.0 until the league has 60 games
 not identifiable) and the standard error from the Fisher information, which treats the scale as known.
 Opponent scores are those at download time, not at game time. An upload whose placement ended in a
 promotion ("promotedTo") has no placement score in the old league: its games still count for the
-ratings, its score for no mean.
+ratings, its score for no mean. Games where the referee removed a player (game score -1: a timeout or
+invalid output) are listed per upload and side; CG counts them like any game, and so does every figure here.
 
 Per label: the mean placement score and its SD between uploads. The noise margin M is twice the SD
 pooled over every label with two or more placement scores in the league. Shared opponents (by pseudo)
@@ -119,6 +120,19 @@ def record(manifest):
     for seat in (0, 1):
         part = [points(g) for g in manifest["games"] if g["seat"] == seat]
         out["seat%d" % seat] = "%d of %d" % (sum(1 for p in part if p == 1.0), len(part))
+    return out
+
+
+def removed(manifest):
+    """Game ids where the referee removed a player (game score -1: a timeout or invalid output), by side."""
+    out = {"agent": [], "opponent": []}
+    for g in manifest["games"]:
+        scores = g.get("scores")
+        if isinstance(scores, list) and len(scores) == 2:
+            if scores[g["seat"]] == -1:
+                out["agent"].append(g["gameId"])
+            if scores[1 - g["seat"]] == -1:
+                out["opponent"].append(g["gameId"])
     return out
 
 
@@ -238,7 +252,7 @@ def compare(registry, candidate=None, selected=None):
                          "rank": (u.get("placement") or {}).get("rank"), "config": u["artifact"]["config"],
                          "build": u["artifact"].get("build"),
                          "noMarker": [g["gameId"] for g in m["games"] if "marker" in g and g["marker"] is None]
-                         if u["artifact"].get("build") else [], **record(m),
+                         if u["artifact"].get("build") else [], "removed": removed(m), **record(m),
                          "opponentScoreMedian": statistics.median(known) if known else None, "ratedGames": len(games),
                          "performance": rating, "performanceSe": se})
         labels = {}
@@ -323,6 +337,10 @@ def print_report(report):
         for r in e["uploads"]:
             if r["noMarker"]:
                 print("%s: %d game(s) without the marker (no turn-0 answer?): %s" % (r["upload"], len(r["noMarker"]), r["noMarker"]))
+            for side in ("agent", "opponent"):
+                if r["removed"][side]:
+                    print("%s: %d game(s) where the referee removed the %s (score -1: timeout or invalid output; counted like "
+                          "any game): %s" % (r["upload"], len(r["removed"][side]), side, r["removed"][side]))
         for label, v in e["labels"].items():
             print("label %s (config %s): %d upload(s), placement %s, mean %s, SD %s; performance %s +- %s (%d games)" % (
                 label, v["config"], v["uploads"], " ".join(fmt(x) for x in v["placementScores"]) or "-", fmt(v["mean"]),

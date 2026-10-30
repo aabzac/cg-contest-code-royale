@@ -1,0 +1,2131 @@
+{
+ "what": "Upload 3 of v01 (the marked artifact 1e5d1a79, build e5417a83, config 4194117d) as agent 6824680 (Bronze): placement followed with tools/arena_snapshot.py",
+ "upload": {
+  "by": "the user, pasting build/submit/Player.java into the CG IDE and pressing Submit",
+  "artifact": {
+   "path": "build/submit/Player.java",
+   "sha256": "1e5d1a79f113347a00a68e51172602bf44c23d56670ebf85db0c99592c6741fd",
+   "chars": 57884,
+   "params": "",
+   "effective": "INCOME_TARGET=10,MAX_TOWERS=4,BARRACKS=1,SEED=1,DEBUG=0",
+   "build": "e5417a83",
+   "config": "4194117d",
+   "source": "commit 2641aa9811c05d7c104354be3075f2b981e0ea1e (./gradlew submit reproduces the bytes from a clean export); kept copy replays/artifacts/1e5d1a79/Player.java (gitignored)"
+  },
+  "bot": "v01 = current (greedy), printing its build id on turn 0: TRAIN 14 5 4 1 7 10 8 3",
+  "policy": "P1: a third upload of the selected configuration (v01, config 4194117d), for the live check of the build marker and a third noise measurement",
+  "agentId": 6824680,
+  "submission": 41596829,
+  "replaces": 6823455,
+  "league": "bronze (divisionIndex 3)",
+  "creationTime": "leaderboard creationTime 1793307054170 = 2026-10-29T22:50:54+02:00",
+  "beforeUpload": "docs/data/arena-6823455-presubmit-2026-10-29.json (6823455 at 22:48:55) and docs/data/arena-6823455-games-2026-10-29.json (its 60 games, fetched 22:48:58)"
+ },
+ "follow": "arena_snapshot.py every 180 s, every 60 s from 85 %; stop at percentage 100 with inProgress false (the first such snapshot is the placement result) or on a change of league or agent id. One interval was 7.7 min (00:15:00 to 00:22:41); no snapshot failed. Snapshots and raw responses: replays/cg/arena-6824680/placement-raw (gitignored).",
+ "previousAgentLastSeen": {
+  "fetched": "2026-10-29T22:49:25+0200",
+  "agentId": 6823455,
+  "percentage": 100,
+  "score": 16.08,
+  "localRank": 1067
+ },
+ "progress": [
+  {
+   "fetched": "2026-10-29T22:51:28+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 0,
+   "inProgress": false,
+   "localRank": 2247,
+   "leagueAgents": 2294,
+   "score": 0.0,
+   "battles": 10,
+   "done": 0,
+   "wins": 0
+  },
+  {
+   "fetched": "2026-10-29T22:52:28+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 0,
+   "inProgress": false,
+   "localRank": 2247,
+   "leagueAgents": 2294,
+   "score": 0.0,
+   "battles": 10,
+   "done": 0,
+   "wins": 0
+  },
+  {
+   "fetched": "2026-10-29T22:55:31+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 16,
+   "inProgress": false,
+   "localRank": 1232,
+   "leagueAgents": 2294,
+   "score": 14.65,
+   "battles": 10,
+   "done": 10,
+   "wins": 7
+  },
+  {
+   "fetched": "2026-10-29T22:58:34+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 18,
+   "inProgress": false,
+   "localRank": 1414,
+   "leagueAgents": 2294,
+   "score": 13.36,
+   "battles": 12,
+   "done": 11,
+   "wins": 7
+  },
+  {
+   "fetched": "2026-10-29T23:01:38+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 21,
+   "inProgress": false,
+   "localRank": 1207,
+   "leagueAgents": 2294,
+   "score": 14.8,
+   "battles": 13,
+   "done": 13,
+   "wins": 9
+  },
+  {
+   "fetched": "2026-10-29T23:04:41+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 23,
+   "inProgress": false,
+   "localRank": 1148,
+   "leagueAgents": 2294,
+   "score": 15.47,
+   "battles": 15,
+   "done": 14,
+   "wins": 10
+  },
+  {
+   "fetched": "2026-10-29T23:07:44+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 25,
+   "inProgress": false,
+   "localRank": 1064,
+   "leagueAgents": 2294,
+   "score": 16.12,
+   "battles": 16,
+   "done": 16,
+   "wins": 12
+  },
+  {
+   "fetched": "2026-10-29T23:10:47+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 28,
+   "inProgress": false,
+   "localRank": 881,
+   "leagueAgents": 2294,
+   "score": 17.32,
+   "battles": 17,
+   "done": 17,
+   "wins": 13
+  },
+  {
+   "fetched": "2026-10-29T23:13:50+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 30,
+   "inProgress": false,
+   "localRank": 792,
+   "leagueAgents": 2294,
+   "score": 17.89,
+   "battles": 19,
+   "done": 19,
+   "wins": 15
+  },
+  {
+   "fetched": "2026-10-29T23:16:53+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 33,
+   "inProgress": false,
+   "localRank": 803,
+   "leagueAgents": 2294,
+   "score": 17.82,
+   "battles": 20,
+   "done": 20,
+   "wins": 15
+  },
+  {
+   "fetched": "2026-10-29T23:19:56+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 35,
+   "inProgress": false,
+   "localRank": 892,
+   "leagueAgents": 2294,
+   "score": 17.27,
+   "battles": 22,
+   "done": 22,
+   "wins": 15
+  },
+  {
+   "fetched": "2026-10-29T23:23:00+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 38,
+   "inProgress": false,
+   "localRank": 903,
+   "leagueAgents": 2294,
+   "score": 17.19,
+   "battles": 24,
+   "done": 23,
+   "wins": 16
+  },
+  {
+   "fetched": "2026-10-29T23:26:03+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 41,
+   "inProgress": false,
+   "localRank": 757,
+   "leagueAgents": 2294,
+   "score": 18.02,
+   "battles": 26,
+   "done": 25,
+   "wins": 18
+  },
+  {
+   "fetched": "2026-10-29T23:29:07+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 43,
+   "inProgress": false,
+   "localRank": 718,
+   "leagueAgents": 2294,
+   "score": 18.41,
+   "battles": 27,
+   "done": 26,
+   "wins": 19
+  },
+  {
+   "fetched": "2026-10-29T23:32:10+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 46,
+   "inProgress": false,
+   "localRank": 717,
+   "leagueAgents": 2294,
+   "score": 18.42,
+   "battles": 29,
+   "done": 28,
+   "wins": 20
+  },
+  {
+   "fetched": "2026-10-29T23:35:14+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 50,
+   "inProgress": false,
+   "localRank": 819,
+   "leagueAgents": 2294,
+   "score": 17.72,
+   "battles": 30,
+   "done": 30,
+   "wins": 20
+  },
+  {
+   "fetched": "2026-10-29T23:38:18+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 50,
+   "inProgress": false,
+   "localRank": 819,
+   "leagueAgents": 2294,
+   "score": 17.72,
+   "battles": 31,
+   "done": 30,
+   "wins": 20
+  },
+  {
+   "fetched": "2026-10-29T23:41:21+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 53,
+   "inProgress": false,
+   "localRank": 817,
+   "leagueAgents": 2294,
+   "score": 17.74,
+   "battles": 32,
+   "done": 32,
+   "wins": 21
+  },
+  {
+   "fetched": "2026-10-29T23:44:25+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 55,
+   "inProgress": false,
+   "localRank": 756,
+   "leagueAgents": 2294,
+   "score": 18.05,
+   "battles": 34,
+   "done": 33,
+   "wins": 22
+  },
+  {
+   "fetched": "2026-10-29T23:47:28+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 58,
+   "inProgress": false,
+   "localRank": 689,
+   "leagueAgents": 2294,
+   "score": 18.65,
+   "battles": 35,
+   "done": 35,
+   "wins": 24
+  },
+  {
+   "fetched": "2026-10-29T23:50:32+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 60,
+   "inProgress": false,
+   "localRank": 659,
+   "leagueAgents": 2294,
+   "score": 18.93,
+   "battles": 36,
+   "done": 36,
+   "wins": 25
+  },
+  {
+   "fetched": "2026-10-29T23:53:35+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 60,
+   "inProgress": false,
+   "localRank": 659,
+   "leagueAgents": 2294,
+   "score": 18.93,
+   "battles": 36,
+   "done": 36,
+   "wins": 25
+  },
+  {
+   "fetched": "2026-10-29T23:56:38+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 60,
+   "inProgress": false,
+   "localRank": 659,
+   "leagueAgents": 2294,
+   "score": 18.93,
+   "battles": 36,
+   "done": 36,
+   "wins": 25
+  },
+  {
+   "fetched": "2026-10-29T23:59:42+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 60,
+   "inProgress": false,
+   "localRank": 659,
+   "leagueAgents": 2294,
+   "score": 18.93,
+   "battles": 36,
+   "done": 36,
+   "wins": 25
+  },
+  {
+   "fetched": "2026-10-30T00:02:46+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 61,
+   "inProgress": false,
+   "localRank": 638,
+   "leagueAgents": 2294,
+   "score": 19.21,
+   "battles": 37,
+   "done": 37,
+   "wins": 26
+  },
+  {
+   "fetched": "2026-10-30T00:05:49+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 65,
+   "inProgress": false,
+   "localRank": 679,
+   "leagueAgents": 2294,
+   "score": 18.71,
+   "battles": 39,
+   "done": 39,
+   "wins": 26
+  },
+  {
+   "fetched": "2026-10-30T00:08:53+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 66,
+   "inProgress": false,
+   "localRank": 713,
+   "leagueAgents": 2294,
+   "score": 18.47,
+   "battles": 42,
+   "done": 41,
+   "wins": 27
+  },
+  {
+   "fetched": "2026-10-30T00:11:57+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 70,
+   "inProgress": false,
+   "localRank": 655,
+   "leagueAgents": 2294,
+   "score": 18.96,
+   "battles": 43,
+   "done": 43,
+   "wins": 29
+  },
+  {
+   "fetched": "2026-10-30T00:15:00+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 71,
+   "inProgress": false,
+   "localRank": 637,
+   "leagueAgents": 2294,
+   "score": 19.21,
+   "battles": 43,
+   "done": 43,
+   "wins": 29
+  },
+  {
+   "fetched": "2026-10-30T00:22:41+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 78,
+   "inProgress": false,
+   "localRank": 496,
+   "leagueAgents": 2294,
+   "score": 20.13,
+   "battles": 48,
+   "done": 47,
+   "wins": 33
+  },
+  {
+   "fetched": "2026-10-30T00:25:44+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 81,
+   "inProgress": false,
+   "localRank": 494,
+   "leagueAgents": 2294,
+   "score": 20.15,
+   "battles": 50,
+   "done": 49,
+   "wins": 34
+  },
+  {
+   "fetched": "2026-10-30T00:28:48+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 85,
+   "inProgress": false,
+   "localRank": 530,
+   "leagueAgents": 2294,
+   "score": 19.78,
+   "battles": 51,
+   "done": 51,
+   "wins": 34
+  },
+  {
+   "fetched": "2026-10-30T00:29:51+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 85,
+   "inProgress": false,
+   "localRank": 530,
+   "leagueAgents": 2294,
+   "score": 19.78,
+   "battles": 52,
+   "done": 51,
+   "wins": 34
+  },
+  {
+   "fetched": "2026-10-30T00:30:54+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 86,
+   "inProgress": false,
+   "localRank": 564,
+   "leagueAgents": 2294,
+   "score": 19.59,
+   "battles": 53,
+   "done": 52,
+   "wins": 34
+  },
+  {
+   "fetched": "2026-10-30T00:31:57+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 86,
+   "inProgress": false,
+   "localRank": 564,
+   "leagueAgents": 2294,
+   "score": 19.59,
+   "battles": 53,
+   "done": 53,
+   "wins": 34
+  },
+  {
+   "fetched": "2026-10-30T00:33:00+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 88,
+   "inProgress": false,
+   "localRank": 598,
+   "leagueAgents": 2294,
+   "score": 19.42,
+   "battles": 54,
+   "done": 53,
+   "wins": 34
+  },
+  {
+   "fetched": "2026-10-30T00:34:03+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 90,
+   "inProgress": false,
+   "localRank": 564,
+   "leagueAgents": 2294,
+   "score": 19.61,
+   "battles": 54,
+   "done": 54,
+   "wins": 35
+  },
+  {
+   "fetched": "2026-10-30T00:35:06+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 90,
+   "inProgress": false,
+   "localRank": 564,
+   "leagueAgents": 2294,
+   "score": 19.61,
+   "battles": 54,
+   "done": 54,
+   "wins": 35
+  },
+  {
+   "fetched": "2026-10-30T00:36:09+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 90,
+   "inProgress": false,
+   "localRank": 564,
+   "leagueAgents": 2294,
+   "score": 19.61,
+   "battles": 55,
+   "done": 55,
+   "wins": 35
+  },
+  {
+   "fetched": "2026-10-30T00:37:13+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 91,
+   "inProgress": false,
+   "localRank": 585,
+   "leagueAgents": 2294,
+   "score": 19.44,
+   "battles": 56,
+   "done": 55,
+   "wins": 35
+  },
+  {
+   "fetched": "2026-10-30T00:38:16+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 93,
+   "inProgress": false,
+   "localRank": 627,
+   "leagueAgents": 2294,
+   "score": 19.27,
+   "battles": 56,
+   "done": 56,
+   "wins": 35
+  },
+  {
+   "fetched": "2026-10-30T00:39:19+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 93,
+   "inProgress": false,
+   "localRank": 627,
+   "leagueAgents": 2294,
+   "score": 19.27,
+   "battles": 57,
+   "done": 56,
+   "wins": 35
+  },
+  {
+   "fetched": "2026-10-30T00:40:22+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 95,
+   "inProgress": false,
+   "localRank": 582,
+   "leagueAgents": 2294,
+   "score": 19.45,
+   "battles": 58,
+   "done": 57,
+   "wins": 36
+  },
+  {
+   "fetched": "2026-10-30T00:41:25+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 95,
+   "inProgress": false,
+   "localRank": 582,
+   "leagueAgents": 2294,
+   "score": 19.45,
+   "battles": 58,
+   "done": 58,
+   "wins": 36
+  },
+  {
+   "fetched": "2026-10-30T00:42:29+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 96,
+   "inProgress": false,
+   "localRank": 625,
+   "leagueAgents": 2294,
+   "score": 19.29,
+   "battles": 58,
+   "done": 58,
+   "wins": 36
+  },
+  {
+   "fetched": "2026-10-30T00:43:32+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 96,
+   "inProgress": false,
+   "localRank": 625,
+   "leagueAgents": 2294,
+   "score": 19.29,
+   "battles": 58,
+   "done": 58,
+   "wins": 36
+  },
+  {
+   "fetched": "2026-10-30T00:44:35+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 96,
+   "inProgress": false,
+   "localRank": 625,
+   "leagueAgents": 2294,
+   "score": 19.29,
+   "battles": 59,
+   "done": 58,
+   "wins": 36
+  },
+  {
+   "fetched": "2026-10-30T00:45:38+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 98,
+   "inProgress": false,
+   "localRank": 640,
+   "leagueAgents": 2294,
+   "score": 19.13,
+   "battles": 59,
+   "done": 59,
+   "wins": 36
+  },
+  {
+   "fetched": "2026-10-30T00:46:41+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 98,
+   "inProgress": false,
+   "localRank": 640,
+   "leagueAgents": 2294,
+   "score": 19.13,
+   "battles": 60,
+   "done": 59,
+   "wins": 36
+  },
+  {
+   "fetched": "2026-10-30T00:47:44+0200",
+   "agentId": 6824680,
+   "league": 3,
+   "percentage": 100,
+   "inProgress": false,
+   "localRank": 654,
+   "leagueAgents": 2294,
+   "score": 18.98,
+   "battles": 60,
+   "done": 60,
+   "wins": 36
+  }
+ ],
+ "firstSnapshot": {
+  "fetched": "2026-10-29T22:51:28+0200",
+  "services": [
+   "Leaderboards/getFilteredPuzzleLeaderboard [code-royale, null, global, {active, KEYWORD, aabzac}]",
+   "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]"
+  ],
+  "entry": {
+   "rank": 2892,
+   "localRank": 2247,
+   "score": 0.0,
+   "eligibleForPromotion": false,
+   "programmingLanguage": "Java",
+   "updateTime": 1793307054170,
+   "creationTime": 1793307054170,
+   "percentage": 0,
+   "agentId": 6824680,
+   "inProgress": false,
+   "league": 3,
+   "leagueAgents": 2294,
+   "pseudo": "aabzac"
+  },
+  "leagueTotal": 2294,
+  "battles": {
+   "count": 10,
+   "done": 0,
+   "wins": 0,
+   "games": [
+    {
+     "gameId": 913232514,
+     "done": false,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": null
+    },
+    {
+     "gameId": 913232513,
+     "done": false,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": null
+    },
+    {
+     "gameId": 913232512,
+     "done": false,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": null
+    },
+    {
+     "gameId": 913232511,
+     "done": false,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": null
+    },
+    {
+     "gameId": 913232510,
+     "done": false,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": null
+    },
+    {
+     "gameId": 913232509,
+     "done": false,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": null
+    },
+    {
+     "gameId": 913232508,
+     "done": false,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": null
+    },
+    {
+     "gameId": 913232507,
+     "done": false,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": null
+    },
+    {
+     "gameId": 913232506,
+     "done": false,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": null
+    },
+    {
+     "gameId": 913232505,
+     "done": false,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": null
+    }
+   ]
+  }
+ },
+ "completedSnapshot": {
+  "fetched": "2026-10-30T00:47:44+0200",
+  "services": [
+   "Leaderboards/getFilteredPuzzleLeaderboard [code-royale, null, global, {active, KEYWORD, aabzac}]",
+   "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]"
+  ],
+  "entry": {
+   "rank": 1299,
+   "localRank": 654,
+   "score": 18.98,
+   "eligibleForPromotion": false,
+   "programmingLanguage": "Java",
+   "updateTime": 1793314038170,
+   "creationTime": 1793307054170,
+   "percentage": 100,
+   "agentId": 6824680,
+   "inProgress": false,
+   "league": 3,
+   "leagueAgents": 2294,
+   "pseudo": "aabzac"
+  },
+  "leagueTotal": 2294,
+  "battles": {
+   "count": 60,
+   "done": 60,
+   "wins": 36,
+   "games": [
+    {
+     "gameId": 913258503,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "poik007",
+      "agentId": 2572425,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913257834,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Garfield100",
+      "agentId": 4312510,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913257045,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "[STG][2016]gori_j",
+      "agentId": 2689139,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913256745,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "ButterflyEA",
+      "agentId": 2634199,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913256432,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Agito",
+      "agentId": 2430375,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913256031,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "helpmefindaname",
+      "agentId": 3985375,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913255320,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Garfield100",
+      "agentId": 4312510,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913255052,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "rom_02",
+      "agentId": 2073459,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913254661,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Squirrellegend",
+      "agentId": 4308804,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913254167,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "datiti",
+      "agentId": 2629263,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913253874,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Matthieu.B",
+      "agentId": 2079415,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913253542,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "ziolekmaciej",
+      "agentId": 3905778,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913253184,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Eniotan",
+      "agentId": 2427195,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913252841,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Kustonnn",
+      "agentId": 4552617,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913252474,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "M99",
+      "agentId": 2841840,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913252127,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Quentinv57",
+      "agentId": 5716678,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913251708,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "kbhi",
+      "agentId": 2572454,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913250755,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Abit85",
+      "agentId": 5906515,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913250259,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "skoczekrs",
+      "agentId": 2508221,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913250004,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "MatthieuC",
+      "agentId": 1971326,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913249675,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "NickyKit",
+      "agentId": 4547838,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913249231,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "gregjvincent",
+      "agentId": 4745049,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913248915,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Emerald_King",
+      "agentId": 5038458,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913248531,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Adrian_Piniek",
+      "agentId": 2661858,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913244889,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Simplyzero",
+      "agentId": 2509256,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913244368,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "He0l",
+      "agentId": 4717116,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913244062,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "polill00",
+      "agentId": 3413373,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913243565,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Threyeth",
+      "agentId": 2435087,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913243064,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Rayoul",
+      "agentId": 6326975,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913242631,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Octet8",
+      "agentId": 5756640,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913241740,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "WillNess",
+      "agentId": 2412400,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913241240,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "bigpoopypants",
+      "agentId": 2462736,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913240919,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "petiseb",
+      "agentId": 4059391,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913240495,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Goldberg-Alex",
+      "agentId": 2636717,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913240054,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Gammel",
+      "agentId": 3152412,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913239449,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "PatrickMcGinnisII",
+      "agentId": 2230911,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913239131,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Ati33",
+      "agentId": 2646197,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913238788,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "kingofnumbers",
+      "agentId": 2487125,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913238365,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "NeoGen",
+      "agentId": 2012237,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913238063,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Ronnie147",
+      "agentId": 2487441,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913237593,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Avatar256",
+      "agentId": 1897478,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913236993,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Guitouille",
+      "agentId": 4556050,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913236684,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "yann_2",
+      "agentId": 5314362,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913236215,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "MartinVachovski",
+      "agentId": 2737166,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913235751,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Bdan",
+      "agentId": 3148519,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913235124,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Bakayaru",
+      "agentId": 2683567,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913234702,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "LacisBrunais",
+      "agentId": 4440813,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913234039,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Spinner",
+      "agentId": 3459058,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913233650,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Rader",
+      "agentId": 3204578,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913233218,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Loshe",
+      "agentId": 3920321,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913232514,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Poledustaren",
+      "agentId": 1960548,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913232513,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "don_bovar",
+      "agentId": 4310886,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913232512,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "ErikBrendel",
+      "agentId": 2762168,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913232511,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Ayras",
+      "agentId": 4386496,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913232510,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Turbo_Junk",
+      "agentId": 3091133,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913232509,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "saltyFam",
+      "agentId": 4986042,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913232508,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "Melnyk",
+      "agentId": 1867355,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913232507,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "MateuszHawrus",
+      "agentId": 2222143,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913232506,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "xLysia",
+      "agentId": 2460519,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913232505,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41596829,
+     "opponent": {
+      "pseudo": "UntitledAsao",
+      "agentId": 4429226,
+      "rank": 0
+     }
+    }
+   ]
+  }
+ },
+ "attribution": {
+  "claim": "Agent 6824680 behaved as artifact 1e5d1a79 (v01 = current, default params) on every decision of its 60 placement games: 6222 turns, 33 games on seat 0 and 27 on seat 1. Every game carries the marker e5417a83 on turn 0, and the referee only warned there (cgValidate matches the warnings). This is behaviour on the positions the games reached plus a self-reported build id, not an attestation of the uploaded file. The unmarked v01 artifact and in-process current match too (the marker is excused for a bot without one); parameters that change play give DIFF in part of the games (MAX_TOWERS=3: 18 of 60, INCOME_TARGET=11: 21 of 60); unused ones (SEED, DEBUG) cannot be told apart.",
+  "tool": "cgAttribute = cr.tools.CgAttribute + cr.referee.Follow at commit 2641aa9; each game is replayed through CgValidate, then on the validated turns the bot's two lines are compared with the agent's recorded stdout while the game advances with the recorded commands of both players",
+  "data": "docs/data/arena-6824680-games-2026-10-29.json (manifest; raw games in replays/cg/arena-6824680/games, gitignored)",
+  "validate": {
+   "command": "./gradlew cgValidate -Preplays=replays/cg/arena-6824680/games",
+   "result": [
+    "games=60 ok=60 mismatch=0 error=0 matchedTurns=6222",
+    "unit match: plain 5443/5443 (100.00%) spawn 779/779 (100.00%)",
+    "warnings (turns with a summary or simulated warning): exact 2121/2121"
+   ]
+  },
+  "runs": [
+   {
+    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6824680/games -Pagent=6824680 -Pbot=file:replays/artifacts/1e5d1a79/Player.java",
+    "result": [
+     "bot file:replays/artifacts/1e5d1a79/Player.java: replays/artifacts/1e5d1a79/Player.java sha256=1e5d1a79f113347a00a68e51172602bf44c23d56670ebf85db0c99592c6741fd params=\"\" build=e5417a83 config=4194117d",
+     "attribution of 6824680 to file:replays/artifacts/1e5d1a79/Player.java: games=60 same=60 differ=0 partial=0 error=0 comparedTurns=6222 markers={e5417a83=60}"
+    ],
+    "role": "the uploaded artifact (kept copy, sha256 1e5d1a79)"
+   },
+   {
+    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6824680/games -Pagent=6824680 -Pbot=file:replays/artifacts/5bace689/Player.java",
+    "result": [
+     "bot file:replays/artifacts/5bace689/Player.java: replays/artifacts/5bace689/Player.java sha256=5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a params=\"\" build=none config=4194117d",
+     "attribution of 6824680 to file:replays/artifacts/5bace689/Player.java: games=60 same=60 differ=0 partial=0 error=0 comparedTurns=6222 markers={e5417a83=60}"
+    ],
+    "role": "control: v01's artifact before the marker (same config 4194117d, no marker); the recorded marker is excused, so SAME"
+   },
+   {
+    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6824680/games -Pagent=6824680 -Pbot=current",
+    "result": [
+     "bot current",
+     "attribution of 6824680 to current: games=60 same=60 differ=0 partial=0 error=0 comparedTurns=6222 markers={e5417a83=60}"
+    ],
+    "role": "control: in-process current at commit 2641aa9 (empty turn-0 TRAIN, excused)"
+   },
+   {
+    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6824680/games -Pagent=6824680 -Pbot=\"current?MAX_TOWERS=3\"",
+    "result": [
+     "bot current?MAX_TOWERS=3",
+     "attribution of 6824680 to current?MAX_TOWERS=3: games=60 same=42 differ=18 partial=0 error=0 comparedTurns=6222 markers={e5417a83=60}"
+    ],
+    "role": "control: a parameter that changes play (exit code 1)"
+   },
+   {
+    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6824680/games -Pagent=6824680 -Pbot=\"current?INCOME_TARGET=11\"",
+    "result": [
+     "bot current?INCOME_TARGET=11",
+     "attribution of 6824680 to current?INCOME_TARGET=11: games=60 same=39 differ=21 partial=0 error=0 comparedTurns=6222 markers={e5417a83=60}"
+    ],
+    "role": "control: a parameter that changes play (exit code 1)"
+   }
+  ],
+  "perGame": [
+   {
+    "gameId": 913232505,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913232506,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913232507,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 53,
+    "turns": 53,
+    "validated": 53,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913232508,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 117,
+    "turns": 117,
+    "validated": 117,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913232509,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 65,
+    "turns": 65,
+    "validated": 65,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913232510,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 61,
+    "turns": 61,
+    "validated": 61,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913232511,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 57,
+    "turns": 57,
+    "validated": 57,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913232512,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 78,
+    "turns": 78,
+    "validated": 78,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913232513,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 46,
+    "turns": 46,
+    "validated": 46,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913232514,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 62,
+    "turns": 62,
+    "validated": 62,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913233218,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 56,
+    "turns": 56,
+    "validated": 56,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913233650,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 89,
+    "turns": 89,
+    "validated": 89,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913234039,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 125,
+    "turns": 125,
+    "validated": 125,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913234702,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 61,
+    "turns": 61,
+    "validated": 61,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913235124,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 76,
+    "turns": 76,
+    "validated": 76,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913235751,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 52,
+    "turns": 52,
+    "validated": 52,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913236215,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 65,
+    "turns": 65,
+    "validated": 65,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913236684,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 71,
+    "turns": 71,
+    "validated": 71,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913236993,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 199,
+    "turns": 199,
+    "validated": 199,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913237593,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913238063,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 45,
+    "turns": 45,
+    "validated": 45,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913238365,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 160,
+    "turns": 160,
+    "validated": 160,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913238788,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 69,
+    "turns": 69,
+    "validated": 69,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913239131,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 141,
+    "turns": 141,
+    "validated": 141,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913239449,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 166,
+    "turns": 166,
+    "validated": 166,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913240054,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 39,
+    "turns": 39,
+    "validated": 39,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913240495,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 246,
+    "turns": 246,
+    "validated": 246,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913240919,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 96,
+    "turns": 96,
+    "validated": 96,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913241240,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913241740,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 41,
+    "turns": 41,
+    "validated": 41,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913242631,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 139,
+    "turns": 139,
+    "validated": 139,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913243064,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 85,
+    "turns": 85,
+    "validated": 85,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913243565,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 46,
+    "turns": 46,
+    "validated": 46,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913244062,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913244368,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 70,
+    "turns": 70,
+    "validated": 70,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913244889,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 55,
+    "turns": 55,
+    "validated": 55,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913248531,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 250,
+    "turns": 250,
+    "validated": 250,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913248915,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 58,
+    "turns": 58,
+    "validated": 58,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913249231,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 98,
+    "turns": 98,
+    "validated": 98,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913249675,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 90,
+    "turns": 90,
+    "validated": 90,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913250004,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 116,
+    "turns": 116,
+    "validated": 116,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913250259,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 127,
+    "turns": 127,
+    "validated": 127,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913250755,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 129,
+    "turns": 129,
+    "validated": 129,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913251708,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 105,
+    "turns": 105,
+    "validated": 105,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913252127,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 58,
+    "turns": 58,
+    "validated": 58,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913252474,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 73,
+    "turns": 73,
+    "validated": 73,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913252841,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 75,
+    "turns": 75,
+    "validated": 75,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913253184,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 60,
+    "turns": 60,
+    "validated": 60,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913253542,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 107,
+    "turns": 107,
+    "validated": 107,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913253874,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 48,
+    "turns": 48,
+    "validated": 48,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913254167,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 83,
+    "turns": 83,
+    "validated": 83,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913254661,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 93,
+    "turns": 93,
+    "validated": 93,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913255052,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 82,
+    "turns": 82,
+    "validated": 82,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913255320,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 94,
+    "turns": 94,
+    "validated": 94,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913256031,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 115,
+    "turns": 115,
+    "validated": 115,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913256432,
+    "verdict": "SAME",
+    "seat": 1,
+    "compared": 68,
+    "turns": 68,
+    "validated": 68,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913256745,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 67,
+    "turns": 67,
+    "validated": 67,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913257045,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 91,
+    "turns": 91,
+    "validated": 91,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913257834,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 111,
+    "turns": 111,
+    "validated": 111,
+    "diffs": 0,
+    "marker": "e5417a83"
+   },
+   {
+    "gameId": 913258503,
+    "verdict": "SAME",
+    "seat": 0,
+    "compared": 43,
+    "turns": 43,
+    "validated": 43,
+    "diffs": 0,
+    "marker": "e5417a83"
+   }
+  ]
+ }
+}

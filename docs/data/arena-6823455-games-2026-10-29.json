@@ -1,5 +1,5 @@
 {
- "fetched": "2026-10-29T21:05:08+0200",
+ "fetched": "2026-10-29T22:48:58+0200",
  "agentId": 6823455,
  "services": [
   "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]",
@@ -9,7 +9,10 @@
  "battleRows": {
   "live": 60,
   "merged": 60,
-  "savedLists": [],
+  "savedLists": [
+   "replays/cg/arena-6823455/games/battles-20261029-205133.json",
+   "replays/cg/arena-6823455/games/battles-20261029-210508.json"
+  ],
   "notDone": 0
  },
  "summary": {

@@ -41,21 +41,25 @@
   identical to the artifact; first noise measurement, M ≈ 3.05 (`docs/arena-uploads.md`)
 - [x] Build marker: the artifact prints its build id on turn 0 as a TRAIN of sites 0-15 (referee warning
   only); `arena_games.py` and `cgAttribute` read it; artifact `1e5d1a79…` (build `e5417a83`) checked
-- [ ] Upload the marked artifact (the user): v01 upload 3, the third noise sample and the first live check
-  of the marker (its warning in cgValidate, the markers in the manifest)
+- [x] Upload the marked artifact (the user, agent 6824680, 2026-10-29 22:50): v01 upload 3 placed 18.98;
+  the marker in all 60 games, its turn-0 warning matched by cgValidate, every game identical to
+  `1e5d1a79`; three-upload noise M = 3.01, 2 df, provisional (`docs/arena-uploads.md`)
 - [ ] After each promotion: capture the statement, reconcile the rules, re-run `cgValidate`
 
 ## Phase 3 — strength (backlog from the audit)
 - [x] Arena step of the promotion policy: P1, two uploads per version (`docs/arena-uploads.md`,
   `tools/arena_compare.py`)
 - [ ] Local part of the policy (proxy, screen, replication), set before the first comparison
-- [ ] Find the gap: the 24 lost placement games (`replays/cg/arena-6823071/games`, manifest in
-  `docs/data/arena-6823071-games-2026-10-29.json`); v01 placed 736/2296 (18.24), the old code stood at
-  559/2295 (19.64)
+- [ ] Find the gap: the 77 lost placement games of v01's three uploads (`replays/cg/arena-<agent>/games`,
+  manifests `docs/data/arena-<agent>-games-2026-10-29.json` for 6823071, 6823455 and 6824680); v01
+  placed 18.24, 16.08 and 18.98 (mean 17.77), the old code stood at 559/2295 (19.64)
 - [ ] Queen stalls when a site blocks the straight path to a far BUILD target (worst 43 turns)
 - [ ] TRAIN choice respecting the 30-creep cap (only matters with more than one barracks)
 - [ ] Seat asymmetry in greedy self-play (player 0 won 187, player 1 110 of 300 games): bot
-  tie-breaks or rules?
+  tie-breaks or rules? On the arena too: v01 won 63 of 96 games on seat 0 and 40 of 84 on seat 1 over
+  its three placements, against fields of similar strength (opponents' median 17.46 and 17.42); adjusted
+  for the opponent's score and the upload, seat 1 costs about 1.1 rating points (z ≈ -2.3,
+  `docs/data/noise-2026-10-30/noise.txt`)
 - [ ] Runner, before the next upload (each changes the artifact): the fallback answers before it
   prints the stack trace; the warm-up bot gets its own Params and `init`; a testable game loop so the
   fallback and the turn deadline get unit tests; optionally count the warm-up cap from JVM start

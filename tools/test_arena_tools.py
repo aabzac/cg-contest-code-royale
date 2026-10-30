@@ -2,6 +2,8 @@
 
 Run: python -B -I -m unittest discover -s tools -p "test_*.py"   (no network)
 """
+import contextlib
+import io
 import json
 import math
 import os
@@ -171,6 +173,34 @@ class CompareTest(unittest.TestCase):
         rows = arena_compare.compare(reg)["leagues"]["bronze"]["uploads"]
         self.assertEqual([3], rows[0]["noMarker"])
         self.assertEqual([], rows[1]["noMarker"], "no build, nothing to miss")
+
+    def test_games_where_the_referee_removed_a_player_are_listed_by_side(self):
+        reg = self.registry([{"label": "v01", "upload": 1, "score": 18.0}, {"label": "v01", "upload": 2, "score": 16.0}])
+        with open(reg["uploads"][0]["games"], encoding="utf-8") as f:
+            m = json.load(f)
+        # Scores are the queens' health at the end, -1 for a player the referee removed; the removed one ranks last.
+        m["games"][1]["scores"] = [12.0, 30.0]  # seat 1, won 30 to 12: nobody removed
+        m["games"][2].update(scores=[95.0, -1.0], ranks=[0, 1])  # seat 0: the opponent removed, a win
+        m["games"][5].update(scores=[-1.0, 45.0], ranks=[1, 0])  # seat 1: the opponent removed, a win
+        m["games"][6].update(scores=[-1.0, 30.0], ranks=[1, 0])  # seat 0: the agent removed, a loss
+        m["games"][8].update(scores=[-1.0, 20.0], ranks=[1, 0])  # seat 0: the agent removed again
+        with open(reg["uploads"][0]["games"], "w", encoding="utf-8") as f:
+            json.dump(m, f)
+        report = arena_compare.compare(reg)
+        rows = report["leagues"]["bronze"]["uploads"]
+        self.assertEqual({"agent": [6, 8], "opponent": [2, 5]}, rows[0]["removed"])
+        self.assertEqual({"agent": [], "opponent": []}, rows[1]["removed"], "a manifest without scores lists none")
+        self.assertEqual((20, 20), (rows[0]["games"], rows[0]["ratedGames"]), "they count like any game")
+        self.assertEqual([1.0, 1.0, 0.0, 0.0], [arena_compare.points(m["games"][i]) for i in (2, 5, 6, 8)], "by CG's ranks")
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            arena_compare.print_report(report)
+        lines = out.getvalue().splitlines()
+        removed = [l for l in lines if "where the referee removed" in l]
+        self.assertEqual(["v01/upload-1: 2 game(s) where the referee removed the agent",
+                          "v01/upload-1: 2 game(s) where the referee removed the opponent"], [l.split(" (")[0] for l in removed])
+        self.assertEqual([": [6, 8]", ": [2, 5]"], [l[l.rindex(":"):] for l in removed])
+        self.assertFalse([l for l in lines if l.startswith("v01/upload-2: ")])
 
     def test_a_candidate_still_placing_is_waited_for(self):
         reg = self.registry([{"label": "v01", "upload": 1, "score": 18.0}, {"label": "v01", "upload": 2, "score": 16.0},

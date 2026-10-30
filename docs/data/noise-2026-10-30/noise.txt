@@ -1,0 +1,37 @@
+v01 in Bronze: v01/upload-1 18.24, v01/upload-2 16.08, v01/upload-3 18.98
+distinct opponents: v01/upload-1 58 of 60 games, v01/upload-2 56 of 60 games, v01/upload-3 59 of 60 games
+placement scores: mean 17.77, SD 1.51 (2 df, 95 % interval 0.78-9.47), M = 2 SD = 3.01 (1.57-18.94)
+games where the referee removed a player (score -1): 3
+  v01/upload-2 game 913110374: agent on seat 0, scores [95.0, -1.0], 3 frames -> the opponent removed
+  v01/upload-2 game 913114190: agent on seat 0, scores [75.0, -1.0], 3 frames -> the opponent removed
+  v01/upload-2 game 913119798: agent on seat 1, scores [-1.0, 45.0], 3 frames -> the opponent removed
+== all games
+  v01/upload-1: 36 of 60
+  v01/upload-2: 31 of 60
+  v01/upload-3: 36 of 60
+  logistic scale 1.330 (fitted), 180 games
+  scale 95 % profile interval 0.88-2.24
+  scale 1.33: ratings 18.16 16.78 18.93 +- 0.39 0.37 0.41; SD 1.09 = 2.80 x the mean SE; Cochran Q 15.89 (2 df), p 0.0004
+  scale 2.00: ratings 18.36 16.79 19.07 +- 0.57 0.55 0.58; SD 1.17 = 2.07 x the mean SE; Cochran Q 8.72 (2 df), p 0.0128
+  likelihood ratio, one rating vs one per upload (scale fitted in each model): 11.13 (2 df), p 0.0038
+  upload 3 18.93 +- 0.41 vs uploads 1-2 pooled 17.46 +- 0.27: z 3.01
+  seat 0: 63 of 96 (65.6 %), opponents' median score 17.46
+  seat 1: 40 of 84 (47.6 %), opponents' median score 17.42
+  two-proportion z 2.47 (unpooled SE)
+  logistic, upload intercepts + opponent score + seat 1: seat 1 -0.795 +- 0.344 (z -2.31), opponent score -0.745 per point -> seat 1 shifts the rating by -1.07 points
+  logistic, ... + order within the placement: seat 1 -0.815 +- 0.347 (z -2.35), opponent score -0.663 per point -> seat 1 shifts the rating by -1.23 points
+== without those games
+  v01/upload-1: 36 of 60
+  v01/upload-2: 28 of 57
+  v01/upload-3: 36 of 60
+  logistic scale 1.332 (fitted), 177 games
+  scale 95 % profile interval 0.88-2.25
+  scale 1.33: ratings 18.16 16.67 18.93 +- 0.39 0.38 0.41; SD 1.15 = 2.93 x the mean SE; Cochran Q 17.15 (2 df), p 0.0002
+  scale 2.00: ratings 18.36 16.64 19.07 +- 0.57 0.56 0.58; SD 1.25 = 2.20 x the mean SE; Cochran Q 9.78 (2 df), p 0.0075
+  likelihood ratio, one rating vs one per upload (scale fitted in each model): 12.17 (2 df), p 0.0023
+  upload 3 18.93 +- 0.41 vs uploads 1-2 pooled 17.42 +- 0.27: z 3.08
+  seat 0: 61 of 94 (64.9 %), opponents' median score 17.52
+  seat 1: 39 of 83 (47.0 %), opponents' median score 17.43
+  two-proportion z 2.43 (unpooled SE)
+  logistic, upload intercepts + opponent score + seat 1: seat 1 -0.815 +- 0.347 (z -2.35), opponent score -0.747 per point -> seat 1 shifts the rating by -1.09 points
+  logistic, ... + order within the placement: seat 1 -0.836 +- 0.350 (z -2.39), opponent score -0.668 per point -> seat 1 shifts the rating by -1.25 points

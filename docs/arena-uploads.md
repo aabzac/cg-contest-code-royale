@@ -10,9 +10,11 @@ be set (phase 3, before the first comparison).
 
 - A placement here is 60 games against the Bronze field. The same artifact (`5bace689`) placed at
   **18.24** (rank 736/2296) and **16.08** (rank 1067/2294): 2.16 points apart. One upload cannot tell a
-  candidate from noise.
+  candidate from noise. A third upload of the same configuration (`1e5d1a79`, with the build marker)
+  placed at **18.98** (rank 654/2294).
 - The score at the end of placement depends on which opponents the matchmaker serves and in which order.
-  The two uploads met fields with median scores 17.82 and 16.81 and won 60.0 % and 51.7 % of their games.
+  The three uploads met fields with median scores 17.82, 16.81 and 18.52 and won 60.0 %, 51.7 % and
+  60.0 % of their games.
 
 ## Procedure
 
@@ -54,7 +56,7 @@ be set (phase 3, before the first comparison).
     corrects for the field only in part (below).
 
 The selected version needs two placement scores in the league before a candidate is judged against it.
-v01 has them in Bronze.
+v01 has three in Bronze.
 
 **Configuration.** A label holds one configuration: the bot sources and the params. Its config id is the
 first 8 hex digits of the sha256 of the merged code from `class Player {` to the runner section, plus the
@@ -80,6 +82,8 @@ are listed, not refused. A candidate with an upload still placing gets "pending"
     against the opponents' scores at download time. The scale is shared by the league's uploads (profile
     likelihood; 2.0 until 60 games, or when every group meets one opponent score). The standard error
     comes from the Fisher information and treats the scale as known.
+  - Per upload, the games where the referee removed a player (game score -1: a timeout or invalid
+    output), by side. CG counts them like any game, and so does every figure.
   - Per version: the mean and SD of its placement scores and the pooled rating.
   - Per league: M, and the stratified head-to-head on shared opponents.
 
@@ -93,24 +97,39 @@ warns `Cannot spawn from 14: not a barracks` and trains nothing, while the repla
 agent's stdout. Bronze maps have 24 sites. The runner prints no marker below 16 sites, so every printed
 site id exists.
 
-Live evidence:
-- The local replays (356 games, 2026-10-29) hold 352 `Cannot spawn from N: not a barracks` warnings in
-  21 games, all from single-site TRAIN lines and none fatal; 16 of them are on turn 0.
+Live evidence before the first marked upload (356 local games, 2026-10-29):
+- The local replays held 352 `Cannot spawn from N: not a barracks` warnings in 21 games, all from
+  single-site TRAIN lines and none fatal; 16 of them were on turn 0.
 - In 906359074 and 906522694 a player sent `BUILD s BARRACKS-KNIGHT` and `TRAIN s` on turn 0. The TRAIN
   got this warning, and the same TRAIN trained on turn 1. So no barracks exist when the turn-0 TRAIN is
   processed.
-- The per-site warnings on multi-site TRAIN lines are all `Barracks N is training`: 69, of which 65 name
+- The per-site warnings on multi-site TRAIN lines were all `Barracks N is training`: 69, of which 65 name
   the first site and 4 a later one where the earlier sites could train. So the referee checks the sites one
   by one, in order. Those lines also drew 381 `Training too many creeps` warnings.
 - An 8-site TRAIN line was seen live: 17 turns of `TRAIN 3 4 10 13 14 16 20 22` in 912219998 (Silver), all
   of them barracks, with gold and creep-cap warnings and no kill.
-- No live TRAIN line has several sites without barracks or repeats a site. A build id with a repeated hex
-  digit repeats a site id. In the repo referee the per-site check warns on the first id before the
-  duplicate check runs, so this should still be a warning.
+- No live TRAIN line had several sites without barracks, and none has repeated a site yet. A build id with
+  a repeated hex digit repeats a site id. In the repo referee the per-site check warns on the first id
+  before the duplicate check runs, so this should still be a warning.
 
-Eight sites without barracks, or a repeated site, have not been seen live yet. The first marked upload is
-their live check: the turn-0 warning has to match in `cgValidate`, and the manifest has to show the
-markers.
+The first marked upload was the live check of eight sites without barracks (agent 6824680, v01 upload 3,
+2026-10-29). A repeated site is still unchecked (below).
+- All 60 placement games carry `TRAIN 14 5 4 1 7 10 8 3` on turn 0 (`arena_games.py`: markers
+  `e5417a83` 60 of 60).
+- Each game drew exactly one warning for it, `Cannot spawn from 14: not a barracks`. The seven later
+  sites drew none, so the referee stops at the first site without barracks. No game ended on turn 0; the
+  shortest lasted 39 turns. In 2 games the queen's turn-0 BUILD targeted site 14 itself; the TRAIN still
+  only warned.
+- `cgValidate` matched every warning (2,121 of 2,121 turns with a warning, 6,222 turns). `cgAttribute`
+  against the kept copy gave SAME in 60 of 60.
+- Apart from the marker the agent drew no warning in these games. The opponents drew 226 single-site
+  `not a barracks` warnings and one more `Barracks N is training` on a multi-site line (`TRAIN 5 16` in
+  913236684, turn 50).
+
+A repeated site is still not seen live: build `e5417a83` has eight distinct hex digits. In the repo
+referee the duplicate check runs only after every site has passed the barracks check. On turn 0 no site
+has barracks, and live the check stops at the first site, so a repeated site should never reach the
+duplicate check.
 
 - The build id is the first 8 hex digits of the sha256 of the artifact with an empty BUILD literal.
   `FileMerger` writes and prints it, after checking that the artifact has no second literal.
@@ -151,3 +170,51 @@ markers.
 Consequence: with M ≈ 3 points the arena step catches only large regressions. A candidate's improvement
 has to be shown locally first (phase 3). More uploads per version lower the noise of a mean (SD/√k) and
 refine M.
+
+## Noise after three uploads (2026-10-30)
+
+The user uploaded v01 a third time, as the marked artifact `1e5d1a79` (same config `4194117d`). The table,
+the mean, SD and M, the pooled rating and the shared opponents come from
+`python -I tools/arena_compare.py --candidate v01 --selected v01`. The other figures come from
+`python -B -I docs/data/noise-2026-10-30/noise.py`, run from the repository root (output
+`docs/data/noise-2026-10-30/noise.txt`). It uses the same logistic model:
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v01/upload-1 | 6823071 | 18.24, rank 736/2296 | 60 | 60.0 ± 6.3 | 21 of 33 | 15 of 27 | 17.82 | 18.16 ± 0.39 |
+| v01/upload-2 | 6823455 | 16.08, rank 1067/2294 at 20:51 | 60 | 51.7 ± 6.5 | 20 of 30 | 11 of 30 | 16.81 | 16.78 ± 0.37 |
+| v01/upload-3 | 6824680 | 18.98, rank 654/2294 | 60 | 60.0 ± 6.3 | 22 of 33 | 14 of 27 | 18.52 | 18.93 ± 0.41 |
+
+- Same configuration: `cgAttribute` finds every game identical to the uploaded artifact (7,230, 6,413 and
+  6,222 turns).
+- Upload 2's 31 wins include 3 games where the referee removed the opponent for not answering turn 0
+  (913110374, 913114190, 913119798; game score -1). CG counts them, and so do the figures here. No game of
+  the three uploads removed v01. `arena_compare.py` now lists such games per upload and side.
+- **Mean 17.77, SD 1.51 (2 df), M = 3.01.** The pair alone gave 1.53 and 3.05. Still provisional: with
+  2 df the 95 % interval of the SD is 0.78-9.47, so that of M is 1.6-19.
+- Pooled rating 17.92 ± 0.23 (180 games), at the logistic scale 1.33 fitted on all three. The scale's 95 %
+  profile interval is 0.88-2.24.
+- The three ratings of identical code spread more than their standard errors allow. Their SD is 1.09,
+  2.8 times the mean standard error (0.37-0.41); that ratio is a 2-df figure too.
+  - A likelihood-ratio test of one rating for all 180 games against one per upload, with the scale fitted
+    in each model, gives 11.1 on 2 df (p ≈ 0.004).
+  - Cochran's Q gives 15.9 on 2 df at the fitted scale and 8.7 at scale 2.0.
+  - Upload 3, the new data, against the pooled rating of uploads 1-2 (17.46 ± 0.27): z ≈ 3.0.
+  - Without the 3 forfeits: upload 2 won 28 of 57, its rating is 16.67, and the likelihood ratio is 12.2
+    (p ≈ 0.002).
+  - Matchups with individual opponents cannot produce this. Each upload met 56-59 different opponents,
+    so such effects are independent from game to game and stay within the standard errors. The cause has
+    to be shared by the games of one upload (the field or the conditions of its time window), or the
+    spread is chance, which the tests make unlikely.
+- Consequence for P1: the rating's standard error understates the spread between placements, so the
+  second rollback condition (rating below by more than two standard errors) is easy to meet, and in
+  practice a rollback rests on M. The policy is unchanged. Scaling the rating's standard error by the
+  observed overdispersion would make the condition informative; adopting that is a policy decision.
+- Seats over the 180 games: seat 0 won 63 of 96 (65.6 %), seat 1 40 of 84 (47.6 %); two-proportion
+  z ≈ 2.5. The opponents' median scores were 17.46 and 17.42. A logistic fit with an intercept per upload
+  and the opponent's score gives seat 1 -0.795 ± 0.344 (z ≈ -2.3): seat 1 lowers the rating by about 1.1
+  points. Adding the game's order within its placement gives -0.815 ± 0.347. Without the 3 forfeits: 61
+  of 94 and 39 of 83.
+  Greedy self-play leans the same way (player 0 won 187, player 1 110 of 300). This is a phase 3 item in
+  `docs/PLAN.md`.
+- Shared opponents: 2-3 players per pair of uploads, context only.

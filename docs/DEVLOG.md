@@ -378,3 +378,114 @@ markers none in all 60. Tests: Java 89, Python 12.
 
 Decision: v01 stays selected, with its Bronze baseline of two uploads (mean 17.16). The marked artifact
 plays as v01 and is ready as its upload 3; uploading it is the user's call.
+
+## 2026-10-30 — v01 upload 3: the build marker live; noise over three placements
+
+**Upload 3.** The user submitted the marked artifact `1e5d1a79…` (build `e5417a83`, config `4194117d`,
+commit 2641aa9) on 2026-10-29 at 22:50: agent 6824680, submission 41596829, Bronze.
+- Before the Submit, 6823455's leaderboard row and its 60 games were saved at 22:48
+  (`docs/data/arena-6823455-presubmit-2026-10-29.json`, `docs/data/arena-6823455-games-2026-10-29.json`).
+  Its battle list was empty at 00:52, as after the first replacement.
+- The placement was followed: a snapshot every 3 minutes, every minute from 85 %. One interval was 7.7
+  minutes and no snapshot failed. It completed at 00:47:44: score **18.98**, rank 654/2294, 60 games,
+  36 wins (seat 0: 22 of 33, seat 1: 14 of 27). During the placement the score ranged from 13.36 (18 %)
+  to 20.15 (81 %).
+- Placement record `docs/data/arena-6824680-placement-2026-10-29.json`: every snapshot, the first
+  completed one, and the attribution with its controls. Games manifest
+  `docs/data/arena-6824680-games-2026-10-29.json`. Snapshots and raw responses are in
+  `replays/cg/arena-6824680/placement-raw` (gitignored). Registry entry: v01 upload 3.
+
+**The marker live.** This was the first live check of eight sites without barracks:
+- All 60 games carry `TRAIN 14 5 4 1 7 10 8 3` on turn 0.
+- Each drew exactly one warning, `Cannot spawn from 14: not a barracks`, and none for the seven later
+  sites: the referee stops at the first site without barracks.
+- No game ended on turn 0; the shortest lasted 39 turns. In 2 games the queen's turn-0 BUILD targeted
+  site 14 itself, and the TRAIN still only warned. Three games had a second turn-0 warning, from the
+  opponent's own TRAIN.
+- Apart from the marker, v01 drew no line in the referee's summaries in any of the 180 games of the three
+  uploads.
+- cgValidate: 60/60 games, 6,222 turns, units 100 %, warnings exact 2,121/2,121.
+- `cgAttribute` against the kept copy `replays/artifacts/1e5d1a79/Player.java`: SAME in 60/60, 6,222 turns,
+  markers `{e5417a83=60}`.
+- Controls on the same games:
+  - the unmarked v01 artifact `5bace689` and in-process `current`: SAME in 60/60 (a bot without a marker
+    is excused the recorded one);
+  - `MAX_TOWERS=3`: DIFF in 18 of 60, `INCOME_TARGET=11`: DIFF in 21 of 60. A changed parameter shows in
+    part of the games, not in every game.
+
+A repeated site is still not seen live, since `e5417a83` has distinct digits. In the repo referee the
+duplicate check only runs after every site has passed the barracks check, which no site passes on turn 0.
+
+**Noise over three placements.** Sources: `tools/arena_compare.py --candidate v01 --selected v01` (table,
+mean, SD, M, pooled rating) and `python -B -I docs/data/noise-2026-10-30/noise.py` for the rest (output
+`noise.txt` beside it). Details are in `docs/arena-uploads.md`.
+- Placement scores of one configuration: 18.24, 16.08, 18.98. Mean 17.77, SD 1.51 (2 df), **M = 3.01**
+  (3.05 from the pair). M is still provisional: its 95 % interval is 1.6-19. The opponents' medians were
+  17.82, 16.81 and 18.52, the win rates 60.0, 51.7 and 60.0 %.
+- Upload 2's 31 wins include 3 opponent timeouts on turn 0 (913110374, 913114190, 913119798; game
+  score -1), counted by CG and by every figure here. v01 itself was never removed.
+- Performance ratings: 18.16 ± 0.39, 16.78 ± 0.37 and 18.93 ± 0.41; pooled 17.92 ± 0.23 (180 games).
+  The logistic scale is 1.33, with a profile interval of 0.88-2.24.
+- The ratings of identical code are overdispersed: their SD is 1.09, 2.8 times their mean standard error.
+  - A likelihood-ratio test of one rating against one per upload, with the scale fitted in each model,
+    gives 11.1 on 2 df (p ≈ 0.004); 12.2 without the 3 forfeits.
+  - Cochran's Q gives 15.9 on 2 df at the fitted scale and 8.7 at scale 2.0.
+  - Upload 3 against the pooled rating of uploads 1-2: z ≈ 3.0.
+  - The cause has to be shared by the games of one upload (the field or the conditions of its time
+    window), or the spread is chance, which the tests make unlikely. Matchups with individual opponents
+    cannot produce it, since each upload met 56-59 different opponents.
+  - So the second rollback condition of P1 (rating below by more than 2 SE) is easy to meet, and a
+    rollback rests on M in practice. P1 is unchanged: scaling the rating's SE by the observed
+    overdispersion is a policy decision for the user.
+- Seats over the 180 games: seat 0 won 63 of 96 (65.6 %), seat 1 40 of 84 (47.6 %), against opponents'
+  medians of 17.46 and 17.42.
+  - Adjusted for the opponent's score and the upload, seat 1 costs about 1.1 rating points (logit
+    -0.795 ± 0.344, z ≈ -2.3).
+  - Greedy self-play leans the same way (187 to 110 of 300). This is added to the PLAN item on seat
+    asymmetry.
+
+**Review** (workflow wf_44073cb6-368). Three checkers covered the numbers and references, the
+statistics, and the marker evidence with cross-document consistency. A refuting verifier then checked
+each list. Of 13 findings, 9 were confirmed (5 distinct, all low) and 4 refuted:
+- twice, that 6823455's empty battle list has no evidence: it was checked live at 00:52, only not saved;
+- that M must stay labelled provisional: its main statements give its df (adopted anyway, with its
+  interval);
+- that the docs miss the TRAIN kill rule: it is documented.
+
+Fixes:
+- The seat medians were upper-middle values (17.49 and 17.43); they are now medians (17.46 and 17.42).
+- The pre-upload marker evidence is dated (356 local games, 2026-10-29) in `docs/arena-uploads.md` and
+  `.ai/project.md`, and the upload is called the check of eight sites without barracks only.
+- Upload 2's 3 forfeits are reported. `arena_compare.py` now lists the games where the referee removed a
+  player, by side (test added: Python 12 → 13).
+- "Matchups as a candidate cause" was wrong and is replaced.
+- The figures that `arena_compare.py` does not compute are archived with their script in
+  `docs/data/noise-2026-10-30/`.
+- M's 95 % interval is stated, and "provisional" is back.
+
+**Second check** (workflow wf_c02ef4ed-7ae). Two checkers covered the code and the archived script, and
+the docs after the fixes, each followed by a refuting verifier.
+- They confirmed `removed()` on both seats and on manifests without scores, and found the JSON report
+  backward compatible. The new test catches swapped sides, a missing agent side and a dropped print line
+  (mutants run on copies). `noise.txt` reproduced byte for byte.
+- Of 9 findings, 2 were confirmed, both low:
+  - the test's "both queens alive" game had a score of 0, which is a dead queen;
+  - the "56-59 different opponents" behind the matchup argument came from no archived output.
+- Fixed:
+  - the fixture now has live queens, removed players ranked last and a second removal of the agent; the
+    test also checks the printed ids, the points and the rated games;
+  - `noise.py` prints the distinct opponents per upload (58, 56 and 59 of 60) and the frame count of each
+    removed game (3: turn 0).
+- Taken from the refuted ones as cheap improvements:
+  - `noise.py` picks the three uploads by agent id, so a later v01 upload does not break the documented
+    command;
+  - it prints the seat effect as a signed rating shift (-1.07 points);
+  - the seat coefficients are quoted with three decimals (the source's precision);
+  - the shared-cause sentence keeps "or chance" in DEVLOG and project.md;
+  - M gets "(2 df, provisional)" in BOTS, PLAN and project.md's state;
+  - STATUS names upload 2's forfeits.
+- Not taken: repeating the forfeits next to every count that includes upload 2's wins (they are CG's
+  counts, and the convention is stated where the figures are reported).
+
+Decision: v01 stays selected. Its Bronze baseline is three uploads, mean 17.77, and the live entry is
+upload 3 (`1e5d1a79`, which plays as v01). The policy is unchanged.
