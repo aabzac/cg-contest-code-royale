@@ -35,15 +35,21 @@ Result in strict mode (no corrections): **97/98 and 137/138 games match on every
 
 ## Not explained
 
-1. **Tie-break.** Four games end with equal scores:
+1. **Tie-break.** Five games end with equal scores:
    - 911493205 (turn 250, 11:11);
    - 908057307 (both queens die on turn 72, 0:0);
    - 913398184 (v02 upload 1, 2026-10-30, both queens die on turn 38, 0:0);
-   - 913453290 (v02 upload 2, 2026-10-30, turn 250, 50:50).
+   - 913453290 (v02 upload 2, 2026-10-30, turn 250, 50:50);
+   - 913522461 (v03 upload 1, 2026-10-30, turn 250, 50:50; player 0 was the opponent).
 
-   CG ranks player 0 first in all four, while the simulator calls a draw (`winner 0 vs -1`). A
-   tie-break by seat would fit all four; it is not adopted on four samples. No game of v01's 180
+   CG ranks player 0 first in all five, while the simulator calls a draw (`winner 0 vs -1`). A
+   tie-break by seat would fit all five; it is not adopted on five samples. No game of v01's 180
    placement games had equal scores.
+2. **Score after a mid-game timeout.** In 913520691 (v03 upload 1) the opponent timed out on turn
+   115. Every turn matches, but CG scored the surviving queen 52 and the simulator 53. CG seems to
+   finish the timeout's turn, so creeps still act, before it scores; the simulator ends the game when
+   the kill happens (`Rules.finishKilled`). Turn-0 timeouts showed no difference, since no creeps exist
+   then. The ranks agree. The rule is not changed on one sample.
 
 ## Statement vs live code
 

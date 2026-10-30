@@ -832,3 +832,39 @@ hypothesis and gates were written before the run (`docs/data/exp-2026-10-30-towe
   - `MainBotTest.withDefaultsCurrentPlaysAsV03` checks that current plays as v03. Java tests 97 → 98.
 - **Not covered locally:** giants against towers. No local opponent uses them; 12 % of the arena
   opponents build them.
+
+## 2026-10-30 — v03 upload 1 placed 23.25 (+5.4 over v02)
+
+The user chose to commit and upload v03 (option "а": commit, save the live entry, swap the code in the
+IDE's Play request, check sha256, submit, follow).
+- **Before the upload:**
+  - commit 095d1eb; a clean export rebuilds `d6266d41…` byte for byte;
+  - 6827094 saved at 16:41:06 (18.40, rank 715, all 60 games in its manifest,
+    `docs/data/arena-6827094-presubmit-2026-10-30.json`).
+- **In the built-in browser:**
+  - the v03 text reached the IDE page through `window.name` from the relay page, sha256 `d6266d41…`, and
+    `window.name` was cleared;
+  - the hook swapped it into `TestSession/play`. The IDE game against Princess Boss printed `TRAIN 12 13
+    1 15 3 13 3 3` on turn 0 and drew only `Cannot spawn from 12: not a barracks`;
+  - CG's saved code was `d6266d41…`, and after a reload the editor held `INCOME_TARGET = 3`;
+  - "Test in arena", then Yes: submission 41600876, agent 6827580, created 16:43:22.
+- **Placement** (`docs/data/arena-6827580-placement-2026-10-30.json`): complete at 18:46:52, score
+  **23.25**, rank 240/2290.
+  - 60 games, 37 wins (seat 0: 25 of 36, seat 1: 12 of 24). One win is an opponent's timeout on turn 115.
+  - The opponents were much stronger as v03 climbed: their median score was 23.07, against 16-18.5 for
+    the earlier uploads. Games lasted 160.5 turns at the median.
+- **Which code played** (manifest `docs/data/arena-6827580-games-2026-10-30.json`, 0 failures):
+  - cgValidate: 58/60, all 10,194 turns, warnings exact 1641/1641. Two mismatches:
+    - the tie 913522461 (50:50 at turn 250, player 0, the opponent, ranked first);
+    - the opponent's mid-game timeout in 913520691, where CG scored our queen 52 and the simulator 53
+      (`docs/rules/inferred.md`, items 1-2).
+  - `cgAttribute` against `replays/artifacts/d6266d41/Player.java`: SAME 60/60, marker `cd1f3d33` 60/60.
+  - In-process v02 differs in all 60.
+- **P1** (`python -I tools/arena_compare.py --candidate v03 --selected v02`):
+  - v03 upload 1: 23.25, performance rating 23.25 ± 0.43;
+  - v02: mean 17.81, rating 17.68 ± 0.30.
+  - Verdict: **upload the candidate again**; a decision needs upload 2. Upload 1 is +5.44 above v02's
+    mean, twice M (2.64).
+- **Local against arena:** S 0.815 against v02 locally (about +2 rating points head-to-head) and +5.4
+  placement points on the arena. The field gained more than the head-to-head suggested.
+- **The gap to the boss** (above about 27.1) shrinks from about 9.3 to about 3.9 points.

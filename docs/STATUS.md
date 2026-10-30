@@ -1,14 +1,21 @@
 # Status
 
 - Date: 2026-10-30. Phase 2 done. Phase 3 started: local screen P2 adopted; v02 (v01 + the targeted fix
-  UNSTICK) selected under P1 after two arena uploads in Bronze.
+  UNSTICK) selected under P1 after two arena uploads in Bronze; v03 (early towers) placed 23.25 on its
+  first upload.
 - Game: Code Royale, permanent multiplayer arena (`code-royale`). No deadline.
-- Arena entry: `aabzac`, agent 6827094 (Java, submission 41599649, created 2026-10-30 13:12): v02 upload 2,
-  artifact `527244968dbe…` (build `a2c71dbb`, config `173dd43b`, commit a3e48fc), submitted by the agent in
-  the built-in browser with the user's permission. Bronze, placement complete 15:16: score 18.40, rank
-  715/2289, 60 games, 36 wins by CG ranks (seat 0: 19 of 26, seat 1: 17 of 34; one by the tie-break at
-  50:50). Every game carries the marker and is identical to the artifact (`cgAttribute`, 7,084 turns;
-  `docs/data/arena-6827094-placement-2026-10-30.json`).
+- Arena entry: `aabzac`, agent 6827580 (Java, submission 41600876, created 2026-10-30 16:43): v03 upload 1.
+  - Artifact `d6266d41…` (build `cd1f3d33`, config `12070467`, commit 095d1eb), submitted by the agent in
+    the built-in browser with the user's permission.
+  - Bronze, placement complete 18:46: score **23.25**, rank 240/2290, 60 games, 37 wins (seat 0: 25 of 36,
+    seat 1: 12 of 24), opponents' median 23.07.
+  - Every game carries the marker and is identical to the artifact (`cgAttribute`, 10,194 turns;
+    `docs/data/arena-6827580-placement-2026-10-30.json`).
+  - P1 against v02: upload the candidate again (+5.4 over v02's mean).
+- Replaced 2026-10-30 16:43: agent 6827094 (submission 41599649, created 13:12), v02 upload 2, artifact
+  `527244968dbe…`: placement 18.40, rank 715/2289, 36 wins of 60 by CG ranks; every game identical to the
+  artifact (7,084 turns; `docs/data/arena-6827094-placement-2026-10-30.json`); saved before the Submit
+  (`docs/data/arena-6827094-presubmit-2026-10-30.json`).
 - Replaced 2026-10-30 13:12: agent 6826276 (submission 41598763, created 09:58), v02 upload 1, the same
   artifact: placement 17.23, rank 891/2289, 37 wins of 60; every game identical to the artifact (5,983
   turns; `docs/data/arena-6826276-placement-2026-10-30.json`); saved before the Submit
@@ -39,7 +46,7 @@
   - P2 strategy screen: S 0.797 against v02 (CI 0.783-0.810), Δ +7.7 pp against `boss`.
   - Final evaluation: S 0.815 (CI 0.802-0.828), so the upload recommendation (S ≥ 0.60) is met
     (`docs/data/exp-2026-10-30-towers/`).
-  - Not on the arena yet.
+  - On the arena: upload 1 placed 23.25 (agent 6827580); P1 asks for upload 2.
 - Selected version: v02 = v01 with the targeted fix `UNSTICK` (queen stalls), frozen 2026-10-30
   (`cr.bot.v02.GreedyBot`, `versions/v02.properties`). P1 verdict on
   2026-10-30: not clearly worse than v01 (placement mean 17.81 against 17.77, pooled rating 17.68 ± 0.29

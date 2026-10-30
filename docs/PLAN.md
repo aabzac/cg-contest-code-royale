@@ -64,7 +64,8 @@
 - [x] Early towers, P2 strategy track (`docs/data/exp-2026-10-30-towers/`): `INCOME_TARGET=3,MAX_TOWERS=8`.
   The screen gave S 0.797 against v02 and the final evaluation 0.815, with `boss` +5 to +8 pp. Frozen as
   v03, the local champion
-- [ ] v03 on the arena under P1 (two uploads; P2 recommends the upload)
+- [ ] v03 on the arena under P1 (two uploads; P2 recommends the upload): upload 1 placed 23.25 (agent
+  6827580, rank 240/2290), +5.4 over v02's mean; P1 asks for upload 2
 - [ ] A local opponent with giants (they break towers; 12 % of the arena opponents build them)
 - [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/cg/arena-<agent>/games`,
   manifests `docs/data/arena-<agent>-games-2026-10-29.json` for 6823071, 6823455 and 6824680); v01

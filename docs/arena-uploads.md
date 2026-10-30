@@ -248,3 +248,20 @@ permission, and checked CG's saved IDE code by sha256 against the artifact.
   pair is in effect more samples of v01's spread.
 - **Matchmaking:** after upload 1's first 10 games, CG scheduled no battle for about 26 minutes (10:01 to
   10:27), then resumed. A re-submit would not have helped, so the user waited.
+
+## Second candidate: v03, early towers (2026-10-30)
+
+v03 is v02 with `INCOME_TARGET=3, MAX_TOWERS=8` (`docs/data/exp-2026-10-30-towers/`). Its P2 final
+evaluation gave S 0.815 against v02, so P2 recommends the upload. The agent uploaded it with the user's
+permission, the code swapped into the IDE's Play request and checked by sha256.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v03/upload-1 | 6827580 | 23.25, rank 240/2290 | 60 | 61.7 ± 6.3 | 25 of 36 | 12 of 24 | 23.07 | 23.25 ± 0.43 |
+
+- **Same code:** `cgAttribute` finds every game identical to `d6266d41` (10,194 turns), with the marker
+  `cd1f3d33` in all 60.
+- **Score:** 23.25 is +5.44 above v02's mean (17.81), twice M. The performance rating is 23.25 ± 0.43
+  against v02's pooled 17.68 ± 0.30. The opponents' median rose to 23.07 as the agent climbed.
+- **Verdict:** upload the candidate again. P1 decides on two uploads, and early rollback applies only
+  below the mean minus 2M.
