@@ -1,0 +1,1184 @@
+{
+ "what": "Upload 2 of v03 (artifact d6266d41, build cd1f3d33, config 12070467) as agent 6828013 (Bronze): placement followed with tools/arena_snapshot.py",
+ "upload": {
+  "by": "the agent, in the Claude desktop app's built-in browser where the user was signed in to CodinGame, with the user's explicit permission for this re-upload (2026-10-30): the IDE already held v03 from upload 1; its saved code was checked by sha256, the IDE reloaded showing it (INCOME_TARGET = 3 found), and its submit button ('Test in arena') was pressed and confirmed",
+  "artifact": {
+   "path": "build/submit/Player.java",
+   "sha256": "d6266d41b6562158146d24a191742ecb0a9c10242cae6b04910933c397007524",
+   "chars": 64300,
+   "params": "",
+   "effective": "INCOME_TARGET=3,MAX_TOWERS=8,BARRACKS=1,UNSTICK=1,SEED=1,DEBUG=0",
+   "build": "cd1f3d33",
+   "config": "12070467",
+   "source": "the same bytes as upload 1 (commit 095d1eb); kept copy replays/artifacts/d6266d41/Player.java (gitignored)",
+   "savedIdeCode": "TestSession/startTestSession answer.code before and after the submit: 64,300 chars, sha256 d6266d41..., identical"
+  },
+  "bot": "v03 = current (greedy + UNSTICK + early towers), printing its build id on turn 0: TRAIN 12 13 1 15 3 13 3 3 (sites 13 and 3 repeated)",
+  "policy": "P1: candidate v03 against the selected v02, upload 2 (upload 1, agent 6827580, placed 23.25)",
+  "agentId": 6828013,
+  "submission": 41601594,
+  "replaces": 6827580,
+  "league": "bronze (divisionIndex 3)",
+  "creationTime": "leaderboard creationTime 1793379225379 = 2026-10-30T18:53:45+02:00",
+  "beforeUpload": "docs/data/arena-6826276-presubmit-2026-10-30.json (6826276 at 2026-10-30T18:52:57+0200, 60 battles, no game after its placement; its 60 games stored, manifest docs/data/arena-6826276-games-2026-10-30.json)"
+ },
+ "follow": "arena_snapshot.py every 180 s, every 60 s from 85 % (a scratch loop); stop at percentage 100 with inProgress false. No snapshot failed; this placement took 38 minutes. Snapshots and raw responses: replays/cg/arena-6827094/placement-raw (gitignored).",
+ "previousAgentLastSeen": {
+  "fetched": "2026-10-30T18:52:57+0200",
+  "agentId": 6827580,
+  "percentage": 100,
+  "score": 23.25,
+  "localRank": 240
+ },
+ "progress": [
+  {
+   "fetched": "2026-10-30T18:57:02+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 20,
+   "inProgress": false,
+   "localRank": 1052,
+   "leagueAgents": 2290,
+   "score": 16.19,
+   "battles": 13,
+   "done": 13,
+   "wins": 11
+  },
+  {
+   "fetched": "2026-10-30T19:00:05+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 25,
+   "inProgress": false,
+   "localRank": 676,
+   "leagueAgents": 2290,
+   "score": 18.69,
+   "battles": 16,
+   "done": 15,
+   "wins": 13
+  },
+  {
+   "fetched": "2026-10-30T19:03:08+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 33,
+   "inProgress": false,
+   "localRank": 645,
+   "leagueAgents": 2290,
+   "score": 19.03,
+   "battles": 21,
+   "done": 20,
+   "wins": 16
+  },
+  {
+   "fetched": "2026-10-30T19:06:11+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 43,
+   "inProgress": false,
+   "localRank": 526,
+   "leagueAgents": 2290,
+   "score": 19.78,
+   "battles": 26,
+   "done": 26,
+   "wins": 20
+  },
+  {
+   "fetched": "2026-10-30T19:09:14+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 50,
+   "inProgress": false,
+   "localRank": 661,
+   "leagueAgents": 2290,
+   "score": 18.84,
+   "battles": 31,
+   "done": 30,
+   "wins": 21
+  },
+  {
+   "fetched": "2026-10-30T19:12:16+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 56,
+   "inProgress": false,
+   "localRank": 482,
+   "leagueAgents": 2290,
+   "score": 20.25,
+   "battles": 34,
+   "done": 34,
+   "wins": 25
+  },
+  {
+   "fetched": "2026-10-30T19:15:19+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 66,
+   "inProgress": false,
+   "localRank": 544,
+   "leagueAgents": 2290,
+   "score": 19.7,
+   "battles": 41,
+   "done": 40,
+   "wins": 27
+  },
+  {
+   "fetched": "2026-10-30T19:18:22+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 71,
+   "inProgress": false,
+   "localRank": 573,
+   "leagueAgents": 2290,
+   "score": 19.48,
+   "battles": 44,
+   "done": 44,
+   "wins": 29
+  },
+  {
+   "fetched": "2026-10-30T19:21:25+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 78,
+   "inProgress": false,
+   "localRank": 509,
+   "leagueAgents": 2290,
+   "score": 19.99,
+   "battles": 48,
+   "done": 47,
+   "wins": 31
+  },
+  {
+   "fetched": "2026-10-30T19:24:28+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 81,
+   "inProgress": false,
+   "localRank": 562,
+   "leagueAgents": 2290,
+   "score": 19.57,
+   "battles": 51,
+   "done": 50,
+   "wins": 32
+  },
+  {
+   "fetched": "2026-10-30T19:27:31+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 90,
+   "inProgress": false,
+   "localRank": 433,
+   "leagueAgents": 2290,
+   "score": 20.62,
+   "battles": 56,
+   "done": 55,
+   "wins": 36
+  },
+  {
+   "fetched": "2026-10-30T19:28:34+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 93,
+   "inProgress": false,
+   "localRank": 482,
+   "leagueAgents": 2290,
+   "score": 20.26,
+   "battles": 58,
+   "done": 58,
+   "wins": 37
+  },
+  {
+   "fetched": "2026-10-30T19:29:37+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 96,
+   "inProgress": false,
+   "localRank": 476,
+   "leagueAgents": 2290,
+   "score": 20.3,
+   "battles": 59,
+   "done": 58,
+   "wins": 37
+  },
+  {
+   "fetched": "2026-10-30T19:30:40+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 98,
+   "inProgress": false,
+   "localRank": 446,
+   "leagueAgents": 2290,
+   "score": 20.49,
+   "battles": 59,
+   "done": 59,
+   "wins": 38
+  },
+  {
+   "fetched": "2026-10-30T19:31:43+0200",
+   "agentId": 6828013,
+   "league": 3,
+   "percentage": 100,
+   "inProgress": false,
+   "localRank": 428,
+   "leagueAgents": 2290,
+   "score": 20.67,
+   "battles": 60,
+   "done": 60,
+   "wins": 39
+  }
+ ],
+ "firstSnapshot": {
+  "fetched": "2026-10-30T18:57:02+0200",
+  "services": [
+   "Leaderboards/getFilteredPuzzleLeaderboard [code-royale, null, global, {active, KEYWORD, aabzac}]",
+   "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]"
+  ],
+  "entry": {
+   "rank": 1705,
+   "localRank": 1052,
+   "score": 16.19,
+   "eligibleForPromotion": false,
+   "programmingLanguage": "Java",
+   "updateTime": 1793379377643,
+   "creationTime": 1793379225379,
+   "percentage": 20,
+   "agentId": 6828013,
+   "inProgress": false,
+   "league": 3,
+   "leagueAgents": 2290,
+   "pseudo": "aabzac"
+  },
+  "leagueTotal": 2290,
+  "battles": {
+   "count": 13,
+   "done": 13,
+   "wins": 11,
+   "games": [
+    {
+     "gameId": 913550919,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "kenlime2010",
+      "agentId": 4581852,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913550372,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "spouk",
+      "agentId": 4738784,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913549484,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Anoyakh",
+      "agentId": 5878760,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913548772,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "LaRollz",
+      "agentId": 4548821,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548770,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "52840",
+      "agentId": 4189989,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548769,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "FTL",
+      "agentId": 2059431,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548768,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "localroast8080",
+      "agentId": 3901044,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548767,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "SunTzu_",
+      "agentId": 6219977,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548766,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Sekper",
+      "agentId": 2642797,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548765,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "AnakinSkywanker",
+      "agentId": 2221098,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548764,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Mapiov4",
+      "agentId": 4544204,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548763,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "thomas.colibert",
+      "agentId": 2282094,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913548762,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Vakema",
+      "agentId": 1877604,
+      "rank": 1
+     }
+    }
+   ]
+  }
+ },
+ "completedSnapshot": {
+  "fetched": "2026-10-30T19:31:43+0200",
+  "services": [
+   "Leaderboards/getFilteredPuzzleLeaderboard [code-royale, null, global, {active, KEYWORD, aabzac}]",
+   "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]"
+  ],
+  "entry": {
+   "rank": 1081,
+   "localRank": 428,
+   "score": 20.67,
+   "eligibleForPromotion": false,
+   "programmingLanguage": "Java",
+   "updateTime": 1793381476754,
+   "creationTime": 1793379225379,
+   "percentage": 100,
+   "agentId": 6828013,
+   "inProgress": false,
+   "league": 3,
+   "leagueAgents": 2290,
+   "pseudo": "aabzac"
+  },
+  "leagueTotal": 2290,
+  "battles": {
+   "count": 60,
+   "done": 60,
+   "wins": 39,
+   "games": [
+    {
+     "gameId": 913577937,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "philRG",
+      "agentId": 4795396,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913576803,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Calibanda",
+      "agentId": 5354333,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913575711,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "DrDiHai",
+      "agentId": 6776388,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913575400,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "ProfJack",
+      "agentId": 1871365,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913574992,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "AshCo",
+      "agentId": 3164014,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913574660,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Perdur",
+      "agentId": 2448801,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913574088,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "PythonOps",
+      "agentId": 4432145,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913573593,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "CAEZAR",
+      "agentId": 2209480,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913573172,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "chlebek",
+      "agentId": 1885468,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913572622,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Chakrosch",
+      "agentId": 3982588,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913572297,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Tionkje",
+      "agentId": 4304012,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913571127,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "EngiGames",
+      "agentId": 3381127,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913570378,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "fixthegame",
+      "agentId": 3126209,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913569974,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "pangeland",
+      "agentId": 1948149,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913568779,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Labdahal",
+      "agentId": 3750872,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913568249,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "agios",
+      "agentId": 5645792,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913567746,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Agito",
+      "agentId": 2430375,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913567093,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Marcika",
+      "agentId": 2476666,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913566272,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "MyMonkey",
+      "agentId": 5545575,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913565426,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Deca1111",
+      "agentId": 4415982,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913564967,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Ail",
+      "agentId": 4334616,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913564613,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "norbi97",
+      "agentId": 3079912,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913564155,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Amabaku",
+      "agentId": 3318137,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913563779,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "--Closer11--",
+      "agentId": 3405001,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913563572,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Amabaku",
+      "agentId": 3318137,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913563168,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Matthieu.B",
+      "agentId": 2079415,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913562524,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "ToshiTuringMachine",
+      "agentId": 2214410,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913562189,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Rahashizar",
+      "agentId": 3386008,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913561048,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "HannibalSmix",
+      "agentId": 6431253,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913560629,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Ristone",
+      "agentId": 3914461,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913560252,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "amaotone",
+      "agentId": 2684249,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913559528,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "MadmanInABox",
+      "agentId": 2702315,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913559172,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Acroscope",
+      "agentId": 2440230,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913558283,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "ArthurDejaPris",
+      "agentId": 3124499,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913557848,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "zarmi22",
+      "agentId": 4476906,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913557576,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "leaflet",
+      "agentId": 4624038,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913557297,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Romain42",
+      "agentId": 2356825,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913556613,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "HannibalSmix",
+      "agentId": 6431253,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913556174,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "EngiGames",
+      "agentId": 3381127,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913555815,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "S-Axel",
+      "agentId": 4426751,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913555138,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "HomerS.",
+      "agentId": 3549139,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913554707,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "AronMaiden",
+      "agentId": 5550660,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913554414,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Vrok",
+      "agentId": 2694341,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913554091,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Labdahal",
+      "agentId": 3750872,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913553385,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Adam_ASB",
+      "agentId": 6061699,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913552023,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Esside",
+      "agentId": 2075862,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913551397,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Andrgis",
+      "agentId": 5782958,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913550919,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "kenlime2010",
+      "agentId": 4581852,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913550372,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "spouk",
+      "agentId": 4738784,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913549484,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Anoyakh",
+      "agentId": 5878760,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913548772,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "LaRollz",
+      "agentId": 4548821,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548770,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "52840",
+      "agentId": 4189989,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548769,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "FTL",
+      "agentId": 2059431,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548768,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "localroast8080",
+      "agentId": 3901044,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548767,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "SunTzu_",
+      "agentId": 6219977,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548766,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Sekper",
+      "agentId": 2642797,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548765,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "AnakinSkywanker",
+      "agentId": 2221098,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548764,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Mapiov4",
+      "agentId": 4544204,
+      "rank": 1
+     }
+    },
+    {
+     "gameId": 913548763,
+     "done": true,
+     "myRank": 1,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "thomas.colibert",
+      "agentId": 2282094,
+      "rank": 0
+     }
+    },
+    {
+     "gameId": 913548762,
+     "done": true,
+     "myRank": 0,
+     "submissionId": 41601594,
+     "opponent": {
+      "pseudo": "Vakema",
+      "agentId": 1877604,
+      "rank": 1
+     }
+    }
+   ]
+  }
+ },
+ "attribution": {
+  "claim": "Agent 6828013 behaved as artifact d6266d41 (v03, default params) on every decision of its 60 placement games: 8286 turns, 34 games on seat 0 and 26 on seat 1. Every game carries the marker cd1f3d33 on turn 0, and the referee only warned there. In-process v02 differs in all 60 (a different strategy). This is behaviour on the positions the games reached plus a self-reported build id, not an attestation of the uploaded file.",
+  "tool": "cgAttribute = cr.tools.CgAttribute at commit a3e48fc (tracked code unchanged since)",
+  "data": "docs/data/arena-6828013-games-2026-10-30.json (manifest; raw games in replays/cg/arena-6828013/games, gitignored)",
+  "validate": {
+   "command": "./gradlew cgValidate -Preplays=replays/cg/arena-6828013/games -Pquiet=true",
+   "result": [
+    "games=60 ok=60 mismatch=0 error=0 matchedTurns=8286",
+    "unit match: plain 7544/7544 (100.00%) spawn 742/742 (100.00%)",
+    "warnings (turns with a summary or simulated warning): exact 1509/1509"
+   ],
+   "note": "no mismatch: every game matches, winners and scores included"
+  },
+  "runs": [
+   {
+    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6828013/games -Pagent=6828013 -Pbot=file:replays/artifacts/d6266d41/Player.java",
+    "result": [
+     "bot file:replays/artifacts/d6266d41/Player.java: replays/artifacts/d6266d41/Player.java sha256=d6266d41b6562158146d24a191742ecb0a9c10242cae6b04910933c397007524 params=\"\" build=cd1f3d33 config=12070467",
+     "attribution of 6828013 to file:replays/artifacts/d6266d41/Player.java: games=60 same=60 differ=0 partial=0 error=0 comparedTurns=8286 markers={cd1f3d33=60}"
+    ],
+    "role": "the uploaded artifact (kept copy, sha256 d6266d41)"
+   },
+   {
+    "command": "./gradlew cgAttribute -Preplays=replays/cg/arena-6828013/games -Pagent=6828013 -Pbot=v02",
+    "result": [
+     "DIFF 913548762 seat 1 vs Vakema: compared 98 of 98 turns (validated 98), diffs 42, first at turn 10: recorded [BUILD 23 TOWER | TRAIN] bot [BUILD 23 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913548763 seat 0 vs thomas.colibert: compared 250 of 250 turns (validated 250), diffs 54, first at turn 8: recorded [BUILD 4 TOWER | TRAIN] bot [BUILD 4 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913548764 seat 0 vs Mapiov4: compared 78 of 78 turns (validated 78), diffs 33, first at turn 9: recorded [BUILD 18 TOWER | TRAIN] bot [BUILD 18 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913548765 seat 0 vs AnakinSkywanker: compared 75 of 75 turns (validated 75), diffs 24, first at turn 13: recorded [BUILD 16 TOWER | TRAIN] bot [BUILD 16 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913548766 seat 0 vs Sekper: compared 207 of 207 turns (validated 207), diffs 112, first at turn 6: recorded [BUILD 0 TOWER | TRAIN] bot [BUILD 0 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913548767 seat 1 vs SunTzu_: compared 55 of 55 turns (validated 55), diffs 22, first at turn 6: recorded [BUILD 5 TOWER | TRAIN] bot [BUILD 5 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913548768 seat 0 vs localroast8080: compared 74 of 74 turns (validated 74), diffs 28, first at turn 6: recorded [BUILD 22 TOWER | TRAIN] bot [BUILD 22 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913548769 seat 0 vs FTL: compared 61 of 61 turns (validated 61), diffs 19, first at turn 9: recorded [BUILD 0 TOWER | TRAIN] bot [BUILD 0 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913548770 seat 1 vs 52840: compared 250 of 250 turns (validated 250), diffs 126, first at turn 8: recorded [BUILD 5 TOWER | TRAIN] bot [BUILD 5 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913548772 seat 1 vs LaRollz: compared 128 of 128 turns (validated 128), diffs 51, first at turn 9: recorded [BUILD 1 TOWER | TRAIN] bot [BUILD 1 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913549484 seat 1 vs Anoyakh: compared 86 of 86 turns (validated 86), diffs 36, first at turn 5: recorded [BUILD 23 TOWER | TRAIN] bot [BUILD 23 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913550372 seat 0 vs spouk: compared 82 of 82 turns (validated 82), diffs 32, first at turn 7: recorded [BUILD 19 TOWER | TRAIN] bot [BUILD 19 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913550919 seat 1 vs kenlime2010: compared 129 of 129 turns (validated 129), diffs 54, first at turn 11: recorded [BUILD 3 TOWER | TRAIN] bot [BUILD 3 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913551397 seat 0 vs Andrgis: compared 46 of 46 turns (validated 46), diffs 9, first at turn 13: recorded [BUILD 6 TOWER | TRAIN] bot [BUILD 6 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913552023 seat 0 vs Esside: compared 103 of 103 turns (validated 103), diffs 26, first at turn 14: recorded [BUILD 6 TOWER | TRAIN] bot [BUILD 6 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913553385 seat 0 vs Adam_ASB: compared 250 of 250 turns (validated 250), diffs 68, first at turn 9: recorded [BUILD 7 TOWER | TRAIN] bot [BUILD 7 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913554091 seat 0 vs Labdahal: compared 250 of 250 turns (validated 250), diffs 65, first at turn 8: recorded [BUILD 6 TOWER | TRAIN] bot [BUILD 6 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913554414 seat 0 vs Vrok: compared 212 of 212 turns (validated 212), diffs 47, first at turn 6: recorded [BUILD 19 TOWER | TRAIN] bot [BUILD 19 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913554707 seat 0 vs AronMaiden: compared 221 of 221 turns (validated 221), diffs 63, first at turn 9: recorded [BUILD 7 TOWER | TRAIN] bot [BUILD 7 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913555138 seat 0 vs HomerS.: compared 123 of 123 turns (validated 123), diffs 42, first at turn 5: recorded [BUILD 21 TOWER | TRAIN] bot [BUILD 21 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913555815 seat 0 vs S-Axel: compared 80 of 80 turns (validated 80), diffs 38, first at turn 9: recorded [BUILD 16 TOWER | TRAIN] bot [BUILD 16 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913556174 seat 1 vs EngiGames: compared 80 of 80 turns (validated 80), diffs 21, first at turn 13: recorded [BUILD 5 TOWER | TRAIN] bot [BUILD 5 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913556613 seat 0 vs HannibalSmix: compared 250 of 250 turns (validated 250), diffs 136, first at turn 13: recorded [BUILD 19 TOWER | TRAIN] bot [BUILD 19 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913557297 seat 0 vs Romain42: compared 81 of 81 turns (validated 81), diffs 31, first at turn 9: recorded [BUILD 10 TOWER | TRAIN] bot [BUILD 10 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913557576 seat 0 vs leaflet: compared 174 of 174 turns (validated 174), diffs 57, first at turn 6: recorded [BUILD 20 TOWER | TRAIN] bot [BUILD 20 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913557848 seat 1 vs zarmi22: compared 55 of 55 turns (validated 55), diffs 19, first at turn 10: recorded [BUILD 2 TOWER | TRAIN] bot [BUILD 2 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913558283 seat 1 vs ArthurDejaPris: compared 111 of 111 turns (validated 111), diffs 35, first at turn 16: recorded [BUILD 3 TOWER | TRAIN] bot [BUILD 3 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913559172 seat 1 vs Acroscope: compared 132 of 132 turns (validated 132), diffs 46, first at turn 8: recorded [BUILD 3 TOWER | TRAIN] bot [BUILD 3 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913559528 seat 1 vs MadmanInABox: compared 84 of 84 turns (validated 84), diffs 47, first at turn 6: recorded [BUILD 9 TOWER | TRAIN] bot [BUILD 9 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913560252 seat 0 vs amaotone: compared 227 of 227 turns (validated 227), diffs 91, first at turn 5: recorded [BUILD 12 TOWER | TRAIN] bot [BUILD 12 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913560629 seat 0 vs Ristone: compared 69 of 69 turns (validated 69), diffs 30, first at turn 19: recorded [BUILD 23 TOWER | TRAIN] bot [BUILD 23 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913561048 seat 1 vs HannibalSmix: compared 250 of 250 turns (validated 250), diffs 84, first at turn 5: recorded [BUILD 11 TOWER | TRAIN] bot [BUILD 11 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913562189 seat 0 vs Rahashizar: compared 156 of 156 turns (validated 156), diffs 50, first at turn 11: recorded [BUILD 17 TOWER | TRAIN] bot [BUILD 17 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913562524 seat 1 vs ToshiTuringMachine: compared 250 of 250 turns (validated 250), diffs 124, first at turn 10: recorded [BUILD 4 TOWER | TRAIN] bot [BUILD 4 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913563168 seat 0 vs Matthieu.B: compared 174 of 174 turns (validated 174), diffs 82, first at turn 6: recorded [BUILD 8 TOWER | TRAIN] bot [BUILD 8 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913563572 seat 0 vs Amabaku: compared 44 of 44 turns (validated 44), diffs 13, first at turn 10: recorded [BUILD 3 TOWER | TRAIN] bot [BUILD 3 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913563779 seat 1 vs --Closer11--: compared 149 of 149 turns (validated 149), diffs 44, first at turn 8: recorded [BUILD 17 TOWER | TRAIN] bot [BUILD 17 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913564155 seat 1 vs Amabaku: compared 89 of 89 turns (validated 89), diffs 27, first at turn 9: recorded [BUILD 16 TOWER | TRAIN] bot [BUILD 16 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913564613 seat 1 vs norbi97: compared 207 of 207 turns (validated 207), diffs 88, first at turn 9: recorded [BUILD 0 TOWER | TRAIN] bot [BUILD 0 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913564967 seat 1 vs Ail: compared 112 of 112 turns (validated 112), diffs 23, first at turn 22: recorded [BUILD 20 TOWER | TRAIN] bot [BUILD 20 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913565426 seat 0 vs Deca1111: compared 137 of 137 turns (validated 137), diffs 42, first at turn 5: recorded [BUILD 13 TOWER | TRAIN] bot [BUILD 13 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913566272 seat 1 vs MyMonkey: compared 168 of 168 turns (validated 168), diffs 58, first at turn 9: recorded [BUILD 6 TOWER | TRAIN] bot [BUILD 6 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913567093 seat 1 vs Marcika: compared 106 of 106 turns (validated 106), diffs 22, first at turn 6: recorded [BUILD 8 TOWER | TRAIN] bot [BUILD 8 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913567746 seat 0 vs Agito: compared 44 of 44 turns (validated 44), diffs 17, first at turn 11: recorded [BUILD 4 TOWER | TRAIN] bot [BUILD 4 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913568249 seat 1 vs agios: compared 98 of 98 turns (validated 98), diffs 30, first at turn 13: recorded [BUILD 15 TOWER | TRAIN] bot [BUILD 15 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913568779 seat 0 vs Labdahal: compared 45 of 45 turns (validated 45), diffs 17, first at turn 5: recorded [BUILD 7 TOWER | TRAIN] bot [BUILD 7 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913569974 seat 0 vs pangeland: compared 28 of 28 turns (validated 28), diffs 12, first at turn 8: recorded [BUILD 0 TOWER | TRAIN] bot [BUILD 0 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913570378 seat 1 vs fixthegame: compared 250 of 250 turns (validated 250), diffs 155, first at turn 13: recorded [BUILD 20 TOWER | TRAIN] bot [BUILD 20 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913571127 seat 1 vs EngiGames: compared 60 of 60 turns (validated 60), diffs 20, first at turn 8: recorded [BUILD 8 TOWER | TRAIN] bot [BUILD 8 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913572297 seat 0 vs Tionkje: compared 77 of 77 turns (validated 77), diffs 32, first at turn 6: recorded [BUILD 7 TOWER | TRAIN] bot [BUILD 7 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913572622 seat 1 vs Chakrosch: compared 119 of 119 turns (validated 119), diffs 37, first at turn 7: recorded [BUILD 1 TOWER | TRAIN] bot [BUILD 1 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913573172 seat 0 vs chlebek: compared 250 of 250 turns (validated 250), diffs 54, first at turn 11: recorded [BUILD 0 TOWER | TRAIN] bot [BUILD 0 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913573593 seat 0 vs CAEZAR: compared 250 of 250 turns (validated 250), diffs 127, first at turn 5: recorded [BUILD 3 TOWER | TRAIN] bot [BUILD 3 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913574088 seat 1 vs PythonOps: compared 64 of 64 turns (validated 64), diffs 24, first at turn 11: recorded [BUILD 19 TOWER | TRAIN] bot [BUILD 19 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913574660 seat 0 vs Perdur: compared 144 of 144 turns (validated 144), diffs 45, first at turn 8: recorded [BUILD 8 TOWER | TRAIN] bot [BUILD 8 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913574992 seat 0 vs AshCo: compared 148 of 148 turns (validated 148), diffs 27, first at turn 6: recorded [BUILD 21 TOWER | TRAIN] bot [BUILD 21 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913575400 seat 0 vs ProfJack: compared 250 of 250 turns (validated 250), diffs 52, first at turn 8: recorded [BUILD 22 TOWER | TRAIN] bot [BUILD 22 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913575711 seat 0 vs DrDiHai: compared 133 of 133 turns (validated 133), diffs 36, first at turn 8: recorded [BUILD 1 TOWER | TRAIN] bot [BUILD 1 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913576803 seat 1 vs Calibanda: compared 250 of 250 turns (validated 250), diffs 113, first at turn 10: recorded [BUILD 2 TOWER | TRAIN] bot [BUILD 2 MINE | TRAIN]; marker cd1f3d33",
+     "DIFF 913577937 seat 1 vs philRG: compared 113 of 113 turns (validated 113), diffs 47, first at turn 5: recorded [BUILD 8 TOWER | TRAIN] bot [BUILD 8 MINE | TRAIN]; marker cd1f3d33",
+     "attribution of 6828013 to v02: games=60 same=0 differ=60 partial=0 error=0 comparedTurns=8286 markers={cd1f3d33=60}"
+    ],
+    "role": "control: v02, the selected version (no marker, so the recorded one is excused)"
+   }
+  ]
+ }
+}

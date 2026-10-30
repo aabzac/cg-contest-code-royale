@@ -258,10 +258,17 @@ permission, the code swapped into the IDE's Play request and checked by sha256.
 | upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | v03/upload-1 | 6827580 | 23.25, rank 240/2290 | 60 | 61.7 ± 6.3 | 25 of 36 | 12 of 24 | 23.07 | 23.25 ± 0.43 |
+| v03/upload-2 | 6828013 | 20.67, rank 428/2290 | 60 | 65.0 ± 6.2 | 25 of 34 | 14 of 26 | 19.48 | 20.22 ± 0.40 |
 
-- **Same code:** `cgAttribute` finds every game identical to `d6266d41` (10,194 turns), with the marker
-  `cd1f3d33` in all 60.
-- **Score:** 23.25 is +5.44 above v02's mean (17.81), twice M. The performance rating is 23.25 ± 0.43
-  against v02's pooled 17.68 ± 0.30. The opponents' median rose to 23.07 as the agent climbed.
-- **Verdict:** upload the candidate again. P1 decides on two uploads, and early rollback applies only
-  below the mean minus 2M.
+- **Same code:** `cgAttribute` finds every game identical to `d6266d41` (10,194 and 8,286 turns), with
+  the marker `cd1f3d33` in all 120.
+- **After upload 1:** 23.25 was +5.44 above v02's mean (17.81), so P1 asked for upload 2.
+- **Verdict after two uploads** (logistic scale 1.37): **not clearly worse**, so v03 is selected. Its Bronze
+  baseline is 23.25 and 20.67.
+  - The mean is 21.96, +4.15 against −M = −2.92.
+  - The pooled rating is 21.75 ± 0.34 against v02's 17.68 ± 0.30, +4.06 against −2 SE = −0.90.
+  - P1 claims no superiority. Even so, both measures are about 4 points above v02, and the local screen
+    predicted that direction.
+- **Noise:** v01's three, v02's two and v03's two uploads pool to SD 1.46 on 4 df, **M = 2.92**. That is
+  still provisional: the 95 % interval of M is about 1.75-8.4. v03's two placements differ by 2.58.
+- **Placement speed:** upload 2 placed in 38 minutes; upload 1 took two hours.

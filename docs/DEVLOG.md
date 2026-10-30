@@ -868,3 +868,40 @@ IDE's Play request, check sha256, submit, follow).
 - **Local against arena:** S 0.815 against v02 locally (about +2 rating points head-to-head) and +5.4
   placement points on the arena. The field gained more than the head-to-head suggested.
 - **The gap to the boss** (above about 27.1) shrinks from about 9.3 to about 3.9 points.
+
+## 2026-10-30 — v03 upload 2 placed 20.67; P1: v03 selected (+4.15 over v02)
+
+The user allowed the re-upload ("Да").
+- 6827580 was saved at 18:52:57 (23.25, rank 240, all 60 games in its manifest;
+  `docs/data/arena-6827580-presubmit-2026-10-30.json`).
+- The IDE held v03: saved code `d6266d41…`, and after a reload the editor had `INCOME_TARGET = 3`.
+- "Test in arena", then Yes: submission 41601594, agent 6828013, created 18:53:45.
+
+**Placement** (`docs/data/arena-6828013-placement-2026-10-30.json`):
+- Complete at 19:31:43, after only 38 minutes: score **20.67**, rank 428/2290.
+- 60 games, 39 wins (seat 0: 25 of 34, seat 1: 14 of 26). The opponents' median was 19.48 (23.07 for
+  upload 1).
+- No removed player and no tie.
+
+**Which code played** (manifest `docs/data/arena-6828013-games-2026-10-30.json`, 0 failures):
+- cgValidate: 60/60 games, all 8,286 turns, warnings exact 1509/1509, no mismatch.
+- `cgAttribute` against `replays/artifacts/d6266d41/Player.java`: SAME 60/60, marker `cd1f3d33` 60/60.
+- In-process v02 differs in all 60.
+
+**P1** (`python -I tools/arena_compare.py --candidate v03 --selected v02`, logistic scale 1.37):
+
+| label | uploads | placement | mean | SD | pooled performance |
+| --- | --- | --- | --- | --- | --- |
+| v02 | 2 | 17.23, 18.40 | 17.81 | 0.83 | 17.68 ± 0.30 |
+| v03 | 2 | 23.25, 20.67 | 21.96 | 1.82 | 21.75 ± 0.34 |
+
+- Verdict: **not clearly worse**: the mean is +4.15 against −M, and the rating +4.06 against −2 SE.
+  v03 becomes the selected version, with its Bronze baseline these two uploads (mean 21.96).
+- P1 makes no claim of superiority. Still, both measures put v03 far above v02: the ratings differ by
+  4.06 with an SE of the difference of about 0.45. The local screen predicted this direction.
+- Noise over v01 (3), v02 (2) and v03 (2): pooled SD 1.46 on 4 df, **M = 2.92** (95 % interval about
+  1.75-8.4; provisional). v03's two placements differ by 2.58 points.
+- Rollback artifact: commit 095d1eb rebuilds `d6266d41…` byte for byte (clean export, 2026-10-30). The
+  kept copy is `replays/artifacts/d6266d41/Player.java`.
+- The gap to the boss (above about 27.1): about 5.1 points from v03's mean, about 3.9 from its better
+  placement.
