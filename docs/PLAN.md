@@ -56,7 +56,17 @@
 - [ ] Bronze boss's exact score from an IDE game (`gameResult.agents[].score`); now only above about 27.1
 - [ ] A local opponent with archers or giants (24 % of v01's arena opponents build them; both local
   opponents play knights only)
-- [ ] Find the gap: the 77 lost placement games of v01's three uploads (`replays/cg/arena-<agent>/games`,
+- [x] Study 2026-10-30 (`docs/data/study-2026-10-30/`): we build towers late and few (first at turn 31,
+  most 2) while stronger players build them by turn 15-19 and hold 3-5. Our towers at turn 50 go with
+  our wins (32 → 59 → 83 %). Locally, early towers (`INCOME_TARGET` 2-3, `MAX_TOWERS` 6-8) score 0.78-0.80
+  against v02 on development seeds and beat it against every profile. Next: the P2 strategy screen of
+  one arm
+- [x] Early towers, P2 strategy track (`docs/data/exp-2026-10-30-towers/`): `INCOME_TARGET=3,MAX_TOWERS=8`.
+  The screen gave S 0.797 against v02 and the final evaluation 0.815, with `boss` +5 to +8 pp. Frozen as
+  v03, the local champion
+- [ ] v03 on the arena under P1 (two uploads; P2 recommends the upload)
+- [ ] A local opponent with giants (they break towers; 12 % of the arena opponents build them)
+- [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/cg/arena-<agent>/games`,
   manifests `docs/data/arena-<agent>-games-2026-10-29.json` for 6823071, 6823455 and 6824680); v01
   placed 18.24, 16.08 and 18.98 (mean 17.77), the old code stood at 559/2295 (19.64)
 - [x] Queen stalls when a site blocks the straight path to a far BUILD target (worst 43 turns): flag

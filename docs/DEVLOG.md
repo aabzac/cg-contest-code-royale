@@ -774,3 +774,61 @@ The user allowed the re-upload ("Да" to re-uploading the same artifact in the 
   this size: its two placements are in effect two more samples of v01's noise.
 - Rollback artifact: a clean export of a3e48fc rebuilds `527244968dbe…` byte for byte (`./gradlew
   submit`, 2026-10-30). The kept copy is `replays/artifacts/52724496/Player.java`.
+
+## 2026-10-30 — study: we lose for lack of early towers
+
+The user chose to study the stronger players' play and our losses (`docs/data/study-2026-10-30/`).
+- **Tool:** `cr.tools.CgStudy` (`./gradlew cgStudy`) replays recorded games through `Rules` and samples
+  per-player features.
+- **Data:** our 300 placement games, 138 games of `replays/cg2` and 88 Legend games.
+
+Findings:
+- **Towers.** We build one knight barracks on turn 1 and towers only after income 10: first tower at a
+  median turn of 31, most towers 2. Our opponents, top-Bronze, Silver, Gold and Legend players build
+  their first tower around turn 15-19 and hold 3-5.
+- **Our towers and our results.** By our towers at turn 50 we win 32 % (0 towers, 72 games), 59 % (1)
+  and 83 % (2). By the opponent's towers at turn 50 our win rate falls from 89 % (0) to 48 % (3+).
+- **Losses.** 105 of 124 are a killed queen, at a median turn of 80. In losses our queen has 22 HP by
+  turn 100, in wins 41.
+
+**Development test** (pool 100000-100499, existing parameters):
+- **Against v02:** `INCOME_TARGET=2,MAX_TOWERS=6` 0.797 ± 0.028, `INCOME_TARGET=3,MAX_TOWERS=8` 0.782.
+  Lowering only the income target gives 0.670 (target 4) and 0.525 (target 8); raising only the tower
+  cap gives 0.506.
+- **The same arms, Δ against v02 on the same maps:**
+  - v01 with 2 barracks: +13 to +14 pp;
+  - a tower-heavy v01: +35 to +44 pp;
+  - 2 barracks with income target 4: +24 pp.
+- **`boss`:** 0.98-0.99 against 0.92.
+- **Caveats:**
+  - no local opponent uses giants, which break towers (12 % of v01's arena opponents build them);
+  - `old` is still missing;
+  - twelve arms shared the development block (a winner's curse).
+
+The candidates are proposed to the user (early towers first).
+
+## 2026-10-30 — early towers pass P2 (S 0.80-0.81 against v02); v03 frozen
+
+The user chose to screen `INCOME_TARGET=3,MAX_TOWERS=8` alone (one arm, so no replication). The
+hypothesis and gates were written before the run (`docs/data/exp-2026-10-30-towers/README.md`).
+- **Screen** on block 1 (seeds 202000-203999), control v02:
+  - G0 passed;
+  - G1: S = 0.7969 (CI 0.7834-0.8103), W/D/L 3170/35/795;
+  - G2: `boss` 0.993 against v02's 0.916, Δ +7.7 pp;
+  - G3 skipped (no `old`).
+  - The development estimate on 500 maps was 0.782, so no winner's curse shows. Games against v02 last
+    226 turns on average.
+- **Final evaluation** on evaluation block 1 (402000-403999):
+  - S = 0.8146 (CI 0.8015-0.8278), W/D/L 3243/31/726, both seats won (1692 and 1551 of 2000);
+  - `boss` 0.991 against 0.943;
+  - G0 passed.
+  - The upload recommendation S ≥ 0.60 is met: about +2 rating points against v02 head-to-head at the
+    arena's logistic scale, which is not the field.
+- **v03 frozen** as the local champion:
+  - `cr.bot.v03.GreedyBot` is a copy of `MainBot`; `versions/v03.properties` has INCOME_TARGET=3 and
+    MAX_TOWERS=8, and these are the `Params` defaults now.
+  - Tests pin v01's and v02's parameters where they test those versions: `MainBotTest`, `StallScanTest`,
+    and `CgAttributeTest`, which builds its artifact with v01's parameters.
+  - `MainBotTest.withDefaultsCurrentPlaysAsV03` checks that current plays as v03. Java tests 97 → 98.
+- **Not covered locally:** giants against towers. No local opponent uses them; 12 % of the arena
+  opponents build them.

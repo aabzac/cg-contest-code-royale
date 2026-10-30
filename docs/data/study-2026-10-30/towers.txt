@@ -1,0 +1,13 @@
+games 300
+our towers at turn 50: 0: 72 games, we win 32% | 1: 126 games, we win 59% | 2: 59 games, we win 83% | 3+: 1 games, we win 100%
+opponent towers at turn 50: 0: 18 games, we win 89% | 1: 41 games, we win 66% | 2: 57 games, we win 63% | 3+: 142 games, we win 48%
+our most towers: 0: 54 games, we win 33% | 1: 76 games, we win 47% | 2: 41 games, we win 63% | 3+: 129 games, we win 74%
+our first tower: never: 54 games, we win 33% | <25: 66 games, we win 71% | 25-39: 122 games, we win 66% | 40+: 58 games, we win 52%
+opponent first tower: never: 32 games, we win 91% | <15: 93 games, we win 55% | 15-24: 139 games, we win 50% | 25+: 36 games, we win 75%
+losses 124 queen killed 105 lost on HP at turn 250 19
+turn of our queen's death: median 80, quartiles [56, 80, 104]
+hp_50      ours: lost  38.0 won  51.0 | opponent: in our losses  48.0 in our wins  43.0
+hp_75      ours: lost  29.0 won  47.0 | opponent: in our losses  45.0 in our wins  35.0
+hp_100     ours: lost  22.0 won  41.0 | opponent: in our losses  42.5 in our wins  32.5
+knights_50 ours: lost   4.0 won   5.0 | opponent: in our losses   4.0 in our wins   2.0
+knights_75 ours: lost   4.0 won   7.0 | opponent: in our losses   4.0 in our wins   1.0

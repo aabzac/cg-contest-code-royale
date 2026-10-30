@@ -15,6 +15,9 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MainBotTest {
+    /** v01's and v02's parameters besides UNSTICK: the captured positions and the audit's games were played with them. */
+    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,";
+
     /**
      * A captured position: the init and turn input that seat 1 of v01 against current read on one
      * turn (written by playing the game as Referee.play does; resources cr/bot/current/*.txt).
@@ -65,19 +68,19 @@ class MainBotTest {
         GameState s = in.state;
         assertEquals(1802, s.qx[0]);
         assertEquals(899, s.qy[0]);
-        assertEquals("BUILD 12 MINE", play("UNSTICK=0", in).queenLine());
+        assertEquals("BUILD 12 MINE", play(V02 + "UNSTICK=0", in).queenLine());
         Physics ph = new Physics();
         ph.queenStep(s, s.qx[0], s.qy[0], s.sx[12], s.sy[12], 5);
         assertEquals(1802, ph.rx);
         assertEquals(899, ph.ry);
 
-        Command c = play("UNSTICK=1", in);
+        Command c = play(V02 + "UNSTICK=1", in);
         assertEquals(Command.MOVE, c.queen, c.queenLine());
         ph.queenStep(s, s.qx[0], s.qy[0], c.x, c.y, 5);
         assertTrue(Physics.distSq(ph.rx, ph.ry, s.qx[0], s.qy[0]) >= 20 * 20, "the detour moves her");
-        int turns = turnsToTouch("UNSTICK=1", in, 12, 20);
+        int turns = turnsToTouch(V02 + "UNSTICK=1", in, 12, 20);
         assertTrue(turns > 0 && turns <= 10, "site 12 reached in " + turns + " turns");
-        assertEquals(-1, turnsToTouch("UNSTICK=0", in, 12, 20));
+        assertEquals(-1, turnsToTouch(V02 + "UNSTICK=0", in, 12, 20));
     }
 
     /**
@@ -89,11 +92,11 @@ class MainBotTest {
     void twoSitesThatWedgeTheQueenAreWalkedAround() throws IOException {
         InputReader in = position("wedge-10394-seat1-turn98.txt");
         assertEquals(-1, in.touchedSite);
-        assertEquals("BUILD 3 MINE", play("UNSTICK=0", in).queenLine());
-        assertEquals(Command.MOVE, play("UNSTICK=1", in).queen);
-        int turns = turnsToTouch("UNSTICK=1", in, 3, 25);
+        assertEquals("BUILD 3 MINE", play(V02 + "UNSTICK=0", in).queenLine());
+        assertEquals(Command.MOVE, play(V02 + "UNSTICK=1", in).queen);
+        int turns = turnsToTouch(V02 + "UNSTICK=1", in, 3, 25);
         assertTrue(turns > 0 && turns <= 15, "site 3 reached in " + turns + " turns");
-        assertEquals(-1, turnsToTouch("UNSTICK=0", in, 3, 25));
+        assertEquals(-1, turnsToTouch(V02 + "UNSTICK=0", in, 3, 25));
     }
 
     /** A BUILD whose straight walk makes progress is left alone. */
@@ -103,7 +106,7 @@ class MainBotTest {
         GameState s = in.state;
         s.qx[0] = 1700;   // away from site 20, the line to site 12 is clear
         s.qy[0] = 700;
-        Command off = play("UNSTICK=0", in), on = play("UNSTICK=1", in);
+        Command off = play(V02 + "UNSTICK=0", in), on = play(V02 + "UNSTICK=1", in);
         assertEquals(Command.BUILD, on.queen);
         assertEquals(off.queenLine(), on.queenLine());
     }
@@ -113,24 +116,35 @@ class MainBotTest {
     void withUnstickOffCurrentPlaysAsV01() {
         for (long seed = 10470; seed < 10480; seed++) {
             Referee.Result mirror = Referee.play(seed, BotFactory.create("v01"), BotFactory.create("v01"), true, 50);
-            Referee.Result c0 = Referee.play(seed, BotFactory.create("current?UNSTICK=0"), BotFactory.create("v01"), true, 50);
-            Referee.Result c1 = Referee.play(seed, BotFactory.create("v01"), BotFactory.create("current?UNSTICK=0"), true, 50);
+            Referee.Result c0 = Referee.play(seed, BotFactory.create("current?" + V02 + "UNSTICK=0"), BotFactory.create("v01"), true, 50);
+            Referee.Result c1 = Referee.play(seed, BotFactory.create("v01"), BotFactory.create("current?" + V02 + "UNSTICK=0"), true, 50);
             assertEquals(mirror.replay, c0.replay, "seed " + seed + " seat 0");
             assertEquals(mirror.replay, c1.replay, "seed " + seed + " seat 1");
         }
     }
 
-    /** With its defaults, current plays the frozen v02's games command for command (seeds with UNSTICK detours). */
+    /** With v02's parameters, current plays the frozen v02's games command for command (seeds with UNSTICK detours). */
     @Test
-    void withDefaultsCurrentPlaysAsV02() {
-        for (long seed : new long[]{10035, 10062, 10206, 10394, 10477, 200002, 200035, 200060}) {
+    void withV02ParamsCurrentPlaysAsV02() {
+        assertSamePlay("current?" + V02 + "UNSTICK=1", "v02", new long[]{10035, 10062, 10206, 10394, 10477, 200002, 200035, 200060});
+    }
+
+    /** With its defaults (early towers since v03), current plays the frozen v03's games command for command. */
+    @Test
+    void withDefaultsCurrentPlaysAsV03() {
+        assertSamePlay("current", "v03", new long[]{100000, 100001, 100002, 10394, 10477, 202000, 202001, 202002});
+    }
+
+    /** bot and frozen play the same commands on both seats against v01 and v02. */
+    private static void assertSamePlay(String bot, String frozen, long[] seeds) {
+        for (long seed : seeds) {
             for (String opp : new String[]{"v01", "v02"}) {
-                Referee.Result v0 = Referee.play(seed, BotFactory.create("v02"), BotFactory.create(opp), true, 50);
-                Referee.Result c0 = Referee.play(seed, BotFactory.create("current"), BotFactory.create(opp), true, 50);
-                Referee.Result v1 = Referee.play(seed, BotFactory.create(opp), BotFactory.create("v02"), true, 50);
-                Referee.Result c1 = Referee.play(seed, BotFactory.create(opp), BotFactory.create("current"), true, 50);
-                assertEquals(v0.replay, c0.replay, "seed " + seed + " seat 0 against " + opp);
-                assertEquals(v1.replay, c1.replay, "seed " + seed + " seat 1 against " + opp);
+                Referee.Result v0 = Referee.play(seed, BotFactory.create(frozen), BotFactory.create(opp), true, 50);
+                Referee.Result c0 = Referee.play(seed, BotFactory.create(bot), BotFactory.create(opp), true, 50);
+                Referee.Result v1 = Referee.play(seed, BotFactory.create(opp), BotFactory.create(frozen), true, 50);
+                Referee.Result c1 = Referee.play(seed, BotFactory.create(opp), BotFactory.create(bot), true, 50);
+                assertEquals(v0.replay, c0.replay, bot + " seed " + seed + " seat 0 against " + opp);
+                assertEquals(v1.replay, c1.replay, bot + " seed " + seed + " seat 1 against " + opp);
             }
         }
     }

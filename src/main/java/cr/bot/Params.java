@@ -10,10 +10,10 @@ import java.util.List;
  * Frozen versions keep their own snapshot (resources cr/bot/versions/vNN.properties).
  */
 public final class Params {
-    /** Income target before the greedy bot starts building towers. */
-    public int INCOME_TARGET = 10;
-    /** Towers kept before further ones are skipped. */
-    public int MAX_TOWERS = 4;
+    /** Income target before the greedy bot starts building towers (10 in v01/v02; 3 since v03: early towers). */
+    public int INCOME_TARGET = 3;
+    /** Towers kept before further ones are skipped (4 in v01/v02; 8 since v03). */
+    public int MAX_TOWERS = 8;
     /** Barracks kept by the greedy bot. */
     public int BARRACKS = 1;
     /**

@@ -64,6 +64,13 @@ tasks.register('bench', JavaExec) {
     args prop('bot1', 'current'), prop('bot2', 'v00'), prop('maps', '100'), prop('threads', '8'), prop('seedBase', '1000'), prop('turnMs', '50'), prop('out', '')
 }
 
+// Per-player features of recorded CG games (replayed through Rules): -Pout=<file.csv> -Preplays=<dirs or files, space-separated>
+tasks.register('cgStudy', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.tools.CgStudy'
+    args([prop('out', 'build/study.csv')] + prop('replays', 'replays/cg2').split(' ').toList())
+}
+
 // Queen stalls (BUILD to an untouched site, queen did not move) of a bot on both seats:
 // -Pbot=current -Popp=v01 -Pmaps=500 -PseedBase=10000 [-Pthreads=8]
 tasks.register('stallScan', JavaExec) {

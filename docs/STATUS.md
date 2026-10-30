@@ -33,8 +33,15 @@
   fresh 2000-map blocks, the candidate against the control (G1: lower 95 % bound > 0.50), against `boss`
   (G2) and `old` (G3, waiting for the code of 3315948 in `refs/old-3315948/Player.java`); targeted fixes
   need G0, S ≥ 0.500 and Δ ≥ -1 pp against `boss`.
-- Selected version and local champion: v02 = v01 with the targeted fix `UNSTICK` (queen stalls), frozen
-  2026-10-30 (`cr.bot.v02.GreedyBot`, `versions/v02.properties`); `current` defaults to it. P1 verdict on
+- Local champion: v03 = v02 with early towers (mines only to income 3, up to 8 towers), frozen 2026-10-30
+  (`cr.bot.v03.GreedyBot`, `versions/v03.properties`); `current` defaults to it.
+  - From the study `docs/data/study-2026-10-30/`.
+  - P2 strategy screen: S 0.797 against v02 (CI 0.783-0.810), Δ +7.7 pp against `boss`.
+  - Final evaluation: S 0.815 (CI 0.802-0.828), so the upload recommendation (S ≥ 0.60) is met
+    (`docs/data/exp-2026-10-30-towers/`).
+  - Not on the arena yet.
+- Selected version: v02 = v01 with the targeted fix `UNSTICK` (queen stalls), frozen 2026-10-30
+  (`cr.bot.v02.GreedyBot`, `versions/v02.properties`). P1 verdict on
   2026-10-30: not clearly worse than v01 (placement mean 17.81 against 17.77, pooled rating 17.68 ± 0.29
   against 17.92 ± 0.23). v02 played as v01 in 58 and 56 of its 60 games, so the arena saw no effect either
   way. Baseline in Bronze: 17.23 and 18.40. Live: `527244968dbe…` (a clean export of a3e48fc rebuilds it

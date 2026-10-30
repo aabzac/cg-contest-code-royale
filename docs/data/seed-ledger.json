@@ -6,13 +6,54 @@
   "screen": "block k = seeds 200000 + 2000 k .. 200000 + 2000 k + 1999, one fresh block per candidate; in-process series play all 2000 maps, process opponents the first 500",
   "evaluation": "block k = seeds 400000 + 2000 k .. 400000 + 2000 k + 1999, one fresh block per upload candidate, used once"
  },
- "next": {"screen": 1, "evaluation": 1},
+ "next": {
+  "screen": 2,
+  "evaluation": 2
+ },
  "used": [
-  {"pool": "screen", "k": 0, "seeds": "200000-201999", "date": "2026-10-30", "experiment": "docs/data/exp-2026-10-30-unstick",
-   "candidate": "current?UNSTICK=1", "control": "v01", "series": "direct and mirror on 2000 maps, boss on 200000-200499, stallScan on 2000 maps",
-   "verdict": "pass (targeted fix)"},
-  {"pool": "evaluation", "k": 0, "seeds": "400000-401999", "date": "2026-10-30", "experiment": "docs/data/exp-2026-10-30-v02-eval",
-   "candidate": "v02", "control": "v01", "series": "direct and mirror on 2000 maps, boss on 400000-400499, stallScan on 2000 maps",
-   "verdict": "G0-G2 pass (G3 skipped, no old); S 0.5032 < 0.60, below the upload recommendation; the user uploads anyway"}
+  {
+   "pool": "screen",
+   "k": 0,
+   "seeds": "200000-201999",
+   "date": "2026-10-30",
+   "experiment": "docs/data/exp-2026-10-30-unstick",
+   "candidate": "current?UNSTICK=1",
+   "control": "v01",
+   "series": "direct and mirror on 2000 maps, boss on 200000-200499, stallScan on 2000 maps",
+   "verdict": "pass (targeted fix)"
+  },
+  {
+   "pool": "evaluation",
+   "k": 0,
+   "seeds": "400000-401999",
+   "date": "2026-10-30",
+   "experiment": "docs/data/exp-2026-10-30-v02-eval",
+   "candidate": "v02",
+   "control": "v01",
+   "series": "direct and mirror on 2000 maps, boss on 400000-400499, stallScan on 2000 maps",
+   "verdict": "G0-G2 pass (G3 skipped, no old); S 0.5032 < 0.60, below the upload recommendation; the user uploads anyway"
+  },
+  {
+   "pool": "screen",
+   "k": 1,
+   "seeds": "202000-203999",
+   "date": "2026-10-30",
+   "experiment": "docs/data/exp-2026-10-30-towers",
+   "candidate": "current?INCOME_TARGET=3,MAX_TOWERS=8",
+   "control": "v02",
+   "series": "direct and mirror on 2000 maps, boss on 202000-202499",
+   "verdict": "pass (strategy track): S 0.7969, boss delta +0.077"
+  },
+  {
+   "pool": "evaluation",
+   "k": 1,
+   "seeds": "402000-403999",
+   "date": "2026-10-30",
+   "experiment": "docs/data/exp-2026-10-30-towers",
+   "candidate": "current?INCOME_TARGET=3,MAX_TOWERS=8",
+   "control": "v02",
+   "series": "direct and mirror on 2000 maps, boss on 402000-402499",
+   "verdict": "G0-G2 pass (G3 skipped, no old); S 0.8146 >= 0.60: upload recommended"
+  }
  ]
 }

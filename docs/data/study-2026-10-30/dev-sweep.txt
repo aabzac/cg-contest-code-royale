@@ -1,0 +1,31 @@
+Development pool only (seeds 100000-100499, or 100000-100149 against boss); each map on both seats; commit and working tree as recorded in each report.
+opponent                             bot                                       maps        S  95% CI  W/D/L
+boss                                 current?INCOME_TARGET=2,MAX_TOWERS=6       150    0.977   0.017  293/0/7
+boss                                 current?INCOME_TARGET=3,MAX_TOWERS=8       150    0.987   0.013  296/0/4
+boss                                 v02                                        150    0.920   0.032  276/0/24
+v01?BARRACKS=2                       current?INCOME_TARGET=2,MAX_TOWERS=6       500    0.836   0.027  830/12/158
+v01?BARRACKS=2                       current?INCOME_TARGET=3,MAX_TOWERS=8       500    0.851   0.024  847/8/145
+v01?BARRACKS=2                       v02                                        500    0.708   0.032  705/5/290
+v01?BARRACKS=2,INCOME_TARGET=4       current?INCOME_TARGET=2,MAX_TOWERS=6       500    0.853   0.026  848/10/142
+v01?BARRACKS=2,INCOME_TARGET=4       current?INCOME_TARGET=3,MAX_TOWERS=8       500    0.859   0.025  854/10/136
+v01?BARRACKS=2,INCOME_TARGET=4       v02                                        500    0.618   0.035  613/10/377
+v01?INCOME_TARGET=4,MAX_TOWERS=8     current?INCOME_TARGET=2,MAX_TOWERS=6       500    0.694   0.031  673/42/285
+v01?INCOME_TARGET=4,MAX_TOWERS=8     current?INCOME_TARGET=3,MAX_TOWERS=8       500    0.609   0.029  587/44/369
+v01?INCOME_TARGET=4,MAX_TOWERS=8     v02                                        500    0.258   0.028  253/10/737
+v02                                  current?INCOME_TARGET=2,MAX_TOWERS=4       500    0.696   0.034  694/3/303
+v02                                  current?INCOME_TARGET=2,MAX_TOWERS=6       500    0.797   0.028  792/10/198
+v02                                  current?INCOME_TARGET=2,MAX_TOWERS=8       500    0.797   0.027  790/14/196
+v02                                  current?INCOME_TARGET=3,MAX_TOWERS=4       500    0.664   0.035  661/7/332
+v02                                  current?INCOME_TARGET=3,MAX_TOWERS=6       500    0.756   0.029  752/8/240
+v02                                  current?INCOME_TARGET=3,MAX_TOWERS=8       500    0.782   0.028  779/7/214
+v02                                  current?INCOME_TARGET=4                    500    0.670   0.033  668/4/328
+v02                                  current?INCOME_TARGET=4,MAX_TOWERS=4       500    0.670   0.033  668/4/328
+v02                                  current?INCOME_TARGET=4,MAX_TOWERS=6       500    0.733   0.030  727/12/261
+v02                                  current?INCOME_TARGET=4,MAX_TOWERS=8       500    0.747   0.027  742/10/248
+v02                                  current?INCOME_TARGET=5,MAX_TOWERS=4       500    0.627   0.031  622/10/368
+v02                                  current?INCOME_TARGET=5,MAX_TOWERS=6       500    0.666   0.028  661/11/328
+v02                                  current?INCOME_TARGET=5,MAX_TOWERS=8       500    0.669   0.028  665/9/326
+v02                                  current?INCOME_TARGET=6                    500    0.583   0.029  581/4/415
+v02                                  current?INCOME_TARGET=6,MAX_TOWERS=6       500    0.606   0.027  601/10/389
+v02                                  current?INCOME_TARGET=8                    500    0.525   0.021  522/6/472
+v02                                  current?MAX_TOWERS=6                       500    0.506   0.011  503/6/491
