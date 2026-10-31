@@ -71,7 +71,7 @@ function outcome(replay, game) {
  */
 export function mountPlayer(container, replay, options = {}) {
   const {game = null, index = -1, total = 0, initialTurn = 0,
-    onBack, onPrevious, onNext, onTurn} = options;
+    backLabel, onBack, onPrevious, onNext, onTurn} = options;
   if (!Array.isArray(replay.frames) || !replay.frames.length) throw new Error('В реплее нет кадров для просмотра.');
   const frames = replay.frames;
   const sites = Array.isArray(replay.sites) ? replay.sites : [];
@@ -88,7 +88,7 @@ export function mountPlayer(container, replay, options = {}) {
   }
 
   const topbar = element('div', 'player-topbar');
-  const back = button(index >= 0 ? '← К выборке' : '← К дашборду', () => {pause(); onBack?.();});
+  const back = button(backLabel || (index >= 0 ? '← К выборке' : '← К дашборду'), () => {pause(); onBack?.();});
   back.disabled = !onBack;
   const collection = element('span', 'player-collection', index >= 0 && total ? `Игра ${index + 1} из ${total}` : 'Отдельный реплей');
   const previousGame = button('← Предыдущая игра', () => {pause(); onPrevious?.();});
@@ -196,6 +196,7 @@ export function mountPlayer(container, replay, options = {}) {
   }
   const showRanges = checkbox('Радиусы башен', true);
   const showTargets = checkbox('Цели команд', false);
+  showTargets.parentElement.title = 'Команда сыгранного хода: пунктир от прежней позиции королевы. BUILD — центр площадки, MOVE — указанные координаты.';
   displayOptions.append(element('span', 'player-help', '← → ход · пробел — пауза'));
   displayOptions.append(jumpLabel, speedLabel);
   main.append(displayOptions);
@@ -210,10 +211,15 @@ export function mountPlayer(container, replay, options = {}) {
   const summary = element('div', 'player-summary');
   summary.tabIndex = 0;
   sidebar.append(summary);
-  const warnings = (replay.warnings || []).filter(Boolean);
+  const localErrors = replay.format === 'local' && Array.isArray(replay.errors)
+    ? [0, 1].filter(side => replay.errors[side] != null)
+      .map(side => `Сторона ${side + 1} · ${names[side]}: ${replay.errors[side]}`)
+    : [];
+  const warnings = [...localErrors, ...(replay.warnings || []).filter(Boolean)];
   if (warnings.length) {
     const details = element('details', 'player-warnings');
-    details.append(element('summary', '', 'Примечания к записи'));
+    details.open = localErrors.length > 0;
+    details.append(element('summary', '', localErrors.length ? 'Ошибки игры и примечания' : 'Примечания к записи'));
     const list = element('ul');
     for (const warning of warnings) list.append(element('li', '', String(warning)));
     details.append(list); sidebar.append(details);
@@ -271,6 +277,7 @@ export function mountPlayer(container, replay, options = {}) {
       }
     });
 
+    const moveTargets = [];
     if (showTargets.checked && frameIndex > 0) {
       for (const side of [0, 1]) {
         const first = String(frame.cmds?.[side] || '').split('\n')[0];
@@ -283,6 +290,7 @@ export function mountPlayer(container, replay, options = {}) {
         ctx.save(); ctx.strokeStyle = SIDE[side]; ctx.lineWidth = 3; ctx.setLineDash([10, 8]);
         ctx.beginPath(); ctx.moveTo(from[0], from[1]); ctx.lineTo(to[0], to[1]); ctx.stroke(); ctx.restore();
         circle(to[0], to[1], 9, null, SIDE[side], 3);
+        if (move) moveTargets.push({side, to});
       }
     }
 
@@ -300,6 +308,15 @@ export function mountPlayer(container, replay, options = {}) {
       label(value(frame.hp?.[side]), x, y, 22, '#192c29', true);
       label('К', x, y - 48, 21, SIDE[side], true);
     });
+    // A reached MOVE target can sit exactly under the queen. Keep its marker visible outside
+    // her body and above the units without obscuring HP or changing the recorded endpoint.
+    for (const {side, to: [x, y]} of moveTargets) {
+      ctx.save(); ctx.setLineDash([7, 5]);
+      circle(x, y, 42, null, SIDE[side], 3);
+      ctx.restore();
+      label('MOVE', Math.max(32, Math.min(WIDTH - 32, x)),
+        Math.max(16, Math.min(HEIGHT - 16, y + 58)), 18, SIDE[side], true);
+    }
   }
 
   function inspect(frame) {

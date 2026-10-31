@@ -52,7 +52,7 @@
    },
    "snapshots": "docs/data/arena-6823455-placement-2026-10-29.json",
    "games": "docs/data/arena-6823455-games-2026-10-29.json",
-   "attribution": "cgAttribute against 5bace689 (then build/submit, 20:53): SAME in 60 of 60 games, 6,413 turns; again before upload 3, against the kept copy replays/artifacts/5bace689/Player.java: SAME in 60 of 60",
+   "attribution": "cgAttribute against 5bace689 (then build/submit, 20:53): SAME in 60 of 60 games, 6,413 turns; again before upload 3, against the kept copy artifacts/5bace689/Player.java: SAME in 60 of 60",
    "replaced": "2026-10-29T22:50:54+02:00 by upload 3; its battle list was empty at 2026-10-30T00:52+02:00"
   },
   {
@@ -65,7 +65,7 @@
     "sha256": "1e5d1a79f113347a00a68e51172602bf44c23d56670ebf85db0c99592c6741fd",
     "build": "e5417a83",
     "config": "4194117d",
-    "source": "commit 2641aa9, default params; v01 with the turn-0 build marker (kept copy replays/artifacts/1e5d1a79/Player.java)"
+    "source": "commit 2641aa9, default params; v01 with the turn-0 build marker (kept copy artifacts/1e5d1a79/Player.java)"
    },
    "created": "2026-10-29T22:50:54+02:00",
    "placement": {
@@ -78,7 +78,7 @@
    },
    "snapshots": "docs/data/arena-6824680-placement-2026-10-29.json",
    "games": "docs/data/arena-6824680-games-2026-10-29.json",
-   "attribution": "cgAttribute against the kept copy replays/artifacts/1e5d1a79/Player.java: SAME in 60 of 60 games, 6,222 turns; marker e5417a83 in 60 of 60",
+   "attribution": "cgAttribute against the kept copy artifacts/1e5d1a79/Player.java: SAME in 60 of 60 games, 6,222 turns; marker e5417a83 in 60 of 60",
    "replaced": "2026-10-30T09:58:49+02:00 by v02 upload 1"
   },
   {
@@ -91,7 +91,7 @@
     "sha256": "527244968dbe3d44abeea2706cc129dff166e341d29351a9f8fe8de18da965a9",
     "build": "a2c71dbb",
     "config": "173dd43b",
-    "source": "commit a3e48fc, default params (UNSTICK=1); kept copy replays/artifacts/52724496/Player.java"
+    "source": "commit a3e48fc, default params (UNSTICK=1); kept copy artifacts/52724496/Player.java"
    },
    "created": "2026-10-30T09:58:49+02:00",
    "placement": {
@@ -104,7 +104,7 @@
    },
    "snapshots": "docs/data/arena-6826276-placement-2026-10-30.json",
    "games": "docs/data/arena-6826276-games-2026-10-30.json",
-   "attribution": "cgAttribute against the kept copy replays/artifacts/52724496/Player.java: SAME in 60 of 60 games, 5,983 turns; marker a2c71dbb in 60 of 60; in-process v01 differs in 2 of 60",
+   "attribution": "cgAttribute against the kept copy artifacts/52724496/Player.java: SAME in 60 of 60 games, 5,983 turns; marker a2c71dbb in 60 of 60; in-process v01 differs in 2 of 60",
    "submittedBy": "the agent in the built-in browser, with the user’s explicit permission (2026-10-30)",
    "replaced": "2026-10-30T13:12:18+02:00 by v02 upload 2"
   },
@@ -118,7 +118,7 @@
     "sha256": "527244968dbe3d44abeea2706cc129dff166e341d29351a9f8fe8de18da965a9",
     "build": "a2c71dbb",
     "config": "173dd43b",
-    "source": "the same bytes as upload 1 (commit a3e48fc); kept copy replays/artifacts/52724496/Player.java"
+    "source": "the same bytes as upload 1 (commit a3e48fc); kept copy artifacts/52724496/Player.java"
    },
    "created": "2026-10-30T13:12:18+02:00",
    "placement": {
@@ -131,7 +131,7 @@
    },
    "snapshots": "docs/data/arena-6827094-placement-2026-10-30.json",
    "games": "docs/data/arena-6827094-games-2026-10-30.json",
-   "attribution": "cgAttribute against the kept copy replays/artifacts/52724496/Player.java: SAME in 60 of 60 games, 7,084 turns; marker a2c71dbb in 60 of 60; in-process v01 differs in 4 of 60",
+   "attribution": "cgAttribute against the kept copy artifacts/52724496/Player.java: SAME in 60 of 60 games, 7,084 turns; marker a2c71dbb in 60 of 60; in-process v01 differs in 4 of 60",
    "submittedBy": "the agent in the built-in browser, with the user’s explicit permission (2026-10-30)",
    "replaced": "2026-10-30T16:43:22+02:00 by v03 upload 1"
   },
@@ -145,7 +145,7 @@
     "sha256": "d6266d41b6562158146d24a191742ecb0a9c10242cae6b04910933c397007524",
     "build": "cd1f3d33",
     "config": "12070467",
-    "source": "commit 095d1eb, default params (INCOME_TARGET=3, MAX_TOWERS=8, UNSTICK=1); kept copy replays/artifacts/d6266d41/Player.java"
+    "source": "commit 095d1eb, default params (INCOME_TARGET=3, MAX_TOWERS=8, UNSTICK=1); kept copy artifacts/d6266d41/Player.java"
    },
    "created": "2026-10-30T16:43:22+02:00",
    "placement": {
@@ -158,7 +158,7 @@
    },
    "snapshots": "docs/data/arena-6827580-placement-2026-10-30.json",
    "games": "docs/data/arena-6827580-games-2026-10-30.json",
-   "attribution": "cgAttribute against the kept copy replays/artifacts/d6266d41/Player.java: SAME in 60 of 60 games, 10,194 turns; marker cd1f3d33 in 60 of 60",
+   "attribution": "cgAttribute against the kept copy artifacts/d6266d41/Player.java: SAME in 60 of 60 games, 10,194 turns; marker cd1f3d33 in 60 of 60",
    "submittedBy": "the agent in the built-in browser, with the user’s explicit permission (2026-10-30)",
    "replaced": "2026-10-30T18:53:45+02:00 by v03 upload 2"
   },
@@ -172,7 +172,7 @@
     "sha256": "d6266d41b6562158146d24a191742ecb0a9c10242cae6b04910933c397007524",
     "build": "cd1f3d33",
     "config": "12070467",
-    "source": "the same bytes as upload 1 (commit 095d1eb); kept copy replays/artifacts/d6266d41/Player.java"
+    "source": "the same bytes as upload 1 (commit 095d1eb); kept copy artifacts/d6266d41/Player.java"
    },
    "created": "2026-10-30T18:53:45+02:00",
    "placement": {
@@ -185,7 +185,7 @@
    },
    "snapshots": "docs/data/arena-6828013-placement-2026-10-30.json",
    "games": "docs/data/arena-6828013-games-2026-10-30.json",
-   "attribution": "cgAttribute against the kept copy replays/artifacts/d6266d41/Player.java: SAME in 60 of 60 games, 8,286 turns; marker cd1f3d33 in 60 of 60",
+   "attribution": "cgAttribute against the kept copy artifacts/d6266d41/Player.java: SAME in 60 of 60 games, 8,286 turns; marker cd1f3d33 in 60 of 60",
    "submittedBy": "the agent in the built-in browser, with the user’s explicit permission (2026-10-30)",
    "replaced": "2026-10-31T01:07:26+02:00 by v03 upload 3 (the user’s re-submit; the entry was not saved before it)"
   },
@@ -199,7 +199,7 @@
     "sha256": "d6266d41b6562158146d24a191742ecb0a9c10242cae6b04910933c397007524",
     "build": "cd1f3d33",
     "config": "12070467",
-    "source": "the same artifact as uploads 1-2 (commit 095d1eb), re-submitted by the user; kept copy replays/artifacts/d6266d41/Player.java"
+    "source": "the same artifact as uploads 1-2 (commit 095d1eb), re-submitted by the user; kept copy artifacts/d6266d41/Player.java"
    },
    "created": "2026-10-31T01:07:26+02:00",
    "placement": {
@@ -214,7 +214,7 @@
    },
    "snapshots": "docs/data/arena-6829912-placement-2026-10-31.json",
    "games": "docs/data/arena-6829912-games-2026-10-31.json",
-   "attribution": "cgAttribute against the kept copy replays/artifacts/d6266d41/Player.java: SAME in 60 of 60 games, 10,047 turns; marker cd1f3d33 in 60 of 60"
+   "attribution": "cgAttribute against the kept copy artifacts/d6266d41/Player.java: SAME in 60 of 60 games, 10,047 turns; marker cd1f3d33 in 60 of 60"
   }
  ],
  "legacyUploads": [

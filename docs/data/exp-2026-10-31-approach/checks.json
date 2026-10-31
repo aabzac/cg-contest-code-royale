@@ -47,7 +47,7 @@
     "slowLines": 0,
     "maxFirstMs": 205.3,
     "maxLaterMs": 6.6,
-    "artifact": "replays/artifacts/db0cdd0c/Player.java",
+    "artifact": "artifacts/db0cdd0c/Player.java",
     "artifactSha256": "db0cdd0c715a25a86bced0172792e6c630dc66ba77373df2ad0159708ab006d3",
     "buildId": "e8d5e882",
     "configId": "e5fd0ef6",

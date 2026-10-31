@@ -19,6 +19,7 @@
 - [x] Freeze v01 (greedy) with parameter snapshot; repo level-4 boss as a process opponent (`ProcessBot`)
 - [x] Visualizer for local games (`run -Pout`, `serve`, `visualizer/index.html`)
 - [x] Arena dashboard and recorded CG replay playback, with filters and navigation through a selection (`docs/visualizer.md`)
+- [x] Launch local games with selectable bot versions; pair-based replay storage, history and player navigation (`docs/visualizer.md`)
 - [ ] Replay fetch tool in the repository (the corpus scripts are archived in
   `docs/data/inference-2026-10-28/tools/corpus/`)
 
@@ -67,6 +68,10 @@
 - [x] Improve the final approach to the same site for the next target; compare with v03
   (`docs/data/exp-2026-10-31-approach/`)
 - [ ] Decide adoption/freeze of the APPROACH candidate (`docs/data/exp-2026-10-31-approach/`)
+- [ ] Plan queen routes to the selected site's contact zone: avoid obstacles before getting stuck,
+  minimize walking turns while accounting for threats and the next site's approach, and replan
+  as the board changes. Use MOVE along the route and BUILD once in contact. First experiment keeps
+  site selection unchanged; evaluate movement separately under P2 (`docs/local-screen.md`).
 - [ ] A local opponent with giants (they break towers; 12 % of the arena opponents build them)
 - [x] Organize our arena replays by version, league and upload; downloaders use the registry (`docs/arena-uploads.md`, Replay storage)
 - [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/arena/v01/bronze/upload-<NN>/games`,

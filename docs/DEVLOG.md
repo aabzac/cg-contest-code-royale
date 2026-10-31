@@ -1101,3 +1101,82 @@ restored after checking the candidate; retained artifact identities are in `docs
 Validation covers contact/build timing, the complete fixture mine-upgrade phase, safety fallbacks,
 unchanged training and observations, default-v03 equivalence, snapshots and single-file merging.
 Two local replays illustrate the approach. No simulation revalidation: the engine is unchanged.
+
+
+## 2026-10-31 — preserved submissions moved out of replays
+
+The user requested a clearer location for saved bot builds. Canonical retained submission sources
+now live under the root `artifacts/`; their purpose and identity catalog remain in `docs/BOTS.md`.
+The old-to-new mapping and exact per-file SHA-256/size inventory are recorded in
+`docs/data/artifacts-layout-2026-10-31.json`. All five files moved byte-for-byte; no duplicate old
+canonical directory remains. `.gitignore` continues to exclude these local source copies.
+
+Updated active paths in the upload registry, procedure, project rules and experiment kept-copy
+locators. The project instructions were regenerated with
+`python -B -I .ai/sync.py sync . --source ../cg-agent-kit` at the same locked kit revision.
+No executable code has a hardcoded dependency on the old directory: `cgAttribute` accepts a
+`file:<path>` argument. Historical commands in this log, captured placement command/stdout records
+and hashed experiment archives retain their original text; apply the mapping when replaying an old
+command. Experiment-local build backups stay with their evidence.
+
+Checks: all saved source hashes/sizes and current literal file references verified; edited JSON is
+unchanged except for path replacements (allowing Git checkout line endings); historical placement
+records unchanged; all five files ignored by Git; synchronizer `check` and `git diff --check` passed.
+No build or games rerun: executable sources, artifact bytes and bot behavior are unchanged.
+
+
+## 2026-10-31 — local games in the visualizer
+
+Starting revision: `a6b3df70ce304bc5d4df9febd24072884fbcb2e4`; the preceding artifact-directory
+move was uncommitted and retained. The user chose ordered bot-pair folders for local replay storage.
+Usage, supported choices, seed range, persistence and runtime limitations have one home in
+`docs/visualizer.md`, section «Локальные игры».
+
+Added a local page with version selection, side swap, seed input, launch status, filtered history
+and replay navigation. `Serve` delegates the allowlisted local APIs to `LocalGames`, using the
+existing in-process `Referee`. Replays are written atomically and include effective parameters,
+outcome/errors, frames and a server-runtime snapshot. History is read from saved files, skipping
+frame payloads; malformed entries produce warnings. Changed compiled classes require restarting
+the server. The snapshot describes the running build; it is not a source-code attestation.
+POST validation bounds input and checks loopback authority/origin; one game runs at a time.
+
+Validation (JDK 17, Windows):
+- `node --test visualizer/tests/catalog.test.mjs visualizer/tests/local.test.mjs`: 10 passed.
+- `./gradlew.bat test --tests cr.tools.CgViewReplayTest --tests cr.tools.ServeTest --tests cr.tools.LocalGamesTest`:
+  replay decoding and existing server checks passed. Initial failures exposed JSON null metadata
+  lost by response serialization (fixed) and Windows junction cleanup in the new test (fixed).
+  Final `./gradlew.bat test --tests cr.tools.LocalGamesTest`: all 5 passed, none skipped. Across
+  the final runs all 9 relevant Java checks passed, including real launch/save/reload and junction
+  containment; no production changes followed those checks.
+- Browser on a preview server: three actual launches on development seeds 110002/110003, including
+  swapped sides. Saved replay playback, turn stepping, next-game/back, filtering and browser reload
+  work. A completed launch does not redirect after leaving for the arena; launching outside the
+  history filter makes the new game accessible. Arena loss-filter selection survives playback/back.
+- Desktop 1366×768 and 1100×650 fit without document overflow; long history scrolls inside its
+  panel. Mobile 390×844 has no horizontal overflow. Injected bot-error metadata is visible in the
+  player; no browser console errors. JavaScript syntax and diff whitespace checks passed.
+- Stopped the preview server and restarted the identified project server on port 8765; the local
+  page lists all three saved matches after restart. Regenerated project instructions with the
+  pinned kit; synchronizer `check` passed. The selected `build/submit/Player.java` hash is unchanged.
+
+No bot, simulator, referee, version-parameter or submission-artifact changes. These were interface
+and persistence checks, not strength measurements; no comparison series or arena upload was run.
+
+Follow-up at the user's request: removed the UUID from new local replay filenames. UTC timestamp
+with milliseconds and seed form the usual name; a short counter is added only on collision.
+Temporary writes own a separate unique `.part` file, and publication never replaces an earlier
+replay. Existing replay names remain usable. `./gradlew.bat test --tests cr.tools.LocalGamesTest`:
+6 passed, including forced same-timestamp/same-seed preservation. Project sync/check passed.
+
+Visualizer follow-up: investigated command-target lines for APPROACH. MOVE endpoints already used
+recorded coordinates and the previous queen position; BUILD correctly used the site's centre.
+The reached MOVE marker was hidden under the current queen. Added an outer dashed MOVE ring and
+label drawn after units, plus a checkbox tooltip explaining frame timing and command targets.
+Browser check on saved seed 24203, frame 37: line (1672,578) → (1681,545), exactly the recorded
+command; the new ring remains visible around the queen at the endpoint. Previous frame is BUILD 5;
+turn stepping and hiding all target marks work. Screenshot inspected; JavaScript syntax and diff
+checks passed. No gameplay/backend changes or new matches.
+
+The user queued broader queen-route planning as future work before committing the current tooling
+changes. Scope and evaluation pointer are in `docs/PLAN.md`, phase 3; no route-planner code or
+strategy changes were made for this decision.

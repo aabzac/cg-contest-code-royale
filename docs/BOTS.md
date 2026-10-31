@@ -44,7 +44,18 @@ Registry for `tools/arena_compare.py`: `docs/data/arena-uploads.json`.
 
 ## Artifacts
 
-Kept copies (gitignored): `replays/artifacts/<first 8 hex of the sha256>/Player.java`. The config id (`Build.config`) names the bot and its params (the code outside the runner section and the import header, plus PARAMS as written); builds that differ only in the runner share it.
+Kept copies (gitignored): `artifacts/<first 8 hex of the sha256>/Player.java`. The config id (`Build.config`) names the bot and its params (the code outside the runner section and the import header, plus PARAMS as written); builds that differ only in the runner share it.
+
+These are exact merged submission sources, including their parameters and build marker. Keep them
+for re-uploading/rollback and for `cgAttribute` to check which code played a recorded game.
+`build/submit` is the replaceable output of the latest build; `artifacts/` preserves checked versions
+without rebuilding them. Never replace an existing artifact with different bytes. The rows below
+identify the sources/commits needed for recovery; compact metadata stays in Git.
+
+On 2026-10-31 these files moved from `replays/artifacts/` to the root `artifacts/` directory.
+All five source files retained their SHA-256. The per-file old-to-new mapping is
+`docs/data/artifacts-layout-2026-10-31.json`. Historical captured commands/stdout and immutable
+experiment archives retain their original text; resolve their old artifact paths through this mapping.
 
 | Built | Artifact | Build id | Config id | Source | Checks | Uploads |
 | --- | --- | --- | --- | --- | --- | --- |

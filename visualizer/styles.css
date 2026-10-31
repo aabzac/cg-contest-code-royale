@@ -42,6 +42,10 @@ button.link-button, .link-button { background: none; border: 0; padding: 0; colo
 .brand svg path { fill: var(--accent); }
 .brand-subtitle { display: block; font-size: 11px; font-weight: 400; letter-spacing: .9px; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
 .header-actions { display: flex; align-items: center; gap: 22px; }
+.app-nav { display: flex; align-items: center; gap: 5px; margin-right: auto; }
+.app-nav a { padding: 7px 12px; border-radius: 6px; color: var(--muted); font-size: 13px; text-decoration: none; white-space: nowrap; }
+.app-nav a:hover { color: var(--text); background: var(--surface-raised); }
+.app-nav a[aria-current=page] { color: var(--accent); background: var(--accent-bg); }
 .local-label { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); }
 .local-label i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 #main { max-width: 1488px; padding: 38px 24px 40px; margin: auto; min-height: calc(100vh - 155px); }
@@ -179,6 +183,9 @@ body:has(.player) #content { height: 100%; min-height: 0; }
 @media (min-width: 1800px) { #main { max-width: 1680px; } }
 @media (max-width: 1100px) { .filter-bar { grid-template-columns: repeat(3,minmax(100px,1fr)); } .split-grid { grid-template-columns: 1fr; gap: 0; } .data-table td, .data-table th { padding-left: 14px; padding-right: 14px; } }
 @media (max-width: 700px) {
+  .app-header { flex-wrap: wrap; gap: 10px; }
+  .app-nav { order: 3; width: 100%; margin-right: 0; }
+  .header-actions { margin-left: auto; }
   .app-header { padding: 15px 16px; } .brand { font-size: 17px; } .local-label { display: none; }
   .header-actions button { font-size: 12px; padding: 9px; } #main { padding: 24px 14px; }
   .filter-bar { grid-template-columns: repeat(2,minmax(0,1fr)); padding: 14px; gap: 12px; }

@@ -20,7 +20,8 @@ step of the promotion policy. The local screen a candidate passes before its fir
 
 1. The candidate's artifact passes `submit` and both `procCheck` runs (`.ai/project.md`). Its sha256,
    build id and config id are recorded (`submit` prints them). The artifact prints the build id on turn
-   0 (see "Build marker").
+   0 (see "Build marker"). Preserve those exact bytes as `artifacts/<first 8 hex of its sha256>/Player.java`
+   before another build replaces `build/submit`; see `docs/BOTS.md`, Artifacts.
 2. **Before every Submit, save the live entry**: `tools/arena_snapshot.py` and `tools/arena_games.py`.
    CG lists the games of the live agent only: 6823071's list was empty after the re-upload.
 3. The user submits. Register the new agent in `docs/data/arena-uploads.json` with its label, league,
@@ -28,7 +29,7 @@ step of the promotion policy. The local screen a candidate passes before its fir
    85 %) until `percentage` is 100 and `inProgress` is false. That first snapshot is the upload's
    **placement score**.
 4. Download the games (`arena_games.py`). Check the code with `cgAttribute` against a kept copy of the
-   uploaded artifact, `-Pbot=file:replays/artifacts/<first 8 hex of its sha256>/Player.java` (gitignored;
+   uploaded artifact, `-Pbot=file:artifacts/<first 8 hex of its sha256>/Player.java` (gitignored;
    `build/submit` changes with every build), and check the markers in the manifest. Then complete the
    registry entry with placement and attribution evidence, and its row in `docs/BOTS.md` (Uploads).
    Where everything else goes: `.ai/project.md`, row "Записи после загрузки, эксперимента или решения".

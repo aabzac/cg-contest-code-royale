@@ -8,6 +8,7 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23192320'/%3E%3Cpath d='m7 10 5 5 4-8 4 8 5-5-2 13H9Z' fill='%23c5de91'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="/visualizer/styles.css">
   <link rel="stylesheet" href="/visualizer/dashboard.css">
+  <link rel="stylesheet" href="/visualizer/local.css">
 </head>
 <body>
   <a class="skip-link" href="#main">К содержимому</a>
@@ -16,12 +17,13 @@
       <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><rect x="1" y="1" width="34" height="34" rx="10"/><path d="m9 12 5 5 4-9 4 9 5-5-2 14H11Z"/></svg>
       <span>Code Royale<span class="brand-subtitle">Игры и реплеи</span></span>
     </a>
-    <div class="header-actions"><span class="local-label"><i></i>Локальная коллекция</span><button id="refresh" type="button" title="Перечитать сохранённые манифесты">Обновить данные</button></div>
+    <nav class="app-nav" aria-label="Разделы игр"><a href="/visualizer/" data-view="arena" aria-current="page">Арена</a><a href="/visualizer/?view=local" data-view="local">Локальные игры</a></nav>
+    <div class="header-actions"><button id="refresh" type="button" title="Перечитать сохранённые манифесты">Обновить данные</button></div>
   </header>
   <main id="main" tabindex="-1">
     <div id="content"><div class="loading-state" role="status">Открываем коллекцию игр…</div></div>
   </main>
-  <footer class="app-footer"><span>Code Royale · Разбор сохранённых матчей</span><span>Результаты — по рангам CodinGame</span></footer>
+  <footer class="app-footer"><span>Code Royale · Разбор сохранённых матчей</span><span id="footer-context">Результаты — по рангам CodinGame</span></footer>
   <noscript>Для просмотра дашборда и реплеев нужен JavaScript.</noscript>
   <script type="module" src="/visualizer/app.js"></script>
 </body>

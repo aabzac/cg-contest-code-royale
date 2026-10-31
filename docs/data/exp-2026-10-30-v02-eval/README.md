@@ -62,7 +62,7 @@ only from the prediction.
 - sha256 `527244968dbe3d44abeea2706cc129dff166e341d29351a9f8fe8de18da965a9`, 64,230 chars, PARAMS `""`;
 - effective parameters INCOME_TARGET=10, MAX_TOWERS=4, BARRACKS=1, UNSTICK=1, SEED=1, DEBUG=0;
 - build `a2c71dbb`, config `173dd43b`;
-- kept copy `replays/artifacts/52724496/Player.java`.
+- kept copy `artifacts/52724496/Player.java`.
 
 procCheck:
 

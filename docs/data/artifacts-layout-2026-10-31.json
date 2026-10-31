@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-31",
+  "revisionBefore": "a6b3df70ce304bc5d4df9febd24072884fbcb2e4",
+  "workingTreeBefore": "clean",
+  "what": "Move preserved submission source files out of replays; every file SHA-256 verified before and after",
+  "oldRoot": "replays/artifacts",
+  "newRoot": "artifacts",
+  "files": [
+    {
+      "old": "replays/artifacts/1e5d1a79/Player.java",
+      "new": "artifacts/1e5d1a79/Player.java",
+      "bytes": 57884,
+      "sha256": "1e5d1a79f113347a00a68e51172602bf44c23d56670ebf85db0c99592c6741fd"
+    },
+    {
+      "old": "replays/artifacts/52724496/Player.java",
+      "new": "artifacts/52724496/Player.java",
+      "bytes": 64230,
+      "sha256": "527244968dbe3d44abeea2706cc129dff166e341d29351a9f8fe8de18da965a9"
+    },
+    {
+      "old": "replays/artifacts/5bace689/Player.java",
+      "new": "artifacts/5bace689/Player.java",
+      "bytes": 56780,
+      "sha256": "5bace6897a48b5b50e0f0815e966402bb6ba7ddf9b70286ee29aad71348dd84a"
+    },
+    {
+      "old": "replays/artifacts/d6266d41/Player.java",
+      "new": "artifacts/d6266d41/Player.java",
+      "bytes": 64300,
+      "sha256": "d6266d41b6562158146d24a191742ecb0a9c10242cae6b04910933c397007524"
+    },
+    {
+      "old": "replays/artifacts/db0cdd0c/Player.java",
+      "new": "artifacts/db0cdd0c/Player.java",
+      "bytes": 72120,
+      "sha256": "db0cdd0c715a25a86bced0172792e6c630dc66ba77373df2ad0159708ab006d3"
+    }
+  ],
+  "bytesUnchanged": true,
+  "historicalReferences": "Captured commands/stdout and immutable experiment archives retain their original paths. Resolve replays/artifacts/<suffix> as artifacts/<suffix>."
+}

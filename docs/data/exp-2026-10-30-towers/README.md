@@ -93,7 +93,7 @@ Raw report sha256 (first 12 hex digits):
 - sha256 `d6266d41b6562158146d24a191742ecb0a9c10242cae6b04910933c397007524`, 64,300 chars, PARAMS `""`;
 - effective INCOME_TARGET=3, MAX_TOWERS=8, BARRACKS=1, UNSTICK=1, SEED=1, DEBUG=0;
 - build `cd1f3d33`, config `12070467`;
-- kept copy `replays/artifacts/d6266d41/Player.java`.
+- kept copy `artifacts/d6266d41/Player.java`.
 
 procCheck (log `replays/bench/exp-2026-10-30-towers-eval/proccheck-v03.log`):
 

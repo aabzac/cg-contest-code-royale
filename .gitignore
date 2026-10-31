@@ -7,6 +7,9 @@
 /replays/
 /refs/
 
+# Preserved submission sources (identities and recovery details in docs/BOTS.md)
+/artifacts/
+
 # IDE
 /.idea/
 *.iml
