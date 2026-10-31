@@ -60,7 +60,7 @@
 - [x] Early towers, P2 strategy track (`docs/data/exp-2026-10-30-towers/`): `INCOME_TARGET=3,MAX_TOWERS=8`
   passed the screen and the final evaluation; frozen as v03, the local champion
 - [x] v03 on the arena under P1 (agents 6827580 and 6828013): not clearly worse, so v03 is selected
-  (`docs/arena-uploads.md`)
+  (`docs/arena-uploads.md`); a third upload by the user (6829912) joined its baseline
 - [ ] Next strength step towards the boss (the gap: `docs/STATUS.md`): candidates from the study
   (a second knight barracks or more knights; queen safety when no tower is near; giants or archers
   against towers)

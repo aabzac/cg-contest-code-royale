@@ -186,7 +186,35 @@
    "snapshots": "docs/data/arena-6828013-placement-2026-10-30.json",
    "games": "docs/data/arena-6828013-games-2026-10-30.json",
    "attribution": "cgAttribute against the kept copy replays/artifacts/d6266d41/Player.java: SAME in 60 of 60 games, 8,286 turns; marker cd1f3d33 in 60 of 60",
-   "submittedBy": "the agent in the built-in browser, with the user’s explicit permission (2026-10-30)"
+   "submittedBy": "the agent in the built-in browser, with the user’s explicit permission (2026-10-30)",
+   "replaced": "2026-10-31T01:07:26+02:00 by v03 upload 3 (the user’s re-submit; the entry was not saved before it)"
+  },
+  {
+   "label": "v03",
+   "upload": 3,
+   "agent": 6829912,
+   "submission": 41603803,
+   "league": "bronze",
+   "artifact": {
+    "sha256": "d6266d41b6562158146d24a191742ecb0a9c10242cae6b04910933c397007524",
+    "build": "cd1f3d33",
+    "config": "12070467",
+    "source": "the same artifact as uploads 1-2 (commit 095d1eb), re-submitted by the user; kept copy replays/artifacts/d6266d41/Player.java"
+   },
+   "created": "2026-10-31T01:07:26+02:00",
+   "placement": {
+    "score": 23.37,
+    "rank": 233,
+    "rankNote": "rank at 02:13, the first snapshot after completion",
+    "agents": 2289,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-10-31T02:13:37+02:00",
+    "watched": false,
+    "lastUpdate": "2026-10-31T02:06:47+02:00 (leaderboard updateTime)"
+   },
+   "snapshots": "docs/data/arena-6829912-placement-2026-10-31.json",
+   "games": "docs/data/arena-6829912-games-2026-10-31.json",
+   "attribution": "cgAttribute against the kept copy replays/artifacts/d6266d41/Player.java: SAME in 60 of 60 games, 10,047 turns; marker cd1f3d33 in 60 of 60"
   }
  ],
  "legacyUploads": [

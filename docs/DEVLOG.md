@@ -1012,3 +1012,42 @@ Validation:
 
 No platform requests, replay-byte changes, bot changes or simulator changes. Strength benchmarks
 and full simulator validation were not run because this change only reads existing recorded games.
+
+## 2026-10-31 — v03 upload 3 (the user's re-submit) placed 23.37
+
+The user re-submitted v03 at 01:07 and asked for its games. Before changes: 2cb1007, clean tree.
+
+- **The replaced entry 6828013 was not saved before the re-submit.** Afterwards,
+  `python -B -I tools/arena_games.py 6828013 --manifest build/arena-6828013-recheck-2026-10-31.json`
+  found its live list empty and all 60 placement games stored (marker `cd1f3d33` in 60).
+- **The new agent.** `python -B -I tools/arena_snapshot.py 6828013 aabzac bronze build/arena-probe-2026-10-31.json`
+  followed the pseudo to agent 6829912 (submission 41603803, created 01:07:26).
+  - At 02:13:37 the placement was complete: score **23.37**, rank 233/2289, 60 battles, 38 wins.
+  - The leaderboard last updated the score at 02:06:47.
+  - The raw responses stay in `replays/arena/unknown/bronze/agent-6829912/snapshots`, where the
+    downloader finds them. The summary is `docs/data/arena-6829912-placement-2026-10-31.json`.
+- **Registered** as v03 upload 3, then `python -B -I tools/arena_games.py 6829912`: 60 games, 0 failures,
+  marker `cd1f3d33` in all 60, no tie. Manifest `docs/data/arena-6829912-games-2026-10-31.json`. Games
+  lasted 154.5 turns at the median, and 18 of 60 reached the limit.
+- **Which code played** (logs in `replays/arena/v03/bronze/upload-03/checks/`):
+  - `./gradlew cgValidate -Preplays=replays/arena/v03/bronze/upload-03/games`: 60/60, 10,047 turns,
+    warnings exact 2907/2907, no mismatch;
+  - `./gradlew cgAttribute -Preplays=replays/arena/v03/bronze/upload-03/games -Pagent=6829912
+    -Pbot=file:replays/artifacts/d6266d41/Player.java`: SAME 60/60.
+- **Opponent timeouts.** Two wins are opponents' timeouts on turns 223 (913807642) and 86 (913829899).
+  The simulator's final scores match CG's in both (`docs/rules/inferred.md`, item 2).
+- **P1.** `python -B -I tools/arena_compare.py --candidate v03 --selected v02 --out build/arena-compare-2026-10-31.json`
+  (scale 1.30):
+  - v03: mean 22.43 (SD 1.53), pooled rating 22.35 ± 0.26; the decision of 2026-10-30 stands;
+  - M = 2.81 on 5 df;
+  - v03's three ratings spread far beyond their standard errors (Cochran's Q 40.3 on 2 df);
+  - details in `docs/arena-uploads.md`.
+- The gap to the boss is about 4.7 points.
+- **A test pinned the corpus size.** `visualizer/tests/catalog.test.mjs` expected 430 games, so every new
+  upload broke it. It now takes the expected counts from the registry's manifests and pins only v03's
+  first two uploads (60 games each, 37 and 39 wins).
+- **Checks:**
+  - `node --test visualizer/tests/catalog.test.mjs`: 6 passed;
+  - `./gradlew test --tests cr.tools.CgViewReplayTest --tests cr.tools.ServeTest`: 4 passed, none
+    skipped; the decoder read all 490 saved games;
+  - `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: 44 passed.

@@ -44,12 +44,17 @@ test('numeric game IDs and local paths reject malformed manifest rows',async()=>
   assert.equal(catalog.errors.length,1);
 });
 
-test('real saved registry loads all 430 games and keeps known v03 results',async()=>{
+test('real saved registry loads every manifest game and keeps known v03 results',async()=>{
   const root=new URL('../../',import.meta.url);
-  const fetcher=async path=>({ok:true,json:async()=>JSON.parse(await readFile(fileURLToPath(new URL('.'+path,root)),'utf8'))});
-  const catalog=await loadCatalog(fetcher);
-  assert.equal(catalog.errors.length,0);assert.equal(catalog.games.length,430);
-  const rows=selectGames(catalog,{league:'bronze',version:'v03'});
-  assert.equal(rows.length,120);assert.equal(summarize(rows).wins,76);
-  assert.equal(selectGames(catalog,{league:'bronze',version:'all'}).length,420);
+  const read=async path=>JSON.parse(await readFile(fileURLToPath(new URL('.'+path,root)),'utf8'));
+  const catalog=await loadCatalog(async path=>({ok:true,json:async()=>read(path)}));
+  assert.equal(catalog.errors.length,0);
+  const registry=await read('/docs/data/arena-uploads.json');
+  const count=async uploads=>(await Promise.all(uploads.map(async u=>(await read('/'+u.games)).games.length))).reduce((a,b)=>a+b,0);
+  assert.equal(catalog.games.length,await count([...registry.uploads,...registry.legacyUploads]));
+  assert.equal(selectGames(catalog,{league:'bronze',version:'all'}).length,await count(registry.uploads.filter(u=>u.league==='bronze')));
+  for(const [agent,wins] of [[6827580,37],[6828013,39]]){
+    const rows=selectGames(catalog,{league:'bronze',version:'v03',upload:String(agent)});
+    assert.equal(rows.length,60);assert.equal(summarize(rows).wins,wins);
+  }
 });

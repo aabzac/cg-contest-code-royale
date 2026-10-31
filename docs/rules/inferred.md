@@ -49,7 +49,10 @@ Result in strict mode (no corrections): **97/98 and 137/138 games match on every
    115. Every turn matches, but CG scored the surviving queen 52 and the simulator 53. CG seems to
    finish the timeout's turn, so creeps still act, before it scores; the simulator ends the game when
    the kill happens (`Rules.finishKilled`). Turn-0 timeouts showed no difference, since no creeps exist
-   then. The ranks agree. The rule is not changed on one sample.
+   then. The ranks agree. The rule is not changed on one sample. Two later mid-game timeouts of the
+   opponent, 913807642 (turn 223) and 913829899 (turn 86, both v03 upload 3), score as the simulator
+   does. Whether a finished turn could have changed the score there was not checked, so they neither
+   confirm nor refute the explanation.
 
 ## Statement vs live code
 

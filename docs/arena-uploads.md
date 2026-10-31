@@ -313,3 +313,34 @@ permission, the code swapped into the IDE's Play request and checked by sha256.
 - **Noise:** v01's three, v02's two and v03's two uploads pool to SD 1.46 on 4 df, **M = 2.92**. That is
   still provisional: the 95 % interval of M is about 1.75-8.4. v03's two placements differ by 2.58.
 - **Placement speed:** upload 2 placed in 38 minutes; upload 1 took two hours.
+
+## The selected v03, a third upload (2026-10-31)
+
+The user re-submitted v03 on 2026-10-31 at 01:07 (agent 6829912). Nobody watched the placement. The
+first snapshot after it (02:13) shows it complete, and the leaderboard last updated the score at 02:06.
+The live entry 6828013 was not saved before the re-submit. Its battle list was empty afterwards, and its
+60 placement games were already stored.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v03/upload-1 | 6827580 | 23.25, rank 240/2290 | 60 | 61.7 ± 6.3 | 25 of 36 | 12 of 24 | 23.07 | 23.24 ± 0.41 |
+| v03/upload-2 | 6828013 | 20.67, rank 428/2290 | 60 | 65.0 ± 6.2 | 25 of 34 | 14 of 26 | 19.48 | 20.19 ± 0.39 |
+| v03/upload-3 | 6829912 | 23.37, rank 233/2289 at 02:13 | 60 | 63.3 ± 6.2 | 20 of 31 | 18 of 29 | 22.72 | 23.22 ± 0.39 |
+
+From `python -I tools/arena_compare.py --candidate v03 --selected v02` (logistic scale 1.30, fitted on
+all eight uploads; with it the earlier uploads' ratings move by up to 0.03).
+- **Same code:** `cgAttribute` finds every game identical to `d6266d41` (10,047 turns), with the marker
+  `cd1f3d33` in all 60. cgValidate: 60/60, no mismatch.
+- Two wins are opponents' timeouts on turns 223 and 86. No tie.
+- **v03's baseline in Bronze:** mean 22.43, SD 1.53 (3 uploads). Pooled rating 22.35 ± 0.26 (180 games).
+  The decision of 2026-10-30 stands: against v02 the mean is +4.62 (−M = −2.81) and the rating +4.68
+  (−2 SE = −0.77).
+- **Noise:** v01's three, v02's two and v03's three uploads pool to SD 1.41 on 5 df, **M = 2.81**. Still
+  provisional: the 95 % interval of M is about 1.75-6.9.
+- **Ratings of identical code** are 23.24, 20.19 and 23.22. Their SD is 1.76, against standard errors of
+  about 0.40, and Cochran's Q is 40.3 on 2 df at the fitted scale. Upload 2 met weaker opponents (median
+  19.48 against 23.07 and 22.72) and won about as often as the other two. As with v01, the rating's
+  standard error understates the spread between placements. The policy is unchanged.
+- **Placement speed:** 59 minutes.
+- **The gap to the boss** (above about 27.1): about 4.7 points from v03's mean, 3.7 from its best
+  placement.
