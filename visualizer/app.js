@@ -27,7 +27,9 @@ function selectionUrl(state) {
 }
 
 function rememberScroll() {
-  history.replaceState({...history.state, scrollY: window.scrollY}, '', location.href);
+  const regions = Object.fromEntries([...content.querySelectorAll('[data-scroll-key]')]
+    .map(node => [node.dataset.scrollKey, {top: node.scrollTop, left: node.scrollLeft}]));
+  history.replaceState({...history.state, scrollY: window.scrollY, regions}, '', location.href);
 }
 
 function navigate(url, replace = false, data = {}) {
@@ -122,7 +124,14 @@ async function render() {
     document.title = 'Code Royale · Арена';
     renderDashboard(content, catalog, stateFromUrl(), {onState: changeSelection, onOpen: row => openGame(row)});
     content.insertAdjacentHTML('afterbegin', '<div class="dashboard-head"><div><h1>Арена</h1><p>Результаты сохранённых игр и разбор реплеев.</p></div></div>');
-    requestAnimationFrame(() => window.scrollTo({top: history.state?.scrollY || 0}));
+    requestAnimationFrame(() => {
+      if (token !== renderId) return;
+      window.scrollTo({top: history.state?.scrollY || 0});
+      for (const node of content.querySelectorAll('[data-scroll-key]')) {
+        const saved = history.state?.regions?.[node.dataset.scrollKey];
+        if (saved) node.scrollTo({top: saved.top || 0, left: saved.left || 0});
+      }
+    });
   }
 }
 

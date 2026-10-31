@@ -1,0 +1,73 @@
+/* Desktop dashboard: the controls stay visible; each report owns its scrolling. */
+@media (min-width: 1100px) and (min-height: 650px) {
+  body:has(.dashboard-toolbar) { height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+  body:has(.dashboard-toolbar) .app-header { flex: 0 0 auto; padding: 8px 18px; }
+  body:has(.dashboard-toolbar) .brand { font-size: 17px; gap: 9px; }
+  body:has(.dashboard-toolbar) .brand svg { width: 28px; height: 28px; }
+  body:has(.dashboard-toolbar) .brand-subtitle { display: none; }
+  body:has(.dashboard-toolbar) .app-header button { padding: 7px 11px; font-size: 12px; }
+  body:has(.dashboard-toolbar) #main { flex: 1; min-height: 0; width: 100%; max-width: none; padding: 12px 18px 10px; display: flex; margin: 0; }
+  body:has(.dashboard-toolbar) #content { display: flex; flex-direction: column; gap: 9px; flex: 1; min-height: 0; min-width: 0; }
+  body:has(.dashboard-toolbar) .app-footer { flex: 0 0 auto; width: 100%; max-width: none; padding: 5px 18px; font-size: 10px; }
+  #content:has(.dashboard-toolbar) > .dashboard-head { margin: 0; }
+  #content:has(.dashboard-toolbar) > .dashboard-head > div { display: flex; align-items: baseline; gap: 14px; }
+  #content:has(.dashboard-toolbar) > .dashboard-head h1 { font-size: 22px; margin: 0; }
+  #content:has(.dashboard-toolbar) > .dashboard-head p { font-size: 12px; }
+  #content:has(.dashboard-toolbar) > .catalog-alert { flex-shrink: 0; max-height: 88px; overflow: auto; margin: 0; padding: 8px 12px; font-size: 12px; }
+  #content:has(.dashboard-toolbar) > .catalog-alert p { margin: 2px 0; }
+  #content:has(.dashboard-toolbar) > .catalog-alert ul { margin: 4px 0; }
+  #content:has(.dashboard-toolbar) > .filter-bar { flex-shrink: 0; grid-template-columns: repeat(6, minmax(0, 1fr)); padding: 10px 12px; gap: 7px 10px; }
+  #content:has(.dashboard-toolbar) .filter-field { gap: 3px; font-size: 11px; }
+  #content:has(.dashboard-toolbar) .filter-field input,
+  #content:has(.dashboard-toolbar) .filter-field select { padding: 6px 9px; font-size: 12px; }
+  #content:has(.dashboard-toolbar) .filter-apply,
+  #content:has(.dashboard-toolbar) .filter-reset { height: 32px; padding: 6px 11px; font-size: 12px; }
+  #content:has(.dashboard-toolbar) > .dashboard-toolbar { flex-shrink: 0; margin: 0; min-height: 33px; }
+  #content:has(.dashboard-toolbar) .tabs { margin: 0; }
+  #content:has(.dashboard-toolbar) .tab { padding: 7px 15px 9px; font-size: 13px; }
+  #content:has(.dashboard-toolbar) .selection-line { margin: 0 0 9px; font-size: 12px; }
+  .dashboard-body { flex: 1; min-height: 0; min-width: 0; display: flex; flex-direction: column; }
+  .dashboard-overview { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr) minmax(0, 1.35fr); grid-template-rows: auto minmax(0, 1fr) auto; gap: 10px; }
+  .dashboard-overview > .metrics { grid-column: 1 / -1; margin: 0; gap: 10px; }
+  .dashboard-overview .metric { padding: 10px 14px; }
+  .dashboard-overview .metric strong { font-size: 27px; line-height: 1.15; margin: 2px 0; }
+  .dashboard-overview .metric-label, .dashboard-overview .metric-caption { font-size: 11px; }
+  .dashboard-overview > .split-grid { display: contents; }
+  .dashboard-overview > .inline-note { grid-column: 1 / -1; margin: 0; font-size: 11px; }
+  .dashboard-body .panel { margin: 0; min-height: 0; min-width: 0; display: flex; flex-direction: column; }
+  .dashboard-body:not(.dashboard-overview) > .panel { flex: 1; }
+  .dashboard-body .panel-header { flex-shrink: 0; padding: 10px 12px; gap: 10px; }
+  .dashboard-body .panel-header h2 { font-size: 16px; line-height: 1.25; }
+  .dashboard-body .panel-header p { font-size: 11px; line-height: 1.4; margin-top: 3px; }
+  .dashboard-body .panel-header .link-button { font-size: 11px; flex-shrink: 0; }
+  .dashboard-body .panel > .inline-note { flex-shrink: 0; margin: 0; padding: 8px 12px; font-size: 11px; line-height: 1.4; }
+  .dashboard-body .table-wrap { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+  .dashboard-body .data-table thead { position: sticky; top: 0; z-index: 1; }
+  .dashboard-body .data-table thead th { font-size: 10px; padding: 8px 11px; letter-spacing: .3px; }
+  .dashboard-body .data-table tbody th, .dashboard-body .data-table td { padding: 8px 11px; font-size: 12px; }
+  .dashboard-body .cell-note { margin-top: 1px; font-size: 10px; }
+  .dashboard-body .data-table .small { padding: 6px 9px; }
+  .dashboard-body .pagination { flex-shrink: 0; padding: 8px 12px; font-size: 12px; }
+  .dashboard-body .pagination button { padding: 6px 10px; font-size: 12px; }
+  .dashboard-body .pagination > div { align-items: center; }
+  .dashboard-body .table-tools { gap: 12px; }
+  .dashboard-body .seat-comparison { min-height: 0; overflow: auto; padding: 0 12px; }
+  .dashboard-body .seat-row { padding: 11px 0; gap: 7px; font-size: 12px; }
+  .dashboard-body .seat-row > div > span { margin-top: 2px; font-size: 11px; }
+  .dashboard-body .seat-rate { font-size: 21px; }
+  .dashboard-body .seat-results { gap: 12px; font-size: 11px; flex-wrap: wrap; }
+  .dashboard-body .opponent-shortlist { min-height: 0; overflow: auto; padding: 0 12px; }
+  .dashboard-body .opponent-shortlist li { grid-template-columns: 16px minmax(0, 1fr) auto; gap: 8px; padding: 8px 0; font-size: 12px; }
+  .dashboard-body .opponent-shortlist .link-button { overflow-wrap: anywhere; }
+  .dashboard-body .opponent-shortlist li > span:last-child { font-size: 11px; }
+  .dashboard-body .rate-track { display: none; }
+  .dashboard-body .rate-number { min-width: 0; }
+  .dashboard-body .empty-state { min-height: 0; overflow: auto; padding: 25px 18px; }
+  .dashboard-body .empty-state.small { margin: 0 12px; padding: 15px; }
+  .dashboard-empty { display: flex; }
+  .dashboard-empty > .panel { flex: 1; align-items: center; justify-content: center; }
+  .dashboard-body [tabindex="0"]:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+}
+@media (min-width: 1400px) and (min-height: 650px) {
+  #content:has(.dashboard-toolbar) > .filter-bar { grid-template-columns: repeat(5, minmax(0, 1fr)) minmax(130px, 1.2fr) minmax(140px, 1.2fr) auto auto; }
+}

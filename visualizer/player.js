@@ -4,6 +4,25 @@ const UNIT = ['Рыцарь', 'Лучник', 'Гигант'];
 const LETTER = ['Р', 'Л', 'Г'];
 const RADIUS = [20, 25, 40];
 const WIDTH = 1920, HEIGHT = 1000;
+const CONTROL_ICONS = {
+  play: 'M8 5v14l11-7Z',
+  pause: 'M6 5h4v14H6ZM14 5h4v14h-4Z',
+  previous: 'M5 5h2v14H5ZM19 5v14L9 12Z',
+  next: 'M17 5h2v14h-2ZM5 5l10 7-10 7Z'
+};
+
+function setControlIcon(button, icon, label, shortcut) {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+  const path = document.createElementNS(svg.namespaceURI, 'path');
+  path.setAttribute('d', CONTROL_ICONS[icon]);
+  svg.append(path);
+  button.replaceChildren(svg);
+  button.setAttribute('aria-label', label);
+  button.title = `${label} (${shortcut})`;
+}
 
 function element(tag, className, text) {
   const node = document.createElement(tag);
@@ -82,12 +101,12 @@ export function mountPlayer(container, replay, options = {}) {
   const names = [0, 1].map(side => replay.bots?.[side] || `Игрок ${side + 1}`);
   const heading = element('div', 'player-heading');
   const titleBlock = element('div');
-  titleBlock.append(element('h1', 'player-title', `${names[0]} × ${names[1]}`));
+  const gameId = replay.gameId ?? game?.gameId;
+  titleBlock.append(element('h1', 'player-title', gameId ? `Игра ${gameId}` : 'Локальный реплей'));
   const meta = [];
   if (game?.label || game?.version) meta.push(game.label || game.version);
   if (game?.league) meta.push(game.league[0].toUpperCase() + game.league.slice(1));
   if (game?.upload != null) meta.push(`Загрузка ${game.upload}`);
-  if (replay.gameId ?? game?.gameId) meta.push(`Игра ${replay.gameId ?? game.gameId}`);
   if (replay.seed != null) meta.push(`Seed ${replay.seed}`);
   if (game?.ourRemoved) meta.push('Наш бот снят с игры');
   if (game?.opponentRemoved) meta.push('Соперник снят с игры');
@@ -98,38 +117,60 @@ export function mountPlayer(container, replay, options = {}) {
   else if (Number.isInteger(replay.winner)) heading.append(element('span', 'player-result', replay.winner < 0 ? 'Ничья' : `Победил игрок ${replay.winner + 1}`));
   root.append(heading);
 
+  const workspace = element('div', 'player-workspace');
+  const main = element('div', 'player-main');
+  const sidebar = element('aside', 'player-sidebar');
+  sidebar.setAttribute('aria-label', 'Игроки и детали хода');
+  sidebar.tabIndex = 0;
+  sidebar.dataset.playerScroll = '';
   const scoreboard = element('div', 'player-scoreboard');
+  const commandViews = [];
   const cards = [0, 1].map(side => {
     const card = element('div', `player-scorecard side-${side}`);
     const ours = side === game?.seat;
     card.append(element('div', 'player-side-label', `Сторона ${side + 1}${game ? (ours ? ' · Наш бот' : ' · Соперник') : ''}`));
     card.append(element('strong', 'player-name', names[side]));
     const stats = element('div', 'player-stats');
-    card.append(stats);
+    const values = ['HP', 'Золото', 'Войска'].map(label => {
+      const stat = element('div');
+      const number = element('strong');
+      stat.append(number, element('span', '', label)); stats.append(stat);
+      return number;
+    });
+    const command = element('section', `player-command side-${side}`);
+    command.append(element('h2', '', 'Команды'));
+    const pre = element('pre'); pre.tabIndex = 0;
+    pre.setAttribute('aria-label', `Команды игрока ${names[side]}`);
+    command.append(pre); commandViews.push(pre);
+    card.append(stats, command);
     scoreboard.append(card);
-    return stats;
+    return values;
   });
-  root.append(scoreboard);
+  sidebar.append(scoreboard);
 
   const canvas = element('canvas', 'player-board');
   canvas.width = WIDTH; canvas.height = HEIGHT;
   canvas.setAttribute('role', 'img');
-  canvas.setAttribute('aria-label', 'Поле игры Code Royale. Характеристики игроков и команды приведены под полем.');
+  canvas.setAttribute('aria-label', 'Поле игры Code Royale. Характеристики игроков и команды приведены рядом с полем.');
   canvas.textContent = 'Ваш браузер не поддерживает отображение игрового поля.';
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('Браузер не поддерживает рисование игрового поля.');
-  root.append(canvas);
+  const stage = element('div', 'player-stage');
+  stage.append(canvas); main.append(stage);
 
   const controls = element('div', 'player-controls');
-  const play = button('Воспроизвести', toggle, 'primary');
-  play.setAttribute('aria-label', 'Воспроизвести реплей');
-  const previous = button('← Ход', () => {pause(); step(-1);});
-  const next = button('Ход →', () => {pause(); step(1);});
+  const play = button('', toggle, 'primary player-icon');
+  setControlIcon(play, 'play', 'Воспроизвести реплей', 'пробел');
+  play.setAttribute('aria-pressed', 'false');
+  const previous = button('', () => {pause(); step(-1);}, 'player-icon');
+  setControlIcon(previous, 'previous', 'Предыдущий ход', '←');
+  const next = button('', () => {pause(); step(1);}, 'player-icon');
+  setControlIcon(next, 'next', 'Следующий ход', '→');
   const timeline = element('input', 'player-timeline');
   timeline.type = 'range'; timeline.min = '0'; timeline.max = String(frames.length - 1); timeline.step = '1';
   timeline.setAttribute('aria-label', 'Ход реплея');
   const turnLabel = element('span', 'player-turn');
-  const jumpLabel = element('label', 'player-jump-label', 'Перейти: ');
+  const jumpLabel = element('label', 'player-jump-label', 'Ход ');
   const jump = element('input', 'player-jump');
   jump.type = 'number'; jump.min = '0'; jump.max = String(frames.length - 1); jump.step = '1';
   jump.setAttribute('aria-label', 'Номер хода, 0 — старт');
@@ -141,8 +182,8 @@ export function mountPlayer(container, replay, options = {}) {
     const option = element('option', '', label); option.value = String(milliseconds); option.selected = milliseconds === 250; speed.append(option);
   }
   speedLabel.append(speed);
-  controls.append(play, previous, next, timeline, turnLabel, jumpLabel, speedLabel);
-  root.append(controls);
+  controls.append(play, previous, next, timeline, turnLabel);
+  main.append(controls);
 
   const displayOptions = element('div', 'player-display-options');
   function checkbox(text, checked) {
@@ -155,31 +196,39 @@ export function mountPlayer(container, replay, options = {}) {
   }
   const showRanges = checkbox('Радиусы башен', true);
   const showTargets = checkbox('Цели команд', false);
-  displayOptions.append(element('span', 'player-help', '← → — по ходам · пробел — пауза · нажмите на объект для подробностей'));
-  root.append(displayOptions);
+  displayOptions.append(element('span', 'player-help', '← → ход · пробел — пауза'));
+  displayOptions.append(jumpLabel, speedLabel);
+  main.append(displayOptions);
 
   const inspector = element('div', 'player-inspector');
   inspector.setAttribute('aria-live', 'polite');
+  inspector.tabIndex = 0;
   inspector.textContent = 'Выберите сайт, королеву или отряд на поле.';
-  root.append(inspector);
-  const commands = element('div', 'player-commands');
-  const commandViews = [0, 1].map(side => {
-    const block = element('section', `player-command side-${side}`);
-    block.append(element('h2', '', `Команды · ${names[side]}`));
-    const pre = element('pre'); block.append(pre); commands.append(block); return pre;
-  });
-  root.append(commands);
+  const inspectPanel = element('section', 'player-detail');
+  inspectPanel.append(element('h2', '', 'Объект на поле'), inspector);
+  sidebar.append(inspectPanel);
   const summary = element('div', 'player-summary');
-  root.append(summary);
+  summary.tabIndex = 0;
+  sidebar.append(summary);
   const warnings = (replay.warnings || []).filter(Boolean);
   if (warnings.length) {
     const details = element('details', 'player-warnings');
     details.append(element('summary', '', 'Примечания к записи'));
     const list = element('ul');
     for (const warning of warnings) list.append(element('li', '', String(warning)));
-    details.append(list); root.append(details);
+    details.append(list); sidebar.append(details);
   }
+  workspace.append(main, sidebar); root.append(workspace);
   container.replaceChildren(root);
+
+  // Size the canvas itself, rather than letterboxing inside a larger element:
+  // click coordinates use its actual bounding rectangle.
+  const resize = new ResizeObserver(() => {
+    const width = Math.max(0, Math.min(stage.clientWidth, stage.clientHeight * WIDTH / HEIGHT));
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${width * HEIGHT / WIDTH}px`;
+  });
+  resize.observe(stage);
 
   function circle(x, y, radius, fill, stroke = null, lineWidth = 1) {
     if (![x, y, radius].every(Number.isFinite) || radius <= 0) return;
@@ -286,7 +335,7 @@ export function mountPlayer(container, replay, options = {}) {
     canvas.setAttribute('aria-label', `${turnText}. ${names[0]}: HP ${value(frame.hp?.[0])}, золото ${value(frame.gold?.[0])}. ${names[1]}: HP ${value(frame.hp?.[1])}, золото ${value(frame.gold?.[1])}.`);
     for (const side of [0, 1]) {
       const count = (frame.creeps || []).filter(unit => unit[0] === side).length;
-      cards[side].textContent = `HP ${value(frame.hp?.[side])}   ·   Золото ${value(frame.gold?.[side])}   ·   Войска ${count}`;
+      [value(frame.hp?.[side]), value(frame.gold?.[side]), String(count)].forEach((text, i) => { cards[side][i].textContent = text; });
       commandViews[side].textContent = frameIndex === 0 ? 'Начальное состояние' : (frame.cmds?.[side] || 'Команда не записана');
     }
     summary.hidden = !frame.summary;
@@ -296,7 +345,7 @@ export function mountPlayer(container, replay, options = {}) {
   function pause() {
     if (timer !== null) clearInterval(timer);
     timer = null;
-    play.textContent = 'Воспроизвести'; play.setAttribute('aria-label', 'Воспроизвести реплей');
+    setControlIcon(play, 'play', 'Воспроизвести реплей', 'пробел');
     play.setAttribute('aria-pressed', 'false');
   }
 
@@ -314,7 +363,7 @@ export function mountPlayer(container, replay, options = {}) {
   function start() {
     if (frames.length < 2 || disposed) return;
     if (frameIndex === frames.length - 1) seek(0);
-    play.textContent = 'Пауза'; play.setAttribute('aria-label', 'Приостановить реплей');
+    setControlIcon(play, 'pause', 'Приостановить реплей', 'пробел');
     play.setAttribute('aria-pressed', 'true');
     timer = setInterval(() => step(1), Number(speed.value));
   }
@@ -324,7 +373,7 @@ export function mountPlayer(container, replay, options = {}) {
   listen(jump, 'change', () => {pause(); seek(jump.value);});
   listen(speed, 'change', () => {if (timer !== null) {pause(); start();}});
   listen(document, 'keydown', event => {
-    if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest?.('input,select,textarea,button,a,[contenteditable="true"]')) return;
+    if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest?.('input,select,textarea,button,a,[contenteditable="true"],[data-player-scroll]')) return;
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
       event.preventDefault(); pause(); step(event.key === 'ArrowLeft' ? -1 : 1);
     } else if (event.code === 'Space') {event.preventDefault(); toggle();}
@@ -342,5 +391,5 @@ export function mountPlayer(container, replay, options = {}) {
     selected = hits[0] || null; draw();
   });
   draw();
-  return () => {pause(); disposed = true; controller.abort();};
+  return () => {pause(); disposed = true; controller.abort(); resize.disconnect();};
 }

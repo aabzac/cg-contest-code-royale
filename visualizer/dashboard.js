@@ -54,18 +54,18 @@ function overview(catalog, s, games) {
   </div>
   <div class="split-grid">
     <section class="panel"><div class="panel-header"><div><h2>Результаты по сторонам</h2><p>Выберите сторону и исход для разбора.</p></div></div>
-      <div class="seat-comparison">${[0,1].map(seat => {
+      <div class="seat-comparison" data-scroll-key="seats" tabindex="0" role="region" aria-label="Результаты по сторонам">${[0,1].map(seat => {
         const part = summarize(games.filter(g => g.seat === seat));
         return `<div class="seat-row"><div><strong>${seat === 0 ? 'Первая сторона' : 'Вторая сторона'}</strong><span class="muted">P${seat} · ${part.games} игр</span></div><strong class="seat-rate">${percent(part.winRate)}</strong><div class="seat-results">${button(`${part.wins} побед`, `seat-${seat}-win`)}${button(`${part.losses} поражений`, `seat-${seat}-loss`)}<span class="muted">${part.draws} ничьих</span></div></div>`;
       }).join('')}</div>
     </section>
     <section class="panel"><div class="panel-header"><div><h2>Кому чаще проигрываем</h2><p>По числу поражений в текущей выборке.</p></div>${button('Все соперники →', 'opponents')}</div>
-      ${top.length ? `<ol class="opponent-shortlist">${top.map((group, i) => `<li><span class="list-number">${i+1}</span>${button(escape(group.name), 'opponent-' + encodeURIComponent(group.key))}<span><strong>${group.losses}</strong><span class="muted"> / ${group.games} встреч</span></span></li>`).join('')}</ol>` : '<p class="empty-state small">В выбранных играх нет поражений.</p>'}
+      ${top.length ? `<ol class="opponent-shortlist" data-scroll-key="shortlist" tabindex="0" aria-label="Соперники с наибольшим числом поражений">${top.map((group, i) => `<li><span class="list-number">${i+1}</span>${button(escape(group.name), 'opponent-' + encodeURIComponent(group.key))}<span><strong>${group.losses}</strong><span class="muted"> / ${group.games} встреч</span></span></li>`).join('')}</ol>` : '<p class="empty-state small">В выбранных играх нет поражений.</p>'}
       <p class="inline-note">Одна встреча ещё не означает устойчиво неудобного соперника.</p>
     </section>
   </div>
   <section class="panel"><div class="panel-header"><div><h2>${versions.length > 1 ? 'Версии и загрузки' : 'Отдельные загрузки'}</h2><p>Только ${escape(leagueName(s.league))}. Состав соперников между загрузками меняется.</p></div></div>
-    <div class="table-wrap"><table class="data-table"><thead><tr><th scope="col">Выборка</th><th scope="col">Игры</th><th scope="col">Победы</th><th scope="col">Поражения</th><th scope="col">Ничьи</th><th scope="col">Доля побед</th></tr></thead><tbody>
+    <div class="table-wrap" data-scroll-key="uploads" tabindex="0" role="region" aria-label="Результаты версий и загрузок"><table class="data-table"><thead><tr><th scope="col">Выборка</th><th scope="col">Игры</th><th scope="col">Победы</th><th scope="col">Поражения</th><th scope="col">Ничьи</th><th scope="col">Доля побед</th></tr></thead><tbody>
       ${versions.length > 1 ? versions.map(v => summaryRow(versionName(v), games.filter(g => g.version === v), 'version-' + encodeURIComponent(v))).join('') : ''}
       ${uploads.map(u => summaryRow(`${versionName(u.label)} · загрузка ${u.upload}`, games.filter(g => g.agent === u.agent), 'upload-' + u.agent)).join('')}
     </tbody></table></div>
@@ -79,7 +79,7 @@ function opponentsView(s, games) {
     <div class="table-tools"><label class="filter-field"><span>Минимум встреч</span><input name="minMeetings" type="number" min="1" max="1000" value="${s.minMeetings}"></label>
     <label class="filter-field"><span>Сортировка</span><select name="opponentSort">${[['losses','Больше поражений'],['loss-rate','Выше доля поражений'],['games','Больше встреч']].map(([v,l]) => option(v,l,s.opponentSort)).join('')}</select></label></div></div>
     <p class="inline-note">Игры группируются по нику соперника; его код мог меняться. ${rows.length} соперников соответствуют минимуму встреч.</p>
-    ${rows.length ? `<div class="table-wrap"><table class="data-table"><thead><tr><th scope="col">Соперник</th><th scope="col">Встречи</th><th scope="col">Победы</th><th scope="col">Поражения</th><th scope="col">Ничьи</th><th scope="col">Наша доля побед</th></tr></thead><tbody>
+    ${rows.length ? `<div class="table-wrap" data-scroll-key="opponents" tabindex="0" role="region" aria-label="Статистика соперников"><table class="data-table"><thead><tr><th scope="col">Соперник</th><th scope="col">Встречи</th><th scope="col">Победы</th><th scope="col">Поражения</th><th scope="col">Ничьи</th><th scope="col">Наша доля побед</th></tr></thead><tbody>
     ${rows.map(group => `<tr><th scope="row">${button(escape(group.name), 'opponent-' + encodeURIComponent(group.key))}${group.ids.length > 1 ? `<span class="cell-note">${group.ids.length} записи на арене</span>` : ''}</th><td>${group.games}</td><td class="positive">${group.wins}</td><td class="negative">${group.losses}</td><td>${group.draws}</td><td>${percent(group.winRate)}</td></tr>`).join('')}</tbody></table></div>` : '<div class="empty-state"><h3>Недостаточно встреч</h3><p>Уменьшите минимальное число встреч или расширьте выборку.</p></div>'}
   </section>`;
 }
@@ -90,7 +90,7 @@ function gamesView(s, games) {
   const rows = games.slice(first, first + PAGE_SIZE);
   return `<section class="panel"><div class="panel-header"><div><h2>Игры</h2><p>Откройте реплей и переходите между играми этой выборки.</p></div>
     <label class="filter-field"><span>Сортировка</span><select name="sort">${[['newest','Новые сначала'],['oldest','Старые сначала'],['opponent','По сопернику'],['rating-desc','По рейтингу соперника']].map(([v,l]) => option(v,l,s.sort)).join('')}</select></label></div>
-    <div class="table-wrap"><table class="data-table games-table"><thead><tr><th scope="col">Игра</th><th scope="col">Версия</th><th scope="col">Соперник</th><th scope="col">Результат</th><th scope="col">Наши HP / соперника</th><th scope="col">Сторона</th><th scope="col">Длительность</th><th scope="col"><span class="sr-only">Открыть</span></th></tr></thead><tbody>
+    <div class="table-wrap" data-scroll-key="games" tabindex="0" role="region" aria-label="Список игр"><table class="data-table games-table"><thead><tr><th scope="col">Игра</th><th scope="col">Версия</th><th scope="col">Соперник</th><th scope="col">Результат</th><th scope="col">Наши HP / соперника</th><th scope="col">Сторона</th><th scope="col">Длительность</th><th scope="col"><span class="sr-only">Открыть</span></th></tr></thead><tbody>
       ${rows.map(g => `<tr><td><span class="mono">${g.gameId}</span></td><td>${escape(versionName(g.version))}<span class="cell-note">Загрузка ${g.upload}</span></td><th scope="row">${escape(g.opponent.name)}<span class="cell-note">Рейтинг ${number(g.opponent.ratingAtFetch)}</span></th><td>${badge(g)}${g.ourRemoved || g.opponentRemoved ? `<span class="cell-note">Снят ${g.ourRemoved ? 'наш бот' : 'соперник'}</span>` : g.scoreTie ? '<span class="cell-note">Равные HP · места CG</span>' : ''}</td><td class="mono">${score(g.ourScore)} / ${score(g.opponentScore)}</td><td>P${g.seat}</td><td>${g.estimatedTurns == null ? '—' : `≈ ${g.estimatedTurns} ходов`}</td><td><button class="button small" type="button" data-game="${g.agent}:${g.gameId}" aria-label="Смотреть игру ${g.gameId}">Смотреть →</button></td></tr>`).join('')}
     </tbody></table></div>
     <div class="pagination"><span>${first + 1}–${Math.min(first + PAGE_SIZE, games.length)} из ${games.length}</span><div><button class="button secondary" data-page="${page-1}" type="button"${page===1?' disabled':''}>← Назад</button><span>${page} / ${pages}</span><button class="button secondary" data-page="${page+1}" type="button"${page===pages?' disabled':''}>Далее →</button></div></div>
@@ -103,8 +103,8 @@ export function renderDashboard(container, catalog, input, callbacks) {
   container.innerHTML = `${reportErrors(catalog)}${filters(catalog, s)}
     <div class="dashboard-toolbar"><nav class="tabs" aria-label="Разделы дашборда">${[['overview','Обзор'],['opponents','Соперники'],['games','Игры']].map(([tab,label]) => `<button type="button" class="tab${s.tab===tab?' active':''}" data-tab="${tab}" aria-current="${s.tab===tab?'page':'false'}">${label}</button>`).join('')}</nav>
       <p class="selection-line"><strong>${games.length}</strong> игр · ${escape(leagueName(s.league))}${s.opponentExact ? ` · ${escape(s.opponent)}` : ''}</p></div>
-    ${!games.length ? `<section class="empty-state panel"><h2>Нет игр по этим фильтрам</h2><p>Измените условия или вернитесь к исходной выборке.${catalog.errors.length ? ' Некоторые манифесты не удалось загрузить — подробности выше.' : ''}</p>${button('Сбросить фильтры', 'reset', 'button')}</section>` :
-      s.tab==='overview' ? overview(catalog,s,games) : s.tab==='opponents' ? opponentsView(s,games) : gamesView(s,games)}`;
+    <div class="dashboard-body dashboard-${s.tab}${games.length ? '' : ' dashboard-empty'}">${!games.length ? `<section class="empty-state panel"><h2>Нет игр по этим фильтрам</h2><p>Измените условия или вернитесь к исходной выборке.${catalog.errors.length ? ' Некоторые манифесты не удалось загрузить — подробности выше.' : ''}</p>${button('Сбросить фильтры', 'reset', 'button')}</section>` :
+      s.tab==='overview' ? overview(catalog,s,games) : s.tab==='opponents' ? opponentsView(s,games) : gamesView(s,games)}</div>`;
 
   const change = patch => callbacks.onState({...patch, page: patch.page ?? 1});
   const form = container.querySelector('#catalog-filters');

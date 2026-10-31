@@ -1051,3 +1051,33 @@ The user re-submitted v03 at 01:07 and asked for its games. Before changes: 2cb1
   - `./gradlew test --tests cr.tools.CgViewReplayTest --tests cr.tools.ServeTest`: 4 passed, none
     skipped; the decoder read all 490 saved games;
   - `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: 44 passed.
+
+## 2026-10-31 — compact dashboard and replay layout
+
+The user requested less empty space, smaller player cards with prominent nicknames, and desktop
+views that fit the window with scrolling inside long blocks. Starting revision: `5f524ba`, clean tree.
+
+Replay controls and the board now share the main column; the sidebar combines player cards,
+commands, object details and recorded messages. Removed nickname repetition from the heading.
+The canvas fits its available rectangle while preserving its actual aspect ratio for hit-testing;
+its ResizeObserver is disconnected on disposal. Long commands/messages and the sidebar scroll
+independently, including by keyboard without triggering replay shortcuts.
+
+The desktop dashboard uses denser filters and three overview panels; tables scroll internally with
+sticky headers. History now preserves each named panel's scroll position. Narrow screens retain
+the document flow. Usage remains in `docs/visualizer.md`.
+
+Validation:
+- Browser: replay fits without document overflow at 1512×742, 1366×768, 1100×650 and 900×600.
+  All three dashboard tabs fit at 1366×768 and 1100×650; 390×844 mobile has no horizontal page overflow.
+- Seeking, keyboard steps, playback of a local replay and canvas object selection work after resizing.
+  From page 2, game 39 of the project selection, next-game then back restored the table at scrollTop 400.
+- Injected long nickname, TRAIN, summary and expanded warnings stayed in scrollable sidebar blocks.
+  Missing-manifest and empty-filter views remained usable within the desktop window.
+- `node --test visualizer/tests/catalog.test.mjs`: 6 passed; syntax checks for changed JavaScript and
+  `git diff --check` passed. No backend, simulator or strength checks: executable game behavior and
+  replay decoding are unchanged. Reused the already running local server; no server process started.
+
+Follow-up: replaced playback/pause and previous/next-turn text with inline SVG icons and hover
+shortcuts; accessible button names remain. Browser checks confirmed icon/state toggling, stepping,
+the disabled start boundary and mobile width. JavaScript syntax and diff whitespace checks passed.
