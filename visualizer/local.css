@@ -3,6 +3,15 @@
 .local-setup .local-swap { margin-top: 25px; padding: 8px 12px; font-size: 18px; line-height: 1.2; }
 .local-setup .local-run { margin-top: 25px; }
 .local-bot-description { font-size: 11px; color: var(--muted); }
+.local-bot-choice { min-width: 0; }
+.local-bot-choice > .filter-field { color: inherit; }
+.local-flags { margin: 10px 0 0; padding: 8px 0 0; min-width: 0; border: 0; border-top: 1px solid var(--line); display: grid; gap: 7px; }
+.local-flags[hidden] { display: none; }
+.local-flags legend { color: var(--muted); font-size: 10px; padding: 0 5px 0 0; }
+.local-flag { display: flex; align-items: start; gap: 7px; color: var(--text); font-size: 12px; cursor: pointer; }
+.local-flag input[type=checkbox] { flex: none; margin: 2px 0 0; padding: 0; }
+.local-flag code { color: var(--muted); font-size: 10px; white-space: nowrap; }
+.local-flags:disabled .local-flag { cursor: default; opacity: .65; }
 .local-setup label.local-side-0, .local-side-0 { color: var(--red); }
 .local-setup label.local-side-1, .local-side-1 { color: var(--blue); }
 .local-run-status { margin-top: 13px; font-size: 12px; color: var(--muted); }
@@ -13,6 +22,8 @@
 .local-history .catalog-alert { margin: 0 16px 12px; }
 .local-history .table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .local-history .data-table thead { position: sticky; top: 0; z-index: 1; }
+.local-history .data-table td.local-side-0, .local-history .data-table td.local-side-1 { white-space: normal; min-width: 120px; max-width: 280px; }
+.local-history .panel-header select { max-width: min(440px, 50vw); }
 .local-history .empty-state { border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; }
 .badge.local-winner-0 { color: var(--red); background: #3c2825; }
 .badge.local-winner-1 { color: var(--blue); background: #223342; }
