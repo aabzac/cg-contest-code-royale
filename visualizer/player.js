@@ -1,5 +1,6 @@
 /** Recorded arena/local replay playback. This module never runs a bot or a simulator. */
 const SIDE = ['#ef8176', '#7db6f5'];
+const FIELD_SIDE = ['#ffd5cc', '#cce4ff'];
 const UNIT = ['Рыцарь', 'Лучник', 'Гигант'];
 const LETTER = ['Р', 'Л', 'Г'];
 const RADIUS = [20, 25, 40];
@@ -67,6 +68,7 @@ function outcome(replay, game) {
 
 /**
  * Mount one replay. initialTurn and onTurn use the frame index, 0 = initial state.
+ * Playback coalesces onTurn notifications; pause and manual seeks report the exact frame.
  * Returns a cleanup function which stops playback and removes every event listener.
  */
 export function mountPlayer(container, replay, options = {}) {
@@ -79,6 +81,7 @@ export function mountPlayer(container, replay, options = {}) {
   const listen = (node, event, callback) => node.addEventListener(event, callback, {signal: controller.signal});
   const root = element('section', 'player');
   let frameIndex = boundedIndex(initialTurn, frames.length);
+  let reportedFrame = frameIndex, reportedAt = 0;
   let timer = null, disposed = false, selected = null;
   function button(label, action, className = '') {
     const node = element('button', className, label);
@@ -138,10 +141,14 @@ export function mountPlayer(container, replay, options = {}) {
       return number;
     });
     const command = element('section', `player-command side-${side}`);
-    command.append(element('h2', '', 'Команды'));
+    command.append(element('h2', '', 'Текущий ход'));
     const pre = element('pre'); pre.tabIndex = 0;
-    pre.setAttribute('aria-label', `Команды игрока ${names[side]}`);
-    command.append(pre); commandViews.push(pre);
+    pre.setAttribute('aria-label', `Команды текущего хода игрока ${names[side]}`);
+    const upcoming = element('div', 'player-next-command');
+    const nextPre = element('pre'); nextPre.tabIndex = 0;
+    nextPre.setAttribute('aria-label', `Команды следующего хода игрока ${names[side]}`);
+    upcoming.append(element('h3', '', 'Следующий ход'), nextPre);
+    command.append(pre, upcoming); commandViews.push({current: pre, next: nextPre});
     card.append(stats, command);
     scoreboard.append(card);
     return values;
@@ -175,11 +182,12 @@ export function mountPlayer(container, replay, options = {}) {
   jump.type = 'number'; jump.min = '0'; jump.max = String(frames.length - 1); jump.step = '1';
   jump.setAttribute('aria-label', 'Номер хода, 0 — старт');
   jumpLabel.append(jump);
-  const speedLabel = element('label', 'player-speed-label', 'Скорость ');
+  const speedLabel = element('label', 'player-speed-label');
   const speed = element('select', 'player-speed');
   speed.setAttribute('aria-label', 'Скорость воспроизведения');
-  for (const [milliseconds, label] of [[600, 'Медленно'], [250, 'Обычно'], [80, 'Быстро']]) {
-    const option = element('option', '', label); option.value = String(milliseconds); option.selected = milliseconds === 250; speed.append(option);
+  speed.title = 'Скорость воспроизведения';
+  for (const multiplier of [0.5, 1, 2, 5, 10, 20]) {
+    const option = element('option', '', `${multiplier}x`); option.value = String(250 / multiplier); option.selected = multiplier === 1; speed.append(option);
   }
   speedLabel.append(speed);
   controls.append(play, previous, next, timeline, turnLabel);
@@ -195,8 +203,8 @@ export function mountPlayer(container, replay, options = {}) {
     return input;
   }
   const showRanges = checkbox('Радиусы башен', true);
-  const showTargets = checkbox('Цели команд', false);
-  showTargets.parentElement.title = 'Команда сыгранного хода: пунктир от прежней позиции королевы. BUILD — центр площадки, MOVE — указанные координаты.';
+  const showTargets = checkbox('Цели команд', true);
+  showTargets.parentElement.title = 'Команда следующего хода: пунктир от текущей позиции королевы. BUILD — центр площадки, MOVE — указанные координаты.';
   displayOptions.append(element('span', 'player-help', '← → ход · пробел — пауза'));
   displayOptions.append(jumpLabel, speedLabel);
   main.append(displayOptions);
@@ -249,19 +257,26 @@ export function mountPlayer(container, replay, options = {}) {
     ctx.fillText(text, x, y);
   }
 
-  function field(frame) {
+  function field(frame, nextFrame) {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    ctx.fillStyle = '#152c2a'; ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    ctx.strokeStyle = '#1c3532'; ctx.lineWidth = 1;
+    ctx.fillStyle = '#48634f'; ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    ctx.strokeStyle = '#526e59'; ctx.lineWidth = 1;
     for (let x = 80; x < WIDTH; x += 80) {ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, HEIGHT); ctx.stroke();}
     for (let y = 80; y < HEIGHT; y += 80) {ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(WIDTH, y); ctx.stroke();}
-    ctx.strokeStyle = '#38514a'; ctx.lineWidth = 2; ctx.strokeRect(1, 1, WIDTH - 2, HEIGHT - 2);
+    ctx.strokeStyle = '#748873'; ctx.lineWidth = 2; ctx.strokeRect(1, 1, WIDTH - 2, HEIGHT - 2);
 
-    if (showRanges.checked) sites.forEach(([, x, y], i) => {
-      const [type, owner, , range] = frame.structures?.[i] || [];
-      if (type !== 1 || !Number.isFinite(range) || range <= 0) return;
-      circle(x, y, range, owner === 0 ? '#ef81760b' : '#7db6f50b', owner === 0 ? '#ef817655' : '#7db6f555', 2);
-    });
+    if (showRanges.checked) {
+      const ranges = [];
+      sites.forEach(([, x, y], i) => {
+        const [type, owner, , range] = frame.structures?.[i] || [];
+        if (type === 1 && Number.isFinite(range) && range > 0) ranges.push({x, y, range, owner});
+      });
+      // Paint all fills first so overlapping zones do not wash out another tower's outline.
+      for (const {x, y, range, owner} of ranges)
+        circle(x, y, range, owner === 0 ? '#ef817616' : '#7db6f516');
+      for (const {x, y, range, owner} of ranges)
+        circle(x, y, range, null, owner === 0 ? '#f4a296d9' : '#a9d0ffd9', 3);
+    }
 
     sites.forEach(([id, x, y, radius], i) => {
       const [type = -1, owner = -1, p1, p2] = frame.structures?.[i] || [];
@@ -278,18 +293,18 @@ export function mountPlayer(container, replay, options = {}) {
     });
 
     const moveTargets = [];
-    if (showTargets.checked && frameIndex > 0) {
+    if (showTargets.checked && nextFrame) {
       for (const side of [0, 1]) {
-        const first = String(frame.cmds?.[side] || '').split('\n')[0];
+        const first = String(nextFrame.cmds?.[side] || '').split('\n')[0];
         const move = /^MOVE\s+(-?\d+)\s+(-?\d+)/.exec(first);
         const build = /^BUILD\s+(\d+)/.exec(first);
         const targetSite = build ? sites.find(site => site[0] === Number(build[1])) : null;
         const to = move ? [Number(move[1]), Number(move[2])] : targetSite?.slice(1, 3);
-        const from = frames[frameIndex - 1].queens?.[side];
+        const from = frame.queens?.[side];
         if (!position(from) || !position(to)) continue;
-        ctx.save(); ctx.strokeStyle = SIDE[side]; ctx.lineWidth = 3; ctx.setLineDash([10, 8]);
+        ctx.save(); ctx.strokeStyle = FIELD_SIDE[side]; ctx.lineWidth = 3; ctx.setLineDash([10, 8]);
         ctx.beginPath(); ctx.moveTo(from[0], from[1]); ctx.lineTo(to[0], to[1]); ctx.stroke(); ctx.restore();
-        circle(to[0], to[1], 9, null, SIDE[side], 3);
+        circle(to[0], to[1], 9, null, FIELD_SIDE[side], 3);
         if (move) moveTargets.push({side, to});
       }
     }
@@ -303,19 +318,19 @@ export function mountPlayer(container, replay, options = {}) {
     (frame.queens || []).forEach((queen, side) => {
       if (!position(queen)) return;
       const [x, y] = queen;
-      circle(x, y, 32, SIDE[side], '#eef3e8', 3);
+      circle(x, y, 32, SIDE[side], FIELD_SIDE[side], 3);
       if (selected?.kind === 'queen' && selected.index === side) circle(x, y, 39, null, '#fff2b3', 3);
       label(value(frame.hp?.[side]), x, y, 22, '#192c29', true);
-      label('К', x, y - 48, 21, SIDE[side], true);
+      label('К', x, y - 48, 21, FIELD_SIDE[side], true);
     });
-    // A reached MOVE target can sit exactly under the queen. Keep its marker visible outside
-    // her body and above the units without obscuring HP or changing the recorded endpoint.
+    // A nearby MOVE target can overlap a unit. Keep its marker visible above the units
+    // without obscuring HP or changing the recorded endpoint.
     for (const {side, to: [x, y]} of moveTargets) {
       ctx.save(); ctx.setLineDash([7, 5]);
-      circle(x, y, 42, null, SIDE[side], 3);
+      circle(x, y, 42, null, FIELD_SIDE[side], 3);
       ctx.restore();
       label('MOVE', Math.max(32, Math.min(WIDTH - 32, x)),
-        Math.max(16, Math.min(HEIGHT - 16, y + 58)), 18, SIDE[side], true);
+        Math.max(16, Math.min(HEIGHT - 16, y + 58)), 18, FIELD_SIDE[side], true);
     }
   }
 
@@ -342,7 +357,8 @@ export function mountPlayer(container, replay, options = {}) {
   function draw() {
     if (disposed) return;
     const frame = frames[frameIndex];
-    field(frame); inspect(frame);
+    const nextFrame = frames[frameIndex + 1];
+    field(frame, nextFrame); inspect(frame);
     const turnText = frameIndex === 0 ? 'Старт' : `Ход ${frame.turn ?? frameIndex}`;
     turnLabel.textContent = `${turnText} / ${frames.at(-1).turn ?? frames.length - 1}`;
     timeline.value = String(frameIndex); jump.value = String(frameIndex);
@@ -353,15 +369,25 @@ export function mountPlayer(container, replay, options = {}) {
     for (const side of [0, 1]) {
       const count = (frame.creeps || []).filter(unit => unit[0] === side).length;
       [value(frame.hp?.[side]), value(frame.gold?.[side]), String(count)].forEach((text, i) => { cards[side][i].textContent = text; });
-      commandViews[side].textContent = frameIndex === 0 ? 'Начальное состояние' : (frame.cmds?.[side] || 'Команда не записана');
+      commandViews[side].current.textContent = frameIndex === 0 ? 'Начальное состояние' : (frame.cmds?.[side] || 'Команда не записана');
+      commandViews[side].next.textContent = nextFrame ? (nextFrame.cmds?.[side] || 'Команда не записана') : 'Конец записи';
     }
     summary.hidden = !frame.summary;
-    summary.textContent = frame.summary ? `Сообщение игры: ${frame.summary}` : '';
+    summary.textContent = frame.summary ? `Сообщение хода ${frame.turn ?? frameIndex}: ${frame.summary}` : '';
+  }
+
+  function reportTurn(force) {
+    if (disposed || reportedFrame === frameIndex) return;
+    const now = performance.now();
+    if (!force && now - reportedAt < 250) return;
+    reportedFrame = frameIndex; reportedAt = now;
+    onTurn?.(frameIndex);
   }
 
   function pause() {
     if (timer !== null) clearInterval(timer);
     timer = null;
+    reportTurn(true);
     setControlIcon(play, 'play', 'Воспроизвести реплей', 'пробел');
     play.setAttribute('aria-pressed', 'false');
   }
@@ -372,7 +398,7 @@ export function mountPlayer(container, replay, options = {}) {
     const changed = nextFrame !== frameIndex;
     frameIndex = nextFrame; draw();
     if (frameIndex === frames.length - 1) pause();
-    if (changed) onTurn?.(frameIndex);
+    if (changed) reportTurn(timer === null);
   }
 
   function step(direction) {seek(frameIndex + direction);}
@@ -408,5 +434,5 @@ export function mountPlayer(container, replay, options = {}) {
     selected = hits[0] || null; draw();
   });
   draw();
-  return () => {pause(); disposed = true; controller.abort(); resize.disconnect();};
+  return () => {disposed = true; pause(); controller.abort(); resize.disconnect();};
 }

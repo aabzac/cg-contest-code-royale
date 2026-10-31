@@ -1180,3 +1180,48 @@ checks passed. No gameplay/backend changes or new matches.
 The user queued broader queen-route planning as future work before committing the current tooling
 changes. Scope and evaluation pointer are in `docs/PLAN.md`, phase 3; no route-planner code or
 strategy changes were made for this decision.
+
+
+## 2026-10-31 — show the next recorded command in the player
+
+Starting from clean `6ef9309`, changed command targets to use the next frame's recorded commands,
+originating from the current queen positions. This matches both local and CG frame semantics.
+Cards retain the current frame's commands as primary text, with the upcoming commands below in
+gray. At the initial state, current commands say «Начальное состояние»; at the last frame, the
+upcoming row says «Конец записи» and targets disappear. Frame summaries stay with their recorded
+state and explicitly name the completed turn. Targets default to enabled; the field background
+is muted green with a subdued grid.
+
+Browser validation compared actual canvas line endpoints and sidebar text with recorded data:
+local seed 110002 at frames 0, 52, 53 and 250; CG game 913838775 at frames 0, 5 and 104. Checked
+default visibility, checkbox hiding, stepping and playback/pause. Inspected the screenshot at
+1512×820. JavaScript syntax and diff checks passed. No backend/build, simulation or new match run;
+this changes only the presentation of existing recordings.
+
+Follow-up checks cover both command rows on local seed 1000 at frames 0, 46, 47 and 250 and CG
+game 913838775 frame 5. Inspected the lighter field at 1512×820; desktop 1100×650 still has no
+document overflow and mobile 390×844 has no horizontal overflow.
+
+Investigated the apparently distant MOVE in seed 1000 at frame 46: (613,361) targets (666,534),
+about 181 units away, but the next recorded queen position is (629,418), about 59 units travelled,
+and frame 48 builds tower #20. The target is APPROACH's 120-degree sample around site #20, not an
+UNSTICK detour. Static geometry predicts 2 walking turns to the next site #4 instead of 3 from
+the ordinary approach. MOVE coordinates specify direction/target, not the next frame's position.
+`ApproachPlanner` explicitly simulates each candidate with `queenStep` and rejects it unless the
+predicted landing touches only the original site; the sample coordinate itself need not be
+reachable in one turn. Prediction includes speed, static-site collisions and rounding; nearby
+unit/spawn guards limit, but do not remove, uncertainty from dynamic interactions.
+
+Final palette: muted green field `#48634f`, subtle grid and light side-colored targets/labels.
+Tower zones have translucent fills and thicker, higher-opacity outlines. All zone fills precede
+all outlines, keeping overlapping zones from washing out another tower's boundary. Inspected
+seed-1000 frame 46 with multiple intersecting ranges at 1512×820 and 1100×650; range toggling
+works and the compact view has no page overflow. Syntax/diff checks passed.
+
+Playback speeds now read 0.5x, 1x, 2x, 5x, 10x and 20x, retaining the old normal interval of
+250 ms as 1x. The visible speed label is removed; its accessible name and tooltip remain.
+During playback, onTurn/history updates are coalesced to 250 ms; pause, manual seeks and the final
+frame report the exact turn immediately. Disposal suppresses notifications to preserve navigation.
+Browser validation checked all six configured intervals, changes during playback, default 1x,
+pause/seek/end URL accuracy and leaving an active player. A 250-turn replay at 20x made 13 history
+updates and ended at the correct turn. No new games or backend changes; syntax/diff checks passed.
