@@ -49,6 +49,29 @@ class ServeTest {
         }
     }
 
+    @Test void launchRejectsDuplicateFlagsBeforeStartingMatch() throws Exception {
+        HttpServer server = Serve.start(temp, 0, new LocalGames(temp, (seed, bot0, bot1) -> {
+            fail("Invalid requests must not run a match");
+            return null;
+        }));
+        try {
+            URI uri = URI.create("http://127.0.0.1:" + server.getAddress().getPort() + "/api/local/run");
+            HttpClient client = HttpClient.newHttpClient();
+            for (String field : new String[]{"flags0", "flags1"}) {
+                String body = "{\"bot0\":\"current\",\"bot1\":\"current\",\"" + field
+                        + "\":{\"ROUTE\":true,\"ROUTE\":false}}";
+                HttpResponse<String> response = client.send(HttpRequest.newBuilder(uri)
+                        .header("Content-Type", "application/json")
+                        .POST(HttpRequest.BodyPublishers.ofString(body)).build(), HttpResponse.BodyHandlers.ofString());
+                assertEquals(400, response.statusCode(), response.body());
+                assertTrue(response.body().contains("Duplicate flag in " + field), response.body());
+            }
+            assertFalse(Files.exists(temp.resolve("replays")));
+        } finally {
+            server.stop(0);
+        }
+    }
+
     private static HttpResponse<String> get(HttpClient client, String uri) throws IOException, InterruptedException {
         return client.send(HttpRequest.newBuilder(URI.create(uri)).GET().build(), HttpResponse.BodyHandlers.ofString());
     }

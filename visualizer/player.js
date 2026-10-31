@@ -1,10 +1,14 @@
 /** Recorded arena/local replay playback. This module never runs a bot or a simulator. */
+import {recordedBotLabel} from './bot-label.js';
+
 const SIDE = ['#ef8176', '#7db6f5'];
 const FIELD_SIDE = ['#ffd5cc', '#cce4ff'];
+const ACTUAL_POSITION = '#b6f781';
 const UNIT = ['Рыцарь', 'Лучник', 'Гигант'];
 const LETTER = ['Р', 'Л', 'Г'];
 const RADIUS = [20, 25, 40];
 const WIDTH = 1920, HEIGHT = 1000;
+const QUEEN_RADIUS = 30, QUEEN_STEP = 60;
 const CONTROL_ICONS = {
   play: 'M8 5v14l11-7Z',
   pause: 'M6 5h4v14H6ZM14 5h4v14h-4Z',
@@ -38,6 +42,22 @@ function value(number) {
 
 function position(pair) {
   return Array.isArray(pair) && Number.isFinite(pair[0]) && Number.isFinite(pair[1]);
+}
+
+/** Full command destination; only MOVE gets straight-step and recorded-position markers. */
+export function commandTarget(command, from, sites, actualPosition = null) {
+  if (!position(from)) return null;
+  const first = String(command || '').split('\n')[0];
+  const move = /^MOVE\s+(-?\d+)\s+(-?\d+)/.exec(first);
+  const build = /^BUILD\s+(\d+)/.exec(first);
+  const site = build ? sites.find(value => value[0] === Number(build[1])) : null;
+  const to = move ? [Number(move[1]), Number(move[2])] : site?.slice(1, 3);
+  if (!position(to)) return null;
+  if (!move) return {to, step: null, actual: null};
+  const dx = to[0] - from[0], dy = to[1] - from[1], distance = Math.hypot(dx, dy);
+  const scale = distance === 0 ? 0 : Math.min(1, QUEEN_STEP / distance);
+  return {to, step: [from[0] + dx * scale, from[1] + dy * scale],
+    actual: position(actualPosition) ? actualPosition.slice(0, 2) : null};
 }
 
 function boundedIndex(requested, count) {
@@ -101,7 +121,7 @@ export function mountPlayer(container, replay, options = {}) {
   topbar.append(back, collection, previousGame, nextGame);
   root.append(topbar);
 
-  const names = [0, 1].map(side => replay.bots?.[side] || `Игрок ${side + 1}`);
+  const names = [0, 1].map(side => recordedBotLabel(replay, side, `Игрок ${side + 1}`));
   const heading = element('div', 'player-heading');
   const titleBlock = element('div');
   const gameId = replay.gameId ?? game?.gameId;
@@ -204,7 +224,12 @@ export function mountPlayer(container, replay, options = {}) {
   }
   const showRanges = checkbox('Радиусы башен', true);
   const showTargets = checkbox('Цели команд', true);
-  showTargets.parentElement.title = 'Команда следующего хода: пунктир от текущей позиции королевы. BUILD — центр площадки, MOVE — указанные координаты.';
+  showTargets.parentElement.title = 'Линия до цели следующей команды. Только MOVE: пунктирный круг — шаг до 60 по прямой без столкновений; зелёный — фактическая позиция в следующем кадре. Радиус обоих — 30.';
+  const moveKey = element('span', 'player-move-key', 'MOVE: пунктир — прямо · ');
+  const actualKey = element('span', '', 'зелёный — факт');
+  actualKey.style.color = ACTUAL_POSITION;
+  moveKey.append(actualKey);
+  displayOptions.append(moveKey);
   displayOptions.append(element('span', 'player-help', '← → ход · пробел — пауза'));
   displayOptions.append(jumpLabel, speedLabel);
   main.append(displayOptions);
@@ -292,20 +317,17 @@ export function mountPlayer(container, replay, options = {}) {
       }
     });
 
-    const moveTargets = [];
+    const movementSteps = [];
     if (showTargets.checked && nextFrame) {
       for (const side of [0, 1]) {
-        const first = String(nextFrame.cmds?.[side] || '').split('\n')[0];
-        const move = /^MOVE\s+(-?\d+)\s+(-?\d+)/.exec(first);
-        const build = /^BUILD\s+(\d+)/.exec(first);
-        const targetSite = build ? sites.find(site => site[0] === Number(build[1])) : null;
-        const to = move ? [Number(move[1]), Number(move[2])] : targetSite?.slice(1, 3);
         const from = frame.queens?.[side];
-        if (!position(from) || !position(to)) continue;
+        const target = commandTarget(nextFrame.cmds?.[side], from, sites, nextFrame.queens?.[side]);
+        if (!target) continue;
+        const {to, step, actual} = target;
         ctx.save(); ctx.strokeStyle = FIELD_SIDE[side]; ctx.lineWidth = 3; ctx.setLineDash([10, 8]);
         ctx.beginPath(); ctx.moveTo(from[0], from[1]); ctx.lineTo(to[0], to[1]); ctx.stroke(); ctx.restore();
         circle(to[0], to[1], 9, null, FIELD_SIDE[side], 3);
-        if (move) moveTargets.push({side, to});
+        if (step) movementSteps.push({side, step, actual});
       }
     }
 
@@ -318,19 +340,17 @@ export function mountPlayer(container, replay, options = {}) {
     (frame.queens || []).forEach((queen, side) => {
       if (!position(queen)) return;
       const [x, y] = queen;
-      circle(x, y, 32, SIDE[side], FIELD_SIDE[side], 3);
+      circle(x, y, QUEEN_RADIUS, SIDE[side], FIELD_SIDE[side], 3);
       if (selected?.kind === 'queen' && selected.index === side) circle(x, y, 39, null, '#fff2b3', 3);
       label(value(frame.hp?.[side]), x, y, 22, '#192c29', true);
       label('К', x, y - 48, 21, FIELD_SIDE[side], true);
     });
-    // A nearby MOVE target can overlap a unit. Keep its marker visible above the units
-    // without obscuring HP or changing the recorded endpoint.
-    for (const {side, to: [x, y]} of moveTargets) {
+    // Draw the recorded outline first: coincident positions still show green between the dashes.
+    for (const {side, step: [x, y], actual} of movementSteps) {
+      if (actual) circle(actual[0], actual[1], QUEEN_RADIUS, null, ACTUAL_POSITION, 3);
       ctx.save(); ctx.setLineDash([7, 5]);
-      circle(x, y, 42, null, FIELD_SIDE[side], 3);
+      circle(x, y, QUEEN_RADIUS, null, FIELD_SIDE[side], 3);
       ctx.restore();
-      label('MOVE', Math.max(32, Math.min(WIDTH - 32, x)),
-        Math.max(16, Math.min(HEIGHT - 16, y + 58)), 18, FIELD_SIDE[side], true);
     }
   }
 

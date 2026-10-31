@@ -1225,3 +1225,24 @@ frame report the exact turn immediately. Disposal suppresses notifications to pr
 Browser validation checked all six configured intervals, changes during playback, default 1x,
 pause/seek/end URL accuracy and leaving an active player. A 250-turn replay at 20x made 13 history
 updates and ended at the correct turn. No new games or backend changes; syntax/diff checks passed.
+
+## 2026-10-31 — session visualizer changes isolated from strategy
+
+Created `codex/visualizer-session` from master `2864cb8`. Extracted only the UI, local-game
+API/persistence, tests and documentation from session commits `5dcd0fe` and `d162359`.
+This includes independent current flags, canonical saved configurations and history filters,
+enabled-only labels, and the predicted/recorded queen circles for MOVE. Bot, simulator,
+referee and version parameter files are identical to master; strategy experiment records
+were not transferred. The source queen-routing branch and its running server were preserved.
+
+The sole adaptation is the server flag catalog: intersect the explicit UI allowlist with
+parameters present in this build. Master provides UNSTICK and APPROACH; ROUTE is optional
+and is not offered or accepted without the implementation. Historical recorded ROUTE flags
+remain readable. UI tests cover stale URL/settings cleanup without rewriting saved history.
+
+Validation in the isolated checkout:
+- `node --test visualizer/tests/catalog.test.mjs visualizer/tests/local.test.mjs visualizer/tests/player.test.mjs`:
+  18 passed.
+- `./gradlew.bat test --tests cr.tools.CgViewReplayTest --tests cr.tools.ServeTest --tests cr.tools.LocalGamesTest`:
+  12 passed, one optional corpus test skipped because this checkout has no ignored arena corpus.
+- Offline pinned-kit sync/check and `git diff --check` passed. No bot strength comparison.

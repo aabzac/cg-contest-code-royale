@@ -153,7 +153,19 @@ public final class Serve {
             while (reader.hasNext()) {
                 String key = reader.nextName();
                 if (request.has(key)) throw new IllegalArgumentException("Duplicate request field: " + key);
-                request.add(key, JsonParser.parseReader(reader));
+                if ((key.equals("flags0") || key.equals("flags1")) && reader.peek() == JsonToken.BEGIN_OBJECT) {
+                    JsonObject flags = new JsonObject();
+                    reader.beginObject();
+                    while (reader.hasNext()) {
+                        String flag = reader.nextName();
+                        if (flags.has(flag)) throw new IllegalArgumentException("Duplicate flag in " + key + ": " + flag);
+                        flags.add(flag, JsonParser.parseReader(reader));
+                    }
+                    reader.endObject();
+                    request.add(key, flags);
+                } else {
+                    request.add(key, JsonParser.parseReader(reader));
+                }
             }
             reader.endObject();
             if (reader.peek() != JsonToken.END_DOCUMENT) throw new IllegalArgumentException("Expected a single JSON object");
