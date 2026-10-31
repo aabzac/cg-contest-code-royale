@@ -7,7 +7,7 @@
   "evaluation": "block k = seeds 400000 + 2000 k .. 400000 + 2000 k + 1999, one fresh block per upload candidate, used once"
  },
  "next": {
-  "screen": 2,
+  "screen": 3,
   "evaluation": 2
  },
  "used": [
@@ -54,6 +54,17 @@
    "control": "v02",
    "series": "direct and mirror on 2000 maps, boss on 402000-402499",
    "verdict": "G0-G2 pass (G3 skipped, no old); S 0.8146 >= 0.60: upload recommended"
+  },
+  {
+   "pool": "screen",
+   "k": 2,
+   "seeds": "204000-205999",
+   "date": "2026-10-31",
+   "experiment": "docs/data/exp-2026-10-31-approach",
+   "candidate": "current?APPROACH=1",
+   "control": "v03",
+   "series": "direct and mirror on 2000 maps; candidate and v03 against boss on 204000-204499",
+   "verdict": "G0-G2 pass (strategy track); G3 skipped, old absent. Experimental flag remains off; adoption/freeze deferred under the predeclared comparison-only scope."
   }
  ]
 }

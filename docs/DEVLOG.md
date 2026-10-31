@@ -1081,3 +1081,23 @@ Validation:
 Follow-up: replaced playback/pause and previous/next-turn text with inline SVG icons and hover
 shortcuts; accessible button names remain. Browser checks confirmed icon/state toggling, stepping,
 the disabled start boundary and mobile width. JavaScript syntax and diff whitespace checks passed.
+
+
+## 2026-10-31 — same-site final approach, compared with v03
+
+Hypothesis: change only the final landing point at the already selected empty site, keeping its
+construction turn and favoring the same predicted next site by integer walking turns. Candidate
+`current?APPROACH=1`, control frozen v03; default remains 0. No referee or harness change.
+
+One implementation was frozen before development, then tested under the P2 strategy gates on a
+reserved fresh screen block. G0–G2 pass; G3 is skipped because the old source is absent. The task's
+predeclared scope defers adoption/freeze of a new champion; selected/default v03 is unchanged.
+No final-evaluation block or arena upload was run. Numerical results, exact commands, seeds,
+source patch/inventory, timing, packaging check and caveats have one home:
+`docs/data/exp-2026-10-31-approach/README.md` and its JSON evidence. Raw records, logs and source
+archive are in `replays/bench/exp-2026-10-31-approach/`. The initial selected build directory was
+restored after checking the candidate; retained artifact identities are in `docs/BOTS.md`.
+
+Validation covers contact/build timing, the complete fixture mine-upgrade phase, safety fallbacks,
+unchanged training and observations, default-v03 equivalence, snapshots and single-file merging.
+Two local replays illustrate the approach. No simulation revalidation: the engine is unchanged.

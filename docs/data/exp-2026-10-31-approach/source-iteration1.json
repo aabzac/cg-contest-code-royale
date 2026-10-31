@@ -1,0 +1,47 @@
+{
+  "baseline": "2adaa509eb8e70f2b9d3e34b1d4b93f869e91374",
+  "archive": "replays/bench/exp-2026-10-31-approach/source-iteration1",
+  "patchSha256": "0d420f86cdb50d9c40ff3a5fae20ae632056cfffa8fb8d8447012593af41883c",
+  "files": [
+    {
+      "path": "src/main/java/cr/bot/Params.java",
+      "sha256": "b69d696300e2e0d5e66ad64c9cfba50b23cbdccab3110efe3d25c369fa06c2fd",
+      "bytes": 2894
+    },
+    {
+      "path": "src/main/java/cr/bot/current/MainBot.java",
+      "sha256": "83e5213ecfcd9ae69129889ecb0f7482e9c7722a11db218b82eb9ddf640c3ff4",
+      "bytes": 9910
+    },
+    {
+      "path": "src/main/resources/cr/bot/versions/v01.properties",
+      "sha256": "33e4a6cc3da62dbb4c230b221c1e7c0ccb32ed7dc0ef821236161714aba3affd",
+      "bytes": 352
+    },
+    {
+      "path": "src/main/resources/cr/bot/versions/v02.properties",
+      "sha256": "d0084fcaf0994108996c2e1cb6139f5b39e94e55fc5c814cedcd9b01c1fb9bf3",
+      "bytes": 276
+    },
+    {
+      "path": "src/main/resources/cr/bot/versions/v03.properties",
+      "sha256": "600f9428823c6d144e30ad067958fe68ddf059bad63c0910ae2db01af52c5b3c",
+      "bytes": 301
+    },
+    {
+      "path": "src/main/java/cr/bot/current/ApproachPlanner.java",
+      "sha256": "923202788b3003f5a129a89116d1be3fc91b8c90b9ed84d6ed30d82d686b964e",
+      "bytes": 7490
+    },
+    {
+      "path": "src/test/java/cr/bot/current/ApproachPlannerTest.java",
+      "sha256": "b2df66521f833dff4a06112da6430ed3de0974bc2f488f95e601ecb2ae79b82a",
+      "bytes": 6688
+    },
+    {
+      "path": "build/ApproachProbe.java",
+      "sha256": "4e29776a1356bb7b50bc68e6717eb65cf5dfff4678aee275ef59c69ac876d106",
+      "bytes": 14972
+    }
+  ]
+}

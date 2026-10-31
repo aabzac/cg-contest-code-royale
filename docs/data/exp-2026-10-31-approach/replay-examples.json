@@ -1,0 +1,30 @@
+[
+  {
+    "file": "replays/bench/exp-2026-10-31-approach/approach-110002.json",
+    "preview": "build/replays/local/approach-110002.json",
+    "sha256": "ed133d4b8e32cbf24f33e8ee1121b463b1abf64f0c2fc8882f185606efa36666",
+    "seed": 110002,
+    "bots": [
+      "current?APPROACH=1",
+      "v03"
+    ],
+    "firstBuiltByPlayer0": {
+      "2": 3,
+      "20": 9
+    }
+  },
+  {
+    "file": "replays/bench/exp-2026-10-31-approach/approach-control-110002.json",
+    "preview": "build/replays/local/approach-control-110002.json",
+    "sha256": "a2f3ee238805bda13951c4568bfaf6ed2939dc50c26467029e207cb21d8674bc",
+    "seed": 110002,
+    "bots": [
+      "v03",
+      "v03"
+    ],
+    "firstBuiltByPlayer0": {
+      "2": 3,
+      "20": 22
+    }
+  }
+]

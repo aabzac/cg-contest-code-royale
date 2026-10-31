@@ -22,6 +22,8 @@ public final class Params {
      * 0 plays as v01. A P2 targeted fix (docs/local-screen.md); on by default since v02 (2026-10-30).
      */
     public int UNSTICK = 1;
+    /** Experimental final approach toward the same site, favoring the following site; off in v03. */
+    public int APPROACH = 0;
     public long SEED = 1;
     public int DEBUG = 0;
 

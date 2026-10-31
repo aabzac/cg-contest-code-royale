@@ -24,6 +24,7 @@ public final class MainBot implements Bot {
     /** UNSTICK's detour: the BUILD site it serves, the turn of its last move, its heading (radians) and the moves left. */
     private int detourSite = -1, detourTurn, detourLeft;
     private double detourHeading;
+    private ApproachPlanner approach;
 
     public MainBot(Params p) { this.p = p; }
 
@@ -97,6 +98,10 @@ public final class MainBot implements Bot {
                 String what = barracks < p.BARRACKS ? "BARRACKS-KNIGHT" : income < p.INCOME_TARGET ? "MINE" : "TOWER";
                 cmd = Command.build(target, what);
                 if (p.UNSTICK == 1) cmd = unstick(s, cmd);
+                if (p.APPROACH == 1 && threat == 0 && cmd.queen == Command.BUILD) {
+                    if (approach == null) approach = new ApproachPlanner();
+                    cmd = approach.improve(s, cmd, hx, hy, p);
+                }
             } else {
                 int tw = nearest(s, hx, hy, i -> s.stType[i] == Const.TOWER && s.stOwner[i] == 0);
                 cmd = tw >= 0 ? Command.build(tw, "TOWER") : Command.move((int) hx, (int) hy);

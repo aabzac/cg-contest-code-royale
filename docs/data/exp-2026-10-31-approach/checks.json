@@ -1,0 +1,57 @@
+{
+  "command": "./gradlew.bat test --tests cr.bot.current.ApproachPlannerTest --tests cr.bot.current.MainBotTest --tests cr.bot.BotFactoryTest --tests cr.submit.FileMergerTest",
+  "tests": [
+    {
+      "name": "cr.bot.BotFactoryTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "cr.bot.current.ApproachPlannerTest",
+      "tests": "7",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "cr.bot.current.MainBotTest",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "cr.submit.FileMergerTest",
+      "tests": "15",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    }
+  ],
+  "testSourceSha256": "2e716b8169f707c53ac4896e07c18609ea2eb67166390f0cb0ea7bd66a172cbc",
+  "reportDirectory": "replays/bench/exp-2026-10-31-approach/test-results",
+  "processCheck": {
+    "command": "./gradlew.bat procCheck \"-Pparams=APPROACH=1\" \"-Popp=v03\" \"-Pgames=20\" \"-PseedBase=130000\"",
+    "log": "replays/bench/exp-2026-10-31-approach/proc-check.log",
+    "maps": 20,
+    "games": 40,
+    "sameAsCurrent": 40,
+    "notCompared": 0,
+    "timeouts": 0,
+    "kills": 0,
+    "extraLines": 0,
+    "lateLines": 0,
+    "stderrLines": 0,
+    "slowLines": 0,
+    "maxFirstMs": 205.3,
+    "maxLaterMs": 6.6,
+    "artifact": "replays/artifacts/db0cdd0c/Player.java",
+    "artifactSha256": "db0cdd0c715a25a86bced0172792e6c630dc66ba77373df2ad0159708ab006d3",
+    "buildId": "e8d5e882",
+    "configId": "e5fd0ef6",
+    "fullPreuploadCheck": false
+  },
+  "selectedBuildRestored": true
+}

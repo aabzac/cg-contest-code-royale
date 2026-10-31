@@ -64,6 +64,9 @@
 - [ ] Next strength step towards the boss (the gap: `docs/STATUS.md`): candidates from the study
   (a second knight barracks or more knights; queen safety when no tower is near; giants or archers
   against towers)
+- [x] Improve the final approach to the same site for the next target; compare with v03
+  (`docs/data/exp-2026-10-31-approach/`)
+- [ ] Decide adoption/freeze of the APPROACH candidate (`docs/data/exp-2026-10-31-approach/`)
 - [ ] A local opponent with giants (they break towers; 12 % of the arena opponents build them)
 - [x] Organize our arena replays by version, league and upload; downloaders use the registry (`docs/arena-uploads.md`, Replay storage)
 - [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/arena/v01/bronze/upload-<NN>/games`,

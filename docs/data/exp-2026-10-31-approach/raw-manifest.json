@@ -1,0 +1,315 @@
+{
+  "storage": "local gitignored replays/bench/exp-2026-10-31-approach; reconstruct from the baseline commit, archived source/patch and commands in README.md",
+  "files": [
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/approach-110002.json",
+      "bytes": 156506,
+      "sha256": "ed133d4b8e32cbf24f33e8ee1121b463b1abf64f0c2fc8882f185606efa36666"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/approach-control-110002.json",
+      "bytes": 155421,
+      "sha256": "a2f3ee238805bda13951c4568bfaf6ed2939dc50c26467029e207cb21d8674bc"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/ApproachPlannerTest-final.java",
+      "bytes": 8208,
+      "sha256": "2e716b8169f707c53ac4896e07c18609ea2eb67166390f0cb0ea7bd66a172cbc"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/boss-cand.json",
+      "bytes": 342852,
+      "sha256": "6e7e28dda1b1f39c918772651bc916430ae4fbc921bd2bae3ce76480389059df"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/boss-cand.log",
+      "bytes": 518,
+      "sha256": "ad28a9281fbac2013b49ffc7f66bf9965c16aab0443d3ded775aa70b25610d39"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/boss-ctrl.json",
+      "bytes": 342859,
+      "sha256": "eed1d2be2809feb053ab8661d2591a660a2fba7c1953cac8d720f67497923863"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/boss-ctrl.log",
+      "bytes": 503,
+      "sha256": "96ab241393d93b2e274c1d74183e0acaacf2afd8e49e1d345c3d002e9539e391"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$ApproachPlanner.class",
+      "bytes": 4917,
+      "sha256": "00b6840159b9710c038a99186a0969728984b3bf2e0ea59631a4feed8e34afc9"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$Bot.class",
+      "bytes": 434,
+      "sha256": "2582d148cc53f844279b73ee78099c83077084bf3475cfca74400739070654b3"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$CGRunner.class",
+      "bytes": 4156,
+      "sha256": "174752cd691e6793db2290738f2b8bbc9a113d5afebeac4fe95fd31c15cc2026"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$Command.class",
+      "bytes": 4568,
+      "sha256": "8996f749f8f8801e4e43b8d509c85d3056a49ab12cb1b846115b1756edc4e319"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$Const.class",
+      "bytes": 2346,
+      "sha256": "5da4049e9162019ac8ce7ff1e7f73fcb75473f5d5638da8dc782b8d127af5638"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$GameState.class",
+      "bytes": 4799,
+      "sha256": "880b390b3b0a7c7d0044c235450381198f00973518f3efeb583593c7ba4c5e5a"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$InputReader.class",
+      "bytes": 3124,
+      "sha256": "d672d3927efcfe350b8024d8257ac573f5f2b1609dc31e03c5bf4dd204297d18"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$MainBot.class",
+      "bytes": 7318,
+      "sha256": "c52d0923972cb3ee7bce9b6241ae8c1abe2240d8fff0c420bab5794436dfba9b"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$Params.class",
+      "bytes": 3675,
+      "sha256": "42e8481cf360c525706b28e3303ea9236760de76b344ea3ad68c918fb5309963"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$Physics.class",
+      "bytes": 4144,
+      "sha256": "164e1c7fb27421525c727bb470b925d6cec440a4201db0e6a6485265f88d9689"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$Protocol.class",
+      "bytes": 3038,
+      "sha256": "d178b8b5651ebbcba03e66549c8ccade5bc1a45d36585fdf1ae005e8f6fcfef0"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player$Rules.class",
+      "bytes": 11724,
+      "sha256": "eb70a9eb57071196e87a98bdd34c6b828efb6da2179adfa1c1ad0ff1af96fb8b"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/classes/Player.class",
+      "bytes": 858,
+      "sha256": "4275cb8b455bef1503c92ea5c9bdc03dfa1fb5ef2d4fbfc8cbd9a2650a38abb3"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/checked-submit/Player.java",
+      "bytes": 72120,
+      "sha256": "db0cdd0c715a25a86bced0172792e6c630dc66ba77373df2ad0159708ab006d3"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/dev-direct.json",
+      "bytes": 343737,
+      "sha256": "7827b9949199f56b069e654136d0b0cf0ce7dbed328fbb7e707c5d044c008ef6"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/dev-direct.log",
+      "bytes": 518,
+      "sha256": "6a16f36b01724aa4b9475c5721c3667244cacdb6779297b6fd140c07316e000b"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/dev-mirror.json",
+      "bytes": 343738,
+      "sha256": "e2e30999c57489c5fc3ea3a8888d74c702e05fdcedad3dbe9bedfa78db0a6b03"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/dev-mirror.log",
+      "bytes": 503,
+      "sha256": "9ad962f78196f714d9096d94dcba574c0b5845919d8ad8f988d96c470ce94f5c"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/direct.json",
+      "bytes": 1370272,
+      "sha256": "c446e3750c78bb2081dfabc3fd4c426c89d58402a2d09ad76423501597aa87d7"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/direct.log",
+      "bytes": 519,
+      "sha256": "0a99ac4c2fd2b861a936bff278a4dca4b561510943b0f1bee08d02c7790cf867"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/mirror.json",
+      "bytes": 1370363,
+      "sha256": "57e6952c03b3733a0b991b22c024f0de6417e7e772495582f8f06198d59ba168"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/mirror.log",
+      "bytes": 504,
+      "sha256": "44b6340a5167ba74a4f3550f5ce542c7a533b5c1aa62b47ac312d5217c4a6bfd"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/proc-check.log",
+      "bytes": 831,
+      "sha256": "d9aa69ad04f9ae925564854ca2025a3e6b9a0e4746ea203084a57b203bf8c624"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player$Bot.class",
+      "bytes": 434,
+      "sha256": "2582d148cc53f844279b73ee78099c83077084bf3475cfca74400739070654b3"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player$CGRunner.class",
+      "bytes": 4146,
+      "sha256": "a617c790a54c011fbaebb409b36eb4316eba84085eedff68dfa4813f3046a58e"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player$Command.class",
+      "bytes": 4568,
+      "sha256": "8996f749f8f8801e4e43b8d509c85d3056a49ab12cb1b846115b1756edc4e319"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player$Const.class",
+      "bytes": 2346,
+      "sha256": "5da4049e9162019ac8ce7ff1e7f73fcb75473f5d5638da8dc782b8d127af5638"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player$GameState.class",
+      "bytes": 4799,
+      "sha256": "880b390b3b0a7c7d0044c235450381198f00973518f3efeb583593c7ba4c5e5a"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player$InputReader.class",
+      "bytes": 3124,
+      "sha256": "d672d3927efcfe350b8024d8257ac573f5f2b1609dc31e03c5bf4dd204297d18"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player$MainBot.class",
+      "bytes": 6988,
+      "sha256": "6891883610f5bf81a924c8b8639d7b10f9b87a10bace19897d443194a2d6ebd1"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player$Params.class",
+      "bytes": 3637,
+      "sha256": "95e1d27f62223df0ea6f256b976bf28d256ed3f660bf2041e3034f7843cb234f"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player$Physics.class",
+      "bytes": 4144,
+      "sha256": "164e1c7fb27421525c727bb470b925d6cec440a4201db0e6a6485265f88d9689"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player$Protocol.class",
+      "bytes": 3038,
+      "sha256": "d178b8b5651ebbcba03e66549c8ccade5bc1a45d36585fdf1ae005e8f6fcfef0"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player$Rules.class",
+      "bytes": 11724,
+      "sha256": "eb70a9eb57071196e87a98bdd34c6b828efb6da2179adfa1c1ad0ff1af96fb8b"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/classes/Player.class",
+      "bytes": 802,
+      "sha256": "7698fdf9621373018bcf4c8781891fe870c127d6d85e76ac4d80fa04cf85d230"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/selected-submit-before-check/Player.java",
+      "bytes": 64300,
+      "sha256": "d6266d41b6562158146d24a191742ecb0a9c10242cae6b04910933c397007524"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/smoke.json",
+      "bytes": 15507,
+      "sha256": "d07d78d23c2e68c0afa90fa1a56cdd493d3333826a9cbeded42b1d277ef67369"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/smoke.log",
+      "bytes": 503,
+      "sha256": "15029729fc0afd1a1d8ef4f44dd57247ea1e1db34fdd62a47e03abf42a586901"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/source-iteration1/build/ApproachProbe.java",
+      "bytes": 14972,
+      "sha256": "4e29776a1356bb7b50bc68e6717eb65cf5dfff4678aee275ef59c69ac876d106"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/source-iteration1/src/main/java/cr/bot/current/ApproachPlanner.java",
+      "bytes": 7490,
+      "sha256": "923202788b3003f5a129a89116d1be3fc91b8c90b9ed84d6ed30d82d686b964e"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/source-iteration1/src/main/java/cr/bot/current/MainBot.java",
+      "bytes": 9910,
+      "sha256": "83e5213ecfcd9ae69129889ecb0f7482e9c7722a11db218b82eb9ddf640c3ff4"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/source-iteration1/src/main/java/cr/bot/Params.java",
+      "bytes": 2894,
+      "sha256": "b69d696300e2e0d5e66ad64c9cfba50b23cbdccab3110efe3d25c369fa06c2fd"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/source-iteration1/src/main/resources/cr/bot/versions/v01.properties",
+      "bytes": 352,
+      "sha256": "33e4a6cc3da62dbb4c230b221c1e7c0ccb32ed7dc0ef821236161714aba3affd"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/source-iteration1/src/main/resources/cr/bot/versions/v02.properties",
+      "bytes": 276,
+      "sha256": "d0084fcaf0994108996c2e1cb6139f5b39e94e55fc5c814cedcd9b01c1fb9bf3"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/source-iteration1/src/main/resources/cr/bot/versions/v03.properties",
+      "bytes": 301,
+      "sha256": "600f9428823c6d144e30ad067958fe68ddf059bad63c0910ae2db01af52c5b3c"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/source-iteration1/src/test/java/cr/bot/current/ApproachPlannerTest.java",
+      "bytes": 6688,
+      "sha256": "b2df66521f833dff4a06112da6430ed3de0974bc2f488f95e601ecb2ae79b82a"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/source-iteration1/tracked.patch",
+      "bytes": 3897,
+      "sha256": "0d420f86cdb50d9c40ff3a5fae20ae632056cfffa8fb8d8447012593af41883c"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/test-results/binary/output.bin",
+      "bytes": 232,
+      "sha256": "7c702bce637f4fbc85a5f6e300d8b8df59805a6bcb0662e8161a2cef62a9d6a1"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/test-results/binary/output.bin.idx",
+      "bytes": 36,
+      "sha256": "2ef93b54db6cc3dd3d78750fcc0c00e4254190a96cbdbc4260095c21a3f64bd9"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/test-results/binary/results.bin",
+      "bytes": 3679,
+      "sha256": "d0c7a79113af26bf620e47d4b27094b2946cb3f758463e38f4b8897d04ac99ec"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/test-results/TEST-cr.bot.BotFactoryTest.xml",
+      "bytes": 828,
+      "sha256": "82e9b64b9b4ced3ee83d1342c44bad8ff1ca720c0bf57769fcf2706bc9dff78b"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/test-results/TEST-cr.bot.current.ApproachPlannerTest.xml",
+      "bytes": 1327,
+      "sha256": "c4b7cfb0becd0312cc16c7b8aa2e5b063b4f80c12f3144fc1721627fedd9e330"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/test-results/TEST-cr.bot.current.MainBotTest.xml",
+      "bytes": 955,
+      "sha256": "e61fc886a0e7beb85498c9b958c8df49b185bb3108b99ffb59459f866ebecdf8"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/test-results/TEST-cr.submit.FileMergerTest.xml",
+      "bytes": 2316,
+      "sha256": "e160d46432d739b899905b292e2fd00f83dc2dd1c863d98a16229cff5a729250"
+    },
+    {
+      "path": "replays/bench/exp-2026-10-31-approach/tests.log",
+      "bytes": 270,
+      "sha256": "a868fb1744947d4a2a7d1755e7079835dba58f0b2af7885d9cb634e0d745bc51"
+    }
+  ]
+}
