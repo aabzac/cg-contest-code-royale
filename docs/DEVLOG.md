@@ -1361,3 +1361,7 @@ gave 2/2 identical, no timeouts, max first turn 184.0 ms. Both results are kept
 rank 232 of 2288, placement complete) and `tools/arena_games.py 6829912` (60 games, all marker
 cd1f3d33, the list merged into the manifest). Next: the user pastes the artifact; the new agent is
 registered as pending in `docs/data/arena-uploads.json` and its placement followed under P1.
+
+Committed on the user's request: eb5dd14 (code, tests and records of this entry). A clean export
+of that commit (`git archive`) rebuilt the artifact byte for byte with `submit -Pparams=ROUTE=1`;
+the artifact's row in `docs/BOTS.md` (Artifacts) follows in the next commit.
