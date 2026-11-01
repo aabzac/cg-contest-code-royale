@@ -1,0 +1,14 @@
+commit 8fbe079a071fc131e9fa5c48367f60995720b64e
+date 2026-11-01T18:35:44Z
+diff HEAD sha256 5dd9e9963911c71bf87483e47663842d91b2e9b41913276388610630bdf0c3ed
+ M build.gradle
+ M docs/data/seed-ledger.json
+ M src/main/java/cr/bot/Bot.java
+ M src/main/java/cr/bot/current/ApproachPlanner.java
+ M src/main/java/cr/bot/current/MainBot.java
+ M src/main/java/cr/core/Physics.java
+?? src/main/java/cr/tools/LegScan.java
+?? src/test/java/cr/tools/LegScanTest.java
+untracked sha256:
+c5832ad66ef366611bf2c641c352f0e806a4c58610c0920b3c4b38e63446ba41 src/main/java/cr/tools/LegScan.java
+04f6ccb0ec6f6ea6eccdc25e4cc32e53fd8e02f04a0e9d9111492e4d827ed0c2 src/test/java/cr/tools/LegScanTest.java

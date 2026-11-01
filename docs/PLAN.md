@@ -72,6 +72,15 @@
   minimize walking turns while accounting for threats and the next site's approach, and replan
   as the board changes. Use MOVE along the route and BUILD once in contact. First experiment keeps
   site selection unchanged; evaluate movement separately under P2 (`docs/local-screen.md`).
+  - [x] Step 0: `cr.tools.LegScan` with the v03 baselines and the APPROACH calibration point
+    (`docs/data/exp-2026-11-01-route/`)
+  - [x] Step 1: `ROUTE=1`, movement only (heading fan + landing point, replaces UNSTICK and APPROACH):
+    P2 screen and final evaluation against v03 passed, below the upload recommendation
+    (`docs/data/exp-2026-11-01-route/`); adoption and an upload are the user's call
+  - [ ] Step 2: unit-aware final step
+  - [ ] Step 3: `ORDER=k`, target choice by turns, against `current?ROUTE=1`
+  - [ ] Step 4: own towers on the route (ROUTE walks past them, so fewer top-ups; same README), flee
+    routing, teardown bonus
 - [ ] A local opponent with giants (they break towers; 12 % of the arena opponents build them)
 - [x] Organize our arena replays by version, league and upload; downloaders use the registry (`docs/arena-uploads.md`, Replay storage)
 - [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/arena/v01/bronze/upload-<NN>/games`,

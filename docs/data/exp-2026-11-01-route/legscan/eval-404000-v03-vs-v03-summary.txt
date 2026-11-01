@@ -1,0 +1,25 @@
+LegScan v03 vs v03: maps=2000 seeds 404000..405999 queen-games=4000
+all: games 4000 won 1805 drew 390 lost 1805; mean turns 246.0, at the 250-turn limit 3846; ladder complete in 2764 (69.1%), mean turn 160.9
+  per game: walking turns 92.85 (MOVE 1.12, walking BUILD 91.73), standing BUILD 153.15, WAIT 0.00, flee turns 20.08
+  per game: route legs 12.38, excess over the straight bound 3.72 (per leg 0.301), mid-leg slide turns 4.76, stall turns 0.00, failed final steps 0.73 (with a unit near 0.70)
+  per game: abandoned legs 9.62 (27.07 turns): flee 2.17, own-tower top-up 4.67, retarget 1.77, build on a site touched on the way 0.28 (free site 0.23), other 0.74
+  per game: landing potential last step 3.82, whole walk 4.73 (turns to the next route target saved by the best sampled landing, sites only)
+  bot: max play() 25.53 ms (after turn 0); queenStep calls per turn: not counted
+seat 0: games 2000 won 1015 drew 195 lost 790; mean turns 246.0, at the 250-turn limit 1923; ladder complete in 1387 (69.4%), mean turn 160.6
+  per game: walking turns 92.98 (MOVE 1.13, walking BUILD 91.86), standing BUILD 153.01, WAIT 0.00, flee turns 20.14
+  per game: route legs 12.40, excess over the straight bound 3.79 (per leg 0.305), mid-leg slide turns 4.82, stall turns 0.00, failed final steps 0.64 (with a unit near 0.61)
+  per game: abandoned legs 9.62 (26.89 turns): flee 2.15, own-tower top-up 4.69, retarget 1.76, build on a site touched on the way 0.28 (free site 0.23), other 0.73
+  per game: landing potential last step 3.86, whole walk 4.77 (turns to the next route target saved by the best sampled landing, sites only)
+  bot: max play() 17.61 ms (after turn 0); queenStep calls per turn: not counted
+seat 1: games 2000 won 790 drew 195 lost 1015; mean turns 246.0, at the 250-turn limit 1923; ladder complete in 1377 (68.9%), mean turn 161.3
+  per game: walking turns 92.72 (MOVE 1.11, walking BUILD 91.61), standing BUILD 153.28, WAIT 0.00, flee turns 20.02
+  per game: route legs 12.35, excess over the straight bound 3.66 (per leg 0.296), mid-leg slide turns 4.70, stall turns 0.00, failed final steps 0.81 (with a unit near 0.78)
+  per game: abandoned legs 9.63 (27.25 turns): flee 2.19, own-tower top-up 4.64, retarget 1.77, build on a site touched on the way 0.28 (free site 0.23), other 0.75
+  per game: landing potential last step 3.78, whole walk 4.69 (turns to the next route target saved by the best sampled landing, sites only)
+  bot: max play() 25.53 ms (after turn 0); queenStep calls per turn: not counted
+worst route legs by excess:
+  seed 404496 seat 1 turns 5-21 (17, bound 3, excess 14) target 2 from 1717,698 dist 246 slides 14 stalls 0
+  seed 405065 seat 1 turns 225-239 (15, bound 2, excess 13) target 6 from 1400,653 dist 165 slides 14 stalls 0
+  seed 404303 seat 0 turns 5-19 (15, bound 3, excess 12) target 22 from 216,303 dist 244 slides 12 stalls 0
+  seed 404303 seat 1 turns 5-19 (15, bound 3, excess 12) target 23 from 1704,697 dist 244 slides 12 stalls 0
+  seed 404321 seat 1 turns 5-19 (15, bound 3, excess 12) target 11 from 1604,842 dist 277 slides 12 stalls 0

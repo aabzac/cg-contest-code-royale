@@ -7,8 +7,8 @@
   "evaluation": "block k = seeds 400000 + 2000 k .. 400000 + 2000 k + 1999, one fresh block per upload candidate, used once"
  },
  "next": {
-  "screen": 3,
-  "evaluation": 2
+  "screen": 5,
+  "evaluation": 3
  },
  "used": [
   {
@@ -65,6 +65,39 @@
    "control": "v03",
    "series": "direct and mirror on 2000 maps; candidate and v03 against boss on 204000-204499",
    "verdict": "G0-G2 pass (strategy track); G3 skipped, old absent. Experimental flag remains off; adoption/freeze deferred under the predeclared comparison-only scope."
+  },
+  {
+   "pool": "screen",
+   "k": 3,
+   "seeds": "206000-207999",
+   "date": "2026-10-31",
+   "experiment": "docs/data/exp-2026-10-31-route (branch codex/queen-routing, not merged; raw reports replays/bench/exp-2026-10-31-route)",
+   "candidate": "current?ROUTE=1,APPROACH=0 (the earlier RoutePlanner, iteration 2)",
+   "control": "v03",
+   "series": "direct and mirror on 2000 maps; candidate and v03 against boss on 206000-206499",
+   "verdict": "G0-G2 pass on that branch (S 0.5179, CI 0.5075-0.5282); recorded here on 2026-11-01 so the block is not reused: the branch's ledger marks it used"
+  },
+  {
+   "pool": "screen",
+   "k": 4,
+   "seeds": "208000-209999",
+   "date": "2026-11-01",
+   "experiment": "docs/data/exp-2026-11-01-route",
+   "candidate": "current?ROUTE=1",
+   "control": "v03",
+   "series": "direct and mirror on 2000 maps; candidate and v03 against boss on 208000-208499; legScan on 2000 maps for both arms",
+   "verdict": "G0-G2 pass (strategy track): S 0.5813 (CI 0.5657-0.5968), boss delta -0.0010; G3 skipped, old absent. Flag stays off; adoption is the user's decision"
+  },
+  {
+   "pool": "evaluation",
+   "k": 2,
+   "seeds": "404000-405999",
+   "date": "2026-11-01",
+   "experiment": "docs/data/exp-2026-11-01-route",
+   "candidate": "current?ROUTE=1",
+   "control": "v03 (the selected version)",
+   "series": "direct and mirror on 2000 maps; candidate and v03 against boss on 404000-404499; legScan on 2000 maps for both arms",
+   "verdict": "G0-G2 pass (G3 skipped, no old); S 0.5856 (CI 0.5701-0.6011) < 0.60, below the upload recommendation; boss delta +0.0025; the user decides"
   }
  ]
 }

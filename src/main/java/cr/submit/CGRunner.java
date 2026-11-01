@@ -14,7 +14,7 @@ public final class CGRunner {
     /** Part of the first turn the warm-up may use, counted from the turn's start. */
     static final long WARM_UP_MS = 300;
     /** Output kinds the warm-up produced (see {@link #warmUp}). */
-    static final int WARM_MOVE = 1, WARM_BUILD = 2, WARM_TRAIN = 4;
+    static final int WARM_MOVE = 1, WARM_BUILD = 2, WARM_TRAIN = 4, WARM_DETOUR = 8;
     /** Parameters of the submitted bot ("" = defaults); FileMerger sets them and checks that they apply. */
     public static final String PARAMS = "";
     /** Build id of the artifact (8 hex digits; "" in the sources), set by FileMerger and printed on turn 0, see {@link #marker}. */
@@ -85,16 +85,20 @@ public final class CGRunner {
      * use (class loading, lambda and string-concatenation bootstraps) fall in the 1000 ms first turn
      * instead of a later 50 ms one. Neither the real state nor the real bot is touched. The copies
      * reach a touched site, the nearest-site search, the flight from a knight (MOVE) and the
-     * fallback to an own tower with a TRAIN. Returns the WARM_* kinds of output produced.
+     * fallback to an own tower with a TRAIN, then the walk planners: a straight walk blocked by a
+     * site (UNSTICK's detour or ROUTE's heading fan, WARM_DETOUR when a MOVE came out) and a clean
+     * walk with a next site to land for (ROUTE's landing search). Returns the WARM_* kinds produced.
      */
     static int warmUp(GameState real, Params params, long deadlineNanos) {
         Bot bot = new MainBot(params);
         int kinds = 0;
-        for (int k = 0; k < 4 && System.nanoTime() < deadlineNanos; k++) {
+        for (int k = 0; k < 6 && System.nanoTime() < deadlineNanos; k++) {
             GameState s = real.copy();
             int touched = -1;
             if (k == 0) {
                 touched = 0;
+            } else if (k >= 4) {
+                blockedWalk(s, k == 5);
             } else if (k == 2) {
                 for (int i = 0; i < s.nSites; i++) if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0) s.clearStructure(i);
                 if (s.nCreeps < GameState.MAX_CREEPS) s.addCreep(1, Const.KNIGHT, s.qx[0] + 10, s.qy[0]);
@@ -117,7 +121,45 @@ public final class CGRunner {
             if (queen.startsWith("MOVE ")) kinds |= WARM_MOVE;
             if (queen.startsWith("BUILD ")) kinds |= WARM_BUILD;
             if (train.length() > "TRAIN".length()) kinds |= WARM_TRAIN;
+            if (k == 4 && queen.startsWith("MOVE ")) kinds |= WARM_DETOUR;
         }
         return kinds;
+    }
+
+    /**
+     * Makes the first state a walk problem: every site but the target (and, with next, one more free
+     * site) becomes an enemy mine, so the target rule picks the target. Without next the queen stands
+     * behind the site nearest to her, on the far side from the target, so the straight walk runs
+     * through that site; with next she stands three steps from the target on the far side from the
+     * other free site, so the walk is clean and the landing matters.
+     */
+    static void blockedWalk(GameState s, boolean next) {
+        int j = nearestSite(s, s.qx[0], s.qy[0], -1, -1);
+        int i = nearestSite(s, s.sx[j], s.sy[j], j, -1);
+        int i2 = next ? nearestSite(s, s.sx[i], s.sy[i], i, j) : -1;
+        for (int k = 0; k < s.nSites; k++) {
+            s.clearStructure(k);
+            if (k == i || k == i2) continue;
+            s.stType[k] = Const.MINE;
+            s.stOwner[k] = 1;
+            s.mineRate[k] = 1;
+        }
+        double ax = next ? s.sx[i] - s.sx[i2] : s.sx[j] - s.sx[i], ay = next ? s.sy[i] - s.sy[i2] : s.sy[j] - s.sy[i];
+        double len = Math.max(1e-9, Math.sqrt(ax * ax + ay * ay));
+        double from = next ? s.sr[i] + Const.QUEEN_RADIUS + Const.TOUCHING_DELTA + 2.5 * Const.QUEEN_SPEED : s.sr[j] + Const.QUEEN_RADIUS + 1;
+        double cx = next ? s.sx[i] : s.sx[j], cy = next ? s.sy[i] : s.sy[j];
+        s.qx[0] = Math.round(Math.max(Const.QUEEN_RADIUS, Math.min(Const.WIDTH - Const.QUEEN_RADIUS, cx + ax / len * from)));
+        s.qy[0] = Math.round(Math.max(Const.QUEEN_RADIUS, Math.min(Const.HEIGHT - Const.QUEEN_RADIUS, cy + ay / len * from)));
+    }
+
+    private static int nearestSite(GameState s, double x, double y, int not1, int not2) {
+        int best = -1;
+        double bd = Double.MAX_VALUE;
+        for (int k = 0; k < s.nSites; k++) {
+            if (k == not1 || k == not2) continue;
+            double d = (s.sx[k] - x) * (s.sx[k] - x) + (s.sy[k] - y) * (s.sy[k] - y);
+            if (d < bd) { bd = d; best = k; }
+        }
+        return best;
     }
 }

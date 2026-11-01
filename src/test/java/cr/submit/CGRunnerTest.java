@@ -15,17 +15,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class CGRunnerTest {
-    /** The warm-up must reach every output kind (each has its own first-use cost) and work on copies only. */
+    /**
+     * The warm-up must reach every output kind (each has its own first-use cost), including a detour
+     * around a blocking site (UNSTICK with the defaults, the heading fan with ROUTE=1), on copies only.
+     */
     @Test
-    void warmUpReachesMoveBuildAndTrainOnCopies() throws IOException {
-        for (long seed = 1; seed <= 20; seed++) {
-            for (int p = 0; p < 2; p++) {
-                InputReader in = firstTurn(seed, p);
-                String before = in.state.toString();
-                int kinds = CGRunner.warmUp(in.state, new Params(), Long.MAX_VALUE);
-                String at = "seed " + seed + " player " + p;
-                assertEquals(CGRunner.WARM_MOVE | CGRunner.WARM_BUILD | CGRunner.WARM_TRAIN, kinds, at);
-                assertEquals(before, in.state.toString(), at);
+    void warmUpReachesMoveBuildTrainAndADetourOnCopies() throws IOException {
+        for (String params : new String[]{"", "ROUTE=1"}) {
+            for (long seed = 1; seed <= 20; seed++) {
+                for (int p = 0; p < 2; p++) {
+                    InputReader in = firstTurn(seed, p);
+                    String before = in.state.toString();
+                    int kinds = CGRunner.warmUp(in.state, new Params().apply(params), Long.MAX_VALUE);
+                    String at = "params '" + params + "' seed " + seed + " player " + p;
+                    assertEquals(CGRunner.WARM_MOVE | CGRunner.WARM_BUILD | CGRunner.WARM_TRAIN | CGRunner.WARM_DETOUR, kinds, at);
+                    assertEquals(before, in.state.toString(), at);
+                }
             }
         }
     }

@@ -7,6 +7,8 @@ package cr.core;
  */
 public final class Physics {
     public double rx, ry;
+    /** Number of {@link #queenStep} predictions made so far (diagnostics: cr.tools.LegScan). */
+    public long calls;
 
     // Collision scratch: entities in referee order (per player creeps then queen, obstacles).
     final double[] ex, ey;
@@ -152,6 +154,7 @@ public final class Physics {
      * for bots: units are ignored, and Rules does not call it.
      */
     public void queenStep(GameState s, double x, double y, double tx, double ty, int passes) {
+        calls++;
         towards(x, y, tx, ty, Const.QUEEN_SPEED);
         clear();
         add(rx, ry, Const.QUEEN_RADIUS, Const.QUEEN_MASS, true);

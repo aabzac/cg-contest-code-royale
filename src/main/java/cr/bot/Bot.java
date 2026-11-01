@@ -11,4 +11,7 @@ public interface Bot {
 
     /** @param deadlineNanos System.nanoTime() by which the command must be returned */
     Command play(GameState s, int touchedSite, long deadlineNanos);
+
+    /** Sites-only step predictions (Physics.queenStep) made so far, or -1 when the bot does not count them. */
+    default long queenSteps() { return -1; }
 }

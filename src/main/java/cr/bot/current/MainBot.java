@@ -9,7 +9,8 @@ import cr.core.Physics;
 
 /**
  * Greedy baseline: one knight barracks, mines up to an income target, then towers near home;
- * flees from close enemy knights towards its towers. Trains whenever affordable.
+ * flees from close enemy knights towards its towers. Trains whenever affordable. The walk to the
+ * next site is UNSTICK's detour (and APPROACH's last step) or, with ROUTE=1, {@link RoutePlanner}.
  */
 public final class MainBot implements Bot {
     /** Collision passes of a turn without spawns, one per creep sub-step (Rules.processCreeps). */
@@ -25,10 +26,13 @@ public final class MainBot implements Bot {
     private int detourSite = -1, detourTurn, detourLeft;
     private double detourHeading;
     private ApproachPlanner approach;
+    private RoutePlanner route;
 
     public MainBot(Params p) { this.p = p; }
 
     @Override public String name() { return "current"; }
+
+    @Override public long queenSteps() { return ph.calls + (approach == null ? 0 : approach.calls()) + (route == null ? 0 : route.calls()); }
 
     private static boolean free(GameState s, int i) { return s.stType[i] == Const.NONE; }
 
@@ -97,10 +101,15 @@ public final class MainBot implements Bot {
             if (target >= 0) {
                 String what = barracks < p.BARRACKS ? "BARRACKS-KNIGHT" : income < p.INCOME_TARGET ? "MINE" : "TOWER";
                 cmd = Command.build(target, what);
-                if (p.UNSTICK == 1) cmd = unstick(s, cmd);
-                if (p.APPROACH == 1 && threat == 0 && cmd.queen == Command.BUILD) {
-                    if (approach == null) approach = new ApproachPlanner();
-                    cmd = approach.improve(s, cmd, hx, hy, p);
+                if (p.ROUTE == 1) {
+                    if (route == null) route = new RoutePlanner();
+                    cmd = route.plan(s, cmd, hx, hy, p, barracks, income, towers);
+                } else {
+                    if (p.UNSTICK == 1) cmd = unstick(s, cmd);
+                    if (p.APPROACH == 1 && threat == 0 && cmd.queen == Command.BUILD) {
+                        if (approach == null) approach = new ApproachPlanner();
+                        cmd = approach.improve(s, cmd, hx, hy, p);
+                    }
                 }
             } else {
                 int tw = nearest(s, hx, hy, i -> s.stType[i] == Const.TOWER && s.stOwner[i] == 0);

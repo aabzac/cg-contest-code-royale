@@ -79,6 +79,14 @@ tasks.register('stallScan', JavaExec) {
     args prop('bot', 'current'), prop('opp', 'v01'), prop('maps', '500'), prop('seedBase', '10000'), prop('threads', '8')
 }
 
+// Walking legs of a bot's queen (turns, excess, slides, abandoned legs, landing potential, play() time) on both seats:
+// -Pbot=current?ROUTE=1 -Popp=v03 -Pmaps=300 -PseedBase=110000 [-Pthreads=8] [-Pout=<dir for the summary and the per-game csv>]
+tasks.register('legScan', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.tools.LegScan'
+    args prop('bot', 'current'), prop('opp', 'v03'), prop('maps', '300'), prop('seedBase', '110000'), prop('threads', '8'), prop('out', '')
+}
+
 // Merge shipped sources into build/submit/Player.java and compile it: -Pparams="K=v,..."
 tasks.register('submit', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath

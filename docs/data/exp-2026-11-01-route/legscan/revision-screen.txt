@@ -1,0 +1,36 @@
+commit 8fbe079a071fc131e9fa5c48367f60995720b64e
+date 2026-11-01T18:54:35Z
+diff HEAD sha256 e4d715ae3375f02730e3de8ea04a51b6d3bd7acf516f4e496aa6d850f99fb65f
+ M build.gradle
+ M docs/data/seed-ledger.json
+ M src/main/java/cr/bot/Bot.java
+ M src/main/java/cr/bot/Params.java
+ M src/main/java/cr/bot/current/ApproachPlanner.java
+ M src/main/java/cr/bot/current/MainBot.java
+ M src/main/java/cr/core/Physics.java
+ M src/main/java/cr/submit/CGRunner.java
+ M src/main/resources/cr/bot/versions/v01.properties
+ M src/main/resources/cr/bot/versions/v02.properties
+ M src/main/resources/cr/bot/versions/v03.properties
+ M src/test/java/cr/submit/CGRunnerTest.java
+?? docs/data/exp-2026-11-01-route/
+?? src/main/java/cr/bot/current/RoutePlanner.java
+?? src/main/java/cr/tools/LegScan.java
+?? src/test/java/cr/bot/current/RoutePlannerTest.java
+?? src/test/java/cr/tools/LegScanTest.java
+?? src/test/resources/cr/bot/current/slide-110135-seat0-turn144.txt
+untracked sha256:
+b049ba6baa50f1e66aa33ca57e9e71d030d267a22ceb3c84765bcca7cda0db4d docs/data/exp-2026-11-01-route/README.md
+0e29f9bb4f1a658bc10619310b3c73a8d7a9b5a0b0a60eb6fa2a2d86d44bd99b docs/data/exp-2026-11-01-route/dev-direct-it1.json
+4609d5741c757ca18a1f73f2701a2099e905e3d0f9b3c9fa9ea974cfaf268f6e docs/data/exp-2026-11-01-route/dev-direct-it2.json
+6ac0beddbfff49ca05998229cec50ea09226d34453afa389b0c225c742333c4a docs/data/exp-2026-11-01-route/legscan/block2-204000-current_APPROACH_1-vs-v03-summary.txt
+34880f9717953ad24d13de91eeb8fe6c6b6f51b8c6c092d3d07ad3be9274320c docs/data/exp-2026-11-01-route/legscan/block2-204000-v03-vs-v03-summary.txt
+6563ba5f97a5fc16f71cafe9369c8588be84f3a2deaecf5b3ad97a6cf1db6ee9 docs/data/exp-2026-11-01-route/legscan/dev-110000-current-vs-current-summary.txt
+7d130f23be22d52adbe278219c386da1e5b2bfa603b7b87c0c99322f4de07c8a docs/data/exp-2026-11-01-route/legscan/dev-110000-v03-vs-v01-summary.txt
+98ed93c77af0cfb582ba12afacc4569c1f7df2717ab0b32aa2b032206780bdbb docs/data/exp-2026-11-01-route/legscan/dev-110000-v03-vs-v03-summary.txt
+3d8a34418e2496ef464df32abf3d21b6a20770038ed012f18b72dd8b593b7fef docs/data/exp-2026-11-01-route/legscan/revision-step0.txt
+3e03c724783ee972f75f8d53b3b3048ca69d2e406d8ccdc1f0759d5f38c1d235 src/main/java/cr/bot/current/RoutePlanner.java
+c5832ad66ef366611bf2c641c352f0e806a4c58610c0920b3c4b38e63446ba41 src/main/java/cr/tools/LegScan.java
+53a2b7f23856448f329c22f3a5f574fa1f0a79346225ac46fa0573de56933240 src/test/java/cr/bot/current/RoutePlannerTest.java
+04f6ccb0ec6f6ea6eccdc25e4cc32e53fd8e02f04a0e9d9111492e4d827ed0c2 src/test/java/cr/tools/LegScanTest.java
+74cebb367fb75860d866bab1c6ee4a7dd3807f80edc1e92a11ba819da264aecf src/test/resources/cr/bot/current/slide-110135-seat0-turn144.txt

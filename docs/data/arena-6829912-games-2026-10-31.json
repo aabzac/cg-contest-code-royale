@@ -1,5 +1,5 @@
 {
- "fetched": "2026-10-31T02:15:39+0200",
+ "fetched": "2026-11-01T23:36:33+0200",
  "agentId": 6829912,
  "offline": false,
  "services": [
@@ -13,7 +13,8 @@
   "live": 60,
   "merged": 60,
   "savedLists": [
-   "replays/arena/unknown/bronze/agent-6829912/snapshots/battles-20261031-021337-418028200.json"
+   "replays/arena/v03/bronze/upload-03/snapshots/battles-20261031-021539-681488100.json",
+   "replays/arena/v03/bronze/upload-03/snapshots/battles-20261101-233630-160127500.json"
   ],
   "notDone": 0
  },

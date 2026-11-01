@@ -16,6 +16,9 @@ final class ApproachPlanner {
     private static final int PASSES = 5, SAMPLES = 72, HORIZON = 25;
     private final Physics physics = new Physics();
 
+    /** queenStep predictions made so far (diagnostics). */
+    long calls() { return physics.calls; }
+
     Command improve(GameState s, Command build, double hx, double hy, Params p) {
         if (build.queen != Command.BUILD || build.site < 0 || build.site >= s.nSites) return build;
         int a = build.site;
@@ -113,7 +116,7 @@ final class ApproachPlanner {
             && x <= Const.WIDTH - Const.QUEEN_RADIUS && y <= Const.HEIGHT - Const.QUEEN_RADIUS;
     }
 
-    private static boolean quietStep(GameState s, double x, double y) {
+    static boolean quietStep(GameState s, double x, double y) {
         // Includes friendly units: they can change the landing point through collisions.
         for (int i = 0; i < s.nCreeps; i++) {
             // A knight must not enter the 250-unit threat zone before next turn's BUILD.
@@ -129,14 +132,14 @@ final class ApproachPlanner {
         return true;
     }
 
-    private static boolean underEnemyTower(GameState s, int site) {
+    static boolean underEnemyTower(GameState s, int site) {
         for (int i = 0; i < s.nSites; i++)
             if (s.stType[i] == Const.TOWER && s.stOwner[i] == 1
                 && Physics.lessInt(Physics.distSq(s.sx[site], s.sy[site], s.sx[i], s.sy[i]), s.towerRange[i])) return true;
         return false;
     }
 
-    private static boolean safeSegment(GameState s, double x, double y, double nx, double ny) {
+    static boolean safeSegment(GameState s, double x, double y, double nx, double ny) {
         double dx = nx - x, dy = ny - y, length = dx * dx + dy * dy;
         for (int i = 0; i < s.nSites; i++) {
             if (s.stType[i] != Const.TOWER || s.stOwner[i] != 1) continue;

@@ -1246,3 +1246,118 @@ Validation in the isolated checkout:
 - `./gradlew.bat test --tests cr.tools.CgViewReplayTest --tests cr.tools.ServeTest --tests cr.tools.LocalGamesTest`:
   12 passed, one optional corpus test skipped because this checkout has no ignored arena corpus.
 - Offline pinned-kit sync/check and `git diff --check` passed. No bot strength comparison.
+
+
+## 2026-11-01 — queen routes, steps 0 and 1: LegScan and the ROUTE=1 planner (P2 screen passed)
+
+The task from the study session (`docs/data/study-2026-11-01-queen-routes/README.md`, plan steps 0
+and 1): a tool that measures where the queen's walking turns go, its baselines and a second
+calibration point of saved turns against S; then the `ROUTE=1` walk planner, screened under P2 on
+a fresh block. Record with every number, the iteration sources' hashes and the commands:
+`docs/data/exp-2026-11-01-route/README.md`. Worktree `claude/sweet-bartik-d9ce19` from `8fbe079`.
+
+Step 0. `cr.tools.LegScan` (`./gradlew legScan`, `LegScanTest` on seeds 110135 and 110098): per
+queen-game the walking turns, route legs with their excess over the straight bound, mid-leg slides,
+failed final steps, abandoned legs by reason, builds on free sites touched on the way, the landing
+potential, the ladder turn, the longest play() and the queenStep calls per turn (`Physics.calls`,
+`Bot.queenSteps()`; frozen versions do not count). Baselines on 110000-110299: the v03 mirror walks
+92.2 turns per game (excess 3.8, slides 4.9, abandoned 9.6 of which 4.7 own-tower top-ups, ladder
+complete in 74 % at turn 156), v03 against v01 79.2. Calibration on block 2 (204000-205999):
+`current?APPROACH=1` walks 90.9 against the mirror's 92.9 for its S 0.5245, about 0.012 S per saved
+walking turn, as the study's 0.01 from seeds 10000-10199.
+
+Step 1. `cr.bot.current.RoutePlanner` (`Params.ROUTE`, default 0; every version snapshot records
+`ROUTE=0`; `MainBotTest.withDefaultsCurrentPlaysAsV03` stays green): the straight BUILD walk is
+predicted with the sites only; when it slides (more turns than the bound), stalls, ends a turn on a
+free wanted site, lands touching two sites, or when the next target is two or more turns from its
+landing, a fan of 24 headings with 1-3 MOVEs plus the analytic landing point (the ring point at
+r+33 nearest the next target, clamped to the reachable arc, verified by a simulated walk) is
+searched; plans are ordered by turns to A, turns from the landing to B, the previous heading, the
+search order; at most 3000 step predictions per turn, no clock, no Random; APPROACH's unit guards
+and a contested-site guard switch the landing part off. With the flag on it replaces UNSTICK and
+APPROACH. `CGRunner.warmUp` plays a blocked walk and a landing case on turn 0. Tests: the two stall
+fixtures (7 and 9 turns against UNSTICK's 7 and 10 in the sites-only replay), a captured slide
+fixture (seed 110135 turn 144: v03 10 turns, ROUTE at most 7), the APPROACH landing case under the
+real rules (B built a turn earlier), the flee rule, determinism, clock independence.
+
+Development (seeds 10000-10499, 500 maps, two of three allowed iterations): iteration 1 treated
+own towers below 700 HP and unfinished mines as sites to route around and lacked the slide trigger:
+S 0.5315 (CI 0.4994-0.5636), top-ups 4.4 → 1.1 per game. Iteration 2 (the screened code) walks past
+own towers and mines as v03 does and searches whenever the straight walk loses a turn to a
+collision: S 0.5825 (CI 0.5502-0.6148), walking 91.6 → 86.0, excess 3.55 → 1.40, slides 4.5 → 1.9,
+ladder complete at turn 149.5 instead of 161.3, no failure.
+
+Screen (block k=4, seeds 208000-209999; block 3 had been played by the unmerged branch
+`codex/queen-routing` for its own ROUTE candidate, S 0.5179, so it is recorded as used in the ledger):
+direct S = 0.5813 (CI 0.5657-0.5968), 2203/244/1553, 1990 of 2000 maps changed, no candidate failure
+(max 26.0 ms at 8 threads); `boss` on the first 500 maps: Δ = -0.0010 (CI -0.0100..+0.0080), candidate
+982/0/18 against v03's 983/0/17. G0, G1 and G2 pass; G3 skipped (`old` absent). LegScan on
+the block: walking 92.75 → 86.86, excess 3.63 → 1.47, slides 4.65 → 1.97, abandoned legs
+9.58 → 7.17 (top-ups 4.58 → 2.96), free-site builds on the way 0.24 → 0.03, ladder complete
+69.9 % at 162.8 → 73.3 % at 151.6; mean 41.7, max 1703 queenStep calls per turn (cap 3000). The
+LegScan replay of the same games measured one play() of 53.15 ms at 8 threads where the bench
+series, which is the G0 evidence, had at most 26.0 ms: host scheduling, not the planner's work
+(the v03 arm shows the same spread, 1.9 against 39 ms for identical code on the baselines).
+Exchange rate on this block: 0.0138 S per saved walking turn.
+
+Decision: none here. The flag stays off by default; the user decides adoption (freeze as the local
+champion), the final-evaluation block and an upload. Nothing was uploaded or committed. Checks run
+at the end (README, "Final checks"): `./gradlew test` 127 tests, 0 failures, 2 skipped (arena
+replays absent in the worktree), 35 s; `./gradlew submit -Pparams=ROUTE=1` 90 050 chars, build id
+5c7e3bf0, config id 347b908d; `procCheck -Pparams=ROUTE=1 -Popp=v03 -Pgames=20 -PseedBase=150000`
+sameAsCurrent 40/40, no timeouts, maxLater 3.0 ms (a packaging smoke check, not the pre-upload
+100-game pair); the kit synchronizer after the `.ai/project.md` rows for `legScan` and the
+local-match flags. The first test run hung for two hours: `LocalGamesTest` expected a 400 on a
+`ROUTE` launch request, the server (which advertises every flag whose parameter exists) accepted
+it and ran the test's throwing stub, and the unanswered request had no client timeout. The test
+now expects the three-flag catalog and times requests out after 60 s; `docs/visualizer.md` lists
+the flag. `Bot.java`'s javadoc link `{@link cr.core.Physics#queenStep}` broke the merger's ban on
+qualified project names (`FileMergerTest`, `submit`) and is plain text now. Neither fix touches
+the planner or the screened games.
+Raw reports of this experiment were copied from the worktree to the main checkout's
+`replays/bench/exp-2026-11-01-route/`; the worktree's `refs/` holds a byte-identical copy of
+`Boss.java` for the `boss` spec. Hygiene learned: two single games played beside a bench series
+gave 157-214 ms "slow" turns at 8 threads (both arms); the screen ran alone and had none.
+
+
+## 2026-11-01 — final evaluation of `current?ROUTE=1` against v03 on block 404000-405999 (P2)
+
+The user asked for the P2 final evaluation after the screen and the final checks. Block k=2 of the
+evaluation pool (seeds 404000-405999) was reserved in the ledger and the plan written in the README
+before the runs; the bot sources were byte-identical to the screened snapshot (`source-it2/`,
+`replays/bench/exp-2026-11-01-route/revision-eval.txt`). Series as in the screen with
+`-PseedBase=404000`: direct and the v03 mirror on 2000 maps (8 threads, 50 ms), both arms against
+`boss` on the first 500 maps (3 threads, 200 ms), LegScan on both arms; `eval-run.log` and the
+reports `eval-*.json` in the raw directory (copied to the main checkout), summaries `eval-g1.json`,
+`eval-g2.json` and the LegScan summaries beside the README (section "Final evaluation").
+
+Result: S = 0.5856 (95 % CI 0.5701-0.6011), 2216/253/1531, 1987 of 2000 maps changed, no candidate
+failure (max 35.4 ms per move at 8 threads); against `boss` candidate 0.9900, control 0.9875,
+Δ = +0.0025 (CI -0.0065..+0.0115). G0, G1 and G2 pass; G3 skipped (`old` absent). The upload
+recommendation S ≥ 0.60 is not met by the point estimate (the interval reaches 0.6011). The
+screen's 0.5813 is replicated. LegScan repeats the screen's walking numbers: walking 92.85 → 86.71
+turns per game, excess 3.72 → 1.50, slides 4.76 → 2.07, top-ups 4.67 → 3.01, ladder 69.1 % at
+160.9 → 73.8 % at 150.8; 42.2 queenStep calls per turn, max 1614. Both `boss` arms show one move
+near 58 ms (the external process's host noise, v03 included). Rating terms: about +0.46 points
+head-to-head against v03.
+
+Decision: none here. The candidate passes the P2 gates against the selected version and stays
+below the recommendation line, as v02 did; adoption and an upload (then `submit`, both 100-game
+`procCheck` runs and P1) are the user's call. Nothing uploaded or committed. The ledger marks
+block 2 of the evaluation pool used; the next evaluation block is k=3.
+
+Upload preparation (the user's decision to upload despite S < 0.60, 2026-11-01): `./gradlew submit
+-Pparams=ROUTE=1` → `build/submit/Player.java` sha256
+da914c4c6e0ddae56bdb3f6daba9becff066b5cae69aaa97e441c01656cfb368, 90,050 chars, build id 5c7e3bf0,
+config id 347b908d, kept as `artifacts/da914c4c/Player.java` in the worktree and the main checkout.
+`procCheck -Popp=v01 -Pgames=100 -PseedBase=5000`: 200 games, 180 wins, sameAsCurrent 200/200,
+0 timeouts, max first turn 262.6 ms, later 4.0 ms. `-Popp=boss -Pgames=100 -PseedBase=6000`: 200 games,
+199 wins, sameAsCurrent 198/200, 0 artifact timeouts, max first turn 522.4 ms, later 8.1 ms; seed 6045
+was not compared on either seat because the `boss` process was killed by a timeout (turn 4 in the
+in-process run, turn 0 in the artifact run); the quiet rerun of that seed (`-Pgames=1 -PseedBase=6045`)
+gave 2/2 identical, no timeouts, max first turn 184.0 ms. Both results are kept
+(`replays/bench/exp-2026-11-01-route/upload-prep.log`). The live entry was saved before the paste:
+`tools/arena_snapshot.py 6829912` → `docs/data/arena-6829912-presubmit-2026-11-01.json` (score 23.37,
+rank 232 of 2288, placement complete) and `tools/arena_games.py 6829912` (60 games, all marker
+cd1f3d33, the list merged into the manifest). Next: the user pastes the artifact; the new agent is
+registered as pending in `docs/data/arena-uploads.json` and its placement followed under P1.

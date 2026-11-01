@@ -18,7 +18,8 @@ using their respective parameter snapshots):
 | Flag | What | Evidence |
 | --- | --- | --- |
 | `UNSTICK=1` (default since v02) | detour when the BUILD towards the next site to take would leave the queen standing | P2 targeted fix, screen block 0 (seeds 200000-201999), 2026-10-30: S 0.5046 (CI 0.5018-0.5075) against v01, Δ 0.0000 against `boss`, 146 of 2000 maps changed; stall turns 739 → 53 (`docs/data/exp-2026-10-30-unstick/`) |
-| `APPROACH=1` (experimental, default 0) | change the last approach point at the same empty site, only when construction remains possible next turn and the predicted trip to the same next site saves a whole turn | implementation, checks and comparison with v03: `docs/data/exp-2026-10-31-approach/`; selected/default version remains v03 |
+| `APPROACH=1` (experimental, default 0) | change the last approach point at the same empty site, only when construction remains possible next turn and the predicted trip to the same next site saves a whole turn | implementation, checks and comparison with v03: `docs/data/exp-2026-10-31-approach/`; selected/default version remains v03; superseded by `ROUTE=1`, which replaces it when on |
+| `ROUTE=1` (experimental, default 0) | the walk to the next site planned with the sites only (`RoutePlanner`): a fan of 24 headings with 1-3 MOVEs around slides and stalls, the landing point for the next target; replaces UNSTICK and APPROACH when on | P2 strategy screen on block 4 (208000-209999), 2026-11-01: S 0.5813 (CI 0.5657-0.5968) against v03, Δ -0.0010 against `boss`, G3 skipped; walking 92.5 → 86 turns per game; final evaluation on block 2 (404000-405999): S 0.5856 (CI 0.5701-0.6011) against v03, Δ +0.0025 against `boss`, below the S ≥ 0.60 upload recommendation (`docs/data/exp-2026-11-01-route/`); not adopted, no artifact kept |
 
 External opponents:
 - `boss` = `refs/referee-csj/config/level4/Boss.java` (csj/code-royale@349924a), run as a process: the Default

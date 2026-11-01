@@ -24,6 +24,12 @@ public final class Params {
     public int UNSTICK = 1;
     /** Experimental final approach toward the same site, favoring the following site; off in v03. */
     public int APPROACH = 0;
+    /**
+     * 1: the walk to the next site to take is planned with the sites only (MainBot's RoutePlanner):
+     * a heading fan around obstacles and the landing point for the next target, replacing UNSTICK
+     * and APPROACH. Experimental (docs/data/exp-2026-11-01-route); off in v03.
+     */
+    public int ROUTE = 0;
     public long SEED = 1;
     public int DEBUG = 0;
 

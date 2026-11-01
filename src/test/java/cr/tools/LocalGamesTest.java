@@ -18,6 +18,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,18 +57,19 @@ class LocalGamesTest {
             assertEquals("current", choices.getAsJsonObject("defaults").get("bot0").getAsString());
             assertEquals("v03", choices.getAsJsonObject("defaults").get("bot1").getAsString());
             JsonArray flags = choices.getAsJsonArray("bots").get(0).getAsJsonObject().getAsJsonArray("flags");
-            assertEquals(List.of("UNSTICK", "APPROACH"), flags.asList().stream()
+            assertEquals(List.of("UNSTICK", "APPROACH", "ROUTE"), flags.asList().stream()
                 .map(f -> f.getAsJsonObject().get("id").getAsString()).toList());
             Params defaults = new Params();
             assertEquals(defaults.UNSTICK == 1, flags.get(0).getAsJsonObject().get("default").getAsBoolean());
             assertEquals(defaults.APPROACH == 1, flags.get(1).getAsJsonObject().get("default").getAsBoolean());
+            assertEquals(defaults.ROUTE == 1, flags.get(2).getAsJsonObject().get("default").getAsBoolean());
             assertTrue(choices.getAsJsonArray("bots").get(1).getAsJsonObject().getAsJsonArray("flags").isEmpty());
             String request = "{\"bot0\":\"current\",\"flags0\":{\"UNSTICK\":false,\"APPROACH\":true},\"bot1\":\"v03\",\"seed\":\"17\"}";
             HttpResponse<String> created = post(base, request, base);
             assertEquals(201, created.statusCode(), created.body());
             JsonObject row = object(created);
             file = row.get("file").getAsString();
-            assertTrue(file.startsWith("replays/local/current-unstick0-approach1-vs-v03/"), file);
+            assertTrue(file.startsWith("replays/local/current-unstick0-approach1-route0-vs-v03/"), file);
             assertEquals(17, row.get("seed").getAsInt());
             assertTrue(row.get("turns").getAsInt() > 0);
             assertEquals(2, row.getAsJsonArray("errors").size());
@@ -77,12 +79,12 @@ class LocalGamesTest {
             JsonObject saved = JsonParser.parseString(Files.readString(root.resolve(file))).getAsJsonObject();
             assertEquals("local", saved.get("format").getAsString());
             assertEquals(2, saved.get("localGameVersion").getAsInt());
-            assertEquals("current?UNSTICK=0,APPROACH=1", saved.getAsJsonArray("botSpecs").get(0).getAsString());
+            assertEquals("current?UNSTICK=0,APPROACH=1,ROUTE=0", saved.getAsJsonArray("botSpecs").get(0).getAsString());
             assertEquals("current", saved.getAsJsonArray("botIds").get(0).getAsString());
             assertFalse(saved.getAsJsonArray("botFlags").get(0).getAsJsonObject().get("UNSTICK").getAsBoolean());
             assertTrue(saved.getAsJsonArray("botFlags").get(0).getAsJsonObject().get("APPROACH").getAsBoolean());
-            assertFalse(saved.getAsJsonArray("botFlags").get(0).getAsJsonObject().has("ROUTE"));
-            assertEquals("current-unstick0-approach1", row.getAsJsonArray("botConfigIds").get(0).getAsString());
+            assertFalse(saved.getAsJsonArray("botFlags").get(0).getAsJsonObject().get("ROUTE").getAsBoolean());
+            assertEquals("current-unstick0-approach1-route0", row.getAsJsonArray("botConfigIds").get(0).getAsString());
             assertTrue(saved.getAsJsonArray("effectiveParams").get(0).getAsString().contains("APPROACH=1"));
             assertTrue(saved.getAsJsonArray("effectiveParams").get(1).getAsString().contains("APPROACH=0"));
             assertEquals("server-classpath-snapshot", saved.getAsJsonObject("provenance").get("kind").getAsString());
@@ -128,16 +130,20 @@ class LocalGamesTest {
         assertEquals(defaults.get("botConfigIds"), explicit.get("botConfigIds"));
         assertEquals(defaults.get("bots"), explicit.get("bots"));
         assertEquals(defaults.get("botFlags"), explicit.get("botFlags"));
-        assertEquals("current?UNSTICK=1,APPROACH=0", played.get(0).get(0));
+        assertEquals("current?UNSTICK=1,APPROACH=0,ROUTE=0", played.get(0).get(0));
         assertNotEquals(defaults.get("file"), explicit.get("file"));
 
         JsonObject approach = run(local, "{\"bot0\":\"current\",\"flags0\":{\"APPROACH\":true},\"bot1\":\"v03\",\"seed\":1}");
-        assertEquals("current-unstick1-approach1", approach.getAsJsonArray("botConfigIds").get(0).getAsString());
-        assertEquals("current?UNSTICK=1,APPROACH=1", played.get(2).get(0));
+        assertEquals("current-unstick1-approach1-route0", approach.getAsJsonArray("botConfigIds").get(0).getAsString());
+        assertEquals("current?UNSTICK=1,APPROACH=1,ROUTE=0", played.get(2).get(0));
+        JsonObject route = run(local, "{\"bot0\":\"current\",\"flags0\":{\"ROUTE\":true},\"bot1\":\"v03\",\"seed\":1}");
+        assertEquals("current-unstick1-approach0-route1", route.getAsJsonArray("botConfigIds").get(0).getAsString());
+        assertEquals("current [UNSTICK=1, ROUTE=1]", route.getAsJsonArray("bots").get(0).getAsString());
+        assertEquals("current?UNSTICK=1,APPROACH=0,ROUTE=1", played.get(3).get(0));
 
         java.util.Set<String> configurations = new java.util.HashSet<>();
-        for (int bits = 0; bits < 4; bits++) {
-            String flags = "{\"UNSTICK\":" + ((bits & 1) != 0) + ",\"APPROACH\":" + ((bits & 2) != 0) + "}";
+        for (int bits = 0; bits < 8; bits++) {
+            String flags = "{\"UNSTICK\":" + ((bits & 1) != 0) + ",\"APPROACH\":" + ((bits & 2) != 0) + ",\"ROUTE\":" + ((bits & 4) != 0) + "}";
             JsonObject row = run(local, "{\"bot0\":\"current\",\"flags0\":" + flags + ",\"bot1\":\"v03\",\"seed\":1}");
             String id = row.getAsJsonArray("botConfigIds").get(0).getAsString();
             assertTrue(configurations.add(id), "Every on/off combination has its own stable storage identity");
@@ -148,7 +154,7 @@ class LocalGamesTest {
         assertEquals(both.getAsJsonArray("botConfigIds").get(0), swapped.getAsJsonArray("botConfigIds").get(1));
         assertEquals(both.getAsJsonArray("botConfigIds").get(1), swapped.getAsJsonArray("botConfigIds").get(0));
         assertNotEquals(Path.of(both.get("file").getAsString()).getParent(), Path.of(swapped.get("file").getAsString()).getParent());
-        assertEquals(List.of("current?UNSTICK=1,APPROACH=0", "current?UNSTICK=0,APPROACH=1"), played.get(played.size() - 2));
+        assertEquals(List.of("current?UNSTICK=1,APPROACH=0,ROUTE=0", "current?UNSTICK=0,APPROACH=1,ROUTE=0"), played.get(played.size() - 2));
     }
 
     @Test void historyKeepsSavedConfigurationEvidenceAndLegacyLabelsWithoutCurrentCatalogDefaults() throws Exception {
@@ -158,10 +164,10 @@ class LocalGamesTest {
         Path replayFile = root.resolve(row.get("file").getAsString());
         JsonObject saved = JsonParser.parseString(Files.readString(replayFile)).getAsJsonObject();
         saved.getAsJsonArray("bots").set(0, new com.google.gson.JsonPrimitive("Saved historical label"));
-        saved.getAsJsonArray("botSpecs").set(0, new com.google.gson.JsonPrimitive("current?UNSTICK=1,APPROACH=1,ROUTE=1"));
+        saved.getAsJsonArray("botSpecs").set(0, new com.google.gson.JsonPrimitive("current?UNSTICK=1,APPROACH=1,ROUTE=0,FUTURE=1"));
         saved.getAsJsonArray("effectiveParams").set(0, new com.google.gson.JsonPrimitive("historical effective values"));
-        saved.getAsJsonArray("botFlags").get(0).getAsJsonObject().addProperty("ROUTE", true);
-        saved.getAsJsonArray("botConfigIds").set(0, new com.google.gson.JsonPrimitive("current-unstick1-approach1-route1"));
+        saved.getAsJsonArray("botFlags").get(0).getAsJsonObject().addProperty("FUTURE", true); // unknown to this catalog
+        saved.getAsJsonArray("botConfigIds").set(0, new com.google.gson.JsonPrimitive("current-unstick1-approach1-route0-future1"));
         Files.writeString(replayFile, saved.toString());
 
         JsonObject legacy = saved.deepCopy();
@@ -205,8 +211,6 @@ class LocalGamesTest {
                 "{\"bot0\":\"current?APPROACH=1\",\"bot1\":\"v00\"}",
                 "{\"bot0\":42,\"bot1\":\"v00\"}",
                 "{\"bot0\":\"current\",\"bot1\":\"v00\",\"flags0\":{\"DEBUG\":true}}",
-                "{\"bot0\":\"current\",\"bot1\":\"v00\",\"flags0\":{\"ROUTE\":true}}",
-                "{\"bot0\":\"current\",\"bot1\":\"v00\",\"flags0\":{\"ROUTE\":false}}",
                 "{\"bot0\":\"current\",\"bot1\":\"v00\",\"flags0\":{\"APPROACH\":1}}",
                 "{\"bot0\":\"current\",\"bot1\":\"v00\",\"flags0\":{\"APPROACH\":\"true\"}}",
                 "{\"bot0\":\"current\",\"bot1\":\"v00\",\"flags0\":{\"APPROACH\":null}}",
@@ -230,11 +234,11 @@ class LocalGamesTest {
             assertEquals(403, post(base, good, "https://example.com").statusCode());
             assertEquals(403, post(base, good, "http://localhost:" + server.getAddress().getPort()).statusCode());
             assertEquals(403, post(base, good, "null").statusCode());
-            HttpResponse<String> wrongType = client.send(HttpRequest.newBuilder(URI.create(base + "/api/local/run"))
+            HttpResponse<String> wrongType = client.send(request(base + "/api/local/run")
                 .header("Content-Type", "text/plain").POST(HttpRequest.BodyPublishers.ofString(good)).build(), HttpResponse.BodyHandlers.ofString());
             assertEquals(415, wrongType.statusCode());
             assertEquals(413, post(base, " ".repeat(4097), null).statusCode());
-            HttpResponse<String> query = client.send(HttpRequest.newBuilder(URI.create(base + "/api/local/run?seed=1"))
+            HttpResponse<String> query = client.send(request(base + "/api/local/run?seed=1")
                 .header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(good)).build(), HttpResponse.BodyHandlers.ofString());
             assertEquals(400, query.statusCode());
             assertEquals(403, rawHostStatus(server, "evil.example:" + server.getAddress().getPort(), good));
@@ -269,7 +273,7 @@ class LocalGamesTest {
         HttpServer server = Serve.start(root, 0, local);
         try {
             String base = base(server), request = "{\"bot0\":\"v00\",\"bot1\":\"v00\",\"seed\":null}";
-            CompletableFuture<HttpResponse<String>> first = client.sendAsync(HttpRequest.newBuilder(URI.create(base + "/api/local/run"))
+            CompletableFuture<HttpResponse<String>> first = client.sendAsync(request(base + "/api/local/run")
                 .header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(request)).build(), HttpResponse.BodyHandlers.ofString());
             assertTrue(entered.await(5, TimeUnit.SECONDS));
             assertEquals(409, post(base, request, null).statusCode());
@@ -342,13 +346,15 @@ class LocalGamesTest {
     }
 
     private static String base(HttpServer server) { return "http://127.0.0.1:" + server.getAddress().getPort(); }
+    /** A server that never answers (an Error escaping a handler) fails the test in a minute instead of hanging the suite. */
+    private static HttpRequest.Builder request(String url) { return HttpRequest.newBuilder(URI.create(url)).timeout(Duration.ofSeconds(60)); }
     private static JsonObject object(HttpResponse<String> response) { return JsonParser.parseString(response.body()).getAsJsonObject(); }
     private HttpResponse<String> get(String url) throws IOException, InterruptedException {
-        return client.send(HttpRequest.newBuilder(URI.create(url)).GET().build(), HttpResponse.BodyHandlers.ofString());
+        return client.send(request(url).GET().build(), HttpResponse.BodyHandlers.ofString());
     }
     private HttpResponse<String> post(String base, String body, String origin) throws IOException, InterruptedException {
-        HttpRequest.Builder request = HttpRequest.newBuilder(URI.create(base + "/api/local/run")).header("Content-Type", "application/json");
-        if (origin != null) request.header("Origin", origin);
-        return client.send(request.POST(HttpRequest.BodyPublishers.ofString(body)).build(), HttpResponse.BodyHandlers.ofString());
+        HttpRequest.Builder builder = request(base + "/api/local/run").header("Content-Type", "application/json");
+        if (origin != null) builder.header("Origin", origin);
+        return client.send(builder.POST(HttpRequest.BodyPublishers.ofString(body)).build(), HttpResponse.BodyHandlers.ofString());
     }
 }
