@@ -345,3 +345,39 @@ all eight uploads; with it the earlier uploads' ratings move by up to 0.03).
 - **Placement speed:** 59 minutes.
 - **The gap to the boss** (above about 27.1): about 4.7 points from v03's mean, 3.7 from its best
   placement.
+
+## Third candidate: `route` (ROUTE=1), first upload (2026-11-02)
+
+The user pasted the artifact `da914c4c` (`current` with PARAMS `ROUTE=1`, commit eb5dd14; P2 final
+evaluation S 0.5856 against v03, below the 0.60 recommendation, uploaded by the user's decision) on
+2026-11-01 at 23:56 (agent 6836411), replacing v03 upload 3, which was saved before the paste
+(`docs/data/arena-6829912-presubmit-2026-11-01.json`). The placement was watched as the procedure
+says (every 3 minutes, every minute from 85 %): the first complete snapshot came at 01:30, 93 minutes
+after the paste, with the score last updated at 01:29 (42 snapshots in
+`replays/arena/route/bronze/upload-01/snapshots`).
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| route/upload-1 | 6836411 | 22.89, rank 263/2288 | 60 | 65.0 ± 6.2 | 20 of 30 | 19 of 30 | 21.33 | 22.39 ± 0.43 |
+| v03, three uploads | 6827580, 6828013, 6829912 | mean 22.43, SD 1.53 | 180 | | | | | 22.37 ± 0.27 |
+
+From `python -I tools/arena_compare.py --candidate route --selected v03` (logistic scale 1.40, fitted on
+all nine uploads; with it the earlier ratings move by up to 0.04, v03's pooled rating from 22.35 to 22.37).
+- **Same code:** `cgAttribute` finds every game identical to `da914c4c` (SAME 60/60, 9,770 turns, every
+  compared turn validated by the simulator), with the marker `5c7e3bf0` in all 60.
+- Three wins are opponents' timeouts ("failed to provide 2 lines of output in time"): on the first turn
+  (915286015, a startup timeout), turn 94 (915286510) and turn 97 (915313197), counted as for v03's games.
+  No tie.
+- **Against v03's baseline:** the placement score is +0.46 over the mean (22.89 against 22.43); the early
+  rollback line is −2M = −5.62, so there is no early rollback. The rating is +0.02 ± 0.51 (22.39 ± 0.43
+  against 22.37 ± 0.27). The tool's verdict: upload the candidate again; the P1 decision needs the mean of
+  two uploads.
+- **Noise:** M stays 2.81 (5 df); one upload of `route` adds no degree of freedom.
+- **Shared opponents** (context, tiny samples): against v03/upload-1, 6 players and 7 games, 57.1 % for
+  route against 83.3 % for v03 (stratified −21.1 ± 28.1 pp); against v03/upload-3, 5 players and 6 games,
+  33.3 % against 66.7 % (−33.3 ± 28.9 pp); against v03/upload-2 one game each, both won.
+- **Local prediction:** P2 put the candidate about +0.46 rating points head-to-head against v03 (S 0.5856
+  at scale 1.33). The first placement is +0.46 on the mean, which is well inside the placement noise
+  (M 2.81) and says nothing yet about the arena effect.
+- **Placement speed:** 93 minutes.
+- **The gap to the boss** (above about 27.1): about 4.2 points from this placement.

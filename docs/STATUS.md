@@ -5,26 +5,28 @@ artifacts `docs/BOTS.md`, P1 comparisons and the noise margin `docs/arena-upload
 evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary for the user
 `docs/SUMMARY.md`. The history this page held until 2026-10-30: `git show 60f0b59:docs/STATUS.md`.
 
-- Date: 2026-11-01. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
+- Date: 2026-11-02. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Bronze.
 - Selected/default version and last adopted frozen champion: v03 = v02 with early towers (mines only to income 3, up to 8
   towers), frozen 2026-10-30 (`cr.bot.v03.GreedyBot`, `versions/v03.properties`); `current` defaults to
   it. Selected under P1 on 2026-10-30 (`docs/arena-uploads.md`); rollback artifact `d6266d41…` (commit
   095d1eb; `docs/BOTS.md`, Artifacts).
-- Arena entry: `aabzac`, agent 6829912 = v03 upload 3 (`docs/BOTS.md`, Uploads).
+- Arena entry: `aabzac`, agent 6836411 = `route` upload 1 (artifact `da914c4c…`, `current` with PARAMS
+  `ROUTE=1`, commit eb5dd14), pasted by the user 2026-11-01 23:56 local; placement complete 2026-11-02
+  01:30: score 22.89, rank 263/2288, 60 games, 39 wins, every game identical to the artifact
+  (`docs/BOTS.md`, Uploads; `docs/data/arena-6836411-placement-2026-11-01.json`). It replaced agent
+  6829912 = v03 upload 3, saved before the paste (`docs/data/arena-6829912-presubmit-2026-11-01.json`).
 - Pending candidate: `current?ROUTE=1`, the queen's walk planner (steps 0-1 of the route plan). P2
   strategy screen on block 4 passed (S 0.5813 against v03); the final evaluation on block 2
   (404000-405999) passed G0-G2 against the selected v03 with S 0.5856 (CI 0.5701-0.6011), Δ +0.0025
-  against `boss`, G3 skipped: below the upload recommendation S ≥ 0.60. Off by default; adoption and
-  an upload (then `submit`, both 100-game `procCheck` runs, P1) are the user's decisions. Evidence:
-  `docs/data/exp-2026-11-01-route/`. The earlier candidate `current?APPROACH=1` (S 0.5245,
+  against `boss`, G3 skipped: below the upload recommendation S ≥ 0.60 (`docs/data/exp-2026-11-01-route/`).
+  Uploaded by the user's decision as `route` (artifact `da914c4c…`, `docs/BOTS.md` Artifacts, kept in
+  `artifacts/da914c4c/`): under P1 its first placement scored 22.89 against v03's mean 22.43 (M 2.81), no
+  early rollback, rating 22.39 ± 0.43 against 22.37 ± 0.27 (`docs/arena-uploads.md`). Next: a second upload
+  of the same artifact (the user pastes `artifacts/da914c4c/Player.java`; `submit -Pparams=ROUTE=1` from
+  commit eb5dd14 rebuilds it), then the P1 verdict; adoption (a frozen version with ROUTE on by default) is
+  the user's decision. Off by default in `current`. The earlier candidate `current?APPROACH=1` (S 0.5245,
   `docs/data/exp-2026-10-31-approach/`) is superseded by it (ROUTE replaces APPROACH when on).
-- Prepared upload (2026-11-01, the user's decision despite S < 0.60): artifact `da914c4c…` = `current`
-  with PARAMS `ROUTE=1`, 90,050 chars, build `5c7e3bf0`, config `347b908d`, kept in `artifacts/da914c4c/`;
-  `submit` and both 100-game `procCheck` runs pass (v01 200/200; `boss` 198/200 plus 2/2 on the quiet
-  rerun of seed 6045, where the `boss` process had timed out under load). The live entry (6829912, 23.37)
-  is saved (`docs/data/arena-6829912-presubmit-2026-11-01.json`). Waiting for the user's paste; then the
-  new agent is registered as pending in `docs/data/arena-uploads.json` and its placement followed (P1).
 - Walking diagnostics: `./gradlew legScan` (`cr.tools.LegScan`), baselines in the same README.
 - Bronze boss: "Princess Boss" (arenabossId 175, agentInitialId 1870317, division 219), from the IDE
   session 2026-10-28; its battles are not listed by `findLastBattlesByAgentId`. It stands above about

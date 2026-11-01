@@ -1365,3 +1365,29 @@ registered as pending in `docs/data/arena-uploads.json` and its placement follow
 Committed on the user's request: eb5dd14 (code, tests and records of this entry). A clean export
 of that commit (`git archive`) rebuilt the artifact byte for byte with `submit -Pparams=ROUTE=1`;
 the artifact's row in `docs/BOTS.md` (Artifacts) follows in the next commit.
+
+The user pasted the artifact on 2026-11-01 23:56 local: agent 6836411 (submission 41613612) replaced
+6829912. Registered as `route` upload 1 (pending) in `docs/data/arena-uploads.json`; the discovery
+snapshot of 23:59 (18 %, 11 games, 9 wins) had gone to the unknown folder and was moved into
+`replays/arena/route/bronze/upload-01/snapshots`. The placement is followed by `arena_snapshot.py`
+every 3 minutes (every minute from 85 %) into `docs/data/arena-6836411-placement-2026-11-01.json`
+until the first snapshot with percentage 100 and inProgress false (the placement score under P1).
+
+Placement complete on 2026-11-02 at 01:30 local (the first snapshot with percentage 100 and inProgress
+false; the leaderboard's updateTime 01:29:48; 93 minutes after the paste; 42 snapshots in
+`replays/arena/route/bronze/upload-01/snapshots`, log `placement-watch.log` beside them): score 22.89,
+rank 263 of 2288, 60 games, 39 wins (seat 0: 20 of 30, seat 1: 19 of 30). `arena_games.py 6836411`:
+60 games fetched, marker 5c7e3bf0 in all 60, no failures (`docs/data/arena-6836411-games-2026-11-01.json`,
+raw `replays/arena/route/bronze/upload-01/games`). Three wins are opponents' removals ("failed to
+provide 2 lines of output in time"): 915286015 on the first turn, 915286510 on turn 94, 915313197 on
+turn 97 (counted like v03's games: (frames − 1) / 2). `cgAttribute
+-Preplays=replays/arena/route/bronze/upload-01/games -Pagent=6836411
+-Pbot=file:artifacts/da914c4c/Player.java`: SAME 60/60, 9,770 turns compared and validated, markers
+{5c7e3bf0: 60} (`cgAttribute.log` beside the games). `arena_compare.py --candidate route --selected v03
+--out replays/arena/route/bronze/upload-01/arena-compare.json`: scale 1.40 on nine uploads; route
+22.39 ± 0.43 (opponents' median 21.33), v03 pooled 22.37 ± 0.27, mean 22.43, M 2.81 unchanged; verdict
+"upload the candidate again" (22.89 against the mean, 2M = 5.62). Recorded: the registry (placement,
+attribution), `docs/BOTS.md` (Uploads, Artifacts), STATUS, SUMMARY, `docs/local-screen.md` (the P1 row),
+PLAN and a section in `docs/arena-uploads.md`. The raw upload folder and the experiment's bench
+folder are copied to the main checkout. Open: the second upload of the same artifact (the user),
+then the P1 verdict; adoption.

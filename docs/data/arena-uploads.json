@@ -215,6 +215,33 @@
    "snapshots": "docs/data/arena-6829912-placement-2026-10-31.json",
    "games": "docs/data/arena-6829912-games-2026-10-31.json",
    "attribution": "cgAttribute against the kept copy artifacts/d6266d41/Player.java: SAME in 60 of 60 games, 10,047 turns; marker cd1f3d33 in 60 of 60"
+  },
+  {
+   "label": "route",
+   "upload": 1,
+   "agent": 6836411,
+   "submission": 41613612,
+   "league": "bronze",
+   "artifact": {
+    "sha256": "da914c4c6e0ddae56bdb3f6daba9becff066b5cae69aaa97e441c01656cfb368",
+    "build": "5c7e3bf0",
+    "config": "347b908d",
+    "source": "commit eb5dd14, current with PARAMS ROUTE=1 (otherwise the v03 defaults); kept copy artifacts/da914c4c/Player.java"
+   },
+   "created": "2026-11-01T23:56:42+02:00",
+   "placement": {
+    "score": 22.89,
+    "rank": 263,
+    "agents": 2288,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-11-02T01:30:21+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-02T01:29:48+02:00 (leaderboard updateTime)"
+   },
+   "snapshots": "docs/data/arena-6836411-placement-2026-11-01.json",
+   "games": "docs/data/arena-6836411-games-2026-11-01.json",
+   "submittedBy": "the user in the IDE (decision of 2026-11-01: upload despite S 0.5856 < 0.60 in the P2 final evaluation)",
+   "attribution": "cgAttribute against the kept copy artifacts/da914c4c/Player.java: SAME in 60 of 60 games, 9,770 turns; marker 5c7e3bf0 in 60 of 60"
   }
  ],
  "legacyUploads": [
