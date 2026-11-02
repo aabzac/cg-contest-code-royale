@@ -15,8 +15,8 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MainBotTest {
-    /** v01's and v02's parameters besides UNSTICK: the captured positions and the audit's games were played with them. */
-    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,";
+    /** v01's and v02's parameters besides UNSTICK (ROUTE=0: the planner would replace UNSTICK): the captured positions and the audit's games were played with them. */
+    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,";
 
     /**
      * A captured position: the init and turn input that seat 1 of v01 against current read on one
@@ -129,10 +129,16 @@ class MainBotTest {
         assertSamePlay("current?" + V02 + "UNSTICK=1", "v02", new long[]{10035, 10062, 10206, 10394, 10477, 200002, 200035, 200060});
     }
 
-    /** With its defaults (early towers since v03), current plays the frozen v03's games command for command. */
+    /** With ROUTE off (v03's parameters), current plays the frozen v03's games command for command. */
     @Test
-    void withDefaultsCurrentPlaysAsV03() {
-        assertSamePlay("current", "v03", new long[]{100000, 100001, 100002, 10394, 10477, 202000, 202001, 202002});
+    void withV03ParamsCurrentPlaysAsV03() {
+        assertSamePlay("current?ROUTE=0", "v03", new long[]{100000, 100001, 100002, 10394, 10477, 202000, 202001, 202002});
+    }
+
+    /** With its defaults (the walk planner since v04), current plays the frozen v04's games command for command (seeds with slides and screened maps). */
+    @Test
+    void withDefaultsCurrentPlaysAsV04() {
+        assertSamePlay("current", "v04", new long[]{100000, 110135, 110098, 10394, 208000, 208001, 208002, 404000});
     }
 
     /** bot and frozen play the same commands on both seats against v01 and v02. */

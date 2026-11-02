@@ -1416,3 +1416,23 @@ frozen version with ROUTE on by default is the user's decision, and `current` ke
 the registry (placement, attribution), `docs/BOTS.md` (Uploads, Artifacts, the flag row, the v03 row),
 STATUS, SUMMARY, `docs/local-screen.md` (the P1 row), PLAN and a section in `docs/arena-uploads.md`.
 The raw upload folder is copied to the main checkout.
+
+v04 frozen on 2026-11-02 by the user's decision ("Да, заморозить v04"): `cr.bot.v04.GreedyBot` is a copy of
+`cr.bot.current.MainBot` at b740cf0 (bot sources unchanged since eb5dd14) with its own copies of
+`RoutePlanner` and `ApproachPlanner`, the package and class renamed, `name()` "v04" and, as in the other
+frozen copies, no step-prediction counter (LegScan reports frozen versions as not counted);
+`versions/v04.properties` = v03's snapshot with ROUTE=1. `Params.ROUTE` defaults to 1, so `current` plays
+as v04; v01-v03 keep ROUTE=0 in their snapshots. `BotFactory` and the local-games catalog (`LocalGames`,
+default opponent v04, `visualizer/local.js` fallback) know v04. Tests: `MainBotTest.withDefaultsCurrentPlaysAsV04`
+(seeds 100000, 110135, 110098, 10394, 208000-208002, 404000, both seats against v01 and v02),
+`withV03ParamsCurrentPlaysAsV03` now runs `current?ROUTE=0`; `BotFactoryTest` pins the live defaults to v04's
+snapshot; the UNSTICK, APPROACH, stall-scan, attribution and seed-110098 LegScan tests pin ROUTE=0, since the
+planner replaces UNSTICK and APPROACH; `LocalGamesTest` expects six bots and `route1` in the default
+configuration ids. `./gradlew test`: 128 tests, 0 failures, 1 skipped (the arena-replay attribution test, replays absent in the worktree), 27 s; node tests 18/18. `cgAttribute -Preplays=replays/arena/route/bronze/upload-02/games
+-Pagent=6836589 -Pbot=v04`: SAME 60/60, 9,492 turns (`cgAttribute-v04.log` beside the games). `./gradlew submit`
+with empty PARAMS: sha256 ba2f8c2af1e924fca206cee2f346454cece899da11062b7dd2011e6cd482f362, 90,239 chars, build 30ba51a6, config 4f4efb38; `procCheck -Popp=v03 -Pgames=20
+-PseedBase=7000`: 40/40 identical to current, 20 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 215.4 ms, later 2.5 ms. The artifact is a packaging check only: not kept and not uploaded, the live
+arena entry stays `route` upload 2 (`da914c4c`, the same play). Records: `docs/BOTS.md` (versions, flags,
+artifacts), STATUS, SUMMARY, PLAN, `docs/local-screen.md` (roles), `docs/arena-uploads.md`, `docs/visualizer.md`,
+`docs/bot-architecture.html` (ROUTE section, versions table, file map), `.ai/project.md` (local-match row) with
+the kit sync.

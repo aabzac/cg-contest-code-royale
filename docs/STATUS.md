@@ -7,13 +7,12 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 
 - Date: 2026-11-02. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Bronze.
-- Selected version (P1, 2026-11-02): `route` = `current?ROUTE=1`, the queen's walk planner, by two placements
-  (mean 22.50 against v03's 22.43, "not clearly worse"; `docs/arena-uploads.md`). Its artifact `da914c4c…`
-  (commit eb5dd14; kept in `artifacts/da914c4c/`, `docs/BOTS.md` Artifacts) is the rollback artifact for the
-  next candidate. Not frozen as a version and not the default of `current` (ROUTE=0): adoption is the
-  user's decision. Last frozen version and the `current` defaults: v03 = v02 with early towers (mines only
-  to income 3, up to 8 towers), frozen 2026-10-30 (`cr.bot.v03.GreedyBot`, `versions/v03.properties`),
-  selected under P1 2026-10-30 to 2026-11-02; its artifact `d6266d41…` (commit 095d1eb).
+- Selected/default version and local champion: v04 = v03 with the queen's walk planner (ROUTE=1: `RoutePlanner`
+  replaces UNSTICK and APPROACH), frozen 2026-11-02 (`cr.bot.v04.GreedyBot`, `versions/v04.properties`);
+  `current` defaults to it. Selected under P1 on 2026-11-02 as the `route` configuration, by two placements
+  (mean 22.50 against v03's 22.43, "not clearly worse"; `docs/arena-uploads.md`); rollback artifact
+  `da914c4c…` (commit eb5dd14, kept in `artifacts/da914c4c/`; `docs/BOTS.md`, Artifacts). Previous: v03
+  (`cr.bot.v03.GreedyBot`, early towers), selected 2026-10-30 to 2026-11-02, artifact `d6266d41…`.
 - Arena entry: `aabzac`, agent 6836589 = `route` upload 2 (the same artifact `da914c4c…` as upload 1,
   `current` with PARAMS `ROUTE=1`, commit eb5dd14), pasted by the user 2026-11-02 01:42 local; placement
   complete 03:39: score 22.10, rank 302/2288, 60 games, 40 wins, every game identical to the artifact
@@ -26,9 +25,8 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   user's decision as `route`: placements 22.89 and 22.10 against v03's mean 22.43 (M 2.61), pooled rating
   22.01 ± 0.33 against 22.39 ± 0.28; verdict "not clearly worse", so it is the selected version
   (`docs/arena-uploads.md`); the arena neither confirms nor contradicts the local +0.46 rating points. No
-  pending candidate. Next: the user's decision on adoption (freeze as v04 with ROUTE on by default, which
-  changes the `current` defaults) or keep `current` as is; the next candidate is compared with
-  `current?ROUTE=1` locally and with `route`'s two placements on the arena. The earlier candidate
+  pending candidate. Frozen as v04 on 2026-11-02 by the user's decision (ROUTE on by default in `current`);
+  the next candidate is compared with v04 locally and with `route`'s two placements on the arena. The earlier candidate
   `current?APPROACH=1` (S 0.5245, `docs/data/exp-2026-10-31-approach/`) is superseded by it (ROUTE replaces
   APPROACH when on).
 - Walking diagnostics: `./gradlew legScan` (`cr.tools.LegScan`), baselines in the same README.

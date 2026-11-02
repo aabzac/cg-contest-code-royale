@@ -16,9 +16,11 @@ class BotFactoryTest {
         assertEquals(v01.toString().replace("UNSTICK=0", "UNSTICK=1"), v02.toString());
         Params v03 = BotFactory.snapshot("v03");
         assertEquals(v02.toString().replace("INCOME_TARGET=10", "INCOME_TARGET=3").replace("MAX_TOWERS=4", "MAX_TOWERS=8"), v03.toString());
-        assertEquals(new Params().toString(), v03.toString(), "the live defaults are v03's until the next champion");
+        Params v04 = BotFactory.snapshot("v04");
+        assertEquals(v03.toString().replace("ROUTE=0", "ROUTE=1"), v04.toString());
+        assertEquals(new Params().toString(), v04.toString(), "the live defaults are v04's until the next champion");
         // every Params field must be present in each snapshot, so new live defaults cannot leak in silently
-        for (String version : new String[]{"v01", "v02", "v03"}) {
+        for (String version : new String[]{"v01", "v02", "v03", "v04"}) {
             String spec = new java.util.Properties() {{
                 try (java.io.InputStream in = BotFactory.class.getResourceAsStream("versions/" + version + ".properties")) { load(in); }
                 catch (java.io.IOException e) { throw new IllegalStateException(e); }
@@ -60,6 +62,7 @@ class BotFactoryTest {
         assertEquals("v01 " + BotFactory.snapshot("v01").apply("MAX_TOWERS=2"), BotFactory.describe("v01?MAX_TOWERS=2"));
         assertEquals("v02 " + BotFactory.snapshot("v02"), BotFactory.describe("v02"));
         assertEquals("v03 " + BotFactory.snapshot("v03"), BotFactory.describe("v03"));
+        assertEquals("v04 " + BotFactory.snapshot("v04"), BotFactory.describe("v04"));
         assertEquals("proc:java -cp x Player", BotFactory.describe("proc:java -cp x Player"));
         assertTrue(BotFactory.describe("boss").matches("boss sha256=([0-9a-f]{64}|missing)"));
         assertTrue(BotFactory.describe("old").matches("old sha256=([0-9a-f]{64}|missing)"));

@@ -77,9 +77,9 @@
   - [x] Step 1: `ROUTE=1`, movement only (heading fan + landing point, replaces UNSTICK and APPROACH):
     P2 screen and final evaluation against v03 passed, below the upload recommendation
     (`docs/data/exp-2026-11-01-route/`); uploaded by the user's decision, two placements under P1
-    (22.89 and 22.10), selected 2026-11-02 (`docs/arena-uploads.md`); freezing it as a version is the user's call
+    (22.89 and 22.10), selected 2026-11-02 (`docs/arena-uploads.md`) and frozen as v04 (ROUTE on by default)
   - [ ] Step 2: unit-aware final step
-  - [ ] Step 3: `ORDER=k`, target choice by turns, against `current?ROUTE=1`
+  - [ ] Step 3: `ORDER=k`, target choice by turns, against v04 (the `current` defaults)
   - [ ] Step 4: own towers on the route (ROUTE walks past them, so fewer top-ups; same README), flee
     routing, teardown bonus
 - [ ] A local opponent with giants (they break towers; 12 % of the arena opponents build them)

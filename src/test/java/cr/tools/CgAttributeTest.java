@@ -149,7 +149,7 @@ class CgAttributeTest {
     }
 
     /** v01's parameters: the placement games below were played by v01, and current's defaults have moved on. */
-    private static final String V01_PARAMS = "INCOME_TARGET=10,MAX_TOWERS=4,UNSTICK=0";
+    private static final String V01_PARAMS = "INCOME_TARGET=10,MAX_TOWERS=4,UNSTICK=0,ROUTE=0";
     private static final String V01_PLAY = "current?" + V01_PARAMS;
 
     /**

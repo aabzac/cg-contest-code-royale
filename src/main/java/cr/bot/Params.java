@@ -20,16 +20,18 @@ public final class Params {
      * 1: when the BUILD towards the next site to take would leave the queen standing (a site straight
      * ahead pushes her back, or two sites wedge her), she detours with MOVEs (MainBot.unstick).
      * 0 plays as v01. A P2 targeted fix (docs/local-screen.md); on by default since v02 (2026-10-30).
+     * Replaced by ROUTE when that is on (since v04), so it only plays with ROUTE=0.
      */
     public int UNSTICK = 1;
-    /** Experimental final approach toward the same site, favoring the following site; off in v03. */
+    /** Experimental final approach toward the same site, favoring the following site; off in v03 and v04 (ROUTE replaces it when on). */
     public int APPROACH = 0;
     /**
      * 1: the walk to the next site to take is planned with the sites only (MainBot's RoutePlanner):
      * a heading fan around obstacles and the landing point for the next target, replacing UNSTICK
-     * and APPROACH. Experimental (docs/data/exp-2026-11-01-route); off in v03.
+     * and APPROACH. Off in v03; on by default since v04 (2026-11-02: P2 docs/data/exp-2026-11-01-route,
+     * selected under P1, docs/arena-uploads.md).
      */
-    public int ROUTE = 0;
+    public int ROUTE = 1;
     public long SEED = 1;
     public int DEBUG = 0;
 

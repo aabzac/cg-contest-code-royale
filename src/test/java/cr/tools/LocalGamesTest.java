@@ -53,9 +53,9 @@ class LocalGamesTest {
         try {
             String base = base(server);
             JsonObject choices = object(get(base + "/api/local/bots"));
-            assertEquals(5, choices.getAsJsonArray("bots").size());
+            assertEquals(6, choices.getAsJsonArray("bots").size());
             assertEquals("current", choices.getAsJsonObject("defaults").get("bot0").getAsString());
-            assertEquals("v03", choices.getAsJsonObject("defaults").get("bot1").getAsString());
+            assertEquals("v04", choices.getAsJsonObject("defaults").get("bot1").getAsString());
             JsonArray flags = choices.getAsJsonArray("bots").get(0).getAsJsonObject().getAsJsonArray("flags");
             assertEquals(List.of("UNSTICK", "APPROACH", "ROUTE"), flags.asList().stream()
                 .map(f -> f.getAsJsonObject().get("id").getAsString()).toList());
@@ -69,7 +69,7 @@ class LocalGamesTest {
             assertEquals(201, created.statusCode(), created.body());
             JsonObject row = object(created);
             file = row.get("file").getAsString();
-            assertTrue(file.startsWith("replays/local/current-unstick0-approach1-route0-vs-v03/"), file);
+            assertTrue(file.startsWith("replays/local/current-unstick0-approach1-route1-vs-v03/"), file);
             assertEquals(17, row.get("seed").getAsInt());
             assertTrue(row.get("turns").getAsInt() > 0);
             assertEquals(2, row.getAsJsonArray("errors").size());
@@ -79,12 +79,12 @@ class LocalGamesTest {
             JsonObject saved = JsonParser.parseString(Files.readString(root.resolve(file))).getAsJsonObject();
             assertEquals("local", saved.get("format").getAsString());
             assertEquals(2, saved.get("localGameVersion").getAsInt());
-            assertEquals("current?UNSTICK=0,APPROACH=1,ROUTE=0", saved.getAsJsonArray("botSpecs").get(0).getAsString());
+            assertEquals("current?UNSTICK=0,APPROACH=1,ROUTE=1", saved.getAsJsonArray("botSpecs").get(0).getAsString());
             assertEquals("current", saved.getAsJsonArray("botIds").get(0).getAsString());
             assertFalse(saved.getAsJsonArray("botFlags").get(0).getAsJsonObject().get("UNSTICK").getAsBoolean());
             assertTrue(saved.getAsJsonArray("botFlags").get(0).getAsJsonObject().get("APPROACH").getAsBoolean());
-            assertFalse(saved.getAsJsonArray("botFlags").get(0).getAsJsonObject().get("ROUTE").getAsBoolean());
-            assertEquals("current-unstick0-approach1-route0", row.getAsJsonArray("botConfigIds").get(0).getAsString());
+            assertTrue(saved.getAsJsonArray("botFlags").get(0).getAsJsonObject().get("ROUTE").getAsBoolean());
+            assertEquals("current-unstick0-approach1-route1", row.getAsJsonArray("botConfigIds").get(0).getAsString());
             assertTrue(saved.getAsJsonArray("effectiveParams").get(0).getAsString().contains("APPROACH=1"));
             assertTrue(saved.getAsJsonArray("effectiveParams").get(1).getAsString().contains("APPROACH=0"));
             assertEquals("server-classpath-snapshot", saved.getAsJsonObject("provenance").get("kind").getAsString());
@@ -130,12 +130,12 @@ class LocalGamesTest {
         assertEquals(defaults.get("botConfigIds"), explicit.get("botConfigIds"));
         assertEquals(defaults.get("bots"), explicit.get("bots"));
         assertEquals(defaults.get("botFlags"), explicit.get("botFlags"));
-        assertEquals("current?UNSTICK=1,APPROACH=0,ROUTE=0", played.get(0).get(0));
+        assertEquals("current?UNSTICK=1,APPROACH=0,ROUTE=1", played.get(0).get(0));
         assertNotEquals(defaults.get("file"), explicit.get("file"));
 
         JsonObject approach = run(local, "{\"bot0\":\"current\",\"flags0\":{\"APPROACH\":true},\"bot1\":\"v03\",\"seed\":1}");
-        assertEquals("current-unstick1-approach1-route0", approach.getAsJsonArray("botConfigIds").get(0).getAsString());
-        assertEquals("current?UNSTICK=1,APPROACH=1,ROUTE=0", played.get(2).get(0));
+        assertEquals("current-unstick1-approach1-route1", approach.getAsJsonArray("botConfigIds").get(0).getAsString());
+        assertEquals("current?UNSTICK=1,APPROACH=1,ROUTE=1", played.get(2).get(0));
         JsonObject route = run(local, "{\"bot0\":\"current\",\"flags0\":{\"ROUTE\":true},\"bot1\":\"v03\",\"seed\":1}");
         assertEquals("current-unstick1-approach0-route1", route.getAsJsonArray("botConfigIds").get(0).getAsString());
         assertEquals("current [UNSTICK=1, ROUTE=1]", route.getAsJsonArray("bots").get(0).getAsString());
@@ -154,7 +154,7 @@ class LocalGamesTest {
         assertEquals(both.getAsJsonArray("botConfigIds").get(0), swapped.getAsJsonArray("botConfigIds").get(1));
         assertEquals(both.getAsJsonArray("botConfigIds").get(1), swapped.getAsJsonArray("botConfigIds").get(0));
         assertNotEquals(Path.of(both.get("file").getAsString()).getParent(), Path.of(swapped.get("file").getAsString()).getParent());
-        assertEquals(List.of("current?UNSTICK=1,APPROACH=0,ROUTE=0", "current?UNSTICK=0,APPROACH=1,ROUTE=0"), played.get(played.size() - 2));
+        assertEquals(List.of("current?UNSTICK=1,APPROACH=0,ROUTE=1", "current?UNSTICK=0,APPROACH=1,ROUTE=1"), played.get(played.size() - 2));
     }
 
     @Test void historyKeepsSavedConfigurationEvidenceAndLegacyLabelsWithoutCurrentCatalogDefaults() throws Exception {

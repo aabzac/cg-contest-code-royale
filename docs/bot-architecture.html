@@ -129,6 +129,7 @@ pre.mermaid svg { display: block; margin: 0 auto; }
   <a href="#pseudo">Псевдокод</a>
   <a href="#target">Выбор цели на карте</a>
   <a href="#unstick">UNSTICK</a>
+  <a href="#route">ROUTE</a>
   <a href="#train">TRAIN</a>
   <a href="#params">Параметры и версии</a>
   <a href="#files">Карта файлов</a>
@@ -137,16 +138,16 @@ pre.mermaid svg { display: block; margin: 0 auto; }
 
 <main>
 <header id="overview">
-  <div class="eyebrow">cr.bot.current.MainBot · = v03 · коммит 18b8311 · Bronze</div>
+  <div class="eyebrow">cr.bot.current.MainBot · = v04 · заморозка 2026-11-02 · Bronze</div>
   <h1>Архитектура текущего бота</h1>
-  <p class="lead">Бот жадный и без поиска. Каждый ход он смотрит только на текущее состояние и проходит фиксированную лестницу правил. Сначала один барак рыцарей, потом шахты до дохода 3, потом до 8 башен. Если рядом вражеские рыцари, королева бежит к своей башне. Все бараки, на которые хватает золота, тренируют каждый ход.</p>
-  <p class="muted">Состояние между ходами — только две вещи: сторона старта (<code>homeLeft</code>) и план обхода UNSTICK. Дедлайн передаётся в <code>play</code>, но не читается: бюджет 50 ms бот не использует.</p>
-  <p class="muted">Страница описывает код на коммите 18b8311 и лежит в репозитории как <code>docs/bot-architecture.html</code>; другого описания бота нет. При изменении правил в <code>MainBot.play</code> её нужно обновить.</p>
+  <p class="lead">Бот жадный и без поиска. Каждый ход он смотрит только на текущее состояние и проходит фиксированную лестницу правил. Сначала один барак рыцарей, потом шахты до дохода 3, потом до 8 башен. Если рядом вражеские рыцари, королева бежит к своей башне. Все бараки, на которые хватает золота, тренируют каждый ход. С v04 путь к следующей площадке планирует <a href="#route">ROUTE</a>: он заранее обходит площадки на пути и выбирает точку касания под следующую цель.</p>
+  <p class="muted">Состояние между ходами: сторона старта (<code>homeLeft</code>), курс прошлого хода планировщика ROUTE (гистерезис) и, при <code>ROUTE=0</code>, план обхода UNSTICK. Дедлайн передаётся в <code>play</code>, но не читается: бюджет 50 ms бот не использует.</p>
+  <p class="muted">Страница описывает код заморозки v04 (исходники бота как в коммите eb5dd14, артефакт <code>da914c4c</code>) и лежит в репозитории как <code>docs/bot-architecture.html</code>; другого описания бота нет. При изменении правил в <code>MainBot.play</code> её нужно обновить.</p>
   <div class="facts">
-    <div class="fact"><b>~200</b><span>строк в MainBot.java</span></div>
-    <div class="fact"><b>4</b><span>параметра стратегии (Params)</span></div>
+    <div class="fact"><b>~650</b><span>строк: MainBot, RoutePlanner, ApproachPlanner</span></div>
+    <div class="fact"><b>6</b><span>параметров стратегии (Params)</span></div>
     <div class="fact"><b>1 → 3 → 8</b><span>барак → доход → башни</span></div>
-    <div class="fact"><b>21.96</b><span>средний placement v03 в Bronze</span></div>
+    <div class="fact"><b>22.50</b><span>средний placement v04 (ROUTE=1) в Bronze</span></div>
   </div>
 </header>
 
@@ -184,7 +185,7 @@ flowchart TD
   T1 -- нет --> TH
   TH{{"угроза?"}} -- да --> FT["BUILD своей башни, ближайшей<br/>к королеве; без башен MOVE домой"]
   TH -- нет --> NQ{{"лестница не выполнена<br/>и есть подходящий сайт?"}}
-  NQ -- да --> US["BUILD сайта, ближайшего<br/>к середине пути к дому;<br/>UNSTICK может заменить на MOVE"]
+  NQ -- да --> US["BUILD сайта, ближайшего<br/>к середине пути к дому;<br/>ROUTE может заменить на MOVE<br/>(UNSTICK при ROUTE=0)"]
   NQ -- нет --> FB["BUILD своей башни, ближайшей<br/>к дому; без башен MOVE домой"]
   </pre>
   <p class="cap">Лестница: нет барака → BARRACKS-KNIGHT; доход ниже 3, на сайте есть золото и нет угрозы → MINE; башен меньше 8 → TOWER. Если правило касания не дало команды (чужой сайт, шахта на максимуме, угроза мешает шахте, лестница выполнена), решение уходит ниже, к угрозе. Рыцари врага — единственная угроза, которую бот видит; лучники и гиганты не считаются.</p>
@@ -228,7 +229,8 @@ flowchart TD
                      (пока строим шахты — только с золотом &gt; 0)
         <span class="k">if</span> target:
             cmd = BUILD target (BARRACKS-KNIGHT | MINE | TOWER по лестнице)
-            <span class="k">if</span> <span class="s">UNSTICK</span>: cmd = unstick(cmd)     <span class="c">// может стать MOVE в обход</span>
+            <span class="k">if</span> <span class="s">ROUTE</span>: cmd = route.plan(cmd)    <span class="c">// MOVE в обход или к точке касания</span>
+            <span class="k">elif</span> <span class="s">UNSTICK</span>: cmd = unstick(cmd)   <span class="c">// v02–v03: может стать MOVE в обход</span>
         <span class="k">else</span>:
             tw  = своя башня, ближайшая к дому
             cmd = tw ? BUILD tw TOWER : MOVE home
@@ -277,7 +279,7 @@ flowchart TD
 
 <section id="unstick">
   <h2>UNSTICK: обход застревания</h2>
-  <p><code>BUILD</code> ведёт королеву прямо к центру сайта. Если по прямой стоит другой сайт, коллизия отталкивает её назад, и она стоит на месте (в v01 до 43 ходов). UNSTICK (<code>MainBot.unstick</code>, <code>Params.UNSTICK=1</code> с v02) срабатывает только для BUILD к следующей цели: стройку на сайте касания и бегство он не трогает.</p>
+  <p><code>BUILD</code> ведёт королеву прямо к центру сайта. Если по прямой стоит другой сайт, коллизия отталкивает её назад, и она стоит на месте (в v01 до 43 ходов). UNSTICK (<code>MainBot.unstick</code>, <code>Params.UNSTICK=1</code> с v02) срабатывает только для BUILD к следующей цели: стройку на сайте касания и бегство он не трогает. С v04 при <code>ROUTE=1</code> его место занимает планировщик (<a href="#route">ниже</a>); UNSTICK действует только при <code>ROUTE=0</code>.</p>
   <ol class="prio">
     <li><b>Продолжить начатый обход</b>Если в прошлый ход был обход к этому же сайту и ходы обхода остались, сделать ещё один MOVE тем же курсом, если он сдвигает королеву хотя бы на 2.</li>
     <li><b>Проверить прямой шаг</b><code>Physics.queenStep</code> предсказывает шаг: скорость 60, 5 проходов коллизий, только сайты, без юнитов. Если королева уже касается сайта, шаг сдвигает её или она начинает касаться сайта, остаётся обычный BUILD.</li>
@@ -287,6 +289,28 @@ flowchart TD
   <p class="cap">MOVE ставится на 200 вперёд по курсу и обрезается краем поля. Если ни один план не находит касания, остаётся BUILD. Тесты: <code>MainBotTest.aSiteStraightAheadIsWalkedAround</code>, <code>twoSitesThatWedgeTheQueenAreWalkedAround</code>, <code>aFreeWalkKeepsTheBuild</code>.</p>
 </section>
 
+<section id="route">
+  <h2>ROUTE: планировщик пути к следующей площадке</h2>
+  <p>С v04 (<code>Params.ROUTE=1</code>, <code>RoutePlanner</code>) путь к следующей цели A планируется заново каждый ход по одним площадкам (<code>Physics.queenStep</code>: скорость 60, 5 проходов коллизий, без юнитов). Как и UNSTICK, он работает только для BUILD к следующей цели и заменяет UNSTICK и APPROACH.</p>
+  <pre class="mermaid">
+flowchart TD
+  B(["BUILD к цели A"]) --> P["предсказать прямую ходьбу<br/>до касания A (горизонт 25)"]
+  P --> OK{{"чистая? без скольжения,<br/>остановок, чужих башен и<br/>попутных пустых площадок;<br/>посадка не дальше 1 хода от B"}}
+  OK -- да --> KEEP(["оставить BUILD"])
+  OK -- нет --> FAN["веер: 24 курса × 1–3 MOVE,<br/>затем прямая;<br/>для каждого префикса — посадка<br/>в точке кольца A, ближней к B"]
+  FAN --> CMP["сравнить: ходы до касания A,<br/>затем ходы от посадки до B,<br/>затем курс прошлого хода"]
+  CMP --> MV(["первый MOVE лучшего плана<br/>(или BUILD, если он лучший)"])
+  </pre>
+  <ol class="prio">
+    <li><b>Прямая ходьба</b>Сначала предсказывается обычный BUILD. Он чистый, если занимает не больше ходов, чем прямая оценка (нет скольжения вдоль площадки), королева не стоит на месте, ни один ход не заканчивается в радиусе вражеской башни или на пустой площадке, где правило касания начало бы стройку, и она касается A одна. Чистая ходьба с посадкой не дальше одного хода от следующей цели B (<code>ApproachPlanner.nextTarget</code>) остаётся как есть.</li>
+    <li><b>Веер курсов</b>Иначе перебираются 24 курса (шаг 15° в обе стороны от прямой) по 1–3 MOVE на 60, затем прямая до касания. Для прямого старта и каждого префикса ищется и посадка: точка кольца A, ближайшая к B, обрезанная дугой, достижимой за то же число ходов; последний шаг целится точно в неё, чтобы остановиться без отталкивания.</li>
+    <li><b>Цена и запреты</b>Ход, заканчивающийся на пустой площадке с готовой стройкой, стоит один ход (стройка). Остановка или радиус вражеской башни отменяют план. Свои башни и шахты не обходятся: касание подкачивает или улучшает их, как в v03.</li>
+    <li><b>Выбор</b>Меньше ходов до касания A; при равенстве — меньше ходов от посадки до B; затем курс прошлого хода (гистерезис); затем порядок перебора. Бюджет — не больше 3000 предсказаний шага за ход, после чего берётся лучший полный план: поиск детерминирован и часов не читает.</li>
+    <li><b>Рядом юниты</b>Когда рядом юниты (те же условия, что у APPROACH) или вражеская королева может оспорить A, работает только обход препятствий, без поиска посадки.</li>
+  </ol>
+  <p class="cap">Эффект (<code>docs/data/exp-2026-11-01-route/</code>): ходьба 92.9 → 86.7 ходов за игру, скольжения вдвое меньше, лестница завершается на 10 ходов раньше; 58,6 % очков против v03 на 2000 свежих карт; на арене две загрузки 22.89 и 22.10 при среднем v03 22.43. Тесты: <code>RoutePlannerTest</code> (застревания, скольжение seed 110135, посадка, бегство, детерминизм), <code>MainBotTest.withDefaultsCurrentPlaysAsV04</code>.</p>
+</section>
+
 <section id="train">
   <h2>TRAIN</h2>
   <p>Каждый ход перебираются свои бараки по возрастанию id. Барак, который не тренирует и на который хватает золота, тренирует; золото уменьшается. Барак у бота один и только рыцарский: 4 рыцаря за 80 золота, 5 ходов. Лимит 30 крипов на игрока не проверяется: это важно только при нескольких бараках.</p>
@@ -294,19 +318,20 @@ flowchart TD
 
 <section id="params">
   <h2>Параметры и версии</h2>
-  <p>Все версии — один и тот же жадный бот; различаются снимком <code>Params</code> (<code>src/main/resources/cr/bot/versions/vNN.properties</code>) и флагом UNSTICK. <code>current</code> сейчас играет как v03.</p>
+  <p>Все версии — один и тот же жадный бот; различаются снимком <code>Params</code> (<code>src/main/resources/cr/bot/versions/vNN.properties</code>) и флагами UNSTICK и ROUTE. <code>current</code> сейчас играет как v04.</p>
   <div class="tbl">
   <table>
-    <thead><tr><th>Версия</th><th>INCOME_TARGET</th><th>MAX_TOWERS</th><th>BARRACKS</th><th>UNSTICK</th><th>Arena Bronze</th></tr></thead>
+    <thead><tr><th>Версия</th><th>INCOME_TARGET</th><th>MAX_TOWERS</th><th>BARRACKS</th><th>UNSTICK</th><th>ROUTE</th><th>Arena Bronze</th></tr></thead>
     <tbody>
-      <tr><td>v00 <span class="muted">WaitBot</span></td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="muted">только WAIT, для тестов</td></tr>
-      <tr><td>v01</td><td class="num">10</td><td class="num">4</td><td class="num">1</td><td class="num">0</td><td class="num">17.77 <span class="muted">(3 загрузки)</span></td></tr>
-      <tr><td>v02</td><td class="num">10</td><td class="num">4</td><td class="num">1</td><td class="num">1</td><td class="num">17.81 <span class="muted">(2)</span></td></tr>
-      <tr><td>v03 <span class="pill me">выбрана</span></td><td class="num">3</td><td class="num">8</td><td class="num">1</td><td class="num">1</td><td class="num">21.96 <span class="muted">(2)</span></td></tr>
+      <tr><td>v00 <span class="muted">WaitBot</span></td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="muted">только WAIT, для тестов</td></tr>
+      <tr><td>v01</td><td class="num">10</td><td class="num">4</td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num">17.77 <span class="muted">(3 загрузки)</span></td></tr>
+      <tr><td>v02</td><td class="num">10</td><td class="num">4</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="num">17.81 <span class="muted">(2)</span></td></tr>
+      <tr><td>v03</td><td class="num">3</td><td class="num">8</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="num">22.43 <span class="muted">(3)</span></td></tr>
+      <tr><td>v04 <span class="pill me">выбрана</span></td><td class="num">3</td><td class="num">8</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="num">22.50 <span class="muted">(2, как конфигурация route)</span></td></tr>
     </tbody>
   </table>
   </div>
-  <p class="cap">Параметры задаются строкой <code>K=v,K2=v</code> (<code>Params.apply</code>), неизвестный ключ — ошибка. Для артефакта — <code>./gradlew submit -Pparams=…</code>; в бенче — <code>current?K=v</code>. Что <code>current</code> воспроизводит замороженные версии, проверяют <code>MainBotTest.withUnstickOffCurrentPlaysAsV01</code>, <code>withV02ParamsCurrentPlaysAsV02</code> и <code>withDefaultsCurrentPlaysAsV03</code>.</p>
+  <p class="cap">Параметры задаются строкой <code>K=v,K2=v</code> (<code>Params.apply</code>), неизвестный ключ — ошибка. Для артефакта — <code>./gradlew submit -Pparams=…</code>; в бенче — <code>current?K=v</code>. Что <code>current</code> воспроизводит замороженные версии, проверяют <code>MainBotTest.withUnstickOffCurrentPlaysAsV01</code>, <code>withV02ParamsCurrentPlaysAsV02</code>, <code>withV03ParamsCurrentPlaysAsV03</code> и <code>withDefaultsCurrentPlaysAsV04</code>.</p>
 </section>
 
 <section id="files">
@@ -316,15 +341,17 @@ flowchart TD
     <thead><tr><th>Файл</th><th>Роль</th><th>Идёт в Player.java</th></tr></thead>
     <tbody>
       <tr><td><code>cr/bot/Bot.java</code></td><td>Интерфейс: <code>init</code>, <code>play(state, touched, deadline)</code></td><td><span class="pill me">да</span></td></tr>
-      <tr><td><code>cr/bot/current/MainBot.java</code></td><td>Вся стратегия и UNSTICK</td><td><span class="pill me">да</span></td></tr>
+      <tr><td><code>cr/bot/current/MainBot.java</code></td><td>Стратегия: лестница, цели, бегство, TRAIN; UNSTICK</td><td><span class="pill me">да</span></td></tr>
+      <tr><td><code>cr/bot/current/RoutePlanner.java</code></td><td>ROUTE: план пути и точка касания</td><td><span class="pill me">да</span></td></tr>
+      <tr><td><code>cr/bot/current/ApproachPlanner.java</code></td><td>Следующая цель для ROUTE; флаг APPROACH (выключен)</td><td><span class="pill me">да</span></td></tr>
       <tr><td><code>cr/bot/Params.java</code></td><td>Настраиваемые веса</td><td><span class="pill me">да</span></td></tr>
       <tr><td><code>cr/submit/CGRunner.java</code></td><td>Цикл CG, прогрев, метка build id</td><td><span class="pill me">да</span></td></tr>
       <tr><td><code>cr/core/InputReader.java</code></td><td>Парсер протокола, «игрок 0 = я»</td><td><span class="pill me">да</span></td></tr>
       <tr><td><code>cr/core/GameState.java</code>, <code>Const</code>, <code>Command</code></td><td>Состояние массивами, константы live, команды</td><td><span class="pill me">да</span></td></tr>
-      <tr><td><code>cr/core/Physics.java</code></td><td>Коллизии; <code>queenStep</code> для UNSTICK</td><td><span class="pill me">да</span></td></tr>
+      <tr><td><code>cr/core/Physics.java</code></td><td>Коллизии; <code>queenStep</code> для ROUTE и UNSTICK</td><td><span class="pill me">да</span></td></tr>
       <tr><td><code>cr/core/Rules.java</code>, <code>Protocol</code></td><td>Полный симулятор хода и вывод referee</td><td><span class="pill me">да</span> <span class="muted">весь cr/core, кроме MapGen; бот не использует</span></td></tr>
       <tr><td><code>cr/core/MapGen</code>, <code>cr/referee/</code>, <code>cr/bot/BotFactory</code></td><td>Карты, локальный матч, бенч, спеки ботов</td><td class="muted">нет</td></tr>
-      <tr><td><code>cr/bot/v01…v03/GreedyBot</code></td><td>Замороженные копии для сравнений</td><td class="muted">нет</td></tr>
+      <tr><td><code>cr/bot/v01…v04/GreedyBot</code></td><td>Замороженные копии для сравнений (v04 — с копиями планировщиков)</td><td class="muted">нет</td></tr>
     </tbody>
   </table>
   </div>
@@ -340,6 +367,7 @@ flowchart TD
     <li>Не целится во вражеские шахты и бараки: королева сносит их простым касанием, но целью выбирает только пустые сайты.</li>
     <li class="mid">Не думает о своей атаке: рыцари идут к королеве врага сами, бот не выбирает момент и не копит золото на волну.</li>
     <li class="mid">После лестницы плана нет: королева стоит у башни возле дома и строит её снова и снова.</li>
+    <li class="mid">Планировщик пути видит только площадки: юниты, в том числе свои рыцари, в предсказании шага не участвуют; свои башни и шахты он не обходит, а выбор цели по ходам пути не меняет.</li>
     <li class="mid">Не проверяет лимит 30 крипов (важно только при нескольких бараках) и не использует бюджет времени.</li>
   </ul>
 </section>

@@ -407,8 +407,8 @@ all ten uploads; with it the earlier ratings move by up to 0.09, v03's pooled ra
   clearly worse**, so under P1 `route` (`current?ROUTE=1`, artifact `da914c4c`) is the selected version
   from 2026-11-02, and the next candidate is judged against its two placements. This does not show that
   it is better: a difference up to about M is invisible here, and the rating difference is below zero by
-  less than one standard error. Freezing it as a version (ROUTE on by default in `current`) is the
-  user's decision, still open.
+  less than one standard error. Frozen as v04 on 2026-11-02 by the user's decision (ROUTE on by default
+  in `current`); the live entry stays `route` upload 2.
 - **Noise:** v01's three, v02's two, v03's three and `route`'s two uploads pool to SD 1.30 on 6 df,
   **M = 2.61** (before: 2.81 on 5 df). The 95 % interval of M is about 1.7-5.8. `route`'s two placements
   differ by 0.79.
