@@ -381,3 +381,46 @@ all nine uploads; with it the earlier ratings move by up to 0.04, v03's pooled r
   (M 2.81) and says nothing yet about the arena effect.
 - **Placement speed:** 93 minutes.
 - **The gap to the boss** (above about 27.1): about 4.2 points from this placement.
+
+## The `route` candidate, second upload and the P1 verdict (2026-11-02)
+
+The user pasted the same artifact `da914c4c` again on 2026-11-02 at 01:42 (agent 6836589), 13 minutes
+after upload 1's placement was complete and saved. The placement was watched as before: the first
+complete snapshot came at 03:39, 117 minutes after the paste, with the score last updated at 03:39:27
+(55 snapshots in `replays/arena/route/bronze/upload-02/snapshots`).
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| route/upload-1 | 6836411 | 22.89, rank 263/2288 | 60 | 65.0 ± 6.2 | 20 of 30 | 19 of 30 | 21.33 | 22.43 ± 0.46 |
+| route/upload-2 | 6836589 | 22.10, rank 302/2288 | 60 | 66.7 ± 6.1 | 23 of 31 | 17 of 29 | 20.99 | 21.56 ± 0.46 |
+| route, two uploads | | mean 22.50, SD 0.56 | 120 | | | | | 22.01 ± 0.33 |
+| v03, three uploads | 6827580, 6828013, 6829912 | mean 22.43, SD 1.53 | 180 | | | | | 22.39 ± 0.28 |
+
+From `python -I tools/arena_compare.py --candidate route --selected v03` (logistic scale 1.51, fitted on
+all ten uploads; with it the earlier ratings move by up to 0.09, v03's pooled rating from 22.37 to 22.39).
+- **Same code:** `cgAttribute` finds every game of upload 2 identical to `da914c4c` (SAME 60/60, 9,492
+  turns, every compared turn validated by the simulator), with the marker `5c7e3bf0` in all 60.
+- No opponent was removed by the referee in upload 2, and no tie.
+- **Against v03's baseline:** the mean of two placements is +0.07 over v03's mean (22.50 against 22.43;
+  the rollback line is −M = −2.61). The pooled rating is −0.38 ± 0.43 (22.01 ± 0.33 against
+  22.39 ± 0.28; the rollback line is −2 SE = −0.87). Neither rollback condition holds. **Verdict: not
+  clearly worse**, so under P1 `route` (`current?ROUTE=1`, artifact `da914c4c`) is the selected version
+  from 2026-11-02, and the next candidate is judged against its two placements. This does not show that
+  it is better: a difference up to about M is invisible here, and the rating difference is below zero by
+  less than one standard error. Freezing it as a version (ROUTE on by default in `current`) is the
+  user's decision, still open.
+- **Noise:** v01's three, v02's two, v03's three and `route`'s two uploads pool to SD 1.30 on 6 df,
+  **M = 2.61** (before: 2.81 on 5 df). The 95 % interval of M is about 1.7-5.8. `route`'s two placements
+  differ by 0.79.
+- **Ratings of identical code** are 22.43 and 21.56 (SE 0.46 each), a difference of 0.87 ± 0.65: within
+  the noise, unlike v01's and v03's spreads.
+- **Shared opponents** (context, tiny samples): the two `route` uploads share 5 players (6 games), 40.0 %
+  against 16.7 %; against v03/upload-1, 5 players and 5 games, 60.0 % for route against 80.0 % for v03
+  (stratified −20.0 ± 31.6 pp).
+- **Local prediction against the arena:** P2 put the candidate about +0.46 rating points head-to-head
+  against v03 (S 0.5856 at scale 1.33); the arena shows +0.07 on the means and −0.38 ± 0.43 on the
+  ratings. Both are inside the placement noise, so the arena neither confirms nor contradicts the local
+  result; it only rules out a large loss.
+- **Placement speed:** 117 minutes (upload 1: 93).
+- **The gap to the boss** (above about 27.1): about 4.6 points from the mean of the two placements, 4.2
+  from the better one.

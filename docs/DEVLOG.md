@@ -1391,3 +1391,28 @@ attribution), `docs/BOTS.md` (Uploads, Artifacts), STATUS, SUMMARY, `docs/local-
 PLAN and a section in `docs/arena-uploads.md`. The raw upload folder and the experiment's bench
 folder are copied to the main checkout. Open: the second upload of the same artifact (the user),
 then the P1 verdict; adoption.
+
+The user pasted the same artifact again on 2026-11-02 at 01:42 local (the second upload under P1):
+agent 6836589 (submission 41613945) replaced 6836411, whose placement was complete and saved.
+Registered as `route` upload 2 (pending) in `docs/data/arena-uploads.json`; the discovery snapshot of
+01:43 (10 %, 10 games, 7 wins) had gone to the unknown folder and was moved into
+`replays/arena/route/bronze/upload-02/snapshots`. The placement is followed as before into
+`docs/data/arena-6836589-placement-2026-11-02.json` (log `placement-watch.log` beside the snapshots).
+
+Placement of upload 2 complete on 2026-11-02 at 03:39 local (the first snapshot with percentage 100 and
+inProgress false; the leaderboard's updateTime 03:39:27; 117 minutes after the paste; 55 snapshots in
+`replays/arena/route/bronze/upload-02/snapshots`, log `placement-watch.log` beside them): score 22.10,
+rank 302 of 2288, 60 games, 40 wins (seat 0: 23 of 31, seat 1: 17 of 29), no opponent removed, no tie.
+`arena_games.py 6836589`: 60 games fetched, marker 5c7e3bf0 in all 60, no failures
+(`docs/data/arena-6836589-games-2026-11-02.json`, raw `replays/arena/route/bronze/upload-02/games`).
+`cgAttribute -Preplays=replays/arena/route/bronze/upload-02/games -Pagent=6836589
+-Pbot=file:artifacts/da914c4c/Player.java`: SAME 60/60, 9,492 turns compared and validated, markers
+{5c7e3bf0: 60} (`cgAttribute.log` beside the games). `arena_compare.py --candidate route --selected v03
+--out replays/arena/route/bronze/upload-02/arena-compare.json`: scale 1.51 on ten uploads; route mean
+22.50, SD 0.56, pooled rating 22.01 ± 0.33 (opponents' median 20.99 in upload 2); v03 mean 22.43, pooled
+22.39 ± 0.28; M 2.61 (pooled SD 1.30, 6 df); verdict "not clearly worse" (mean +0.07 against −M = −2.61;
+performance −0.38 against −2 SE = −0.87). Under P1 `route` is the selected version from 2026-11-02; a
+frozen version with ROUTE on by default is the user's decision, and `current` keeps ROUTE=0. Recorded:
+the registry (placement, attribution), `docs/BOTS.md` (Uploads, Artifacts, the flag row, the v03 row),
+STATUS, SUMMARY, `docs/local-screen.md` (the P1 row), PLAN and a section in `docs/arena-uploads.md`.
+The raw upload folder is copied to the main checkout.

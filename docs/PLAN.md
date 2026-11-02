@@ -76,8 +76,8 @@
     (`docs/data/exp-2026-11-01-route/`)
   - [x] Step 1: `ROUTE=1`, movement only (heading fan + landing point, replaces UNSTICK and APPROACH):
     P2 screen and final evaluation against v03 passed, below the upload recommendation
-    (`docs/data/exp-2026-11-01-route/`); uploaded by the user's decision (agent 6836411), the first
-    placement under P1 recorded (`docs/arena-uploads.md`); a second upload and adoption are the user's call
+    (`docs/data/exp-2026-11-01-route/`); uploaded by the user's decision, two placements under P1
+    (22.89 and 22.10), selected 2026-11-02 (`docs/arena-uploads.md`); freezing it as a version is the user's call
   - [ ] Step 2: unit-aware final step
   - [ ] Step 3: `ORDER=k`, target choice by turns, against `current?ROUTE=1`
   - [ ] Step 4: own towers on the route (ROUTE walks past them, so fewer top-ups; same README), flee
