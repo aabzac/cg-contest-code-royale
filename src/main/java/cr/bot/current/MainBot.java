@@ -88,7 +88,7 @@ public final class MainBot implements Bot {
                 if (d >= 0) cmd = Command.build(d, "TOWER");
             }
         }
-        if (cmd == null && p.KITE == 1) cmd = kite(s, qx, qy);
+        if (cmd == null && p.KITE >= 1) cmd = kite(s, qx, qy);
         if (cmd == null && touched >= 0 && !underEnemyTower(s, touched)) {
             int t = touched;
             if (s.stType[t] == Const.MINE && s.stOwner[t] == 0 && s.mineRate[t] < s.sMaxMine[t] && threat == 0)
@@ -187,11 +187,14 @@ public final class MainBot implements Bot {
             if (d < r2) n++;
             if (d < d0) d0 = d;
         }
-        if (n == 0) return null;
+        if (n == 0) { kiteRun = 0; return null; }
+        boolean bound = p.KITE >= 2;
+        if (bound && p.KITE_MAX > 0 && kiteRun >= p.KITE_MAX) { kiteRun = 0; return null; }
         boolean coveredNow = p.KITE_COVER == 1 && coveredByOwnTower(s, qx, qy);
+        double pull = bound ? p.KITE_PULL / 100.0 : 0;
         double a0 = Math.atan2(qy - Const.HEIGHT / 2.0, qx - Const.WIDTH / 2.0);
         Command best = null;
-        double bestScore = Math.sqrt(d0) + 5, bestTower = Double.MAX_VALUE;
+        double bestScore = Math.sqrt(d0) - pull * Math.sqrt(nearestOwnTowerSq(s, qx, qy)) + 5, bestTower = Double.MAX_VALUE;
         for (int k = 0; k < 24; k++) {
             double a = a0 + k * Math.PI / 12;
             Command m = heading(qx, qy, a);
@@ -199,16 +202,26 @@ public final class MainBot implements Bot {
             double x = ph.rx, y = ph.ry;
             if (Physics.distSq(x, y, qx, qy) < MIN_STEP * MIN_STEP) continue;
             if (underEnemyTowerAt(s, x, y)) continue;
-            if (coveredNow && !coveredByOwnTower(s, x, y)) continue;
-            double near = Double.MAX_VALUE, tower = Double.MAX_VALUE;
+            if (bound ? !coveredByOwnTower(s, x, y) : coveredNow && !coveredByOwnTower(s, x, y)) continue;
+            double near = Double.MAX_VALUE;
             for (int i = 0; i < s.nCreeps; i++)
                 if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT) near = Math.min(near, Physics.distSq(s.cx[i], s.cy[i], x, y));
-            for (int i = 0; i < s.nSites; i++)
-                if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0) tower = Math.min(tower, Physics.distSq(s.sx[i], s.sy[i], x, y));
-            double score = Math.sqrt(near);
+            double tower = nearestOwnTowerSq(s, x, y);
+            double score = Math.sqrt(near) - pull * Math.sqrt(tower);
             if (score > bestScore || score == bestScore && tower < bestTower) { bestScore = score; bestTower = tower; best = m; }
         }
+        kiteRun = best == null ? 0 : kiteRun + 1;
         return best;
+    }
+
+    /** Consecutive turns of kiting so far (KITE_MAX). */
+    private int kiteRun;
+
+    private static double nearestOwnTowerSq(GameState s, double x, double y) {
+        double tower = Double.MAX_VALUE;
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0) tower = Math.min(tower, Physics.distSq(s.sx[i], s.sy[i], x, y));
+        return tower == Double.MAX_VALUE ? 0 : tower;
     }
 
     private static boolean coveredByOwnTower(GameState s, double x, double y) {

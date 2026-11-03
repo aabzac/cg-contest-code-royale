@@ -69,11 +69,21 @@ public final class Params {
      * 42 % of their turns under knights and lose a third less HP per contact turn; v06 never does. On since
      * v07 (P2 docs/data/exp-2026-11-03-kite: S 0.68-0.69 against v06, +3 pp against field).
      */
-    public int KITE = 1;
+    public int KITE = 2;  // 1: v07's rule; 2: bound to the towers (KITE_PULL, KITE_MAX), since v08
     /** Knights closer than this start the kiting (250: contact; 400-500: before contact, as the winners do). */
     public int KITE_RANGE = 250;
-    /** 1: a kiting step must stay within an own tower's range when the queen is covered now. */
+    /** 1: a kiting step must stay within an own tower's range when the queen is covered now (KITE=1 only). */
     public int KITE_COVER = 1;
+    /**
+     * KITE=2, kiting bound to the towers (2026-11-03, after v07's arena games: with KITE=1 the queen ran
+     * out of her towers' cover and the knights chased her for 50-130 turns without dying): every step must
+     * end within an own tower's range, the score is the distance to the nearest knight minus KITE_PULL
+     * percent of the distance to the nearest own tower, and with no own tower in reach the flight of v06
+     * applies. KITE_MAX > 0 caps the consecutive kiting turns: after that many the other rules get a turn
+     * (the top-up at the tower she stands by).
+     */
+    public int KITE_PULL = 100;
+    public int KITE_MAX = 0;
     /**
      * 1: when the BUILD towards the next site to take would leave the queen standing (a site straight
      * ahead pushes her back, or two sites wedge her), she detours with MOVEs (MainBot.unstick).

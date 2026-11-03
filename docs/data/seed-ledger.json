@@ -7,8 +7,8 @@
   "evaluation": "block k = seeds 400000 + 2000 k .. 400000 + 2000 k + 1999, one fresh block per upload candidate, used once"
  },
  "next": {
-  "screen": 9,
-  "evaluation": 7
+  "screen": 10,
+  "evaluation": 8
  },
  "used": [
   {
@@ -186,6 +186,28 @@
    "control": "v06 (the selected version)",
    "series": "direct and mirror on 2000 maps; candidate and v06 against boss on 412000-412499; candidate and v06 against field on 2000 maps (G4)",
    "verdict": "G0-G2 and G4 pass (G3 skipped, no old): S 0.6803 (CI 0.6641-0.6964) against v06, boss delta +0.0010, field delta +0.0352; G0 by the quiet repeat (4 slow turns on 4 consecutive maps in the first direct run were host noise, identical outcomes); S >= 0.60: upload recommended; the freeze (v07) and the upload are the user's decisions"
+  },
+  {
+   "pool": "screen",
+   "k": 9,
+   "seeds": "218000-219999",
+   "date": "2026-11-03",
+   "experiment": "docs/data/exp-2026-11-03-kite2",
+   "candidate": "current?KITE=2,KITE_PULL=100",
+   "control": "v07",
+   "series": "direct and mirror on 2000 maps; candidate and v07 against boss on 218000-218499; candidate and v07 against field on 2000 maps (G4)",
+   "verdict": "G0-G2 and G4 pass (strategy track, PV2): S 0.6663 (CI 0.6516-0.6809) against v07, boss delta +0.0010, field delta +0.1369; G3 skipped, old absent; G0 by the quiet repeat (7 slow turns on consecutive maps in the first direct run, with 7 of v07's own, were host noise; identical outcomes). The local champion; the final evaluation, the freeze and any upload are the user's decisions"
+  },
+  {
+   "pool": "evaluation",
+   "k": 7,
+   "seeds": "414000-415999",
+   "date": "2026-11-03",
+   "experiment": "docs/data/exp-2026-11-03-kite2",
+   "candidate": "current?KITE=2,KITE_PULL=100",
+   "control": "v07 (the selected version)",
+   "series": "direct and mirror on 2000 maps; candidate and v07 against boss on 414000-414499; candidate and v07 against field on 2000 maps (G4)",
+   "verdict": "G0-G2 and G4 pass (G3 skipped, no old): S 0.6670 (CI 0.6522-0.6818) against v07, boss delta 0.0000 (2 maps dropped: boss timeouts in the control), field delta +0.1484; G0 by the quiet repeats (two 50 ms turns at the threshold were host noise, identical outcomes); S >= 0.60: upload recommended; the freeze (v08) and the upload are the user's decisions"
   }
  ]
 }

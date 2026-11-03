@@ -1874,3 +1874,117 @@ STATUS, SUMMARY, PLAN, visualizer.md, bot-architecture.html (v07: the kiting sec
 pseudo-code, the versions table, the gaps and the directions), `.ai/project.md` (v00–v07) with the kit sync.
 Not uploaded: the paste and the P1 placements are the user's; register the new agent as v07 upload 1
 (pending) before downloading its games.
+
+## 2026-11-03 — v07 upload 1: 26.42, rank 32; P1 needs the second upload
+
+The user pasted `4c7b0d04` ("I pasted it, watch"). `discover-and-watch.sh` (`replays/arena/v07/bronze/upload-01/`)
+with a fresh discovery file per attempt (the lesson of v06's upload 2): the new row at 20:47 (agent 6843218,
+creationTime 20:45:49, 18 %, 14 wins of 14); registered as v07 upload 1 (pending), the discovery snapshots
+moved into `upload-01/snapshots`; the watch by the new id: 45 % 25.25 at 20:50, 66 % 24.79, 88 % 26.13, 96 %
+26.03, complete at 20:58:24 (score last updated 20:57:28): score 26.42, local rank 32 of 2290, 60 games,
+41 wins (seat 0: 21 of 29, seat 1: 20 of 31), `eligibleForPromotion` false. `arena_games.py 6843218`: 60
+games, marker b6b5f0f7 in all 60, 0 failures, 0 ties; `cgAttribute -Pbot=file:artifacts/4c7b0d04/Player.java`:
+SAME 60/60, 9,301 turns. Two wins by opponents removed by the referee (916208555, 916208563); no boss game.
+`arena_compare.py --candidate v07 --selected v06` (`arena-compare.json` beside the games): scale 1.89 on
+sixteen uploads; v07 26.42, performance 26.14 ± 0.56 (opponents' median 24.95, 68.3 % wins); v06 mean 26.24,
+25.71 ± 0.45; M 2.59; verdict "upload the candidate again" (+0.18 against 2M 5.18). Records:
+`docs/arena-uploads.md` (new section), the registry, BOTS (Uploads, Artifacts), STATUS, SUMMARY,
+`docs/local-screen.md` (v07 row). Raw arena files copied to the main checkout. Not committed (the user's call);
+upload 2 of the same artifact is the user's paste.
+
+## 2026-11-03 — v07 upload 2: 24.64, rank 108; P1 verdict: v07 selected by the policy, the local gain absent on the arena
+
+The user pasted `4c7b0d04` again at 21:03 and said so at 21:30 ("ran it"); `discover-and-watch.sh`
+(`upload-02/`) found the new row at once (agent 6843287, creationTime 21:03:58) with the placement
+complete (score last updated 21:14:54; not watched): score 24.64, local rank 108 of 2290, 60 games, 42 wins
+(seat 0: 21 of 30, seat 1: 21 of 30). Registered as v07 upload 2, 6843218 marked replaced. `arena_games.py
+6843287`: 60 games, marker b6b5f0f7 in all 60, 0 failures, 0 ties; `cgAttribute` against the kept copy:
+SAME 60/60, 9,615 turns; three opponents removed by the referee (916214881, 916214882, 916217955); no boss
+game. `arena_compare.py --candidate v07 --selected v06` (`arena-compare.json` beside the games): scale 1.97
+on seventeen uploads; v07 placements 26.42 and 24.64, mean 25.53, SD 1.26, rating 25.34 ± 0.43 (opponents'
+median 23.14 in upload 2, 70.0 % wins); v06 mean 26.24, 25.76 ± 0.46; M 2.58 (10 df); verdict "not clearly
+worse" (mean −0.71 against −2.58; rating −0.41 against −1.26): v07 is the selected version by the policy.
+The arena does not show the local gain (P2 +1.5 head-to-head): recorded as a PV2 note in
+`docs/arena-uploads.md` and a PLAN item (study v07's 120 games). Records: `docs/arena-uploads.md` (new
+section), the registry, BOTS (versions, uploads, artifacts), STATUS, SUMMARY, PLAN, `docs/local-screen.md`
+(v07 row), the architecture page (the v07 numbers and pills), the local-games labels. Raw arena files
+copied to the main checkout. Not committed (the user's call).
+
+## 2026-11-03 — Study of v07's arena games: the kiting leaves the towers' cover
+
+The user's "study v07's games". `cgStudy` into `replays/study/features-v07-2026-11-03.csv`, `DeathTrace
+<agent> all` for both queens (`replays/study/traces/all-v07-ours.txt`, `all-v07-opp.txt`, `v07-games.txt`;
+copied to the main checkout); `docs/data/study-2026-11-03-v07-arena/v07.py` (`v07.txt`), which imports the
+winners study's loader. Against v06's 120 games: wins 83 (87), deaths 26 (24), HP losses 11 (9), kills of
+the enemy queen 56 (68); under knights v07 MOVEs on 75-89 % of the turns, loses 0.9 / 0.3 HP per contact
+turn in losses / wins (v06 1.2 / 0.9), HP 58 at turn 100 (47); but 59 contact turns in its losses (50), 34 %
+of them near a tower (90 %), top-ups 36 per game (73), 4 towers at 2,364 HP (5 at 3,180); chases of
+50-130 turns in the loss list. Diagnosis: the cover condition binds only while covered, so the queen runs
+out of range and the towers, which shoot the creep nearest to themselves, kill nothing; the local opponents
+stand still under knights, which is why P2 rewarded it. Records: the study README, PLAN (the item closed,
+the next one), STATUS, SUMMARY. Not committed.
+
+## 2026-11-03 — Kiting bound to the towers (KITE=2): sweep, profiles, P2 screen against v07 passed (S 0.666)
+
+The user's "kiting near the towers". Code (from 8c1e43d): `Params.KITE` 2 (bound), `KITE_PULL`, `KITE_MAX`;
+`MainBot.kite`: with KITE=2 every step must be covered by an own tower, the score is the knight distance
+minus pull × the tower distance (the standing position scored the same way, +5 to move), no covered step
+means null (v06's flight); `kiteRun` counts consecutive kiting turns for the cap. `cr.tools.LocalProfile`
+prints the behaviour under knights (contact turns, % near an own tower within 130, HP lost per contact turn,
+% MOVE) from the referee's frames. Snapshots record the fields; `StrategyParamsTest.boundKitingStaysUnderTheTowersAndFleesOutOfReach`;
+`cr.bot.*` green with the v07 identity.
+
+Development sweep (`replays/bench/dev-kite2-2026-11-03/`, 500 maps per arm, both seats; `sweep-a.sh`,
+`sweep-b.sh`, `dev-sweep.txt`): block 10000 against v06 / `field` (control 0.718): pull 30 → 0.739 / 0.854,
+50 → 0.737 / 0.871, 100 → 0.785 / 0.915, 200 → 0.790 / 0.912, the cap 8 within ±0.005; block 11000: pull
+100 → 0.808 / 0.907, 200 → 0.801 / 0.921; against v07 (the v07 mirror 0.500): pull 100 → 0.689 / 0.658 on
+the two blocks, 200 → 0.681. `LocalProfile` (50 maps against v06): KITE=0 contact 35 turns, near a tower
+91 %, 0.8 HP per contact turn, MOVE 0 %; KITE=1 45 / 39 % / 0.4 / 70 %; KITE=2 pull 50 43 / 67 % / 0.5 /
+71 %; pull 100 40 / 87 % / 0.4 / 65 %; pull 200 41 / 89 % / 0.4 / 66 %. Chosen: `KITE=2,KITE_PULL=100`.
+
+P2 screen on block 9 (218000-219999, reserved before the run; `screen.sh` against v07 with the `field`
+series): G1 S 0.6663 (CI 0.6516-0.6809), W/D/L 2571/188/1241, seats 1308/94/598 and 1263/94/643, 2000 of
+2000 maps changed; G2 1.000 against 0.999 on `boss`, Δ +0.0010; G4 0.9204 against 0.7835 on `field`, Δ
++0.1369 (CI +0.1225..+0.1513); G3 skipped. G0: 7 slow candidate turns in the first direct run (maps 218042,
+218081-218092, max 132 ms) with 7 of v07 in the same run (max 94 ms); `recheck.sh`: the 60 maps 218040-218099
+on one thread with no slow turn (max 17 ms) and a quiet repeat with identical outcomes in all 4000 games
+and no slow turn on either side → pass. Summaries `g1.json`, `g1-rerun.json`, `g2.json`, `g4.json`. About
++1.4 rating points head-to-head against v07 at scale 1.97, with the caveat written before the screen that
+the arena decides. Records: README, ledger, BOTS (the KITE=2 row), STATUS, SUMMARY, PLAN. Not done: the
+final evaluation (block 7, 414000-415999), the freeze (v08), `submit`, `procCheck`, the commit. Raw reports
+copied to the main checkout.
+
+Final evaluation of the bound-kiting candidate (the user's "yes"), evaluation block 7 (414000-415999)
+reserved in the ledger before the run, `eval.sh` (the screen's series with `-PseedBase=414000`, reports in
+`replays/bench/exp-2026-11-03-kite2-eval/`): G1 S 0.6670 (CI 0.6522-0.6818), W/D/L 2562/212/1226, seats
+1313/107/580 and 1249/105/646, 2000 of 2000 maps changed; G2 1.000 against 1.000 on `boss` with maps 414135
+and 414136 dropped (4 timeouts of the `boss` process in the control series, 0.4 %), Δ 0.0000; G4 0.9153
+against 0.7669 on `field`, Δ +0.1484 (CI +0.1331..+0.1637); G3 skipped. G0: one 50.1 ms candidate turn on
+map 414083 against v07 (v07 had 4 slow turns there, max 91.6 ms) and one 50.6 ms turn on map 414137 against
+`field`; `recheck-eval.sh`: both regions on one thread with no slow turn (max 5.4 and 13.6 ms), quiet repeats
+of both series with identical outcomes in all 4000 games each and no slow turn on either side → pass.
+Summaries `eval-g1.json`, `eval-g1-rerun.json`, `eval-g2.json`, `eval-g4.json`, `eval-g4-rerun.json`. S ≥ 0.60:
+the upload recommendation is met (about +1.4 rating points head-to-head against v07 at scale 1.97). Records:
+README (results), ledger, STATUS, SUMMARY, PLAN, `docs/local-screen.md` (the candidate row). Not done: the
+freeze (v08), `submit`, `procCheck`, the architecture page, the commit. Raw reports copied to the main checkout.
+
+## 2026-11-03 — Freeze v08: the kiting bound to the towers as the default; artifact 5c16d925
+
+The user's decision after the final evaluation. `cr.bot.v08.GreedyBot` with its own `RoutePlanner` and
+`ApproachPlanner` is a copy of `current` (the `queenSteps` diagnostic dropped, as in the earlier copies);
+`versions/v08.properties` is v07's snapshot with KITE=2, KITE_PULL=100; `Params` defaults to those values, so
+`current` plays as v08 (`MainBotTest.withDefaultsCurrentPlaysAsV08` on the fixture seeds, 218000-218002 and
+414000; `withV07ParamsCurrentPlaysAsV07` with KITE=1, KITE_PULL=50). `BotFactory` and the local-games
+catalog know v08 (the default opponent; v07 relabelled as the arena's selected version; 11 bots),
+`visualizer/local.js` falls back to v08. Full `./gradlew test`: 21 classes, 0 failures.
+
+Artifact with empty PARAMS: sha256 `5c16d925b0c4e20746484cbdfb7826e82b4bc1ed8dd9e1e3e1a5b8954b917df6`, 79,348 chars (limit
+100,000), build `3f19aa6e`, config `c9dad766`. procCheck vs v01 100 maps @5000: 200/200 identical to current, 198
+wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 545.1 ms, later 5.2 ms; vs boss 100
+maps @6000: 200/200 identical, 200 wins, 0 timeouts, max first turn 475.7 ms, later 5.5 ms
+(`replays/bench/exp-2026-11-03-kite2-eval/proccheck-v08-*.log`, copied to the main checkout). Kept copy
+`artifacts/5c16d925/Player.java` (worktree and main checkout). Records: BOTS (versions, flags, artifacts),
+STATUS, SUMMARY, PLAN, visualizer.md, bot-architecture.html (v08: the kiting section, the flow, the
+pseudo-code, the versions table, the gaps and the directions), `.ai/project.md` (v00–v08) with the kit sync.
+Not uploaded: the paste and the P1 placements are the user's; register the new agent as v08 upload 1
+(pending) before downloading its games.

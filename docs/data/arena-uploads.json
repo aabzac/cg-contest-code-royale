@@ -410,7 +410,65 @@
    "snapshots": "docs/data/arena-6842539-placement-2026-11-03.json",
    "games": "docs/data/arena-6842539-games-2026-11-03.json",
    "submittedBy": "the user in the IDE (v06 upload 2 under P1, 2026-11-03, 'I pasted it, watch')",
-   "attribution": "cgAttribute against the kept copy artifacts/1a9f3e81/Player.java: SAME in 60 of 60 games; marker 0bf54983 in 60 of 60"
+   "attribution": "cgAttribute against the kept copy artifacts/1a9f3e81/Player.java: SAME in 60 of 60 games; marker 0bf54983 in 60 of 60",
+   "replaced": "2026-11-03T20:45:49+02:00 by v07 upload 1 (the agent's creationTime); its placement was complete and saved before"
+  },
+  {
+   "label": "v07",
+   "upload": 1,
+   "agent": 6843218,
+   "submission": null,
+   "league": "bronze",
+   "artifact": {
+    "sha256": "4c7b0d04aebdd27f6a9a6f07049f250e3035ba30311f98bde126173078a7a8e8",
+    "build": "b6b5f0f7",
+    "config": "c1fcf458",
+    "source": "commit 8c1e43d (the v07 freeze), empty PARAMS; kept copy artifacts/4c7b0d04/Player.java; confirmed by the markers and cgAttribute"
+   },
+   "created": "2026-11-03T20:45:49+02:00",
+   "placement": {
+    "score": 26.42,
+    "rank": 32,
+    "agents": 2291,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-11-03T20:58:24+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-03T20:57:28+02:00 (leaderboard updateTime)",
+    "note": "6 snapshots from 20:47 (18 %) to 20:58 (100 %), 13 minutes after the paste; eligibleForPromotion False; two wins are opponents removed by the referee (916208555, 916208563)"
+   },
+   "snapshots": "docs/data/arena-6843218-placement-2026-11-03.json",
+   "games": "docs/data/arena-6843218-games-2026-11-03.json",
+   "submittedBy": "the user in the IDE (v07 upload 1 under P1, 2026-11-03, 'I pasted it, watch')",
+   "attribution": "cgAttribute against the kept copy artifacts/4c7b0d04/Player.java: SAME in 60 of 60 games, 9,301 turns, all validated; marker b6b5f0f7 in 60 of 60",
+   "replaced": "2026-11-03T21:03:58+02:00 by upload 2 (the agent's creationTime); its placement was complete and saved before"
+  },
+  {
+   "label": "v07",
+   "upload": 2,
+   "agent": 6843287,
+   "submission": null,
+   "league": "bronze",
+   "artifact": {
+    "sha256": "4c7b0d04aebdd27f6a9a6f07049f250e3035ba30311f98bde126173078a7a8e8",
+    "build": "b6b5f0f7",
+    "config": "c1fcf458",
+    "source": "the same bytes as upload 1 (commit 8c1e43d); kept copy artifacts/4c7b0d04/Player.java; confirmed by the markers and cgAttribute"
+   },
+   "created": "2026-11-03T21:03:58+02:00",
+   "placement": {
+    "score": 24.64,
+    "rank": 108,
+    "agents": 2291,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-11-03T21:30:53+02:00",
+    "watched": false,
+    "lastUpdate": "2026-11-03T21:14:54+02:00 (leaderboard updateTime)",
+    "note": "not watched: the user pasted at 21:03 and said so at 21:30, when the discovery snapshot found the placement complete (percentage 100, inProgress false); eligibleForPromotion False; three wins are opponents removed by the referee (916214881, 916214882, 916217955)"
+   },
+   "snapshots": "docs/data/arena-6843287-placement-2026-11-03.json",
+   "games": "docs/data/arena-6843287-games-2026-11-03.json",
+   "submittedBy": "the user in the IDE (v07 upload 2 under P1, 2026-11-03, 'ran it')",
+   "attribution": "cgAttribute against the kept copy artifacts/4c7b0d04/Player.java: SAME in 60 of 60 games, 9,615 turns, all validated; marker b6b5f0f7 in 60 of 60"
   }
  ],
  "legacyUploads": [

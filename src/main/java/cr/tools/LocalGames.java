@@ -49,8 +49,9 @@ final class LocalGames {
     private static final DateTimeFormatter FILE_TIME = DateTimeFormatter.ofPattern("uuuuMMdd'T'HHmmssSSS'Z'").withZone(ZoneOffset.UTC);
     private static final List<Choice> CHOICES = List.of(
         new Choice("current", "current", "Текущий бот с выбираемыми флагами движения", "current"),
-        new Choice("v07", "v07", "Кайтинг под рыцарями: замороженный локальный чемпион", "v07"),
-        new Choice("v06", "v06", "Вторая башня под угрозой и второй барак: выбранная на арене версия", "v06"),
+        new Choice("v08", "v08", "Кайтинг у башен: замороженный локальный чемпион", "v08"),
+        new Choice("v07", "v07", "Кайтинг под рыцарями: выбранная на арене версия", "v07"),
+        new Choice("v06", "v06", "Вторая башня под угрозой и второй барак: прежняя замороженная версия", "v06"),
         new Choice("v05", "v05", "Две шахты до барака: прежняя замороженная версия", "v05"),
         new Choice("v04", "v04", "Планировщик маршрута королевы: прежняя замороженная версия", "v04"),
         new Choice("v03", "v03", "Ранние башни: прежняя замороженная версия", "v03"),
@@ -121,7 +122,7 @@ final class LocalGames {
         return Map.of("bots", CHOICES.stream().map(c -> Map.of("id", c.id, "label", c.label, "description", c.description,
                 "flags", c.id.equals("current") ? FLAGS.stream().map(f -> Map.of("id", f.id, "label", f.label,
                     "description", f.description, "default", f.defaultValue)).toList() : List.of())).toList(),
-            "defaults", Map.of("bot0", "current", "bot1", "v07"));
+            "defaults", Map.of("bot0", "current", "bot1", "v08"));
     }
 
     Map<String, Object> run(JsonObject request) throws IOException {
@@ -381,7 +382,7 @@ final class LocalGames {
                         result.put("classes/" + code.relativize(file).toString().replace('\\', '/'), sha256(Files.readAllBytes(file)));
                 }
             } else result.put("codeJar", sha256(Files.readAllBytes(code)));
-            for (String version : List.of("v01", "v02", "v03", "v04", "v05", "v06", "v07")) {
+            for (String version : List.of("v01", "v02", "v03", "v04", "v05", "v06", "v07", "v08")) {
                 String resource = "/cr/bot/versions/" + version + ".properties";
                 try (InputStream in = BotFactory.class.getResourceAsStream(resource)) {
                     if (in == null) throw new IOException("Missing parameter resource " + resource);

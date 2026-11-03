@@ -7,14 +7,24 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 
 - Date: 2026-11-03 (evening). Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Bronze.
-- Local champion and `current` defaults: v07 = v06 with kiting under knights (KITE=1 at the contact range
-  250, under own tower cover), frozen 2026-11-03 (`cr.bot.v07.GreedyBot`, `versions/v07.properties`; P2
-  `docs/data/exp-2026-11-03-kite/`: S 0.6803 against v06 and +3.5 pp against `field` on the evaluation
-  block). Artifact `4c7b0d04…` (78,622 chars without comments, build `b6b5f0f7`, config `c1fcf458`; the freeze
-  commit; kept copy `artifacts/4c7b0d04/Player.java`), procCheck 200/200 against v01 and against `boss`, no
-  timeouts (`docs/BOTS.md`, Artifacts). Not uploaded yet: the paste and the two P1 placements are the user's;
-  the rollback artifact stays v06's `1a9f3e81`.
-- Selected version (the arena's): v06 = v05 with a second tower near the queen
+- Local champion and `current` defaults: v08 = v07 with the kiting bound to the towers (KITE=2,
+  KITE_PULL=100), frozen 2026-11-03 (`cr.bot.v08.GreedyBot`, `versions/v08.properties`; P2
+  `docs/data/exp-2026-11-03-kite2/`: S 0.6670 against v07 and +14.8 pp against `field` on the evaluation
+  block). Artifact `5c16d925…` (79,348 chars, build `3f19aa6e`, config `c9dad766`; the freeze commit; kept copy
+  `artifacts/5c16d925/Player.java`), procCheck 200/200 against v01 and against `boss`, no timeouts
+  (`docs/BOTS.md`, Artifacts). Not uploaded yet: the paste and the two P1 placements against v07's baseline
+  (mean 25.53) are the user's; the arena decides, since the local proxy over-rewarded v07's kiting. The
+  rollback artifact stays v07's `4c7b0d04`.
+- Selected version (the arena's): v07 = v06 with kiting under knights (KITE=1 at
+  the contact range 250, under own tower cover), frozen 2026-11-03 (`cr.bot.v07.GreedyBot`,
+  `versions/v07.properties`; P2 `docs/data/exp-2026-11-03-kite/`: S 0.6803 against v06 and +3.5 pp against
+  `field` on the evaluation block). Selected under P1 on 2026-11-03 by two placements (mean 25.53 against
+  v06's 26.24, "not clearly worse": −0.71 against −M −2.58; the local +1.5 did not show on the arena,
+  `docs/arena-uploads.md`). Artifact `4c7b0d04…` (78,622 chars without comments, build `b6b5f0f7`, config
+  `c1fcf458`; commit 8c1e43d; kept copy `artifacts/4c7b0d04/Player.java`), procCheck 200/200 against v01 and
+  against `boss`, no timeouts (`docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is
+  `4c7b0d04`; v06's `1a9f3e81` stays kept.
+- Previous selected version: v06 = v05 with a second tower near the queen
   under threat (THREAT_TOWERS_NEAR=2 within 500) and the army flags (a second knight barracks after 4 towers,
   synchronous waves, 6 towers), frozen 2026-11-03 (`cr.bot.v06.GreedyBot`, `versions/v06.properties`; P2
   `docs/data/exp-2026-11-03-safety/`: S 0.6519 against v05 on the evaluation block). Selected under P1 on
@@ -28,12 +38,31 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
   `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
   `route` configuration, artifact `da914c4c…`), selected 2026-11-02 to 2026-11-03; v03, 2026-10-30 to 2026-11-02.
-- Arena entry: `aabzac`, agent 6842539 = v06 upload 2 (the same artifact `1a9f3e81…` as upload 1), pasted by
-  the user 2026-11-03 18:02 local; placement complete 18:16: score 25.39, rank 77/2290, 60 games, 44 wins,
-  every game identical to the artifact (`docs/BOTS.md`, Uploads; `docs/data/arena-6842539-placement-2026-11-03.json`).
-  It replaced agent 6842260 = v06 upload 1 (27.09, local rank 1/2290 among the players, `eligibleForPromotion`
-  false), saved (`docs/data/arena-6842260-placement-2026-11-03.json`); v05's uploads were 6841317 (23.93),
-  6841407 (26.47) and 6841579 (25.77).
+- Arena entry: `aabzac`, agent 6843287 = v07 upload 2 (the same artifact `4c7b0d04…` as upload 1), pasted by
+  the user 2026-11-03 21:03 local; placement not watched, found complete at 21:30 (score last updated
+  21:14): score 24.64, rank 108/2290, 60 games, 42 wins, every game identical to the artifact
+  (`docs/BOTS.md`, Uploads; `docs/data/arena-6843287-placement-2026-11-03.json`). It replaced agent
+  6843218 = v07 upload 1 (26.42, rank 32/2290), saved; v06's uploads were 6842260 (27.09) and 6842539 (25.39).
+- Candidate judged under P1 (2026-11-03): v07. Placements 26.42 and 24.64 (mean 25.53, SD 1.26) against
+  v06's 26.24; pooled rating 25.34 ± 0.43 against 25.76 ± 0.46 (scale 1.97); M 2.58 (10 df). Neither
+  rollback condition holds (−0.71 against −2.58; −0.41 against −1.26), so v07 is the selected version by
+  the policy. The arena does not confirm the local gain (P2 +1.5 head-to-head): the first such disagreement,
+  noted under PV2 in `docs/arena-uploads.md`. No pending candidate.
+- Why (2026-11-03, `docs/data/study-2026-11-03-v07-arena/`): on the arena the kiting halves the HP lost per
+  contact turn (0.9 and 0.3 against v06's 1.2 and 0.9) but the queen leaves her towers' cover (34 % of the
+  contact turns near a tower against 90 %), the knights chase her for 50-130 turns without dying, the
+  top-ups halve (36 against 73 per game; 4 towers at 2,364 HP against 5 at 3,180) and the kills of the enemy
+  queen fall from 68 to 56.
+- Candidate frozen as v08 (2026-11-03, kiting bound to the towers, the user's choice after the v07 study):
+  `current?KITE=2,KITE_PULL=100` — every kiting step within an own tower's range, the pull to the nearest
+  tower weighed like the distance from the knights (`MainBot.kite`, `docs/data/exp-2026-11-03-kite2/`). The
+  queen stays near her towers 87 % of the contact turns locally (v07's rule 39 %). P2 screen on block 9
+  (218000-219999) passed: S 0.6663 (CI 0.6516-0.6809) against v07, Δ +0.0010 against `boss`, Δ +0.1369
+  against `field`, G0 on the quiet repeat; the local champion. Final evaluation on evaluation block 7
+  (414000-415999), the user's decision: G0 on the repeats, S 0.6670 (CI 0.6522-0.6818) against v07, Δ 0.0000
+  against `boss`, Δ +0.1484 against `field`; the upload recommendation S ≥ 0.60 is met. The local proxy
+  over-rewarded v07's kiting, so the arena decides this one. Frozen as v08 on the user's decision; `submit`
+  and both `procCheck` series: `docs/BOTS.md` (Artifacts).
 - Candidate judged under P1 (2026-11-03): v06. Placements 27.09 and 25.39 (mean 26.24, SD 1.20) against
   v05's 25.39; pooled rating 25.75 ± 0.46 against 25.06 ± 0.35 (scale 1.95); M 2.59 (9 df). Neither
   rollback condition holds, so v06 is the selected version. The arena agrees with the local direction and
@@ -51,7 +80,7 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   Adopted into P2 as gate G4 (Δ against `field` on the block's 2000 maps ≥ −2 pp; PV2, `docs/local-screen.md`),
   the user's decision 2026-11-03.
   `cr.tools.LocalProfile` prints a bot's local profile in cgStudy's terms.
-- Candidate frozen as v07 (2026-11-03, kiting; the user's choice after the field opponent): `current?KITE=1` — under
+- v07's local record (2026-11-03, kiting; the user's choice after the field opponent): `current?KITE=1` — under
   knights within 250 the queen MOVEs away from them under her towers' cover instead of standing at a tower
   topping it up. Study `docs/data/study-2026-11-03-arena-winners/` (the arena winners over v06 MOVE on 42 % of
   their turns under knights and lose a third less HP per contact turn; v06 never moves). P2 screen on block 8

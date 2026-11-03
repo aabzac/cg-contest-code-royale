@@ -21,6 +21,8 @@ class MainBotTest {
     static final String V05 = "MAX_TOWERS=8,BARRACKS=1,BARRACKS_AFTER_TOWERS=0,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,THREAT_RADIUS=400,KITE=0,";
     /** v06's value of the field v07 changed: no kiting. */
     static final String V06 = "KITE=0,";
+    /** v07's values of the fields v08 changed: its own kiting rule. */
+    static final String V07 = "KITE=1,KITE_PULL=50,";
 
     /**
      * A captured position: the init and turn input that seat 1 of v01 against current read on one
@@ -157,10 +159,16 @@ class MainBotTest {
         assertSamePlay("current?" + V06, "v06", new long[]{100000, 110135, 10394, 10477, 214000, 214001, 214002, 410000});
     }
 
-    /** With its defaults (kiting under knights since v07), current plays the frozen v07's games command for command (fixture seeds, screened and evaluated maps). */
+    /** With v07's parameters (its kiting rule), current plays the frozen v07's games command for command (fixture seeds, screened and evaluated maps). */
     @Test
-    void withDefaultsCurrentPlaysAsV07() {
-        assertSamePlay("current", "v07", new long[]{100000, 110135, 10394, 10477, 216000, 216001, 216002, 412000});
+    void withV07ParamsCurrentPlaysAsV07() {
+        assertSamePlay("current?" + V07, "v07", new long[]{100000, 110135, 10394, 10477, 216000, 216001, 216002, 412000});
+    }
+
+    /** With its defaults (the kiting bound to the towers since v08), current plays the frozen v08's games command for command (fixture seeds, screened and evaluated maps). */
+    @Test
+    void withDefaultsCurrentPlaysAsV08() {
+        assertSamePlay("current", "v08", new long[]{100000, 110135, 10394, 10477, 218000, 218001, 218002, 414000});
     }
 
     /** bot and frozen play the same commands on both seats against v01 and v02. */

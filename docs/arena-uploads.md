@@ -588,3 +588,63 @@ all fifteen uploads; `arena-compare.json` beside the games).
 - **Placement speed:** 14 minutes.
 - **The gap to the boss** (27.63, measured in upload 1's games): 1.4 points from v06's mean, 0.5 from its
   best placement. The rollback artifact for the next candidate is now v06's `1a9f3e81`.
+
+## Sixth candidate: v07 (kiting under knights), first upload (2026-11-03)
+
+The user pasted `4c7b0d04` at 20:45 (agent 6843218; "I pasted it, watch"), replacing v06's upload 2, whose
+placement was complete and saved. The discovery used a fresh summary file per attempt (the lesson of
+v06's upload 2) and found the new row at 20:47 (18 %, 14 wins of 14); the watch found the placement
+complete at 20:58, 13 minutes after the paste, with the score last updated at 20:57 (6 snapshots;
+`placement-watch.log` in `replays/arena/v07/bronze/upload-01/`).
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v07/upload-1 | 6843218 | 26.42, rank 32/2290 | 60 | 68.3 ± 6.0 | 21 of 29 | 20 of 31 | 24.95 | 26.14 ± 0.56 |
+| v06, two uploads | 6842260, 6842539 | mean 26.24, SD 1.20 | 120 | | | | | 25.71 ± 0.45 |
+
+From `python -I tools/arena_compare.py --candidate v07 --selected v06` (logistic scale 1.89, fitted on
+all sixteen uploads; `arena-compare.json` beside the games).
+- **Same code:** `cgAttribute` finds every game identical to `4c7b0d04` (SAME 60/60, 9,301 turns, every
+  compared turn validated), marker `b6b5f0f7` in all 60. Two wins are opponents removed by the referee
+  (916208555, 916208563; counted like any game). No tie. No game against the boss this time.
+- **Against v06's baseline:** +0.18 on the mean (26.42 against 26.24) with 2M = 5.18, so no early rollback;
+  the verdict needs the second upload of the same artifact. The performance rating 26.14 ± 0.56 against
+  25.71 ± 0.45 (+0.43 ± 0.72) is context until then.
+- **Local prediction:** P2 put v07 about +1.5 rating points head-to-head against v06; the first placement
+  shows +0.2 on the mean, inside the arena's noise (M 2.59). One placement says little either way.
+- **Placement speed:** 13 minutes.
+- **The gap to the boss** (27.63): 1.2 points from this placement.
+
+## The v07 candidate, second upload and the P1 verdict (2026-11-03)
+
+The user pasted the same artifact `4c7b0d04` again at 21:03 (agent 6843287) and said so at 21:30, when the
+discovery snapshot found the placement already complete (score last updated 21:14; nobody watched it).
+Upload 1's placement was complete and saved before the paste.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v07/upload-1 | 6843218 | 26.42, rank 32/2290 | 60 | 68.3 ± 6.0 | 21 of 29 | 20 of 31 | 24.95 | 26.18 ± 0.59 |
+| v07/upload-2 | 6843287 | 24.64, rank 108/2290 | 60 | 70.0 ± 5.9 | 21 of 30 | 21 of 30 | 23.14 | 24.33 ± 0.61 |
+| v07, two uploads | | mean 25.53, SD 1.26 | 120 | | | | | 25.34 ± 0.43 |
+| v06, two uploads | 6842260, 6842539 | mean 26.24, SD 1.20 | 120 | | | | | 25.76 ± 0.46 |
+
+From `python -I tools/arena_compare.py --candidate v07 --selected v06` (logistic scale 1.97, fitted on
+all seventeen uploads; `arena-compare.json` beside the games).
+- **Same code:** `cgAttribute` finds every game of upload 2 identical to `4c7b0d04` (SAME 60/60, 9,615
+  turns, every compared turn validated), marker `b6b5f0f7` in all 60. Three wins are opponents removed by
+  the referee (916214881, 916214882, 916217955). No tie, no boss game.
+- **Against v06's baseline:** the mean is −0.71 (25.53 against 26.24) with −M = −2.58; the pooled rating is
+  −0.41 ± 0.63 (25.34 ± 0.43 against 25.76 ± 0.46) with −2 SE = −1.26. Neither rollback condition holds:
+  **by P1 v07 is not clearly worse and becomes the selected version.** The sign is negative on both
+  measures, inside the noise: the arena shows no gain where the local proxy predicted +1.5 rating points
+  (P2: S 0.68-0.69 against v06 and +3 pp against `field`). The policy's known weakness applies here in full:
+  a candidate up to about M worse passes.
+- **Proxy disagreement (PV2 note):** this is the first candidate whose local gain (the largest since v03)
+  did not show on the arena at all. Possible reasons, none measured: the arena's winners kite better than
+  our one-step rule and punish it; the arena field has archers and giants, against which the kiting queen
+  leaves her towers; two placements of 60 games cannot see +1.5 at M 2.58 anyway. The local opponents
+  (the mirror and `field`) are both knights-only ladders that stand still under knights.
+- **Noise:** M = 2.58 (10 df); v07's two placements differ by 1.78.
+- **Placement speed:** about 11 minutes (the score last updated 11 minutes after the creation time).
+- **The gap to the boss** (27.63): 2.1 points from v07's mean, 1.4 from v06's. The rollback artifact for
+  the next candidate is v07's `4c7b0d04` by the policy; v06's `1a9f3e81` stays kept.

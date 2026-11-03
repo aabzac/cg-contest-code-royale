@@ -1,0 +1,85 @@
+Outcomes (120 placement games each)
+                                                      v06          v07
+wins                                                   87           83
+losses                                                 33           37
+losses by our queen's death                            24           26
+  of them before turn 80                                3            2
+  median death turn                                 136.5        135.5
+losses on HP at the limit                               9           11
+wins by killing their queen                            68           56
+  median kill turn                                  117.0        106.5
+losses to knights-only opponents                       25           34
+losses to opponents with giants                         7            2
+losses to opponents with archers                        1            1
+our HP at turn 100 (median)                          47.0         58.0
+our towers at 100 / HP                       5.0 / 3180.0 4.0 / 2364.0
+our income at 100 / waves                       3.0 / 6.0    3.0 / 6.0
+our top-ups per game                                 73.5         36.5
+
+Behaviour under knights (median over games with contact)
+metric                                           v06, losses     v06, wins      beat v06   v07, losses     v07, wins      beat v07
+contact turns per game                                  50.0          20.0          36.0          59.0          25.0          25.0
+HP lost per contact turn                                 1.2           0.9           1.0           0.9           0.3           1.0
+knights within 250 when in contact                       2.4           1.9           2.2           1.9           1.6           2.3
+% MOVE while in contact                                  0.0           0.0          42.0          75.0          88.7          27.6
+% topup while in contact                                76.7          73.9          27.5           6.7           2.9          47.6
+% build-walk while in contact                           23.3          26.1           8.0          12.5           7.7           6.7
+% build-touched while in contact                         0.0           0.0           0.0           0.0           0.0           0.0
+% WAIT while in contact                                  0.0           0.0           0.0           0.0           0.0           0.0
+% at an own tower (<=130) while in contact              89.6          84.2          64.0          33.8          43.2          76.7
+own towers when in contact                               3.7           3.0           2.8           3.1           3.1           2.9
+distance moved per contact turn                         14.3          16.6          35.9          53.6          50.1          24.9
+% MOVE when knights at 250-500                           7.7           6.0          44.4          11.4           5.3          20.0
+% MOVE over the whole game                               8.5           9.1          36.4          40.8          26.4          24.8
+HP lost to enemy towers                                  0.0           0.0           0.0           0.0           0.0           0.0
+
+Opponents' medians (cgStudy features)
+feature               beat v06   lost to v06      beat v07   lost to v07
+inc_100                    8.0           4.0           5.0           5.0
+mines_100                  3.0           2.0           3.0           3.0
+towers_100                 4.0           4.0           4.0           3.5
+thp_100                 1676.0        1440.0        2396.0        1764.0
+trainK                    12.0           7.0          11.0           7.0
+trainA                     0.0           0.0           0.0           0.0
+trainG                     0.0           0.0           0.0           0.0
+towerTopUps               33.0          24.0          54.0          32.0
+hp_100                    45.0          30.0          52.0          43.0
+
+v07's losses: game, seat, opponent, how, our death turn, their army (K/A/G waves), our contact turns, our MOVE % under knights, HP lost per contact turn
+916209034 seat 1 vs hostage112         death t42    army 4/0/0  contact  14  MOVE  57 %  HP/turn 2.14
+916210694 seat 0 vs paraphoenixir      death t74    army 5/0/0  contact  28  MOVE  82 %  HP/turn 0.89
+916217264 seat 1 vs Raymund0           death t90    army 3/0/0  contact  16  MOVE  44 %  HP/turn 1.69
+916211257 seat 0 vs Tabasco            death t95    army 7/0/0  contact  28  MOVE  36 %  HP/turn 2.86
+916218077 seat 0 vs bjurner            death t105   army 8/0/0  contact  29  MOVE  69 %  HP/turn 0.72
+916208979 seat 0 vs mpushkin           death t108   army 13/0/0  contact  59  MOVE  80 %  HP/turn 1.10
+916214877 seat 1 vs AntonYuriev        death t108   army 6/0/0  contact  49  MOVE  65 %  HP/turn 1.33
+916216921 seat 1 vs PinkiePool         death t110   army 8/0/0  contact  48  MOVE  75 %  HP/turn 0.96
+916210499 seat 1 vs LasChicas          death t120   army 14/0/0  contact  71  MOVE  76 %  HP/turn 1.41
+916216838 seat 0 vs SherKhan2k         death t122   army 9/0/0  contact  63  MOVE  86 %  HP/turn 1.35
+916217185 seat 0 vs Johanny            death t125   army 9/0/0  contact  60  MOVE  72 %  HP/turn 1.00
+916211729 seat 1 vs jameslu            death t133   army 3/0/1  contact  16  MOVE  75 %  HP/turn 0.56
+916216421 seat 0 vs TallTechDude       death t134   army 10/0/0  contact  40  MOVE  48 %  HP/turn 0.78
+916210277 seat 0 vs Haashi             death t137   army 9/0/0  contact  35  MOVE  49 %  HP/turn 0.97
+916212017 seat 0 vs BartWelling        death t141   army 7/0/0  contact  37  MOVE  95 %  HP/turn 0.27
+916209439 seat 0 vs Breital            death t148   army 6/0/0  contact  30  MOVE  97 %  HP/turn 0.83
+916211688 seat 1 vs BartWelling        death t152   army 11/0/0  contact  35  MOVE  63 %  HP/turn 1.43
+916209062 seat 1 vs warbio             death t156   army 20/0/0  contact  66  MOVE  58 %  HP/turn 0.86
+916219158 seat 1 vs gin12358           death t162   army 20/0/0  contact  80  MOVE  84 %  HP/turn 1.00
+916209995 seat 1 vs tobk               death t184   army 16/0/1  contact  73  MOVE  73 %  HP/turn 1.30
+916219200 seat 0 vs zakki              death t187   army 19/0/0  contact  50  MOVE  26 %  HP/turn 1.50
+916216086 seat 0 vs ArthurVorteX       death t204   army 10/0/0  contact  78  MOVE  86 %  HP/turn 0.73
+916217866 seat 1 vs M.C.L.             death t224   army 12/0/0  contact  80  MOVE  91 %  HP/turn 1.06
+916212214 seat 1 vs nzdjb              death t229   army 14/0/0  contact  63  MOVE  75 %  HP/turn 0.68
+916209491 seat 0 vs orangesnowfox      death t230   army 19/0/0  contact  94  MOVE  66 %  HP/turn 0.84
+916217767 seat 0 vs MotorbikeSteve     death t234   army 29/0/0  contact 129  MOVE  81 %  HP/turn 0.66
+916210129 seat 1 vs Toussaint          HP 16:19     army 7/0/0  contact  15  MOVE  67 %  HP/turn 0.93
+916210323 seat 1 vs Th3Kr0w            HP 33:48     army 18/0/0  contact  82  MOVE  87 %  HP/turn 0.70
+916210541 seat 0 vs Chairman_of_the_Bo HP 29:70     army 17/0/0  contact  97  MOVE  99 %  HP/turn 0.63
+916211006 seat 1 vs orangesnowfox      HP 53:72     army 19/0/0  contact  90  MOVE  90 %  HP/turn 0.37
+916211942 seat 1 vs CodingTurtle       HP 48:49     army 14/0/0  contact  56  MOVE  86 %  HP/turn 0.21
+916215203 seat 1 vs Norgh              HP 44:45     army 1/0/0  contact   6  MOVE  50 %  HP/turn 1.00
+916216163 seat 1 vs Joooo              HP 18:43     army 17/0/0  contact  73  MOVE  86 %  HP/turn 1.05
+916216490 seat 1 vs hhe_08             HP 5:13      army 20/4/0  contact  87  MOVE  98 %  HP/turn 0.34
+916218142 seat 0 vs Kenny92            HP 40:47     army 6/0/0  contact  22  MOVE  73 %  HP/turn 0.68
+916218864 seat 0 vs Th3Kr0w            HP 46:69     army 21/0/0  contact 107  MOVE  93 %  HP/turn 0.41
+916219061 seat 1 vs sparky8342         HP 47:67     army 18/0/0  contact  71  MOVE  90 %  HP/turn 0.46

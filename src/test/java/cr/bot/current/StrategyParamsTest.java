@@ -206,6 +206,35 @@ class StrategyParamsTest {
         assertEquals(Command.MOVE, new MainBot(new Params().apply("KITE=1,KITE_RANGE=500")).play(s, touched, Long.MAX_VALUE).queen);
     }
 
+    /** KITE=2: the step must end under an own tower's cover; out of reach of any tower the flight of v06 applies where KITE=1 would run; KITE_MAX caps the run. */
+    @Test
+    void boundKitingStaysUnderTheTowersAndFleesOutOfReach() {
+        GameState s = position();
+        s.stType[0] = Const.TOWER; s.stOwner[0] = 0; s.towerHp[0] = 400; s.towerRange[0] = 300;
+        s.stType[1] = Const.TOWER; s.stOwner[1] = 0; s.towerHp[1] = 400; s.towerRange[1] = 300;
+        s.qx[0] = 350 + 70 + Const.QUEEN_RADIUS + 2; s.qy[0] = 350;
+        s.nCreeps = 2;
+        for (int i = 0; i < 2; i++) { s.cOwner[i] = 1; s.cType[i] = Const.KNIGHT; s.cHp[i] = 25; s.cx[i] = s.qx[0] + 120 + 30 * i; s.cy[i] = 350; }
+        int touched = Protocol.touchedSite(s, 0);
+        Command k2 = new MainBot(new Params().apply("KITE=2")).play(s, touched, Long.MAX_VALUE);
+        assertEquals(Command.MOVE, k2.queen, "under cover: a kiting MOVE");
+        assertTrue(k2.x < s.qx[0], "away from the knights: " + k2.queenLine());
+        // the queen out of every tower's reach (1100, 350: 461 from B, 750 from A, ranges 300), the knights east of her: KITE=1 runs, KITE=2 flees to the nearest tower as v06
+        s.qx[0] = 1100; s.qy[0] = 350;
+        for (int i = 0; i < 2; i++) s.cx[i] = s.qx[0] + 120 + 30 * i;
+        assertEquals(Command.MOVE, new MainBot(new Params().apply("KITE=1")).play(s, -1, Long.MAX_VALUE).queen);
+        Command far = new MainBot(new Params().apply("KITE=2")).play(s, -1, Long.MAX_VALUE);
+        assertEquals("BUILD 1 TOWER", far.queenLine(), "out of reach: the flight to the nearest own tower B");
+        // KITE_MAX=2: two kiting turns, then one turn for the other rules
+        s.qx[0] = 350 + 70 + Const.QUEEN_RADIUS + 2;
+        for (int i = 0; i < 2; i++) s.cx[i] = s.qx[0] + 120 + 30 * i;
+        MainBot capped = new MainBot(new Params().apply("KITE=2,KITE_MAX=2"));
+        assertEquals(Command.MOVE, capped.play(s, touched, Long.MAX_VALUE).queen);
+        assertEquals(Command.MOVE, capped.play(s, touched, Long.MAX_VALUE).queen);
+        assertEquals("BUILD 0 TOWER", capped.play(s, touched, Long.MAX_VALUE).queenLine(), "the cap: the top-up gets a turn");
+        assertEquals(Command.MOVE, capped.play(s, touched, Long.MAX_VALUE).queen, "then kiting again");
+    }
+
     /** Two own knight barracks: TRAIN_SYNC=1 trains both or neither; 0 trains whatever the gold allows, in id order. */
     @Test
     void trainSyncReleasesBothBarracksTogether() {

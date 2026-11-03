@@ -65,7 +65,19 @@
 - [x] Kiting (2026-11-03, `docs/data/exp-2026-11-03-kite/`): KITE / KITE_RANGE / KITE_COVER, swept against v06
   and `field`, screened under P2 with G4: `KITE=1` S 0.695 against v06, +3.1 pp against `field`, passed; final
   evaluation on block 6 S 0.680, +3.5 pp against `field`, the upload recommendation met; frozen as v07
-  (2026-11-03), `submit` and `procCheck` passed (`docs/BOTS.md`, Artifacts); the upload under P1 is the user's
+  (2026-11-03), `submit` and `procCheck` passed (`docs/BOTS.md`, Artifacts)
+- [x] v07 on the arena under P1 (agents 6843218 and 6843287): placements 26.42 and 24.64, mean 25.53 against
+  v06's 26.24, not clearly worse, so v07 is selected 2026-11-03 by the policy; the local +1.5 did not show
+  (`docs/arena-uploads.md`)
+- [x] Why the kiting gain did not reach the arena (2026-11-03, `docs/data/study-2026-11-03-v07-arena/`): the
+  kiting halves the HP lost per contact turn, but the queen runs out of her towers' cover, the knights chase
+  her for 50-130 turns without dying, she tops up half as often (4 towers at 2,364 HP against 5 at 3,180)
+  and kills 12 fewer queens; the local opponents stand still under knights and so rewarded it
+- [x] Kiting bound to the tower cover (2026-11-03, `docs/data/exp-2026-11-03-kite2/`): KITE=2 with KITE_PULL
+  and KITE_MAX; the queen near her towers 87 % of the contact turns; screened under P2 with G4 against v07:
+  S 0.666, +13.7 pp against `field`, passed; final evaluation on block 7 S 0.667, +14.8 pp against `field`,
+  the upload recommendation met; frozen as v08 (2026-11-03), `submit` and `procCheck` passed (`docs/BOTS.md`,
+  Artifacts); the upload under P1 is the user's, the arena decides the version
 - [x] Late economy (2026-11-03, `docs/data/exp-2026-11-03-late-income/`): INCOME_LATE (the income target after
   the ladder) neutral against v06 (0.505-0.513), with thinner top-ups a loss; off by default, not screened
 - [x] Study 2026-10-30 (`docs/data/study-2026-10-30/`): we build towers late and few, stronger players
