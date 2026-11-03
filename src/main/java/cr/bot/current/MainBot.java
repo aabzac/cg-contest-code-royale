@@ -88,6 +88,7 @@ public final class MainBot implements Bot {
                 if (d >= 0) cmd = Command.build(d, "TOWER");
             }
         }
+        if (cmd == null && p.KITE == 1) cmd = kite(s, qx, qy);
         if (cmd == null && touched >= 0 && !underEnemyTower(s, touched)) {
             int t = touched;
             if (s.stType[t] == Const.MINE && s.stOwner[t] == 0 && s.mineRate[t] < s.sMaxMine[t] && threat == 0)
@@ -168,6 +169,58 @@ public final class MainBot implements Bot {
             train[n++] = i;
         }
         return java.util.Arrays.copyOf(train, n);
+    }
+
+    /**
+     * KITE: with enemy knights within KITE_RANGE, the MOVE (200 ahead on the heading, kept on the board)
+     * whose predicted step leaves the queen farthest from the nearest of them, at least 5 farther than
+     * she stands now; the step must move her, end outside enemy tower range and, when an own tower
+     * covers her now and KITE_COVER=1, under an own tower's cover. Ties: the step ending nearer to her
+     * nearest own tower. Null when no knight is within range or no step gains.
+     */
+    private Command kite(GameState s, double qx, double qy) {
+        double r2 = (double) p.KITE_RANGE * p.KITE_RANGE, d0 = Double.MAX_VALUE;
+        int n = 0;
+        for (int i = 0; i < s.nCreeps; i++) {
+            if (s.cOwner[i] != 1 || s.cType[i] != Const.KNIGHT) continue;
+            double d = Physics.distSq(s.cx[i], s.cy[i], qx, qy);
+            if (d < r2) n++;
+            if (d < d0) d0 = d;
+        }
+        if (n == 0) return null;
+        boolean coveredNow = p.KITE_COVER == 1 && coveredByOwnTower(s, qx, qy);
+        double a0 = Math.atan2(qy - Const.HEIGHT / 2.0, qx - Const.WIDTH / 2.0);
+        Command best = null;
+        double bestScore = Math.sqrt(d0) + 5, bestTower = Double.MAX_VALUE;
+        for (int k = 0; k < 24; k++) {
+            double a = a0 + k * Math.PI / 12;
+            Command m = heading(qx, qy, a);
+            ph.queenStep(s, qx, qy, m.x, m.y, PASSES);
+            double x = ph.rx, y = ph.ry;
+            if (Physics.distSq(x, y, qx, qy) < MIN_STEP * MIN_STEP) continue;
+            if (underEnemyTowerAt(s, x, y)) continue;
+            if (coveredNow && !coveredByOwnTower(s, x, y)) continue;
+            double near = Double.MAX_VALUE, tower = Double.MAX_VALUE;
+            for (int i = 0; i < s.nCreeps; i++)
+                if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT) near = Math.min(near, Physics.distSq(s.cx[i], s.cy[i], x, y));
+            for (int i = 0; i < s.nSites; i++)
+                if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0) tower = Math.min(tower, Physics.distSq(s.sx[i], s.sy[i], x, y));
+            double score = Math.sqrt(near);
+            if (score > bestScore || score == bestScore && tower < bestTower) { bestScore = score; bestTower = tower; best = m; }
+        }
+        return best;
+    }
+
+    private static boolean coveredByOwnTower(GameState s, double x, double y) {
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && Physics.distSq(s.sx[i], s.sy[i], x, y) < (double) s.towerRange[i] * s.towerRange[i]) return true;
+        return false;
+    }
+
+    private static boolean underEnemyTowerAt(GameState s, double x, double y) {
+        for (int j = 0; j < s.nSites; j++)
+            if (s.stType[j] == Const.TOWER && s.stOwner[j] == 1 && Physics.distSq(s.sx[j], s.sy[j], x, y) < (double) s.towerRange[j] * s.towerRange[j]) return true;
+        return false;
     }
 
     /** INCOME_LATE's target: the nearest to (cx, cy) of a free gold site not under an enemy tower and an own mine below its maximum, or -1. */

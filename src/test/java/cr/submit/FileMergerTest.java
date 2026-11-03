@@ -126,7 +126,7 @@ class FileMergerTest {
         assertTrue(changed.contains("WARM_UP_MS = 301;") && (changed.startsWith("import java.io.PrintStream;") || changed.contains("\nimport java.io.PrintStream;")),
             changed.substring(0, 300));
         assertEquals(base, Build.config(changed));
-        List<Path> bot = copyShipped(tmp.resolve("bot"), t -> t.contains("class MainBot") ? t + "// changed\n" : t);
+        List<Path> bot = copyShipped(tmp.resolve("bot"), t -> t.contains("class MainBot") ? t.replace("implements Bot {", "implements Bot { int changed;") : t);
         assertNotEquals(base, Build.config(FileMerger.merge(tmp.resolve("bot"), bot, "")));
         assertNotEquals(base, Build.config(FileMerger.merge(FileMerger.shippedFiles(), "MAX_TOWERS=3")));
     }

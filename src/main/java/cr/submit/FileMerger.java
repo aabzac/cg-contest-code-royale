@@ -126,7 +126,8 @@ public final class FileMerger {
 
     /**
      * The merged Player.java text; each file is headed by its path relative to root. Its BUILD literal
-     * holds the {@link Build#id} of the same text with an empty one. Fails on params that do not apply
+     * holds the {@link Build#id} of the same text with an empty one. Whole-line comments (javadoc, block
+     * and line comments) and blank lines are left out, since 2026-11-03. Fails on params that do not apply
      * or do not fit the PARAMS literal, on non-ASCII sources or file names, on a CR outside CRLF, unless
      * the PARAMS and BUILD markers occur exactly once, and unless the result passes {@link Build#of}
      * (no second BUILD literal) and {@link Build#config} (the runner's section once, last).
@@ -151,6 +152,15 @@ public final class FileMerger {
             StringBuilder kept = new StringBuilder();
             for (String line : text.split("\n", -1)) {
                 String t = line.trim();
+                // Comment lines and blank lines stay out of the artifact (the 100,000-character limit; since 2026-11-03):
+                // line comments, javadoc and block-comment lines, and the comment prefix of a "/* note */ code" line.
+                if (t.isEmpty() || t.startsWith("//") || t.startsWith("*")) continue;
+                if (t.startsWith("/*")) {
+                    int end = t.indexOf("*/");
+                    if (end < 0 || t.substring(end + 2).isBlank()) continue;
+                    line = t.substring(end + 2).trim();
+                    t = line;
+                }
                 if (t.startsWith("package ")) continue;
                 if (t.startsWith("import ")) {
                     if (!t.startsWith("import cr.") && !t.startsWith("import static cr.")) imports.add(t);

@@ -1,0 +1,44 @@
+Behaviour under knights (median over games; n = games with contact)
+metric                                                 v06 in its losses           v06 in its wins    opponents who beat v06 opponents who lost to v06
+contact turns per game                                       50.0 (n=33)               20.0 (n=83)               36.0 (n=33)               34.0 (n=86)
+HP lost per contact turn                                      1.2 (n=33)                0.9 (n=83)                1.0 (n=33)                1.4 (n=86)
+knights within 250 when in contact                            2.4 (n=33)                1.9 (n=83)                2.2 (n=33)                2.7 (n=86)
+% MOVE while in contact                                       0.0 (n=33)                0.0 (n=83)               42.0 (n=33)               26.1 (n=86)
+% topup while in contact                                     76.7 (n=33)               73.9 (n=83)               27.5 (n=33)               24.6 (n=86)
+% build-walk while in contact                                23.3 (n=33)               26.1 (n=83)                8.0 (n=33)               18.0 (n=86)
+% build-touched while in contact                              0.0 (n=33)                0.0 (n=83)                0.0 (n=33)                0.0 (n=86)
+% WAIT while in contact                                       0.0 (n=33)                0.0 (n=83)                0.0 (n=33)                0.0 (n=86)
+% at an own tower (<=130) while in contact                   89.6 (n=33)               84.2 (n=83)               64.0 (n=33)               61.0 (n=86)
+own towers when in contact                                    3.7 (n=33)                3.0 (n=83)                2.8 (n=33)                2.8 (n=86)
+distance moved per contact turn                              14.3 (n=33)               16.6 (n=83)               35.9 (n=33)               32.3 (n=86)
+% MOVE when knights at 250-500                                7.7 (n=33)                6.0 (n=83)               44.4 (n=33)               11.8 (n=86)
+% MOVE over the whole game                                    8.5 (n=33)                9.1 (n=83)               36.4 (n=33)               23.6 (n=86)
+HP lost to enemy towers                                       0.0 (n=33)                0.0 (n=83)                0.0 (n=33)                0.0 (n=86)
+
+Economy, towers and waves (medians of cgStudy features)
+feature                  v06 in its losses           v06 in its wins    opponents who beat v06 opponents who lost to v06
+inc_50                                 4.0                       4.0                       5.0                       5.0
+inc_100                                3.0                       3.0                       8.0                       4.0
+mines_100                              2.0                       2.0                       3.0                       2.0
+towers_50                              3.0                       3.0                       3.0                       3.0
+towers_100                             5.0                       5.0                       4.0                       4.0
+thp_100                             3108.0                    3240.0                    1676.0                    1440.0
+bk_100                                 2.0                       2.0                       1.0                       1.0
+ba_100                                 0.0                       0.0                       0.0                       0.0
+bg_100                                 0.0                       0.0                       0.0                       0.0
+trainK                                 7.0                       6.0                      12.0                       7.0
+trainA                                 0.0                       0.0                       0.0                       0.0
+trainG                                 0.0                       0.0                       0.0                       0.0
+meanGold                              70.0                      67.4                      62.0                      55.5
+maxIncome                              5.0                       4.0                      11.0                       8.0
+towerTopUps                           93.0                      62.0                      33.0                      24.0
+mineUpgrades                           4.0                       3.0                      11.0                       6.0
+firstBarracks                          9.0                       9.0                      11.0                       8.0
+firstTower                            14.0                      14.0                      19.0                      18.0
+hp_100                                44.0                      49.0                      45.0                      30.0
+deathTurn                            117.0                      -1.0                      -1.0                      99.0
+
+opponents who beat v06: openings M M M 11, M M BK 7, BK M M 6, M BK M 4, M M T 3
+opponents who beat v06: barracks built 1: 13, 2: 14, 3: 4, 4: 1, 5: 1
+opponents who lost to v06: openings M M BK 26, M M M 19, BK M M 18, M BK M 7, BK T T 4
+opponents who lost to v06: barracks built 0: 2, 1: 52, 2: 20, 3: 5, 4: 4, 5: 3, 11: 1

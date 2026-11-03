@@ -1799,3 +1799,78 @@ Not adopted into P2 (the user's decision); not committed.
 Adopted (the user, 2026-11-03): `field` is a P2 opponent, gate G4 (Δ against `field` on the block's 2000
 maps ≥ −2 pp); proxy validation PV2 recorded in `docs/local-screen.md` with `field`'s fingerprints;
 `.ai/project.md` (opponents, gates, the proxy and reserve rows) with the kit sync. Committed.
+
+## 2026-11-03 — Study of the arena winners (they move under knights); kiting flag KITE; P2 screen with G4 passed, S 0.695
+
+The user's "trace study". `DeathTrace <agent> all` for every turn of both queens in v06's 120 placement games
+(`replays/study/traces/all-v06-ours.txt`, `all-v06-opp.txt`, the agent ids per game in `v06-games.txt`;
+copied to the main checkout); `docs/data/study-2026-11-03-arena-winners/winners.py` (`winners.txt`):
+under knights the opponents who beat v06 MOVE on 42 % of their turns and cover 36 units a turn, MOVE on 44 %
+of the turns while knights are 250-500 away, lose 1.0 HP per contact turn against the losers' 1.4 and ours
+1.2, with 2.2 knights on them against 2.7; v06 never MOVEs under knights (90 % of its contact turns at a
+tower, 77 % topping up; 50 contact turns in its losses, 20 in its wins). Winners: income 8 with 3 mines and
+11 upgrades, 12 waves, 33 top-ups (ours 93 in losses); the losers among the opponents hold 4 thin towers
+too, so the thin line alone is not it.
+
+Code (from 64e61fe): `Params.KITE`, `KITE_RANGE`, `KITE_COVER`; `MainBot.kite` (24 headings, the predicted
+step farthest from the nearest knight, out of enemy tower range, under own cover when covered now) before
+the touch rule; the snapshots record the fields; `StrategyParamsTest.kiteMovesAwayFromKnightsUnderTowerCover`;
+`cr.bot.*` green with the v06 identity. Development sweep (`replays/bench/dev-kite-2026-11-03/`, 500 maps per
+arm, both seats, seeds 10000-10499 and 11000-11499, against v06 and against `field` with the v06-vs-`field`
+control 0.718 on both blocks): range 250 → 0.681/0.709 vs v06, 0.762/0.809 vs `field`; range 400 →
+0.682/0.745, 0.717/0.762; range 500 → 0.720/0.739, 0.598 vs `field` on block 10000; cover 0 within noise.
+Chosen: `KITE=1` (range 250, cover 1).
+
+P2 screen on block 8 (216000-217999, reserved before the run; `screen.sh` with the G4 series: candidate and
+v06 against `field` on the 2000 maps): G0 clean in every series (no slow turn at all; max candidate turn
+36.9 ms); G1 S 0.6946 (CI 0.6784-0.7109), W/D/L 2752/53/1195, seats 1444/27/529 and 1308/26/666, 2000 of
+2000 maps changed; G2 0.998 against 0.997 on `boss`, Δ +0.0015; G4 0.7466 against 0.7157 on `field`, Δ +0.0309
+(CI +0.0120..+0.0497); G3 skipped. Summaries `g1.json`, `g2.json`, `g4.json`. About +1.6 rating points
+head-to-head at scale 1.95. Records: the study README, the experiment README, ledger, BOTS (flags KITE and
+INCOME_LATE), STATUS, SUMMARY, PLAN. Not done: the final evaluation (block 6, 412000-413999), the freeze
+(v07), `submit`, `procCheck`, the architecture page, the commit. Raw reports copied to the main checkout.
+The full suite then failed in `FileMergerTest`: the merged artifact had grown to 103,518 characters (limit
+100,000) with the javadocs of the new flags. `FileMerger.merge` now leaves out whole-line comments (line,
+javadoc and block-comment lines; the comment prefix of a "/* live-tunable */ code" line is dropped and the
+code kept) and blank lines: 78,622 characters for the same code. `FileMergerTest.theConfigIdFollowsTheBotNotTheRunner`
+changes code instead of a comment to move the config id. The artifacts of v01-v06 are unchanged (they are
+rebuilt from their commits with the merger of the time); from the next build on, build and config ids are
+computed on the stripped text. Full suite 21 classes, 0 failures; `.ai/project.md` (the submit row) with
+the kit sync.
+
+Final evaluation of the kiting candidate (the user's "yes"), evaluation block 6 (412000-413999) reserved
+in the ledger before the run, `eval.sh` (the screen's series with `-PseedBase=412000`, reports in
+`replays/bench/exp-2026-11-03-kite-eval/`): G1 S 0.6803 (CI 0.6641-0.6964), W/D/L 2692/58/1250, seats
+1399/30/571 and 1293/28/679, 2000 of 2000 maps changed; G2 1.000 against 0.999 on `boss`, Δ +0.0010; G4
+0.7675 against 0.7322 on `field`, Δ +0.0352 (CI +0.0163..+0.0542), 2000 of 2000 changed; G3 skipped. G0: 4
+slow candidate turns in the first direct run (maps 412270-412280, max 73.8 ms), with 1 of v06 there and 4
+of v06 in the mirror (max 106 ms, unchanged code); `recheck.sh`: the 30 maps 412260-412289 on one thread
+with no slow turn (max 8.8 ms) and a quiet repeat of the direct series with identical outcomes in all 4000
+games (0 candidate slow turns, 1 of v06) → pass. Summaries `eval-g1.json`, `eval-g1-rerun.json`,
+`eval-g2.json`, `eval-g4.json`. S ≥ 0.60: the upload recommendation is met (about +1.5 rating points at
+scale 1.95). Records: README (results), ledger, STATUS, SUMMARY, PLAN, `docs/local-screen.md` (the candidate
+row). Not done: the freeze (v07), `submit`, `procCheck`, the architecture page, the commit. Raw reports
+copied to the main checkout.
+
+## 2026-11-03 — Freeze v07: kiting under knights as the default; artifact 4c7b0d04
+
+The user's decision after the final evaluation. `cr.bot.v07.GreedyBot` with its own `RoutePlanner` and
+`ApproachPlanner` is a copy of `current` (the `queenSteps` diagnostic dropped, as in the earlier copies);
+`versions/v07.properties` is v06's snapshot with KITE=1; `Params.KITE` defaults to 1, so `current` plays as
+v07 (`MainBotTest.withDefaultsCurrentPlaysAsV07` on the fixture seeds, 216000-216002 and 412000;
+`withV06ParamsCurrentPlaysAsV06` with KITE=0). `BotFactory` and the local-games catalog know v07 (the default
+opponent; v06 relabelled as the arena's selected version; 10 bots), `visualizer/local.js` falls back to v07.
+The tests whose fixtures assume no kiting pin KITE=0 (the route, approach, stall-scan, LegScan and strategy
+tests, the defence test). Full `./gradlew test`: 21 classes, 0 failures.
+
+Artifact with empty PARAMS, the first built without comment and blank lines: sha256
+`4c7b0d04aebdd27f6a9a6f07049f250e3035ba30311f98bde126173078a7a8e8`, 78,622 chars (limit 100,000), build
+`b6b5f0f7`, config `c1fcf458`. procCheck vs v01 100 maps @5000: 200/200 identical to current, 198 wins, 0
+timeouts, 0 kills, no extra, late or stderr lines, max first turn 372.0 ms, later 7.8 ms; vs boss 100 maps
+@6000: 200/200 identical, 200 wins, 0 timeouts, max first turn 302.4 ms, later 10.5 ms
+(`replays/bench/exp-2026-11-03-kite-eval/proccheck-v07-*.log`, copied to the main checkout). Kept copy
+`artifacts/4c7b0d04/Player.java` (worktree and main checkout). Records: BOTS (versions, flags, artifacts),
+STATUS, SUMMARY, PLAN, visualizer.md, bot-architecture.html (v07: the kiting section, the flow, the
+pseudo-code, the versions table, the gaps and the directions), `.ai/project.md` (v00–v07) with the kit sync.
+Not uploaded: the paste and the P1 placements are the user's; register the new agent as v07 upload 1
+(pending) before downloading its games.

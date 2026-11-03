@@ -7,8 +7,8 @@
   "evaluation": "block k = seeds 400000 + 2000 k .. 400000 + 2000 k + 1999, one fresh block per upload candidate, used once"
  },
  "next": {
-  "screen": 8,
-  "evaluation": 6
+  "screen": 9,
+  "evaluation": 7
  },
  "used": [
   {
@@ -164,6 +164,28 @@
    "control": "v05 (the selected version)",
    "series": "direct and mirror on 2000 maps; candidate and v05 against boss on 410000-410499",
    "verdict": "G0-G2 pass (G3 skipped, no old): S 0.6519 (CI 0.6356-0.6682) against v05, boss delta 0.0000, no failure; S >= 0.60: upload recommended; the freeze (v06) and the upload are the user's decisions"
+  },
+  {
+   "pool": "screen",
+   "k": 8,
+   "seeds": "216000-217999",
+   "date": "2026-11-03",
+   "experiment": "docs/data/exp-2026-11-03-kite",
+   "candidate": "current?KITE=1",
+   "control": "v06",
+   "series": "direct and mirror on 2000 maps; candidate and v06 against boss on 216000-216499; candidate and v06 against field on 2000 maps (G4)",
+   "verdict": "G0-G2 and G4 pass (strategy track, PV2): S 0.6946 (CI 0.6784-0.7109) against v06, boss delta +0.0015, field delta +0.0309 (CI +0.0120..+0.0497); G3 skipped, old absent; no candidate failure. The local champion; the final evaluation, the freeze and any upload are the user's decisions"
+  },
+  {
+   "pool": "evaluation",
+   "k": 6,
+   "seeds": "412000-413999",
+   "date": "2026-11-03",
+   "experiment": "docs/data/exp-2026-11-03-kite",
+   "candidate": "current?KITE=1",
+   "control": "v06 (the selected version)",
+   "series": "direct and mirror on 2000 maps; candidate and v06 against boss on 412000-412499; candidate and v06 against field on 2000 maps (G4)",
+   "verdict": "G0-G2 and G4 pass (G3 skipped, no old): S 0.6803 (CI 0.6641-0.6964) against v06, boss delta +0.0010, field delta +0.0352; G0 by the quiet repeat (4 slow turns on 4 consecutive maps in the first direct run were host noise, identical outcomes); S >= 0.60: upload recommended; the freeze (v07) and the upload are the user's decisions"
   }
  ]
 }

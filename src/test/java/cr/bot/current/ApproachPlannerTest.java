@@ -43,7 +43,7 @@ class ApproachPlannerTest {
     }
 
     private static int[] constructionTurns(GameState s, int enabled) {
-        MainBot bot = new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=0,APPROACH=" + enabled));
+        MainBot bot = new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,ROUTE=0,APPROACH=" + enabled));
         Rules rules = new Rules();
         int[] built = {-1, -1};
         for (int t = 0; t < 20 && built[B] < 0; t++) {
@@ -62,8 +62,8 @@ class ApproachPlannerTest {
     @Test void anotherContactPointBuildsTheSameSiteOnTimeAndTheNextSiteEarlier() {
         GameState original = position(), baseline = original.copy(), candidate = original.copy();
         String observation = JSON.toJson(original);
-        Command normal = play(new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=0")), baseline);
-        Command improved = play(new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=0,APPROACH=1")), candidate);
+        Command normal = play(new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,ROUTE=0")), baseline);
+        Command improved = play(new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,ROUTE=0,APPROACH=1")), candidate);
         assertEquals(observation, JSON.toJson(baseline));
         assertEquals(observation, JSON.toJson(candidate), "successful planning must not mutate the observation");
         assertEquals("BUILD 0 BARRACKS-KNIGHT", normal.queenLine());
@@ -90,8 +90,8 @@ class ApproachPlannerTest {
         site(s, 2, 1500, 500);
         s.stType[2] = Const.BARRACKS; s.stOwner[2] = 0; s.barrType[2] = Const.KNIGHT;
         s.gold[0] = 80;
-        Command normal = play(new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=0")), s.copy());
-        Command improved = play(new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=0,APPROACH=1")), s.copy());
+        Command normal = play(new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,ROUTE=0")), s.copy());
+        Command improved = play(new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,ROUTE=0,APPROACH=1")), s.copy());
         assertEquals("BUILD 0 MINE", normal.queenLine());
         assertEquals(Command.MOVE, improved.queen, improved.queenLine());
         assertEquals("TRAIN 2", normal.trainLine());
@@ -103,7 +103,7 @@ class ApproachPlannerTest {
             GameState s = position();
             site(s, 2, 1500, 500);
             s.stType[2] = Const.BARRACKS; s.stOwner[2] = 0; s.barrType[2] = Const.KNIGHT;
-            MainBot bot = new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=0,APPROACH=" + enabled));
+            MainBot bot = new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,ROUTE=0,APPROACH=" + enabled));
             Rules rules = new Rules();
             // First reached turns for mine rates 1, 2, 3 and then B's first tower.
             int[] milestones = {-1, -1, -1, -1};
@@ -132,7 +132,7 @@ class ApproachPlannerTest {
     private static void unchanged(GameState s, String structure) {
         Command original = Command.build(A, structure);
         String before = JSON.toJson(s);
-        Command result = new ApproachPlanner().improve(s, original, 0, 0, new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0"));
+        Command result = new ApproachPlanner().improve(s, original, 0, 0, new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,KITE=0"));
         assertSame(original, result, "unsafe or unhelpful approach must keep the ordinary command");
         assertEquals(before, JSON.toJson(s), "planning must not mutate the observation");
     }

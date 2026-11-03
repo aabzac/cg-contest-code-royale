@@ -59,8 +59,13 @@
   S 0.255 against v06. Our income flags lose against it too: the economy is not the next lever
 - [x] `field` adopted into P2 as gate G4 (2026-11-03, PV2 in `docs/local-screen.md`); archers are still unplayed
   locally
-- [ ] What the arena's strong players do that `field` does not (kiting under knights, the timing of waves):
-  the traces of v06's 24 arena deaths (`replays/study/traces/all-v06.txt`) and the opponents' traces
+- [x] What the arena's strong players do that v06 does not (2026-11-03, `docs/data/study-2026-11-03-arena-winners/`):
+  they MOVE under knights (42 % of contact turns, 36 units a turn) and before contact; a third less HP per
+  contact turn; income 8 and 12 waves follow from the free queen turns (33 top-ups against our 93)
+- [x] Kiting (2026-11-03, `docs/data/exp-2026-11-03-kite/`): KITE / KITE_RANGE / KITE_COVER, swept against v06
+  and `field`, screened under P2 with G4: `KITE=1` S 0.695 against v06, +3.1 pp against `field`, passed; final
+  evaluation on block 6 S 0.680, +3.5 pp against `field`, the upload recommendation met; frozen as v07
+  (2026-11-03), `submit` and `procCheck` passed (`docs/BOTS.md`, Artifacts); the upload under P1 is the user's
 - [x] Late economy (2026-11-03, `docs/data/exp-2026-11-03-late-income/`): INCOME_LATE (the income target after
   the ladder) neutral against v06 (0.505-0.513), with thinner top-ups a loss; off by default, not screened
 - [x] Study 2026-10-30 (`docs/data/study-2026-10-30/`): we build towers late and few, stronger players

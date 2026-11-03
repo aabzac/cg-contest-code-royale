@@ -146,17 +146,17 @@ class StrategyParamsTest {
         for (int i = 0; i < 3; i++) { s.cOwner[i] = 1; s.cType[i] = Const.KNIGHT; s.cHp[i] = 25; s.cx[i] = s.qx[0] + 60 + 20 * i; s.cy[i] = 350; }
         int touched = Protocol.touchedSite(s, 0);
         assertEquals(0, touched);
-        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=0")).play(s, touched, Long.MAX_VALUE).queenLine(), "v05: top up the touched tower");
-        assertEquals("BUILD 1 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=2")).play(s, touched, Long.MAX_VALUE).queenLine(), "one tower near: a new one at B");
-        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=2,THREAT_RADIUS=250")).play(s, touched, Long.MAX_VALUE).queenLine(), "B beyond the radius: top up");
-        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=1")).play(s, touched, Long.MAX_VALUE).queenLine(), "one tower near suffices");
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("KITE=0,THREAT_TOWERS_NEAR=0,KITE=0,KITE=0")).play(s, touched, Long.MAX_VALUE).queenLine(), "v05: top up the touched tower");
+        assertEquals("BUILD 1 TOWER", new MainBot(new Params().apply("KITE=0,THREAT_TOWERS_NEAR=2")).play(s, touched, Long.MAX_VALUE).queenLine(), "one tower near: a new one at B");
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("KITE=0,THREAT_TOWERS_NEAR=2,THREAT_RADIUS=250")).play(s, touched, Long.MAX_VALUE).queenLine(), "B beyond the radius: top up");
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("KITE=0,THREAT_TOWERS_NEAR=1")).play(s, touched, Long.MAX_VALUE).queenLine(), "one tower near suffices");
         s.stType[1] = Const.TOWER; s.stOwner[1] = 0; s.towerHp[1] = 200; s.towerRange[1] = 250;
-        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=2")).play(s, touched, Long.MAX_VALUE).queenLine(), "two towers near: top up");
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("KITE=0,THREAT_TOWERS_NEAR=2")).play(s, touched, Long.MAX_VALUE).queenLine(), "two towers near: top up");
         // the knights 300 away: no threat at 250, a threat at 400
         for (int i = 0; i < 3; i++) s.cx[i] = s.qx[0] + 300;
-        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=2")).play(s, touched, Long.MAX_VALUE).queenLine(), "no threat at 250: the touch rule tops A up");
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("KITE=0,THREAT_TOWERS_NEAR=2")).play(s, touched, Long.MAX_VALUE).queenLine(), "no threat at 250: the touch rule tops A up");
         s.stType[1] = Const.NONE; s.stOwner[1] = -1;
-        assertEquals("BUILD 1 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=2,THREAT_RANGE=400")).play(s, touched, Long.MAX_VALUE).queenLine(), "THREAT_RANGE=400 sees them");
+        assertEquals("BUILD 1 TOWER", new MainBot(new Params().apply("KITE=0,THREAT_TOWERS_NEAR=2,THREAT_RANGE=400")).play(s, touched, Long.MAX_VALUE).queenLine(), "THREAT_RANGE=400 sees them");
     }
 
     /** The ladder complete (a barracks, income 3, no towers wanted): v06 pumps the home tower; with INCOME_LATE=5 the queen upgrades the nearer own mine A, builds a mine at the gold site C once A is full, and stops at the target; a knight near keeps v06's flight. */
@@ -168,7 +168,7 @@ class StrategyParamsTest {
         site(s, 3, 100, 100, 0, 0);
         s.stType[3] = Const.TOWER; s.stOwner[3] = 0; s.towerHp[3] = 700; s.towerRange[3] = 400;
         s.qx[0] = 600; s.qy[0] = 350;
-        String p = "MINES_FIRST=0,INCOME_TARGET=2,MAX_TOWERS=0,BARRACKS=1,ROUTE=0,UNSTICK=0,THREAT_TOWERS_NEAR=0,";
+        String p = "MINES_FIRST=0,INCOME_TARGET=2,MAX_TOWERS=0,BARRACKS=1,ROUTE=0,UNSTICK=0,THREAT_TOWERS_NEAR=0,KITE=0,";
         assertEquals("BUILD 3 TOWER", new MainBot(new Params().apply(p + "INCOME_LATE=0")).play(s, -1, Long.MAX_VALUE).queenLine(), "v06: the ladder is complete, pump the home tower");
         assertEquals("BUILD 0 MINE", new MainBot(new Params().apply(p + "INCOME_LATE=5")).play(s, -1, Long.MAX_VALUE).queenLine(), "income 2 < 5: upgrade the nearer own mine A");
         s.mineRate[0] = 3;
@@ -183,6 +183,27 @@ class StrategyParamsTest {
         // a knight near: no late economy, the flight as before
         s.nCreeps = 1; s.cOwner[0] = 1; s.cType[0] = Const.KNIGHT; s.cHp[0] = 25; s.cx[0] = s.qx[0] + 100; s.cy[0] = s.qy[0];
         assertEquals("BUILD 3 TOWER", new MainBot(new Params().apply(p + "INCOME_LATE=5")).play(s, touched, Long.MAX_VALUE).queenLine());
+    }
+
+    /** Knights east of the queen at her tower A (range 300): v06 tops A up; KITE=1 MOVEs west, away from them, to a point still under A's cover; a knight 400 away kites only with KITE_RANGE=500. */
+    @Test
+    void kiteMovesAwayFromKnightsUnderTowerCover() {
+        GameState s = position();
+        s.stType[0] = Const.TOWER; s.stOwner[0] = 0; s.towerHp[0] = 400; s.towerRange[0] = 300;
+        s.stType[1] = Const.TOWER; s.stOwner[1] = 0; s.towerHp[1] = 400; s.towerRange[1] = 300; // a second tower near, so the defence rule has nothing to build
+        s.qx[0] = 350 + 70 + Const.QUEEN_RADIUS + 2; s.qy[0] = 350; // touching A from the east
+        s.nCreeps = 2;
+        for (int i = 0; i < 2; i++) { s.cOwner[i] = 1; s.cType[i] = Const.KNIGHT; s.cHp[i] = 25; s.cx[i] = s.qx[0] + 120 + 30 * i; s.cy[i] = 350; }
+        int touched = Protocol.touchedSite(s, 0);
+        assertEquals(0, touched);
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("KITE=0")).play(s, touched, Long.MAX_VALUE).queenLine(), "v06: top up");
+        Command k = new MainBot(new Params().apply("KITE=1")).play(s, touched, Long.MAX_VALUE);
+        assertEquals(Command.MOVE, k.queen, "KITE=1: a MOVE");
+        assertTrue(k.x < s.qx[0], "away from the knights in the east: " + k.queenLine());
+        // the knights 400 away: the touch rule at 250, the kiting at 500
+        for (int i = 0; i < 2; i++) s.cx[i] = s.qx[0] + 400 + 30 * i;
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("KITE=1")).play(s, touched, Long.MAX_VALUE).queenLine());
+        assertEquals(Command.MOVE, new MainBot(new Params().apply("KITE=1,KITE_RANGE=500")).play(s, touched, Long.MAX_VALUE).queen);
     }
 
     /** Two own knight barracks: TRAIN_SYNC=1 trains both or neither; 0 trains whatever the gold allows, in id order. */

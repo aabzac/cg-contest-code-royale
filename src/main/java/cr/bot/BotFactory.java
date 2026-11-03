@@ -60,6 +60,7 @@ public final class BotFactory {
             case "v04": return new cr.bot.v04.GreedyBot(snapshot("v04").apply(overrides));
             case "v05": return new cr.bot.v05.GreedyBot(snapshot("v05").apply(overrides));
             case "v06": return new cr.bot.v06.GreedyBot(snapshot("v06").apply(overrides));
+            case "v07": return new cr.bot.v07.GreedyBot(snapshot("v07").apply(overrides));
             case "current": return new MainBot(new Params().apply(overrides));
             case "field": return new cr.bot.field.FieldBot(new cr.bot.field.FieldParams().apply(overrides));
             default:
@@ -90,6 +91,7 @@ public final class BotFactory {
             case "v04": return "v04 " + snapshot("v04").apply(overrides);
             case "v05": return "v05 " + snapshot("v05").apply(overrides);
             case "v06": return "v06 " + snapshot("v06").apply(overrides);
+            case "v07": return "v07 " + snapshot("v07").apply(overrides);
             case "current": return "current " + new Params().apply(overrides);
             case "field": return "field " + new cr.bot.field.FieldParams().apply(overrides);
             default:

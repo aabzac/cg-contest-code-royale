@@ -7,7 +7,14 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 
 - Date: 2026-11-03 (evening). Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Bronze.
-- Selected version, local champion and `current` defaults: v06 = v05 with a second tower near the queen
+- Local champion and `current` defaults: v07 = v06 with kiting under knights (KITE=1 at the contact range
+  250, under own tower cover), frozen 2026-11-03 (`cr.bot.v07.GreedyBot`, `versions/v07.properties`; P2
+  `docs/data/exp-2026-11-03-kite/`: S 0.6803 against v06 and +3.5 pp against `field` on the evaluation
+  block). Artifact `4c7b0d04…` (78,622 chars without comments, build `b6b5f0f7`, config `c1fcf458`; the freeze
+  commit; kept copy `artifacts/4c7b0d04/Player.java`), procCheck 200/200 against v01 and against `boss`, no
+  timeouts (`docs/BOTS.md`, Artifacts). Not uploaded yet: the paste and the two P1 placements are the user's;
+  the rollback artifact stays v06's `1a9f3e81`.
+- Selected version (the arena's): v06 = v05 with a second tower near the queen
   under threat (THREAT_TOWERS_NEAR=2 within 500) and the army flags (a second knight barracks after 4 towers,
   synchronous waves, 6 towers), frozen 2026-11-03 (`cr.bot.v06.GreedyBot`, `versions/v06.properties`; P2
   `docs/data/exp-2026-11-03-safety/`: S 0.6519 against v05 on the evaluation block). Selected under P1 on
@@ -44,6 +51,19 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   Adopted into P2 as gate G4 (Δ against `field` on the block's 2000 maps ≥ −2 pp; PV2, `docs/local-screen.md`),
   the user's decision 2026-11-03.
   `cr.tools.LocalProfile` prints a bot's local profile in cgStudy's terms.
+- Candidate frozen as v07 (2026-11-03, kiting; the user's choice after the field opponent): `current?KITE=1` — under
+  knights within 250 the queen MOVEs away from them under her towers' cover instead of standing at a tower
+  topping it up. Study `docs/data/study-2026-11-03-arena-winners/` (the arena winners over v06 MOVE on 42 % of
+  their turns under knights and lose a third less HP per contact turn; v06 never moves). P2 screen on block 8
+  (216000-217999) passed with G4: S 0.6946 (CI 0.6784-0.7109) against v06, Δ +0.0015 against `boss`, Δ +0.0309
+  against `field`, G0 clean (`docs/data/exp-2026-11-03-kite/`); the local champion, about +1.6 rating points
+  head-to-head. Final evaluation on evaluation block 6 (412000-413999), the user's decision: G0 on the quiet
+  repeat (4 slow turns on consecutive maps in the first run were host noise), G1 S 0.6803 (CI 0.6641-0.6964)
+  against v06, Δ +0.0010 against `boss`, Δ +0.0352 against `field`; the upload recommendation S ≥ 0.60 is met.
+  Frozen as v07 on the user's decision; `submit` and both `procCheck` series: `docs/BOTS.md` (Artifacts).
+  Dropped in the sweep: KITE_RANGE 500
+  (−12 pp against `field`). The artifact merger strips comments since 2026-11-03 (the code had grown past
+  100,000 characters with them; about 79,000 without).
 - Candidate judged under P1 (2026-11-03): v05. Placements 23.93 and 26.47 (mean 25.20, SD 1.80) against
   `route`'s 22.50; pooled rating 24.90 ± 0.37 against 22.05 ± 0.35 (scale 1.61); M 2.77 (7 df). Neither
   rollback condition holds, so v05 is the selected version. With the third upload (25.77) the verdict

@@ -61,6 +61,20 @@ public final class Params {
      */
     public int INCOME_LATE = 0;
     /**
+     * 1: kiting. With enemy knights within KITE_RANGE and nothing for the defence rule to build, the
+     * queen MOVEs on the heading that leaves her farthest from the nearest knight after the predicted
+     * step, staying under her own towers' cover when she is covered now (KITE_COVER=1) and out of enemy
+     * tower range, instead of standing at her tower topping it up. 0: v01-v06. From the study of
+     * 2026-11-03 (docs/data/study-2026-11-03-arena-winners): the arena opponents who beat v06 MOVE on
+     * 42 % of their turns under knights and lose a third less HP per contact turn; v06 never does. On since
+     * v07 (P2 docs/data/exp-2026-11-03-kite: S 0.68-0.69 against v06, +3 pp against field).
+     */
+    public int KITE = 1;
+    /** Knights closer than this start the kiting (250: contact; 400-500: before contact, as the winners do). */
+    public int KITE_RANGE = 250;
+    /** 1: a kiting step must stay within an own tower's range when the queen is covered now. */
+    public int KITE_COVER = 1;
+    /**
      * 1: when the BUILD towards the next site to take would leave the queen standing (a site straight
      * ahead pushes her back, or two sites wedge her), she detours with MOVEs (MainBot.unstick).
      * 0 plays as v01. A P2 targeted fix (docs/local-screen.md); on by default since v02 (2026-10-30).

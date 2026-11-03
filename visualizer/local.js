@@ -35,7 +35,7 @@ export function localState(data, saved = {}, params = new URLSearchParams()) {
   const state = {...saved};
   for (const key of LOCAL_FIELDS) if (params.has(key)) state[key] = params.get(key);
   const ids = new Set(data.bots.map(bot => bot.id));
-  for (const [key, fallback] of [['bot0', 'current'], ['bot1', 'v06']]) {
+  for (const [key, fallback] of [['bot0', 'current'], ['bot1', 'v07']]) {
     const flagsKey = `flags${key.slice(-1)}`;
     if (!ids.size) state[key] ||= data.defaults?.[key] || fallback;
     else if (!ids.has(state[key])) state[key] = ids.has(data.defaults?.[key]) ? data.defaults[key]

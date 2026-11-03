@@ -23,9 +23,11 @@ class BotFactoryTest {
         Params v06 = BotFactory.snapshot("v06");
         assertEquals(v05.toString().replace("MAX_TOWERS=8", "MAX_TOWERS=6").replace("BARRACKS=1", "BARRACKS=2").replace("BARRACKS_AFTER_TOWERS=0", "BARRACKS_AFTER_TOWERS=4")
             .replace("TRAIN_SYNC=0", "TRAIN_SYNC=1").replace("THREAT_TOWERS_NEAR=0", "THREAT_TOWERS_NEAR=2").replace("THREAT_RADIUS=400", "THREAT_RADIUS=500"), v06.toString());
-        assertEquals(new Params().toString(), v06.toString(), "the live defaults are v06's until the next champion");
+        Params v07 = BotFactory.snapshot("v07");
+        assertEquals(v06.toString().replace("KITE=0", "KITE=1"), v07.toString());
+        assertEquals(new Params().toString(), v07.toString(), "the live defaults are v07's until the next champion");
         // every Params field must be present in each snapshot, so new live defaults cannot leak in silently
-        for (String version : new String[]{"v01", "v02", "v03", "v04", "v05", "v06"}) {
+        for (String version : new String[]{"v01", "v02", "v03", "v04", "v05", "v06", "v07"}) {
             String spec = new java.util.Properties() {{
                 try (java.io.InputStream in = BotFactory.class.getResourceAsStream("versions/" + version + ".properties")) { load(in); }
                 catch (java.io.IOException e) { throw new IllegalStateException(e); }
@@ -70,6 +72,7 @@ class BotFactoryTest {
         assertEquals("v04 " + BotFactory.snapshot("v04"), BotFactory.describe("v04"));
         assertEquals("v05 " + BotFactory.snapshot("v05"), BotFactory.describe("v05"));
         assertEquals("v06 " + BotFactory.snapshot("v06"), BotFactory.describe("v06"));
+        assertEquals("v07 " + BotFactory.snapshot("v07"), BotFactory.describe("v07"));
         assertEquals("proc:java -cp x Player", BotFactory.describe("proc:java -cp x Player"));
         assertTrue(BotFactory.describe("boss").matches("boss sha256=([0-9a-f]{64}|missing)"));
         assertTrue(BotFactory.describe("old").matches("old sha256=([0-9a-f]{64}|missing)"));
