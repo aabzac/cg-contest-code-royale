@@ -1756,3 +1756,46 @@ against −2.59; rating +0.69 against −1.16): v06 is the selected version. Rec
 (new section), the registry, BOTS (versions, uploads, artifacts), STATUS, SUMMARY, PLAN, `docs/local-screen.md`
 (v06 row), the architecture page (the v06 numbers and pills), the local-games labels. Raw arena files copied
 to the main checkout. Not committed (the user's call).
+
+## 2026-11-03 — Merge to master; the late-economy flag: neutral against v06, off
+
+Master fast-forwarded to 3eef83c (the three commits of the day) from the main checkout; the worktree stays.
+The user's "next": the profile of v06's 120 arena games (`docs/data/exp-2026-11-03-late-income/profile.py`,
+`profile.txt`; `cgStudy` into `replays/study/features-v06-2026-11-03.csv`, `DeathTrace` into
+`replays/study/traces/all-v06.txt`, both copied to the main checkout): 87 wins, 33 losses (24 deaths, median
+turn 136, 3 before turn 80; 9 on HP); the opponents who beat v06: income 8 at turn 100, 12 knight waves, 4
+towers at 1,676 HP, 3 mines; ours: income 3, 6 waves, 5 towers at 3,180 HP, 74 top-ups; giants in 7 of the
+33 losses. Code: `Params.INCOME_LATE` (the income target after the ladder; `MainBot.lateSite`: the nearest
+free gold site or own mine below its maximum; the touch rule builds a mine on a free gold site in that
+phase); the snapshots record it; `StrategyParamsTest.lateIncomeRaisesTheIncomeAfterTheLadder`; `cr.bot.*`
+green with the v06 identity. Development sweep against v06 (`replays/bench/dev-late-income-2026-11-03/`,
+seeds 10000-10499, 500 maps, both seats, the v06 mirrors on 10000 and 11000): INCOME_LATE 4/5/6/8 →
+0.505/0.513/0.508/0.485; 6 with TOWER_HP 600/500 → 0.428/0.368; 8 with 500 → 0.360; 1-2 slow turns in
+three arms with v06's own (host). A traced game (seed 10001) shows the late phase starved by the threat
+rules after turn 120. Verdict: neutral, not screened, the flag off by default; the economy's value against
+the field needs a local opponent with the field's balance (PLAN). Records: README, STATUS, SUMMARY, PLAN.
+Raw reports copied to the main checkout.
+
+## 2026-11-03 — A local opponent with the field's balance: `field`, calibrated; the income flags lose against it too
+
+The user's choice after the late-income result. Code: `cr.bot.field.FieldBot` and `FieldParams` (spec
+`field?K=v`; the package is outside the artifact's), `BotFactory` create/describe, the local-games catalog
+(9 bots), `cr.tools.LocalProfile` (a bot's local profile in cgStudy's terms from the referee's frames).
+Tests: `FieldBotTest` (legal play on 10 maps and both seats against v06 with and without giants; the ladder,
+the giant barracks, the touch rule, the training order with the knights waiting for the giants' gold),
+`LocalGamesTest` (9 bots). Full `./gradlew test`: 21 classes, 0 failures.
+
+Calibration against v06 (`replays/bench/dev-field-2026-11-03/`, 100 maps each, both seats, seeds 10000-10099;
+`LocalProfile` on 50 maps): the first cut (giants, TOWER_HP 450) 0.060 with 6 knight and 5 giant waves and 38
+queen deaths of 100; GIANTS=0 0.193; GIANTS=0 with TOWER_HP=600 **0.255** (income 7 with 3 mines at turn 100,
+4 towers at 2,344 HP, 17 knight waves, 20 deaths) — the defaults; TOWERS 3/5, MINES 2/4, THREAT_TOWERS_NEAR 3,
+THREAT_RADIUS 700, INCOME 12 within ±0.03 of it; TOWER_HP=800 0.025; every giants-on arm 0.03-0.07. Against
+`boss` 60/60 (30 maps), against v03 0.735 (100 maps). Our flags against `field` (200 maps, seeds
+11000-11199): defaults 0.726; INCOME_LATE 6/8 0.635/0.608; INCOME_TARGET=5 0.699; TOWER_HP=500 0.654;
+MAX_TOWERS=4 0.666; MINES_FIRST=3 0.759; THREAT_TOWERS_NEAR=0 0.632; the army flags off 0.714. Records:
+`docs/data/exp-2026-11-03-field-opponent/README.md`, BOTS (opponents), STATUS, SUMMARY, PLAN (the backlog
+item closed, two new), `.ai/project.md` (specs) with the kit sync. Raw reports copied to the main checkout.
+Not adopted into P2 (the user's decision); not committed.
+Adopted (the user, 2026-11-03): `field` is a P2 opponent, gate G4 (Δ against `field` on the block's 2000
+maps ≥ −2 pp); proxy validation PV2 recorded in `docs/local-screen.md` with `field`'s fingerprints;
+`.ai/project.md` (opponents, gates, the proxy and reserve rows) with the kit sync. Committed.

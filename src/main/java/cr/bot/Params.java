@@ -52,6 +52,15 @@ public final class Params {
     /** The radius around the queen for THREAT_TOWERS_NEAR: own towers counted and free sites considered (500 since v06). */
     public int THREAT_RADIUS = 500;
     /**
+     * Income target once the ladder is complete (0: none, the idle queen pumps her home tower as in
+     * v01-v06). Below it, with no knight near, she walks to the nearest of a free gold site (a new mine)
+     * and an own mine below its maximum (an upgrade) and builds there; the touch rule builds a mine on a
+     * free gold site too. The economy direction of 2026-11-03 (docs/data/exp-2026-11-03-late-income): the
+     * opponents who beat v06 hold income 8 at turn 100 against our 3 and release twice the waves, while
+     * our queen spends 74 turns a game topping up towers after the ladder.
+     */
+    public int INCOME_LATE = 0;
+    /**
      * 1: when the BUILD towards the next site to take would leave the queen standing (a site straight
      * ahead pushes her back, or two sites wedge her), she detours with MOVEs (MainBot.unstick).
      * 0 plays as v01. A P2 targeted fix (docs/local-screen.md); on by default since v02 (2026-10-30).

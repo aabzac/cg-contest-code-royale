@@ -99,6 +99,7 @@ public final class MainBot implements Bot {
                 else if (wantsBarracks(p, barracks, towers)) cmd = Command.build(t, "BARRACKS-KNIGHT");
                 else if (income < p.INCOME_TARGET && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
                 else if (towers < p.MAX_TOWERS) cmd = Command.build(t, "TOWER");
+                else if (income < p.INCOME_LATE && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
             }
         }
         if (cmd == null && threat > 0) {
@@ -123,8 +124,18 @@ public final class MainBot implements Bot {
                     }
                 }
             } else {
-                int tw = nearest(s, hx, hy, i -> s.stType[i] == Const.TOWER && s.stOwner[i] == 0);
-                cmd = tw >= 0 ? Command.build(tw, "TOWER") : Command.move((int) hx, (int) hy);
+                int late = income < p.INCOME_LATE && threat == 0 ? lateSite(s, (qx + hx) / 2, (qy + hy) / 2) : -1;
+                if (late >= 0) {
+                    // The ladder is complete: the idle queen raises the income instead of pumping her home tower.
+                    cmd = Command.build(late, "MINE");
+                    if (p.ROUTE == 1) {
+                        if (route == null) route = new RoutePlanner();
+                        cmd = route.plan(s, cmd, hx, hy, p, barracks, income, towers);
+                    } else if (p.UNSTICK == 1) cmd = unstick(s, cmd);
+                } else {
+                    int tw = nearest(s, hx, hy, i -> s.stType[i] == Const.TOWER && s.stOwner[i] == 0);
+                    cmd = tw >= 0 ? Command.build(tw, "TOWER") : Command.move((int) hx, (int) hy);
+                }
             }
         }
 
@@ -157,6 +168,12 @@ public final class MainBot implements Bot {
             train[n++] = i;
         }
         return java.util.Arrays.copyOf(train, n);
+    }
+
+    /** INCOME_LATE's target: the nearest to (cx, cy) of a free gold site not under an enemy tower and an own mine below its maximum, or -1. */
+    static int lateSite(GameState s, double cx, double cy) {
+        return nearest(s, cx, cy, i -> !underEnemyTower(s, i)
+            && (free(s, i) ? s.sGold[i] > 0 : s.stType[i] == Const.MINE && s.stOwner[i] == 0 && s.mineRate[i] < s.sMaxMine[i]));
     }
 
     /**

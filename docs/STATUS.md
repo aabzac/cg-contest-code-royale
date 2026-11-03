@@ -31,6 +31,19 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   v05's 25.39; pooled rating 25.75 ± 0.46 against 25.06 ± 0.35 (scale 1.95); M 2.59 (9 df). Neither
   rollback condition holds, so v06 is the selected version. The arena agrees with the local direction and
   size (P2: S 0.65 against v05, about +1.1 head-to-head; the arena +0.85 on the mean). No pending candidate.
+- Late economy (2026-11-03, after v06's selection; `docs/data/exp-2026-11-03-late-income/`): the profile of
+  v06's 120 arena games (87 wins; 24 deaths, 3 before turn 80; the opponents who beat it hold income 8 and 12
+  waves against our 3 and 6, while our queen spends 74 turns on top-ups) led to `INCOME_LATE` (the income
+  target after the ladder, upgrades and new mines out of the top-up turns). Development sweep against v06:
+  4-6 → 0.505-0.513, 8 → 0.485, with TOWER_HP 500-600 → 0.36-0.43. Neutral locally, not screened, off by
+  default. The economy's value against the arena field needs a local opponent with the field's balance.
+- Field-balance opponent (2026-11-03, the user's choice; `docs/data/exp-2026-11-03-field-opponent/`): `field`
+  (`cr.bot.field.FieldBot`, income 7-8 with 3 mines, 4 towers at 600, 17 knight waves; giants optional, off:
+  they cost 20 pp). S 0.255 against v06, 0.735 against v03, 60/60 against `boss`. Against it our parked flags
+  lose more than against v06 (INCOME_LATE −9..−12 pp, TOWER_HP=500 −7, MAX_TOWERS=4 −6, the defence off −9).
+  Adopted into P2 as gate G4 (Δ against `field` on the block's 2000 maps ≥ −2 pp; PV2, `docs/local-screen.md`),
+  the user's decision 2026-11-03.
+  `cr.tools.LocalProfile` prints a bot's local profile in cgStudy's terms.
 - Candidate judged under P1 (2026-11-03): v05. Placements 23.93 and 26.47 (mean 25.20, SD 1.80) against
   `route`'s 22.50; pooled rating 24.90 ± 0.37 against 22.05 ± 0.35 (scale 1.61); M 2.77 (7 df). Neither
   rollback condition holds, so v05 is the selected version. With the third upload (25.77) the verdict
@@ -79,7 +92,7 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   2026-10-30, `docs/data/leaderboard-bronze-2026-10-30.json`). The local `boss` spec is the repository's Default AI: a floor, not this boss.
 - Waiting on the user: the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3
   of P2).
-- Policies: P2 locally (`docs/local-screen.md`), then `submit` and both `procCheck`, then P1 on the arena
+- Policies: P2 locally with gates G0-G4 (`docs/local-screen.md`; PV2 since 2026-11-03), then `submit` and both `procCheck`, then P1 on the arena
   (`docs/arena-uploads.md`, `tools/arena_compare.py`, registry `docs/data/arena-uploads.json`).
 - Simulator: live rules in `cr.core`, listed in `docs/rules/inferred.md`; original validation corpora
   `replays/cg/legend-top` (88), `replays/arena/legacy/bronze/upload-01/games` (10) and

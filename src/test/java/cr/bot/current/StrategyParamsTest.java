@@ -159,6 +159,32 @@ class StrategyParamsTest {
         assertEquals("BUILD 1 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=2,THREAT_RANGE=400")).play(s, touched, Long.MAX_VALUE).queenLine(), "THREAT_RANGE=400 sees them");
     }
 
+    /** The ladder complete (a barracks, income 3, no towers wanted): v06 pumps the home tower; with INCOME_LATE=5 the queen upgrades the nearer own mine A, builds a mine at the gold site C once A is full, and stops at the target; a knight near keeps v06's flight. */
+    @Test
+    void lateIncomeRaisesTheIncomeAfterTheLadder() {
+        GameState s = position();
+        s.stType[0] = Const.MINE; s.stOwner[0] = 0; s.mineRate[0] = 2; s.sMaxMine[0] = 3; s.sGold[0] = 300;
+        s.stType[1] = Const.BARRACKS; s.stOwner[1] = 0; s.barrType[1] = Const.KNIGHT;
+        site(s, 3, 100, 100, 0, 0);
+        s.stType[3] = Const.TOWER; s.stOwner[3] = 0; s.towerHp[3] = 700; s.towerRange[3] = 400;
+        s.qx[0] = 600; s.qy[0] = 350;
+        String p = "MINES_FIRST=0,INCOME_TARGET=2,MAX_TOWERS=0,BARRACKS=1,ROUTE=0,UNSTICK=0,THREAT_TOWERS_NEAR=0,";
+        assertEquals("BUILD 3 TOWER", new MainBot(new Params().apply(p + "INCOME_LATE=0")).play(s, -1, Long.MAX_VALUE).queenLine(), "v06: the ladder is complete, pump the home tower");
+        assertEquals("BUILD 0 MINE", new MainBot(new Params().apply(p + "INCOME_LATE=5")).play(s, -1, Long.MAX_VALUE).queenLine(), "income 2 < 5: upgrade the nearer own mine A");
+        s.mineRate[0] = 3;
+        assertEquals("BUILD 2 MINE", new MainBot(new Params().apply(p + "INCOME_LATE=5")).play(s, -1, Long.MAX_VALUE).queenLine(), "A is full: the gold site C");
+        assertEquals("BUILD 3 TOWER", new MainBot(new Params().apply(p + "INCOME_LATE=3")).play(s, -1, Long.MAX_VALUE).queenLine(), "income 3 meets the late target: pump");
+        // touching the gold site C in the late phase builds the mine; the touch rule of v06 would not
+        s.qx[0] = 300; s.qy[0] = 700 - 70 - Const.QUEEN_RADIUS - 2;
+        int touched = Protocol.touchedSite(s, 0);
+        assertEquals(2, touched);
+        assertEquals("BUILD 2 MINE", new MainBot(new Params().apply(p + "INCOME_LATE=5")).play(s, touched, Long.MAX_VALUE).queenLine());
+        assertNotEquals("BUILD 2 MINE", new MainBot(new Params().apply(p + "INCOME_LATE=0")).play(s, touched, Long.MAX_VALUE).queenLine());
+        // a knight near: no late economy, the flight as before
+        s.nCreeps = 1; s.cOwner[0] = 1; s.cType[0] = Const.KNIGHT; s.cHp[0] = 25; s.cx[0] = s.qx[0] + 100; s.cy[0] = s.qy[0];
+        assertEquals("BUILD 3 TOWER", new MainBot(new Params().apply(p + "INCOME_LATE=5")).play(s, touched, Long.MAX_VALUE).queenLine());
+    }
+
     /** Two own knight barracks: TRAIN_SYNC=1 trains both or neither; 0 trains whatever the gold allows, in id order. */
     @Test
     void trainSyncReleasesBothBarracksTogether() {

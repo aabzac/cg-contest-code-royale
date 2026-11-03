@@ -55,6 +55,7 @@ final class LocalGames {
         new Choice("v03", "v03", "Ранние башни: прежняя замороженная версия", "v03"),
         new Choice("v02", "v02", "Замороженная версия с обходом застреваний", "v02"),
         new Choice("v01", "v01", "Первый жадный бот", "v01"),
+        new Choice("field", "field", "Соперник с балансом поля: три шахты, доход 8, четыре башни по 600", "field"),
         new Choice("v00", "v00", "Простой бот WAIT", "v00")
     );
     private static final List<Flag> FLAGS = availableFlags();

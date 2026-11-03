@@ -54,8 +54,15 @@
 - [ ] `old` opponent: the user puts the code of 3315948 into `refs/old-3315948/Player.java`; then the PV1
   calibration (v01 should score about 0.22 against it) and G3 for later candidates
 - [x] Bronze boss's score: 27.63 (agent 1870318's rating at the fetch of v06's placement games, 2026-11-03; three games, all lost); the IDE game is no longer needed for the bound
-- [ ] A local opponent with archers or giants (24 % of v01's arena opponents build them; both local
-  opponents play knights only)
+- [x] A local opponent with the field's balance (2026-11-03, `docs/data/exp-2026-11-03-field-opponent/`):
+  `field`, income 8 with 3 mines, 4 towers at 600, giants optional (they cost it 20 pp against v06, so off);
+  S 0.255 against v06. Our income flags lose against it too: the economy is not the next lever
+- [x] `field` adopted into P2 as gate G4 (2026-11-03, PV2 in `docs/local-screen.md`); archers are still unplayed
+  locally
+- [ ] What the arena's strong players do that `field` does not (kiting under knights, the timing of waves):
+  the traces of v06's 24 arena deaths (`replays/study/traces/all-v06.txt`) and the opponents' traces
+- [x] Late economy (2026-11-03, `docs/data/exp-2026-11-03-late-income/`): INCOME_LATE (the income target after
+  the ladder) neutral against v06 (0.505-0.513), with thinner top-ups a loss; off by default, not screened
 - [x] Study 2026-10-30 (`docs/data/study-2026-10-30/`): we build towers late and few, stronger players
   early and many; early towers win locally. Next: the P2 strategy screen of one arm
 - [x] Early towers, P2 strategy track (`docs/data/exp-2026-10-30-towers/`): `INCOME_TARGET=3,MAX_TOWERS=8`

@@ -1,0 +1,9 @@
+games 120, wins 87, losses 33
+losses by the queen's death 24 (median turn 136.5, before turn 80: 3), on HP at the limit 9
+HP lost by source: deaths/enemy tower 121, deaths/knights 1505, deaths/other 4, survived/enemy tower 195, survived/knights 2137, survived/other 10
+deaths: 902 hit turns, at her own tower on 837; own towers at the first contact: [(0, 1), (1, 9), (2, 7), (3, 1), (4, 5), (5, 1)]; commands on hit turns: [('BUILD touched TOWER', 705), ('BUILD walk TOWER', 197)]
+wins by killing their queen: 68 of 87 (median turn 117.0); on HP at the limit: 19
+losses by the opponent's army: AK 1, GK 7, K 25
+our medians: towers_50 3, towers_100 5.0, thp_100 3180.0, inc_50 4, inc_100 3.0, mines_100 2.0, bk_100 2.0, trainK 6.0, towerTopUps 73.5, mineUpgrades 3.0, hp_100 47.0
+opponents who beat us, medians: towers_50 3.0, towers_100 4, thp_100 1676, inc_50 5.0, inc_100 8, mines_100 3, bk_100 1, trainK 12, towerTopUps 33, mineUpgrades 11, hp_100 45
+opponents who lost to us, medians: towers_50 3, towers_100 4, thp_100 1440, inc_50 5, inc_100 4, mines_100 2, bk_100 1, trainK 7, towerTopUps 24, mineUpgrades 6, hp_100 30

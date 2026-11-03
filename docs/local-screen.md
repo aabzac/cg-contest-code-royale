@@ -27,13 +27,14 @@ checks (`submit`, both `procCheck` runs), then P1 on the arena.
   and the next candidates are screened against it.
 - **Selected version**: the arena's (P1). Now v05 (`docs/STATUS.md`).
 
-## Opponents and proxy validation PV1
+## Opponents and proxy validation PV1, PV2
 
 | Spec | Role | What it is |
 | --- | --- | --- |
 | the control | G1, direct | the version the candidate would replace |
 | `boss` | G2, floor | the referee repository's Default AI (`refs/referee-csj/config/level4/Boss.java`, csj/code-royale@349924a): one knight barracks, mines to income 10, then towers, no evasion. v01 wins 95 % of games against it. It is not a model of the live boss "Princess Boss", which stands above about 27.1 |
 | `old` | G3, stronger reference | the code of the replaced entry 3315948 (long-run 19.64 in Bronze), which the user keeps from the IDE at `refs/old-3315948/Player.java` (gitignored). It is compiled into `build/opponents/old` and runs as a process. It is not part of our bot. Pending: the code is not in place yet |
+| `field` | G4, the field's balance (since 2026-11-03, PV2) | `cr.bot.field.FieldBot` (in-process, `field?K=v`): a greedy ladder with the arena field's balance — a mine first, 3 mines upgraded to income 8, 4 towers at 600, v06's defence, 17 knight waves; giants optional and off. Its play is not our ladder (income 7 against 3, 4 towers at 600 against 6 at 700). S 0.255 against v06, 0.735 against v03, 60/60 against `boss` (`docs/data/exp-2026-11-03-field-opponent/`). Not the arena's strong players, who beat v06 |
 
 Process opponents run with `-Pthreads=3 -PturnMs=200`, which avoids timeouts from CPU contention.
 
@@ -53,6 +54,18 @@ Process opponents run with `-Pthreads=3 -PturnMs=200`, which avoids timeouts fro
   order this pair differently, and P2 is reviewed before the next decision.
 - PV1 lapses on a league change, when a proxy changes, or when P1 rolls back a candidate that passed P2.
   Until it is renewed, candidates are developed but not promoted.
+
+**PV2** (2026-11-03, the user's decision): PV1's opponents plus `field` as a fourth gate. The proxy set
+changed, so PV1's fingerprints are kept and `field`'s added (`docs/data/exp-2026-11-03-field-opponent/`):
+- `field` holds the field's economy and tower balance (income 7 with 3 mines at turn 100 against the
+  opponents who beat v06 at 8 with 3; 4 towers at 2,344 HP against their 1,676; 17 waves against 12) and
+  plays knights only, like 33 of the 37 arena opponents who killed v05's queen.
+- Our flags against `field` on 200 maps (seeds 11000-11199): the defaults 0.726; INCOME_LATE 6/8
+  0.635/0.608; TOWER_HP=500 0.654; MAX_TOWERS=4 0.666; THREAT_TOWERS_NEAR=0 0.632; MINES_FIRST=3 0.759.
+  The gate's purpose: a candidate must not lose against the field's balance what it wins against the mirror.
+- The arena's strong players (kiting, the timing of waves) are still not represented; v06 beats `field`
+  three games in four while they beat v06.
+- PV2 lapses as PV1 does.
 
 ## Seeds
 
@@ -84,11 +97,12 @@ block's use; a used block becomes development data.
 | G1 | Direct, the 2000 maps of a fresh screen block: the lower 95 % bound of S is above 0.50 |
 | G2 | `boss`, 500 maps of the block: Δ ≥ −2 pp |
 | G3 | `old` (once present), 500 maps of the block: Δ ≥ −2 pp. Until then G3 is skipped, and the record says so |
+| G4 | `field` (in-process), the 2000 maps of the block: Δ ≥ −2 pp (since 2026-11-03, PV2) |
 
 - **Replication** is needed only when several arms were screened on one block: the chosen arm repeats
-  G0-G3 on a new screen block.
+  G0-G4 on a new screen block.
 - A candidate that passes becomes the local champion.
-- **Upload recommendation**: when the local champion passes G0-G3 against the selected version on a fresh
+- **Upload recommendation**: when the local champion passes G0-G4 against the selected version on a fresh
   final-evaluation block, with S ≥ 0.60. The user decides whether to upload. The upload then follows the
   artifact checks and P1.
 

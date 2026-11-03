@@ -61,6 +61,7 @@ public final class BotFactory {
             case "v05": return new cr.bot.v05.GreedyBot(snapshot("v05").apply(overrides));
             case "v06": return new cr.bot.v06.GreedyBot(snapshot("v06").apply(overrides));
             case "current": return new MainBot(new Params().apply(overrides));
+            case "field": return new cr.bot.field.FieldBot(new cr.bot.field.FieldParams().apply(overrides));
             default:
                 throw new IllegalArgumentException("unknown bot " + name);
         }
@@ -90,6 +91,7 @@ public final class BotFactory {
             case "v05": return "v05 " + snapshot("v05").apply(overrides);
             case "v06": return "v06 " + snapshot("v06").apply(overrides);
             case "current": return "current " + new Params().apply(overrides);
+            case "field": return "field " + new cr.bot.field.FieldParams().apply(overrides);
             default:
                 throw new IllegalArgumentException("unknown bot " + name);
         }

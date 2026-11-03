@@ -33,6 +33,12 @@ using their respective parameter snapshots):
 | `THREAT_TOWERS_NEAR=N` with `THREAT_RADIUS=R` (defaults 0 and 400) | under threat, with fewer than N own towers within R of the queen, she builds a new tower on the nearest free site within R (not under an enemy tower) instead of topping up the tower she touches or walking to her nearest tower | study `docs/data/study-2026-11-03-queen-safety/` (1029 of 1103 hit turns in v05's arena deaths at one tower topping it up; a tower deals 3 at 200 HP, 4 at 700). Development sweep 2026-11-03 against v05 (`docs/data/exp-2026-11-03-safety/dev-sweep.txt`): N=2 at radius 300/400/500 → 0.631/0.621/0.635 and 0.599/0.587/0.605 on two blocks; N=3 0.57-0.59; N=1 no effect. P2 strategy screen on block 7 (214000-215999), 2026-11-03, `THREAT_TOWERS_NEAR=2,THREAT_RADIUS=500` with the army flags `BARRACKS=2,BARRACKS_AFTER_TOWERS=4,TRAIN_SYNC=1,MAX_TOWERS=6`: S 0.6420 (CI 0.6261-0.6579) against v05, Δ +0.0030 against `boss`, G3 skipped; the local champion, the final evaluation and the freeze are the user's decisions |
 | `THREAT_RANGE=D` (default 250) | enemy knights closer than D to the queen are the threat (the former literal 250) | development sweep 2026-11-03 against v05: 350 → 0.471, 450 → 0.409 alone; 200, 350 or 450 with THREAT_TOWERS_NEAR=2 within noise of 250; stays 250 |
 
+In-process opponents besides the frozen versions:
+- `field` = `cr.bot.field.FieldBot` with `FieldParams` (`field?K=v`), 2026-11-03: a greedy ladder with the arena
+  field's balance (a mine first, 3 mines upgraded to income 8, 4 towers at 600, v06's defence; giants as an
+  option, off); S 0.255 against v06, 0.735 against v03, 60/60 against `boss` on 100 maps
+  (`docs/data/exp-2026-11-03-field-opponent/`). Not shipped. Not a P2 opponent unless the user adopts it.
+
 External opponents:
 - `boss` = `refs/referee-csj/config/level4/Boss.java` (csj/code-royale@349924a), run as a process: the Default
   AI, a floor (P2). With 6 threads and 50 ms it timed out 7 times in 80 games (CPU contention), so process
