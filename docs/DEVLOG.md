@@ -1513,3 +1513,22 @@ Not uploaded: the paste into the IDE and the two P1 placements are the user's. R
 (versions, flags, artifacts), STATUS, SUMMARY, PLAN, `docs/local-screen.md` (control v05),
 `docs/visualizer.md`, `docs/bot-architecture.html` (ladder, pseudo-code, versions table, file map),
 `.ai/project.md` (local-match row) with the kit sync.
+
+## 2026-11-03 — v05 upload 1: 23.93, the project's best placement; P1 needs the second upload
+
+The user pasted `13b3ec0c` at 14:40 local ("Вставил, следи"): agent 6841317 (submission 41622286) replaced
+6836589 (`route` upload 2, complete and saved). The discovery snapshot by nickname (14:42: 25 %, 13 wins
+of 16) landed in the unknown folder and was moved into `replays/arena/v05/bronze/upload-01/snapshots`;
+registered as v05 upload 1 (pending) in `docs/data/arena-uploads.json`; watched every 3 minutes
+(`placement-watch.sh` and `.log` beside the snapshots). Complete at 14:51 (leaderboard updateTime
+14:51:21, 11 minutes after the paste; 5 snapshots): score 23.93, local rank 144 of 2289 (global 801),
+60 games, 41 wins (seat 0: 22 of 31, seat 1: 19 of 29), one opponent removed by the referee (916020840),
+no tie; `docs/data/arena-6841317-placement-2026-11-03.json`. `arena_games.py 6841317`: 60 games, marker
+cc541951 in all 60, no failures (`docs/data/arena-6841317-games-2026-11-03.json`, raw
+`replays/arena/v05/bronze/upload-01/games`). `cgAttribute -Pbot=file:artifacts/13b3ec0c/Player.java`:
+SAME 60/60, 9,613 turns compared and validated (`cgAttribute.log` beside the games). `arena_compare.py
+--candidate v05 --selected route` (`arena-compare.json` beside the games): scale 1.63 on eleven uploads;
+v05 23.93, rating 23.60 ± 0.51, opponents' median 22.70; `route` mean 22.50, rating 22.06 ± 0.35; M 2.61
+(6 df); verdict "upload the candidate again" (+1.43 on the mean, −2M = −5.21). Raw arena files copied to
+the main checkout. Records: `docs/arena-uploads.md` (new section), BOTS (Uploads, Artifacts), STATUS,
+SUMMARY, PLAN, `docs/local-screen.md` (v05 row).

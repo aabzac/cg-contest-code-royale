@@ -13,11 +13,14 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   (mean 22.50 against v03's 22.43, "not clearly worse"; `docs/arena-uploads.md`); rollback artifact
   `da914c4c…` (commit eb5dd14, kept in `artifacts/da914c4c/`; `docs/BOTS.md`, Artifacts). Previous: v03
   (`cr.bot.v03.GreedyBot`, early towers), selected 2026-10-30 to 2026-11-02, artifact `d6266d41…`.
-- Arena entry: `aabzac`, agent 6836589 = `route` upload 2 (the same artifact `da914c4c…` as upload 1,
-  `current` with PARAMS `ROUTE=1`, commit eb5dd14), pasted by the user 2026-11-02 01:42 local; placement
-  complete 03:39: score 22.10, rank 302/2288, 60 games, 40 wins, every game identical to the artifact
-  (`docs/BOTS.md`, Uploads; `docs/data/arena-6836589-placement-2026-11-02.json`). It replaced agent
-  6836411 = `route` upload 1, saved (22.89, rank 263/2288; `docs/data/arena-6836411-placement-2026-11-01.json`).
+- Arena entry: `aabzac`, agent 6841317 = v05 upload 1 (artifact `13b3ec0c…`, empty PARAMS, commit 496bcc5),
+  pasted by the user 2026-11-03 14:40 local; placement complete 14:51: score 23.93, rank 144/2289, 60 games,
+  41 wins, every game identical to the artifact (`docs/BOTS.md`, Uploads;
+  `docs/data/arena-6841317-placement-2026-11-03.json`). It replaced agent 6836589 = `route` upload 2, saved
+  (22.10, rank 302/2288; `docs/data/arena-6836589-placement-2026-11-02.json`).
+- Candidate under P1: v05. Upload 1: 23.93 against `route`'s mean 22.50 (+1.43; no early rollback, −2M =
+  −5.21), rating 23.60 ± 0.51 against 22.06 ± 0.35 (`docs/arena-uploads.md`). The P1 verdict needs the
+  second upload of the same artifact (the user's paste); M 2.61 (6 df).
 - Candidate judged under P1 (2026-11-02): `current?ROUTE=1`, the queen's walk planner (steps 0-1 of the route
   plan). P2 strategy screen on block 4 passed (S 0.5813 against v03); the final evaluation on block 2
   (404000-405999) passed G0-G2 against v03 with S 0.5856 (CI 0.5701-0.6011), Δ +0.0025 against `boss`, G3
@@ -31,8 +34,8 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   APPROACH when on).
 - Local champion and `current` defaults: v05 = v04 with two mines before the knight barracks (MINES_FIRST=2),
   frozen 2026-11-03 by the user's decision (`cr.bot.v05.GreedyBot`, `versions/v05.properties`; artifact
-  `13b3ec0c…`, kept in `artifacts/13b3ec0c/`, procCheck 400/400; `docs/BOTS.md`). Not uploaded yet: the upload
-  under P1 (two placements against `route`'s mean 22.50, M 2.61) is the user's decision. Its P2 record
+  `13b3ec0c…`, kept in `artifacts/13b3ec0c/`, procCheck 400/400; `docs/BOTS.md`). On the arena since 2026-11-03
+  (upload 1 above; the second upload is the user's paste). Its P2 record
   (`docs/data/exp-2026-11-03-mines-first/`): screen block 5 (210000-211999) S 0.7645
   (CI 0.7492-0.7798) against v04, Δ +0.0100 against `boss`, G3 skipped; G0 by the quiet repeat (the first
   run's 5 slow turns on 4 consecutive maps were host noise). From the study 2026-11-03
