@@ -424,3 +424,38 @@ all ten uploads; with it the earlier ratings move by up to 0.09, v03's pooled ra
 - **Placement speed:** 117 minutes (upload 1: 93).
 - **The gap to the boss** (above about 27.1): about 4.6 points from the mean of the two placements, 4.2
   from the better one.
+
+## Fourth candidate: v05 (two mines before the barracks), first upload (2026-11-03)
+
+The user pasted the artifact `13b3ec0c` (v05 = `current` with empty PARAMS, MINES_FIRST=2 by default,
+commit 496bcc5; P2 screen S 0.7645 and final evaluation S 0.7556 against v04, the recommendation met) on
+2026-11-03 at 14:40 (agent 6841317, submission 41622286), replacing `route` upload 2, whose placement
+was complete and saved. The discovery snapshot at 14:42 (25 %, 13 wins of 16) went to the unknown
+folder and was moved into `replays/arena/v05/bronze/upload-01/snapshots`; the watch (every 3 minutes)
+found the placement complete at 14:51, 11 minutes after the paste, with the score last updated at
+14:51:21 (5 snapshots, log `placement-watch.log` beside them).
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v05/upload-1 | 6841317 | 23.93, rank 144/2289 | 60 | 68.3 ± 6.0 | 22 of 31 | 19 of 29 | 22.70 | 23.60 ± 0.51 |
+| route, two uploads | 6836411, 6836589 | mean 22.50, SD 0.56 | 120 | | | | | 22.06 ± 0.35 |
+
+From `python -I tools/arena_compare.py --candidate v05 --selected route` (logistic scale 1.63, fitted on
+all eleven uploads; with it the earlier ratings move by up to 0.05, `route`'s pooled rating from 22.01 to
+22.06, v03's from 22.39 to 22.42).
+- **Same code:** `cgAttribute` finds every game identical to `13b3ec0c` (SAME 60/60, 9,613 turns, every
+  compared turn validated by the simulator), with the marker `cc541951` in all 60.
+- One win is an opponent removed by the referee (916020840), counted as for the earlier uploads. No tie.
+- **Against `route`'s baseline:** the placement score is +1.43 over the mean (23.93 against 22.50); the early
+  rollback line is −2M = −5.21, so there is no early rollback. The rating is +1.54 ± 0.62 (23.60 ± 0.51
+  against 22.06 ± 0.35). The tool's verdict: upload the candidate again; the P1 decision needs the mean of
+  two uploads.
+- **Noise:** M stays 2.61 (6 df); one upload of v05 adds no degree of freedom.
+- **Shared opponents** (context, tiny samples): against route/upload-1, 4 players and 5 games, 60.0 % for
+  v05 against 50.0 % for route (stratified +15.4 ± 34.0 pp); against v03/upload-1, 8 players and 9-10
+  games, 55.6 % against 50.0 % (+7.4 ± 23.6 pp).
+- **Local prediction:** P2 put the candidate about +1.7 rating points head-to-head against v04 (S 0.7556
+  at scale 1.5). The first placement is +1.43 on the mean and +1.54 on the rating: in the direction and
+  of the size the local result predicted, though one placement is inside the placement noise (M 2.61).
+- **Placement speed:** 11 minutes (the earlier placements took 93-117 minutes).
+- **The gap to the boss** (above about 27.1): about 3.2 points from this placement.

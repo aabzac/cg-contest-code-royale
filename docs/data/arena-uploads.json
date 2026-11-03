@@ -270,6 +270,33 @@
    "games": "docs/data/arena-6836589-games-2026-11-02.json",
    "submittedBy": "the user in the IDE (the second upload of the same artifact under P1, 2026-11-02)",
    "attribution": "cgAttribute against the kept copy artifacts/da914c4c/Player.java: SAME in 60 of 60 games, 9,492 turns; marker 5c7e3bf0 in 60 of 60"
+  },
+  {
+   "label": "v05",
+   "upload": 1,
+   "agent": 6841317,
+   "submission": 41622286,
+   "league": "bronze",
+   "artifact": {
+    "sha256": "13b3ec0c6cd324befd0e166c2c39a890bff1c7b2516a47654d59d01a7a129dc1",
+    "build": "cc541951",
+    "config": "8ec996a5",
+    "source": "v05 = current with empty PARAMS (MINES_FIRST=2 by default), commit 496bcc5; kept copy artifacts/13b3ec0c/Player.java"
+   },
+   "created": "2026-11-03T14:40:09+02:00",
+   "placement": {
+    "score": 23.93,
+    "rank": 144,
+    "agents": 2289,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-11-03T14:51:51+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-03T14:51:21+02:00 (leaderboard updateTime)"
+   },
+   "snapshots": "docs/data/arena-6841317-placement-2026-11-03.json",
+   "games": "docs/data/arena-6841317-games-2026-11-03.json",
+   "submittedBy": "the user in the IDE (the first upload of v05 under P1, 2026-11-03)",
+   "attribution": null
   }
  ],
  "legacyUploads": [
