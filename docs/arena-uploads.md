@@ -459,3 +459,38 @@ all eleven uploads; with it the earlier ratings move by up to 0.05, `route`'s po
   of the size the local result predicted, though one placement is inside the placement noise (M 2.61).
 - **Placement speed:** 11 minutes (the earlier placements took 93-117 minutes).
 - **The gap to the boss** (above about 27.1): about 3.2 points from this placement.
+
+## The v05 candidate, second upload and the P1 verdict (2026-11-03)
+
+The user pasted the same artifact `13b3ec0c` again at 14:58 (agent 6841407, submission 41622456),
+replacing upload 1, whose placement was complete and saved. The discovery snapshot at 14:58 (15 %, 11 wins
+of 12) was moved into `replays/arena/v05/bronze/upload-02/snapshots`; the watch found the placement
+complete at 15:11, 13 minutes after the paste, with the score last updated at 15:10:25 (5 snapshots).
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v05/upload-1 | 6841317 | 23.93, rank 144/2289 | 60 | 68.3 ± 6.0 | 22 of 31 | 19 of 29 | 22.70 | 23.59 ± 0.51 |
+| v05/upload-2 | 6841407 | 26.47, rank 27/2289 | 60 | 68.3 ± 6.0 | 25 of 37 | 16 of 23 | 25.17 | 26.02 ± 0.49 |
+| v05, two uploads | | mean 25.20, SD 1.80 | 120 | | | | | 24.90 ± 0.37 |
+| route, two uploads | 6836411, 6836589 | mean 22.50, SD 0.56 | 120 | | | | | 22.05 ± 0.35 |
+
+From `python -I tools/arena_compare.py --candidate v05 --selected route` (logistic scale 1.61, fitted on
+all twelve uploads).
+- **Same code:** `cgAttribute` finds every game of upload 2 identical to `13b3ec0c` (SAME 60/60, 8,897
+  turns, every compared turn validated), marker `cc541951` in all 60. No opponent removed, no tie.
+- **Against `route`'s baseline:** the mean is +2.70 (25.20 against 22.50) with −M = −2.77; the pooled
+  rating is +2.86 ± 0.51 (24.90 ± 0.37 against 22.05 ± 0.35) with −2 SE = −1.01. Neither rollback
+  condition holds: **v05 is not clearly worse and becomes the selected version** (P1). The gain is of the
+  size M, not above it, so it is the direction of the evidence, not a proof of superiority (the
+  rating difference of 5.6 SE says more, with the SE caveat of the noise section).
+- **Noise:** M = 2.77 (7 df): v05's two placements differ by 2.54 (SD 1.80), the largest spread after
+  v01's and v03's.
+- **Same opponents' field?** Upload 2 met stronger opponents (median 25.17 against 22.70 in upload 1) and
+  won the same 41 of 60, hence the higher score; the win rate is identical. Shared opponents with the
+  route uploads: 2 players and 2 games each, both won by v05 against 50 % for route (context, tiny).
+- **Local prediction:** P2 put the candidate about +1.7 rating points head-to-head against v04; the arena
+  shows +2.7 on the mean and +2.9 on the rating. The arena agrees with the local direction and exceeds the
+  size; a head-to-head number and a field number differ by construction.
+- **Placement speed:** 13 minutes.
+- **The gap to the boss** (above about 27.1): about 1.9 points from the mean, 0.6 from upload 2 (rank 27;
+  `eligibleForPromotion` false in the final snapshot).

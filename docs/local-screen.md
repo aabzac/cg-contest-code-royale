@@ -25,7 +25,7 @@ checks (`submit`, both `procCheck` runs), then P1 on the arena.
 - **Control**: the version the candidate would replace, which is the local champion. Now v05 (`docs/STATUS.md`).
 - **Local champion**: the last version that passed P2. Its configuration becomes the `current` defaults,
   and the next candidates are screened against it.
-- **Selected version**: the arena's (P1). Now v04, selected as the `route` configuration (`docs/STATUS.md`).
+- **Selected version**: the arena's (P1). Now v05 (`docs/STATUS.md`).
 
 ## Opponents and proxy validation PV1
 
@@ -149,7 +149,7 @@ Each uploaded candidate is listed here: its local S against the selected version
 
 | Candidate | Local S vs selected (block) | P1 outcome |
 | --- | --- | --- |
-| v05 (MINES_FIRST=2, two mines before the barracks) | 0.7556 (CI 0.7401-0.7712) against v04, evaluation block 3 (406000-407999); the 0.60 recommendation met | upload 1 (2026-11-03): 23.93 against `route`'s mean 22.50 (+1.43, M 2.61); rating 23.60 ± 0.51 against 22.06 ± 0.35. P1 pending the second upload; the first placement matches the local prediction (+1.7 head-to-head) in direction and size |
+| v05 (MINES_FIRST=2, two mines before the barracks) | 0.7556 (CI 0.7401-0.7712) against v04, evaluation block 3 (406000-407999); the 0.60 recommendation met | uploads 1 and 2 (2026-11-03): 23.93 and 26.47, mean 25.20 against `route`'s 22.50 (+2.70, M 2.77); pooled rating 24.90 ± 0.37 against 22.05 ± 0.35 (+2.86 ± 0.51). P1: not clearly worse, selected 2026-11-03. The arena agrees with the local direction (+1.7 head-to-head predicted) and exceeds its size |
 | `route` (ROUTE=1, the queen's walk planner) | 0.5856 (CI 0.5701-0.6011) against v03, evaluation block 2 (404000-405999); below the 0.60 recommendation, uploaded by the user's decision | uploads 1 and 2 (2026-11-01/02): 22.89 and 22.10, mean 22.50 against v03's 22.43 (+0.07, M 2.61); pooled rating 22.01 ± 0.33 against 22.39 ± 0.28 (−0.38 ± 0.43). P1: not clearly worse, selected 2026-11-02 and frozen as v04 (`docs/arena-uploads.md`). The local +0.46 rating points head-to-head are inside the arena noise, so the arena neither confirms nor contradicts the local result |
 | v03 (early towers) | 0.8146 (CI 0.8015-0.8278) against v02, evaluation block 1 (402000-403999) | +4.15 over v02 (P1 means of two uploads, `docs/arena-uploads.md`): not clearly worse, v03 selected (2026-10-30). The arena agrees with the local direction |
 | v02 (UNSTICK) | 0.5032 (CI 0.5005-0.5060) against v01, evaluation block 0 (400000-401999) | +0.05 over v01 (P1 means, `docs/arena-uploads.md`): not clearly worse, v02 selected (2026-10-30). v02 played as v01 in 58 and 56 of 60 games, so the arena saw no effect either way |

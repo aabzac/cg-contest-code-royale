@@ -76,8 +76,8 @@
 - [x] `current?MINES_FIRST=2`: the final evaluation against v04 on evaluation block 3 passed with the
   upload recommendation met (`docs/data/exp-2026-11-03-mines-first/`)
 - [x] `current?MINES_FIRST=2` frozen as v05 (2026-11-03), `submit` and both `procCheck` passed (`docs/BOTS.md`, Artifacts)
-- [ ] v05 on the arena under P1: upload 1 done (23.93, `docs/arena-uploads.md`); the second upload and the
-  verdict against `route`'s mean
+- [x] v05 on the arena under P1: placements 23.93 and 26.47, not clearly worse than `route`, selected
+  2026-11-03 (`docs/arena-uploads.md`)
 - [x] Improve the final approach to the same site for the next target; compare with v03
   (`docs/data/exp-2026-10-31-approach/`)
 - [ ] Decide adoption/freeze of the APPROACH candidate (`docs/data/exp-2026-10-31-approach/`)

@@ -1532,3 +1532,22 @@ v05 23.93, rating 23.60 ± 0.51, opponents' median 22.70; `route` mean 22.50, ra
 (6 df); verdict "upload the candidate again" (+1.43 on the mean, −2M = −5.21). Raw arena files copied to
 the main checkout. Records: `docs/arena-uploads.md` (new section), BOTS (Uploads, Artifacts), STATUS,
 SUMMARY, PLAN, `docs/local-screen.md` (v05 row).
+
+## 2026-11-03 — v05 upload 2: 26.47, rank 27; P1 verdict: v05 selected
+
+The user pasted `13b3ec0c` again at 14:58 ("Вставил, следи"): agent 6841407 (submission 41622456)
+replaced 6841317 (complete and saved). Discovery snapshot by nickname at 14:58 (15 %, 11 of 12) moved
+into `replays/arena/v05/bronze/upload-02/snapshots`; registered as v05 upload 2 (pending); watched every
+3 minutes (`placement-watch.sh`, `.log`). Complete at 15:11 (leaderboard updateTime 15:10:25, 13 minutes
+after the paste; 5 snapshots): score 26.47, local rank 27 of 2289 (global 684), 60 games, 41 wins (seat 0:
+25 of 37, seat 1: 16 of 23), no opponent removed, no tie, `eligibleForPromotion` false;
+`docs/data/arena-6841407-placement-2026-11-03.json`. `arena_games.py 6841407`: 60 games, marker cc541951 in
+all 60, no failures (`docs/data/arena-6841407-games-2026-11-03.json`). `cgAttribute
+-Pbot=file:artifacts/13b3ec0c/Player.java`: SAME 60/60, 8,897 turns (`cgAttribute.log` beside the games).
+`arena_compare.py --candidate v05 --selected route` (`arena-compare.json` beside the games): scale 1.61 on
+twelve uploads; v05 placements 23.93 and 26.47, mean 25.20, SD 1.80, rating 24.90 ± 0.37 (opponents'
+median 25.17 in upload 2); `route` mean 22.50, rating 22.05 ± 0.35; M 2.77 (7 df); verdict "not clearly
+worse" (mean +2.70 against −M −2.77; rating +2.86 against −2 SE −1.01): v05 is the selected version. Raw
+arena files copied to the main checkout. Records: `docs/arena-uploads.md` (new section), the registry
+(attributions), BOTS (versions, uploads, artifacts), STATUS, SUMMARY, PLAN, `docs/local-screen.md`
+(roles, v05 row), `docs/bot-architecture.html` (versions table).

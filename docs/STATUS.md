@@ -7,35 +7,23 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 
 - Date: 2026-11-03. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Bronze.
-- Selected version (arena): v04 = v03 with the queen's walk planner (ROUTE=1: `RoutePlanner`
-  replaces UNSTICK and APPROACH), frozen 2026-11-02 (`cr.bot.v04.GreedyBot`, `versions/v04.properties`);
-  `current` defaulted to it until v05 (below). Selected under P1 on 2026-11-02 as the `route` configuration, by two placements
-  (mean 22.50 against v03's 22.43, "not clearly worse"; `docs/arena-uploads.md`); rollback artifact
-  `da914c4c…` (commit eb5dd14, kept in `artifacts/da914c4c/`; `docs/BOTS.md`, Artifacts). Previous: v03
-  (`cr.bot.v03.GreedyBot`, early towers), selected 2026-10-30 to 2026-11-02, artifact `d6266d41…`.
-- Arena entry: `aabzac`, agent 6841317 = v05 upload 1 (artifact `13b3ec0c…`, empty PARAMS, commit 496bcc5),
-  pasted by the user 2026-11-03 14:40 local; placement complete 14:51: score 23.93, rank 144/2289, 60 games,
-  41 wins, every game identical to the artifact (`docs/BOTS.md`, Uploads;
-  `docs/data/arena-6841317-placement-2026-11-03.json`). It replaced agent 6836589 = `route` upload 2, saved
-  (22.10, rank 302/2288; `docs/data/arena-6836589-placement-2026-11-02.json`).
-- Candidate under P1: v05. Upload 1: 23.93 against `route`'s mean 22.50 (+1.43; no early rollback, −2M =
-  −5.21), rating 23.60 ± 0.51 against 22.06 ± 0.35 (`docs/arena-uploads.md`). The P1 verdict needs the
-  second upload of the same artifact (the user's paste); M 2.61 (6 df).
-- Candidate judged under P1 (2026-11-02): `current?ROUTE=1`, the queen's walk planner (steps 0-1 of the route
-  plan). P2 strategy screen on block 4 passed (S 0.5813 against v03); the final evaluation on block 2
-  (404000-405999) passed G0-G2 against v03 with S 0.5856 (CI 0.5701-0.6011), Δ +0.0025 against `boss`, G3
-  skipped: below the upload recommendation S ≥ 0.60 (`docs/data/exp-2026-11-01-route/`). Uploaded by the
-  user's decision as `route`: placements 22.89 and 22.10 against v03's mean 22.43 (M 2.61), pooled rating
-  22.01 ± 0.33 against 22.39 ± 0.28; verdict "not clearly worse", so it is the selected version
-  (`docs/arena-uploads.md`); the arena neither confirms nor contradicts the local +0.46 rating points. No
-  pending candidate. Frozen as v04 on 2026-11-02 by the user's decision (ROUTE on by default in `current`);
-  the next candidate is compared with v04 locally and with `route`'s two placements on the arena. The earlier candidate
-  `current?APPROACH=1` (S 0.5245, `docs/data/exp-2026-10-31-approach/`) is superseded by it (ROUTE replaces
-  APPROACH when on).
-- Local champion and `current` defaults: v05 = v04 with two mines before the knight barracks (MINES_FIRST=2),
-  frozen 2026-11-03 by the user's decision (`cr.bot.v05.GreedyBot`, `versions/v05.properties`; artifact
-  `13b3ec0c…`, kept in `artifacts/13b3ec0c/`, procCheck 400/400; `docs/BOTS.md`). On the arena since 2026-11-03
-  (upload 1 above; the second upload is the user's paste). Its P2 record
+- Selected version, local champion and `current` defaults: v05 = v04 with two mines before the knight
+  barracks (MINES_FIRST=2), frozen 2026-11-03 (`cr.bot.v05.GreedyBot`, `versions/v05.properties`). Selected
+  under P1 on 2026-11-03 by two placements (mean 25.20 against `route`'s 22.50, "not clearly worse";
+  `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
+  `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
+  `route` configuration, artifact `da914c4c…`), selected 2026-11-02 to 2026-11-03; v03, 2026-10-30 to 2026-11-02.
+- Arena entry: `aabzac`, agent 6841407 = v05 upload 2 (the same artifact `13b3ec0c…` as upload 1), pasted by the
+  user 2026-11-03 14:58 local; placement complete 15:11: score 26.47, rank 27/2289, 60 games, 41 wins, every
+  game identical to the artifact (`docs/BOTS.md`, Uploads; `docs/data/arena-6841407-placement-2026-11-03.json`).
+  It replaced agent 6841317 = v05 upload 1, saved (23.93, rank 144/2289;
+  `docs/data/arena-6841317-placement-2026-11-03.json`).
+- Candidate judged under P1 (2026-11-03): v05. Placements 23.93 and 26.47 (mean 25.20, SD 1.80) against
+  `route`'s 22.50; pooled rating 24.90 ± 0.37 against 22.05 ± 0.35 (scale 1.61); M 2.77 (7 df). Neither
+  rollback condition holds, so v05 is the selected version. The arena agrees with the local direction
+  (P2: S 0.76 against v04, about +1.7 head-to-head) and exceeds its size. No pending candidate. The earlier
+  judgements (`route` 2026-11-02, v03 2026-10-30) are in `docs/arena-uploads.md`.
+- v05's local record (procCheck 400/400 of the artifact; P2
   (`docs/data/exp-2026-11-03-mines-first/`): screen block 5 (210000-211999) S 0.7645
   (CI 0.7492-0.7798) against v04, Δ +0.0100 against `boss`, G3 skipped; G0 by the quiet repeat (the first
   run's 5 slow turns on 4 consecutive maps were host noise). From the study 2026-11-03
