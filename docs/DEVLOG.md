@@ -1551,3 +1551,13 @@ worse" (mean +2.70 against −M −2.77; rating +2.86 against −2 SE −1.01): 
 arena files copied to the main checkout. Records: `docs/arena-uploads.md` (new section), the registry
 (attributions), BOTS (versions, uploads, artifacts), STATUS, SUMMARY, PLAN, `docs/local-screen.md`
 (roles, v05 row), `docs/bot-architecture.html` (versions table).
+
+Architecture page brought to v05 (the user's request, 2026-11-03): `docs/bot-architecture.html` now
+states the two-mines opening in the lead, the flow and the "easy to miss" list (the barracks on turn 9,
+the first tower on turn 14: medians of v05's 120 arena games, `./gradlew cgStudy` over
+`replays/arena/v05/bronze/upload-0*/games` into `replays/study/features-v05-2026-11-03.csv`, gitignored,
+copied to the main checkout), the pseudo-code at v05's values, the ROUTE test name, two new gaps
+(economy at income 3, 55 of 100 queen turns on top-ups) and a new section "Направления": seven
+directions with the data behind each and how to test it (army, economy for the arena field, thinner
+towers, queen safety, the HP race, archers/giants, route steps 2-4), plus v05's arena profile against its
+opponents. Checked in the built-in browser (renders, no console errors).
