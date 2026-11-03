@@ -56,35 +56,33 @@ final class ApproachPlanner {
         return best;
     }
 
-    /** v03's next new-site choice after the current site's ordinary build/upgrade phase. */
+    /**
+     * The ladder's next site after the build at A ({@link MainBot#nextSite} from (x, y) with A's
+     * structure counted): the barracks or the tower built, a new mine at its maximum rate (an unknown
+     * or soon exhausted mine gives no next target), an upgraded own mine one rate higher.
+     */
     static int nextTarget(GameState s, int a, String structure, double x, double y,
                           double hx, double hy, Params p) {
-        int income = 0, barracks = 0, towers = 0;
+        int income = 0, barracks = 0, towers = 0, mines = 0;
         for (int i = 0; i < s.nSites; i++) {
             if (s.stOwner[i] != 0) continue;
-            if (s.stType[i] == Const.MINE) income += s.mineRate[i];
+            if (s.stType[i] == Const.MINE) { income += s.mineRate[i]; mines++; }
             else if (s.stType[i] == Const.BARRACKS) barracks++;
             else if (s.stType[i] == Const.TOWER) towers++;
         }
         if ("BARRACKS-KNIGHT".equals(structure)) barracks++;
         else if ("TOWER".equals(structure)) towers++;
         else if ("MINE".equals(structure)) {
-            // A last-step target is within vision. Avoid an exhausted/unknown upgrade plan.
-            int rate = s.sMaxMine[a];
-            if (rate < 1 || rate > 5 || s.sGold[a] <= rate * (rate + 1) / 2) return -1;
-            income += rate;
+            if (s.stType[a] == Const.MINE && s.stOwner[a] == 0) income++;
+            else {
+                // A last-step target is within vision. Avoid an exhausted/unknown upgrade plan.
+                int rate = s.sMaxMine[a];
+                if (rate < 1 || rate > 5 || s.sGold[a] <= rate * (rate + 1) / 2) return -1;
+                income += rate;
+                mines++;
+            }
         } else return -1;
-        if (barracks >= p.BARRACKS && income >= p.INCOME_TARGET && towers >= p.MAX_TOWERS) return -1;
-        double cx = (x + hx) / 2, cy = (y + hy) / 2;
-        int best = -1;
-        double distance = Double.MAX_VALUE;
-        for (int i = 0; i < s.nSites; i++) {
-            if (i == a || s.stType[i] != Const.NONE || underEnemyTower(s, i)) continue;
-            if (barracks >= p.BARRACKS && income < p.INCOME_TARGET && s.sGold[i] <= 0) continue;
-            double d = Physics.distSq(cx, cy, s.sx[i], s.sy[i]);
-            if (d < distance) { distance = d; best = i; }
-        }
-        return best;
+        return MainBot.nextSite(s, (x + hx) / 2, (y + hy) / 2, p, mines, barracks, income, towers, a);
     }
 
     /** Straight BUILD movement with static collisions; -1 means unsafe, stalled or too far. */

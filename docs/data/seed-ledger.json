@@ -7,7 +7,7 @@
   "evaluation": "block k = seeds 400000 + 2000 k .. 400000 + 2000 k + 1999, one fresh block per upload candidate, used once"
  },
  "next": {
-  "screen": 5,
+  "screen": 6,
   "evaluation": 3
  },
  "used": [
@@ -98,6 +98,17 @@
    "control": "v03 (the selected version)",
    "series": "direct and mirror on 2000 maps; candidate and v03 against boss on 404000-404499; legScan on 2000 maps for both arms",
    "verdict": "G0-G2 pass (G3 skipped, no old); S 0.5856 (CI 0.5701-0.6011) < 0.60, below the upload recommendation; boss delta +0.0025; the user decides"
+  },
+  {
+   "pool": "screen",
+   "k": 5,
+   "seeds": "210000-211999",
+   "date": "2026-11-03",
+   "experiment": "docs/data/exp-2026-11-03-mines-first",
+   "candidate": "current?MINES_FIRST=2",
+   "control": "v04",
+   "series": "direct and mirror on 2000 maps; candidate and v04 against boss on 210000-210499",
+   "verdict": "G0-G2 pass (strategy track): S 0.7645 (CI 0.7492-0.7798) against v04, boss delta +0.0100; G3 skipped, old absent. G0: 5 slow turns on 4 consecutive maps in the first direct run (host), none in the quiet repeat with identical outcomes; the local champion is current?MINES_FIRST=2, the final evaluation and freeze are the user's decision"
   }
  ]
 }

@@ -32,6 +32,20 @@ public final class Params {
      * selected under P1, docs/arena-uploads.md).
      */
     public int ROUTE = 1;
+    /**
+     * Own mines the greedy bot builds before its knight barracks (0: the barracks first, as v01-v04).
+     * From the study of 2026-11-03 (docs/data/study-2026-11-03-losses): every stronger group opens
+     * with a mine and builds the barracks on turn 7-13.
+     */
+    public int MINES_FIRST = 0;
+    /** Tower HP below which the queen tops up an own tower she touches (700 in v01-v04). The idle queen still pumps her home tower. */
+    public int TOWER_HP = 700;
+    /**
+     * 1: while the income is below INCOME_TARGET, own mines below their maximum are targets too: the
+     * queen walks to the nearest site to take, a free gold site or such a mine, and upgrades it on the
+     * touch (0: only free gold sites are targets, as v01-v04; a mine is upgraded only when passed).
+     */
+    public int UPGRADE = 0;
     public long SEED = 1;
     public int DEBUG = 0;
 

@@ -5,11 +5,11 @@ artifacts `docs/BOTS.md`, P1 comparisons and the noise margin `docs/arena-upload
 evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary for the user
 `docs/SUMMARY.md`. The history this page held until 2026-10-30: `git show 60f0b59:docs/STATUS.md`.
 
-- Date: 2026-11-02. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
+- Date: 2026-11-03. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Bronze.
-- Selected/default version and local champion: v04 = v03 with the queen's walk planner (ROUTE=1: `RoutePlanner`
+- Selected/default version: v04 = v03 with the queen's walk planner (ROUTE=1: `RoutePlanner`
   replaces UNSTICK and APPROACH), frozen 2026-11-02 (`cr.bot.v04.GreedyBot`, `versions/v04.properties`);
-  `current` defaults to it. Selected under P1 on 2026-11-02 as the `route` configuration, by two placements
+  `current` defaults to it (the local champion is the candidate below). Selected under P1 on 2026-11-02 as the `route` configuration, by two placements
   (mean 22.50 against v03's 22.43, "not clearly worse"; `docs/arena-uploads.md`); rollback artifact
   `da914c4c…` (commit eb5dd14, kept in `artifacts/da914c4c/`; `docs/BOTS.md`, Artifacts). Previous: v03
   (`cr.bot.v03.GreedyBot`, early towers), selected 2026-10-30 to 2026-11-02, artifact `d6266d41…`.
@@ -29,13 +29,16 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   the next candidate is compared with v04 locally and with `route`'s two placements on the arena. The earlier candidate
   `current?APPROACH=1` (S 0.5245, `docs/data/exp-2026-10-31-approach/`) is superseded by it (ROUTE replaces
   APPROACH when on).
-- Study 2026-11-03 (`docs/data/study-2026-11-03-losses/`): v04 loses 41 of 120 arena games, 26 by a
-  killed queen (median turn 114) and 15 on HP at the limit. Against every stronger group we open with
-  the barracks instead of a mine, stop at income 3 (they hold 4-7), hold 6-7 towers at 700 HP against
-  their 4 at about 450, and spend 57 of 100 queen turns on tower top-ups (Legend 23). Next: strategy
-  parameters (opening order, income target, tower cap, top-up threshold) as flags of `current`,
-  screened under P2 against v04; which first is the user's call. The route steps 2-4 are parked
-  (1-2 walking turns per game left).
+- Local champion (P2 passed 2026-11-03): `current?MINES_FIRST=2`, two mines before the knight barracks,
+  then v04's ladder (`docs/data/exp-2026-11-03-mines-first/`): screen block 5 (210000-211999) S 0.7645
+  (CI 0.7492-0.7798) against v04, Δ +0.0100 against `boss`, G3 skipped; G0 by the quiet repeat (the first
+  run's 5 slow turns on 4 consecutive maps were host noise). From the study 2026-11-03
+  (`docs/data/study-2026-11-03-losses/`: every stronger group opens with a mine). The other study
+  parameters lose or do nothing locally against v04: income target 5 (0.29), top-up threshold 400
+  (0.29), 4-6 towers (0.40-0.52), walking to upgrade mines (no change); the local opponents are
+  knights-only and tower-heavy, so the tower parameters stay for the arena to judge. Next, the user's
+  decisions: the final evaluation against v04 on evaluation block 3 (406000-407999), the freeze (v05),
+  the upload. The route steps 2-4 are parked (1-2 walking turns per game left).
 - Walking diagnostics: `./gradlew legScan` (`cr.tools.LegScan`), baselines in the same README.
 - Bronze boss: "Princess Boss" (arenabossId 175, agentInitialId 1870317, division 219), from the IDE
   session 2026-10-28; its battles are not listed by `findLastBattlesByAgentId`. It stands above about

@@ -69,9 +69,12 @@
   and the opening, economy and towers of stronger groups. Gaps: barracks-first opening (everyone
   stronger opens with a mine), income stuck at 3 (they hold 4-7), 6-7 towers at 700 HP (they hold 4 at
   about 450), 57 of 100 queen turns on top-ups (Legend 23), fewer waves
-- [ ] Strategy parameters as flags of `current`, screened under P2 against v04: opening order (mine
-  first, barracks later), income target 5-6 with upgrades, tower cap 4-5 and top-up threshold 400-500
-  (`docs/data/study-2026-11-03-losses/`, Candidates); the order is the user's call
+- [x] Strategy parameters as flags of `current` (MINES_FIRST, TOWER_HP, UPGRADE, with INCOME_TARGET and
+  MAX_TOWERS), swept against v04 and the opening screened under P2 (`docs/data/exp-2026-11-03-mines-first/`):
+  two mines before the barracks passed; the income target, the tower cap, the threshold and the
+  upgrade walk lose or do nothing locally
+- [ ] `current?MINES_FIRST=2`: the final evaluation against v04 on the next evaluation block, the freeze
+  as v05 and the upload under P1 (the user's decisions)
 - [x] Improve the final approach to the same site for the next target; compare with v03
   (`docs/data/exp-2026-10-31-approach/`)
 - [ ] Decide adoption/freeze of the APPROACH candidate (`docs/data/exp-2026-10-31-approach/`)

@@ -1451,3 +1451,32 @@ on turn 7-13; our income stays 3 (they hold 4-7), we hold 6-7 towers at 700 HP (
 game against 9-10. Top-ups show no benefit (more in losses than in wins). Candidates: opening order,
 income target 5-6, tower cap 4-5 with a 400-500 top-up threshold, as flags screened against v04. The
 route steps 2-4 are parked. Records: PLAN, STATUS, SUMMARY, `.ai/project.md` (cgStudy row, kit sync).
+
+## 2026-11-03 — strategy parameters: two mines before the barracks pass the P2 screen (S 0.7645 against v04)
+
+On the user's go-ahead after the loss study. `Params` gained `MINES_FIRST` (own mines before the knight
+barracks), `TOWER_HP` (the top-up threshold, the former literal 700) and `UPGRADE` (own mines below their
+maximum as targets while the income is below its target); the ladder's target choice is one function,
+`MainBot.nextSite`, shared with the planner's next-target prediction (`ApproachPlanner.nextTarget`), so
+ROUTE's landing follows the new order. Every version snapshot records the new fields at the frozen values;
+`current` at its defaults plays as v04 (`MainBotTest`, `BotFactoryTest`); `StrategyParamsTest` pins the
+opening order, the no-gold fallback, the threshold and the upgrade target.
+
+Development sweep on seeds 10000-10499 against v04 (68 arms, `BenchmarkRunner` directly, one JVM per arm;
+`docs/data/exp-2026-11-03-mines-first/dev-sweep.txt`, raw `replays/bench/dev-strategy-2026-11-03/`):
+MINES_FIRST 1 → 0.684, 2 → 0.760, 3 → 0.673; INCOME_TARGET 5 → 0.290 (with mines first 0.54); TOWER_HP 400
+→ 0.293, 600 → 0.616, 800 → 0.474; MAX_TOWERS 4/6 → 0.40/0.52 (with mines first 0.65); UPGRADE no effect;
+INCOME_TARGET 2-4 and MAX_TOWERS 8/12 indistinguishable once the opening is fixed. The candidate is one
+parameter, `current?MINES_FIRST=2`.
+
+P2 screen, block 5 (210000-211999, reserved before the first game; hypothesis and commands in the README
+before the run): G1 S 0.7645 (CI 0.7492-0.7798), W/D/L 3018/80/902, both seats won, 2000 of 2000 maps
+changed; G2 Δ +0.0100 against `boss` (1.000 against 0.990; games 80 turns against 126); G3 skipped. G0:
+the first direct run had 5 slow turns of the candidate in 4 games on consecutive maps 210258-210265 (one
+moment of wall-clock time, mean turn 0.04 ms); the 8 maps on one thread gave a 5.6 ms maximum and the
+quiet repeat of the whole series (identical outcomes in all 4000 games) 0 slow turns of the candidate and
+4 of v04 (unchanged code, max 70.6 ms), the mirror one 51.9 ms turn of v04: host scheduling at 8 threads,
+recorded as such (`g1.json`, `g1-rerun.json`). Verdict: pass; the local champion is
+`current?MINES_FIRST=2`. The final evaluation on evaluation block 3, the freeze as v05 and the upload are
+the user's decisions. Raw reports copied to the main checkout's `replays/bench/`. Records: README, ledger,
+STATUS, PLAN, SUMMARY, BOTS (flags, current).
