@@ -128,3 +128,34 @@ champion. The final evaluation against v04 on evaluation block k=3 (406000-40799
 freeze (v05) and the upload are the user's decisions. Caveat for the arena: both local opponents build
 knights only and v04 holds the tower line the candidate keeps, so the opening gain is measured against
 a tower-heavy field; the study's stronger players open the same way, which supports the direction.
+
+## Final evaluation (block k=3, seeds 406000-407999; written before the run)
+
+On the user's decision after the screen. The same arms, gates and series as the screen, on the
+evaluation block reserved in the ledger before any game on it, plus P2's upload recommendation
+S ≥ 0.60. Commands are those of the screen with `-PseedBase=406000` and the reports in
+`replays/bench/exp-2026-11-03-mines-first-eval/` (`eval.sh` there); summaries `eval-g1.json` and
+`eval-g2.json` beside this file. One run; no extension; no upload decision here.
+
+### Results
+
+Summaries `eval-g1.json` and `eval-g2.json`; raw reports and logs in `replays/bench/exp-2026-11-03-mines-first-eval/`
+(sha256 first 12 hex digits: `direct.json` f3864cebd12d, `mirror.json` a964f0ec5d5d, `boss-cand.json`
+e02945a0feca, `boss-ctrl.json` 15e0d6855a4f). Revision e4938ea (the committed parameter code).
+
+| Gate | Result | |
+| --- | --- | --- |
+| G0 | no error, timeout, slow turn or extra line in any series (longest candidate turn 27.4 ms against v04, 16.5 ms against `boss`; the mirror and the control had none either) | pass |
+| G1, direct against v04, 2000 maps | **S = 0.7556** (95 % CI 0.7401-0.7712, SD 0.355); W/D/L 2974/97/929; by seat 1532/51/417 and 1442/46/512; 2000 of 2000 maps changed | pass |
+| G2, `boss`, 500 maps | candidate 0.999 (999/0/1), control 0.984 (984/0/16), Δ = +0.0150 (CI +0.0057..+0.0243) | pass |
+| G3, `old` | skipped (no code) | — |
+| Upload recommendation, S ≥ 0.60 | 0.7556 | met |
+
+- The screen (0.7645) and the evaluation (0.7556) agree within their intervals; the games against v04
+  last 245 turns on average (the mirror 248), against `boss` 64 turns (v04: 93).
+- **Rating terms:** at the arena's logistic scale (about 1.5 in Bronze), S 0.756 head-to-head is about
+  +1.7 rating points against v04. A head-to-head number, not the field.
+
+**Verdict:** P2 passed with the upload recommendation met. `current?MINES_FIRST=2` is the local champion;
+the freeze as v05 and the upload under P1 are the user's decisions. Before any paste: `./gradlew submit`
+(with `-Pparams=MINES_FIRST=2`, or with empty PARAMS once the default is 2) and both `procCheck` series.

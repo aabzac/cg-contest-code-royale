@@ -73,8 +73,10 @@
   MAX_TOWERS), swept against v04 and the opening screened under P2 (`docs/data/exp-2026-11-03-mines-first/`):
   two mines before the barracks passed; the income target, the tower cap, the threshold and the
   upgrade walk lose or do nothing locally
-- [ ] `current?MINES_FIRST=2`: the final evaluation against v04 on the next evaluation block, the freeze
-  as v05 and the upload under P1 (the user's decisions)
+- [x] `current?MINES_FIRST=2`: the final evaluation against v04 on evaluation block 3 passed with the
+  upload recommendation met (`docs/data/exp-2026-11-03-mines-first/`)
+- [ ] `current?MINES_FIRST=2`: the freeze as v05, `submit` and both `procCheck`, the upload under P1 (the
+  user's decisions)
 - [x] Improve the final approach to the same site for the next target; compare with v03
   (`docs/data/exp-2026-10-31-approach/`)
 - [ ] Decide adoption/freeze of the APPROACH candidate (`docs/data/exp-2026-10-31-approach/`)

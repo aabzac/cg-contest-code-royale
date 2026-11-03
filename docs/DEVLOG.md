@@ -1480,3 +1480,15 @@ recorded as such (`g1.json`, `g1-rerun.json`). Verdict: pass; the local champion
 `current?MINES_FIRST=2`. The final evaluation on evaluation block 3, the freeze as v05 and the upload are
 the user's decisions. Raw reports copied to the main checkout's `replays/bench/`. Records: README, ledger,
 STATUS, PLAN, SUMMARY, BOTS (flags, current).
+
+## 2026-11-03 — final evaluation of MINES_FIRST=2 against v04: S 0.7556, upload recommended
+
+On the user's "yes, evaluate". Evaluation block 3 (406000-407999) reserved in the ledger and the plan
+written in the README before the run; the screen's commands with `-PseedBase=406000`
+(`replays/bench/exp-2026-11-03-mines-first-eval/eval.sh`, copied to the main checkout). G0: no failure in
+any series (longest candidate turn 27.4 ms; neither the mirror nor the control had a slow turn this time).
+G1: S 0.7556 (CI 0.7401-0.7712), W/D/L 2974/97/929, by seat 1532/51/417 and 1442/46/512, 2000 of 2000 maps
+changed. G2: 0.999 against 0.984, Δ +0.0150 (CI +0.0057..+0.0243); games against `boss` 64 turns against
+v04's 93. G3 skipped. The recommendation S ≥ 0.60 is met. Summaries `eval-g1.json`, `eval-g2.json`.
+Verdict: pass; the freeze as v05 and the upload are the user's decisions. Records: README, ledger, STATUS,
+PLAN, SUMMARY, BOTS (flags).

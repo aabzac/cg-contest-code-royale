@@ -36,9 +36,11 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   (`docs/data/study-2026-11-03-losses/`: every stronger group opens with a mine). The other study
   parameters lose or do nothing locally against v04: income target 5 (0.29), top-up threshold 400
   (0.29), 4-6 towers (0.40-0.52), walking to upgrade mines (no change); the local opponents are
-  knights-only and tower-heavy, so the tower parameters stay for the arena to judge. Next, the user's
-  decisions: the final evaluation against v04 on evaluation block 3 (406000-407999), the freeze (v05),
-  the upload. The route steps 2-4 are parked (1-2 walking turns per game left).
+  knights-only and tower-heavy, so the tower parameters stay for the arena to judge. Final evaluation
+  on evaluation block 3 (406000-407999), the user's decision: G0-G2 pass, S 0.7556 (CI 0.7401-0.7712)
+  against v04, Δ +0.0150 against `boss`, no failure; the upload recommendation S ≥ 0.60 is met. Next, the
+  user's decisions: the freeze as v05 and the upload under P1 (`submit` with MINES_FIRST=2 and both
+  `procCheck` first). The route steps 2-4 are parked (1-2 walking turns per game left).
 - Walking diagnostics: `./gradlew legScan` (`cr.tools.LegScan`), baselines in the same README.
 - Bronze boss: "Princess Boss" (arenabossId 175, agentInitialId 1870317, division 219), from the IDE
   session 2026-10-28; its battles are not listed by `findLastBattlesByAgentId`. It stands above about
