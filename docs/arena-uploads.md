@@ -712,3 +712,60 @@ all nineteen uploads; `arena-compare.json` beside the games).
   upload, recorded with its league; the Bronze scores above are complete placements and stay. In Silver
   the selected version's baseline is built anew by two uploads there before the next candidate is judged.
 - **Placement speed:** 11 minutes.
+
+## v08 promoted to Silver: upload 3, the first Silver placement (2026-11-04)
+
+CG promoted v08 upload 2 after its completed Bronze placement: a new agent 6843976 in Silver, created
+2026-11-03 23:46, with the same submission 41627919 as upload 2's battle list (no paste). Upload 2 keeps its
+Bronze score (28.13); the promotion did not interrupt a placement, so no `promotedTo`. Nobody watched: on the
+user's request ("we moved up to Silver, fetch the games") the discovery snapshot at 00:04 found the Silver
+placement complete (score last updated 00:02, about 16 minutes after the agent was created).
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v08/upload-3 (Silver) | 6843976 | 20.70, rank 2/200 | 80 | 66.2 ± 5.3 | 27 of 40 | 26 of 40 | 18.73 | 20.88 ± 0.95 |
+
+From `python -I tools/arena_compare.py` (Silver: logistic scale 3.81, fitted on this one upload only, so the
+rating's SE is rough; `arena-compare.json` beside the games). The Bronze tables above are unchanged.
+- **Same code:** `cgAttribute` finds every game identical to `5c16d925` (SAME 80/80, 15,934 turns, every
+  compared turn validated: the simulator holds on Silver games too), marker `3f19aa6e` in all 80. One win is
+  an opponent removed by the referee (916284417).
+- **The Silver boss:** agent 1876720 (no pseudo), rating 21.87 at the fetch; 10 of the 80 games, 4 won
+  (916287859, 916288639, 916290151, 916290814). v08 is 1.17 below it; local rank 2 leaves one player above.
+- **The field:** 50 opponents, median 18.73 at the fetch; 40 of the 80 games went to turn 250 (v08's Bronze
+  placements: 18 and 13 of 60), so half the Silver games are decided on the queens' HP.
+- **Placement size:** 80 games in the battle list at completion, against 60 in every Bronze placement.
+- **P1 in Silver:** v08 has one Silver placement; its baseline needs a second Silver upload of the same
+  configuration before a candidate is judged here, and M has no Silver estimate yet. PV1/PV2 lapse with the
+  league change (`docs/local-screen.md`): the local proxy is to be re-checked against Silver games.
+
+## v08 in Silver, upload 4: the Silver baseline (2026-11-04)
+
+The user pasted the same artifact `5c16d925` at 00:14 (agent 6844095, submission 41628436; "re-uploaded once
+more"), replacing upload 3, whose placement was complete and saved. The discovery found the row at 00:16
+(21 %); `watch.sh` took snapshots every 3 minutes, every minute from 85 %, and `fetch-loop.sh` fetched the
+finished games every minute (all 80 by 00:32). The placement was complete at 00:31, 17 minutes after the
+paste: 18.66 at 23 %, 19.69 (rank 4) at 55 %, 21.30 (rank 1) at 88 %, 20.74 (rank 3) at the end.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v08/upload-3 | 6843976 | 20.70, rank 2/200 | 80 | 66.2 ± 5.3 | 27 of 40 | 26 of 40 | 18.73 | 20.74 ± 0.89 |
+| v08/upload-4 | 6844095 | 20.74, rank 3/200 | 80 | 62.5 ± 5.4 | 29 of 45 | 21 of 35 | 19.05 | 20.90 ± 0.85 |
+| v08, two Silver uploads | | mean 20.72, SD 0.03 | 160 | | | | | 20.82 ± 0.62 |
+
+From `python -I tools/arena_compare.py --candidate v08 --selected v08` (Silver: logistic scale 3.58, fitted
+on these two uploads; `arena-compare.json` beside upload 4's games). The Bronze tables are unchanged.
+- **Same code:** `cgAttribute` finds every game identical to `5c16d925` (SAME 80/80, 16,757 turns, every
+  compared turn validated), marker `3f19aa6e` in all 80. Two wins are opponents removed by the referee
+  (916295252, 916295352).
+- **Equal scores:** 916297591 ended 28:28 on turn 250 and CG ranked player 0 (the opponent) first, the sixth
+  such game (`docs/rules/inferred.md`); it counts as a loss.
+- **The Silver boss:** 3 games against agent 1876720 (rating 21.87-21.97 during the fetches), 1 won
+  (916299584); with upload 3, 5 of 13. v08's mean 20.72 is about 1.2 below it.
+- **The baseline:** v08 now has the two Silver placements P1 needs; the next candidate is judged in Silver
+  against the mean 20.72 and the pooled rating 20.82 ± 0.62.
+- **Noise:** the two placements differ by 0.04, so the Silver M is 0.06 on 1 df. That is one pair, not a
+  noise estimate: in Bronze the pooled M was 2.46 on 11 df and v08's own pair differed by 0.28. A rollback
+  test against M = 0.06 would roll back almost any candidate that is not better. Leagues are not pooled
+  (P1), so until Silver has more pairs, how to set M there is the user's decision.
+- **Placement size:** 80 games again (Bronze 60); placement speed 17 minutes.

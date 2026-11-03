@@ -81,8 +81,11 @@
 - [x] v08 on the arena under P1 (agents 6843773 and 6843829): placements 27.85 and 28.13, mean 27.99 against
   v07's 25.53, not clearly worse, so v08 is selected 2026-11-03; 4 of 8 against the boss;
   `eligibleForPromotion` true (`docs/arena-uploads.md`)
-- [ ] Silver: when the promotion lands, register the new agent as v08's first Silver upload, rebuild the
-  baseline with two uploads there, re-validate the proxy (PV lapses on a league change: `docs/local-screen.md`)
+- [x] Silver: the promotion landed 2026-11-03; the new agent registered as v08's first Silver upload, its
+  games fetched and attributed (`docs/arena-uploads.md`, v08 promoted to Silver)
+- [x] Silver: a second upload of v08 completes its Silver baseline (P1; `docs/arena-uploads.md`, the Silver baseline)
+- [ ] Silver: decide how to set the noise margin M in Silver (one pair so far; `docs/arena-uploads.md`)
+- [ ] Silver: re-validate the local proxy against Silver games (PV lapses on a league change: `docs/local-screen.md`)
 - [x] Late economy (2026-11-03, `docs/data/exp-2026-11-03-late-income/`): INCOME_LATE (the income target after
   the ladder) neutral against v06 (0.505-0.513), with thinner top-ups a loss; off by default, not screened
 - [x] Study 2026-10-30 (`docs/data/study-2026-10-30/`): we build towers late and few, stronger players

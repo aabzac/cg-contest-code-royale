@@ -2030,3 +2030,51 @@ BOTS (versions, uploads, artifacts), STATUS (selected version, entry, candidate,
 "now" block rewritten), PLAN (the Silver item), `docs/local-screen.md` (v08 row), the architecture page (the
 v08 numbers and pills), the local-games labels. Raw arena files copied to the main checkout. Not committed
 (the user's call).
+
+## 2026-11-04 — v08 in Silver: upload 3 (CG's promotion), placement 20.70, rank 2/200; 80 games fetched
+
+The user: "we moved up to Silver, fetch the games for the current bot". Discovery
+`arena_snapshot.py 6843829 aabzac silver <scratch path>` at 00:04: the row of aabzac in Silver (division 4) with
+agent 6843976 (creationTime 2026-11-03 23:46:20, score last updated 00:02:36), percentage 100, inProgress
+false, score 20.70, local rank 2 of 200, global 461, `eligibleForPromotion` false; 80 battles, all done, all
+with our submission 41627919 — the same id as in upload 2's saved Bronze battle list, so the promotion kept
+the submission. Registered as v08 upload 3 (league silver), upload 2 marked replaced; the discovery files
+moved from `replays/arena/unknown/silver/agent-6843976/snapshots` into `replays/arena/v08/silver/upload-03/snapshots`;
+`arena_snapshot.py 6843976 aabzac silver docs/data/arena-6843976-placement-2026-11-04.json` at 00:05 (the
+same values). `arena_games.py 6843976`: 80 games, 53 wins, marker 3f19aa6e in all 80, 0 failures, 0 score
+ties (`docs/data/arena-6843976-games-2026-11-04.json`). `cgAttribute -Preplays=replays/arena/v08/silver/upload-03/games
+-Pagent=6843976 -Pbot=file:<main checkout>/artifacts/5c16d925/Player.java`: SAME 80/80, 15,934 turns, every
+compared turn validated (`cgAttribute.log` beside the games). Seats 27 of 40 and 26 of 40; one opponent
+removed by the referee (916284417); 50 opponents, median rating 18.73 at the fetch; the Silver boss is agent
+1876720 (no pseudo, rating 21.87), 10 games, 4 won; 40 of the 80 games went to turn 250 (v08's Bronze
+placements: 18 and 13 of 60). `arena_compare.py` (`arena-compare.json` beside the games): Silver scale 3.81
+on this one upload, performance 20.88 ± 0.95; the Bronze report unchanged. P1: v08's first Silver
+placement; the Silver baseline needs a second upload of `5c16d925` (the user's paste), and PV1/PV2 lapse with
+the league change. Records: the registry, `docs/arena-uploads.md` (new section), BOTS (versions, uploads,
+artifacts), STATUS (date and league, selected version, entry, the Silver boss), SUMMARY, PLAN (the Silver
+item). The worktree's raw files `replays/arena/v08/silver/` copied to the main checkout. Committed with upload 4's
+records in one commit (the user's request).
+
+## 2026-11-04 — v08 upload 4 (Silver): 20.74, rank 3/200; the Silver baseline 20.72; the Silver M of one pair
+
+The user re-pasted `5c16d925` ("re-uploaded once more; when it ends fetch another series, then commit in one
+commit"). Discovery `arena_snapshot.py 6843976 aabzac silver <scratch path>` at 00:16: agent 6844095
+(creationTime 00:14:42, submission 41628436), 21 %; registered as v08 upload 4 (league silver, pending),
+upload 3 marked replaced; the discovery files moved into `replays/arena/v08/silver/upload-04/snapshots`.
+`watch.sh` (beside the games; `placement-watch.log`): 23 % 18.66 (rank 29) at 00:17, 38 % 19.10, 55 % 19.69,
+72 % 20.52, 88 % 21.30 (rank 1) at 00:29, 95 % 21.05, complete at 00:31:47 (score last updated 00:31:24):
+score 20.74, local rank 3 of 200, global 462, `eligibleForPromotion` false. `inProgress` was false in every
+snapshot of this placement; completion was read from percentage 100. `fetch-loop.sh` (`fetch-loop.log`):
+`arena_games.py 6844095` every minute from 00:17, all 80 by 00:32: 80 games, 50 wins, marker 3f19aa6e in all
+80, 0 failures, one score tie (`docs/data/arena-6844095-games-2026-11-04.json`). `cgAttribute` against the
+kept copy: SAME 80/80, 16,757 turns, every compared turn validated (`cgAttribute.log`). Seats 29 of 45 and 21
+of 35; two opponents removed by the referee (916295252, 916295352); 916297591 ended 28:28 on turn 250 and CG
+ranked player 0 (the opponent) first, the sixth such game (`docs/rules/inferred.md`, now six); Silver boss
+1876720 (21.87-21.97) 3 games, 1 won (916299584); 39 opponents, median 19.05; 40 of 80 games to turn 250.
+`arena_compare.py --candidate v08 --selected v08` (`arena-compare.json` beside the games): Silver scale 3.58;
+upload 3 20.74 ± 0.89, upload 4 20.90 ± 0.85; v08 mean 20.72, SD 0.03, pooled rating 20.82 ± 0.62; M 0.06
+(1 df); the Bronze report unchanged. The baseline is complete; the Silver M from one pair is not a usable
+margin (Bronze 2.46 on 11 df), so how to set it is left to the user (`docs/arena-uploads.md`, STATUS, PLAN).
+Records: the registry, `docs/arena-uploads.md` (new section), BOTS (versions, uploads, artifacts), STATUS,
+SUMMARY, PLAN, `docs/rules/inferred.md`. Raw files `replays/arena/v08/silver/upload-04/` copied to the main
+checkout. Committed with the upload 3 records in one commit on the user's request.

@@ -5,14 +5,16 @@ artifacts `docs/BOTS.md`, P1 comparisons and the noise margin `docs/arena-upload
 evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary for the user
 `docs/SUMMARY.md`. The history this page held until 2026-10-30: `git show 60f0b59:docs/STATUS.md`.
 
-- Date: 2026-11-03 (evening). Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
-  no deadline. League: Bronze.
+- Date: 2026-11-04 (night). Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
+  no deadline. League: Silver since 2026-11-03 23:46 (CG promoted v08 upload 2); the Bronze scores stay
+  Bronze-only. PV1/PV2 lapsed with the league change: P2 candidates are developed, not promoted, until the
+  proxy is re-checked against the Silver field (`docs/local-screen.md`).
 - Selected version, local champion and `current` defaults: v08 = v07 with the kiting bound to the towers
   (KITE=2, KITE_PULL=100), frozen 2026-11-03 (`cr.bot.v08.GreedyBot`, `versions/v08.properties`; P2
   `docs/data/exp-2026-11-03-kite2/`: S 0.6670 against v07 and +14.8 pp against `field` on the evaluation
   block). Selected under P1 on 2026-11-03 by two placements (mean 27.99 against v07's 25.53, "not clearly
-  worse", +2.46 against −M −2.46; `docs/arena-uploads.md`); `eligibleForPromotion` true after upload 2,
-  the promotion to Silver pending on CG's side. Artifact `5c16d925…` (79,348 chars, build `3f19aa6e`, config `c9dad766`; the freeze commit; kept copy
+  worse", +2.46 against −M −2.46; `docs/arena-uploads.md`); promoted to Silver after upload 2. Silver
+  baseline (2026-11-04): placements 20.70 and 20.74, mean 20.72, pooled rating 20.82 ± 0.62. Artifact `5c16d925…` (79,348 chars, build `3f19aa6e`, config `c9dad766`; the freeze commit; kept copy
   `artifacts/5c16d925/Player.java`), procCheck 200/200 against v01 and against `boss`, no timeouts
   (`docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `5c16d925`; v07's `4c7b0d04` stays kept.
 - Previous selected version: v07 = v06 with kiting under knights (KITE=1 at
@@ -38,13 +40,18 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
   `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
   `route` configuration, artifact `da914c4c…`), selected 2026-11-02 to 2026-11-03; v03, 2026-10-30 to 2026-11-02.
-- Arena entry: `aabzac`, agent 6843829 = v08 upload 2 (the same artifact `5c16d925…` as upload 1), pasted by
-  the user 2026-11-03 23:12 local; placement complete 23:23: score 28.13, local rank 1/2291,
-  `eligibleForPromotion` **true**, 60 games, 48 wins, 1 of 1 against the boss, every game identical to the
-  artifact (`docs/BOTS.md`, Uploads; `docs/data/arena-6843829-placement-2026-11-03.json`). It replaced agent
-  6843773 = v08 upload 1 (27.85, rank 1, 3 of 7 against the boss), saved. The promotion to Silver was
-  pending on CG's side at 23:24 (the live row still in Bronze): when it lands, the new Silver agent is the
-  next upload, recorded with its league, and v08's baseline is rebuilt there by two uploads (P1).
+- Arena entry: `aabzac`, agent 6844095 = v08 upload 4, **Silver** (the same artifact `5c16d925…`), pasted by
+  the user 2026-11-04 00:14 local; placement complete 00:31: score 20.74, local rank 3/200 (global 462),
+  `eligibleForPromotion` false, 80 games, 50 wins, 1 of 3 against the Silver boss, every game identical to
+  the artifact (`docs/BOTS.md`, Uploads; `docs/data/arena-6844095-placement-2026-11-04.json`). It replaced
+  agent 6843976 = v08 upload 3 (CG's promotion of upload 2: 20.70, rank 2, 4 of 10 against the boss), saved.
+- Silver noise margin: open. v08's two Silver placements differ by 0.04, so P1's M is 0.06 on 1 df; Bronze's
+  pooled M was 2.46 (11 df). Leagues are not pooled, so how to set M in Silver before the next candidate is
+  judged there is the user's decision (`docs/arena-uploads.md`, the Silver baseline).
+- Silver boss: agent 1876720 (no pseudo), rating **21.87-21.97** during the fetches of 2026-11-04 00:05-00:32
+  (`docs/data/arena-6843976-games-2026-11-04.json`, `docs/data/arena-6844095-games-2026-11-04.json`); v08
+  won 5 of its 13 games against it and stands about 1.2 below it (mean 20.72). The strongest player met:
+  mesavitae, 21.12-21.35. Half of v08's Silver games (40 of 80 in each upload) went to turn 250.
 - Candidate judged under P1 (2026-11-03): v08. Placements 27.85 and 28.13 (mean 27.99, SD 0.20) against
   v07's 25.53; pooled rating 27.59 ± 0.50 against 25.42 ± 0.46 (scale 2.13); M 2.46 (11 df). Neither
   rollback condition holds (+2.46 against −2.46; +2.17 against −1.36), so v08 is the selected version. The

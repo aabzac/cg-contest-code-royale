@@ -526,7 +526,65 @@
    "snapshots": "docs/data/arena-6843829-placement-2026-11-03.json",
    "games": "docs/data/arena-6843829-games-2026-11-03.json",
    "submittedBy": "the user in the IDE (v08 upload 2 under P1, 2026-11-03, 'I pasted it, watch')",
-   "attribution": "cgAttribute against the kept copy artifacts/5c16d925/Player.java: SAME in 60 of 60 games, 9,087 turns, all validated; marker 3f19aa6e in 60 of 60"
+   "attribution": "cgAttribute against the kept copy artifacts/5c16d925/Player.java: SAME in 60 of 60 games, 9,087 turns, all validated; marker 3f19aa6e in 60 of 60",
+   "replaced": "2026-11-03T23:46:20+02:00 by v08 upload 3 in Silver (CG's promotion after the completed placement; the Silver agent's creationTime); its placement was complete and saved before"
+  },
+  {
+   "label": "v08",
+   "upload": 3,
+   "agent": 6843976,
+   "submission": 41627919,
+   "league": "silver",
+   "artifact": {
+    "sha256": "5c16d925b0c4e20746484cbdfb7826e82b4bc1ed8dd9e1e3e1a5b8954b917df6",
+    "build": "3f19aa6e",
+    "config": "c9dad766",
+    "source": "CG's promotion of upload 2: the same submission 41627919 as upload 2's saved battle list (commit da6384a); kept copy artifacts/5c16d925/Player.java"
+   },
+   "created": "2026-11-03T23:46:20+02:00",
+   "placement": {
+    "score": 20.7,
+    "rank": 2,
+    "agents": 200,
+    "games": 80,
+    "firstCompleteSnapshot": "2026-11-04T00:04:18+02:00",
+    "watched": false,
+    "lastUpdate": "2026-11-04T00:02:36+02:00 (leaderboard updateTime)",
+    "note": "not watched: CG created the Silver agent at 23:46 after upload 2's completed Bronze placement; the discovery snapshot at 00:04 (raw in upload-03/snapshots) found it complete (percentage 100, inProgress false), global rank 461, eligibleForPromotion False; 80 games in the battle list (Bronze placements listed 60); one win is an opponent removed by the referee (916284417); ten games against the Silver boss (agent 1876720, no pseudo, rating 21.87 at the fetch), 4 won; 40 of the 80 games went to turn 250"
+   },
+   "snapshots": "docs/data/arena-6843976-placement-2026-11-04.json",
+   "games": "docs/data/arena-6843976-games-2026-11-04.json",
+   "submittedBy": "CG's promotion of v08 upload 2 from Bronze to Silver (no paste); found on the user's request 2026-11-04 'we moved up to Silver, fetch the games'",
+   "attribution": "cgAttribute against the kept copy artifacts/5c16d925/Player.java: SAME in 80 of 80 games, 15,934 turns, all validated; marker 3f19aa6e in 80 of 80",
+   "replaced": "2026-11-04T00:14:42+02:00 by upload 4 (the agent's creationTime); its placement was complete and saved before"
+  },
+  {
+   "label": "v08",
+   "upload": 4,
+   "agent": 6844095,
+   "submission": 41628436,
+   "league": "silver",
+   "artifact": {
+    "sha256": "5c16d925b0c4e20746484cbdfb7826e82b4bc1ed8dd9e1e3e1a5b8954b917df6",
+    "build": "3f19aa6e",
+    "config": "c9dad766",
+    "source": "the same bytes as uploads 1-3 (commit da6384a); kept copy artifacts/5c16d925/Player.java; confirmed by the markers and cgAttribute"
+   },
+   "created": "2026-11-04T00:14:42+02:00",
+   "placement": {
+    "score": 20.74,
+    "rank": 3,
+    "agents": 200,
+    "games": 80,
+    "firstCompleteSnapshot": "2026-11-04T00:31:47+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-04T00:31:24+02:00 (leaderboard updateTime)",
+    "note": "discovered at 00:16 (21 %), snapshots every 3 minutes, every minute from 85 % (watch.sh); 23 % 18.66, 55 % 19.69 (rank 4), 88 % 21.30 (rank 1), 95 % 21.05, complete at 00:31:47, 17 minutes after the paste; global rank 462, eligibleForPromotion False; the games fetched every minute during the placement (fetch-loop.sh), all 80 by 00:32; two wins are opponents removed by the referee (916295252, 916295352); one game with equal scores (916297591, turn 250, 28:28, ranked as a loss: CG put player 0, the opponent, first); three games against the Silver boss (agent 1876720, rating 21.87-21.97), 1 won (916299584); 40 of the 80 games went to turn 250"
+   },
+   "snapshots": "docs/data/arena-6844095-placement-2026-11-04.json",
+   "games": "docs/data/arena-6844095-games-2026-11-04.json",
+   "submittedBy": "the user in the IDE (v08 upload 4, the second in Silver, under P1, 2026-11-04, 're-uploaded once more')",
+   "attribution": "cgAttribute against the kept copy artifacts/5c16d925/Player.java: SAME in 80 of 80 games, 16,757 turns, all validated; marker 3f19aa6e in 80 of 80"
   }
  ],
  "legacyUploads": [
