@@ -1,0 +1,65 @@
+route games 120 wins 79
+
+== 1. How the 120 games end ==
+wins 79: our queen killed 0 (death turn median -, quartiles []), opponent's queen killed 50, turn limit 26, referee removals 3
+losses 41: our queen killed 26 (death turn median 114.0, quartiles [77, 114, 161]), opponent's queen killed 0, turn limit 15, referee removals 0
+losses by seat: Counter({1: 23, 0: 18}) games by seat: Counter({0: 61, 1: 59})
+losses at the limit, HP ours vs theirs: [(13, 18), (46, 55), (41, 70), (30, 56), (10, 63), (18, 21), (68, 75), (12, 52), (37, 41), (20, 36), (23, 48), (20, 30), (85, 86), (19, 48), (39, 48)]
+
+== 2. Opponent style (what the opponent trained) ==
+  K      98 games, we win 64%
+  KG     12 games, we win 58%
+  KA      5 games, we win 80%
+  KAG     3 games, we win 100%
+  none    2 games, we win 100%
+against giants: our towers lost (median) 3.0, first tower lost turn 104.5; in other games 2.0 and 210.5
+
+== 3. Medians at fixed turns: ours in losses / wins, opponent's in our losses / wins ==
+hp       | t25: 68.0/57.0 vs 62.0/49.5 | t50: 61.5/55.0 vs 52.5/44.0 | t75: 49.5/55.0 vs 54.5/38.0 | t100: 54.0/55.5 vs 58.0/34.5
+towers   | t25: 1.0/2.0 vs 2.0/1.0 | t50: 3.0/3.0 vs 3.0/3.0 | t75: 5.0/5.0 vs 3.5/3.0 | t100: 6.0/6.0 vs 4.0/3.0
+knights  | t25: 1.0/2.0 vs 2.0/3.0 | t50: 0.0/0.0 vs 0.0/3.0 | t75: 0.0/0.0 vs 1.5/3.0 | t100: 0.0/1.0 vs 0.0/0.0
+inc      | t25: 3.0/3.0 vs 3.0/4.0 | t50: 3.0/3.0 vs 4.0/5.0 | t75: 3.0/3.0 vs 5.0/5.0 | t100: 3.0/3.0 vs 4.0/4.0
+gold     | t25: 20.0/17.0 vs 67.0/63.0 | t50: 74.0/76.0 vs 49.0/53.0 | t75: 69.0/67.0 vs 51.0/55.0 | t100: 47.0/43.0 vs 58.0/51.5
+thp      | t25: 796.0/992.0 vs 712.0/408.0 | t50: 2146.0/2184.0 vs 1262.0/844.0 | t75: 3172.0/3252.0 vs 1404.0/1164.0 | t100: 3564.0/3660.0 vs 1596.0/1118.0
+(empty medians: the game was over before that turn)
+
+== 4. Opening: the first three structures, and the first build turns ==
+route              n=120 first: BK 99%, - 1% | top openings: BK M M 58%, BK M T 42%,  1% | first barracks 1.0, mine 4.0, tower 13.0 | top-ups 78.5, upgrades 4.0, towers built 7.0, max towers 7.0
+v03                n=180 first: BK 100% | top openings: BK M M 67%, BK M T 33% | first barracks 1.0, mine 4.0, tower 15.0 | top-ups 77.0, upgrades 3.0, towers built 7.0, max towers 7.0
+opp-beat-route     n= 41 first: M 80%, BK 17%, T 2% | top openings: M M M 24%, M M BK 24%, M M T 10%, M BK T 10% | first barracks 10.0, mine 1.0, tower 14.0 | top-ups 45.0, upgrades 6.0, towers built 4.0, max towers 4.0
+opp-lost-to-route  n= 79 first: M 66%, BK 28%, BA 3% | top openings: M M M 33%, BK M M 22%, M M BK 16%, M T T 6% | first barracks 10.0, mine 1.0, tower 17.0 | top-ups 24.0, upgrades 4.0, towers built 5.0, max towers 4.0
+cg2-bronze         n= 92 first: M 52%, BK 41%, BA 4% | top openings: BK M M 28%, M M M 17%, M M BK 15%, M BK M 10% | first barracks 4.5, mine 2.0, tower 19.5 | top-ups 21.0, upgrades 5.0, towers built 3.0, max towers 3.0
+cg2-bronze-24+     n= 24 first: M 71%, BK 29% | top openings: M M BK 29%, M BK M 25%, BK M T 12%, M M M 12% | first barracks 7.0, mine 1.0, tower 14.5 | top-ups 34.0, upgrades 5.0, towers built 5.0, max towers 4.0
+silver-gold        n=160 first: M 81%, BK 14%, - 4% | top openings: M M BK 36%, M M M 21%, M BK M 9%, M BK T 8% | first barracks 11.0, mine 1.0, tower 17.0 | top-ups 34.0, upgrades 5.0, towers built 5.0, max towers 4.0
+legend             n=176 first: M 89%, BK 11% | top openings: M M BK 47%, M M M 19%, M BK T 14%, BK M M 7% | first barracks 13.0, mine 1.0, tower 17.0 | top-ups 29.0, upgrades 8.0, towers built 7.0, max towers 5.0
+
+== 5. Tower top-ups and tower HP ==
+route            top-ups per game median 78.5 mean 90.8 (per 100 turns 56.6); summed tower HP at t50 2168.0, t100 3592.0, t150 4026.0; towers at t50 3.0, t100 6.0
+opp-beat-route   top-ups per game median 45.0 mean 66.1 (per 100 turns 39.1); summed tower HP at t50 1262.0, t100 1596.0, t150 1584.0; towers at t50 3.0, t100 4.0
+cg2-bronze-24+   top-ups per game median 34.0 mean 44.7 (per 100 turns 29.9); summed tower HP at t50 1410.0, t100 1832.0, t150 1740.0; towers at t50 2.0, t100 4.0
+silver-gold      top-ups per game median 34.0 mean 46.6 (per 100 turns 28.5); summed tower HP at t50 1398.0, t100 1942.0, t150 2158.0; towers at t50 3.0, t100 4.0
+legend           top-ups per game median 29.0 mean 38.1 (per 100 turns 22.9); summed tower HP at t50 1370.0, t100 1826.0, t150 2012.0; towers at t50 3.0, t100 4.0
+route: top-ups in wins 78.0, in losses 87.0; HP per tower at t50 in wins 693.0, losses 714.7
+
+== 6. Results by towers and knights at turn 50 ==
+our towers at t50: 0: 1 games, we win 0% | 1: 3 games, we win 33% | 2: 21 games, we win 62% | 3: 49 games, we win 61% | 4+: 39 games, we win 74%
+opponent towers at t50: 0: 1 games, we win 100% | 1: 13 games, we win 69% | 2: 24 games, we win 67% | 3: 44 games, we win 59% | 4+: 31 games, we win 68%
+opponent knights alive at t50: 0: 50 games, we win 54% | 1-3: 17 games, we win 65% | 4-7: 38 games, we win 74% | 8+: 8 games, we win 88%
+our queen HP at t50: <30: 23 games, we win 61% | 30-49: 22 games, we win 64% | 50-69: 36 games, we win 75% | 70+: 32 games, we win 56%
+opponent income at t50: 0-2: 19 games, we win 53% | 3-5: 53 games, we win 62% | 6-8: 27 games, we win 74% | 9+: 14 games, we win 71%
+
+== 7. Economy and army by group (medians) ==
+group               n | t50: inc mines towers barr knights hp gold | t100: inc mines towers barr knights hp gold | per game: trainK trainA trainG meanInc meanGold minesBuilt turns
+route             120 | 3.0 2.0 3.0 1.0 0.0 58.0 75.0 | 3.0 2.0 6.0 1.0 1.0 55.0 44.0 | 7.0 0.0 0.0 2.8 43.0 3.0 151.0
+v03               180 | 3.0 2.0 3.0 1.0 1.0 53.5 73.0 | 3.0 2.0 5.0 1.0 1.0 45.0 57.0 | 6.0 0.0 0.0 2.8 42.9 3.0 142.0
+opp-beat-route     41 | 4.0 2.0 3.0 1.0 0.0 52.5 49.0 | 4.0 3.0 4.0 1.0 0.0 58.0 58.0 | 9.0 0.0 0.0 4.5 60.6 5.0 171.0
+opp-lost-to-route   79 | 5.0 3.0 3.0 1.0 3.0 44.0 53.0 | 4.0 3.0 3.0 1.0 0.0 34.5 51.5 | 7.0 0.0 0.0 3.5 54.6 5.0 145.0
+cg2-bronze         92 | 5.0 2.0 2.0 1.0 4.0 56.0 47.5 | 4.0 2.0 3.0 2.0 3.0 36.0 49.0 | 6.0 0.0 0.0 4.5 55.5 4.0 97.0
+cg2-bronze-24+     24 | 4.5 2.5 2.0 1.0 4.0 62.0 47.0 | 4.0 2.0 4.0 1.0 3.0 62.0 53.0 | 6.0 0.0 0.0 4.1 51.0 4.5 132.0
+silver-gold       160 | 4.0 2.0 3.0 1.0 3.0 49.5 48.5 | 5.0 3.0 4.0 1.0 1.0 45.0 58.0 | 7.0 0.0 0.0 4.1 58.2 5.0 157.0
+legend            176 | 7.0 3.0 3.0 1.0 0.0 40.0 76.5 | 6.0 3.0 4.0 2.0 2.0 25.0 71.0 | 10.0 0.0 0.0 5.4 81.6 6.0 153.0
+
+== 8. Kills ==
+wins by a kill 50: our trainK median 4.0, knights alive at t50 2.0, opponent's towers at t50 3.0, opponent's hp at t25/t50 45.0/40.0, death turn median 103.5
+losses by a kill 26: opponent's trainK median 8.5, knights alive at t50/t75 0.0/3.0, giants trained in 3, our towers at t50 3.0, our hp at t25/t50/t75 62.5/43.0/34.0
+early kills (before turn 80) 7: opponent first barracks 16.0, trainK by then n/a, our towers at t25/t50 1.0/2.0, our hp at t25/t50 30.0/9.5

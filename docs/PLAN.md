@@ -65,6 +65,13 @@
 - [ ] Next strength step towards the boss (the gap: `docs/STATUS.md`): candidates from the study
   (a second knight barracks or more knights; queen safety when no tower is near; giants or archers
   against towers)
+- [x] Study 2026-11-03 (`docs/data/study-2026-11-03-losses/`): how v04 loses its 120 placement games,
+  and the opening, economy and towers of stronger groups. Gaps: barracks-first opening (everyone
+  stronger opens with a mine), income stuck at 3 (they hold 4-7), 6-7 towers at 700 HP (they hold 4 at
+  about 450), 57 of 100 queen turns on top-ups (Legend 23), fewer waves
+- [ ] Strategy parameters as flags of `current`, screened under P2 against v04: opening order (mine
+  first, barracks later), income target 5-6 with upgrades, tower cap 4-5 and top-up threshold 400-500
+  (`docs/data/study-2026-11-03-losses/`, Candidates); the order is the user's call
 - [x] Improve the final approach to the same site for the next target; compare with v03
   (`docs/data/exp-2026-10-31-approach/`)
 - [ ] Decide adoption/freeze of the APPROACH candidate (`docs/data/exp-2026-10-31-approach/`)

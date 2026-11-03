@@ -29,6 +29,13 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   the next candidate is compared with v04 locally and with `route`'s two placements on the arena. The earlier candidate
   `current?APPROACH=1` (S 0.5245, `docs/data/exp-2026-10-31-approach/`) is superseded by it (ROUTE replaces
   APPROACH when on).
+- Study 2026-11-03 (`docs/data/study-2026-11-03-losses/`): v04 loses 41 of 120 arena games, 26 by a
+  killed queen (median turn 114) and 15 on HP at the limit. Against every stronger group we open with
+  the barracks instead of a mine, stop at income 3 (they hold 4-7), hold 6-7 towers at 700 HP against
+  their 4 at about 450, and spend 57 of 100 queen turns on tower top-ups (Legend 23). Next: strategy
+  parameters (opening order, income target, tower cap, top-up threshold) as flags of `current`,
+  screened under P2 against v04; which first is the user's call. The route steps 2-4 are parked
+  (1-2 walking turns per game left).
 - Walking diagnostics: `./gradlew legScan` (`cr.tools.LegScan`), baselines in the same README.
 - Bronze boss: "Princess Boss" (arenabossId 175, agentInitialId 1870317, division 219), from the IDE
   session 2026-10-28; its battles are not listed by `findLastBattlesByAgentId`. It stands above about

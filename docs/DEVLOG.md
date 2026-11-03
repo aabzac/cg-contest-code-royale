@@ -1436,3 +1436,18 @@ arena entry stays `route` upload 2 (`da914c4c`, the same play). Records: `docs/B
 artifacts), STATUS, SUMMARY, PLAN, `docs/local-screen.md` (roles), `docs/arena-uploads.md`, `docs/visualizer.md`,
 `docs/bot-architecture.html` (ROUTE section, versions table, file map), `.ai/project.md` (local-match row) with
 the kit sync.
+
+Study 2026-11-03 (`docs/data/study-2026-11-03-losses/`), on the user's choice to start with "how we
+lose" before changing the build strategy. `CgStudy` extended (new trailing columns: deathTurn,
+firstTowerLost, towerTopUps, mineUpgrades, opening, thp_<t>; `CgStudyTest` pins them on game 915331914,
+skipped without the replay). `cgStudy` over v04's 120 placement games, v03's 180, cg2 and legend-top
+(526 games, `replays/study/features-2026-11-03.csv`, sha256 dd108fba…, copied to the main checkout; the
+first run failed because MSYS rewrote the absolute Windows paths in `-Preplays`, relative paths work).
+`losses.py` → `losses.txt`. Findings: 41 losses = 26 killed queens (median turn 114, 7 before 80) + 15
+HP races at the limit; giants in 12 games (58 % won) are not the bulk; we open with the barracks on turn 1
+while every stronger group and 80 % of the opponents who beat us open with a mine and build the barracks
+on turn 7-13; our income stays 3 (they hold 4-7), we hold 6-7 towers at 700 HP (they hold 4 at about
+450) and spend 57 of 100 queen turns on top-ups (Legend 23, the opponents who beat us 39); 7 waves per
+game against 9-10. Top-ups show no benefit (more in losses than in wins). Candidates: opening order,
+income target 5-6, tower cap 4-5 with a 400-500 top-up threshold, as flags screened against v04. The
+route steps 2-4 are parked. Records: PLAN, STATUS, SUMMARY, `.ai/project.md` (cgStudy row, kit sync).
