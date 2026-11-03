@@ -70,8 +70,13 @@
   and screened under P2: the second barracks after 4 towers with synchronous waves and 6 towers passed
   (G0-G2); final evaluation S 0.5480 against v05, below the 0.60 recommendation; deferred by the user
   (2026-11-03), the flags stay off, to be combined with a later candidate
-- [ ] Queen safety (the next direction, 2026-11-03): the flight rule with the distance to the tower and the
-  HP; threats beyond knights within 250; fixtures from the arena replays of early deaths; P2 against v05
+- [x] Queen safety (2026-11-03): study `docs/data/study-2026-11-03-queen-safety/` (the queen dies topping up
+  one tower; a second tower doubles the kill rate), flags THREAT_TOWERS_NEAR / THREAT_RADIUS / THREAT_RANGE,
+  swept against v05 and screened under P2 with the army flags (`docs/data/exp-2026-11-03-safety/`): S 0.642,
+  passed; final evaluation on block 5 S 0.652, the upload recommendation met; frozen as v06 (2026-11-03),
+  `submit` and `procCheck` passed (`docs/BOTS.md`, Artifacts); the upload under P1 is the user's
+- [ ] Queen safety, not tried: kiting between sites under knights; the flight avoiding enemy tower range (262
+  HP of 2,335 lost in v05's arena deaths); a tower before the barracks when the enemy barracks trains
 - [x] Study 2026-11-03 (`docs/data/study-2026-11-03-losses/`): how v04 loses its 120 placement games,
   and the opening, economy and towers of stronger groups. Gaps: barracks-first opening (everyone
   stronger opens with a mine), income stuck at 3 (they hold 4-7), 6-7 towers at 700 HP (they hold 4 at

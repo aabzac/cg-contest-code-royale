@@ -7,8 +7,8 @@
   "evaluation": "block k = seeds 400000 + 2000 k .. 400000 + 2000 k + 1999, one fresh block per upload candidate, used once"
  },
  "next": {
-  "screen": 7,
-  "evaluation": 5
+  "screen": 8,
+  "evaluation": 6
  },
  "used": [
   {
@@ -142,6 +142,28 @@
    "control": "v05 (the selected version)",
    "series": "direct and mirror on 2000 maps; candidate and v05 against boss on 408000-408499",
    "verdict": "G0-G2 pass (G3 skipped, no old): S 0.5480 (CI 0.5327-0.5633) against v05, boss delta -0.0010, no failure; S < 0.60: the upload recommendation is not met; the freeze and any upload are the user's decisions"
+  },
+  {
+   "pool": "screen",
+   "k": 7,
+   "seeds": "214000-215999",
+   "date": "2026-11-03",
+   "experiment": "docs/data/exp-2026-11-03-safety",
+   "candidate": "current?THREAT_TOWERS_NEAR=2,THREAT_RADIUS=500,BARRACKS=2,BARRACKS_AFTER_TOWERS=4,TRAIN_SYNC=1,MAX_TOWERS=6",
+   "control": "v05",
+   "series": "direct and mirror on 2000 maps; candidate and v05 against boss on 214000-214499",
+   "verdict": "G0-G2 pass (strategy track): S 0.6420 (CI 0.6261-0.6579) against v05, boss delta +0.0030; G3 skipped, old absent; no candidate failure. The local champion; the final evaluation, the freeze and any upload are the user's decisions"
+  },
+  {
+   "pool": "evaluation",
+   "k": 5,
+   "seeds": "410000-411999",
+   "date": "2026-11-03",
+   "experiment": "docs/data/exp-2026-11-03-safety",
+   "candidate": "current?THREAT_TOWERS_NEAR=2,THREAT_RADIUS=500,BARRACKS=2,BARRACKS_AFTER_TOWERS=4,TRAIN_SYNC=1,MAX_TOWERS=6",
+   "control": "v05 (the selected version)",
+   "series": "direct and mirror on 2000 maps; candidate and v05 against boss on 410000-410499",
+   "verdict": "G0-G2 pass (G3 skipped, no old): S 0.6519 (CI 0.6356-0.6682) against v05, boss delta 0.0000, no failure; S >= 0.60: upload recommended; the freeze (v06) and the upload are the user's decisions"
   }
  ]
 }

@@ -16,7 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MainBotTest {
     /** v01's and v02's parameters besides UNSTICK (ROUTE=0: the planner would replace UNSTICK; MINES_FIRST=0: the barracks first): the captured positions and the audit's games were played with them. */
-    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0,";
+    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0," + "BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,";
+    /** v05's values of the fields v06 changed: one barracks, 8 towers, the flight to the nearest tower. */
+    static final String V05 = "MAX_TOWERS=8,BARRACKS=1,BARRACKS_AFTER_TOWERS=0,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,THREAT_RADIUS=400,";
 
     /**
      * A captured position: the init and turn input that seat 1 of v01 against current read on one
@@ -132,19 +134,25 @@ class MainBotTest {
     /** With ROUTE off (v03's parameters), current plays the frozen v03's games command for command. */
     @Test
     void withV03ParamsCurrentPlaysAsV03() {
-        assertSamePlay("current?ROUTE=0,MINES_FIRST=0", "v03", new long[]{100000, 100001, 100002, 10394, 10477, 202000, 202001, 202002});
+        assertSamePlay("current?ROUTE=0,MINES_FIRST=0," + V05, "v03", new long[]{100000, 100001, 100002, 10394, 10477, 202000, 202001, 202002});
     }
 
     /** With the barracks first (v04's parameters), current plays the frozen v04's games command for command (seeds with slides and screened maps). */
     @Test
     void withV04ParamsCurrentPlaysAsV04() {
-        assertSamePlay("current?MINES_FIRST=0", "v04", new long[]{100000, 110135, 110098, 10394, 208000, 208001, 208002, 404000});
+        assertSamePlay("current?MINES_FIRST=0," + V05, "v04", new long[]{100000, 110135, 110098, 10394, 208000, 208001, 208002, 404000});
     }
 
-    /** With its defaults (two mines before the barracks since v05), current plays the frozen v05's games command for command (fixture seeds, screened and evaluated maps). */
+    /** With v05's parameters (one barracks, 8 towers, the flight to the nearest tower), current plays the frozen v05's games command for command (fixture seeds, screened and evaluated maps). */
     @Test
-    void withDefaultsCurrentPlaysAsV05() {
-        assertSamePlay("current", "v05", new long[]{100000, 110135, 10394, 10477, 210000, 210001, 210002, 406000});
+    void withV05ParamsCurrentPlaysAsV05() {
+        assertSamePlay("current?" + V05, "v05", new long[]{100000, 110135, 10394, 10477, 210000, 210001, 210002, 406000});
+    }
+
+    /** With its defaults (a second tower under threat and the army flags since v06), current plays the frozen v06's games command for command (fixture seeds, screened and evaluated maps). */
+    @Test
+    void withDefaultsCurrentPlaysAsV06() {
+        assertSamePlay("current", "v06", new long[]{100000, 110135, 10394, 10477, 214000, 214001, 214002, 410000});
     }
 
     /** bot and frozen play the same commands on both seats against v01 and v02. */

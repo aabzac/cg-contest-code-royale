@@ -1641,3 +1641,72 @@ reports copied to the main checkout's `replays/bench/`.
 Decision (the user, 2026-11-03, on the recommendation): the army candidate is deferred, no freeze and no
 upload; the flags stay in `current` off by default, to be combined with a later candidate. Next: the
 queen's safety. Committed with these records.
+
+## 2026-11-03 — The queen's safety: a second tower under threat; study, flags, P2 screen passed (S 0.642 with the army flags)
+
+The user's "next" after deferring the army candidate. Study `docs/data/study-2026-11-03-queen-safety/`
+(README, `deaths.py`, `deaths.txt`): `cgStudy` over v05's 180 arena games (uploads 1-3) into
+`replays/study/features-v05-3up-2026-11-03.csv`, and a new tool `cr.tools.DeathTrace` (one line per turn
+of a recorded game replayed through `Rules`: HP and loss, command, touched site, own towers, enemy knights
+within 250/500, enemy towers covering her) over all 180 games into `replays/study/traces/all-v05.txt` (both
+gitignored, sha256 in the README, copied to the main checkout). Findings: 37 of 55 losses by the queen's
+death (12 before turn 80), 18 on HP; knights took 2,062 of 2,335 HP in the deaths, enemy towers 262; on 1,029
+of the 1,103 hit turns she stood at one own tower, topping it up on 858; a tower deals 3 HP a turn at 200 HP
+and 4 at 700 (`Rules.actStructure`), so a second tower doubles the kill rate; the opponents' queens in the
+same games (traced by their agent ids) build the next towers under fire and survive. The queen's starting HP
+in Bronze is random 25-100 (`MapGen`, both queens equal); v05 wins 76 % at 25-40 and 61 % at 85-100, so the
+start is not the lever.
+
+Code (from 78d2c4d): `Params.THREAT_RANGE` (the former literal 250), `THREAT_TOWERS_NEAR` and
+`THREAT_RADIUS`; in `MainBot.play`, before the touch rule: under threat with fewer than N own towers within R,
+`BUILD` a tower on the nearest free site within R not under an enemy tower. The snapshots record the fields;
+`StrategyParamsTest.threatBuildsASecondTowerNearby`; `cr.bot.*` green.
+
+Development sweep against v05 (`replays/bench/dev-safety-2026-11-03/`, 500 maps per arm, both seats, one JVM
+per arm, 8 threads, 50 ms; `sweep-a.sh`, `sweep-b.sh`, `dev-sweep.txt` beside the README; the v05 mirrors
+copied from the army sweep): seeds 10000-10499: N=2 at radius 300/400/500 → 0.631/0.621/0.635, N=3 →
+0.585/0.576/0.587, THREAT_RANGE 350/450 alone → 0.471/0.409, with N=2 → 0.616/0.611; radius 600 0.634,
+THREAT_RANGE 200 0.652, MAX_TOWERS=6 0.641, N=1 0.499 (6 maps changed), N=2 radius 500 with the army flags
+0.680. Seeds 11000-11499: N=2 at 300/400/500 → 0.599/0.587/0.605, N=3 at 500 0.573, N=2 at 500 with the army
+flags 0.629. Chosen: the combination (the same sign on both blocks, +3.5 pp over safety alone pooled).
+
+P2 screen on block 7 (214000-215999, reserved in the ledger before the run; `screen.sh`): G0 clean in every
+series (max candidate turn 21.6 ms; v05 one slow turn of 60 ms in the direct series); G1 S 0.6420 (CI
+0.6261-0.6579), W/D/L 2525/86/1389, seats 1395/40/565 and 1130/46/824, 1960 of 2000 maps changed; G2 1.000
+against 0.997 on `boss`, Δ +0.0030, 497 of 500 maps changed; G3 skipped. Summaries `g1.json`, `g2.json`.
+About +1.0 rating point head-to-head at scale 1.72. Records: README, ledger, BOTS (flags), STATUS, SUMMARY,
+PLAN. Not done: the final evaluation (block 5, 410000-411999), the freeze, `submit`, `procCheck`, the
+architecture page. Raw reports copied to the main checkout's `replays/bench/`.
+
+Final evaluation of the safety+army candidate (the user's "yes"), evaluation block 5 (410000-411999)
+reserved in the ledger before the run, `eval.sh` (the screen's commands with `-PseedBase=410000`, reports
+in `replays/bench/exp-2026-11-03-safety-eval/`): G0 clean in every series (max candidate turn 41.2 ms);
+G1 S 0.6519 (CI 0.6356-0.6682), W/D/L 2566/83/1351, seats 1395/36/569 and 1171/47/782, 1997 of 2000 maps
+changed; G2 1.000 against 1.000 on `boss`, Δ 0.0000, 488 of 500 maps changed; G3 skipped. Summaries
+`eval-g1.json`, `eval-g2.json`. S ≥ 0.60: the upload recommendation is met. Records: README (results),
+ledger, STATUS, SUMMARY, PLAN, `docs/local-screen.md` (the candidate row). Not done: the freeze (v06),
+`submit`, `procCheck`, the architecture page, the commit. Raw reports copied to the main checkout.
+
+## 2026-11-03 — Freeze v06: a second tower under threat and the army flags as the defaults; artifact 1a9f3e81
+
+The user's decision after the final evaluation. `cr.bot.v06.GreedyBot` with its own `RoutePlanner` and
+`ApproachPlanner` is a copy of `current` (the `queenSteps` diagnostic dropped, as in the earlier copies);
+`versions/v06.properties` is v05's snapshot with MAX_TOWERS=6, BARRACKS=2, BARRACKS_AFTER_TOWERS=4,
+TRAIN_SYNC=1, THREAT_TOWERS_NEAR=2, THREAT_RADIUS=500; `Params` defaults to those values, so `current` plays
+as v06 (`MainBotTest.withDefaultsCurrentPlaysAsV06` on the fixture seeds, 214000-214002 and 410000;
+`withV05ParamsCurrentPlaysAsV05` with the V05 pins). `BotFactory` and the local-games catalog know v06 (the
+default opponent; v05 relabelled as the arena's selected version), `visualizer/local.js` falls back to v06.
+The route, approach, stall-scan, LegScan and strategy tests pin v05's values where their fixtures assume one
+barracks, 8 towers or the flight to the nearest tower. Full `./gradlew test`: 20 classes, 0 failures; the
+visualizer's node tests 18/18.
+
+Artifact with empty PARAMS: sha256 `1a9f3e81151548881d9ad3b2d5f03a5fbb2de25513517657ab8fd4d55e3f517f`,
+97,797 chars (limit 100,000), build `0bf54983`, config `0ff55c62`. procCheck vs v01 100 maps @5000: 200/200
+identical to current, 194 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 169.0 ms,
+later 2.1 ms; vs boss 100 maps @6000: 200/200 identical, 200 wins, 0 timeouts, max first turn 246.5 ms, later
+3.2 ms (`replays/bench/exp-2026-11-03-safety-eval/proccheck-v06-*.log`, copied to the main checkout). Kept
+copy `artifacts/1a9f3e81/Player.java` (worktree and main checkout). Records: BOTS (versions, flags, artifacts),
+STATUS, SUMMARY, PLAN, visualizer.md, bot-architecture.html (v06: the defence section, the flow, the
+pseudo-code, TRAIN, the versions table, the gaps and the directions), `.ai/project.md` (v00–v06) with the kit
+sync. Not uploaded: the paste and the P1 placements are the user's; register the new agent as v06 upload 1
+(pending) before downloading its games.

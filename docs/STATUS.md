@@ -7,8 +7,15 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 
 - Date: 2026-11-03 (evening). Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Bronze.
-- Selected version, local champion and `current` defaults: v05 = v04 with two mines before the knight
-  barracks (MINES_FIRST=2), frozen 2026-11-03 (`cr.bot.v05.GreedyBot`, `versions/v05.properties`). Selected
+- Local champion and `current` defaults: v06 = v05 with a second tower near the queen under threat
+  (THREAT_TOWERS_NEAR=2 within 500) and the army flags (a second knight barracks after 4 towers, synchronous
+  waves, 6 towers), frozen 2026-11-03 (`cr.bot.v06.GreedyBot`, `versions/v06.properties`; P2
+  `docs/data/exp-2026-11-03-safety/`: S 0.6519 against v05 on the evaluation block). Artifact `1a9f3e81…`
+  (97,797 chars, build `0bf54983`, config `0ff55c62`; the freeze commit; kept copy `artifacts/1a9f3e81/Player.java`),
+  procCheck 200/200 against v01 and against `boss`, no timeouts (`docs/BOTS.md`, Artifacts). Not uploaded yet:
+  the paste and the two P1 placements are the user's; the rollback artifact stays v05's `13b3ec0c`.
+- Selected version (the arena's): v05 = v04 with two mines before the knight barracks (MINES_FIRST=2),
+  frozen 2026-11-03 (`cr.bot.v05.GreedyBot`, `versions/v05.properties`). Selected
   under P1 on 2026-11-03 by two placements (mean 25.20 against `route`'s 22.50, "not clearly worse";
   `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
   `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
@@ -38,9 +45,16 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   the code off by default (the recommendation: +0.3 is inside the arena's noise, M 2.61, and the arena cannot
   measure it; later it may join a safety candidate to reach 0.60). The local champion stays v05. Flags
   tried and dropped in the sweep: an early or late second barracks, a third barracks, the forward placement.
-- Next direction (the user's choice, 2026-11-03): the queen's safety (`docs/bot-architecture.html`,
-  Направления): the flight rule with the distance to the tower and the HP, threats beyond knights within 250;
-  fixtures from the arena replays of early deaths; P2 against v05.
+- Candidate frozen as v06 (2026-11-03, the queen's safety, the user's choice after the army):
+  `current?THREAT_TOWERS_NEAR=2,THREAT_RADIUS=500,BARRACKS=2,BARRACKS_AFTER_TOWERS=4,TRAIN_SYNC=1,MAX_TOWERS=6`
+  (under threat a second tower within 500 of the queen, plus the deferred army flags). Study
+  `docs/data/study-2026-11-03-queen-safety/` (1029 of 1103 hit turns in v05's arena deaths spent at one tower
+  topping it up; `cr.tools.DeathTrace`). P2 screen on block 7 (214000-215999) passed: S 0.6420 (CI
+  0.6261-0.6579) against v05, Δ +0.0030 against `boss`, G0 clean, G3 skipped
+  (`docs/data/exp-2026-11-03-safety/`); the local champion. Final evaluation on evaluation block 5
+  (410000-411999), the user's decision: G0-G2 pass, S 0.6519 (CI 0.6356-0.6682) against v05, Δ 0.0000 against
+  `boss`, no failure; the upload recommendation S ≥ 0.60 is met (about +1.1 rating points head-to-head).
+  Frozen as v06 on the user's decision; `submit` and both `procCheck` series: `docs/BOTS.md` (Artifacts). The safety flag alone: 0.635 and 0.605 on the two development blocks (not screened).
 - v05's local record (procCheck 400/400 of the artifact; P2
   (`docs/data/exp-2026-11-03-mines-first/`): screen block 5 (210000-211999) S 0.7645
   (CI 0.7492-0.7798) against v04, Δ +0.0100 against `boss`, G3 skipped; G0 by the quiet repeat (the first

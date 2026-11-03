@@ -75,9 +75,20 @@ public final class MainBot implements Bot {
         Command cmd = null;
         int threat = 0;
         for (int i = 0; i < s.nCreeps; i++)
-            if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT && Physics.distSq(s.cx[i], s.cy[i], qx, qy) < 250.0 * 250) threat++;
+            if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT && Physics.distSq(s.cx[i], s.cy[i], qx, qy) < (double) p.THREAT_RANGE * p.THREAT_RANGE) threat++;
 
-        if (touched >= 0 && !underEnemyTower(s, touched)) {
+        if (threat > 0 && p.THREAT_TOWERS_NEAR > 0) {
+            // Defence first: another tower near her beats topping up the one she touches.
+            double r2 = (double) p.THREAT_RADIUS * p.THREAT_RADIUS;
+            int near = 0;
+            for (int i = 0; i < s.nSites; i++)
+                if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && Physics.distSq(s.sx[i], s.sy[i], qx, qy) < r2) near++;
+            if (near < p.THREAT_TOWERS_NEAR) {
+                int d = nearest(s, qx, qy, i -> free(s, i) && !underEnemyTower(s, i) && Physics.distSq(s.sx[i], s.sy[i], qx, qy) < r2);
+                if (d >= 0) cmd = Command.build(d, "TOWER");
+            }
+        }
+        if (cmd == null && touched >= 0 && !underEnemyTower(s, touched)) {
             int t = touched;
             if (s.stType[t] == Const.MINE && s.stOwner[t] == 0 && s.mineRate[t] < s.sMaxMine[t] && threat == 0)
                 cmd = Command.build(t, "MINE");

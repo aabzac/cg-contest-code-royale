@@ -128,12 +128,35 @@ class StrategyParamsTest {
         GameState s = position();
         site(s, 3, 1100, 600, 0, 0);
         s.qx[0] = 600; s.qy[0] = 350;
-        String p = "MINES_FIRST=0,INCOME_TARGET=0,ROUTE=0,UNSTICK=0,BARRACKS=2,";
+        String p = "MINES_FIRST=0,INCOME_TARGET=0,ROUTE=0,UNSTICK=0,BARRACKS=2,BARRACKS_AFTER_TOWERS=0,";
         assertEquals("BUILD 0 BARRACKS-KNIGHT", new MainBot(new Params().apply(p + "BARRACKS_FORWARD=50")).play(s, -1, Long.MAX_VALUE).queenLine(), "the first barracks at the usual site");
         s.stType[0] = Const.BARRACKS; s.stOwner[0] = 0; s.barrType[0] = Const.KNIGHT;
         assertEquals("BUILD 1 BARRACKS-KNIGHT", new MainBot(new Params().apply(p + "BARRACKS_FORWARD=0")).play(s, -1, Long.MAX_VALUE).queenLine(), "0: the site nearest to the midpoint of the queen and home");
         assertEquals("BUILD 3 BARRACKS-KNIGHT", new MainBot(new Params().apply(p + "BARRACKS_FORWARD=50")).play(s, -1, Long.MAX_VALUE).queenLine(), "50: the site nearest to the centre");
         assertEquals(3, ApproachPlanner.nextTarget(s, 1, "TOWER", 650, 200, 0, 0, new Params().apply(p + "BARRACKS_FORWARD=50,BARRACKS_AFTER_TOWERS=1")), "the prediction agrees");
+    }
+
+    /** Knights on the queen at her only tower A, a free site B near: v05 tops A up; with THREAT_TOWERS_NEAR=2 she builds a tower at B; with two towers near, or B out of THREAT_RADIUS, she tops up. */
+    @Test
+    void threatBuildsASecondTowerNearby() {
+        GameState s = position();
+        s.stType[0] = Const.TOWER; s.stOwner[0] = 0; s.towerHp[0] = 400; s.towerRange[0] = 300;
+        s.qx[0] = 350 + 70 + Const.QUEEN_RADIUS + 2; s.qy[0] = 350; // touching A at (350,350); B (680,160) is 297 away
+        s.nCreeps = 3;
+        for (int i = 0; i < 3; i++) { s.cOwner[i] = 1; s.cType[i] = Const.KNIGHT; s.cHp[i] = 25; s.cx[i] = s.qx[0] + 60 + 20 * i; s.cy[i] = 350; }
+        int touched = Protocol.touchedSite(s, 0);
+        assertEquals(0, touched);
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=0")).play(s, touched, Long.MAX_VALUE).queenLine(), "v05: top up the touched tower");
+        assertEquals("BUILD 1 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=2")).play(s, touched, Long.MAX_VALUE).queenLine(), "one tower near: a new one at B");
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=2,THREAT_RADIUS=250")).play(s, touched, Long.MAX_VALUE).queenLine(), "B beyond the radius: top up");
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=1")).play(s, touched, Long.MAX_VALUE).queenLine(), "one tower near suffices");
+        s.stType[1] = Const.TOWER; s.stOwner[1] = 0; s.towerHp[1] = 200; s.towerRange[1] = 250;
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=2")).play(s, touched, Long.MAX_VALUE).queenLine(), "two towers near: top up");
+        // the knights 300 away: no threat at 250, a threat at 400
+        for (int i = 0; i < 3; i++) s.cx[i] = s.qx[0] + 300;
+        assertEquals("BUILD 0 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=2")).play(s, touched, Long.MAX_VALUE).queenLine(), "no threat at 250: the touch rule tops A up");
+        s.stType[1] = Const.NONE; s.stOwner[1] = -1;
+        assertEquals("BUILD 1 TOWER", new MainBot(new Params().apply("THREAT_TOWERS_NEAR=2,THREAT_RANGE=400")).play(s, touched, Long.MAX_VALUE).queenLine(), "THREAT_RANGE=400 sees them");
     }
 
     /** Two own knight barracks: TRAIN_SYNC=1 trains both or neither; 0 trains whatever the gold allows, in id order. */

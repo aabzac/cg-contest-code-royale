@@ -12,16 +12,17 @@ import java.util.List;
 public final class Params {
     /** Income target before the greedy bot starts building towers (10 in v01/v02; 3 since v03: early towers). */
     public int INCOME_TARGET = 3;
-    /** Towers kept before further ones are skipped (4 in v01/v02; 8 since v03). */
-    public int MAX_TOWERS = 8;
-    /** Knight barracks kept by the greedy bot (1 in v01-v05). */
-    public int BARRACKS = 1;
+    /** Towers kept before further ones are skipped (4 in v01/v02; 8 in v03-v05; 6 since v06, with the threat towers counted). */
+    public int MAX_TOWERS = 6;
+    /** Knight barracks kept by the greedy bot (1 in v01-v05; 2 since v06). */
+    public int BARRACKS = 2;
     /**
      * Own towers that must stand before the second and every later barracks is built (0: the
      * barracks come one after the other, before the mines of the income phase). Does nothing with
-     * BARRACKS=1. The army direction of 2026-11-03 (docs/bot-architecture.html, the directions section).
+     * BARRACKS=1. The army direction of 2026-11-03 (docs/bot-architecture.html, the directions section);
+     * 4 since v06 (P2 docs/data/exp-2026-11-03-army and -safety).
      */
-    public int BARRACKS_AFTER_TOWERS = 0;
+    public int BARRACKS_AFTER_TOWERS = 4;
     /**
      * Where the second and every later barracks goes: 0, the ladder's usual site (nearest to the
      * midpoint of the queen and home); otherwise the free site, not under an enemy tower, nearest to
@@ -32,9 +33,24 @@ public final class Params {
     /**
      * 1: TRAIN only when every own barracks is idle and the gold covers all of them, so two barracks
      * release their waves on the same turn (one wave of 8 knights rather than two of 4). With one
-     * barracks it plays as 0 (train whenever affordable).
+     * barracks it plays as 0 (train whenever affordable). On since v06.
      */
-    public int TRAIN_SYNC = 0;
+    public int TRAIN_SYNC = 1;
+    /** Enemy knights closer than this to the queen are the threat that stops her mines and sends her to a tower (250 in v01-v05). */
+    public int THREAT_RANGE = 250;
+    /**
+     * Under threat, when fewer than this many own towers stand within THREAT_RADIUS of the queen, she
+     * builds a new tower on the nearest free site within that radius (not under an enemy tower)
+     * instead of topping up the tower she touches or walking to her nearest tower. 0: v05's flight
+     * (the nearest own tower, topped up). The queen's safety direction of 2026-11-03: in v05's arena
+     * deaths 1029 of 1103 hit turns were spent at one tower topping it up, while a tower deals 3
+     * damage a turn at 200 HP and 4 at 700, so a second tower doubles the kill rate and a top-up
+     * adds a quarter (docs/data/study-2026-11-03-queen-safety). 2 since v06 (P2 docs/data/exp-2026-11-03-safety:
+     * S 0.64-0.65 against v05 with the army flags).
+     */
+    public int THREAT_TOWERS_NEAR = 2;
+    /** The radius around the queen for THREAT_TOWERS_NEAR: own towers counted and free sites considered (500 since v06). */
+    public int THREAT_RADIUS = 500;
     /**
      * 1: when the BUILD towards the next site to take would leave the queen standing (a site straight
      * ahead pushes her back, or two sites wedge her), she detours with MOVEs (MainBot.unstick).

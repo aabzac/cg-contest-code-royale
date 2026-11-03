@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoutePlannerTest {
     private static final Gson JSON = new Gson();
     /** v01's and v02's parameters: the stall fixtures were captured with them. */
-    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,MINES_FIRST=0,";
+    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,";
 
     private static InputReader position(String name) throws IOException {
         InputReader in = new InputReader(RoutePlannerTest.class.getResourceAsStream(name));
@@ -86,14 +86,14 @@ class RoutePlannerTest {
         GameState s = in.state;
         assertEquals(307, s.qx[0]);
         assertEquals(621, s.qy[0]);
-        assertEquals("BUILD 13 MINE", play("MINES_FIRST=0,ROUTE=0", in).queenLine());
+        assertEquals("BUILD 13 MINE", play("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=0", in).queenLine());
         // The captured enemy knights would make the sites-only replay flee before she touches 13.
         s.nCreeps = 0;
-        int straight = turnsToTouch("MINES_FIRST=0,ROUTE=0", in, 13, 25);
+        int straight = turnsToTouch("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=0", in, 13, 25);
         assertTrue(straight >= 10, "v03's walk slides: " + straight + " turns in the prediction");
-        Command c = play("MINES_FIRST=0,ROUTE=1", in);
+        Command c = play("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=1", in);
         assertEquals(Command.MOVE, c.queen, c.queenLine());
-        int turns = turnsToTouch("MINES_FIRST=0,ROUTE=1", in, 13, 25);
+        int turns = turnsToTouch("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=1", in, 13, 25);
         assertTrue(turns > 0 && turns <= 7, "site 13 reached in " + turns + " turns");
     }
 
@@ -149,11 +149,11 @@ class RoutePlannerTest {
     void theLandingPointBringsTheNextSiteATurnCloser() {
         GameState s = landingPosition();
         String before = JSON.toJson(s);
-        Command c = new MainBot(new Params().apply("MINES_FIRST=0,ROUTE=1")).play(s, Protocol.touchedSite(s, 0), Long.MAX_VALUE);
+        Command c = new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=1")).play(s, Protocol.touchedSite(s, 0), Long.MAX_VALUE);
         assertEquals(before, JSON.toJson(s), "planning must not change the observation");
         assertEquals(Command.MOVE, c.queen, c.queenLine());
-        assertArrayEquals(new int[]{2, 7}, constructionTurns(landingPosition(), "MINES_FIRST=0,ROUTE=0"));
-        assertArrayEquals(new int[]{2, 6}, constructionTurns(landingPosition(), "MINES_FIRST=0,ROUTE=1"));
+        assertArrayEquals(new int[]{2, 7}, constructionTurns(landingPosition(), "MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=0"));
+        assertArrayEquals(new int[]{2, 6}, constructionTurns(landingPosition(), "MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=1"));
     }
 
     /** With an enemy knight within 250 the flee rule decides before the walk is planned: ROUTE changes nothing. */
@@ -163,8 +163,8 @@ class RoutePlannerTest {
         site(s, 2, 150, 150);
         s.stType[2] = Const.TOWER; s.stOwner[2] = 0; s.towerHp[2] = 500; s.towerRange[2] = 300;
         s.addCreep(1, Const.KNIGHT, 650, 350);
-        Command off = new MainBot(new Params().apply("MINES_FIRST=0,ROUTE=0")).play(s, Protocol.touchedSite(s, 0), Long.MAX_VALUE);
-        Command on = new MainBot(new Params().apply("MINES_FIRST=0,ROUTE=1")).play(s, Protocol.touchedSite(s, 0), Long.MAX_VALUE);
+        Command off = new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=0")).play(s, Protocol.touchedSite(s, 0), Long.MAX_VALUE);
+        Command on = new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=1")).play(s, Protocol.touchedSite(s, 0), Long.MAX_VALUE);
         assertEquals("BUILD 2 TOWER", off.queenLine());
         assertEquals(off.queenLine(), on.queenLine());
     }
@@ -173,13 +173,13 @@ class RoutePlannerTest {
     @Test
     void plansAreDeterministic() throws IOException {
         InputReader in = position("slide-110135-seat0-turn144.txt");
-        MainBot bot = new MainBot(new Params().apply("MINES_FIRST=0,ROUTE=1"));
+        MainBot bot = new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=1"));
         String first = bot.play(in.state, in.touchedSite, Long.MAX_VALUE).queenLine();
         assertEquals(first, bot.play(in.state, in.touchedSite, Long.MAX_VALUE).queenLine());
-        assertEquals(first, play("MINES_FIRST=0,ROUTE=1", in).queenLine());
+        assertEquals(first, play("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=1", in).queenLine());
         for (long seed : new long[]{110000, 110135}) {
-            Referee.Result a = Referee.play(seed, BotFactory.create("current?MINES_FIRST=0,ROUTE=1"), BotFactory.create("v03"), true, 50);
-            Referee.Result b = Referee.play(seed, BotFactory.create("current?MINES_FIRST=0,ROUTE=1"), BotFactory.create("v03"), true, 50);
+            Referee.Result a = Referee.play(seed, BotFactory.create("current?MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=1"), BotFactory.create("v03"), true, 50);
+            Referee.Result b = Referee.play(seed, BotFactory.create("current?MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=1"), BotFactory.create("v03"), true, 50);
             assertEquals(a.replay, b.replay, "seed " + seed);
             assertNull(a.error[0]);
         }
@@ -189,11 +189,11 @@ class RoutePlannerTest {
     @Test
     void theSearchIgnoresTheClock() throws IOException {
         InputReader in = position("slide-110135-seat0-turn144.txt");
-        MainBot bot = new MainBot(new Params().apply("MINES_FIRST=0,ROUTE=1"));
+        MainBot bot = new MainBot(new Params().apply("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=1"));
         long before = bot.queenSteps();
         Command c = bot.play(in.state, in.touchedSite, System.nanoTime() - 1_000_000_000L);
         long calls = bot.queenSteps() - before;
-        assertEquals(play("MINES_FIRST=0,ROUTE=1", in).queenLine(), c.queenLine());
+        assertEquals(play("MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,ROUTE=1", in).queenLine(), c.queenLine());
         assertTrue(calls > 0 && calls <= RoutePlanner.MAX_CALLS + HORIZON_SLACK, "calls " + calls);
     }
 

@@ -25,13 +25,13 @@ class StallScanTest {
      */
     @Test
     void unstickEndsTheAuditsStalls() {
-        List<StallScan.Streak> headOn = scan(10477, "current?INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0,UNSTICK=0");
+        List<StallScan.Streak> headOn = scan(10477, "current?INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,UNSTICK=0");
         assertEquals(43, longest(headOn));
         StallScan.Streak worst = headOn.stream().filter(k -> k.length() == 43).findFirst().orElseThrow();
         assertEquals(51, worst.firstTurn());
         assertEquals("BUILD 12 MINE", worst.command());
-        assertEquals(17, longest(scan(10394, "current?INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0,UNSTICK=0")));
-        assertTrue(longest(scan(10477, "current?INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0,UNSTICK=1")) <= 2);
-        assertTrue(longest(scan(10394, "current?INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0,UNSTICK=1")) <= 2);
+        assertEquals(17, longest(scan(10394, "current?INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,UNSTICK=0")));
+        assertTrue(longest(scan(10477, "current?INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,UNSTICK=1")) <= 2);
+        assertTrue(longest(scan(10394, "current?INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,UNSTICK=1")) <= 2);
     }
 }

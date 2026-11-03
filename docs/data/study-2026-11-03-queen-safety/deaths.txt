@@ -1,0 +1,10 @@
+games 180, wins 125, losses 55
+losses by the queen's death 37 (median turn 103, before turn 80: 12), on HP at the limit 18
+HP lost by source: deaths/enemy tower 262, deaths/knights 2062, deaths/other 11, survived/enemy tower 139, survived/knights 3210, survived/other 6
+deaths: 1103 hit turns; at her own tower (within 130) on 1029 of them; knights on her: median 3
+deaths: the command on hit turns: BUILD touched TOWER 858, BUILD walk TOWER 245
+deaths: own towers at the first contact: 1 towers: 10, 2 towers: 18, 3 towers: 2, 4 towers: 5, 5 towers: 2
+start HP 25-40: games 46, wins 35 (76 %), deaths 8, early deaths 4
+start HP 45-60: games 36, wins 26 (72 %), deaths 8, early deaths 5
+start HP 65-80: games 54, wins 37 (69 %), deaths 12, early deaths 3
+start HP 85-100: games 44, wins 27 (61 %), deaths 9, early deaths 0

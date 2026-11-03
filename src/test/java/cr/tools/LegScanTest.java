@@ -52,7 +52,7 @@ class LegScanTest {
      */
     @Test
     void theKnightBlockedLegOfSeed110098IsFailedFinalStepsWithAUnitNear() throws Exception {
-        List<LegScan.Game> games = LegScan.scan("current?ROUTE=0,MINES_FIRST=0", "v03", 1, 110098, 2);
+        List<LegScan.Game> games = LegScan.scan("current?ROUTE=0,MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0", "v03", 1, 110098, 2);
         assertEquals(2, games.size(), "two games per map against another bot");
         LegScan.Game g = game(games, 0);
         LegScan.Leg blocked = leg(g, 6);
@@ -66,6 +66,6 @@ class LegScanTest {
         assertEquals(13, g.finalFails);
         assertEquals(13, g.finalFailsUnit);
         assertTrue(g.maxCalls >= 0 && g.calls >= 0, "current counts its queenStep predictions");
-        assertTrue(LegScan.summary(games, "current?ROUTE=0,MINES_FIRST=0", "v03", 1, 110098).contains("queenStep calls per turn: mean"));
+        assertTrue(LegScan.summary(games, "current?ROUTE=0,MINES_FIRST=0,MAX_TOWERS=8,BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0", "v03", 1, 110098).contains("queenStep calls per turn: mean"));
     }
 }
