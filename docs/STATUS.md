@@ -7,9 +7,9 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 
 - Date: 2026-11-03. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Bronze.
-- Selected/default version: v04 = v03 with the queen's walk planner (ROUTE=1: `RoutePlanner`
+- Selected version (arena): v04 = v03 with the queen's walk planner (ROUTE=1: `RoutePlanner`
   replaces UNSTICK and APPROACH), frozen 2026-11-02 (`cr.bot.v04.GreedyBot`, `versions/v04.properties`);
-  `current` defaults to it (the local champion is the candidate below). Selected under P1 on 2026-11-02 as the `route` configuration, by two placements
+  `current` defaulted to it until v05 (below). Selected under P1 on 2026-11-02 as the `route` configuration, by two placements
   (mean 22.50 against v03's 22.43, "not clearly worse"; `docs/arena-uploads.md`); rollback artifact
   `da914c4c…` (commit eb5dd14, kept in `artifacts/da914c4c/`; `docs/BOTS.md`, Artifacts). Previous: v03
   (`cr.bot.v03.GreedyBot`, early towers), selected 2026-10-30 to 2026-11-02, artifact `d6266d41…`.
@@ -29,8 +29,11 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   the next candidate is compared with v04 locally and with `route`'s two placements on the arena. The earlier candidate
   `current?APPROACH=1` (S 0.5245, `docs/data/exp-2026-10-31-approach/`) is superseded by it (ROUTE replaces
   APPROACH when on).
-- Local champion (P2 passed 2026-11-03): `current?MINES_FIRST=2`, two mines before the knight barracks,
-  then v04's ladder (`docs/data/exp-2026-11-03-mines-first/`): screen block 5 (210000-211999) S 0.7645
+- Local champion and `current` defaults: v05 = v04 with two mines before the knight barracks (MINES_FIRST=2),
+  frozen 2026-11-03 by the user's decision (`cr.bot.v05.GreedyBot`, `versions/v05.properties`; artifact
+  `13b3ec0c…`, kept in `artifacts/13b3ec0c/`, procCheck 400/400; `docs/BOTS.md`). Not uploaded yet: the upload
+  under P1 (two placements against `route`'s mean 22.50, M 2.61) is the user's decision. Its P2 record
+  (`docs/data/exp-2026-11-03-mines-first/`): screen block 5 (210000-211999) S 0.7645
   (CI 0.7492-0.7798) against v04, Δ +0.0100 against `boss`, G3 skipped; G0 by the quiet repeat (the first
   run's 5 slow turns on 4 consecutive maps were host noise). From the study 2026-11-03
   (`docs/data/study-2026-11-03-losses/`: every stronger group opens with a mine). The other study
@@ -38,9 +41,8 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   (0.29), 4-6 towers (0.40-0.52), walking to upgrade mines (no change); the local opponents are
   knights-only and tower-heavy, so the tower parameters stay for the arena to judge. Final evaluation
   on evaluation block 3 (406000-407999), the user's decision: G0-G2 pass, S 0.7556 (CI 0.7401-0.7712)
-  against v04, Δ +0.0150 against `boss`, no failure; the upload recommendation S ≥ 0.60 is met. Next, the
-  user's decisions: the freeze as v05 and the upload under P1 (`submit` with MINES_FIRST=2 and both
-  `procCheck` first). The route steps 2-4 are parked (1-2 walking turns per game left).
+  against v04, Δ +0.0150 against `boss`, no failure; the upload recommendation S ≥ 0.60 is met. The route
+  steps 2-4 are parked (1-2 walking turns per game left).
 - Walking diagnostics: `./gradlew legScan` (`cr.tools.LegScan`), baselines in the same README.
 - Bronze boss: "Princess Boss" (arenabossId 175, agentInitialId 1870317, division 219), from the IDE
   session 2026-10-28; its battles are not listed by `findLastBattlesByAgentId`. It stands above about

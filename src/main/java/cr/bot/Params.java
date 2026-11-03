@@ -33,11 +33,12 @@ public final class Params {
      */
     public int ROUTE = 1;
     /**
-     * Own mines the greedy bot builds before its knight barracks (0: the barracks first, as v01-v04).
+     * Own mines the greedy bot builds before its knight barracks (0: the barracks first, as v01-v04;
+     * 2 by default since v05, 2026-11-03: P2 docs/data/exp-2026-11-03-mines-first, S 0.76 against v04).
      * From the study of 2026-11-03 (docs/data/study-2026-11-03-losses): every stronger group opens
      * with a mine and builds the barracks on turn 7-13.
      */
-    public int MINES_FIRST = 0;
+    public int MINES_FIRST = 2;
     /** Tower HP below which the queen tops up an own tower she touches (700 in v01-v04). The idle queen still pumps her home tower. */
     public int TOWER_HP = 700;
     /**

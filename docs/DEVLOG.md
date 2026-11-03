@@ -1492,3 +1492,24 @@ changed. G2: 0.999 against 0.984, Δ +0.0150 (CI +0.0057..+0.0243); games agains
 v04's 93. G3 skipped. The recommendation S ≥ 0.60 is met. Summaries `eval-g1.json`, `eval-g2.json`.
 Verdict: pass; the freeze as v05 and the upload are the user's decisions. Records: README, ledger, STATUS,
 PLAN, SUMMARY, BOTS (flags).
+
+v05 frozen on 2026-11-03 by the user's decision ("Да, заморозить v05"): `cr.bot.v05.GreedyBot` is a copy of
+`cr.bot.current.MainBot` at 3413374 (bot sources as at e4938ea) with its own `RoutePlanner` and
+`ApproachPlanner` (the `MainBot.nextSite` reference renamed), the package and class renamed, `name()` "v05"
+and no step-prediction counter; `versions/v05.properties` = v04's snapshot with MINES_FIRST=2.
+`Params.MINES_FIRST` defaults to 2, so `current` plays as v05; v01-v04 keep MINES_FIRST=0 in their snapshots.
+`BotFactory` and the local-games catalog (`LocalGames`, default opponent v05, `visualizer/local.js` fallback)
+know v05. Tests: `MainBotTest.withDefaultsCurrentPlaysAsV05` (seeds 100000, 110135, 10394, 10477,
+210000-210002, 406000, both seats against v01 and v02), `withV04ParamsCurrentPlaysAsV04` now runs
+`current?MINES_FIRST=0`; `BotFactoryTest` pins the live defaults to v05's snapshot and v05 = v04 with
+MINES_FIRST=2; the route, approach, stall-scan, attribution, LegScan-110098 and strategy tests pin
+MINES_FIRST=0 where their fixtures assume the barracks first (the landing case of `RoutePlannerTest`
+changes with two mines first: B is built on turn 9, not 7); `LocalGamesTest` expects seven bots and v05 as
+the default opponent. Full suite: 134 tests, 0 failures, 1 skipped (the arena replay of CgStudyTest is absent in the worktree). `./gradlew submit` with empty PARAMS: sha256 13b3ec0c6cd324befd0e166c2c39a890bff1c7b2516a47654d59d01a7a129dc1, 92,522 chars, build
+cc541951 (turn 0: `TRAIN 12 12 5 4 1 9 5 1`), config 8ec996a5; kept as `artifacts/13b3ec0c/Player.java` in the main
+checkout. `procCheck -Popp=v01 -Pgames=100 -PseedBase=5000`: 200/200 identical to current, 198 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 235.1 ms, later 2.2 ms; `-Popp=boss -Pgames=100
+-PseedBase=6000`: 200/200 identical to current, 200 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 376.2 ms, later 3.8 ms (logs `replays/bench/exp-2026-11-03-mines-first-eval/proccheck-v05-*.log`).
+Not uploaded: the paste into the IDE and the two P1 placements are the user's. Records: `docs/BOTS.md`
+(versions, flags, artifacts), STATUS, SUMMARY, PLAN, `docs/local-screen.md` (control v05),
+`docs/visualizer.md`, `docs/bot-architecture.html` (ladder, pseudo-code, versions table, file map),
+`.ai/project.md` (local-match row) with the kit sync.

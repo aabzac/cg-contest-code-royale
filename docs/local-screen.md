@@ -22,7 +22,7 @@ checks (`submit`, both `procCheck` runs), then P1 on the arena.
 ## Roles
 
 - **Candidate**: `current` with its flag on. Unrelated flags are off.
-- **Control**: the version the candidate would replace, which is the local champion. Now v04 (`docs/STATUS.md`).
+- **Control**: the version the candidate would replace, which is the local champion. Now v05 (`docs/STATUS.md`).
 - **Local champion**: the last version that passed P2. Its configuration becomes the `current` defaults,
   and the next candidates are screened against it.
 - **Selected version**: the arena's (P1). Now v04, selected as the `route` configuration (`docs/STATUS.md`).

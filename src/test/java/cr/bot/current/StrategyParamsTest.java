@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * The strategy parameters of 2026-11-03 (MINES_FIRST, TOWER_HP, UPGRADE), on a small built position:
  * the queen at home, a gold site A next to her, a site B without gold and a site C further away.
- * Their defaults play as v04 ({@link MainBotTest#withDefaultsCurrentPlaysAsV04}).
+ * The defaults play as v05 ({@link MainBotTest#withDefaultsCurrentPlaysAsV05}), MINES_FIRST=0 as v04.
  */
 class StrategyParamsTest {
     private static void site(GameState s, int id, int x, int y, int gold, int maxMine) {
@@ -60,7 +60,7 @@ class StrategyParamsTest {
 
     @Test
     void minesFirstOpensWithAMineThenTheBarracks() {
-        assertTrue(builds(position(), "", 20).startsWith("0:B 2:M"), "v04: the barracks at the nearest site, then a mine");
+        assertTrue(builds(position(), "MINES_FIRST=0", 20).startsWith("0:B 2:M"), "v04: the barracks at the nearest site, then a mine");
         assertTrue(builds(position(), "MINES_FIRST=1", 20).startsWith("0:M 1:B"), "a mine at A, then the barracks at the next site");
         assertTrue(builds(position(), "MINES_FIRST=2", 30).startsWith("0:M 2:M 1:B"), "two mines, then the barracks");
     }
@@ -95,7 +95,7 @@ class StrategyParamsTest {
         s.stType[0] = Const.MINE; s.stOwner[0] = 0; s.mineRate[0] = 1;
         s.stType[1] = Const.BARRACKS; s.stOwner[1] = 0; s.barrType[1] = Const.KNIGHT;
         s.qx[0] = 600; s.qy[0] = 350;
-        String p = "INCOME_TARGET=2,MAX_TOWERS=0,ROUTE=0,UNSTICK=0,";
+        String p = "MINES_FIRST=0,INCOME_TARGET=2,MAX_TOWERS=0,ROUTE=0,UNSTICK=0,";
         assertEquals("BUILD 2 MINE", new MainBot(new Params().apply(p + "UPGRADE=0")).play(s, -1, Long.MAX_VALUE).queenLine());
         assertEquals("BUILD 0 MINE", new MainBot(new Params().apply(p + "UPGRADE=1")).play(s, -1, Long.MAX_VALUE).queenLine());
         // the next-site prediction agrees: after the upgrade at A the income meets the target, nothing is next
