@@ -7,8 +7,8 @@
   "evaluation": "block k = seeds 400000 + 2000 k .. 400000 + 2000 k + 1999, one fresh block per upload candidate, used once"
  },
  "next": {
-  "screen": 6,
-  "evaluation": 4
+  "screen": 7,
+  "evaluation": 5
  },
  "used": [
   {
@@ -120,6 +120,28 @@
    "control": "v04 (the selected version)",
    "series": "direct and mirror on 2000 maps; candidate and v04 against boss on 406000-406499",
    "verdict": "G0-G2 pass (G3 skipped, no old): S 0.7556 (CI 0.7401-0.7712) against v04, boss delta +0.0150, no failure; S >= 0.60: upload recommended; the freeze and the upload are the user's decisions"
+  },
+  {
+   "pool": "screen",
+   "k": 6,
+   "seeds": "212000-213999",
+   "date": "2026-11-03",
+   "experiment": "docs/data/exp-2026-11-03-army",
+   "candidate": "current?BARRACKS=2,BARRACKS_AFTER_TOWERS=4,TRAIN_SYNC=1,MAX_TOWERS=6",
+   "control": "v05",
+   "series": "direct and mirror on 2000 maps; candidate and v05 against boss on 212000-212499",
+   "verdict": "G0-G2 pass (strategy track): S 0.5473 (CI 0.5331-0.5614) against v05, boss delta 0.0000 (the boss games end before the flags act, 0 maps changed); G3 skipped, old absent. G0: 4 slow turns on 4 maps in the first direct run (host), none in the quiet repeat with identical outcomes; the candidate is the local champion, the final evaluation and the freeze are the user's decision"
+  },
+  {
+   "pool": "evaluation",
+   "k": 4,
+   "seeds": "408000-409999",
+   "date": "2026-11-03",
+   "experiment": "docs/data/exp-2026-11-03-army",
+   "candidate": "current?BARRACKS=2,BARRACKS_AFTER_TOWERS=4,TRAIN_SYNC=1,MAX_TOWERS=6",
+   "control": "v05 (the selected version)",
+   "series": "direct and mirror on 2000 maps; candidate and v05 against boss on 408000-408499",
+   "verdict": "G0-G2 pass (G3 skipped, no old): S 0.5480 (CI 0.5327-0.5633) against v05, boss delta -0.0010, no failure; S < 0.60: the upload recommendation is not met; the freeze and any upload are the user's decisions"
   }
  ]
 }

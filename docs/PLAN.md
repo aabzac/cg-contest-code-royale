@@ -65,6 +65,13 @@
 - [ ] Next strength step towards the boss (the gap: `docs/STATUS.md`): candidates from the study
   (a second knight barracks or more knights; queen safety when no tower is near; giants or archers
   against towers)
+- [x] Army direction (2026-11-03, `docs/data/exp-2026-11-03-army/`): flags for a second knight barracks
+  gated by the tower count, synchronous waves, the forward placement and the creep cap; swept against v05
+  and screened under P2: the second barracks after 4 towers with synchronous waves and 6 towers passed
+  (G0-G2); final evaluation S 0.5480 against v05, below the 0.60 recommendation; deferred by the user
+  (2026-11-03), the flags stay off, to be combined with a later candidate
+- [ ] Queen safety (the next direction, 2026-11-03): the flight rule with the distance to the tower and the
+  HP; threats beyond knights within 250; fixtures from the arena replays of early deaths; P2 against v05
 - [x] Study 2026-11-03 (`docs/data/study-2026-11-03-losses/`): how v04 loses its 120 placement games,
   and the opening, economy and towers of stronger groups. Gaps: barracks-first opening (everyone
   stronger opens with a mine), income stuck at 3 (they hold 4-7), 6-7 towers at 700 HP (they hold 4 at

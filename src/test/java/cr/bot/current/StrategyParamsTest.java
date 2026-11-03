@@ -104,4 +104,71 @@ class StrategyParamsTest {
         s.mineRate[0] = 3;
         assertEquals("BUILD 2 MINE", new MainBot(new Params().apply(p + "UPGRADE=1,INCOME_TARGET=4")).play(s, -1, Long.MAX_VALUE).queenLine());
     }
+
+    /** One barracks at A, the income met: the second barracks waits for BARRACKS_AFTER_TOWERS own towers, then takes the next free site before further towers. */
+    @Test
+    void secondBarracksWaitsForTheTowers() {
+        GameState s = position();
+        s.stType[0] = Const.BARRACKS; s.stOwner[0] = 0; s.barrType[0] = Const.KNIGHT;
+        s.qx[0] = 600; s.qy[0] = 350;
+        String p = "MINES_FIRST=0,INCOME_TARGET=0,ROUTE=0,UNSTICK=0,BARRACKS=2,";
+        assertEquals("BUILD 1 BARRACKS-KNIGHT", new MainBot(new Params().apply(p + "BARRACKS_AFTER_TOWERS=0")).play(s, -1, Long.MAX_VALUE).queenLine(), "no gate: the second barracks at once");
+        assertEquals("BUILD 1 TOWER", new MainBot(new Params().apply(p + "BARRACKS_AFTER_TOWERS=1")).play(s, -1, Long.MAX_VALUE).queenLine(), "gate 1: a tower first");
+        // the next-site prediction follows the gate: after that tower the barracks is next (gate 1), or nothing (gate 2 with the tower cap met)
+        assertEquals(2, ApproachPlanner.nextTarget(s, 1, "TOWER", 650, 200, 0, 0, new Params().apply(p + "MAX_TOWERS=1,BARRACKS_AFTER_TOWERS=1")));
+        assertEquals(-1, ApproachPlanner.nextTarget(s, 1, "TOWER", 650, 200, 0, 0, new Params().apply(p + "MAX_TOWERS=1,BARRACKS_AFTER_TOWERS=2")));
+        s.stType[1] = Const.TOWER; s.stOwner[1] = 0; s.towerHp[1] = 700; s.towerRange[1] = 300;
+        assertEquals("BUILD 2 BARRACKS-KNIGHT", new MainBot(new Params().apply(p + "BARRACKS_AFTER_TOWERS=1")).play(s, -1, Long.MAX_VALUE).queenLine(), "the tower stands: the barracks");
+        assertEquals("BUILD 2 TOWER", new MainBot(new Params().apply(p + "BARRACKS=1,BARRACKS_AFTER_TOWERS=1")).play(s, -1, Long.MAX_VALUE).queenLine(), "BARRACKS=1: the gate does nothing");
+    }
+
+    /** BARRACKS_FORWARD moves only the second barracks: to the free site nearest to the point that far along home to the enemy's corner. */
+    @Test
+    void forwardBarracksGoesTowardsTheEnemy() {
+        GameState s = position();
+        site(s, 3, 1100, 600, 0, 0);
+        s.qx[0] = 600; s.qy[0] = 350;
+        String p = "MINES_FIRST=0,INCOME_TARGET=0,ROUTE=0,UNSTICK=0,BARRACKS=2,";
+        assertEquals("BUILD 0 BARRACKS-KNIGHT", new MainBot(new Params().apply(p + "BARRACKS_FORWARD=50")).play(s, -1, Long.MAX_VALUE).queenLine(), "the first barracks at the usual site");
+        s.stType[0] = Const.BARRACKS; s.stOwner[0] = 0; s.barrType[0] = Const.KNIGHT;
+        assertEquals("BUILD 1 BARRACKS-KNIGHT", new MainBot(new Params().apply(p + "BARRACKS_FORWARD=0")).play(s, -1, Long.MAX_VALUE).queenLine(), "0: the site nearest to the midpoint of the queen and home");
+        assertEquals("BUILD 3 BARRACKS-KNIGHT", new MainBot(new Params().apply(p + "BARRACKS_FORWARD=50")).play(s, -1, Long.MAX_VALUE).queenLine(), "50: the site nearest to the centre");
+        assertEquals(3, ApproachPlanner.nextTarget(s, 1, "TOWER", 650, 200, 0, 0, new Params().apply(p + "BARRACKS_FORWARD=50,BARRACKS_AFTER_TOWERS=1")), "the prediction agrees");
+    }
+
+    /** Two own knight barracks: TRAIN_SYNC=1 trains both or neither; 0 trains whatever the gold allows, in id order. */
+    @Test
+    void trainSyncReleasesBothBarracksTogether() {
+        GameState s = position();
+        for (int i = 0; i < 2; i++) { s.stType[i] = Const.BARRACKS; s.stOwner[i] = 0; s.barrType[i] = Const.KNIGHT; }
+        MainBot greedy = new MainBot(new Params().apply("TRAIN_SYNC=0")), sync = new MainBot(new Params().apply("TRAIN_SYNC=1"));
+        s.gold[0] = 100;
+        assertArrayEquals(new int[]{0}, greedy.train(s));
+        assertArrayEquals(new int[0], sync.train(s), "100 gold covers one barracks: wait");
+        s.gold[0] = 160;
+        assertArrayEquals(new int[]{0, 1}, greedy.train(s));
+        assertArrayEquals(new int[]{0, 1}, sync.train(s));
+        s.barrTraining[0] = true;
+        s.gold[0] = 200;
+        assertArrayEquals(new int[]{1}, greedy.train(s));
+        assertArrayEquals(new int[0], sync.train(s), "one barracks trains: wait for it");
+        s.barrTraining[0] = false;
+        s.stOwner[1] = 1;
+        s.gold[0] = 100;
+        assertArrayEquals(new int[]{0}, sync.train(s), "one own barracks: as greedy");
+    }
+
+    /** The live cap: a wave is skipped when the creeps alive plus the wave would exceed 30 (the referee refuses the whole line). */
+    @Test
+    void trainKeepsWithinTheCreepLimit() {
+        GameState s = position();
+        s.stType[0] = Const.BARRACKS; s.stOwner[0] = 0; s.barrType[0] = Const.KNIGHT;
+        s.gold[0] = 100;
+        MainBot bot = new MainBot(new Params());
+        s.nCreeps = 27;
+        for (int i = 0; i < 27; i++) { s.cOwner[i] = 0; s.cType[i] = Const.KNIGHT; s.cHp[i] = 25; s.cx[i] = 1500; s.cy[i] = 900; }
+        assertArrayEquals(new int[0], bot.train(s), "27 alive + 4 > 30");
+        s.cOwner[26] = 1;
+        assertArrayEquals(new int[]{0}, bot.train(s), "26 own alive + 4 = 30");
+    }
 }

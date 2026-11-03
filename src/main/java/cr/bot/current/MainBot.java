@@ -8,7 +8,8 @@ import cr.core.GameState;
 import cr.core.Physics;
 
 /**
- * Greedy baseline: MINES_FIRST mines, one knight barracks, mines (and with UPGRADE=1 upgrades) up to
+ * Greedy baseline: MINES_FIRST mines, a knight barracks (BARRACKS of them, the later ones once
+ * BARRACKS_AFTER_TOWERS towers stand), mines (and with UPGRADE=1 upgrades) up to
  * an income target, then towers near home; tops up a touched tower below TOWER_HP; flees from close
  * enemy knights towards its towers. Trains whenever affordable. The walk to the next site is
  * UNSTICK's detour (and APPROACH's last step) or, with ROUTE=1, {@link RoutePlanner}.
@@ -84,7 +85,7 @@ public final class MainBot implements Bot {
                 cmd = Command.build(t, "TOWER");
             else if (free(s, t)) {
                 if (mines < p.MINES_FIRST && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
-                else if (barracks < p.BARRACKS) cmd = Command.build(t, "BARRACKS-KNIGHT");
+                else if (wantsBarracks(p, barracks, towers)) cmd = Command.build(t, "BARRACKS-KNIGHT");
                 else if (income < p.INCOME_TARGET && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
                 else if (towers < p.MAX_TOWERS) cmd = Command.build(t, "TOWER");
             }
@@ -95,10 +96,10 @@ public final class MainBot implements Bot {
             else cmd = Command.move((int) hx, (int) hy);
         }
         if (cmd == null) {
-            int target = nextSite(s, (qx + hx) / 2, (qy + hy) / 2, p, mines, barracks, income, towers, -1);
+            int target = nextSite(s, (qx + hx) / 2, (qy + hy) / 2, hx, hy, p, mines, barracks, income, towers, -1);
             if (target >= 0) {
                 String what = !free(s, target) || mines < p.MINES_FIRST && s.sGold[target] > 0 ? "MINE"
-                    : barracks < p.BARRACKS ? "BARRACKS-KNIGHT" : income < p.INCOME_TARGET ? "MINE" : "TOWER";
+                    : wantsBarracks(p, barracks, towers) ? "BARRACKS-KNIGHT" : income < p.INCOME_TARGET ? "MINE" : "TOWER";
                 cmd = Command.build(target, what);
                 if (p.ROUTE == 1) {
                     if (route == null) route = new RoutePlanner();
@@ -116,33 +117,68 @@ public final class MainBot implements Bot {
             }
         }
 
-        int gold = s.gold[0];
+        return cmd.train(train(s));
+    }
+
+    /**
+     * TRAIN: own idle barracks in id order while the gold lasts, each wave kept within the live cap
+     * of {@link Const#CREEP_LIMIT} creeps alive plus requested (the referee refuses the whole line
+     * otherwise). With TRAIN_SYNC=1 nothing is trained while any own barracks trains or the gold
+     * does not cover every own barracks, so that all of them start together.
+     */
+    int[] train(GameState s) {
+        int gold = s.gold[0], units = 0, idle = 0, cost = 0;
+        for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == 0) units++;
+        for (int i = 0; i < s.nSites; i++) {
+            if (s.stType[i] != Const.BARRACKS || s.stOwner[i] != 0) continue;
+            if (s.barrTraining[i]) idle = Integer.MIN_VALUE;
+            else { idle++; cost += Const.CREEP_COST[s.barrType[i]]; }
+        }
+        if (p.TRAIN_SYNC == 1 && (idle <= 0 || gold < cost)) return new int[0];
         int[] train = new int[s.nSites];
         int n = 0;
         for (int i = 0; i < s.nSites; i++) {
-            if (s.stType[i] == Const.BARRACKS && s.stOwner[i] == 0 && !s.barrTraining[i] && gold >= Const.CREEP_COST[s.barrType[i]]) {
-                gold -= Const.CREEP_COST[s.barrType[i]];
-                train[n++] = i;
-            }
+            if (s.stType[i] != Const.BARRACKS || s.stOwner[i] != 0 || s.barrTraining[i]) continue;
+            int c = Const.CREEP_COST[s.barrType[i]], u = Const.CREEP_COUNT[s.barrType[i]];
+            if (gold < c || units + u > Const.CREEP_LIMIT) continue;
+            gold -= c;
+            units += u;
+            train[n++] = i;
         }
-        return cmd.train(java.util.Arrays.copyOf(train, n));
+        return java.util.Arrays.copyOf(train, n);
+    }
+
+    /**
+     * Whether the ladder wants a knight barracks next: fewer than BARRACKS stand, and the second and
+     * later ones wait until BARRACKS_AFTER_TOWERS own towers stand.
+     */
+    static boolean wantsBarracks(Params p, int barracks, int towers) {
+        return barracks < p.BARRACKS && (barracks == 0 || towers >= p.BARRACKS_AFTER_TOWERS);
     }
 
     /**
      * The ladder's next site to take, the nearest to (cx, cy) (the midpoint of the queen and home),
      * or -1 when the ladder is complete; site skip is left out. Counts are the bot's own structures.
+     * (hx, hy) is the home corner, for the forward second barracks (BARRACKS_FORWARD).
      * A free gold site while fewer than MINES_FIRST mines stand; otherwise, until the barracks, the
      * income target and the tower cap are met, a free site, which needs gold in the mine phase (the
      * barracks built, the income below its target), where with UPGRADE=1 an own mine below its
      * maximum is a target too. Sites under an enemy tower are never targets.
      */
-    static int nextSite(GameState s, double cx, double cy, Params p, int mines, int barracks, int income, int towers, int skip) {
+    static int nextSite(GameState s, double cx, double cy, double hx, double hy, Params p, int mines, int barracks, int income, int towers, int skip) {
         if (mines < p.MINES_FIRST) {
             int t = nearest(s, cx, cy, i -> i != skip && free(s, i) && !underEnemyTower(s, i) && s.sGold[i] > 0);
             if (t >= 0) return t;
         }
-        if (barracks >= p.BARRACKS && income >= p.INCOME_TARGET && towers >= p.MAX_TOWERS) return -1;
-        boolean minePhase = barracks >= p.BARRACKS && income < p.INCOME_TARGET;
+        boolean wantBarracks = wantsBarracks(p, barracks, towers);
+        if (!wantBarracks && income >= p.INCOME_TARGET && towers >= p.MAX_TOWERS) return -1;
+        if (wantBarracks && barracks >= 1 && p.BARRACKS_FORWARD > 0) {
+            // The second barracks forward: the free site nearest to the point BARRACKS_FORWARD % of the way from home to the enemy's corner.
+            double f = p.BARRACKS_FORWARD / 100.0, fx = hx + f * (Const.WIDTH - 2 * hx), fy = hy + f * (Const.HEIGHT - 2 * hy);
+            int t = nearest(s, fx, fy, i -> i != skip && free(s, i) && !underEnemyTower(s, i));
+            if (t >= 0) return t;
+        }
+        boolean minePhase = !wantBarracks && income < p.INCOME_TARGET;
         return nearest(s, cx, cy, i -> i != skip && !underEnemyTower(s, i)
             && (free(s, i) ? !minePhase || s.sGold[i] > 0
                 : p.UPGRADE == 1 && minePhase && s.stType[i] == Const.MINE && s.stOwner[i] == 0 && s.mineRate[i] < s.sMaxMine[i]));

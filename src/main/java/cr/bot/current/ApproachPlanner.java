@@ -82,7 +82,7 @@ final class ApproachPlanner {
                 mines++;
             }
         } else return -1;
-        return MainBot.nextSite(s, (x + hx) / 2, (y + hy) / 2, p, mines, barracks, income, towers, a);
+        return MainBot.nextSite(s, (x + hx) / 2, (y + hy) / 2, hx, hy, p, mines, barracks, income, towers, a);
     }
 
     /** Straight BUILD movement with static collisions; -1 means unsafe, stalled or too far. */

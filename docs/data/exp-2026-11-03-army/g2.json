@@ -1,0 +1,148 @@
+{
+ "mode": "common",
+ "inputs": [
+  {
+   "botA": "current?BARRACKS=2,BARRACKS_AFTER_TOWERS=4,TRAIN_SYNC=1,MAX_TOWERS=6",
+   "botB": "boss",
+   "effectiveA": "current INCOME_TARGET=3,MAX_TOWERS=6,BARRACKS=2,BARRACKS_AFTER_TOWERS=4,BARRACKS_FORWARD=0,TRAIN_SYNC=1,UNSTICK=1,APPROACH=0,ROUTE=1,MINES_FIRST=2,TOWER_HP=700,UPGRADE=0,SEED=1,DEBUG=0",
+   "effectiveB": "boss sha256=a1a3f04371a52de63adaba5c0114ee1abd563d8ccf7d6c9525cce919b4f605f0",
+   "seedBase": 212000,
+   "maps": 500,
+   "turnMs": 200,
+   "threads": 3,
+   "java": "17.0.12",
+   "revision": {
+    "commit": "2fda63452daf6cc2fa0bb4ae8b530e416903db6c",
+    "status": [
+     " M docs/data/seed-ledger.json",
+     " M src/main/java/cr/bot/Params.java",
+     " M src/main/java/cr/bot/current/ApproachPlanner.java",
+     " M src/main/java/cr/bot/current/MainBot.java",
+     " M src/main/java/cr/bot/current/RoutePlanner.java",
+     " M src/main/resources/cr/bot/versions/v01.properties",
+     " M src/main/resources/cr/bot/versions/v02.properties",
+     " M src/main/resources/cr/bot/versions/v03.properties",
+     " M src/main/resources/cr/bot/versions/v04.properties",
+     " M src/main/resources/cr/bot/versions/v05.properties",
+     " M src/test/java/cr/bot/current/StrategyParamsTest.java",
+     "?? docs/data/exp-2026-11-03-army/",
+     "?? tools/__pycache__/"
+    ],
+    "diffSha256": "0d9630f531c3893919d4ce790b56126838e8456fef5762cd15619f48e05fc727",
+    "untracked": {
+     "docs/data/exp-2026-11-03-army/README.md": "37c1fece96925185247f3f5d46b93725b3adeab01e18a47e81dde5f7f46be8f5",
+     "docs/data/exp-2026-11-03-army/dev-sweep.txt": "320d387d18a1535503517fdfd7125fd8df659f7a241f273d6773993965c94211",
+     "docs/data/exp-2026-11-03-army/screen.sh": "4a6c4d897956e47700a3387bc4d4872f360989832625be61626c9a510d486ed7",
+     "docs/data/exp-2026-11-03-army/sweep-a.sh": "9ffbea60dad9a82386865cdd79ec19d2e174c74702ff63a286d5d6a722aafa5a",
+     "docs/data/exp-2026-11-03-army/sweep-b.sh": "d43f6101fc4917fedd602f857307f270a894d413e0da724a945e20b3bb1ee569",
+     "docs/data/exp-2026-11-03-army/sweep-c.sh": "3d64333e915a454908bc187f66fd45d35735581af3d0f06d5b64a4f0ed89b959",
+     "docs/data/exp-2026-11-03-army/sweep_table.py": "1891c3fd1e42c52615c5267a50c78589d5ed71ba7024caa491352ed9ae57c866",
+     "tools/__pycache__/bench_pair.cpython-314.pyc": "230fcc41a69e22016099dc0e77854c7fcc95fec28884acb7f07f3d0567719dbd"
+    }
+   },
+   "path": "replays/bench/exp-2026-11-03-army/boss-cand.json",
+   "sha256": "c70c1cb64deca9e943ff295609b4377cd2d2e49b3fc8640a67aa32752c986c19"
+  },
+  {
+   "botA": "v05",
+   "botB": "boss",
+   "effectiveA": "v05 INCOME_TARGET=3,MAX_TOWERS=8,BARRACKS=1,BARRACKS_AFTER_TOWERS=0,BARRACKS_FORWARD=0,TRAIN_SYNC=0,UNSTICK=1,APPROACH=0,ROUTE=1,MINES_FIRST=2,TOWER_HP=700,UPGRADE=0,SEED=1,DEBUG=0",
+   "effectiveB": "boss sha256=a1a3f04371a52de63adaba5c0114ee1abd563d8ccf7d6c9525cce919b4f605f0",
+   "seedBase": 212000,
+   "maps": 500,
+   "turnMs": 200,
+   "threads": 3,
+   "java": "17.0.12",
+   "revision": {
+    "commit": "2fda63452daf6cc2fa0bb4ae8b530e416903db6c",
+    "status": [
+     " M docs/data/seed-ledger.json",
+     " M src/main/java/cr/bot/Params.java",
+     " M src/main/java/cr/bot/current/ApproachPlanner.java",
+     " M src/main/java/cr/bot/current/MainBot.java",
+     " M src/main/java/cr/bot/current/RoutePlanner.java",
+     " M src/main/resources/cr/bot/versions/v01.properties",
+     " M src/main/resources/cr/bot/versions/v02.properties",
+     " M src/main/resources/cr/bot/versions/v03.properties",
+     " M src/main/resources/cr/bot/versions/v04.properties",
+     " M src/main/resources/cr/bot/versions/v05.properties",
+     " M src/test/java/cr/bot/current/StrategyParamsTest.java",
+     "?? docs/data/exp-2026-11-03-army/",
+     "?? tools/__pycache__/"
+    ],
+    "diffSha256": "0d9630f531c3893919d4ce790b56126838e8456fef5762cd15619f48e05fc727",
+    "untracked": {
+     "docs/data/exp-2026-11-03-army/README.md": "37c1fece96925185247f3f5d46b93725b3adeab01e18a47e81dde5f7f46be8f5",
+     "docs/data/exp-2026-11-03-army/dev-sweep.txt": "320d387d18a1535503517fdfd7125fd8df659f7a241f273d6773993965c94211",
+     "docs/data/exp-2026-11-03-army/screen.sh": "4a6c4d897956e47700a3387bc4d4872f360989832625be61626c9a510d486ed7",
+     "docs/data/exp-2026-11-03-army/sweep-a.sh": "9ffbea60dad9a82386865cdd79ec19d2e174c74702ff63a286d5d6a722aafa5a",
+     "docs/data/exp-2026-11-03-army/sweep-b.sh": "d43f6101fc4917fedd602f857307f270a894d413e0da724a945e20b3bb1ee569",
+     "docs/data/exp-2026-11-03-army/sweep-c.sh": "3d64333e915a454908bc187f66fd45d35735581af3d0f06d5b64a4f0ed89b959",
+     "docs/data/exp-2026-11-03-army/sweep_table.py": "1891c3fd1e42c52615c5267a50c78589d5ed71ba7024caa491352ed9ae57c866",
+     "tools/__pycache__/bench_pair.cpython-314.pyc": "230fcc41a69e22016099dc0e77854c7fcc95fec28884acb7f07f3d0567719dbd"
+    }
+   },
+   "path": "replays/bench/exp-2026-11-03-army/boss-ctrl.json",
+   "sha256": "61be09a06c3e90e90a1e022ca0f1b695bae9f4b73db552692eeba473d2524a18"
+  }
+ ],
+ "maps": 500,
+ "keptMaps": 500,
+ "droppedMaps": [],
+ "candidate": {
+  "mean": 0.9985,
+  "sd": 0.02497995188129841,
+  "lower": 0.9963104106771348,
+  "upper": 1.0006895893228653
+ },
+ "control": {
+  "mean": 0.9985,
+  "sd": 0.02497995188129841,
+  "lower": 0.9963104106771348,
+  "upper": 1.0006895893228653
+ },
+ "delta": {
+  "mean": 0.0,
+  "sd": 0.0,
+  "lower": 0.0,
+  "upper": 0.0
+ },
+ "candidateRecord": {
+  "seat0": {
+   "wins": 500,
+   "draws": 0,
+   "losses": 0
+  },
+  "seat1": {
+   "wins": 498,
+   "draws": 1,
+   "losses": 1
+  }
+ },
+ "controlRecord": {
+  "seat0": {
+   "wins": 500,
+   "draws": 0,
+   "losses": 0
+  },
+  "seat1": {
+   "wins": 498,
+   "draws": 1,
+   "losses": 1
+  }
+ },
+ "changedMaps": [],
+ "candidateFailures": {
+  "errors": 0,
+  "timeouts": 0,
+  "slow": 0,
+  "extraLines": 0
+ },
+ "candidateFailureSeeds": [],
+ "gates": {
+  "G0": true,
+  "delta >= -0.02": true
+ },
+ "policy": "P2",
+ "verdict": "pass"
+}

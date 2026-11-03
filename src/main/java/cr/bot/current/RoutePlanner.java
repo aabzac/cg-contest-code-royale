@@ -239,7 +239,7 @@ final class RoutePlanner {
      */
     private boolean diverts(GameState s, int i) {
         if (s.stType[i] != Const.NONE || ApproachPlanner.underEnemyTower(s, i)) return false;
-        return barracks < p.BARRACKS || income < p.INCOME_TARGET && s.sGold[i] > 0 || towers < p.MAX_TOWERS;
+        return MainBot.wantsBarracks(p, barracks, towers) || income < p.INCOME_TARGET && s.sGold[i] > 0 || towers < p.MAX_TOWERS;
     }
 
     /** Whether the enemy queen can reach A within two turns: the arrival turn then decides the build conflict, so the landing is left alone. */

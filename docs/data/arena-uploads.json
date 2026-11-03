@@ -323,7 +323,36 @@
    "snapshots": "docs/data/arena-6841407-placement-2026-11-03.json",
    "games": "docs/data/arena-6841407-games-2026-11-03.json",
    "submittedBy": "the user in the IDE (the second upload of the same artifact under P1, 2026-11-03)",
-   "attribution": "cgAttribute against the kept copy artifacts/13b3ec0c/Player.java: SAME in 60 of 60 games, 8,897 turns; marker cc541951 in 60 of 60"
+   "attribution": "cgAttribute against the kept copy artifacts/13b3ec0c/Player.java: SAME in 60 of 60 games, 8,897 turns; marker cc541951 in 60 of 60",
+   "replaced": "2026-11-03T15:30:55+02:00 by upload 3 (the agent's creationTime); its placement was complete and saved before"
+  },
+  {
+   "label": "v05",
+   "upload": 3,
+   "agent": 6841579,
+   "submission": null,
+   "league": "bronze",
+   "artifact": {
+    "sha256": "13b3ec0c6cd324befd0e166c2c39a890bff1c7b2516a47654d59d01a7a129dc1",
+    "build": "cc541951",
+    "config": "8ec996a5",
+    "source": "the same bytes as uploads 1 and 2 (commit 496bcc5); kept copy artifacts/13b3ec0c/Player.java; confirmed by the markers and cgAttribute"
+   },
+   "created": "2026-11-03T15:30:55+02:00",
+   "placement": {
+    "score": 25.77,
+    "rank": 53,
+    "agents": 2289,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-11-03T15:56:37+02:00",
+    "watched": false,
+    "lastUpdate": "2026-11-03T15:41:22+02:00 (leaderboard updateTime)",
+    "note": "nobody watched the placement; the discovery snapshot by pseudo at 15:56 found it complete (percentage 100, inProgress false), 26 minutes after the paste"
+   },
+   "snapshots": "docs/data/arena-6841579-placement-2026-11-03.json",
+   "games": "docs/data/arena-6841579-games-2026-11-03.json",
+   "submittedBy": "the user in the IDE (a third upload of the selected version's artifact, 2026-11-03, 'I ran one more series')",
+   "attribution": "cgAttribute against the kept copy artifacts/13b3ec0c/Player.java: SAME in 60 of 60 games, 8,962 turns, all validated; marker cc541951 in 60 of 60"
   }
  ],
  "legacyUploads": [

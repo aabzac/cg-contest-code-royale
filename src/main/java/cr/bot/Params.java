@@ -14,8 +14,27 @@ public final class Params {
     public int INCOME_TARGET = 3;
     /** Towers kept before further ones are skipped (4 in v01/v02; 8 since v03). */
     public int MAX_TOWERS = 8;
-    /** Barracks kept by the greedy bot. */
+    /** Knight barracks kept by the greedy bot (1 in v01-v05). */
     public int BARRACKS = 1;
+    /**
+     * Own towers that must stand before the second and every later barracks is built (0: the
+     * barracks come one after the other, before the mines of the income phase). Does nothing with
+     * BARRACKS=1. The army direction of 2026-11-03 (docs/bot-architecture.html, the directions section).
+     */
+    public int BARRACKS_AFTER_TOWERS = 0;
+    /**
+     * Where the second and every later barracks goes: 0, the ladder's usual site (nearest to the
+     * midpoint of the queen and home); otherwise the free site, not under an enemy tower, nearest to
+     * the point this many percent of the way from the home corner to the enemy's corner (50: the
+     * centre of the board). Knights from there walk less under the enemy's towers.
+     */
+    public int BARRACKS_FORWARD = 0;
+    /**
+     * 1: TRAIN only when every own barracks is idle and the gold covers all of them, so two barracks
+     * release their waves on the same turn (one wave of 8 knights rather than two of 4). With one
+     * barracks it plays as 0 (train whenever affordable).
+     */
+    public int TRAIN_SYNC = 0;
     /**
      * 1: when the BUILD towards the next site to take would leave the queen standing (a site straight
      * ahead pushes her back, or two sites wedge her), she detours with MOVEs (MainBot.unstick).

@@ -494,3 +494,34 @@ all twelve uploads).
 - **Placement speed:** 13 minutes.
 - **The gap to the boss** (above about 27.1): about 1.9 points from the mean, 0.6 from upload 2 (rank 27;
   `eligibleForPromotion` false in the final snapshot).
+
+## The selected v05, a third upload (2026-11-03)
+
+The user pasted the same artifact `13b3ec0c` a third time at 15:30 (agent 6841579; "I ran one more
+series"), replacing upload 2, whose placement was complete and saved. Nobody watched the placement: the
+discovery snapshot by pseudo at 15:56 found it complete (score last updated 15:41, 11 minutes after the
+paste); its raw responses were moved into `replays/arena/v05/bronze/upload-03/snapshots`.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v05/upload-1 | 6841317 | 23.93, rank 144/2289 | 60 | 68.3 ± 6.0 | 22 of 31 | 19 of 29 | 22.70 | 23.63 ± 0.54 |
+| v05/upload-2 | 6841407 | 26.47, rank 27/2289 | 60 | 68.3 ± 6.0 | 25 of 37 | 16 of 23 | 25.17 | 26.07 ± 0.53 |
+| v05/upload-3 | 6841579 | 25.77, rank 53/2289 | 60 | 71.7 ± 5.8 | 22 of 30 | 21 of 30 | 23.33 | 24.98 ± 0.55 |
+| v05, three uploads | | mean 25.39, SD 1.31 | 180 | | | | | 24.96 ± 0.32 |
+| route, two uploads | 6836411, 6836589 | mean 22.50, SD 0.56 | 120 | | | | | 22.09 ± 0.37 |
+
+From `python -I tools/arena_compare.py --candidate v05 --selected route` (logistic scale 1.72, fitted on
+all thirteen uploads; with it the earlier ratings move by up to 0.11; `arena-compare.json` beside the games).
+- **Same code:** `cgAttribute` finds every game of upload 3 identical to `13b3ec0c` (SAME 60/60, 8,962
+  turns, every compared turn validated), marker `cc541951` in all 60. One win is an opponent removed by
+  the referee (916040203, counted like any game). No tie.
+- **v05's baseline in Bronze:** mean 25.39, SD 1.31 (3 uploads); pooled rating 24.96 ± 0.32 (180 games).
+  The decision of 2026-11-03 stands: against `route` the mean is +2.89 (−M = −2.61) and the rating +2.87
+  (−2 SE = −0.97).
+- **Noise:** v01's three, v02's two, v03's three, route's two and v05's three uploads pool to SD 1.31 on
+  8 df, **M = 2.61** (2.77 before).
+- **Ratings of identical code:** 23.63, 26.07 and 24.98, SD 1.22 against standard errors of about 0.54; as
+  with v01 and v03, the spread between placements exceeds the rating's standard error.
+- **Placement speed:** 11 minutes.
+- **The gap to the boss** (above about 27.1): about 1.7 points from v05's mean, 0.6 from its best
+  placement. The rollback artifact for the next candidate stays `13b3ec0c`.

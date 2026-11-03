@@ -1561,3 +1561,83 @@ copied to the main checkout), the pseudo-code at v05's values, the ROUTE test na
 directions with the data behind each and how to test it (army, economy for the arena field, thinner
 towers, queen safety, the HP race, archers/giants, route steps 2-4), plus v05's arena profile against its
 opponents. Checked in the built-in browser (renders, no console errors).
+
+## 2026-11-03 — Army direction: a second knight barracks with synchronous waves; P2 screen passed, S 0.547 against v05
+
+The user chose the first direction of `docs/bot-architecture.html` (Направления): the army. Reasoning
+recorded in `docs/data/exp-2026-11-03-army/README.md`: at income 3 the gold bounds the waves (one of 4
+knights every 27 turns), so a second barracks adds concentration, not waves. Code (worktree
+`claude/bot-improvement-direction-4fe687`, from 2fda634): `Params.BARRACKS_AFTER_TOWERS` (own towers
+before the second and later barracks), `TRAIN_SYNC` (TRAIN only when every own barracks is idle and
+affordable), `BARRACKS_FORWARD` (the second barracks' site nearest to a point along home → the enemy's
+corner); `MainBot.wantsBarracks` shared by the touch rule, `nextSite` (now takes the home corner),
+`ApproachPlanner.nextTarget` and `RoutePlanner.diverts`; `MainBot.train` keeps every wave within
+`Const.CREEP_LIMIT` (always on; v05's fixture games unchanged). The five version snapshots record the
+new fields at the frozen behaviour (`BotFactoryTest.frozenSnapshotIsIndependentOfLiveDefaults` demands
+every field). Tests: `StrategyParamsTest` (the gate, the forward site, the sync, the cap); the suite
+green, including the identity tests of v01-v05.
+
+Development sweep against v05 (`replays/bench/dev-army-2026-11-03/`, 500 maps per arm, both seats, one JVM
+per arm, 8 threads, 50 ms; `sweep-a/b/c.sh` and `dev-sweep.txt` beside the README): stage A on seeds
+10000-10499, 12 arms: the defaults and TRAIN_SYNC alone 0.500 with 0 maps changed; BARRACKS=2 with the
+gate at 0 / 2 / 4 / 6 / 8 towers, sync off → 0.315 / 0.401 / 0.458 / 0.469 / 0.488, sync on → 0.357 /
+0.492 / 0.548 / 0.468 / 0.477. Stage B around gate 4 with sync: MAX_TOWERS=6 0.574, 10 0.546,
+INCOME_TARGET=4 0.539, forward 30 / 50 / 70 → 0.531 / 0.541 / 0.517, gate 3 0.511, gate 5 0.489,
+BARRACKS=3 0.455. Stage C, the arms above 0.53 on seeds 11000-11499: gate 4 + sync 0.508 (the stage A
+winner did not replicate), with MAX_TOWERS=6 0.542, INCOME_TARGET=4 0.510, forward 50 0.486, gate 3
+0.508; the v05 mirror there 0.500. Chosen on the two blocks: `BARRACKS=2,BARRACKS_AFTER_TOWERS=4,
+TRAIN_SYNC=1,MAX_TOWERS=6`. Slow turns in the sweep (1-2 per arm in three arms, with v05's own) are
+host scheduling at 8 threads, as in the sweep of the opening.
+
+P2 screen on block 6 (212000-213999, reserved in the ledger before the run; `screen.sh`): G1 S 0.5473
+(CI 0.5331-0.5614), W/D/L 2113/152/1735, seats 1281/72/647 and 832/80/1088, 1599 of 2000 maps changed
+against the mirror; G2 both arms 0.9985 against `boss` with 0 maps changed (the boss games end on turn 39,
+before the fourth tower), Δ 0.0000; G3 skipped. G0: 4 slow candidate turns in the first direct run (maps
+213203-213282, max 86 ms) and 1 of v05; `recheck.sh`: the 90 maps 213200-213289 on one thread with no
+slow turn (max 8.8 ms) and a quiet repeat of the direct series with identical outcomes in all 4000 games
+(0 candidate slow turns, 2 of v05) → pass. Summaries `g1.json`, `g1-rerun.json`, `g2.json`. Mean game
+195 turns (the mirror 201). About +0.3 rating points head-to-head at scale 1.61: below the upload
+recommendation (S ≥ 0.60). Records: README, ledger, BOTS (flags), STATUS, SUMMARY, PLAN. Not done: the
+final evaluation (block 4, 408000-409999), the freeze, `submit`, `procCheck`, the architecture page (the
+selected version is unchanged). Raw reports copied to the main checkout's `replays/bench/`. The worktree
+has `refs/referee-csj/config/level4/Boss.java` (sha256 a1a3f043…) and `build/gson.jar` copied in for the
+bench. After the screen two comment-only edits: the class comment of `MainBot` and the `Params` comment of
+`BARRACKS_AFTER_TOWERS` made ASCII (`FileMergerTest` rejects a non-ASCII character in the bot sources); the
+reports' diff sha256 names the code before them, the compiled behaviour is the same. Full `./gradlew test` green.
+
+## 2026-11-03 — v05 upload 3 (25.77) and the army candidate's final evaluation (S 0.548, below the 0.60 recommendation)
+
+The user ("let's continue; I ran one more series"): the discovery snapshot by pseudo
+(`arena_snapshot.py 6841407 aabzac bronze`) found the live row at agent 6841579 (creationTime 15:30:55,
+score last updated 15:41:22), placement complete at the first snapshot (15:56: percentage 100, inProgress
+false, score 25.77, local rank 53/2289, 60 games, 43 wins). Registered as v05 upload 3 (pending, then
+completed) in `docs/data/arena-uploads.json`; the raw responses moved from `replays/arena/unknown/bronze/
+agent-6841579/snapshots` into `replays/arena/v05/bronze/upload-03/snapshots`, the summary renamed to
+`docs/data/arena-6841579-placement-2026-11-03.json` and refreshed by a second snapshot. `arena_games.py
+6841579`: 60 games, marker cc541951 in all 60, 0 failures, 0 ties (`docs/data/arena-6841579-games-2026-11-03.json`).
+`cgAttribute -Preplays=replays/arena/v05/bronze/upload-03/games -Pagent=6841579
+-Pbot=file:artifacts/13b3ec0c/Player.java`: SAME 60/60, 8,962 turns compared and validated (`cgAttribute.log`
+beside the games; the kept copy was copied into the worktree from the main checkout). `arena_compare.py
+--candidate v05 --selected route` (`arena-compare.json` beside the games): scale 1.72 on thirteen uploads;
+v05 placements 23.93, 26.47, 25.77, mean 25.39, SD 1.31, rating 24.96 ± 0.32 (opponents' median 23.33 in
+upload 3, 71.7 % wins, seats 22 of 30 and 21 of 30, one opponent removed: 916040203); route 22.50 / 22.09 ±
+0.37; M 2.61 (8 df); verdict unchanged, "not clearly worse" (mean +2.89 against −2.61; rating +2.87 against
+−0.97). Records: `docs/arena-uploads.md` (new section), the registry, BOTS (Uploads, Artifacts), STATUS,
+SUMMARY, `docs/local-screen.md` (v05 row), the architecture page (the two v05 numbers). Raw arena files
+copied to the main checkout.
+
+Final evaluation of the army candidate (the user's "let's continue"), evaluation block 4 (408000-409999)
+reserved in the ledger before the run, `eval.sh` (the screen's commands with `-PseedBase=408000`, reports
+in `replays/bench/exp-2026-11-03-army-eval/`, run while the arena download ran in Python, before
+`cgAttribute`): G0 clean in every series (max candidate turn 30.6 ms); G1 S 0.5480 (CI 0.5327-0.5633),
+W/D/L 2144/96/1760, seats 1243/47/710 and 901/49/1050, 1948 of 2000 maps changed; G2 0.9970 against 0.9980,
+Δ −0.0010 (CI −0.0030..+0.0010), 243 of 500 maps changed (the boss games last 77 turns on this block, so the
+second barracks acts); G3 skipped. Summaries `eval-g1.json`, `eval-g2.json`. S < 0.60: the upload
+recommendation is not met; the candidate stays the local champion, the freeze and any upload are the
+user's decisions. Records: README (evaluation section), ledger (verdict), STATUS, SUMMARY, PLAN unchanged
+(the item already says the decisions are the user's), `docs/local-screen.md` (a candidate row). Raw
+reports copied to the main checkout's `replays/bench/`.
+
+Decision (the user, 2026-11-03, on the recommendation): the army candidate is deferred, no freeze and no
+upload; the flags stay in `current` off by default, to be combined with a later candidate. Next: the
+queen's safety. Committed with these records.

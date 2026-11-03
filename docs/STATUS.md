@@ -5,7 +5,7 @@ artifacts `docs/BOTS.md`, P1 comparisons and the noise margin `docs/arena-upload
 evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary for the user
 `docs/SUMMARY.md`. The history this page held until 2026-10-30: `git show 60f0b59:docs/STATUS.md`.
 
-- Date: 2026-11-03. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
+- Date: 2026-11-03 (evening). Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Bronze.
 - Selected version, local champion and `current` defaults: v05 = v04 with two mines before the knight
   barracks (MINES_FIRST=2), frozen 2026-11-03 (`cr.bot.v05.GreedyBot`, `versions/v05.properties`). Selected
@@ -13,16 +13,34 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
   `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
   `route` configuration, artifact `da914c4c…`), selected 2026-11-02 to 2026-11-03; v03, 2026-10-30 to 2026-11-02.
-- Arena entry: `aabzac`, agent 6841407 = v05 upload 2 (the same artifact `13b3ec0c…` as upload 1), pasted by the
-  user 2026-11-03 14:58 local; placement complete 15:11: score 26.47, rank 27/2289, 60 games, 41 wins, every
-  game identical to the artifact (`docs/BOTS.md`, Uploads; `docs/data/arena-6841407-placement-2026-11-03.json`).
-  It replaced agent 6841317 = v05 upload 1, saved (23.93, rank 144/2289;
-  `docs/data/arena-6841317-placement-2026-11-03.json`).
+- Arena entry: `aabzac`, agent 6841579 = v05 upload 3 (the same artifact `13b3ec0c…` as uploads 1 and 2),
+  pasted by the user 2026-11-03 15:30 local; placement not watched, found complete at 15:56 (score last
+  updated 15:41): score 25.77, rank 53/2289, 60 games, 43 wins, every game identical to the artifact
+  (`docs/BOTS.md`, Uploads; `docs/data/arena-6841579-placement-2026-11-03.json`). It replaced agent
+  6841407 = v05 upload 2 (26.47, rank 27/2289), saved; upload 1 was 6841317 (23.93, rank 144/2289).
+  v05's baseline: three placements, mean 25.39, SD 1.31; pooled rating 24.96 ± 0.32 (scale 1.72); M 2.61
+  (8 df) (`docs/arena-uploads.md`).
 - Candidate judged under P1 (2026-11-03): v05. Placements 23.93 and 26.47 (mean 25.20, SD 1.80) against
   `route`'s 22.50; pooled rating 24.90 ± 0.37 against 22.05 ± 0.35 (scale 1.61); M 2.77 (7 df). Neither
-  rollback condition holds, so v05 is the selected version. The arena agrees with the local direction
-  (P2: S 0.76 against v04, about +1.7 head-to-head) and exceeds its size. No pending candidate. The earlier
+  rollback condition holds, so v05 is the selected version. With the third upload (25.77) the verdict
+  stands: mean +2.89 against −M −2.61, rating +2.87 against −2 SE −0.97. The arena agrees with the local direction
+  (P2: S 0.76 against v04, about +1.7 head-to-head) and exceeds its size. The earlier
   judgements (`route` 2026-11-02, v03 2026-10-30) are in `docs/arena-uploads.md`.
+- Deferred candidate (2026-11-03, the army direction of `docs/bot-architecture.html`):
+  `current?BARRACKS=2,BARRACKS_AFTER_TOWERS=4,TRAIN_SYNC=1,MAX_TOWERS=6` (a second knight barracks once 4
+  towers stand, both released together, 6 towers). P2 screen on block 6 (212000-213999) passed: S 0.5473
+  (CI 0.5331-0.5614) against v05, Δ 0.0000 against `boss` (its games end before the flags act), G0 on the
+  quiet repeat, G3 skipped (`docs/data/exp-2026-11-03-army/`); the local champion by the policy. About +0.3
+  rating points head-to-head, below the upload recommendation (S ≥ 0.60). Final evaluation on evaluation
+  block 4 (408000-409999), the user's decision: G0-G2 pass, S 0.5480 (CI 0.5327-0.5633) against v05, Δ
+  −0.0010 against `boss`, no failure; S < 0.60, so the upload recommendation is not met and an upload would
+  be the user's exception. The user's decision (2026-11-03, evening): deferred, no upload, the flags stay in
+  the code off by default (the recommendation: +0.3 is inside the arena's noise, M 2.61, and the arena cannot
+  measure it; later it may join a safety candidate to reach 0.60). The local champion stays v05. Flags
+  tried and dropped in the sweep: an early or late second barracks, a third barracks, the forward placement.
+- Next direction (the user's choice, 2026-11-03): the queen's safety (`docs/bot-architecture.html`,
+  Направления): the flight rule with the distance to the tower and the HP, threats beyond knights within 250;
+  fixtures from the arena replays of early deaths; P2 against v05.
 - v05's local record (procCheck 400/400 of the artifact; P2
   (`docs/data/exp-2026-11-03-mines-first/`): screen block 5 (210000-211999) S 0.7645
   (CI 0.7492-0.7798) against v04, Δ +0.0100 against `boss`, G3 skipped; G0 by the quiet repeat (the first
