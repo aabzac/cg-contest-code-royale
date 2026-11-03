@@ -1710,3 +1710,49 @@ STATUS, SUMMARY, PLAN, visualizer.md, bot-architecture.html (v06: the defence se
 pseudo-code, TRAIN, the versions table, the gaps and the directions), `.ai/project.md` (v00–v06) with the kit
 sync. Not uploaded: the paste and the P1 placements are the user's; register the new agent as v06 upload 1
 (pending) before downloading its games.
+
+## 2026-11-03 — v06 upload 1: 27.09, rank 1 among the players; the Bronze boss measured at 27.63
+
+The user pasted `1a9f3e81` ("I pasted it, watch"). Discovery snapshot by pseudo at 17:40
+(`arena_snapshot.py 6841579 aabzac bronze`): agent 6842260 (creationTime 17:39:25), 18 %, 12 wins of 13;
+raw responses moved into `replays/arena/v06/bronze/upload-01/snapshots`, the summary renamed to
+`docs/data/arena-6842260-placement-2026-11-03.json`; registered as v06 upload 1 (pending) in the registry,
+v05 upload 3 marked replaced. Watch (`placement-watch.sh`, `.log` beside the snapshots): 7 snapshots, 21 % at
+17:41 → 45 % 24.67 → 63 % 26.48 → 76 % 26.14 → 93 % 27.43 (local rank 1) → 98 % 26.91 → 100 % at 17:55
+(score last updated 17:54:06): score 27.09, local rank 1 of 2290, global rank 658, 60 games, 43 wins (seat 0:
+22 of 31, seat 1: 21 of 29), `eligibleForPromotion` false. `arena_games.py 6842260`: 60 games, marker
+0bf54983 in all 60, 0 failures, 0 ties (`docs/data/arena-6842260-games-2026-11-03.json`). `cgAttribute
+-Pbot=file:artifacts/1a9f3e81/Player.java`: SAME 60/60 (`cgAttribute.log` beside the games). Three games
+against agent 1870318 (no pseudo, rating 27.63 at the fetch: the Bronze boss), all lost (916106598 0:20,
+916113842 0:50, 916114160 0:11): the first measurement of the boss's score; three wins by opponents removed
+by the referee (916100796, 916101800, 916108462). `arena_compare.py --candidate v06 --selected v05`
+(`arena-compare.json` beside the games): scale 1.86 on fourteen uploads; v06 27.09, performance 26.79 ± 0.60
+(opponents' median 25.55, 71.7 % wins); v05 mean 25.39, 25.02 ± 0.34; M 2.61; verdict "upload the candidate
+again" (+1.70 against 2M 5.22). Records: `docs/arena-uploads.md` (new section), the registry, BOTS (Uploads,
+Artifacts), STATUS (entry, candidate, the boss), SUMMARY, PLAN (the boss item), `docs/local-screen.md`
+(v06 row). Raw arena files copied to the main checkout. Not committed (the user's call); upload 2 of the same
+artifact is the user's paste.
+
+## 2026-11-03 — v06 upload 2: 25.39, rank 77; P1 verdict: v06 selected
+
+The user pasted `1a9f3e81` again ("I pasted it, watch"). The discovery snapshot at 18:02 still showed
+6842260 with an empty battle list (the row lags the paste by a minute); `discover-and-watch.sh`
+(`upload-02/`) snapshotted every minute, but read a stale summary: `arena_snapshot.py` keeps a summary file
+that belongs to another agent and writes the new one beside the raw responses, so the loop printed 6842260
+for 20 minutes while the raw snapshots of the new agent 6842539 (creationTime 18:02:10) accumulated under
+`replays/arena/unknown/bronze/agent-6842539/snapshots` (66 files, moved into `upload-02/snapshots`); the
+loop was stopped by hand at 18:25. From the raw leaderboard snapshots: 15 % at 18:03, 43 % at 18:07, 70 % at
+18:11, 95 % at 18:15, complete at 18:16:46 (score last updated 18:16:00): score 25.39, local rank 77 of
+2290, 60 games, 44 wins (seat 0: 23 of 32, seat 1: 21 of 28). Lesson for the watch: start the discovery
+with a fresh summary path per snapshot, or pass the new agent id once the row changes. Registered as v06
+upload 2 (the registry; 6842260 marked replaced), a fresh snapshot by the new id written to
+`docs/data/arena-6842539-placement-2026-11-03.json`. `arena_games.py 6842539`: 60 games, marker 0bf54983 in
+all 60, 0 failures, 0 ties (`docs/data/arena-6842539-games-2026-11-03.json`). `cgAttribute
+-Pbot=file:artifacts/1a9f3e81/Player.java`: SAME 60/60. `arena_compare.py --candidate v06 --selected v05`
+(`arena-compare.json` beside the games): scale 1.95 on fifteen uploads; v06 placements 27.09 and 25.39,
+mean 26.24, SD 1.20, rating 25.75 ± 0.46 (opponents' median 22.25 in upload 2, 73.3 % wins, one opponent
+removed: 916125229); v05 mean 25.39, 25.06 ± 0.35; M 2.59 (9 df); verdict "not clearly worse" (mean +0.85
+against −2.59; rating +0.69 against −1.16): v06 is the selected version. Records: `docs/arena-uploads.md`
+(new section), the registry, BOTS (versions, uploads, artifacts), STATUS, SUMMARY, PLAN, `docs/local-screen.md`
+(v06 row), the architecture page (the v06 numbers and pills), the local-games labels. Raw arena files copied
+to the main checkout. Not committed (the user's call).

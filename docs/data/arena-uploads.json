@@ -352,7 +352,65 @@
    "snapshots": "docs/data/arena-6841579-placement-2026-11-03.json",
    "games": "docs/data/arena-6841579-games-2026-11-03.json",
    "submittedBy": "the user in the IDE (a third upload of the selected version's artifact, 2026-11-03, 'I ran one more series')",
-   "attribution": "cgAttribute against the kept copy artifacts/13b3ec0c/Player.java: SAME in 60 of 60 games, 8,962 turns, all validated; marker cc541951 in 60 of 60"
+   "attribution": "cgAttribute against the kept copy artifacts/13b3ec0c/Player.java: SAME in 60 of 60 games, 8,962 turns, all validated; marker cc541951 in 60 of 60",
+   "replaced": "2026-11-03T17:39:25+02:00 by v06 upload 1 (the agent's creationTime); its placement was complete and saved before"
+  },
+  {
+   "label": "v06",
+   "upload": 1,
+   "agent": 6842260,
+   "submission": 41624586,
+   "league": "bronze",
+   "artifact": {
+    "sha256": "1a9f3e81151548881d9ad3b2d5f03a5fbb2de25513517657ab8fd4d55e3f517f",
+    "build": "0bf54983",
+    "config": "0ff55c62",
+    "source": "commit 5034ca7 (the v06 freeze), empty PARAMS; kept copy artifacts/1a9f3e81/Player.java; confirmed by the markers and cgAttribute"
+   },
+   "created": "2026-11-03T17:39:25+02:00",
+   "placement": {
+    "score": 27.09,
+    "rank": 1,
+    "agents": 2290,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-11-03T17:55:25+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-03T17:54:06+02:00 (leaderboard updateTime)",
+    "note": "7 snapshots from 17:41 (21 %) to 17:55 (100 %); rank 1 is the local rank among the league's players, eligibleForPromotion false; three games against agent 1870318 (no pseudo, rating 27.63 at fetch: the Bronze boss, above every player) all lost; three wins are opponents removed by the referee (916100796, 916101800, 916108462)"
+   },
+   "snapshots": "docs/data/arena-6842260-placement-2026-11-03.json",
+   "games": "docs/data/arena-6842260-games-2026-11-03.json",
+   "submittedBy": "the user in the IDE (v06 upload 1 under P1, 2026-11-03, 'I pasted it, watch')",
+   "attribution": "cgAttribute against the kept copy artifacts/1a9f3e81/Player.java: SAME in 60 of 60 games; marker 0bf54983 in 60 of 60",
+   "replaced": "2026-11-03T18:02:10+02:00 by upload 2 (the agent's creationTime); its placement was complete and saved before"
+  },
+  {
+   "label": "v06",
+   "upload": 2,
+   "agent": 6842539,
+   "submission": null,
+   "league": "bronze",
+   "artifact": {
+    "sha256": "1a9f3e81151548881d9ad3b2d5f03a5fbb2de25513517657ab8fd4d55e3f517f",
+    "build": "0bf54983",
+    "config": "0ff55c62",
+    "source": "the same bytes as upload 1 (commit 5034ca7); kept copy artifacts/1a9f3e81/Player.java; confirmed by the markers and cgAttribute"
+   },
+   "created": "2026-11-03T18:02:10+02:00",
+   "placement": {
+    "score": 25.39,
+    "rank": 77,
+    "agents": 2290,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-11-03T18:16:46+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-03T18:16:00+02:00 (leaderboard updateTime)",
+    "note": "the watch script snapshotted every minute from 18:03 but read a stale summary (the tool keeps a summary that belongs to another agent); the raw snapshots of 6842539 from 18:03 to 18:25 are in upload-02/snapshots, the first with percentage 100 and inProgress false is the placement score; one win is an opponent removed by the referee (916125229)"
+   },
+   "snapshots": "docs/data/arena-6842539-placement-2026-11-03.json",
+   "games": "docs/data/arena-6842539-games-2026-11-03.json",
+   "submittedBy": "the user in the IDE (v06 upload 2 under P1, 2026-11-03, 'I pasted it, watch')",
+   "attribution": "cgAttribute against the kept copy artifacts/1a9f3e81/Player.java: SAME in 60 of 60 games; marker 0bf54983 in 60 of 60"
   }
  ],
  "legacyUploads": [

@@ -53,7 +53,7 @@
   `docs/data/seed-ledger.json`, proxy validation PV1 `docs/data/pv1-2026-10-30/`)
 - [ ] `old` opponent: the user puts the code of 3315948 into `refs/old-3315948/Player.java`; then the PV1
   calibration (v01 should score about 0.22 against it) and G3 for later candidates
-- [ ] Bronze boss's exact score from an IDE game (`gameResult.agents[].score`); now only above about 27.1
+- [x] Bronze boss's score: 27.63 (agent 1870318's rating at the fetch of v06's placement games, 2026-11-03; three games, all lost); the IDE game is no longer needed for the bound
 - [ ] A local opponent with archers or giants (24 % of v01's arena opponents build them; both local
   opponents play knights only)
 - [x] Study 2026-10-30 (`docs/data/study-2026-10-30/`): we build towers late and few, stronger players
@@ -74,7 +74,9 @@
   one tower; a second tower doubles the kill rate), flags THREAT_TOWERS_NEAR / THREAT_RADIUS / THREAT_RANGE,
   swept against v05 and screened under P2 with the army flags (`docs/data/exp-2026-11-03-safety/`): S 0.642,
   passed; final evaluation on block 5 S 0.652, the upload recommendation met; frozen as v06 (2026-11-03),
-  `submit` and `procCheck` passed (`docs/BOTS.md`, Artifacts); the upload under P1 is the user's
+  `submit` and `procCheck` passed (`docs/BOTS.md`, Artifacts)
+- [x] v06 on the arena under P1 (agents 6842260 and 6842539): placements 27.09 and 25.39, mean 26.24 against
+  v05's 25.39, not clearly worse, so v06 is selected 2026-11-03 (`docs/arena-uploads.md`); 1.4 below the boss
 - [ ] Queen safety, not tried: kiting between sites under knights; the flight avoiding enemy tower range (262
   HP of 2,335 lost in v05's arena deaths); a tower before the barracks when the enemy barracks trains
 - [x] Study 2026-11-03 (`docs/data/study-2026-11-03-losses/`): how v04 loses its 120 placement games,

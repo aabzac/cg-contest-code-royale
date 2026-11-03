@@ -7,26 +7,30 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 
 - Date: 2026-11-03 (evening). Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Bronze.
-- Local champion and `current` defaults: v06 = v05 with a second tower near the queen under threat
-  (THREAT_TOWERS_NEAR=2 within 500) and the army flags (a second knight barracks after 4 towers, synchronous
-  waves, 6 towers), frozen 2026-11-03 (`cr.bot.v06.GreedyBot`, `versions/v06.properties`; P2
-  `docs/data/exp-2026-11-03-safety/`: S 0.6519 against v05 on the evaluation block). Artifact `1a9f3e81…`
-  (97,797 chars, build `0bf54983`, config `0ff55c62`; the freeze commit; kept copy `artifacts/1a9f3e81/Player.java`),
-  procCheck 200/200 against v01 and against `boss`, no timeouts (`docs/BOTS.md`, Artifacts). Not uploaded yet:
-  the paste and the two P1 placements are the user's; the rollback artifact stays v05's `13b3ec0c`.
-- Selected version (the arena's): v05 = v04 with two mines before the knight barracks (MINES_FIRST=2),
+- Selected version, local champion and `current` defaults: v06 = v05 with a second tower near the queen
+  under threat (THREAT_TOWERS_NEAR=2 within 500) and the army flags (a second knight barracks after 4 towers,
+  synchronous waves, 6 towers), frozen 2026-11-03 (`cr.bot.v06.GreedyBot`, `versions/v06.properties`; P2
+  `docs/data/exp-2026-11-03-safety/`: S 0.6519 against v05 on the evaluation block). Selected under P1 on
+  2026-11-03 by two placements (mean 26.24 against v05's 25.39, "not clearly worse"; `docs/arena-uploads.md`).
+  Artifact `1a9f3e81…` (97,797 chars, build `0bf54983`, config `0ff55c62`; commit 5034ca7; kept copy
+  `artifacts/1a9f3e81/Player.java`), procCheck 200/200 against v01 and against `boss`, no timeouts
+  (`docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `1a9f3e81`.
+- Previous selected version: v05 = v04 with two mines before the knight barracks (MINES_FIRST=2),
   frozen 2026-11-03 (`cr.bot.v05.GreedyBot`, `versions/v05.properties`). Selected
   under P1 on 2026-11-03 by two placements (mean 25.20 against `route`'s 22.50, "not clearly worse";
   `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
   `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
   `route` configuration, artifact `da914c4c…`), selected 2026-11-02 to 2026-11-03; v03, 2026-10-30 to 2026-11-02.
-- Arena entry: `aabzac`, agent 6841579 = v05 upload 3 (the same artifact `13b3ec0c…` as uploads 1 and 2),
-  pasted by the user 2026-11-03 15:30 local; placement not watched, found complete at 15:56 (score last
-  updated 15:41): score 25.77, rank 53/2289, 60 games, 43 wins, every game identical to the artifact
-  (`docs/BOTS.md`, Uploads; `docs/data/arena-6841579-placement-2026-11-03.json`). It replaced agent
-  6841407 = v05 upload 2 (26.47, rank 27/2289), saved; upload 1 was 6841317 (23.93, rank 144/2289).
-  v05's baseline: three placements, mean 25.39, SD 1.31; pooled rating 24.96 ± 0.32 (scale 1.72); M 2.61
-  (8 df) (`docs/arena-uploads.md`).
+- Arena entry: `aabzac`, agent 6842539 = v06 upload 2 (the same artifact `1a9f3e81…` as upload 1), pasted by
+  the user 2026-11-03 18:02 local; placement complete 18:16: score 25.39, rank 77/2290, 60 games, 44 wins,
+  every game identical to the artifact (`docs/BOTS.md`, Uploads; `docs/data/arena-6842539-placement-2026-11-03.json`).
+  It replaced agent 6842260 = v06 upload 1 (27.09, local rank 1/2290 among the players, `eligibleForPromotion`
+  false), saved (`docs/data/arena-6842260-placement-2026-11-03.json`); v05's uploads were 6841317 (23.93),
+  6841407 (26.47) and 6841579 (25.77).
+- Candidate judged under P1 (2026-11-03): v06. Placements 27.09 and 25.39 (mean 26.24, SD 1.20) against
+  v05's 25.39; pooled rating 25.75 ± 0.46 against 25.06 ± 0.35 (scale 1.95); M 2.59 (9 df). Neither
+  rollback condition holds, so v06 is the selected version. The arena agrees with the local direction and
+  size (P2: S 0.65 against v05, about +1.1 head-to-head; the arena +0.85 on the mean). No pending candidate.
 - Candidate judged under P1 (2026-11-03): v05. Placements 23.93 and 26.47 (mean 25.20, SD 1.80) against
   `route`'s 22.50; pooled rating 24.90 ± 0.37 against 22.05 ± 0.35 (scale 1.61); M 2.77 (7 df). Neither
   rollback condition holds, so v05 is the selected version. With the third upload (25.77) the verdict
@@ -45,7 +49,7 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   the code off by default (the recommendation: +0.3 is inside the arena's noise, M 2.61, and the arena cannot
   measure it; later it may join a safety candidate to reach 0.60). The local champion stays v05. Flags
   tried and dropped in the sweep: an early or late second barracks, a third barracks, the forward placement.
-- Candidate frozen as v06 (2026-11-03, the queen's safety, the user's choice after the army):
+- v06's local record (2026-11-03, the queen's safety, the user's choice after the army):
   `current?THREAT_TOWERS_NEAR=2,THREAT_RADIUS=500,BARRACKS=2,BARRACKS_AFTER_TOWERS=4,TRAIN_SYNC=1,MAX_TOWERS=6`
   (under threat a second tower within 500 of the queen, plus the deferred army flags). Study
   `docs/data/study-2026-11-03-queen-safety/` (1029 of 1103 hit turns in v05's arena deaths spent at one tower
@@ -68,11 +72,11 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   steps 2-4 are parked (1-2 walking turns per game left).
 - Walking diagnostics: `./gradlew legScan` (`cr.tools.LegScan`), baselines in the same README.
 - Bronze boss: "Princess Boss" (arenabossId 175, agentInitialId 1870317, division 219), from the IDE
-  session 2026-10-28; its battles are not listed by `findLastBattlesByAgentId`. It stands above about
-  27.1: on the Bronze leaderboard of 2026-10-30 08:21 the top rows were 27.75 (placing), 27.14, 27.01 and
-  27.00, none eligible for promotion (`docs/data/leaderboard-bronze-2026-10-30.json`). `route` is about 4.6
-  points below (the mean of its two placements), v03 about 4.7 (three). The exact score needs an IDE game; the user deferred
-  it. The local `boss` spec is the repository's Default AI: a floor, not this boss.
+  session 2026-10-28; its battles are not listed by `findLastBattlesByAgentId`. First measured 2026-11-03:
+  v06's placement games include three against agent 1870318 (no pseudo), rating **27.63** at the fetch
+  (`docs/data/arena-6842260-games-2026-11-03.json`), all lost; v06's mean 26.24 is 1.4 below it, its best
+  placement 27.09 (rank 1 among the players) 0.5 below; v05's mean 25.39 about 2.2 below. Earlier bound: above about 27.1 (the Bronze leaderboard of
+  2026-10-30, `docs/data/leaderboard-bronze-2026-10-30.json`). The local `boss` spec is the repository's Default AI: a floor, not this boss.
 - Waiting on the user: the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3
   of P2).
 - Policies: P2 locally (`docs/local-screen.md`), then `submit` and both `procCheck`, then P1 on the arena
