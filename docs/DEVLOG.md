@@ -1988,3 +1988,45 @@ STATUS, SUMMARY, PLAN, visualizer.md, bot-architecture.html (v08: the kiting sec
 pseudo-code, the versions table, the gaps and the directions), `.ai/project.md` (v00–v08) with the kit sync.
 Not uploaded: the paste and the P1 placements are the user's; register the new agent as v08 upload 1
 (pending) before downloading its games.
+
+## 2026-11-03 — v08 upload 1: 27.85, rank 1 among the players, 3 of 7 against the boss; P1 needs the second upload
+
+The user pasted `5c16d925` ("I pasted it, watch"). `discover-and-watch.sh` (`replays/arena/v08/bronze/upload-01/`):
+the new row at 22:55 (agent 6843773, creationTime 22:54:56, 16 %); registered as v08 upload 1 (pending), the
+discovery snapshots moved into `upload-01/snapshots`; the watch: 38 % 26.75 at 22:58, 61 % 28.04 (local rank 1)
+at 23:02, 83 % 27.54, complete at 23:08:06 (score last updated 23:06:26): score 27.85, local rank 1 of 2291,
+60 games, 42 wins (seat 0: 21 of 28, seat 1: 21 of 32), `eligibleForPromotion` false. The user asked whether
+the games were being fetched, since a promotion mid-placement would move the live list: `fetch-loop.sh`
+fetched the finished games every minute from 23:03 (42 of 43 at once), all 60 by 23:07, before the placement
+completed; the game ids stay in the saved battle lists and `gameResult/findByGameId` serves them by id in
+any case. `arena_games.py 6843773`: 60 games, marker 3f19aa6e in all 60, 0 failures, 0 ties
+(`docs/data/arena-6843773-games-2026-11-03.json`). `cgAttribute -Pbot=file:artifacts/5c16d925/Player.java`:
+SAME 60/60, 9,459 turns. Seven games against the boss (agent 1870318, rating 28.08 at the first and 27.90 at
+the last), 3 won (916267498 59:0, 916269344 36:21, 916269626 72:22). `arena_compare.py --candidate v08
+--selected v07` (`arena-compare.json` beside the games): scale 1.95 on eighteen uploads; v08 27.85,
+performance 27.64 ± 0.60 (opponents' median 26.75, 70.0 % wins); v07 mean 25.53, 25.34 ± 0.43; M 2.58;
+verdict "upload the candidate again" (+2.32 against 2M 5.16). Records: `docs/arena-uploads.md` (new
+section), the registry, BOTS (Uploads, Artifacts), STATUS (entry, candidate, the boss), SUMMARY,
+`docs/local-screen.md` (v08 row). Raw arena files copied to the main checkout. Not committed (the user's
+call); upload 2 of the same artifact is the user's paste.
+
+## 2026-11-03 — v08 upload 2: 28.13, rank 1, eligibleForPromotion true; P1 verdict: v08 selected
+
+The user pasted `5c16d925` again ("I pasted it, watch"). `discover-and-watch.sh` (`upload-02/`): the new row at
+23:14 (agent 6843829, creationTime 23:12:37, 31 %); registered as v08 upload 2 (pending), 6843773 marked
+replaced; `fetch-loop.sh` fetched the finished games every minute (all 60 by 23:23); the watch: 58 % 24.46 at
+23:17, 83 % 26.96 (rank 3) at 23:20, complete at 23:23:49 (score last updated 23:22:46): score 28.13, local
+rank 1 of 2291, 60 games, 48 wins (seat 0: 30 of 35, seat 1: 18 of 25), `eligibleForPromotion` true.
+`arena_games.py 6843829`: 60 games, marker 3f19aa6e in all 60, 0 failures, 0 ties; `cgAttribute` against the
+kept copy: SAME 60/60, 9,087 turns; one opponent removed by the referee (916274351); one boss game
+(916275323, rating 27.81), won 25:0. `arena_compare.py --candidate v08 --selected v07` (`arena-compare.json`
+beside the games): scale 2.13 on nineteen uploads; v08 placements 27.85 and 28.13, mean 27.99, SD 0.20,
+rating 27.59 ± 0.50 (opponents' median 23.93 in upload 2, 80.0 % wins); v07 mean 25.53, 25.42 ± 0.46; M
+2.46 (11 df); verdict "not clearly worse" (mean +2.46 against −2.46; rating +2.17 against −1.36): v08 is the
+selected version. A discovery snapshot at 23:24 still showed the row in Bronze with the flag true: the
+promotion to Silver is CG's next step; by the policy the Silver agent is the next upload with its own
+league and v08's baseline is rebuilt there. Records: `docs/arena-uploads.md` (new section), the registry,
+BOTS (versions, uploads, artifacts), STATUS (selected version, entry, candidate, the boss), SUMMARY (the
+"now" block rewritten), PLAN (the Silver item), `docs/local-screen.md` (v08 row), the architecture page (the
+v08 numbers and pills), the local-games labels. Raw arena files copied to the main checkout. Not committed
+(the user's call).

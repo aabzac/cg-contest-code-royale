@@ -7,15 +7,15 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 
 - Date: 2026-11-03 (evening). Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Bronze.
-- Local champion and `current` defaults: v08 = v07 with the kiting bound to the towers (KITE=2,
-  KITE_PULL=100), frozen 2026-11-03 (`cr.bot.v08.GreedyBot`, `versions/v08.properties`; P2
+- Selected version, local champion and `current` defaults: v08 = v07 with the kiting bound to the towers
+  (KITE=2, KITE_PULL=100), frozen 2026-11-03 (`cr.bot.v08.GreedyBot`, `versions/v08.properties`; P2
   `docs/data/exp-2026-11-03-kite2/`: S 0.6670 against v07 and +14.8 pp against `field` on the evaluation
-  block). Artifact `5c16d925…` (79,348 chars, build `3f19aa6e`, config `c9dad766`; the freeze commit; kept copy
+  block). Selected under P1 on 2026-11-03 by two placements (mean 27.99 against v07's 25.53, "not clearly
+  worse", +2.46 against −M −2.46; `docs/arena-uploads.md`); `eligibleForPromotion` true after upload 2,
+  the promotion to Silver pending on CG's side. Artifact `5c16d925…` (79,348 chars, build `3f19aa6e`, config `c9dad766`; the freeze commit; kept copy
   `artifacts/5c16d925/Player.java`), procCheck 200/200 against v01 and against `boss`, no timeouts
-  (`docs/BOTS.md`, Artifacts). Not uploaded yet: the paste and the two P1 placements against v07's baseline
-  (mean 25.53) are the user's; the arena decides, since the local proxy over-rewarded v07's kiting. The
-  rollback artifact stays v07's `4c7b0d04`.
-- Selected version (the arena's): v07 = v06 with kiting under knights (KITE=1 at
+  (`docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `5c16d925`; v07's `4c7b0d04` stays kept.
+- Previous selected version: v07 = v06 with kiting under knights (KITE=1 at
   the contact range 250, under own tower cover), frozen 2026-11-03 (`cr.bot.v07.GreedyBot`,
   `versions/v07.properties`; P2 `docs/data/exp-2026-11-03-kite/`: S 0.6803 against v06 and +3.5 pp against
   `field` on the evaluation block). Selected under P1 on 2026-11-03 by two placements (mean 25.53 against
@@ -38,11 +38,17 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
   `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
   `route` configuration, artifact `da914c4c…`), selected 2026-11-02 to 2026-11-03; v03, 2026-10-30 to 2026-11-02.
-- Arena entry: `aabzac`, agent 6843287 = v07 upload 2 (the same artifact `4c7b0d04…` as upload 1), pasted by
-  the user 2026-11-03 21:03 local; placement not watched, found complete at 21:30 (score last updated
-  21:14): score 24.64, rank 108/2290, 60 games, 42 wins, every game identical to the artifact
-  (`docs/BOTS.md`, Uploads; `docs/data/arena-6843287-placement-2026-11-03.json`). It replaced agent
-  6843218 = v07 upload 1 (26.42, rank 32/2290), saved; v06's uploads were 6842260 (27.09) and 6842539 (25.39).
+- Arena entry: `aabzac`, agent 6843829 = v08 upload 2 (the same artifact `5c16d925…` as upload 1), pasted by
+  the user 2026-11-03 23:12 local; placement complete 23:23: score 28.13, local rank 1/2291,
+  `eligibleForPromotion` **true**, 60 games, 48 wins, 1 of 1 against the boss, every game identical to the
+  artifact (`docs/BOTS.md`, Uploads; `docs/data/arena-6843829-placement-2026-11-03.json`). It replaced agent
+  6843773 = v08 upload 1 (27.85, rank 1, 3 of 7 against the boss), saved. The promotion to Silver was
+  pending on CG's side at 23:24 (the live row still in Bronze): when it lands, the new Silver agent is the
+  next upload, recorded with its league, and v08's baseline is rebuilt there by two uploads (P1).
+- Candidate judged under P1 (2026-11-03): v08. Placements 27.85 and 28.13 (mean 27.99, SD 0.20) against
+  v07's 25.53; pooled rating 27.59 ± 0.50 against 25.42 ± 0.46 (scale 2.13); M 2.46 (11 df). Neither
+  rollback condition holds (+2.46 against −2.46; +2.17 against −1.36), so v08 is the selected version. The
+  arena confirms the local direction and size (P2 +1.4 head-to-head). No pending candidate.
 - Candidate judged under P1 (2026-11-03): v07. Placements 26.42 and 24.64 (mean 25.53, SD 1.26) against
   v06's 26.24; pooled rating 25.34 ± 0.43 against 25.76 ± 0.46 (scale 1.97); M 2.58 (10 df). Neither
   rollback condition holds (−0.71 against −2.58; −0.41 against −1.26), so v07 is the selected version by
@@ -136,8 +142,9 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 - Bronze boss: "Princess Boss" (arenabossId 175, agentInitialId 1870317, division 219), from the IDE
   session 2026-10-28; its battles are not listed by `findLastBattlesByAgentId`. First measured 2026-11-03:
   v06's placement games include three against agent 1870318 (no pseudo), rating **27.63** at the fetch
-  (`docs/data/arena-6842260-games-2026-11-03.json`), all lost; v06's mean 26.24 is 1.4 below it, its best
-  placement 27.09 (rank 1 among the players) 0.5 below; v05's mean 25.39 about 2.2 below. Earlier bound: above about 27.1 (the Bronze leaderboard of
+  (`docs/data/arena-6842260-games-2026-11-03.json`), all lost; on 2026-11-03 23:00 its rating was 28.08 falling
+  to 27.90 during v08's placement (`docs/data/arena-6843773-games-2026-11-03.json`), and v08 won 3 of its 7
+  games against it; v08's first placement 27.85 is 0.05 below it, v07's mean 25.53 about 2.4 below. Earlier bound: above about 27.1 (the Bronze leaderboard of
   2026-10-30, `docs/data/leaderboard-bronze-2026-10-30.json`). The local `boss` spec is the repository's Default AI: a floor, not this boss.
 - Waiting on the user: the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3
   of P2).

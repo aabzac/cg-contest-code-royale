@@ -648,3 +648,67 @@ all seventeen uploads; `arena-compare.json` beside the games).
 - **Placement speed:** about 11 minutes (the score last updated 11 minutes after the creation time).
 - **The gap to the boss** (27.63): 2.1 points from v07's mean, 1.4 from v06's. The rollback artifact for
   the next candidate is v07's `4c7b0d04` by the policy; v06's `1a9f3e81` stays kept.
+
+## Seventh candidate: v08 (kiting bound to the towers), first upload (2026-11-03)
+
+The user pasted `5c16d925` at 22:54 (agent 6843773; "I pasted it, watch"), replacing v07's upload 2, whose
+placement was complete and saved. The discovery found the new row at 22:55 (16 %); the watch found the
+placement complete at 23:08, 13 minutes after the paste (5 snapshots; `placement-watch.log` in
+`replays/arena/v08/bronze/upload-01/`). The games were fetched during the placement (`fetch-loop.sh`, every
+minute), all 60 before it completed, against the risk of a promotion moving the live list away (the user's
+point: the score passed the boss's mid-placement).
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v08/upload-1 | 6843773 | 27.85, rank 1/2291 (local rank among the players) | 60 | 70.0 ± 5.9 | 21 of 28 | 21 of 32 | 26.75 | 27.64 ± 0.60 |
+| v07, two uploads | 6843218, 6843287 | mean 25.53, SD 1.26 | 120 | | | | | 25.34 ± 0.43 |
+
+From `python -I tools/arena_compare.py --candidate v08 --selected v07` (logistic scale 1.95, fitted on
+all eighteen uploads; `arena-compare.json` beside the games).
+- **Same code:** `cgAttribute` finds every game identical to `5c16d925` (SAME 60/60, 9,459 turns, every
+  compared turn validated), marker `3f19aa6e` in all 60. No opponent removed, no tie.
+- **The Bronze boss, seven games:** agent 1870318, rating 28.08 at the first of them and 27.90 at the last
+  (it fell during our placement); v08 won 3 of the 7 (916267498 59:0, 916269344 36:21, 916269626 72:22) where
+  v06 lost all 3 of its boss games. The placement ended at 27.85 against the boss's 27.90:
+  `eligibleForPromotion` false by that margin.
+- **Against v07's baseline:** +2.32 on the mean (27.85 against 25.53) with 2M = 5.16, so no early rollback;
+  the verdict needs the second upload of the same artifact. The performance rating 27.64 ± 0.60 against
+  25.34 ± 0.43 (+2.30 ± 0.74) is context until then. The opponents' median 26.75 is the highest of any
+  upload: the field at the top of Bronze.
+- **Local prediction:** P2 put v08 about +1.4 rating points head-to-head against v07 (with the caveat that
+  the proxy had over-rewarded v07's kiting); the first placement shows +2.3 on the mean, one placement
+  inside the arena's noise (M 2.58), in the direction the local measure predicted this time.
+- **Placement speed:** 13 minutes.
+
+## The v08 candidate, second upload and the P1 verdict (2026-11-03): v08 selected, promotion flagged
+
+The user pasted the same artifact `5c16d925` again at 23:12 (agent 6843829; "I pasted it, watch"),
+replacing upload 1, whose placement was complete and saved. The discovery found the row at 23:14 (31 %);
+the games were fetched every minute during the placement (all 60 by 23:23); the watch found the placement
+complete at 23:23, 11 minutes after the paste, with `eligibleForPromotion` **true**.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v08/upload-1 | 6843773 | 27.85, rank 1/2291 | 60 | 70.0 ± 5.9 | 21 of 28 | 21 of 32 | 26.75 | 27.73 ± 0.65 |
+| v08/upload-2 | 6843829 | 28.13, rank 1/2291 | 60 | 80.0 ± 5.2 | 30 of 35 | 18 of 25 | 23.93 | 27.39 ± 0.76 |
+| v08, two uploads | | mean 27.99, SD 0.20 | 120 | | | | | 27.59 ± 0.50 |
+| v07, two uploads | 6843218, 6843287 | mean 25.53, SD 1.26 | 120 | | | | | 25.42 ± 0.46 |
+
+From `python -I tools/arena_compare.py --candidate v08 --selected v07` (logistic scale 2.13, fitted on
+all nineteen uploads; `arena-compare.json` beside the games).
+- **Same code:** `cgAttribute` finds every game of upload 2 identical to `5c16d925` (SAME 60/60, 9,087
+  turns, every compared turn validated), marker `3f19aa6e` in all 60. One win is an opponent removed by
+  the referee (916274351). One game against the boss (916275323, rating 27.81), won 25:0.
+- **Against v07's baseline:** the mean is +2.46 (27.99 against 25.53) with −M = −2.46; the pooled rating is
+  +2.17 ± 0.68 (27.59 ± 0.50 against 25.42 ± 0.46) with −2 SE = −1.36. Neither rollback condition holds:
+  **v08 is not clearly worse and becomes the selected version** (P1). This time the gain equals M on the
+  mean and is three standard errors on the rating: the direction and the size of the local prediction
+  (+1.4 against v07) are both confirmed, after v07's local gain had not shown.
+- **Noise:** M = 2.46 (11 df); v08's two placements differ by 0.28, the tightest pair of the project.
+- **The boss:** 3 of 7 in upload 1 and 1 of 1 in upload 2 against agent 1870318 (rating 27.81-28.08 over the
+  evening); v08's mean 27.99 is at its level. 80 % wins in upload 2 is the highest of any upload.
+- **Promotion:** `eligibleForPromotion` true at the first complete snapshot; the live row was still in
+  Bronze at 23:24. By the policy a promotion creates a new agent in Silver whose placement is the next
+  upload, recorded with its league; the Bronze scores above are complete placements and stay. In Silver
+  the selected version's baseline is built anew by two uploads there before the next candidate is judged.
+- **Placement speed:** 11 minutes.

@@ -49,8 +49,8 @@ final class LocalGames {
     private static final DateTimeFormatter FILE_TIME = DateTimeFormatter.ofPattern("uuuuMMdd'T'HHmmssSSS'Z'").withZone(ZoneOffset.UTC);
     private static final List<Choice> CHOICES = List.of(
         new Choice("current", "current", "Текущий бот с выбираемыми флагами движения", "current"),
-        new Choice("v08", "v08", "Кайтинг у башен: замороженный локальный чемпион", "v08"),
-        new Choice("v07", "v07", "Кайтинг под рыцарями: выбранная на арене версия", "v07"),
+        new Choice("v08", "v08", "Кайтинг у башен: выбранная замороженная версия", "v08"),
+        new Choice("v07", "v07", "Кайтинг под рыцарями: прежняя замороженная версия", "v07"),
         new Choice("v06", "v06", "Вторая башня под угрозой и второй барак: прежняя замороженная версия", "v06"),
         new Choice("v05", "v05", "Две шахты до барака: прежняя замороженная версия", "v05"),
         new Choice("v04", "v04", "Планировщик маршрута королевы: прежняя замороженная версия", "v04"),

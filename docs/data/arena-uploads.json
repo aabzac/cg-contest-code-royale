@@ -468,7 +468,65 @@
    "snapshots": "docs/data/arena-6843287-placement-2026-11-03.json",
    "games": "docs/data/arena-6843287-games-2026-11-03.json",
    "submittedBy": "the user in the IDE (v07 upload 2 under P1, 2026-11-03, 'ran it')",
-   "attribution": "cgAttribute against the kept copy artifacts/4c7b0d04/Player.java: SAME in 60 of 60 games, 9,615 turns, all validated; marker b6b5f0f7 in 60 of 60"
+   "attribution": "cgAttribute against the kept copy artifacts/4c7b0d04/Player.java: SAME in 60 of 60 games, 9,615 turns, all validated; marker b6b5f0f7 in 60 of 60",
+   "replaced": "2026-11-03T22:54:56+02:00 by v08 upload 1 (the agent's creationTime); its placement was complete and saved before"
+  },
+  {
+   "label": "v08",
+   "upload": 1,
+   "agent": 6843773,
+   "submission": null,
+   "league": "bronze",
+   "artifact": {
+    "sha256": "5c16d925b0c4e20746484cbdfb7826e82b4bc1ed8dd9e1e3e1a5b8954b917df6",
+    "build": "3f19aa6e",
+    "config": "c9dad766",
+    "source": "commit da6384a (the v08 freeze), empty PARAMS; kept copy artifacts/5c16d925/Player.java; confirmed by the markers and cgAttribute"
+   },
+   "created": "2026-11-03T22:54:56+02:00",
+   "placement": {
+    "score": 27.85,
+    "rank": 1,
+    "agents": 2291,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-11-03T23:08:06+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-03T23:06:26+02:00 (leaderboard updateTime)",
+    "note": "5 snapshots from 22:55 (16 %) to 23:08 (100 %), 13 minutes after the paste; rank 1 is the local rank among the league's players, eligibleForPromotion False; the games were fetched during the placement (fetch-loop.sh), all 60 before it completed; seven games against the Bronze boss (agent 1870318, rating 28.08 falling to 27.90 during them), 3 won (916267498, 916269344, 916269626)"
+   },
+   "snapshots": "docs/data/arena-6843773-placement-2026-11-03.json",
+   "games": "docs/data/arena-6843773-games-2026-11-03.json",
+   "submittedBy": "the user in the IDE (v08 upload 1 under P1, 2026-11-03, 'I pasted it, watch')",
+   "attribution": "cgAttribute against the kept copy artifacts/5c16d925/Player.java: SAME in 60 of 60 games, 9,459 turns, all validated; marker 3f19aa6e in 60 of 60",
+   "replaced": "2026-11-03T23:12:37+02:00 by upload 2 (the agent's creationTime); its placement was complete and saved before"
+  },
+  {
+   "label": "v08",
+   "upload": 2,
+   "agent": 6843829,
+   "submission": null,
+   "league": "bronze",
+   "artifact": {
+    "sha256": "5c16d925b0c4e20746484cbdfb7826e82b4bc1ed8dd9e1e3e1a5b8954b917df6",
+    "build": "3f19aa6e",
+    "config": "c9dad766",
+    "source": "the same bytes as upload 1 (commit da6384a); kept copy artifacts/5c16d925/Player.java; confirmed by the markers and cgAttribute"
+   },
+   "created": "2026-11-03T23:12:37+02:00",
+   "placement": {
+    "score": 28.13,
+    "rank": 1,
+    "agents": 2291,
+    "games": 60,
+    "firstCompleteSnapshot": "2026-11-03T23:23:49+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-03T23:22:46+02:00 (leaderboard updateTime)",
+    "note": "snapshots from 23:14 (31 %) every 3 minutes, every minute from 85 %; the games fetched during the placement (fetch-loop.sh), all 60 before it completed; eligibleForPromotion True; one win is an opponent removed by the referee (916274351); one game against the Bronze boss (916275323, rating 27.81), won 25:0; eligibleForPromotion true at the first complete snapshot: the promotion to Silver is pending on CG's side (the live row still in Bronze at 23:24)"
+   },
+   "snapshots": "docs/data/arena-6843829-placement-2026-11-03.json",
+   "games": "docs/data/arena-6843829-games-2026-11-03.json",
+   "submittedBy": "the user in the IDE (v08 upload 2 under P1, 2026-11-03, 'I pasted it, watch')",
+   "attribution": "cgAttribute against the kept copy artifacts/5c16d925/Player.java: SAME in 60 of 60 games, 9,087 turns, all validated; marker 3f19aa6e in 60 of 60"
   }
  ],
  "legacyUploads": [

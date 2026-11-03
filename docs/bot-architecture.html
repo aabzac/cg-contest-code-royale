@@ -150,7 +150,7 @@ pre.mermaid svg { display: block; margin: 0 auto; }
     <div class="fact"><b>~780</b><span>строк: MainBot, RoutePlanner, ApproachPlanner</span></div>
     <div class="fact"><b>21</b><span>параметров стратегии (Params)</span></div>
     <div class="fact"><b>2 → 1 → 3 → 4 → 2 → 6</b><span>шахты → барак → доход → башни → бараки → башни</span></div>
-    <div class="fact"><b>25.53</b><span>средний placement v07 в Bronze (26.42 и 24.64); v06 26.24; босс 27.63</span></div>
+    <div class="fact"><b>27.99</b><span>средний placement v08 в Bronze (27.85 и 28.13); босс 27.8–28.1; флаг повышения</span></div>
   </div>
 </header>
 
@@ -327,7 +327,7 @@ flowchart TD
     <li><b>Привязка к башням (с v08)</b>Правило v07 на арене не дало прироста: королева выбегала из-под башен, рыцари гнались за ней по 50–130 ходов и не гибли (<code>docs/data/study-2026-11-03-v07-arena/</code>). С v08 каждый шаг обязан заканчиваться в радиусе своей башни (нет такого шага — бегство к ближайшей башне, как в v06), а в оценке шага удаление от ближайшей башни весит столько же, сколько приближение рыцарей (<code>KITE_PULL=100</code>). Локально королева проводит у башни 87 % ходов контакта (v07 — 39 %, v06 — 91 %) при вдвое меньшем уроне за ход, чем у v06.</li>
     <li><b>Иначе</b>Как в v06: подкачка касаемой башни, бегство к ближайшей.</li>
   </ol>
-  <p class="cap">Эффект v07 (<code>docs/data/exp-2026-11-03-kite/</code>): 0.695 на скрине и 0.680 на итоговой оценке против v06, на арене −0.7 против v06 внутри шума. Эффект v08 (<code>docs/data/exp-2026-11-03-kite2/</code>): 0.666 и 0.667 против v07, 0.79–0.81 против v06, против <code>field</code> +14…+19 пп; арена ещё не проверяла. Начинать уходить раньше (радиус 500) хуже против <code>field</code> на 12 пп: королева бросает лестницу. Тесты: <code>StrategyParamsTest.kiteMovesAwayFromKnightsUnderTowerCover</code>, <code>boundKitingStaysUnderTheTowersAndFleesOutOfReach</code>.</p>
+  <p class="cap">Эффект v07 (<code>docs/data/exp-2026-11-03-kite/</code>): 0.695 на скрине и 0.680 на итоговой оценке против v06, на арене −0.7 против v06 внутри шума. Эффект v08 (<code>docs/data/exp-2026-11-03-kite2/</code>): 0.666 и 0.667 против v07, 0.79–0.81 против v06, против <code>field</code> +14…+19 пп; на арене 27.85 и 28.13 против среднего v07 25.53, 4 победы из 8 у босса и флаг повышения в Silver. Начинать уходить раньше (радиус 500) хуже против <code>field</code> на 12 пп: королева бросает лестницу. Тесты: <code>StrategyParamsTest.kiteMovesAwayFromKnightsUnderTowerCover</code>, <code>boundKitingStaysUnderTheTowersAndFleesOutOfReach</code>.</p>
 </section>
 
 <section id="unstick">
@@ -383,8 +383,8 @@ flowchart TD
       <tr><td>v04</td><td class="num">0</td><td class="num">3</td><td class="num">8</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="num">22.50 <span class="muted">(2, как конфигурация route)</span></td></tr>
       <tr><td>v05</td><td class="num">2</td><td class="num">3</td><td class="num">8</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="num">25.39 <span class="muted">(3)</span></td></tr>
       <tr><td>v06</td><td class="num">2</td><td class="num">3</td><td class="num">6</td><td class="num">2 <span class="muted">после 4 башен, волны разом</span></td><td class="num">1</td><td class="num">1</td><td class="num">26.24 <span class="muted">(2); защита THREAT_TOWERS_NEAR=2</span></td></tr>
-      <tr><td>v07 <span class="pill me">выбрана</span></td><td class="num">2</td><td class="num">3</td><td class="num">6</td><td class="num">2</td><td class="num">1</td><td class="num">1</td><td class="num">25.53 <span class="muted">(2); v06 + кайтинг KITE=1; локальный прирост на арене не виден</span></td></tr>
-      <tr><td>v08 <span class="pill gold">чемпион</span></td><td class="num">2</td><td class="num">3</td><td class="num">6</td><td class="num">2</td><td class="num">1</td><td class="num">1</td><td class="muted">ещё не загружена; v07 + кайтинг у башен KITE=2</td></tr>
+      <tr><td>v07</td><td class="num">2</td><td class="num">3</td><td class="num">6</td><td class="num">2</td><td class="num">1</td><td class="num">1</td><td class="num">25.53 <span class="muted">(2); v06 + кайтинг KITE=1; локальный прирост на арене не виден</span></td></tr>
+      <tr><td>v08 <span class="pill me">выбрана</span></td><td class="num">2</td><td class="num">3</td><td class="num">6</td><td class="num">2</td><td class="num">1</td><td class="num">1</td><td class="num">27.99 <span class="muted">(2); v07 + кайтинг у башен KITE=2; флаг повышения в Silver</span></td></tr>
     </tbody>
   </table>
   </div>
@@ -423,7 +423,7 @@ flowchart TD
     <li>Не смотрит вперёд: нет симуляции ходов, хотя полный симулятор (<code>Rules</code>) сверен с реплеями и даже входит в артефакт.</li>
     <li>Строит только рыцарей. Нет лучников против рыцарей и гигантов против башен.</li>
     <li>Видит угрозу только от рыцарей ближе 250. Не реагирует на вражеских гигантов у своих башен. Бегство и ходьба лестницы не обходят радиус вражеских башен: в проигранных аренных играх v05 они отняли 11 % HP.</li>
-    <li>Кайтинг смотрит на один шаг вперёд: не планирует на несколько ходов, не ведёт рыцарей вокруг площадок намеренно и не начинает уходить до контакта (с радиусом 500 это проигрывает <code>field</code>). Бегает ли так сильный соперник арены — покажут загрузки v08.</li>
+    <li>Кайтинг смотрит на один шаг вперёд: не планирует на несколько ходов, не ведёт рыцарей вокруг площадок намеренно и не начинает уходить до контакта (с радиусом 500 это проигрывает <code>field</code>). Этого хватило, чтобы пройти босса Bronze.</li>
     <li>Не целится во вражеские шахты и бараки: королева сносит их простым касанием, но целью выбирает только пустые сайты.</li>
     <li class="mid">Не думает о своей атаке: рыцари идут к королеве врага сами, бот не выбирает момент и не копит золото на волну.</li>
     <li class="mid">После лестницы плана нет: королева стоит у башни возле дома и строит её снова и снова. На арене это 55 ходов королевы из каждых 100 на подкачку башен при 23–39 у более сильных групп.</li>

@@ -1,0 +1,1363 @@
+{
+ "fetched": "2026-11-03T23:23:04+0200",
+ "agentId": 6843829,
+ "offline": false,
+ "services": [
+  "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]",
+  "gameResult/findByGameId [gameId, null]"
+ ],
+ "raw": "replays/arena/v08/bronze/upload-02/games/<gameId>.json (gitignored), unchanged response bytes",
+ "rawDirectory": "replays/arena/v08/bronze/upload-02/games",
+ "snapshotDirectory": "replays/arena/v08/bronze/upload-02/snapshots",
+ "battleRows": {
+  "live": 60,
+  "merged": 60,
+  "savedLists": [
+   "replays/arena/v08/bronze/upload-02/snapshots/battles-20261103-231436-043415500.json",
+   "replays/arena/v08/bronze/upload-02/snapshots/battles-20261103-231439-361796400.json",
+   "replays/arena/v08/bronze/upload-02/snapshots/battles-20261103-231440-340820500.json",
+   "replays/arena/v08/bronze/upload-02/snapshots/battles-20261103-231606-867590800.json",
+   "replays/arena/v08/bronze/upload-02/snapshots/battles-20261103-231717-658677200.json",
+   "replays/arena/v08/bronze/upload-02/snapshots/battles-20261103-231742-903129900.json",
+   "replays/arena/v08/bronze/upload-02/snapshots/battles-20261103-231828-122101500.json",
+   "replays/arena/v08/bronze/upload-02/snapshots/battles-20261103-231938-479133400.json",
+   "replays/arena/v08/bronze/upload-02/snapshots/battles-20261103-232046-166652300.json",
+   "replays/arena/v08/bronze/upload-02/snapshots/battles-20261103-232047-445934500.json",
+   "replays/arena/v08/bronze/upload-02/snapshots/battles-20261103-232157-027851400.json"
+  ],
+  "notDone": 0
+ },
+ "summary": {
+  "games": 60,
+  "wins": 48,
+  "scoreTies": 0,
+  "markers": {
+   "3f19aa6e": 60
+  },
+  "failures": 0,
+  "filesNotInLists": []
+ },
+ "games": [
+  {
+   "gameId": 916271750,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "NicknamedTwice",
+    "agentId": 5879896,
+    "ratingAtFetch": 23.916412437003775
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    9.0,
+    8.0
+   ],
+   "seed": "440302517",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "69a86b1b82e003daa401dc22435a86320559b4ab76161e7a2971f59ebb498491",
+   "bytes": 574955
+  },
+  {
+   "gameId": 916271751,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Yaanaa",
+    "agentId": 3026704,
+    "ratingAtFetch": 23.225525563873862
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    55.0,
+    8.0
+   ],
+   "seed": "409966375",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "626460991cf5dc034775ba880aaf286591c516ef1314fd9ee56246ce85cc0e4f",
+   "bytes": 639660
+  },
+  {
+   "gameId": 916271752,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "hasleron",
+    "agentId": 2666062,
+    "ratingAtFetch": 20.4492248910389
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    15.0
+   ],
+   "seed": "176648537",
+   "frames": 287,
+   "marker": "3f19aa6e",
+   "sha256": "7dbadacac195a3fe33e20694921e49de6800a524ffcef69a709fc92d848ac4f9",
+   "bytes": 367416
+  },
+  {
+   "gameId": 916271753,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Patrick33",
+    "agentId": 3125141,
+    "ratingAtFetch": 17.883545388659492
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    60.0,
+    0.0
+   ],
+   "seed": "61395757",
+   "frames": 203,
+   "marker": "3f19aa6e",
+   "sha256": "dfc3965e8ed9c0549c617e5215d6b9c6ac6e6a357b91904f0ed1886a88abbc54",
+   "bytes": 239552
+  },
+  {
+   "gameId": 916271754,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Azgro",
+    "agentId": 5609021,
+    "ratingAtFetch": 16.553005041140032
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    25.0,
+    0.0
+   ],
+   "seed": "908752258",
+   "frames": 169,
+   "marker": "3f19aa6e",
+   "sha256": "20c8dc6e9767bdd1ddd7362a593e4312583241f45751071a5170ae0189059ab6",
+   "bytes": 159598
+  },
+  {
+   "gameId": 916271755,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "gcof",
+    "agentId": 2693829,
+    "ratingAtFetch": 13.746800243634091
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    81.0
+   ],
+   "seed": "111942611",
+   "frames": 249,
+   "marker": "3f19aa6e",
+   "sha256": "9e26ac7af6d81202639179b49ed61887296a8b7df5b00b8da35e5d24963abc82",
+   "bytes": 276469
+  },
+  {
+   "gameId": 916271756,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "AndreaZanin",
+    "agentId": 2684440,
+    "ratingAtFetch": 12.712152165549867
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    54.0
+   ],
+   "seed": "420534751",
+   "frames": 335,
+   "marker": "3f19aa6e",
+   "sha256": "9058fa4e29c5fdd154c748f8ee6c234429ed0cb1b033ba1a0da78feb0ce5fde8",
+   "bytes": 504146
+  },
+  {
+   "gameId": 916271757,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Nilowk",
+    "agentId": 5083895,
+    "ratingAtFetch": 12.166150650202983
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    75.0,
+    0.0
+   ],
+   "seed": "362807994",
+   "frames": 175,
+   "marker": "3f19aa6e",
+   "sha256": "009d6a159f738369d913bd45de64fa6b6339803d685a29d5ad97d8f686685fe8",
+   "bytes": 213751
+  },
+  {
+   "gameId": 916271758,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "guylevitsky42",
+    "agentId": 3984351,
+    "ratingAtFetch": 9.380677909339324
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    31.0,
+    0.0
+   ],
+   "seed": "671512042",
+   "frames": 237,
+   "marker": "3f19aa6e",
+   "sha256": "ba13f86191db8024195eba7b83fb079834c89463b80052bd7dfd3b020aa42b5b",
+   "bytes": 298693
+  },
+  {
+   "gameId": 916271759,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "marcinrak0406",
+    "agentId": 5615766,
+    "ratingAtFetch": 4.146767594547646
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    60.0,
+    0.0
+   ],
+   "seed": "274629627",
+   "frames": 105,
+   "marker": "3f19aa6e",
+   "sha256": "ba67529617ae028670a257508ef1bb6c7930e8da16d635bc4685d68c7bc575d3",
+   "bytes": 66347
+  },
+  {
+   "gameId": 916271843,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Nyght",
+    "agentId": 2509406,
+    "ratingAtFetch": 15.89590363469974
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    65.0,
+    0.0
+   ],
+   "seed": "922786562",
+   "frames": 103,
+   "marker": "3f19aa6e",
+   "sha256": "ddb3e1a55c760e87a52a4e5b1f42f0f78b3137a7bd8ad6b2e590f5fd1f86467f",
+   "bytes": 121169
+  },
+  {
+   "gameId": 916271878,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "MatteoR",
+    "agentId": 2596978,
+    "ratingAtFetch": 16.85521888407582
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    30.0
+   ],
+   "seed": "73627399",
+   "frames": 73,
+   "marker": "3f19aa6e",
+   "sha256": "ccb576ed4e8a7fdef202c168022bd556f31537b0fa2985bd5ee307d2f0d03df8",
+   "bytes": 77111
+  },
+  {
+   "gameId": 916271908,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Shiru",
+    "agentId": 2232859,
+    "ratingAtFetch": 17.6765269226026
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    17.0,
+    0.0
+   ],
+   "seed": "456055534",
+   "frames": 167,
+   "marker": "3f19aa6e",
+   "sha256": "4134c4f03583c745bbffb8d5fa43605dc45c5e08d7ec16461058af862686f66f",
+   "bytes": 182169
+  },
+  {
+   "gameId": 916271948,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "NiceCoder",
+    "agentId": 4427996,
+    "ratingAtFetch": 18.50358207689897
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    75.0,
+    0.0
+   ],
+   "seed": "121501197",
+   "frames": 89,
+   "marker": "3f19aa6e",
+   "sha256": "fa473efbe93d33ed23d9f80ffa55ee5f2458aa148200e06be076d05b6f8f2d8e",
+   "bytes": 110879
+  },
+  {
+   "gameId": 916271977,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "Minatozaki",
+    "agentId": 4774385,
+    "ratingAtFetch": 19.2789473290094
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    84.0
+   ],
+   "seed": "387454989",
+   "frames": 335,
+   "marker": "3f19aa6e",
+   "sha256": "f7d0f2d83ec8bc2d28686059b1f720da5ba828d016051ba5d3dc812dbaafcc8c",
+   "bytes": 459093
+  },
+  {
+   "gameId": 916272034,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Calibanda",
+    "agentId": 5354333,
+    "ratingAtFetch": 20.16978913093896
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    46.0,
+    0.0
+   ],
+   "seed": "831022987",
+   "frames": 213,
+   "marker": "3f19aa6e",
+   "sha256": "c427332f0230458a85596335ba82a812cd39294c8e70e9704cb96a76489c9b40",
+   "bytes": 276624
+  },
+  {
+   "gameId": 916272073,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "Illedan",
+    "agentId": 1868405,
+    "ratingAtFetch": 20.785100578241966
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    43.0
+   ],
+   "seed": "740461521",
+   "frames": 351,
+   "marker": "3f19aa6e",
+   "sha256": "f82d3837276502eb042cb68c430be75a63d75a3a80929e78c909119441468132",
+   "bytes": 498323
+  },
+  {
+   "gameId": 916272197,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "mzbear",
+    "agentId": 3329925,
+    "ratingAtFetch": 21.561246778838115
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    25.0,
+    0.0
+   ],
+   "seed": "758877482",
+   "frames": 67,
+   "marker": "3f19aa6e",
+   "sha256": "d191ead8d15a4b37a6bc9ac17b66086021f79ed49b8033a36909d54e4cd744dd",
+   "bytes": 70258
+  },
+  {
+   "gameId": 916272234,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "execdd17",
+    "agentId": 3794264,
+    "ratingAtFetch": 22.514689174468458
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    31.0,
+    0.0
+   ],
+   "seed": "865161811",
+   "frames": 387,
+   "marker": "3f19aa6e",
+   "sha256": "eb1f2e612ba2065e4df7a27f2399974784b076a121037b48b29649f560b9bedd",
+   "bytes": 483165
+  },
+  {
+   "gameId": 916272352,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "--CC--",
+    "agentId": 2845677,
+    "ratingAtFetch": 21.56995233268919
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    8.0,
+    38.0
+   ],
+   "seed": "945027861",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "93200a909de8841962432b46a8fb383cca399b07c91a25ad041b103c74574bce",
+   "bytes": 529867
+  },
+  {
+   "gameId": 916272464,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Apodus",
+    "agentId": 4490821,
+    "ratingAtFetch": 20.59674301760036
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    21.0,
+    0.0
+   ],
+   "seed": "12800200",
+   "frames": 215,
+   "marker": "3f19aa6e",
+   "sha256": "6a00dbf17e32a67ac94f09f862046c606cd26b3ecb453b69f7439f9d87c5b32c",
+   "bytes": 278405
+  },
+  {
+   "gameId": 916272556,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "scorbiere",
+    "agentId": 2009656,
+    "ratingAtFetch": 21.35118656180303
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    30.0,
+    0.0
+   ],
+   "seed": "430451791",
+   "frames": 441,
+   "marker": "3f19aa6e",
+   "sha256": "4e3edeca00c7d13564a99c47d50e9911b7e2488f3ab36976708c6388a82718f9",
+   "bytes": 503743
+  },
+  {
+   "gameId": 916272637,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "Gamli",
+    "agentId": 1887282,
+    "ratingAtFetch": 20.518884208165858
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    34.0
+   ],
+   "seed": "893575729",
+   "frames": 383,
+   "marker": "3f19aa6e",
+   "sha256": "f44ba821f6b7ca733944b144033d39b86173c042e7cab73131e584d0b130603a",
+   "bytes": 532206
+  },
+  {
+   "gameId": 916272697,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "Raubtaube",
+    "agentId": 1874160,
+    "ratingAtFetch": 20.840983143708915
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    46.0,
+    63.0
+   ],
+   "seed": "318578452",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "c5ff12af24506470300e18dd2a6a41cc2f5c02b6f2e8d88d548c2a3e70a8a696",
+   "bytes": 614766
+  },
+  {
+   "gameId": 916272761,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "NoOzZy",
+    "agentId": 5048616,
+    "ratingAtFetch": 21.40006080041379
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    85.0,
+    0.0
+   ],
+   "seed": "928113214",
+   "frames": 99,
+   "marker": "3f19aa6e",
+   "sha256": "6576863602ee4d874e0874252acce25e0725b51f8f44cddc9cac8c36c240608f",
+   "bytes": 113992
+  },
+  {
+   "gameId": 916272811,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "Antsurf",
+    "agentId": 4928931,
+    "ratingAtFetch": 22.009883906971275
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    95.0
+   ],
+   "seed": "625672152",
+   "frames": 475,
+   "marker": "3f19aa6e",
+   "sha256": "4cd890631ce1adf3c7b8c4261fc2eb4f458b54fdeacb2a5db8963655169487b1",
+   "bytes": 537232
+  },
+  {
+   "gameId": 916272881,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Drus_O",
+    "agentId": 1860912,
+    "ratingAtFetch": 22.590982682812356
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    25.0,
+    0.0
+   ],
+   "seed": "614201785",
+   "frames": 119,
+   "marker": "3f19aa6e",
+   "sha256": "766d7c8d10da8f31e663d97e8abcde2481c6582c0a89fa31158ab03731311fe2",
+   "bytes": 133122
+  },
+  {
+   "gameId": 916272934,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Ariste_j",
+    "agentId": 3439278,
+    "ratingAtFetch": 22.894109817482224
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    72.0,
+    0.0
+   ],
+   "seed": "154976154",
+   "frames": 95,
+   "marker": "3f19aa6e",
+   "sha256": "b23624d82bdf9f861e24171378ea82077009cdad98d6a5da85e0aff7944ca1c6",
+   "bytes": 102725
+  },
+  {
+   "gameId": 916272968,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Wisp",
+    "agentId": 5014986,
+    "ratingAtFetch": 23.152717360425175
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    25.0,
+    6.0
+   ],
+   "seed": "343587653",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "588430d84aa1ef60b6d75d6ff14ea26888952e490708b14faf1daa4c98f51534",
+   "bytes": 623505
+  },
+  {
+   "gameId": 916273102,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "Fluttershy",
+    "agentId": 1861607,
+    "ratingAtFetch": 23.593829000875093
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    30.0
+   ],
+   "seed": "969944783",
+   "frames": 85,
+   "marker": "3f19aa6e",
+   "sha256": "282d22c5ffa80e1eb632fb9a99a29b121a343ddcb7bcb5eaad963764f3ec80ce",
+   "bytes": 78383
+  },
+  {
+   "gameId": 916273137,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Crabby",
+    "agentId": 2235662,
+    "ratingAtFetch": 23.95048012297424
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    21.0,
+    0.0
+   ],
+   "seed": "990158978",
+   "frames": 65,
+   "marker": "3f19aa6e",
+   "sha256": "ba0655d4b992acc7f39bba39f913f26d5cbd5df6bf88615a47367e185a459301",
+   "bytes": 56988
+  },
+  {
+   "gameId": 916273164,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "InPinUn",
+    "agentId": 4424380,
+    "ratingAtFetch": 24.63681132278637
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    61.0,
+    0.0
+   ],
+   "seed": "908681978",
+   "frames": 337,
+   "marker": "3f19aa6e",
+   "sha256": "3d857a1b71dc446cbd17581b5f55dbf2ff191c03cbc44bd92a4b1b0378f90299",
+   "bytes": 417422
+  },
+  {
+   "gameId": 916273233,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "gin12358",
+    "agentId": 4179484,
+    "ratingAtFetch": 25.22268860415259
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    20.0
+   ],
+   "seed": "278688708",
+   "frames": 385,
+   "marker": "3f19aa6e",
+   "sha256": "13477cb976b8147814cde8e207951e0ba176db3bf088d6fce8a5b988d9d17a66",
+   "bytes": 494685
+  },
+  {
+   "gameId": 916273282,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "Dam",
+    "agentId": 2129651,
+    "ratingAtFetch": 24.922842889920823
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    30.0,
+    6.0
+   ],
+   "seed": "919793314",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "a649224f59870385b4a900b144feb9b62a9e7d67735ca2413739881da0c315ae",
+   "bytes": 571332
+  },
+  {
+   "gameId": 916273350,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "ush189",
+    "agentId": 1906654,
+    "ratingAtFetch": 24.09477511310924
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    8.0,
+    47.0
+   ],
+   "seed": "285020207",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "2bfef84ee7366ceff11f3068400b17a5234abde9f48e252921129980b718a81f",
+   "bytes": 679131
+  },
+  {
+   "gameId": 916273432,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "n00req",
+    "agentId": 3122571,
+    "ratingAtFetch": 24.533129976711038
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    39.0,
+    0.0
+   ],
+   "seed": "293659521",
+   "frames": 185,
+   "marker": "3f19aa6e",
+   "sha256": "ed1fae511ad3b7d4cf5f38664e04cd65c2ebc58820bc7a3b711312152e478cfb",
+   "bytes": 183121
+  },
+  {
+   "gameId": 916273487,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "Mjo",
+    "agentId": 2341906,
+    "ratingAtFetch": 25.087107846302075
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    13.0,
+    0.0
+   ],
+   "seed": "530004736",
+   "frames": 317,
+   "marker": "3f19aa6e",
+   "sha256": "7a0b4f76dae9410412ec07565fd600864b7759266c29644cd7048b0caccbc3d3",
+   "bytes": 369227
+  },
+  {
+   "gameId": 916273533,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "JYLAH",
+    "agentId": 5605307,
+    "ratingAtFetch": 24.313040826421386
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    87.0,
+    0.0
+   ],
+   "seed": "647647741",
+   "frames": 379,
+   "marker": "3f19aa6e",
+   "sha256": "0a06b36da290bf59d082f1fa9fd57f425aacdc5bfbc0bafef9a3e154810be6ec",
+   "bytes": 512920
+  },
+  {
+   "gameId": 916273614,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "Konstant",
+    "agentId": 3336672,
+    "ratingAtFetch": 24.658891277945514
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    20.0,
+    62.0
+   ],
+   "seed": "556710398",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "77b3f309afca6da3110d9556567ab57cb9d005d6c4954a54ea6d3c85a4478563",
+   "bytes": 697231
+  },
+  {
+   "gameId": 916273679,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "Chairman_of_the_Borg",
+    "agentId": 3781992,
+    "ratingAtFetch": 24.792380804752867
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    30.0,
+    49.0
+   ],
+   "seed": "232183238",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "ab8496cd42c92bc26ad319795af71b7ee145d24c5fe17ff9e20296809e5dff12",
+   "bytes": 598018
+  },
+  {
+   "gameId": 916273733,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Hjulle",
+    "agentId": 1933954,
+    "ratingAtFetch": 25.333973375203186
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    25.0,
+    0.0
+   ],
+   "seed": "47894021",
+   "frames": 107,
+   "marker": "3f19aa6e",
+   "sha256": "ce74afadd3dca042bf871830e64ded25b8bb75ab65351a401bc8ac52e4246480",
+   "bytes": 123328
+  },
+  {
+   "gameId": 916273791,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "RaAdyn",
+    "agentId": 5548233,
+    "ratingAtFetch": 25.459518560377983
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    90.0,
+    0.0
+   ],
+   "seed": "455461414",
+   "frames": 329,
+   "marker": "3f19aa6e",
+   "sha256": "dfe2cab2598343a90456b3fe990a7e9d592c8875fa7d1af3f0dcb0589f181c12",
+   "bytes": 439408
+  },
+  {
+   "gameId": 916273867,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "LogicalKip",
+    "agentId": 3332924,
+    "ratingAtFetch": 25.973301560627124
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    11.0
+   ],
+   "seed": "486671883",
+   "frames": 113,
+   "marker": "3f19aa6e",
+   "sha256": "ebf943d1b8181a49ae36097d08f4c96fdfdf73ce7532fdea8d2e07e36ea86098",
+   "bytes": 144662
+  },
+  {
+   "gameId": 916273936,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "C00Lman",
+    "agentId": 6775530,
+    "ratingAtFetch": 26.425698113892764
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    43.0,
+    9.0
+   ],
+   "seed": "337813972",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "213a92e8a60e8c1739876eb6c203cea2b66d89e7e961ac60fa2b43f1488cd941",
+   "bytes": 636183
+  },
+  {
+   "gameId": 916274010,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "eboot",
+    "agentId": 5337741,
+    "ratingAtFetch": 26.11609194399819
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    58.0,
+    0.0
+   ],
+   "seed": "415895814",
+   "frames": 143,
+   "marker": "3f19aa6e",
+   "sha256": "58dfea5c4e0c4cf71cbf639c6b236a971edd57d99b54fad7c0af8554af36eb5a",
+   "bytes": 178392
+  },
+  {
+   "gameId": 916274164,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "C00Lman",
+    "agentId": 6775530,
+    "ratingAtFetch": 26.304142698016918
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    33.0,
+    62.0
+   ],
+   "seed": "957022331",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "6ca4e9daa2d2f441c797e3279b334006b1fb1d4b37c0144fa09468205e330000",
+   "bytes": 586182
+  },
+  {
+   "gameId": 916274236,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "epfennig",
+    "agentId": 4273258,
+    "ratingAtFetch": 26.306170180486358
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    35.0
+   ],
+   "seed": "314995520",
+   "frames": 347,
+   "marker": "3f19aa6e",
+   "sha256": "33b0326c5e5712c0ef334e342e10bf32fdc69723d3c67662737f322aefded40b",
+   "bytes": 415408
+  },
+  {
+   "gameId": 916274351,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "metwesse",
+    "agentId": 1934384,
+    "ratingAtFetch": 26.634492790691507
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    59.0,
+    -1.0
+   ],
+   "seed": "327607980",
+   "frames": 313,
+   "marker": "3f19aa6e",
+   "sha256": "38f55bab58a1a6f442b30c8b617e2327466f6b0e68d66422efe84ccc99a01651",
+   "bytes": 375515
+  },
+  {
+   "gameId": 916274419,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "A6n",
+    "agentId": 6218823,
+    "ratingAtFetch": 26.840246184186462
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    13.0
+   ],
+   "seed": "570756480",
+   "frames": 117,
+   "marker": "3f19aa6e",
+   "sha256": "900738e6cc71999ddacbe384af23db5b9b67d0448fee3b38cce045331ee72ea5",
+   "bytes": 150372
+  },
+  {
+   "gameId": 916274480,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "HKit",
+    "agentId": 2256625,
+    "ratingAtFetch": 27.53745137721419
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    48.0
+   ],
+   "seed": "367433801",
+   "frames": 373,
+   "marker": "3f19aa6e",
+   "sha256": "3c0d1f9675bc637e4ec7397619285e7d53cbf87b5fb6be93b6348c018ece43fc",
+   "bytes": 491229
+  },
+  {
+   "gameId": 916274621,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "A6n",
+    "agentId": 6218823,
+    "ratingAtFetch": 26.840246184186462
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    47.0,
+    0.0
+   ],
+   "seed": "56111031",
+   "frames": 479,
+   "marker": "3f19aa6e",
+   "sha256": "b61d2f9b6b963ccb44155ac8fe41b1507db09e8432ced2413a3d8aaed8e8ebbd",
+   "bytes": 533069
+  },
+  {
+   "gameId": 916274730,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "A6n",
+    "agentId": 6218823,
+    "ratingAtFetch": 26.759038518431904
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    2.0,
+    26.0
+   ],
+   "seed": "692468974",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "499b729afe9f2e14fca61dea4621e944b31a7a96a3f1b9b72495d0e6dd571e74",
+   "bytes": 587272
+  },
+  {
+   "gameId": 916274909,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "Morcifer",
+    "agentId": 4826072,
+    "ratingAtFetch": 26.8764340993364
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    38.0,
+    67.0
+   ],
+   "seed": "826351789",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "7bb3a85a983a11255dac243fb255412b6fad213f42a57de8b767af7fed9a797f",
+   "bytes": 597734
+  },
+  {
+   "gameId": 916275073,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "EasyAsPai",
+    "agentId": 1867010,
+    "ratingAtFetch": 26.92148954789284
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    58.0,
+    0.0
+   ],
+   "seed": "61822442",
+   "frames": 415,
+   "marker": "3f19aa6e",
+   "sha256": "d2929383aa2fb442e1fb95e2f4adba8f3e1739fa0f6375b7a13c2f0764161f5b",
+   "bytes": 627512
+  },
+  {
+   "gameId": 916275187,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "EasyAsPai",
+    "agentId": 1867010,
+    "ratingAtFetch": 26.92148954789284
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    31.0,
+    0.0
+   ],
+   "seed": "522003602",
+   "frames": 383,
+   "marker": "3f19aa6e",
+   "sha256": "94944abf12dc3121b22e5c0fa5c9ad85090e1891afb0aeecfc97dcde36b012eb",
+   "bytes": 584033
+  },
+  {
+   "gameId": 916275323,
+   "seat": 0,
+   "opponent": {
+    "pseudo": null,
+    "agentId": 1870318,
+    "ratingAtFetch": 27.80804706704908
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    25.0,
+    0.0
+   ],
+   "seed": "885921368",
+   "frames": 243,
+   "marker": "3f19aa6e",
+   "sha256": "440a66bab582a9767e7f6927a745936a741a6cac4759b5b6440fd16493b97626",
+   "bytes": 289492
+  },
+  {
+   "gameId": 916275442,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "nimartinez",
+    "agentId": 4424925,
+    "ratingAtFetch": 26.86410572157363
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    63.0
+   ],
+   "seed": "312458235",
+   "frames": 371,
+   "marker": "3f19aa6e",
+   "sha256": "7ebbc9de1b40e973327c69c2365ee200a012fdb70e08c7daa7d5c5b30d943eef",
+   "bytes": 453121
+  },
+  {
+   "gameId": 916275516,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "nimartinez",
+    "agentId": 4424925,
+    "ratingAtFetch": 26.86410572157363
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    11.0,
+    0.0
+   ],
+   "seed": "346029404",
+   "frames": 239,
+   "marker": "3f19aa6e",
+   "sha256": "dcb7c80dbea46e933a290e5614c677415168d24aaf578ca4249f518d08c422cc",
+   "bytes": 225942
+  },
+  {
+   "gameId": 916275663,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "HKit",
+    "agentId": 2256625,
+    "ratingAtFetch": 27.376975157819064
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    42.0,
+    0.0
+   ],
+   "seed": "787309133",
+   "frames": 303,
+   "marker": "3f19aa6e",
+   "sha256": "bd4516c9586fb685d5c37da054813995c900b97c3619705cc4af01575284ab1a",
+   "bytes": 386112
+  },
+  {
+   "gameId": 916275726,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "HKit",
+    "agentId": 2256625,
+    "ratingAtFetch": 27.376975157819064
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    57.0,
+    0.0
+   ],
+   "seed": "422364000",
+   "frames": 321,
+   "marker": "3f19aa6e",
+   "sha256": "d4e8b7b042fc92f77434bda78f7983b59f3701657a56eaf0c177ef8f0ce24d43",
+   "bytes": 414145
+  }
+ ],
+ "failures": []
+}

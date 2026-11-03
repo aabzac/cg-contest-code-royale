@@ -77,7 +77,12 @@
   and KITE_MAX; the queen near her towers 87 % of the contact turns; screened under P2 with G4 against v07:
   S 0.666, +13.7 pp against `field`, passed; final evaluation on block 7 S 0.667, +14.8 pp against `field`,
   the upload recommendation met; frozen as v08 (2026-11-03), `submit` and `procCheck` passed (`docs/BOTS.md`,
-  Artifacts); the upload under P1 is the user's, the arena decides the version
+  Artifacts)
+- [x] v08 on the arena under P1 (agents 6843773 and 6843829): placements 27.85 and 28.13, mean 27.99 against
+  v07's 25.53, not clearly worse, so v08 is selected 2026-11-03; 4 of 8 against the boss;
+  `eligibleForPromotion` true (`docs/arena-uploads.md`)
+- [ ] Silver: when the promotion lands, register the new agent as v08's first Silver upload, rebuild the
+  baseline with two uploads there, re-validate the proxy (PV lapses on a league change: `docs/local-screen.md`)
 - [x] Late economy (2026-11-03, `docs/data/exp-2026-11-03-late-income/`): INCOME_LATE (the income target after
   the ladder) neutral against v06 (0.505-0.513), with thinner top-ups a loss; off by default, not screened
 - [x] Study 2026-10-30 (`docs/data/study-2026-10-30/`): we build towers late and few, stronger players
