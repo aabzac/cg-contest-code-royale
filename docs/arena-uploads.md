@@ -142,17 +142,25 @@ maps them.
   - `status` shows the leaderboard row of `aabzac` and the registered upload it belongs to; it writes
     nothing.
   - `follow <label> [--selected <label>]`, started just before the paste:
-    1. saves the live entry;
-    2. waits for the new agent;
-    3. registers it with the artifact's identity (`./gradlew artifactInfo -Pfile=...` for new bytes) and
-       keeps the artifact in `artifacts/`;
-    4. follows the placement at P1's cadence while fetching the finished games every minute, and records
-       the placement score;
-    5. runs `cgAttribute` and records its result, then prints the label's comparison (with
+    1. checks the artifact before anything else: the label's kept copy, or `build/submit/Player.java` for
+       a new label (`./gradlew artifactInfo -Pfile=...` for new bytes); another configuration under the
+       label is refused;
+    2. saves the live entry;
+    3. names the file to paste, with its sha256 and build id, and warns when `build/submit/Player.java`
+       holds other bytes. It then waits for the new agent. When the old agent's battle list is empty, the
+       paste has reached CG and the leaderboard lags (7 minutes at upload 5): it says so instead of asking
+       for another paste;
+    4. reads the new agent's first finished game: another build's turn-0 marker stops the command before
+       the registration, with the replay kept under `unknown/`;
+    5. registers the agent and keeps the artifact in `artifacts/`;
+    6. follows the placement at P1's cadence while fetching the finished games a minute after the last
+       fetch ended, stops on games with another build's marker, and records the placement score;
+    7. runs `cgAttribute` and records its result, then prints the label's comparison (with
        `--selected`, the P1 verdict).
 
     A promotion during the placement becomes the next upload in the new league. Interrupted, the same
-    command resumes.
+    command resumes. A complete entry without `attribution` (a follow stopped after the placement)
+    resumes under its own label instead of starting a re-upload.
   - `fetch [--agent ID]` fetches the games again and reruns `cgAttribute`.
 
   Progress goes to the console and to the upload's `checks/arena.log`. Offline tests:

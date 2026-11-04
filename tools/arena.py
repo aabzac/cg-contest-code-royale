@@ -6,17 +6,24 @@ Run from the repository root:
       What plays on the arena now (the leaderboard row of aabzac) and which registered upload it is.
       Writes nothing.
   python -B -I tools/arena.py follow <label> [--artifact PATH] [--selected LABEL] [--wait MINUTES]
-      Start it, then paste the code in the IDE. Started after the paste, it goes on from step 3.
-      1. Saves the live entry: a snapshot and its games (a replacement empties the old agent's battle list).
-      2. Waits for the new agent on the leaderboard (30 minutes by default).
-      3. Registers it in docs/data/arena-uploads.json as the label's next upload, in the league it plays,
-         with the artifact's sha256, build id and config id; the previous entry gets "replaced". The
-         artifact is the label's kept copy artifacts/<sha256[:8]>/Player.java when the label was uploaded
-         before, else build/submit/Player.java (--artifact names another file); it is kept there.
-      4. Follows the placement as P1 says: a snapshot every 3 minutes, every minute from 85 %, and the
-         finished games every minute, until percentage 100 with inProgress false. A promotion during the
-         placement registers the new agent as the label's next upload in the new league and follows it.
-      5. Records the placement, fetches the remaining games, runs cgAttribute against the kept artifact and
+      Start it, wait for the line naming the file to paste, then paste that file in the IDE once. Started
+      after the paste, it goes on from step 4.
+      1. Chooses the artifact and checks it: the label's kept copy artifacts/<sha256[:8]>/Player.java when
+         the label was uploaded before, else build/submit/Player.java (--artifact names another file). Its
+         sha256, build id and config id; another configuration under the label is refused here.
+      2. Saves the live entry: a snapshot and its games (a replacement empties the old agent's battle list).
+      3. Names the file to paste and waits for the new agent on the leaderboard (30 minutes by default). CG
+         may list it minutes late: an empty battle list of the old agent shows that the paste has arrived,
+         and the command says so instead of asking for another paste.
+      4. Checks the new agent's first finished game: it must print the artifact's build marker on turn 0.
+         Another build stops the command with nothing registered (the replay stays under unknown/).
+      5. Registers the agent in docs/data/arena-uploads.json as the label's next upload, in the league it
+         plays; the previous entry gets "replaced"; the artifact is kept in artifacts/.
+      6. Follows the placement as P1 says: a snapshot every 3 minutes, every minute from 85 %, and the
+         finished games a minute after the last fetch ended, until percentage 100 with inProgress false. A
+         promotion during the placement registers the new agent as the label's next upload in the new
+         league and follows it; games with another build's marker stop it.
+      7. Records the placement, fetches the remaining games, runs cgAttribute against the kept artifact and
          records its result; prints the label's arena comparison, with --selected the P1 verdict.
       Interrupted (Ctrl+C) or stopped, the same command resumes with the registered agent.
   python -B -I tools/arena.py fetch [--agent ID] [--no-attribute]
@@ -47,14 +54,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import arena_compare  # noqa: E402
 import arena_games  # noqa: E402
 import arena_snapshot  # noqa: E402
-from arena_paths import DEFAULT_REGISTRY, check_registry, unknown_dir, upload_dir  # noqa: E402
+from arena_paths import DEFAULT_REGISTRY, check_registry, decode_battles, unknown_dir, upload_dir, write_raw  # noqa: E402
 
 PSEUDO = "aabzac"
 WAIT_POLL_S = 20
+BATTLES_CHECK_S = 60  # while waiting: how often the old agent's battle list is read
 SNAPSHOT_S, LATE_SNAPSHOT_S, LATE_PERCENT = 180, 60, 85
 FETCH_S = 60
 FINAL_FETCHES = 10
 NOTE_S = 300
+MARKER_GAMES, MARKER_WAIT_S = 3, 600  # the build check: games read at most, time for a first finished game
+FOREIGN = "differs from registered build"  # arena_games' failure for a game with another build's marker
 NAMES = arena_snapshot.NAMES
 ATTRIBUTION = re.compile(r"attribution of (\d+) to .*?: games=(\d+) same=(\d+) differ=(\d+) partial=(\d+) "
                          r"error=(\d+) comparedTurns=(\d+) markers=\{([^}]*)\}")
@@ -242,6 +252,27 @@ def keep(data, sha):
     return kept
 
 
+def same_configuration(label, uploads, record):
+    """Refuses an artifact whose config id differs from the label's: one label, one configuration."""
+    same = [u for u in uploads if u["label"] == label]
+    if same and same[0]["artifact"]["config"] != record["config"]:
+        raise Refused("label %s holds config %s, the artifact has config %s (one label, one configuration): choose a "
+                      "new label or --artifact" % (label, same[0]["artifact"]["config"], record["config"]))
+
+
+def other_bytes(path, record, uploads):
+    """A warning when build/submit/Player.java, the file usually pasted, is not the artifact to paste."""
+    submit = Path("build/submit/Player.java")
+    if not submit.is_file() or path.resolve() == submit.resolve():
+        return ""
+    sha = hashlib.sha256(submit.read_bytes()).hexdigest()
+    if sha == record["sha256"]:
+        return ""
+    known = next((u for u in uploads if (u.get("artifact") or {}).get("sha256") == sha), None)
+    return "; not build/submit/Player.java, which holds other bytes (%s%s)" % (
+        sha[:8], ", %s's artifact" % known["label"] if known else "")
+
+
 # ---- the steps
 
 def register(reg_path, label, agent, league, created_ms, log, artifact, previous=None, submission=None, promoted=False):
@@ -250,11 +281,8 @@ def register(reg_path, label, agent, league, created_ms, log, artifact, previous
     uploads = registry["uploads"]
     if any(u["agent"] == agent for u in uploads + registry.get("legacyUploads", [])):
         raise Refused("agent %d is registered already" % agent)
-    same = [u for u in uploads if u["label"] == label]
-    if same and same[0]["artifact"]["config"] != artifact["config"]:
-        raise Refused("label %s holds config %s, the artifact has config %s (one label, one configuration): choose a "
-                      "new label or --artifact" % (label, same[0]["artifact"]["config"], artifact["config"]))
-    number = 1 + max((u["upload"] for u in same), default=0)
+    same_configuration(label, uploads, artifact)
+    number = 1 + max((u["upload"] for u in uploads if u["label"] == label), default=0)
     day = time.strftime("%Y-%m-%d")
     if promoted:
         by = "CG's promotion of %s upload %d during its placement" % (previous["label"], previous["upload"])
@@ -297,23 +325,33 @@ def adopt_unknown(entry):
         else:
             dest.parent.mkdir(parents=True, exist_ok=True)
             f.replace(dest)
-    for d in sorted((p for p in source.parent.rglob("*") if p.is_dir()), key=lambda p: len(p.parts), reverse=True) + \
-            [source.parent, source.parent.parent, source.parent.parent.parent]:
+    prune_unknown(entry["agent"], entry["league"])
+
+
+def prune_unknown(agent, league):
+    """Removes the empty directories of the agent under replays/arena/unknown (games there go through arena_games)."""
+    top = unknown_dir(agent, league)
+    if not top.is_dir():
+        return
+    for d in sorted((p for p in top.rglob("*") if p.is_dir()), key=lambda p: len(p.parts), reverse=True) + \
+            [top, top.parent, top.parent.parent]:
         with contextlib.suppress(OSError):
             d.rmdir()  # only empty directories go
 
 
 def fetch(entry, log, reg_path):
-    """arena_games for the entry: its manifest's summary and the exit code."""
+    """arena_games for the entry: its manifest's summary, the games with another build's marker and the exit code."""
     try:
         code = captured(log, arena_games.main, [str(entry["agent"]), "--registry", str(reg_path)])
     except SystemExit as e:  # argparse's error: the registry or a manifest refused the agent
         code = e.code if isinstance(e.code, int) else 2
+    prune_unknown(entry["agent"], entry["league"])
     path = Path(entry["games"])
     manifest = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     s, rows = manifest.get("summary") or {}, manifest.get("battleRows") or {}
     info = {"code": code, "games": s.get("games", 0), "wins": s.get("wins", 0), "failures": s.get("failures", 0),
-            "notDone": rows.get("notDone"), "markers": s.get("markers", {}), "ties": s.get("scoreTies", 0)}
+            "notDone": rows.get("notDone"), "markers": s.get("markers", {}), "ties": s.get("scoreTies", 0),
+            "foreign": [f["error"] for f in manifest.get("failures", []) if FOREIGN in f.get("error", "")]}
     log.say("games of %s: %d fetched, %d won, markers %s, %d failures, %s unfinished%s" % (
         name(entry), info["games"], info["wins"], info["markers"], info["failures"], info["notDone"],
         "" if code == 0 else "; FAIL exit %s, see checks/arena.log" % code))
@@ -333,24 +371,77 @@ def fetch_all(entry, log, reg_path, sleep):
     return info
 
 
-def wait_for_agent(old, deadline, log, clock, sleep):
-    """The leaderboard row once it shows an agent outside old."""
-    noted = clock()
+def wait_for_agent(old, deadline, log, clock, sleep, pasted=False, wait=30):
+    """The leaderboard row once it shows an agent other than old.
+
+    CG can list a new agent minutes after the paste; the old agent's battle list empties at once, so an empty
+    list means the paste has arrived. Then the wait gets its full length again and nobody is asked to paste.
+    """
+    noted = checked = clock()
     while True:
         row = leaderboard_row()
-        if row is not None and row.get("agentId") not in old:
+        if row is not None and row.get("agentId") != old:
             log.say("new agent %d on the leaderboard: %s, placement %s %%" % (row["agentId"], row_league(row), row.get("percentage")))
             return row
+        if not pasted and clock() - checked >= BATTLES_CHECK_S:
+            checked = clock()
+            if not decode_battles(arena_games.call_raw("gamesPlayersRanking/findLastBattlesByAgentId", [old, None]), old):
+                pasted, deadline = True, max(deadline, clock() + 60 * wait)
+                log.say("the battle list of agent %d is empty: CG has the paste; waiting for it to list the new agent "
+                        "(do not paste again)" % old)
         if clock() >= deadline:
             raise Stopped("no new agent on the leaderboard in time; after the paste the same command goes on")
         if clock() - noted >= NOTE_S:
-            log.say("still waiting for the paste")
+            log.say("still waiting for CG to list the new agent" if pasted else "still waiting for the paste")
             noted = clock()
         sleep(WAIT_POLL_S)
 
 
+def check_build(agent, league, record, uploads, log, clock, sleep):
+    """Stops unless the agent's first finished games print the artifact's build marker.
+
+    Their replays stay under replays/arena/unknown/<league>/agent-<id>/games: arena_games takes them from
+    there after the registration, and after a stop they are the evidence. At most MARKER_GAMES games are
+    read (a game without a turn-0 answer has no marker); the first finished game is waited for.
+    """
+    if record["build"] is None:
+        log.say("the artifact prints no build marker: the games cannot show its build")
+        return
+    deadline, seen = clock() + MARKER_WAIT_S, []
+    while True:
+        rows = decode_battles(arena_games.call_raw("gamesPlayersRanking/findLastBattlesByAgentId", [agent, None]), agent)
+        for gid in sorted(r["gameId"] for r in rows if r.get("done") and r["gameId"] not in seen)[:MARKER_GAMES - len(seen)]:
+            path = unknown_dir(agent, league) / "games" / ("%d.json" % gid)
+            raw = path.read_bytes() if path.exists() else arena_games.call_raw("gameResult/findByGameId", [gid, None])
+            try:
+                marker = arena_games.describe(raw, gid, agent)["marker"]
+            except ValueError:
+                continue  # not a complete game yet: read again on the next round
+            write_raw(path, raw)
+            seen.append(gid)
+            if marker == record["build"]:
+                log.say("the new agent plays build %s (game %d), the artifact's" % (marker, gid))
+                return
+            if marker is not None:
+                other = next((u for u in uploads if (u.get("artifact") or {}).get("build") == marker), None)
+                raise Stopped("agent %d plays build %s (game %d)%s, not build %s of the artifact %s: CG got another file. "
+                              "Nothing is registered; the replay stays in %s" % (
+                                  agent, marker, gid, ", the artifact of %s upload %d" % (other["label"], other["upload"])
+                                  if other else "", record["build"], record["sha256"][:8], path.parent.as_posix()))
+        if len(seen) >= MARKER_GAMES:
+            raise Stopped("agent %d printed no build marker in its first %d games (the artifact's build is %s); nothing is "
+                          "registered" % (agent, MARKER_GAMES, record["build"]))
+        if clock() >= deadline:
+            raise Stopped("agent %d finished no game in %d minutes to show its build; the same command goes on"
+                          % (agent, MARKER_WAIT_S // 60))
+        sleep(WAIT_POLL_S)
+
+
 def watch(reg_path, entry, log, clock, sleep):
-    """Follows the placement (P1's cadence) and fetches games every minute; returns the entry with its placement."""
+    """Follows the placement (P1's cadence) and fetches games a minute after the last fetch ended.
+
+    Returns the entry with its placement; games with another build's marker stop it.
+    """
     next_snapshot = next_fetch = clock()
     first = last = None
     while True:
@@ -399,8 +490,11 @@ def watch(reg_path, entry, log, clock, sleep):
                 return entry
             next_snapshot = now + (LATE_SNAPSHOT_S if (pct or 0) >= LATE_PERCENT else SNAPSHOT_S)
         if now >= next_fetch:
-            fetch(entry, log, reg_path)
-            next_fetch = now + FETCH_S
+            info = fetch(entry, log, reg_path)
+            if info["foreign"]:
+                raise Stopped("games of %s carry another build's marker, not the registered %s: %s; they wait under "
+                              "replays/arena/unknown" % (name(entry), entry["artifact"]["build"], info["foreign"][0]))
+            next_fetch = clock() + FETCH_S  # from the end: a slow fetch is not followed at once by another
         sleep(max(1.0, min(next_snapshot, next_fetch) - clock()))
 
 
@@ -484,43 +578,54 @@ def follow(label, log, artifact=None, selected=None, wait=30, reg_path=DEFAULT_R
     row = leaderboard_row()
     if row is None:
         raise Stopped("no active leaderboard row for %s" % PSEUDO)
-    entry = next((u for u in registry["uploads"] if u["agent"] == row["agentId"]), None)
+    uploads = registry["uploads"]
+    entry = next((u for u in uploads if u["agent"] == row["agentId"]), None)
     if entry is not None and entry.get("promotedTo"):
         raise Stopped("the leaderboard still shows %s, which ended in a promotion" % name(entry))
-    if entry is not None and complete(entry):
-        if entry["label"] == label and not entry.get("attribution"):
-            log.to(entry)
-            log.say("resuming %s after its placement" % name(entry))
-            return finish(reg_path, entry, log, run_gradle, selected, sleep)
-        if live is None or entry["agent"] != live["agent"]:
-            raise Stopped("the leaderboard shows %s, which the registry does not list as live" % name(entry))
-        log.to(live)
-        log.say("live entry: %s, placement %s; saving it before the paste" % (name(live), live["placement"]["score"]))
-        captured(log, arena_snapshot.take, live["agent"], PSEUDO, live["league"], check_registry(read_registry(reg_path)))
-        fetch(live, log, reg_path)
-        log.say("paste the code in the IDE now; waiting up to %d minutes for the new agent" % wait)
-        row = wait_for_agent({live["agent"]}, clock() + 60 * wait, log, clock, sleep)
-        entry = next((u for u in read_registry(reg_path)["uploads"] if u["agent"] == row["agentId"]), None)
-    if entry is None:
-        league = row_league(row)
-        if live is not None:
-            if log.path is None:
-                log.to(live)
-            log.say("the leaderboard shows the new agent %d in %s; saving what is left of %s" % (row["agentId"], league, name(live)))
-            fetch(live, log, reg_path)
-        out, _, _ = captured(log, arena_snapshot.take, row["agentId"], PSEUDO, league, check_registry(read_registry(reg_path)))
-        uploads = read_registry(reg_path)["uploads"]
-        record, data = identify(artifact_for(label, uploads, artifact), uploads, run_gradle)
-        record["source"] += "; kept copy " + keep(data, record["sha256"]).as_posix()
-        entry = register(reg_path, label, row["agentId"], league, row["creationTime"], log, record, previous=live,
-                         submission=own_submission(out))
-    elif not complete(entry):
+    if entry is not None and not complete(entry):
         if entry["label"] != label:
             raise Refused("agent %d is registered as %s, not %s" % (entry["agent"], name(entry), label))
         log.to(entry)
         log.say("resuming %s: its placement is not recorded yet" % name(entry))
-    entry = watch(reg_path, entry, log, clock, sleep)
-    return finish(reg_path, entry, log, run_gradle, selected, sleep)
+        return finish(reg_path, watch(reg_path, entry, log, clock, sleep), log, run_gradle, selected, sleep)
+    if entry is not None and entry["label"] == label and not entry.get("attribution"):
+        log.to(entry)
+        log.say("resuming %s after its placement" % name(entry))
+        return finish(reg_path, entry, log, run_gradle, selected, sleep)
+    if entry is not None and (live is None or entry["agent"] != live["agent"]):
+        raise Stopped("the leaderboard shows %s, which the registry does not list as live" % name(entry))
+    # A new upload: the file and the label are checked before anything is saved or pasted.
+    path = artifact_for(label, uploads, artifact)
+    record, data = identify(path, uploads, run_gradle)
+    same_configuration(label, uploads, record)
+    saved = False
+    if entry is not None:  # the leaderboard still shows the live entry
+        log.to(live)
+        log.say("live entry: %s, placement %s; saving it before the paste" % (name(live), live["placement"]["score"]))
+        out, _, _ = captured(log, arena_snapshot.take, live["agent"], PSEUDO, live["league"], check_registry(read_registry(reg_path)))
+        fetch(live, log, reg_path)
+        saved = True
+        pasted = out["agentId"] != live["agent"] or not out["battles"]["count"]
+        if pasted:
+            log.say("the battle list of agent %d is empty: CG has a paste already; waiting up to %d minutes for it to list "
+                    "the new agent (do not paste again)" % (live["agent"], wait))
+        else:
+            log.say("paste %s in the IDE now (sha256 %s..., build %s)%s; waiting up to %d minutes for the new agent" % (
+                path.as_posix(), record["sha256"][:8], record["build"], other_bytes(path, record, uploads), wait))
+        row = wait_for_agent(live["agent"], clock() + 60 * wait, log, clock, sleep, pasted, wait)
+        if any(u["agent"] == row["agentId"] for u in read_registry(reg_path)["uploads"]):
+            raise Stopped("agent %d was registered meanwhile; run the command again" % row["agentId"])
+    league = row_league(row)
+    if live is not None and not saved:
+        log.to(live)
+        log.say("the leaderboard shows the new agent %d in %s; saving what is left of %s" % (row["agentId"], league, name(live)))
+        fetch(live, log, reg_path)
+    out, _, _ = captured(log, arena_snapshot.take, row["agentId"], PSEUDO, league, check_registry(read_registry(reg_path)))
+    check_build(row["agentId"], league, record, uploads, log, clock, sleep)
+    record["source"] += "; kept copy " + keep(data, record["sha256"]).as_posix()
+    entry = register(reg_path, label, row["agentId"], league, row["creationTime"], log, record, previous=live,
+                     submission=own_submission(out))
+    return finish(reg_path, watch(reg_path, entry, log, clock, sleep), log, run_gradle, selected, sleep)
 
 
 def status(reg_path=DEFAULT_REGISTRY):

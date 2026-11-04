@@ -156,7 +156,9 @@ class FollowTest(unittest.TestCase):
         for f in ("arena.log", "cgAttribute.log", "arena-compare.json"):
             self.assertTrue((up / "checks" / f).is_file(), f)
         self.assertTrue(Path("replays/arena/v01/bronze/upload-01/games/11.json").is_file(), "the live entry was saved")
-        self.assertIn("paste the code", Path("replays/arena/v01/bronze/upload-01/checks/arena.log").read_text())
+        before = Path("replays/arena/v01/bronze/upload-01/checks/arena.log").read_text()
+        self.assertIn("paste build/submit/Player.java in the IDE now (sha256 %s..., build %s)" % (NEW_SHA[:8], NEW_BUILD), before)
+        self.assertIn("the new agent plays build %s (game 21), the artifact's" % NEW_BUILD, before)
         manifest = json.loads(Path(new["games"]).read_text(encoding="utf-8"))
         self.assertEqual({NEW_BUILD: 2}, manifest["summary"]["markers"])
         self.assertEqual(json.loads(Path(new["snapshots"]).read_text(encoding="utf-8"))["entry"]["percentage"], 100)
@@ -213,6 +215,99 @@ class FollowTest(unittest.TestCase):
             self.follow("v01", artifact="build/submit/Player.java")
         self.assertIn("one label, one configuration", str(e.exception))
         self.assertEqual(before, REGISTRY.read_bytes())
+
+    def keep_live_artifact(self, data=b"class Player {}\n// v01\n"):
+        """Gives the live entry v01 a kept copy with real bytes, as a re-upload of v01 needs."""
+        sha = hashlib.sha256(data).hexdigest()
+        Path("artifacts/%s" % sha[:8]).mkdir(parents=True)
+        Path("artifacts/%s/Player.java" % sha[:8]).write_bytes(data)
+        registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
+        registry["uploads"][0]["artifact"]["sha256"] = sha
+        # a finished follow leaves its attribution; without it the same label resumes that follow instead
+        registry["uploads"][0]["attribution"] = "cgAttribute: SAME in 1 of 1 games"
+        REGISTRY.write_text(json.dumps(registry, indent=1) + "\n", encoding="utf-8")
+        return sha
+
+    def test_a_re_upload_names_the_kept_copy_and_warns_about_build_submit(self):
+        sha = self.keep_live_artifact()
+        self.arena.rows = [(0, row(100)), (T0 + 100, row(500, pct=40, busy=True)), (T0 + 700, row(500, pct=100, score=21.0))]
+        self.arena.battles[500] = lambda t: [battle(51, 500, submission=33)]
+        self.arena.replays[51] = replay(51, 500, OLD_BUILD)
+        code, out = self.follow("v01")
+        self.assertEqual(0, code, out)
+        self.assertIn("paste artifacts/%s/Player.java in the IDE now (sha256 %s..., build %s); not build/submit/Player.java, "
+                      "which holds other bytes (%s)" % (sha[:8], sha[:8], OLD_BUILD, NEW_SHA[:8]), out)
+        self.assertEqual((500, OLD_BUILD), (self.entries()[("v01", 2)]["agent"], self.entries()[("v01", 2)]["artifact"]["build"]))
+        self.assertFalse(any("artifactInfo" in c for c in self.gradle.calls), "known bytes need no Gradle")
+
+    def test_a_paste_the_leaderboard_does_not_show_yet_is_noticed(self):
+        self.arena.rows = [(0, row(100)), (T0 + 900, row(200, pct=60, busy=True)), (T0 + 1500, row(200, pct=100))]
+        self.arena.battles[100] = lambda t: [battle(11, 100, submission=11)] if t < T0 + 100 else []
+        code, out = self.follow()
+        self.assertEqual(0, code, out)
+        self.assertIn("the battle list of agent 100 is empty: CG has the paste; waiting for it to list the new agent", out)
+        self.assertIn("still waiting for CG to list the new agent", out)
+        self.assertNotIn("still waiting for the paste", out.split("CG has the paste")[1])
+        self.assertIn(("v02", 1), self.entries())
+
+    def test_started_after_a_paste_the_leaderboard_does_not_show_it_asks_for_none(self):
+        self.arena.rows = [(0, row(100)), (T0 + 200, row(200, pct=60, busy=True)), (T0 + 800, row(200, pct=100))]
+        self.arena.battles[100] = lambda t: []
+        code, out = self.follow()
+        self.assertEqual(0, code, out)
+        self.assertIn("the battle list of agent 100 is empty: CG has a paste already", out)
+        self.assertNotIn("in the IDE now", out)
+
+    def test_a_new_agent_of_another_build_stops_before_the_registration(self):
+        self.arena.rows = [(0, row(200, pct=40, busy=True))]
+        self.arena.replays[21] = replay(21, 200, OLD_BUILD)
+        before = REGISTRY.read_bytes()
+        with self.assertRaises(arena.Stopped) as e:
+            self.follow()
+        self.assertIn("agent 200 plays build %s (game 21), the artifact of v01 upload 1, not build %s" % (OLD_BUILD, NEW_BUILD),
+                      str(e.exception))
+        self.assertEqual(before, REGISTRY.read_bytes(), "nothing registered, nothing replaced")
+        self.assertTrue(Path("replays/arena/unknown/bronze/agent-200/games/21.json").is_file(), "the evidence stays")
+
+    def pending(self):
+        """v02 upload 1 (agent 200) registered with its placement still open."""
+        registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
+        entry = dict(registry["uploads"][0], label="v02", upload=1, agent=200, submission=None, placement={"score": None},
+                     snapshots="docs/data/arena-200-placement.json", games="docs/data/arena-200-games.json")
+        registry["uploads"].append(entry)
+        REGISTRY.write_text(json.dumps(registry, indent=1) + "\n", encoding="utf-8")
+        return entry
+
+    def summary(self, pct):
+        e = dict(row(200, pct=pct), league=3, leagueAgents=200)
+        return ({"agentId": 200, "fetched": "2026-11-04T23:00:00+0200", "entry": e, "leagueTotal": 200,
+                 "battles": {"count": 10, "done": 10, "wins": 5, "games": [{"submissionId": 22}]}}, Path("snapshots"), "tag")
+
+    def test_the_next_fetch_counts_from_the_end_of_the_last(self):
+        entry, starts, ends = self.pending(), [], []
+
+        def slow(*args):  # a fetch that takes 90 s, as under CG's timeouts
+            starts.append(self.clock())
+            self.clock.sleep(90)
+            ends.append(self.clock())
+            return {"code": 0, "games": 0, "wins": 0, "failures": 0, "notDone": 0, "markers": {}, "ties": 0, "foreign": []}
+
+        take = lambda *args: self.summary(100 if self.clock() >= T0 + 900 else 40)
+        with patch.object(arena_snapshot, "take", side_effect=take), patch.object(arena, "fetch", side_effect=slow), \
+                contextlib.redirect_stdout(io.StringIO()):
+            arena.watch(REGISTRY, entry, arena.Log(), self.clock, self.clock.sleep)
+        self.assertGreaterEqual(len(starts), 4)
+        self.assertTrue(all(b - a >= arena.FETCH_S for a, b in zip(ends, starts[1:])), list(zip(ends, starts[1:])))
+
+    def test_games_of_another_build_stop_the_watch(self):
+        entry = self.pending()
+        foreign = {"code": 1, "games": 0, "wins": 0, "failures": 1, "notDone": 0, "markers": {}, "ties": 0,
+                   "foreign": ["ValueError('marker %s differs from registered build %s')" % (OLD_BUILD, OLD_BUILD)]}
+        with patch.object(arena_snapshot, "take", side_effect=lambda *a: self.summary(40)), \
+                patch.object(arena, "fetch", return_value=foreign), contextlib.redirect_stdout(io.StringIO()), \
+                self.assertRaises(arena.Stopped) as e:
+            arena.watch(REGISTRY, entry, arena.Log(), self.clock, self.clock.sleep)
+        self.assertIn("carry another build's marker", str(e.exception))
 
     def test_status_names_an_unregistered_agent(self):
         self.arena.rows = [(0, row(200, pct=40, busy=True))]

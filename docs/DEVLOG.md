@@ -2255,3 +2255,42 @@ for later (PLAN):
 - the paste prompt does not name the file;
 - it does not notice a paste the leaderboard has not listed yet;
 - the next fetch counts from the start of the previous one.
+
+## 2026-11-04 — `tools/arena.py follow`: the file to paste, a paste CG has not listed, the build checked before the registration
+
+The user asked for the improvements left open after upload 5 right away.
+
+Changes to `follow`:
+- **The artifact first.** It is chosen, identified and checked against the label's configuration before
+  the live entry is saved, so a wrong file or label stops before the paste.
+- **The prompt** names the file to paste with its sha256 and build id. When `build/submit/Player.java`
+  holds other bytes, it adds "not build/submit/Player.java, which holds other bytes (<sha>, <label>'s
+  artifact)". At upload 5 main's `build/submit` was v03's.
+- **A paste CG has not listed.**
+  - If the save finds the live agent's battle list empty, the command says "CG has a paste already" and
+    asks for no paste.
+  - While waiting, it reads the old agent's battle list every minute. An empty list means "CG has the
+    paste; waiting for it to list the new agent (do not paste again)" and gives the wait its full length
+    again.
+- **The build before the registration** (`check_build`). The new agent's first finished games are read,
+  at most three, and the first one with a marker decides; a first finished game is waited for up to 10
+  minutes. Another build stops the command: nothing is registered, and the message names the build's
+  upload when the registry knows it. The replays stay under `unknown/`, where `arena_games` takes them
+  after a registration. Empty `unknown/` directories are pruned after each fetch.
+- **The watch** stops on games with another build's marker (`arena_games` failures "differs from
+  registered build"). It counts the next fetch from the end of the last one, so a slow fetch is no longer
+  followed at once by another.
+- **Resume.** A complete entry without `attribution` (a follow stopped after the placement) resumes under
+  its own label, as before; the docs now say so.
+
+Tests in `tools/tests/test_arena_follow.py`, six new:
+- a re-upload names the kept copy and warns about `build/submit`;
+- a paste the leaderboard does not show yet is noticed;
+- started after such a paste, nothing asks to paste;
+- another build stops before the registration, the registry unchanged and the replay kept;
+- the next fetch counts from the end: checked to fail with the old schedule on a copy;
+- another build's games stop the watch.
+
+`python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: 57 OK.
+
+Records: `.ai/project.md` (the row, then sync), `docs/arena-uploads.md` (Tools), PLAN, SUMMARY.
