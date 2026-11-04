@@ -23,7 +23,10 @@ ratings, its score for no mean. Games where the referee removed a player (game s
 invalid output) are listed per upload and side; CG counts them like any game, and so does every figure here.
 
 Per label: the mean placement score and its SD between uploads. The noise margin M is twice the SD
-pooled over every label with two or more placement scores in the league. Shared opponents (by pseudo)
+pooled over every label with two or more placement scores in the league. The registry's noiseMargins can
+give a league another league's M by the user's decision (a new league with too few pairs): its verdicts
+then use the source league's M, which must still equal the recorded value within 0.005 (exit code 2
+otherwise), and its own M is printed as context. Shared opponents (by pseudo)
 give a stratified head-to-head per pair of uploads, weights 1 / (1/n_a + 1/n_b): context only.
 
 With --candidate and --selected, the P1 verdict: a candidate promoted during a placement is kept and the
@@ -274,13 +277,62 @@ def compare(registry, candidate=None, selected=None):
         for i, a in enumerate(members):
             for b in members[i + 1:]:
                 pairs.append({"a": name(a), "b": name(b), **shared(manifests[name(a)], manifests[name(b)])})
-        entry = {"scale": scale, "scaleFitted": fitted, "uploads": rows, "labels": labels,
-                 "noise": {"pooledSd": pooled, "df": df, "M": 2 * pooled if pooled is not None else None},
-                 "sharedOpponents": pairs}
-        if candidate and selected:
-            entry["verdict"] = verdict(labels, members, entry["noise"]["M"], candidate, selected)
-        report["leagues"][league] = entry
+        report["leagues"][league] = {"scale": scale, "scaleFitted": fitted, "uploads": rows, "labels": labels,
+                                     "noise": {"pooledSd": pooled, "df": df, "M": 2 * pooled if pooled is not None else None},
+                                     "sharedOpponents": pairs}
+    problems = apply_borrowed_margins(registry.get("noiseMargins"), report["leagues"])
+    if problems:
+        raise RegistryError("registry problems:\n- " + "\n- ".join(problems))
+    if candidate and selected:
+        for league, entry in report["leagues"].items():
+            entry["verdict"] = verdict(entry["labels"], None, entry["noise"]["usedM"], candidate, selected)
     return report
+
+
+MARGIN_TOLERANCE = 0.005
+
+
+def apply_borrowed_margins(spec, leagues):
+    """Sets noise.usedM (the M the league's verdicts use) and noise.borrowed per league; returns the problems.
+
+    spec is the registry's noiseMargins: league -> {"from": source league, "M": the source's M at the decision,
+    "decided": date}. Such a league's verdicts use the source league's pooled M, which must still equal the
+    recorded value (a changed source M is a new decision for the user); its own M stays in the report.
+    """
+    for entry in leagues.values():
+        entry["noise"].update(usedM=entry["noise"]["M"], borrowed=None)
+    problems = []
+    if spec is None:
+        return problems
+    if not isinstance(spec, dict):
+        return ["noiseMargins must map a league to its borrowed margin, not %r" % (spec,)]
+    for key, rule in sorted(spec.items()):
+        where = "noiseMargins.%s" % key
+        target = league_of({"league": key})
+        rule = rule if isinstance(rule, dict) else {}
+        source = league_of({"league": rule.get("from")})
+        recorded = rule.get("M")
+        if target is None:
+            problems.append("%s: %r is none of %s" % (where, key, ", ".join(LEAGUES)))
+            continue
+        if source is None or source == target:
+            problems.append("%s: from %r must be another of %s" % (where, rule.get("from"), ", ".join(LEAGUES)))
+            continue
+        if not isinstance(recorded, (int, float)) or isinstance(recorded, bool) or not rule.get("decided"):
+            problems.append("%s: needs M (the source's margin at the decision) and decided" % where)
+            continue
+        own = (leagues.get(source) or {}).get("noise", {}).get("M")
+        if own is None:
+            problems.append("%s: %s has no noise margin to borrow" % (where, source))
+            continue
+        if abs(own - recorded) > MARGIN_TOLERANCE:
+            problems.append("%s: %s's M is now %.4f, not the %.2f recorded at the decision; the decision is the user's to renew"
+                            % (where, source, own, recorded))
+            continue
+        if target in leagues:
+            leagues[target]["noise"].update(usedM=own, borrowed={"from": source, "M": own, "recorded": recorded,
+                                                                  "decided": rule["decided"]})
+    return problems
 
 
 def verdict(labels, members, margin, candidate, selected):
@@ -346,7 +398,12 @@ def print_report(report):
                 label, v["config"], v["uploads"], " ".join(fmt(x) for x in v["placementScores"]) or "-", fmt(v["mean"]),
                 fmt(v["sd"]), fmt(v["performance"]), fmt(v["performanceSe"]), v["games"]))
         n = e["noise"]
-        print("noise: pooled SD %s (%d df), M = 2 SD = %s" % (fmt(n["pooledSd"]), n["df"], fmt(n["M"])))
+        line = "noise: pooled SD %s (%d df), M = 2 SD = %s" % (fmt(n["pooledSd"]), n["df"], fmt(n["M"]))
+        if n["borrowed"]:
+            b = n["borrowed"]
+            line += "; verdicts use M = %s from %s (the user's decision of %s; this league's own M is context)" % (
+                fmt(n["usedM"]), b["from"], b["decided"])
+        print(line)
         for p in e["sharedOpponents"]:
             if p["opponents"]:
                 print("shared opponents %s vs %s: %d players, %d / %d games, %s vs %s %%, stratified %+.1f +- %.1f pp (context)" % (

@@ -84,7 +84,8 @@
 - [x] Silver: the promotion landed 2026-11-03; the new agent registered as v08's first Silver upload, its
   games fetched and attributed (`docs/arena-uploads.md`, v08 promoted to Silver)
 - [x] Silver: a second upload of v08 completes its Silver baseline (P1; `docs/arena-uploads.md`, the Silver baseline)
-- [ ] Silver: decide how to set the noise margin M in Silver (one pair so far; `docs/arena-uploads.md`)
+- [x] Silver: the noise margin M in Silver is borrowed from Bronze by the user's decision (`docs/arena-uploads.md`,
+  Silver noise margin)
 - [ ] Silver: re-validate the local proxy against Silver games (PV lapses on a league change: `docs/local-screen.md`)
 - [x] Late economy (2026-11-03, `docs/data/exp-2026-11-03-late-income/`): INCOME_LATE (the income target after
   the ladder) neutral against v06 (0.505-0.513), with thinner top-ups a loss; off by default, not screened

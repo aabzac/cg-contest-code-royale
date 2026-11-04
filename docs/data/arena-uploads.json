@@ -1,5 +1,13 @@
 {
- "what": "Arena uploads of this project, one entry per CG agent; tools/arena_compare.py reads and checks it (policy P1, docs/arena-uploads.md). A label holds one configuration (artifact.config, cr.submit.Build.config: the artifact text before the runner section plus PARAMS). An upload whose placement ended in a promotion gets promotedTo and no placement score. Scores compare within one league only.",
+ "what": "Arena uploads of this project, one entry per CG agent; tools/arena_compare.py reads and checks it (policy P1, docs/arena-uploads.md). A label holds one configuration (artifact.config, cr.submit.Build.config: the artifact text before the runner section plus PARAMS). An upload whose placement ended in a promotion gets promotedTo and no placement score. Scores compare within one league only. noiseMargins: a league whose P1 verdicts use another league's noise margin M by the user's decision (from: the source league, M: its value at the decision, which arena_compare.py requires it to still have).",
+ "noiseMargins": {
+  "silver": {
+   "from": "bronze",
+   "M": 2.46,
+   "decided": "2026-11-04",
+   "why": "v08's two Silver placements (20.70, 20.74) give Silver's own M 0.06 on 1 df, which would roll back any candidate not better; the user chose Bronze's M (2.46, 11 df) until they decide otherwise. Silver's own M is printed as context."
+  }
+ },
  "uploads": [
   {
    "label": "v01",

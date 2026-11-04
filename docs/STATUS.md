@@ -45,9 +45,10 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `eligibleForPromotion` false, 80 games, 50 wins, 1 of 3 against the Silver boss, every game identical to
   the artifact (`docs/BOTS.md`, Uploads; `docs/data/arena-6844095-placement-2026-11-04.json`). It replaced
   agent 6843976 = v08 upload 3 (CG's promotion of upload 2: 20.70, rank 2, 4 of 10 against the boss), saved.
-- Silver noise margin: open. v08's two Silver placements differ by 0.04, so P1's M is 0.06 on 1 df; Bronze's
-  pooled M was 2.46 (11 df). Leagues are not pooled, so how to set M in Silver before the next candidate is
-  judged there is the user's decision (`docs/arena-uploads.md`, the Silver baseline).
+- Silver noise margin: **M = 2.46, borrowed from Bronze** (11 df) by the user's decision of 2026-11-04, until
+  they decide otherwise. Silver's own M, 0.06 on 1 df (v08's placements differ by 0.04), is printed as context
+  (`noiseMargins` in the registry; `docs/arena-uploads.md`, Silver noise margin). A Silver candidate rolls
+  back early below 15.79.
 - Silver boss: agent 1876720 (no pseudo), rating **21.87-21.97** during the fetches of 2026-11-04 00:05-00:32
   (`docs/data/arena-6843976-games-2026-11-04.json`, `docs/data/arena-6844095-games-2026-11-04.json`); v08
   won 5 of its 13 games against it and stands about 1.2 below it (mean 20.72). The strongest player met:

@@ -47,6 +47,8 @@ step of the promotion policy. The local screen a candidate passes before its fir
 7. **M = 2 × the SD of placement scores between uploads of one configuration**, pooled over the versions
    with two or more placement scores in the league. With two uploads per version the SD of a difference
    of means is about one SD, so M is about two standard errors. It is re-estimated with every upload.
+   By the user's decision a league may use another league's M instead (`noiseMargins` in the registry):
+   adopted 2026-11-04 for Silver, which uses Bronze's M (below, Silver noise margin).
 8. **Promotion during a placement.** CG then replays the placement in the new league as a new agent. The
    old-league upload gets `promotedTo` and no placement score: its last partial score is context, and its
    games count for the ratings only. A promoted candidate is kept, since it passed the league's boss. The
@@ -769,3 +771,24 @@ on these two uploads; `arena-compare.json` beside upload 4's games). The Bronze 
   test against M = 0.06 would roll back almost any candidate that is not better. Leagues are not pooled
   (P1), so until Silver has more pairs, how to set M there is the user's decision.
 - **Placement size:** 80 games again (Bronze 60); placement speed 17 minutes.
+
+## Silver noise margin: Bronze's M (2026-11-04)
+
+The user's answer to the open question above ("M from Bronze, 2.46"): until they decide otherwise, P1
+verdicts in Silver use Bronze's pooled M, 2.46 (SD 1.23 on 11 df), instead of Silver's own 0.06 (1 df).
+The registry records it as `noiseMargins.silver` (from bronze, M 2.46, decided 2026-11-04).
+`tools/arena_compare.py` then uses Bronze's M for the Silver verdict and prints Silver's own M beside it as
+context. It refuses (exit code 2) if Bronze's M moves more than 0.005 from 2.46, since the decision was taken
+for that value. This account gets no more Bronze uploads, so in practice the value is fixed.
+- **The next candidate in Silver** is judged against v08's mean 20.72 and pooled rating 20.82 ± 0.62:
+  - rollback: the candidate's mean is below by more than 2.46 and its rating below by more than 2 SE of the
+    difference;
+  - early rollback: its first placement is below 15.79 (20.72 − 2M, 2M = 4.93).
+  As in Bronze, a candidate up to about 2.5 points worse passes.
+- **An assumption:** that Bronze's spread carries over to Silver. Silver placements have 80 games (Bronze 60)
+  and a different field. v08's Silver pair differed by 0.04 and its Bronze pair by 0.28, both well inside
+  2.46. Silver's own M is re-estimated with every Silver pair and printed; switching to it is the user's
+  decision.
+- **The report:** `python -I tools/arena_compare.py --candidate v08 --selected v08` now prints for Silver
+  "M = 2 SD = 0.06; verdicts use M = 2.46 from bronze" and "not clearly worse" against −M = −2.46. The Bronze
+  report is unchanged.

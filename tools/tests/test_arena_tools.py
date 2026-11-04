@@ -102,6 +102,44 @@ class CompareTest(unittest.TestCase):
         self.assertEqual("no data", report["leagues"]["silver"]["verdict"]["decision"])
         self.assertEqual("not clearly worse", arena_compare.compare(reg, "v01", "v01")["leagues"]["bronze"]["verdict"]["decision"])
 
+    def test_a_league_can_borrow_the_noise_margin_of_another(self):
+        reg = self.registry([{"label": "v01", "upload": 1, "score": 18.0}, {"label": "v01", "upload": 2, "score": 16.0},
+                             {"label": "v01", "upload": 3, "score": 30.0, "league": "silver"},
+                             {"label": "v01", "upload": 4, "score": 30.1, "league": "silver"},
+                             {"label": "v02", "upload": 1, "score": 29.0, "league": "silver"}])
+        own = arena_compare.compare(reg, "v02", "v01")["leagues"]["silver"]
+        self.assertAlmostEqual(2 * math.sqrt(0.005), own["noise"]["usedM"], places=9, msg="no rule: the league's own M")
+        self.assertIsNone(own["noise"]["borrowed"])
+        self.assertEqual("roll back early", own["verdict"]["decision"], "29.0 < 30.05 - 2 * 0.14")
+
+        reg["noiseMargins"] = {"Silver": {"from": "Bronze", "M": 2.83, "decided": "2026-11-04"}}
+        report = arena_compare.compare(reg, "v02", "v01")
+        silver = report["leagues"]["silver"]
+        self.assertAlmostEqual(2 * math.sqrt(0.005), silver["noise"]["M"], places=9, msg="its own M stays as context")
+        self.assertAlmostEqual(2 * math.sqrt(2.0), silver["noise"]["usedM"], places=9)
+        self.assertEqual("bronze", silver["noise"]["borrowed"]["from"])
+        self.assertAlmostEqual(2 * math.sqrt(2.0), silver["verdict"]["M"], places=9)
+        self.assertEqual("upload the candidate again", silver["verdict"]["decision"], "29.0 > 30.05 - 2 * 2.83")
+        self.assertIsNone(report["leagues"]["bronze"]["noise"]["borrowed"])
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            arena_compare.print_report(report)
+        self.assertIn("verdicts use M = 2.83 from bronze", out.getvalue())
+
+        for rule, why in (({"from": "bronze", "M": 2.46, "decided": "2026-11-04"}, "now 2.8284"),
+                          ({"from": "copper", "M": 2.83, "decided": "2026-11-04"}, "must be another"),
+                          ({"from": "silver", "M": 2.83, "decided": "2026-11-04"}, "must be another"),
+                          ({"from": "gold", "M": 2.83, "decided": "2026-11-04"}, "gold has no noise margin"),
+                          ({"from": "bronze", "M": 2.83}, "needs M"), ({"from": "bronze", "M": True, "decided": "x"}, "needs M")):
+            reg["noiseMargins"] = {"silver": rule}
+            with self.assertRaises(arena_compare.RegistryError) as e:
+                arena_compare.compare(reg)
+            self.assertIn(why, str(e.exception))
+        reg["noiseMargins"] = {"copper": {"from": "bronze", "M": 2.83, "decided": "2026-11-04"}}
+        with self.assertRaises(arena_compare.RegistryError):
+            arena_compare.compare(reg)
+        reg["noiseMargins"] = {"gold": {"from": "bronze", "M": 2.83, "decided": "2026-11-04"}}
+        self.assertNotIn("gold", arena_compare.compare(reg)["leagues"], "a rule for a league without uploads waits")
+
     def test_verdict_rules(self):
         base = {"placementScores": [18.0, 16.0], "mean": 17.0, "performance": 17.0, "performanceSe": 0.5}
         worse = {"placementScores": [13.0, 13.0], "mean": 13.0, "performance": 15.0, "performanceSe": 0.5}

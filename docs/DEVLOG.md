@@ -2078,3 +2078,32 @@ margin (Bronze 2.46 on 11 df), so how to set it is left to the user (`docs/arena
 Records: the registry, `docs/arena-uploads.md` (new section), BOTS (versions, uploads, artifacts), STATUS,
 SUMMARY, PLAN, `docs/rules/inferred.md`. Raw files `replays/arena/v08/silver/upload-04/` copied to the main
 checkout. Committed with the upload 3 records in one commit on the user's request.
+
+## 2026-11-04 — Silver noise margin: Bronze's M 2.46 (the user's decision); `noiseMargins` in the registry
+
+The user answered the open question of upload 4 ("M from Bronze, 2.46"). Until then `arena_compare.py` took M
+from the league's own pairs only, so a Silver verdict would have used 0.06.
+
+What changed:
+- The registry's `noiseMargins` maps a league to a source league, the M recorded at the decision and the
+  date. Entry: `noiseMargins.silver` = from bronze, M 2.46, decided 2026-11-04.
+- The tool:
+  - sets `noise.usedM` (the verdict's M) and `noise.borrowed`, and keeps the league's own `noise.M`;
+  - prints both;
+  - refuses (exit 2) when the source M is more than 0.005 from the recorded value, the source is not another
+    known league, the source has no M, or the rule lacks M or decided.
+- Test `test_a_league_can_borrow_the_noise_margin_of_another`: the own M rolls back early, the borrowed M asks
+  for another upload; plus the refusals.
+
+Checks:
+- `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: 45 OK.
+- `node --test visualizer/tests/catalog.test.mjs`: 6 pass (the visualizer reads the uploads lists only).
+- `python -B -I tools/arena_compare.py --candidate v08 --selected v08`:
+  - Bronze unchanged (M 2.4644, 11 df, from 19 uploads of 8 versions);
+  - Silver "M = 2 SD = 0.06; verdicts use M = 2.46 from bronze", not clearly worse against −2.46;
+  - the report is in the scratchpad only; the `arena-compare.json` files beside the games stay as written.
+
+Records:
+- policy: `.ai/project.md` (the noise row, then sync to AGENTS.md); `docs/arena-uploads.md` (item 7 and a new
+  section, Silver noise margin);
+- STATUS (the Silver noise margin line), PLAN, SUMMARY.
