@@ -11,14 +11,14 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 class CgStudyTest {
     /**
-     * Game 915331914 of `route` upload 2 (gitignored replay; skipped without it): seat 0 is v04, which
+     * Game 915331914 of v04 upload 2 (labelled `route` until 2026-11-04; gitignored replay; skipped without it): seat 0 is v04, which
      * opens with the knight barracks and two mines, tops its towers up 97 times and never loses one;
      * seat 1 opens with three mines, loses a tower on turn 90 and its queen on turn 172 (the last turn).
      * Every row has as many fields as the header.
      */
     @Test
     void deathTurnTopUpsAndOpeningOfARecordedGame() throws Exception {
-        Path game = Path.of("replays/arena/route/bronze/upload-02/games/915331914.json");
+        Path game = Path.of("replays/arena/v04/bronze/upload-02/games/915331914.json");
         assumeTrue(Files.exists(game), "no local replay");
         List<String> header = List.of(CgStudy.header().split(",", -1));
         assertEquals(106, header.size());

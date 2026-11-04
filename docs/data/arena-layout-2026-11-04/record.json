@@ -1,0 +1,2099 @@
+{
+ "date": "2026-11-04",
+ "revisionBefore": "6722a27c05e3e298f66f0055bbd16e911b958f70",
+ "workingTreeBefore": "clean",
+ "what": "Arena layout migration: every upload keeps games/, snapshots/ and checks/ only; the label route is renamed v04; snapshots left under unknown/ join their registered upload. Every file's SHA-256 checked before and after; no network calls. Script: docs/data/arena-layout-2026-11-04/migrate.py.",
+ "layout": "replays/arena/<label>/<league>/upload-NN/{games,snapshots,checks}",
+ "mapping": "A file at the top of an upload directory -> checks/<filename>; unknown/<league>/agent-<id>/snapshots/<path> -> the agent's registered upload snapshots/<path>; replays/arena/route -> replays/arena/v04.",
+ "labelRenames": [
+  {
+   "old": "route",
+   "new": "v04",
+   "agents": [
+    6836411,
+    6836589
+   ]
+  }
+ ],
+ "digestDefinition": "SHA-256 of UTF-8 lines sorted by filename: filename + space + sha256 + LF.",
+ "filesUnderReplaysArena": 2738,
+ "uploads": [
+  {
+   "old": "replays/arena/legacy/bronze/upload-01",
+   "files": 15,
+   "bytes": 3161455,
+   "contentInventorySha256": "98e49ba3780e68f1b50c3f19b24536094329c7d4934bd0556421c2da4aef5b63",
+   "new": "replays/arena/legacy/bronze/upload-01",
+   "filesAfter": 15,
+   "contentInventorySha256After": "98e49ba3780e68f1b50c3f19b24536094329c7d4934bd0556421c2da4aef5b63"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01",
+   "files": 149,
+   "bytes": 24826605,
+   "contentInventorySha256": "92d348cec9ff11646048f5a305f44b4accb19f114073e7f880cd373bf527d450",
+   "new": "replays/arena/v04/bronze/upload-01",
+   "filesAfter": 149,
+   "contentInventorySha256After": "92d348cec9ff11646048f5a305f44b4accb19f114073e7f880cd373bf527d450"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02",
+   "files": 176,
+   "bytes": 24621081,
+   "contentInventorySha256": "b8eb5c548c5373550b45493d39f7f780ef7b6897359aaf56e5c4cd73c48d8b59",
+   "new": "replays/arena/v04/bronze/upload-02",
+   "filesAfter": 176,
+   "contentInventorySha256After": "b8eb5c548c5373550b45493d39f7f780ef7b6897359aaf56e5c4cd73c48d8b59"
+  },
+  {
+   "old": "replays/arena/v01/bronze/upload-01",
+   "files": 169,
+   "bytes": 19438491,
+   "contentInventorySha256": "a2fec9810ff2ea05cf9fcd75a6e818bf3ad4908f75415eedc82918904f1d0a41",
+   "new": "replays/arena/v01/bronze/upload-01",
+   "filesAfter": 169,
+   "contentInventorySha256After": "a2fec9810ff2ea05cf9fcd75a6e818bf3ad4908f75415eedc82918904f1d0a41"
+  },
+  {
+   "old": "replays/arena/v01/bronze/upload-02",
+   "files": 70,
+   "bytes": 15793790,
+   "contentInventorySha256": "435b50e9f026ee52e719475b4312631cd122d3daf710bdcd8965c6e0a7787d36",
+   "new": "replays/arena/v01/bronze/upload-02",
+   "filesAfter": 70,
+   "contentInventorySha256After": "435b50e9f026ee52e719475b4312631cd122d3daf710bdcd8965c6e0a7787d36"
+  },
+  {
+   "old": "replays/arena/v01/bronze/upload-03",
+   "files": 291,
+   "bytes": 17788443,
+   "contentInventorySha256": "b36abb0fd309b0b2300dbc27e371e865f84c5b6327e17b7fed968c8f9740e9b4",
+   "new": "replays/arena/v01/bronze/upload-03",
+   "filesAfter": 291,
+   "contentInventorySha256After": "b36abb0fd309b0b2300dbc27e371e865f84c5b6327e17b7fed968c8f9740e9b4"
+  },
+  {
+   "old": "replays/arena/v02/bronze/upload-01",
+   "files": 297,
+   "bytes": 17441457,
+   "contentInventorySha256": "b499155a7e2da25ce0ad0249313a03d8a6ad442abb7b0387e720859e07071d2a",
+   "new": "replays/arena/v02/bronze/upload-01",
+   "filesAfter": 297,
+   "contentInventorySha256After": "b499155a7e2da25ce0ad0249313a03d8a6ad442abb7b0387e720859e07071d2a"
+  },
+  {
+   "old": "replays/arena/v02/bronze/upload-02",
+   "files": 225,
+   "bytes": 19498543,
+   "contentInventorySha256": "c371297658dabcdaa7b4ee472ff27c44e0c764756b258eef3f4954b35146197d",
+   "new": "replays/arena/v02/bronze/upload-02",
+   "filesAfter": 225,
+   "contentInventorySha256After": "c371297658dabcdaa7b4ee472ff27c44e0c764756b258eef3f4954b35146197d"
+  },
+  {
+   "old": "replays/arena/v03/bronze/upload-01",
+   "files": 205,
+   "bytes": 25943055,
+   "contentInventorySha256": "5bc134611c9c04d61b0483ab8fa16b17cd6769abc87bee8e8fe39c19a09ca3dd",
+   "new": "replays/arena/v03/bronze/upload-01",
+   "filesAfter": 205,
+   "contentInventorySha256After": "5bc134611c9c04d61b0483ab8fa16b17cd6769abc87bee8e8fe39c19a09ca3dd"
+  },
+  {
+   "old": "replays/arena/v03/bronze/upload-02",
+   "files": 112,
+   "bytes": 20416552,
+   "contentInventorySha256": "1262606cf46f47e9c7f19ac64c3dae48e7ac1dbededff6aa8cb5f4fb4fadce05",
+   "new": "replays/arena/v03/bronze/upload-02",
+   "filesAfter": 112,
+   "contentInventorySha256After": "1262606cf46f47e9c7f19ac64c3dae48e7ac1dbededff6aa8cb5f4fb4fadce05"
+  },
+  {
+   "old": "replays/arena/v03/bronze/upload-03",
+   "files": 66,
+   "bytes": 24370324,
+   "contentInventorySha256": "bbd964689f48cbd982c73a8d57d2c72d1e2283325c425600381529e9b2357b52",
+   "new": "replays/arena/v03/bronze/upload-03",
+   "filesAfter": 68,
+   "contentInventorySha256After": "0de66d911ffb555a0cc93ad03e2ba7521e8080dd676e282061b1a57a3287edd7"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-01",
+   "files": 76,
+   "bytes": 23986751,
+   "contentInventorySha256": "69e6fb17df3d1d6c291ddb07a9efe66d5ab273c2f2fc8e2aaac0bf6d4c78de21",
+   "new": "replays/arena/v05/bronze/upload-01",
+   "filesAfter": 76,
+   "contentInventorySha256After": "69e6fb17df3d1d6c291ddb07a9efe66d5ab273c2f2fc8e2aaac0bf6d4c78de21"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-02",
+   "files": 78,
+   "bytes": 21953722,
+   "contentInventorySha256": "1f1a510fc2c0e0e86d2709010ab98d18c1946691174f075e167dd7dd4038e9a1",
+   "new": "replays/arena/v05/bronze/upload-02",
+   "filesAfter": 78,
+   "contentInventorySha256After": "1f1a510fc2c0e0e86d2709010ab98d18c1946691174f075e167dd7dd4038e9a1"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-03",
+   "files": 67,
+   "bytes": 22258597,
+   "contentInventorySha256": "e52ebb388828d4a43179506529ec3bec642af74af2a5a742f684700d8080f2bd",
+   "new": "replays/arena/v05/bronze/upload-03",
+   "filesAfter": 67,
+   "contentInventorySha256After": "e52ebb388828d4a43179506529ec3bec642af74af2a5a742f684700d8080f2bd"
+  },
+  {
+   "old": "replays/arena/v06/bronze/upload-01",
+   "files": 81,
+   "bytes": 23362515,
+   "contentInventorySha256": "7de19764565c6bc889f8f57cf4ee06926961cfd90f0155a8a0bdcf11fd480470",
+   "new": "replays/arena/v06/bronze/upload-01",
+   "filesAfter": 81,
+   "contentInventorySha256After": "7de19764565c6bc889f8f57cf4ee06926961cfd90f0155a8a0bdcf11fd480470"
+  },
+  {
+   "old": "replays/arena/v06/bronze/upload-02",
+   "files": 137,
+   "bytes": 21860590,
+   "contentInventorySha256": "856d3689842ce708365b2cf4dab83fd138644083725b8e64a5581773d6a5f465",
+   "new": "replays/arena/v06/bronze/upload-02",
+   "filesAfter": 137,
+   "contentInventorySha256After": "856d3689842ce708365b2cf4dab83fd138644083725b8e64a5581773d6a5f465"
+  },
+  {
+   "old": "replays/arena/v07/bronze/upload-01",
+   "files": 79,
+   "bytes": 22830036,
+   "contentInventorySha256": "bf6e41a125538b914c24f957e0efc25021dba71093347df27a6eadac78b32558",
+   "new": "replays/arena/v07/bronze/upload-01",
+   "filesAfter": 79,
+   "contentInventorySha256After": "bf6e41a125538b914c24f957e0efc25021dba71093347df27a6eadac78b32558"
+  },
+  {
+   "old": "replays/arena/v07/bronze/upload-02",
+   "files": 69,
+   "bytes": 23553179,
+   "contentInventorySha256": "764d0c987f8a7a97a576229dffd1dfb0041c4e2452c15879c4b5297812e4e74d",
+   "new": "replays/arena/v07/bronze/upload-02",
+   "filesAfter": 69,
+   "contentInventorySha256After": "764d0c987f8a7a97a576229dffd1dfb0041c4e2452c15879c4b5297812e4e74d"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-01",
+   "files": 84,
+   "bytes": 24161162,
+   "contentInventorySha256": "00e303035460bfcde6f891b0ebbba6bf41901f40213a9449f44f1e08762ba224",
+   "new": "replays/arena/v08/bronze/upload-01",
+   "filesAfter": 84,
+   "contentInventorySha256After": "00e303035460bfcde6f891b0ebbba6bf41901f40213a9449f44f1e08762ba224"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-02",
+   "files": 86,
+   "bytes": 22865572,
+   "contentInventorySha256": "a2a10a38b42f84bc7624bcb415c55937ad44398acaba53b9c42b39506619bc42",
+   "new": "replays/arena/v08/bronze/upload-02",
+   "filesAfter": 86,
+   "contentInventorySha256After": "a2a10a38b42f84bc7624bcb415c55937ad44398acaba53b9c42b39506619bc42"
+  },
+  {
+   "old": "replays/arena/v08/silver/upload-03",
+   "files": 87,
+   "bytes": 38619031,
+   "contentInventorySha256": "3f59b02a0be2b09a0bf561f3ec1eb8d4a324ee2737c1016bd80a6d4b5683fb2b",
+   "new": "replays/arena/v08/silver/upload-03",
+   "filesAfter": 87,
+   "contentInventorySha256After": "3f59b02a0be2b09a0bf561f3ec1eb8d4a324ee2737c1016bd80a6d4b5683fb2b"
+  },
+  {
+   "old": "replays/arena/v08/silver/upload-04",
+   "files": 117,
+   "bytes": 41931561,
+   "contentInventorySha256": "768457d0e39db5fa9cb1c16478a41dee7efce3e6ec4851bd52ae7960b8c51854",
+   "new": "replays/arena/v08/silver/upload-04",
+   "filesAfter": 117,
+   "contentInventorySha256After": "768457d0e39db5fa9cb1c16478a41dee7efce3e6ec4851bd52ae7960b8c51854"
+  },
+  {
+   "old": "replays/arena/unknown/bronze/agent-6829912",
+   "files": 2,
+   "bytes": 33472,
+   "contentInventorySha256": "23a79017c45f34d6920ce9831fd8fde60f22cf686339d24392d99327fd81821b"
+  }
+ ],
+ "moves": [
+  {
+   "old": "replays/arena/route/bronze/upload-01/arena-compare.json",
+   "new": "replays/arena/v04/bronze/upload-01/checks/arena-compare.json",
+   "sha256": "9ddd778c954d24a7183af985e8dbd156ad6e17c1ab40e72db20807830c9b77a4"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/arena-games.log",
+   "new": "replays/arena/v04/bronze/upload-01/checks/arena-games.log",
+   "sha256": "846150666c8b1f366b4427fefa150fd2b413b37e8d9467acaaa70328212c513f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/cgAttribute.log",
+   "new": "replays/arena/v04/bronze/upload-01/checks/cgAttribute.log",
+   "sha256": "7cb6b7c0eb4716814c4cba339d87c481ea8e667d6389fbc694a92a4780516eed"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915286006.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915286006.json",
+   "sha256": "bc2a2ccd66a3151e0b0d4fb7d2d70ee85119ab9e3e4d264346493f9c492a9bb4"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915286007.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915286007.json",
+   "sha256": "6a084adeea0da363d5248bc128daeae963450cec1a866f6a529847ece5597dc3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915286008.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915286008.json",
+   "sha256": "058d72ff6bb48646b2fc36cbf5106f85df671fd70fb6e3317a1bf8925934b791"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915286009.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915286009.json",
+   "sha256": "c656d750241002188de7ce9b4428b84d6a48cb919b8810952a0aafce5f0ff2b7"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915286010.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915286010.json",
+   "sha256": "b2c6f3cfbaf5df8214a8f9726910285bd9fd527537a33bc1f511ded8f8002a2a"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915286011.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915286011.json",
+   "sha256": "1234f5c0fcc7a1d6aca58f7eecf3538d33c6a202db3a5d51cb1b06e396a36b1c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915286012.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915286012.json",
+   "sha256": "7ad210c869e8141ac93bfdcb885c9a8de8e1d8d46b7cd90e669d31ce1fbb69df"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915286013.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915286013.json",
+   "sha256": "0e2aba4bccf1cbbfc23a0de27c719fb8869d31769ca4ee42f4f21fb6ffdb0f6b"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915286014.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915286014.json",
+   "sha256": "9d17deb82ec1b9f4cb51970b2835e7946c1fa2922de445a6e66c43b56af411ea"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915286015.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915286015.json",
+   "sha256": "f67ba5f80f4c1df36c30542746be866e145d91711655234df418ddf75635b86d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915286510.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915286510.json",
+   "sha256": "30e95d0b9499b6b627e03e05c4387fe4c1280fbcd7166fa100d3f1ce4d243fe5"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915287985.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915287985.json",
+   "sha256": "4fab2086a4fc14d7be92a6ecb8658aeb4dfba07bd77f0bcc202a4dccaecb3c7a"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915288520.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915288520.json",
+   "sha256": "33c14f5e3ce1a5b59e5ab6fc804e4239cd248479ca3351948c7d77d457da0541"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915288894.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915288894.json",
+   "sha256": "0901f91df7f71f1cba52027c81db431a95a07e21472bab9f982d9a37ce67d58c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915289215.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915289215.json",
+   "sha256": "c6a451d6d9e4e64cf190d2237bb01dcfb676b6950fca32c9821d0272dadfc656"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915289518.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915289518.json",
+   "sha256": "5eb3b5b23a2cf5fddce0a3fc0cd7641dd4abfd3243cf549259c84eb7f1db2ff2"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915290177.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915290177.json",
+   "sha256": "495bbf1a845c0f1bdf998ec1830ac5ff03ed4bb4a4071707e6a782823719a71f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915290693.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915290693.json",
+   "sha256": "49a04ea4d92aab59fb887a7dfd604c2d053ff328b767918c59d1825b0e2a968d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915292811.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915292811.json",
+   "sha256": "45d4d6626edc2aa2cd76661daf77047fdc3347c56276e79a6b29694d4837b109"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915294767.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915294767.json",
+   "sha256": "d2009f6e5b9320d161c42a67dcf348f6821aeb3971aa665d44f7918001f8f690"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915295586.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915295586.json",
+   "sha256": "21783303177fd3261860176d75ef0ef925fc95b6f05674901e20901b62c2c9aa"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915295823.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915295823.json",
+   "sha256": "b39e8a2520079229e8fb78412763a57ae7820d832638b23f6643594bf59441e9"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915296081.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915296081.json",
+   "sha256": "183ac452347f2ebcc8f35eb90d683ddd753ae6b4c75c931e08979251af428c76"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915296508.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915296508.json",
+   "sha256": "f59fa7454c3fb43d044491f331b7ca9ff5b8d3d0b36279199878324ec313f6a3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915297547.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915297547.json",
+   "sha256": "461235fa4f1adead10e280489507c371f937a9e12164d2e3d5e91ffbc1777fc2"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915297800.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915297800.json",
+   "sha256": "75f3f5428b2474c55e707ac99fbb7250cb01dd5b852910af0ae9ff1498b6301b"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915298049.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915298049.json",
+   "sha256": "5e555930bda95cb4fb0800fbefe316b7a75bb22ff19a102d4155de85ac419a35"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915298404.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915298404.json",
+   "sha256": "abdeb412c8d0608d1d3f4219621f1ac5d389406f9102ce34c7fdb7798989f63f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915299356.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915299356.json",
+   "sha256": "2ff7a95c202538c8b258786bae26ec01afa260057a7873347d577f33e7d93ea1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915299882.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915299882.json",
+   "sha256": "7d0efe091288ec6d7f57d1f06576aeb2515f36880a79a7e6a1c2644455cd8924"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915301891.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915301891.json",
+   "sha256": "162489a4952fb31f3f69734dd6d529a15a702d695aebf15b068a3475c8c187e1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915303343.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915303343.json",
+   "sha256": "7eb4b2f9148e61e32d264da5e46d3b12efdd16a35f778046759568b6bce47e43"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915303640.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915303640.json",
+   "sha256": "3ca2d8c9267f3dce776d83b4a32f31fdd30a45459c5a35aee844fef28660e577"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915304828.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915304828.json",
+   "sha256": "65ba0443664e789ad672684a206332f1dce7f839d543ad99c71ee4c01940dd80"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915305195.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915305195.json",
+   "sha256": "8b6681d0873c0f568c4d5fec9ef95760ee28882dc732cc9c2cf7626f82a5615a"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915305399.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915305399.json",
+   "sha256": "b492bed4145b8b3abd33b7fa91d3c4d3985d2ea75499d9d940fe56c27a588517"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915306235.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915306235.json",
+   "sha256": "5599a7ea9b9a0b6098ae3ae43036e09a1df49c01bc7b1458c0e2d7c9cfc9494c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915308164.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915308164.json",
+   "sha256": "1835aad907d5e9bc1ace59d5c19d3c155d52c8756a88ef2b6b74540325f0879e"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915309722.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915309722.json",
+   "sha256": "7db2f988187e31b3767f2acab06ac588d6642a2a036e4dfa10423ee15d0148dc"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915310396.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915310396.json",
+   "sha256": "db3b9d9cd79a46a3bceb5fb08f6e61407bd4843b3fd109affef2b56f32cfae9c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915311185.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915311185.json",
+   "sha256": "1f3fcefa0c0476d0353f1c8bd99fb5f80173624c8827b8231e8b74203702fc15"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915312037.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915312037.json",
+   "sha256": "7493bd34b55b1784714f6715f3252b965a7f731ae590b88dc847562f8b611889"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915312638.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915312638.json",
+   "sha256": "45094caea980b1485f409859c60edcd1e87ffc9185cd5fffa536b1c58f898dc6"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915313197.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915313197.json",
+   "sha256": "68965d533acbc55e44482fef682a0ed05b6a113ac0a392cf9021d25e78496220"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915313600.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915313600.json",
+   "sha256": "caba92c479228104f0965c4881f583fbc4e2681e30387f18504d5effdfc5cc68"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915314498.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915314498.json",
+   "sha256": "797c04001a92a7666ac6aaa13d022f948e97259d15a8b5e33209d2d1e83ae64d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915315711.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915315711.json",
+   "sha256": "734f894efb61dfbf7c56bd5579b621562f9074a74c1c82de46b121754bdfb693"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915316330.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915316330.json",
+   "sha256": "d97b8ce1a51049a7da0f3d50426b2ebd06ae8762394d3ea217cdd9e288f7ee76"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915318101.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915318101.json",
+   "sha256": "21aa07a579552770644f7632f34a72856af45837a1b903e4821ae58bd2e5a2db"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915318441.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915318441.json",
+   "sha256": "37348a521a05e5a9b79efc8d283a0e758261efffc4d025cac6de77de57a630f7"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915319111.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915319111.json",
+   "sha256": "6822728803af9fba9a341e0fb4486517563301fd79fe1208ebf7679f0c400994"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915320169.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915320169.json",
+   "sha256": "753e3970d360a8426c3a70c7bc7fb1bd84ae7ed7114dd097d3e3469a77b29361"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915322399.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915322399.json",
+   "sha256": "f1f7967e26b9965d87cd56a600c625e9d439ca9e3515b16d95fd70c79133c2c7"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915322668.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915322668.json",
+   "sha256": "b1892b5b58890964a6dc7c2c4a7435d467b8a5eae37cf4ce250606098b7129e8"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915322990.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915322990.json",
+   "sha256": "a4a9cf0d07b7456d4fdad855f055f70dc30ca165ffe60947337ea9f731928139"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915323297.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915323297.json",
+   "sha256": "f1b6da2d8e62afe21dfe7cd79ac313f77a54a2e1217772ef5003ace4c044c90a"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915323833.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915323833.json",
+   "sha256": "7c5c061dc3e859b9d4a37daa44544a40a6365438ba8eb322f50cd8485fb0901b"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915325100.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915325100.json",
+   "sha256": "fe40e0f01b8d27f1e1a9b0104d09a56ed7e31b978d8633d2c5aca9a545a7dbfe"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915325612.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915325612.json",
+   "sha256": "434bf10228c36dda292e5b5341ba876c8ce630dc13d56e2c3496930274bbfdbf"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/games/915326499.json",
+   "new": "replays/arena/v04/bronze/upload-01/games/915326499.json",
+   "sha256": "dfa5c52fd65309d6442e100d971a5b960fb881168adf0825b2c9958ebf8e17ac"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/placement-watch.log",
+   "new": "replays/arena/v04/bronze/upload-01/checks/placement-watch.log",
+   "sha256": "a1f7023a7d10830351dbb14a15ebf7f98478929776caf700bd84cf9a04f212f8"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261101-235901-331602500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261101-235901-331602500.json",
+   "sha256": "0cf27b9de6891b8f0ea3a71897d3a931349948d4e6108a915d4defb2a710cbbb"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-000014-455057500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-000014-455057500.json",
+   "sha256": "0cf27b9de6891b8f0ea3a71897d3a931349948d4e6108a915d4defb2a710cbbb"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-000317-387051000.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-000317-387051000.json",
+   "sha256": "00797051ae7fc4a9ecbc0209d9f228633d0d300356edef6bd03ac5a7bbc39480"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-000620-783105300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-000620-783105300.json",
+   "sha256": "f1e48a5dede3efc56d9ab9c6983d9734c36c8fda6e3a53ebffe1f9dc96fff0af"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-000923-934798700.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-000923-934798700.json",
+   "sha256": "f60aed645ed458419dd288fac26929bff877ddfc7c884ed2af7c602941b8da1b"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-001226-974520900.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-001226-974520900.json",
+   "sha256": "945a5d03f385c53cbb740b0bfe1f20e085887be25306676725df6c6b39053923"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-001529-975590100.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-001529-975590100.json",
+   "sha256": "945a5d03f385c53cbb740b0bfe1f20e085887be25306676725df6c6b39053923"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-001832-992929600.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-001832-992929600.json",
+   "sha256": "23a2c9abd2fed556e46db480ec74e1fda575c488d67bdce9b33403e871509ad4"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-002136-063920100.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-002136-063920100.json",
+   "sha256": "92f9698142112e092ccfc5b77342df8f70843409d3e54bf0825c9eb7a5ab5ee2"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-002439-217858300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-002439-217858300.json",
+   "sha256": "d9c07a6ed9a28cfd6acafb7ebde82746b5b3d34e296d3247abfce68ca14eaaf8"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-002742-321436400.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-002742-321436400.json",
+   "sha256": "910782ca23fbb4fa1ea23467e064f55070ccc6acab8c5ea8af024dc4091fe333"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-003045-408579300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-003045-408579300.json",
+   "sha256": "910782ca23fbb4fa1ea23467e064f55070ccc6acab8c5ea8af024dc4091fe333"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-003348-516428800.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-003348-516428800.json",
+   "sha256": "86e7b99bbe910eab009625f6dd11e7dcd82ca7a869ee203b196b9a4f12467151"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-003651-586820200.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-003651-586820200.json",
+   "sha256": "d3807018352e27f843a09ab0185ce27bd601b9bf9c046f9b6c3012b9c12c468c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-003954-884110300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-003954-884110300.json",
+   "sha256": "b3c1d9eca561b3ac06cd9355379d093de410ad9303e3b5037a616231f8a54d26"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-004258-045515400.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-004258-045515400.json",
+   "sha256": "ea7ab759b3448390fa8a989de2247e817d11c567f26feafb7fa21dc95d03d5a8"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-004601-309796500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-004601-309796500.json",
+   "sha256": "1e9eb4330aba82dc7b8fcc71bd4cef471d7aad49e7bf53e0e46eee4d80f38f80"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-004904-299094100.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-004904-299094100.json",
+   "sha256": "5bec1f2f7d64cd0c0f4a612c69668a4b0430a7b1b56fc051cd3acde4830cf492"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-005207-280494500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-005207-280494500.json",
+   "sha256": "6bf3c9cdab45d49c86df046d215892cea39c31cc10dbaa00b94f46b2692bcd87"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-005510-442056600.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-005510-442056600.json",
+   "sha256": "7c5b4bddc957daba8ecc3f5b0ff7a733be9a1a7fbd410dec22229f4133ea56f3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-005813-802499800.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-005813-802499800.json",
+   "sha256": "82ad7dbecd6a12e7440f2394ddcf28e019b9a553e187350a08ee7a3566653d9b"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-010117-107982500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-010117-107982500.json",
+   "sha256": "89e08dd7a51569e58bc854bb357eb3608d180185c8e5d40c19a6427ab530e481"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-010420-136873300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-010420-136873300.json",
+   "sha256": "8c5ccf1e2cc0b3d02e971e0c79af56995854d08ec2f5c14fab68a297a4013d16"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-010723-374446700.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-010723-374446700.json",
+   "sha256": "8c5ccf1e2cc0b3d02e971e0c79af56995854d08ec2f5c14fab68a297a4013d16"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-011026-586877300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-011026-586877300.json",
+   "sha256": "66f6deaacd1ece341bb2d20f0a0773331dfaf9e509b24caeaefb835c018871b0"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-011329-858309600.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-011329-858309600.json",
+   "sha256": "cc84050cb91c1d4b7253ded5094bd657b2ae1c8fca2acd377651d5f50c7ea42b"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-011432-971027100.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-011432-971027100.json",
+   "sha256": "441b3e9c91327721ef5b4bc2dba1e707079293b8afe08353fa806fe28bbc5140"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-011536-089984000.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-011536-089984000.json",
+   "sha256": "441b3e9c91327721ef5b4bc2dba1e707079293b8afe08353fa806fe28bbc5140"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-011639-202137500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-011639-202137500.json",
+   "sha256": "441b3e9c91327721ef5b4bc2dba1e707079293b8afe08353fa806fe28bbc5140"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-011742-354351100.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-011742-354351100.json",
+   "sha256": "441b3e9c91327721ef5b4bc2dba1e707079293b8afe08353fa806fe28bbc5140"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-011845-694375000.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-011845-694375000.json",
+   "sha256": "441b3e9c91327721ef5b4bc2dba1e707079293b8afe08353fa806fe28bbc5140"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-011948-876442000.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-011948-876442000.json",
+   "sha256": "a3f9c5a2ec36b54474148c55d012f8912cf462769f433ee62924266ac29b738b"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-012051-961076700.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-012051-961076700.json",
+   "sha256": "e24f7ed3301c59dac0750f71205f49519999effee0209d57e90c8868257e58b2"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-012155-187291600.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-012155-187291600.json",
+   "sha256": "5c88661a205d19b6bb89f801677f533fad392788bfe76ab0eca9fb4a9a806192"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-012258-381817900.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-012258-381817900.json",
+   "sha256": "24d5d46a815627b49a00b93199a2e77b94cdd726f19a23e10b0ee659f7fe5954"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-012401-606013700.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-012401-606013700.json",
+   "sha256": "4416861ecd579968672e61804c7b59be4b1e538ca7f7e913a5cd7c13fa6dbd01"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-012504-795954400.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-012504-795954400.json",
+   "sha256": "4416861ecd579968672e61804c7b59be4b1e538ca7f7e913a5cd7c13fa6dbd01"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-012607-948154400.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-012607-948154400.json",
+   "sha256": "c41089e13024f7906122b885bf849db426a41cf13f9bdd6fc6668bc1f4b6677f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-012711-338902400.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-012711-338902400.json",
+   "sha256": "7b24826b4f108c6f6fcc54ce9147a2012c4b51a105523faebe996b67a53d343d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-012814-723708800.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-012814-723708800.json",
+   "sha256": "885d2095a3a01d6510af78d1ad6a5930043aebe8c8788cb2bed7b25b69d31031"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-012917-996089000.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-012917-996089000.json",
+   "sha256": "5928c48d7907839a622ab9fda450e8c131b79dad91a28b6d9e1aadd5dea12de1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-013021-112973700.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-013021-112973700.json",
+   "sha256": "7660677fbdf20a7cdf9d0fe7b7d46fc4010deb6d971a36cf4b04fe6c79a1090d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/battles-20261102-013059-579676600.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/battles-20261102-013059-579676600.json",
+   "sha256": "7660677fbdf20a7cdf9d0fe7b7d46fc4010deb6d971a36cf4b04fe6c79a1090d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261101-235901-331602500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261101-235901-331602500.json",
+   "sha256": "f3e4c77ab4623208ee60cbbcff4a5bcaa2118c6a10e563677b4b563e8f8b12db"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-000014-455057500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-000014-455057500.json",
+   "sha256": "f3e4c77ab4623208ee60cbbcff4a5bcaa2118c6a10e563677b4b563e8f8b12db"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-000317-387051000.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-000317-387051000.json",
+   "sha256": "ba80bd5077c5e68fec2c12112011e850d098e332cfd65c61170880c1d4e4d47f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-000620-783105300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-000620-783105300.json",
+   "sha256": "ba6efe7830783a51602b737f42c96908d98de97f6badaab89fa65ad7bad00f3b"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-000923-934798700.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-000923-934798700.json",
+   "sha256": "07ac1fbd3cf9e179bf38e16c1422ca68ddca3a4f45a3e427f7e3d1ad010becdf"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-001226-974520900.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-001226-974520900.json",
+   "sha256": "bb2097bd7e052d8b5b255e1bb2b9ef38104a526c5835582b313e4da2655e484e"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-001529-975590100.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-001529-975590100.json",
+   "sha256": "bb2097bd7e052d8b5b255e1bb2b9ef38104a526c5835582b313e4da2655e484e"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-001832-992929600.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-001832-992929600.json",
+   "sha256": "c6dc4127a8e25b5dcec45917751ba3ba8879178df83141cecd7ab7335b1795ff"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-002136-063920100.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-002136-063920100.json",
+   "sha256": "db9021b577629e2bfc1ae7751f1baa6b303c8a9863491df9b3a1a3b44ac2bb17"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-002439-217858300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-002439-217858300.json",
+   "sha256": "f600ee9022c252105dcdebba5ed52054cb64597dd34b4928c1ba5df54e40078c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-002742-321436400.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-002742-321436400.json",
+   "sha256": "4a221c48cd80dc45bd2429fa80e5cf95d2a06b3a55fd6c64eda01def9b56f83d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-003045-408579300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-003045-408579300.json",
+   "sha256": "4a221c48cd80dc45bd2429fa80e5cf95d2a06b3a55fd6c64eda01def9b56f83d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-003348-516428800.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-003348-516428800.json",
+   "sha256": "db21587ef7583e2b2bf4d9444e019de79a58171f310514b6e7c781c13947fee3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-003651-586820200.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-003651-586820200.json",
+   "sha256": "f03b58c477e6d1b735ba79b184b984b7ac255902ee899c90266cd2ad58a50271"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-003954-884110300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-003954-884110300.json",
+   "sha256": "77181154ef3cc15b5b2ffbf8b6ae9ebed9dfaa900f60723c327f9225c84e37e1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-004258-045515400.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-004258-045515400.json",
+   "sha256": "aefc32bee954d2b6bcd5e7681c9ace6f5db8664e3ec5d4e06444efdcd54d8842"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-004601-309796500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-004601-309796500.json",
+   "sha256": "94b97b827a00a37716e2ca90250bd9611bda01081cdf81801976be00f11d0c24"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-004904-299094100.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-004904-299094100.json",
+   "sha256": "41b7d6c3ec8486015e7fa485587c0120f227daae82b4c0fc766e25b6ae3619b4"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-005207-280494500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-005207-280494500.json",
+   "sha256": "6eb0bee5be657b63da9e7672a70967178d7dd9eee9d889c9a0373fa9eb675e6f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-005510-442056600.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-005510-442056600.json",
+   "sha256": "aa9463e4a6cec049bc8c9753e41d21607eb253f1ff3078e24c16510b7d0021d4"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-005813-802499800.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-005813-802499800.json",
+   "sha256": "acbde06fff0131d7a41362a0fe02c0ca68f4ebd82722b023427402942ac9cd7c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-010117-107982500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-010117-107982500.json",
+   "sha256": "3b78df7120f3af4adab8ccf0a1f763e0abd2a881909c2444c81be1ed1dc9917f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-010420-136873300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-010420-136873300.json",
+   "sha256": "9adbb29cbc04a64fadd4b5801c72dd4e4d1c70994dd681810846dc0a88a680d0"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-010723-374446700.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-010723-374446700.json",
+   "sha256": "9adbb29cbc04a64fadd4b5801c72dd4e4d1c70994dd681810846dc0a88a680d0"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-011026-586877300.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-011026-586877300.json",
+   "sha256": "6f844b27dd0927788ed26cce15ae1afc15fb512f019b9b4cbace2cd632625c51"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-011329-858309600.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-011329-858309600.json",
+   "sha256": "632cb3e305bd62cb131cd598c47e74c85e2acd45887316421cf55052a86a7209"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-011432-971027100.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-011432-971027100.json",
+   "sha256": "14f5d5295afcb5b14ae2990a2309dfe66def56c0255d1cf9ccd181c3b13637d4"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-011536-089984000.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-011536-089984000.json",
+   "sha256": "14f5d5295afcb5b14ae2990a2309dfe66def56c0255d1cf9ccd181c3b13637d4"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-011639-202137500.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-011639-202137500.json",
+   "sha256": "14f5d5295afcb5b14ae2990a2309dfe66def56c0255d1cf9ccd181c3b13637d4"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-011742-354351100.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-011742-354351100.json",
+   "sha256": "14f5d5295afcb5b14ae2990a2309dfe66def56c0255d1cf9ccd181c3b13637d4"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-011845-694375000.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-011845-694375000.json",
+   "sha256": "14f5d5295afcb5b14ae2990a2309dfe66def56c0255d1cf9ccd181c3b13637d4"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-011948-876442000.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-011948-876442000.json",
+   "sha256": "ed5a6984fb2bfc0806e3b47371ec225efc6d3a41ea01299e6412d9cdeb09a081"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-012051-961076700.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-012051-961076700.json",
+   "sha256": "e9e552cc1af1c02a319cfed1391af4d9fe363d863f65eb861f9334e44a03f2d7"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-012155-187291600.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-012155-187291600.json",
+   "sha256": "77c249864246542ba1af3076857c655440dbc4952361ed05e6c278f1b4040d08"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-012258-381817900.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-012258-381817900.json",
+   "sha256": "77c249864246542ba1af3076857c655440dbc4952361ed05e6c278f1b4040d08"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-012401-606013700.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-012401-606013700.json",
+   "sha256": "255019d2749c79262176a828b49bca7214d91bafd648490f557cce7fc92703d0"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-012504-795954400.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-012504-795954400.json",
+   "sha256": "255019d2749c79262176a828b49bca7214d91bafd648490f557cce7fc92703d0"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-012607-948154400.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-012607-948154400.json",
+   "sha256": "255019d2749c79262176a828b49bca7214d91bafd648490f557cce7fc92703d0"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-012711-338902400.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-012711-338902400.json",
+   "sha256": "07f310b2ae0ec3345eddf52be6a4a905991484c6908eb30b86d5d9cc565dc626"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-012814-723708800.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-012814-723708800.json",
+   "sha256": "d64ccda69a47b068da2e98c6e3a56c36eea28daf2fa219218be73cf3a2e8e47e"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-012917-996089000.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-012917-996089000.json",
+   "sha256": "d64ccda69a47b068da2e98c6e3a56c36eea28daf2fa219218be73cf3a2e8e47e"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-01/snapshots/leaderboard-20261102-013021-112973700.json",
+   "new": "replays/arena/v04/bronze/upload-01/snapshots/leaderboard-20261102-013021-112973700.json",
+   "sha256": "9b987ca95228a4ad7afec4b94a7cdc57c7319fb19a4efca538b2667f1363dee6"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/arena-compare.json",
+   "new": "replays/arena/v04/bronze/upload-02/checks/arena-compare.json",
+   "sha256": "bd6f8c284b07afed4e088f82279a720c0c9d9a4b2ffc30690ba128321f1dec60"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/arena-games.log",
+   "new": "replays/arena/v04/bronze/upload-02/checks/arena-games.log",
+   "sha256": "03e1c6c92e69bb8ee1fb02dc102a9ef9a9b865e5c7afe9d33159f17f78a5ffaa"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/cgAttribute-v04.log",
+   "new": "replays/arena/v04/bronze/upload-02/checks/cgAttribute-v04.log",
+   "sha256": "9c52d0bff0af0efffa47490e901876bcd2336baee82a6e8474c226d8bfd25df0"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/cgAttribute.log",
+   "new": "replays/arena/v04/bronze/upload-02/checks/cgAttribute.log",
+   "sha256": "0986c980f7831e0607615c850b14b5c5bc8aa38460866f0b2d2b6338807c7af3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915331914.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915331914.json",
+   "sha256": "70e0287c8b9ff926f07028ada429af67ff2e02c1e3d742971c166d99d0f9df36"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915331915.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915331915.json",
+   "sha256": "6ad281f43f6f04f4b6a490f9f516abe337404ec7e96302b0154fd526386be602"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915331916.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915331916.json",
+   "sha256": "30a61684c35cc7e8cb91805f802390b27be40cd7c72170b8717d70b0135744a3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915331917.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915331917.json",
+   "sha256": "6960717b751d9bab7015d165a9cb4c07c8812f780772321c6bd0fa080e05c4ec"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915331918.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915331918.json",
+   "sha256": "d7aa65784b5c6d640826a21f8350bfb9970c26e8340a2941f4d2ceb30fea3496"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915331919.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915331919.json",
+   "sha256": "c2f48012cf1d5a1dda5295adc2b4ca6eafdd2be6342d711df68764c8303d5a08"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915331920.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915331920.json",
+   "sha256": "9435e3baf4779c6f9deb354181b2d819480a25f165f1278ef5df59430a0e47eb"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915331921.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915331921.json",
+   "sha256": "4e89095e83f9a03918a9dbd8550032457701a63ed2e3e990ad41a31eaef97dd9"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915331922.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915331922.json",
+   "sha256": "c9556ffa72762e0b32909ef58874d336e3487a2b66a431079e63a07e38398873"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915331923.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915331923.json",
+   "sha256": "bdcb5a6d4b801f51ab8232db263ddea18e9222168519106647614f338c932447"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915332583.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915332583.json",
+   "sha256": "b03bfb5e1d4dd20e5e62ae5fb94416fd47f4e43f89dc301c5a0d7857ff17f02d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915333056.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915333056.json",
+   "sha256": "c394b8fc9c855969401485f62cdbb95ebf5c8f88f97dd7343a569f0f2dda315a"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915333503.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915333503.json",
+   "sha256": "55880ab90c0f7ba67d2cd5b18ebdaec6cca07f6819402d5a5baaab717cba6da9"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915333805.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915333805.json",
+   "sha256": "841d5d18a102c5d51a445d88bc65e5427ccc762bd7900707804a292338057bd3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915335199.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915335199.json",
+   "sha256": "ddac6ce48e1c45a6f229470e1eadd7738b84164b24caa3400e469f71f5c262fe"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915337471.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915337471.json",
+   "sha256": "5ab44945fa47866493f5b008312ceb9a3d9e9951778b9b1b17150d923cb6e611"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915338584.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915338584.json",
+   "sha256": "f8a32f2255c715860540fad5c1000eb01fcbc3534183758ae2b7665cd2f4d54c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915340730.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915340730.json",
+   "sha256": "66661d60b852f4fd91ecd51553820b7b5ded5aba0dbe8b4a2b68377a23312be1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915344696.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915344696.json",
+   "sha256": "c4300f75dc8b76f4748e589a6502756370e45f18c0c8e65d9cac2668890a7137"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915345184.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915345184.json",
+   "sha256": "7bc79503314016a40e6756375f6bccff1f035649786b166eb7517e7cf6200a47"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915346098.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915346098.json",
+   "sha256": "3dd065b989e933a022a2a1315a3458e67a46b7dd00175c8c35891036388ff7a7"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915346519.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915346519.json",
+   "sha256": "1151daf2b80d1c38d69a679bbc404128056f627c82c45fdab7ab03e4f215cf9c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915346821.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915346821.json",
+   "sha256": "e742ce939576d6da75cc016a18bcc8cea918facdc6adc44d6ce982b453dbcf22"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915347185.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915347185.json",
+   "sha256": "7339fb54cbad1054873651f6697012138d68269e87a65fbcf234a25eb2da36b2"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915347662.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915347662.json",
+   "sha256": "d92217f388b383bda2327f1190d524c0d045fc8841aa78ba547743feca9697b6"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915348468.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915348468.json",
+   "sha256": "c7d80c19b1c5f8c9025be2c4ae6e45bae1f1882bc51744289af2814f34a746f6"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915348855.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915348855.json",
+   "sha256": "2f4f0974d0c3f138c3f73a39e62666708102e7c09053384bde41101445b365c9"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915349478.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915349478.json",
+   "sha256": "e80a022879b464eb76318e6e3fd1b0cacc4fb5747c4ff861ed4fed3683438dea"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915349787.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915349787.json",
+   "sha256": "d21bd22ef97611f76bf09c43c23f99cd2912362896d12a706e68db123de6c74f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915350639.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915350639.json",
+   "sha256": "e224b6abf38858c1eee5c3d19fbf467690408b642ea74d4ae3f2587c21b1af8b"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915351120.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915351120.json",
+   "sha256": "50f37fa96922fb2286880981c7ea55869987d84c823f61c4f8c692659d5a4cad"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915351952.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915351952.json",
+   "sha256": "a017897fbcbdabc069abb2218c79e73496f8cdf364cdc42218b218f5b9ee128e"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915352897.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915352897.json",
+   "sha256": "a3c721b739d96e4892e467b615e0c25946b77207a36049a8872018cc6b742b04"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915353107.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915353107.json",
+   "sha256": "cc3fd437efc797761d68b13839b274c69cd655eeeb9246695562e50ca78356ec"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915353353.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915353353.json",
+   "sha256": "4c76b871b66b7c5c0c6f7fb320ce4db246e022cdb038bd12ce9f4502700b3d27"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915354123.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915354123.json",
+   "sha256": "4796ea70d6789140c6fd9f472584d3e3c06e4ba62b9c9b8de423979db5fb7a40"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915354408.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915354408.json",
+   "sha256": "92df72ab09ddbd2b895d0da7aea3e1f64887baf019f1d5f46e867a81f20aa764"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915355676.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915355676.json",
+   "sha256": "66be045582f49de6f6f465dcff00b0cfdb0fa0c03d2bd3a9e7341fd2ee1ce3ad"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915355978.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915355978.json",
+   "sha256": "1f08343b8e23336b76763f382c44071f5d3509a07ffa4390218659dc0cd9d8e6"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915356222.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915356222.json",
+   "sha256": "b9e6371e5ace6511c37e9f449bb7481f10c465f2a4a6cfde0a604ce3a5c67080"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915356886.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915356886.json",
+   "sha256": "3c3cab3ed46bd72bcaf8c717b6472da1c7867a0b153aaf40720fbdbc7a9062e1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915358366.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915358366.json",
+   "sha256": "78234db74c8dc0e39d6e9937fb18cd485d8539efcc4a5ce7006d394a86025158"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915358669.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915358669.json",
+   "sha256": "fb3f130071a80dd923f3660202beab08e0820759ccd5190c958f530828d95a4d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915359090.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915359090.json",
+   "sha256": "aeca109379dbfc4b2f4446707b7a4da7eec365993492abfebf818c52957701bc"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915361191.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915361191.json",
+   "sha256": "16fd40da566e5f513cf95ba7c2793d759b2111fbf2d1662958189ef73b44ba65"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915361448.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915361448.json",
+   "sha256": "f2e32be0492e8001ba520366c37a3dfd35c412ec2e7539c8c705d4657427ac34"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915363178.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915363178.json",
+   "sha256": "e2ae673d9480158c7a57ea4d18db34e963e694cd65499ca5ff7adebcac507115"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915363570.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915363570.json",
+   "sha256": "58dd16e9b6113df7dbe6531a0a2d114e36df59f784d8385796bb93e28280da92"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915363808.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915363808.json",
+   "sha256": "7bc66a8f8319d77537e8a75cfe8b435ea9842bae70b008a7db1d1e4df6094eb1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915364321.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915364321.json",
+   "sha256": "f02522ce7b8b8ed76f761f21015722f112bb1e84ee30cf52b1c6f694f434139e"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915365178.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915365178.json",
+   "sha256": "2938ba07e0855f91746fe3c04cfbd6bf3a437a673a7ec0d03207d69af9868520"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915365763.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915365763.json",
+   "sha256": "fa8a51b35048f440d10d298b40b85c18938ba614f241f63f5506a665d8a868ee"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915366663.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915366663.json",
+   "sha256": "db68f7a93a16b8b397e58931d1f2e0587ecddb62e426b501cad967869a3d495d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915368274.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915368274.json",
+   "sha256": "f89ef5c00c7cd5ad6ea6ade8875a50c37075e2d30b9037b1abfd03375bf7ec4c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915368639.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915368639.json",
+   "sha256": "e70e6a0b36b95ff2d3f718f256dea5cdf73f40a88dffd52ae3e4ef1f963a01bc"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915371762.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915371762.json",
+   "sha256": "237e267f7005d42704d539e8f8321064ad6795591a7f6768bc150f730e260221"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915373870.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915373870.json",
+   "sha256": "550b7767a4364175788f2b6574e9fec6df97ca50895d2a7bd38efd89c77a2aae"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915375191.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915375191.json",
+   "sha256": "b86757d59204a9c118b90aba3eb3f3b4ba3952fae3f0a36896f623ec19c66fb5"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915375596.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915375596.json",
+   "sha256": "11a22f2db98ebaf3e5bf2fdf6186c73381372197fa2d51099aaf52c24de92eeb"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/games/915375911.json",
+   "new": "replays/arena/v04/bronze/upload-02/games/915375911.json",
+   "sha256": "7d83aa1f6c8c1a1d12280b663c2b07b7e3332b15cb026efb12d3616ea7ad99a4"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/placement-watch.log",
+   "new": "replays/arena/v04/bronze/upload-02/checks/placement-watch.log",
+   "sha256": "10dd1814f8819ef375da6aae748c032abae56d2c50dbcb5a8dedbb22850801b5"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-014349-502017000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-014349-502017000.json",
+   "sha256": "32d5dd7d320ef7f365827037d814e4d80c71f163e0c7ef04c6b91832a31deea6"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-014557-517777000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-014557-517777000.json",
+   "sha256": "f442a753d028a53e810d032a45acc46f698c04ca2296654ff356b66474eb46f8"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-014900-545192600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-014900-545192600.json",
+   "sha256": "8539cb5a024d036de6d13f38d1327163ecacea240ad895944f5269eda5c86760"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-015203-708605600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-015203-708605600.json",
+   "sha256": "da4024d8053d7ee1dc6a83f3d3c1c261de7fdf17742256b209fbcf7072090405"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-015506-974672500.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-015506-974672500.json",
+   "sha256": "da4024d8053d7ee1dc6a83f3d3c1c261de7fdf17742256b209fbcf7072090405"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-015809-873842400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-015809-873842400.json",
+   "sha256": "8440073cdff67cf68d552466484c3a779b7e83028b47f4c6ca17647f361a168c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-020112-849124900.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-020112-849124900.json",
+   "sha256": "edc25636c864c8ec8186711df194abb39534348283828c63e5cbc7a8453c87b7"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-020416-019799700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-020416-019799700.json",
+   "sha256": "508f05dbf46d19abf4abb3692360700f9d0811c5a44a4a9aba59013ef1734243"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-020719-026780200.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-020719-026780200.json",
+   "sha256": "c7a896c1f3c378b2bed6469db6064d4fb99345612a66cb4dcef8b9ab98f2cccc"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-021021-985238800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-021021-985238800.json",
+   "sha256": "c7a896c1f3c378b2bed6469db6064d4fb99345612a66cb4dcef8b9ab98f2cccc"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-021324-896110600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-021324-896110600.json",
+   "sha256": "c7a896c1f3c378b2bed6469db6064d4fb99345612a66cb4dcef8b9ab98f2cccc"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-021627-935402700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-021627-935402700.json",
+   "sha256": "6a6da547ccd8027461e13d8b7e2e1bfbaae9df9bf68580fd325bb99b411fd97f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-021931-105267600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-021931-105267600.json",
+   "sha256": "61c744af06bae459a56b001ed1ce094ceb9aff734d1d4dc68f48b152f45e765c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-022234-078012100.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-022234-078012100.json",
+   "sha256": "abe630f665de65b65e2819b22f9f67387553f1e214b02d2b1c708960043f293d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-022537-078759900.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-022537-078759900.json",
+   "sha256": "84efb514a1c3d6ab75082d59aa2bc47a0efe25c3d829a25f981d3fc1de0f16ae"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-022839-984736000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-022839-984736000.json",
+   "sha256": "938b8c9cc97463a75760d58f276c1897cdf1c83114fe74d7e96aee62d70724a2"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-023142-911486700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-023142-911486700.json",
+   "sha256": "1afdfc20d56d94b97dcbc2cacb3d31d0e877cff2b4658463a4b366b525acb8ee"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-023446-013832100.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-023446-013832100.json",
+   "sha256": "cd4104715839e61bdf7ddc241c4e6a71cd76c0c55a67d253f51e3a39c0a93976"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-023748-955531800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-023748-955531800.json",
+   "sha256": "373d559ada436fcd35597f95225645c3decadc9c1074c9983542bd95e5aa1610"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-024052-038867800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-024052-038867800.json",
+   "sha256": "de9760431763a2e379354fdd0de7fc80e5d948b0237ef575012de42f24f92543"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-024355-518506900.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-024355-518506900.json",
+   "sha256": "60038290af5bf3d8b3c1e811f34c22e91b96ee6ed414d48bfcd32848ace2f3c3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-024658-607046300.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-024658-607046300.json",
+   "sha256": "a94b62c3f890fc2191075b16836cc3a48c235c9cb6a5d0b665000ecf19396fe1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-025001-590774000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-025001-590774000.json",
+   "sha256": "f132d8fff16afdf82de45e44a6f86abab37e6c8bcb097909d8f43542f87d1e62"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-025304-741281400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-025304-741281400.json",
+   "sha256": "f132d8fff16afdf82de45e44a6f86abab37e6c8bcb097909d8f43542f87d1e62"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-025607-807578800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-025607-807578800.json",
+   "sha256": "629fd4a291e191e15998888b80234950bfd8cfaefcaf8884ff1309d8fb67a5a1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-025911-018511700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-025911-018511700.json",
+   "sha256": "629fd4a291e191e15998888b80234950bfd8cfaefcaf8884ff1309d8fb67a5a1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-030214-027055400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-030214-027055400.json",
+   "sha256": "fa32ddb658cdf0435e57dc09e1dcb742a80b89ca48a0d3b5e6794deb6aa88d44"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-030516-937996200.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-030516-937996200.json",
+   "sha256": "fa32ddb658cdf0435e57dc09e1dcb742a80b89ca48a0d3b5e6794deb6aa88d44"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-030819-979997400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-030819-979997400.json",
+   "sha256": "a9040ad806525babdb66da374e623a27448871e3f13c69bc2a854453d127a433"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-031123-080434600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-031123-080434600.json",
+   "sha256": "1dd71d9697a5fff860b0bb4d13dc14890f7da517199acb063151d36359d937f1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-031426-073526700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-031426-073526700.json",
+   "sha256": "0dd65d5b114544116be484ded1a389ec05b91d9cc21c50fd71b217972c3d87d8"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-031529-065472400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-031529-065472400.json",
+   "sha256": "ee9ba31054af8cc1ba0be5533d9257f1b118ec8e0529e87eccd5bd3ccd31c0fc"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-031632-163270400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-031632-163270400.json",
+   "sha256": "38c5c4d0dfe330611dd9e7a5f5d8afb95b514b5619b02c8fe314e103f06cf3ae"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-031735-195681900.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-031735-195681900.json",
+   "sha256": "38c5c4d0dfe330611dd9e7a5f5d8afb95b514b5619b02c8fe314e103f06cf3ae"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-031838-250196800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-031838-250196800.json",
+   "sha256": "38c5c4d0dfe330611dd9e7a5f5d8afb95b514b5619b02c8fe314e103f06cf3ae"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-031941-662981000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-031941-662981000.json",
+   "sha256": "6aaf7ba302fd02ff7aac0cddaf404e2f0397f6a155efd13e0845b63b42bfe106"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-032044-634733500.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-032044-634733500.json",
+   "sha256": "7f95641e8003bb68e416e8040dae7f8194e8bbb06e3b656d30b1fdd45fea2254"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-032147-710944400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-032147-710944400.json",
+   "sha256": "b9e6b1958dba6cf5026d6365b493b77fee0dbdd1b0ba220c438611b2ca6969c3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-032250-694064500.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-032250-694064500.json",
+   "sha256": "b9e6b1958dba6cf5026d6365b493b77fee0dbdd1b0ba220c438611b2ca6969c3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-032353-635274600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-032353-635274600.json",
+   "sha256": "b9e6b1958dba6cf5026d6365b493b77fee0dbdd1b0ba220c438611b2ca6969c3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-032456-611188800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-032456-611188800.json",
+   "sha256": "b9e6b1958dba6cf5026d6365b493b77fee0dbdd1b0ba220c438611b2ca6969c3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-032559-683203600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-032559-683203600.json",
+   "sha256": "b9e6b1958dba6cf5026d6365b493b77fee0dbdd1b0ba220c438611b2ca6969c3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-032702-701620600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-032702-701620600.json",
+   "sha256": "b9e6b1958dba6cf5026d6365b493b77fee0dbdd1b0ba220c438611b2ca6969c3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-032805-750874500.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-032805-750874500.json",
+   "sha256": "b9e6b1958dba6cf5026d6365b493b77fee0dbdd1b0ba220c438611b2ca6969c3"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-032908-762141800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-032908-762141800.json",
+   "sha256": "72910a35220f176d1a6a22cfdae811c14836eabc9002a0eb720fbaec890c6ca6"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-033011-762829800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-033011-762829800.json",
+   "sha256": "c073ec88b2f58b5b2ec1be00a8aa4db4b0caa69960df0b10cbe3bb9a0da047d1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-033114-715330700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-033114-715330700.json",
+   "sha256": "c073ec88b2f58b5b2ec1be00a8aa4db4b0caa69960df0b10cbe3bb9a0da047d1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-033217-736739500.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-033217-736739500.json",
+   "sha256": "c073ec88b2f58b5b2ec1be00a8aa4db4b0caa69960df0b10cbe3bb9a0da047d1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-033320-706976300.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-033320-706976300.json",
+   "sha256": "c073ec88b2f58b5b2ec1be00a8aa4db4b0caa69960df0b10cbe3bb9a0da047d1"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-033423-704393300.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-033423-704393300.json",
+   "sha256": "df42cded6e868f5368d971f71094e4fda0776a27c47f85e773947b06bf6d3e9f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-033526-732697800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-033526-732697800.json",
+   "sha256": "df42cded6e868f5368d971f71094e4fda0776a27c47f85e773947b06bf6d3e9f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-033629-863085000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-033629-863085000.json",
+   "sha256": "df42cded6e868f5368d971f71094e4fda0776a27c47f85e773947b06bf6d3e9f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-033733-086419900.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-033733-086419900.json",
+   "sha256": "e1c3603037463ddd4b32b6024a975be1b1935c0383442852bf1025c782502d5e"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-033836-289904200.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-033836-289904200.json",
+   "sha256": "e4eb0ffa9cef1c9cbdba8847f0e1b8d1253353db2bb13b4b0849cfd397d013ce"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-033939-262704300.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-033939-262704300.json",
+   "sha256": "76f05e9701a2ba6f7d5f06248d5dda663c3c5bdddbeb5841384181357bb4a48a"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/battles-20261102-034023-399781300.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/battles-20261102-034023-399781300.json",
+   "sha256": "76f05e9701a2ba6f7d5f06248d5dda663c3c5bdddbeb5841384181357bb4a48a"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-014349-502017000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-014349-502017000.json",
+   "sha256": "b1444656b86f5ece399d20ff41d1565022dfc368cb2c67d3d556788c494c3352"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-014557-517777000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-014557-517777000.json",
+   "sha256": "d5f6e0797a5b087e34b2eea368c16afca927b62093908653a179d32f703fdc33"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-014900-545192600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-014900-545192600.json",
+   "sha256": "ce5fb11ff42dbef59238d9ac8272149c588eecea55e1660cab77e22c52a32881"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-015203-708605600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-015203-708605600.json",
+   "sha256": "6e172eaed824a952e9068a4c8e5baa135dbe918f855b34aa7e88092aeabc1288"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-015506-974672500.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-015506-974672500.json",
+   "sha256": "6e172eaed824a952e9068a4c8e5baa135dbe918f855b34aa7e88092aeabc1288"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-015809-873842400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-015809-873842400.json",
+   "sha256": "747f6023e0626b5ba3423abce2ce86f66a90511fc7c54ff831c337ad228d3719"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-020112-849124900.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-020112-849124900.json",
+   "sha256": "70cad4d17855ee2e62687aaef569ad3a164cfd172921812e3b401abd7f06c101"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-020416-019799700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-020416-019799700.json",
+   "sha256": "70cad4d17855ee2e62687aaef569ad3a164cfd172921812e3b401abd7f06c101"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-020719-026780200.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-020719-026780200.json",
+   "sha256": "f0811bea5286f0b855d19ad6767d49b2e3d77aa0d90b3720e6b6861765e9d194"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-021021-985238800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-021021-985238800.json",
+   "sha256": "f0811bea5286f0b855d19ad6767d49b2e3d77aa0d90b3720e6b6861765e9d194"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-021324-896110600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-021324-896110600.json",
+   "sha256": "f0811bea5286f0b855d19ad6767d49b2e3d77aa0d90b3720e6b6861765e9d194"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-021627-935402700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-021627-935402700.json",
+   "sha256": "e0cdb75a51e8cb87cfa66e9681409d27f1522458131b44a1c2ef94d298b8619b"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-021931-105267600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-021931-105267600.json",
+   "sha256": "6906f3e36270ea15f05205a125c6c601be999fafb2d00a91583fff5230a10d08"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-022234-078012100.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-022234-078012100.json",
+   "sha256": "6b17382ac582ea49b1da0334a5b6390f2b8d7363bcb90d46ab8e553ef138a577"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-022537-078759900.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-022537-078759900.json",
+   "sha256": "bc3ad425a032a4361bf3464164aa54f56f0ab0344d98d927c9fa764a6cc68fce"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-022839-984736000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-022839-984736000.json",
+   "sha256": "fed8f1d65827f7bd51e605737bc37aeac7d2b8ebdbf8dd4552819dd63983ea47"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-023142-911486700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-023142-911486700.json",
+   "sha256": "f78c29bc729c7902d8d55d4af56b6f8a1e17478cd83702ab6f1e8fd889a47cff"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-023446-013832100.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-023446-013832100.json",
+   "sha256": "6f014f5cf42108448bff0f7c50f952995141b3db19f7d755d8199d6b9aba9944"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-023748-955531800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-023748-955531800.json",
+   "sha256": "b0ed66287ff88373cfd9934dff5c45db2b5ed089c1087324b0ff33a6db54b6c2"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-024052-038867800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-024052-038867800.json",
+   "sha256": "97bae1744242cb95e355c4963c164b0ba5bc6f12850f515c1cae276f14573927"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-024355-518506900.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-024355-518506900.json",
+   "sha256": "4aed323e208bc882bb0d222691d38e64d6f6b803fde43c761424fec56c080b14"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-024658-607046300.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-024658-607046300.json",
+   "sha256": "376e9559fc6e06e394b001271f89f6a439d8a7ae6bf3123e52fba461ff556185"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-025001-590774000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-025001-590774000.json",
+   "sha256": "4a5f0a5d63539d1fbcde28667de4969a97cddbcbf006122b2c1bb0cca8d55b5a"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-025304-741281400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-025304-741281400.json",
+   "sha256": "bf44ab269ebe2b8b01c2f1c74562b648abb447a442b9c90bfecd67b00dabd59b"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-025607-807578800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-025607-807578800.json",
+   "sha256": "cc74476d3b91194e81634a4a2ee62af9b071bcc1e8a2e7e582c1326818486b3d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-025911-018511700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-025911-018511700.json",
+   "sha256": "cc74476d3b91194e81634a4a2ee62af9b071bcc1e8a2e7e582c1326818486b3d"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-030214-027055400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-030214-027055400.json",
+   "sha256": "fba30099cb7539f0ebb1fa2542259eb8704731c6ae8229a9e74fa2808c30776f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-030516-937996200.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-030516-937996200.json",
+   "sha256": "70c18e604bdbd9ec50555a593232fbb38d202c89eaab07975fe1e10b5a2b0a1a"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-030819-979997400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-030819-979997400.json",
+   "sha256": "bb766aaf66c331acf7088f1d79cf6cb6e1dedda0aa66c967812af8e233677dad"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-031123-080434600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-031123-080434600.json",
+   "sha256": "9d38afe7aa5b17edeca5610b90e2525d84fa4edf193f77092fb73684d4ee496a"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-031426-073526700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-031426-073526700.json",
+   "sha256": "586bec44161984a5f925eaed287b3f4976eb2ad8f80dce9b761daacc7f632d2c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-031529-065472400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-031529-065472400.json",
+   "sha256": "586bec44161984a5f925eaed287b3f4976eb2ad8f80dce9b761daacc7f632d2c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-031632-163270400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-031632-163270400.json",
+   "sha256": "a042a36ab0f3b91941923eecce6cc7617eaccee87d7bde56d8d3a0e0295a8369"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-031735-195681900.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-031735-195681900.json",
+   "sha256": "a042a36ab0f3b91941923eecce6cc7617eaccee87d7bde56d8d3a0e0295a8369"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-031838-250196800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-031838-250196800.json",
+   "sha256": "a042a36ab0f3b91941923eecce6cc7617eaccee87d7bde56d8d3a0e0295a8369"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-031941-662981000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-031941-662981000.json",
+   "sha256": "a042a36ab0f3b91941923eecce6cc7617eaccee87d7bde56d8d3a0e0295a8369"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-032044-634733500.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-032044-634733500.json",
+   "sha256": "efc9e035d5dd48fdabe2fb35351f41a85c5316a12c93f4a6cf17ee82f7c0055c"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-032147-710944400.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-032147-710944400.json",
+   "sha256": "21bc27afcd31f964784beafc619f059130f74f614c9cb0121e48101b48e5440f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-032250-694064500.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-032250-694064500.json",
+   "sha256": "21bc27afcd31f964784beafc619f059130f74f614c9cb0121e48101b48e5440f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-032353-635274600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-032353-635274600.json",
+   "sha256": "21bc27afcd31f964784beafc619f059130f74f614c9cb0121e48101b48e5440f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-032456-611188800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-032456-611188800.json",
+   "sha256": "21bc27afcd31f964784beafc619f059130f74f614c9cb0121e48101b48e5440f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-032559-683203600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-032559-683203600.json",
+   "sha256": "21bc27afcd31f964784beafc619f059130f74f614c9cb0121e48101b48e5440f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-032702-701620600.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-032702-701620600.json",
+   "sha256": "21bc27afcd31f964784beafc619f059130f74f614c9cb0121e48101b48e5440f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-032805-750874500.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-032805-750874500.json",
+   "sha256": "21bc27afcd31f964784beafc619f059130f74f614c9cb0121e48101b48e5440f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-032908-762141800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-032908-762141800.json",
+   "sha256": "21bc27afcd31f964784beafc619f059130f74f614c9cb0121e48101b48e5440f"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-033011-762829800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-033011-762829800.json",
+   "sha256": "8632766033280d3c0da7be6e06d5bd7058f8e767db8a9cee404beca268043845"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-033114-715330700.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-033114-715330700.json",
+   "sha256": "8632766033280d3c0da7be6e06d5bd7058f8e767db8a9cee404beca268043845"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-033217-736739500.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-033217-736739500.json",
+   "sha256": "8632766033280d3c0da7be6e06d5bd7058f8e767db8a9cee404beca268043845"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-033320-706976300.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-033320-706976300.json",
+   "sha256": "8632766033280d3c0da7be6e06d5bd7058f8e767db8a9cee404beca268043845"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-033423-704393300.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-033423-704393300.json",
+   "sha256": "8632766033280d3c0da7be6e06d5bd7058f8e767db8a9cee404beca268043845"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-033526-732697800.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-033526-732697800.json",
+   "sha256": "cad584e74e2c8e77de5c96ff373895eaee19b296497c06aaca7ff7f32ef50223"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-033629-863085000.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-033629-863085000.json",
+   "sha256": "cad584e74e2c8e77de5c96ff373895eaee19b296497c06aaca7ff7f32ef50223"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-033733-086419900.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-033733-086419900.json",
+   "sha256": "cad584e74e2c8e77de5c96ff373895eaee19b296497c06aaca7ff7f32ef50223"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-033836-289904200.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-033836-289904200.json",
+   "sha256": "ee2931b558392ad1db2582651ae75432e6b73fea516cd59519aa54fad8e97904"
+  },
+  {
+   "old": "replays/arena/route/bronze/upload-02/snapshots/leaderboard-20261102-033939-262704300.json",
+   "new": "replays/arena/v04/bronze/upload-02/snapshots/leaderboard-20261102-033939-262704300.json",
+   "sha256": "e87b75d7d4bb9af4f9223122399b1c41dba6a8d40ba5a958dc28b96675b70f83"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-01/arena-compare.json",
+   "new": "replays/arena/v05/bronze/upload-01/checks/arena-compare.json",
+   "sha256": "17d7ee84c597da34d0fe9dc2225b90447a87bd5c33b4c002998377dede539af1"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-01/cgAttribute.log",
+   "new": "replays/arena/v05/bronze/upload-01/checks/cgAttribute.log",
+   "sha256": "2c6336121d0b2941a16b097296eb58e415d8384600aec4f36ca632fab6f0f37f"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-01/placement-watch.log",
+   "new": "replays/arena/v05/bronze/upload-01/checks/placement-watch.log",
+   "sha256": "1ab5eb76a7ac7f94764d9a26be502bc0b99f7fe9168caa529d5239b90c29bfe3"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-01/placement-watch.sh",
+   "new": "replays/arena/v05/bronze/upload-01/checks/placement-watch.sh",
+   "sha256": "3f6eb03711102b56e177abcfa10a871052a24eca8444cc5fc6f2eac87d1cef30"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-02/arena-compare.json",
+   "new": "replays/arena/v05/bronze/upload-02/checks/arena-compare.json",
+   "sha256": "65bf26ed1b1e9a7adc1f2807d1e5dde262da8d83cd772954171dde1f2746725e"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-02/cgAttribute.log",
+   "new": "replays/arena/v05/bronze/upload-02/checks/cgAttribute.log",
+   "sha256": "21eda5d3970739505a6508c014a235fe027ac68a2d5722b2aaee2064ee4a2e06"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-02/placement-watch.log",
+   "new": "replays/arena/v05/bronze/upload-02/checks/placement-watch.log",
+   "sha256": "305c7b2b6f85ca982a9604d097740c248aa4c5862d471677903ae7f43beaa1f8"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-02/placement-watch.sh",
+   "new": "replays/arena/v05/bronze/upload-02/checks/placement-watch.sh",
+   "sha256": "cc52ce7b8f5411a09644fe481ee8f00398256280e6b79737a0108ce52d5c07fe"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-03/arena-compare.json",
+   "new": "replays/arena/v05/bronze/upload-03/checks/arena-compare.json",
+   "sha256": "a0163bf7e421663161838c2b5bb155700d8266ba07292a1dee8ea3c12af497ec"
+  },
+  {
+   "old": "replays/arena/v05/bronze/upload-03/cgAttribute.log",
+   "new": "replays/arena/v05/bronze/upload-03/checks/cgAttribute.log",
+   "sha256": "b4c3106afc3b2c5627d7455a0235721a82b89e7e08122b3264daabcbc2d13553"
+  },
+  {
+   "old": "replays/arena/v06/bronze/upload-01/arena-compare.json",
+   "new": "replays/arena/v06/bronze/upload-01/checks/arena-compare.json",
+   "sha256": "4814862d1f7240eb3c17bd0de0c567e9e46e2a7dce450b0b355affd9f3132258"
+  },
+  {
+   "old": "replays/arena/v06/bronze/upload-01/cgAttribute.log",
+   "new": "replays/arena/v06/bronze/upload-01/checks/cgAttribute.log",
+   "sha256": "d540420d006eec4b333f1fbc4175a4ae78ee2110b9b20f233a26f15cb6846f4d"
+  },
+  {
+   "old": "replays/arena/v06/bronze/upload-01/placement-watch.log",
+   "new": "replays/arena/v06/bronze/upload-01/checks/placement-watch.log",
+   "sha256": "0bc9326bac131e19afa26b2087f5f3dad4fcaf6486588557f0401f72f5985efe"
+  },
+  {
+   "old": "replays/arena/v06/bronze/upload-01/placement-watch.sh",
+   "new": "replays/arena/v06/bronze/upload-01/checks/placement-watch.sh",
+   "sha256": "568917cd1379cce9b0f880cfb2d7c399cf00394f245c162e04b0e09f5088a2c6"
+  },
+  {
+   "old": "replays/arena/v06/bronze/upload-02/arena-compare.json",
+   "new": "replays/arena/v06/bronze/upload-02/checks/arena-compare.json",
+   "sha256": "8924b7e10292469834f6e525de6fac53a4ac10b89ceeaa9c1dea28cff875ed99"
+  },
+  {
+   "old": "replays/arena/v06/bronze/upload-02/cgAttribute.log",
+   "new": "replays/arena/v06/bronze/upload-02/checks/cgAttribute.log",
+   "sha256": "97375e57ad73d854fa07ec6cbc333eb7a543608ecb934f536cc115b977e93631"
+  },
+  {
+   "old": "replays/arena/v06/bronze/upload-02/discover-and-watch.sh",
+   "new": "replays/arena/v06/bronze/upload-02/checks/discover-and-watch.sh",
+   "sha256": "a0836fc79443c615bb4ba00507bf9b4be637e45301fb7eed3f1a3227dae30536"
+  },
+  {
+   "old": "replays/arena/v06/bronze/upload-02/placement-watch.log",
+   "new": "replays/arena/v06/bronze/upload-02/checks/placement-watch.log",
+   "sha256": "f1b4440a39fb4ff4b7d64f3831ffdb46aab1f5a07d342ff4c342649470b6ce30"
+  },
+  {
+   "old": "replays/arena/v07/bronze/upload-01/arena-compare.json",
+   "new": "replays/arena/v07/bronze/upload-01/checks/arena-compare.json",
+   "sha256": "84c32f97cd618be2142df515ad4cc755a44484ebdffe87945574e8330cbd6050"
+  },
+  {
+   "old": "replays/arena/v07/bronze/upload-01/cgAttribute.log",
+   "new": "replays/arena/v07/bronze/upload-01/checks/cgAttribute.log",
+   "sha256": "d8ad2584789c09fc872391301a254889b6b966c7f8785d3a58599a9ef6c6224c"
+  },
+  {
+   "old": "replays/arena/v07/bronze/upload-01/discover-and-watch.sh",
+   "new": "replays/arena/v07/bronze/upload-01/checks/discover-and-watch.sh",
+   "sha256": "f24f880e99cdb585d15e7498a4192564c967ede3b1a2e3b98cc918d1f93a10e7"
+  },
+  {
+   "old": "replays/arena/v07/bronze/upload-01/placement-watch.log",
+   "new": "replays/arena/v07/bronze/upload-01/checks/placement-watch.log",
+   "sha256": "d859f38238bd5d747fee375042e86c1a8f51f9dd1175572e0a26a54d613e99f4"
+  },
+  {
+   "old": "replays/arena/v07/bronze/upload-02/arena-compare.json",
+   "new": "replays/arena/v07/bronze/upload-02/checks/arena-compare.json",
+   "sha256": "f1c22576ab5b6a4fcbc6fd99f0e650c1298f83b9243f84f584781335495ba338"
+  },
+  {
+   "old": "replays/arena/v07/bronze/upload-02/cgAttribute.log",
+   "new": "replays/arena/v07/bronze/upload-02/checks/cgAttribute.log",
+   "sha256": "b29de2803c478e2fbec8620d19d42409576b7cd01c96176d55870174cb2d62f0"
+  },
+  {
+   "old": "replays/arena/v07/bronze/upload-02/discover-and-watch.sh",
+   "new": "replays/arena/v07/bronze/upload-02/checks/discover-and-watch.sh",
+   "sha256": "4684d5ac53f32b2533bad2f5c06fde25648f79ca7818191ba619063efc52b080"
+  },
+  {
+   "old": "replays/arena/v07/bronze/upload-02/placement-watch.log",
+   "new": "replays/arena/v07/bronze/upload-02/checks/placement-watch.log",
+   "sha256": "2f46f0f2b46f885188fcebe0a8e9b1e2bc98406fda6de8b2788f2d4c4ad4012e"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-01/arena-compare.json",
+   "new": "replays/arena/v08/bronze/upload-01/checks/arena-compare.json",
+   "sha256": "35d29ea1f990ab787093eb14e04532d00cd9f593e7f322445561fc64b300e0a1"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-01/cgAttribute.log",
+   "new": "replays/arena/v08/bronze/upload-01/checks/cgAttribute.log",
+   "sha256": "77bd22ca1c006eec0a693b0cd44504f8931024744657ccb2b7f5f5948da997b4"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-01/discover-and-watch.sh",
+   "new": "replays/arena/v08/bronze/upload-01/checks/discover-and-watch.sh",
+   "sha256": "9aae82de5c046ea43ffc2cdaf5d3e5cf713ecd272cbf2f9abe7d8aee44516805"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-01/fetch-loop.log",
+   "new": "replays/arena/v08/bronze/upload-01/checks/fetch-loop.log",
+   "sha256": "e80a30cddabe28a11072466e0fb70b7fa33c2d2396d4fc034efbe6cef35cfec2"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-01/fetch-loop.sh",
+   "new": "replays/arena/v08/bronze/upload-01/checks/fetch-loop.sh",
+   "sha256": "9b95b17e4b8f0830b0de3658576e7125a7cc7e1077b46689f2298f2e3d5a0c29"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-01/placement-watch.log",
+   "new": "replays/arena/v08/bronze/upload-01/checks/placement-watch.log",
+   "sha256": "e2759fc8382b265bfd890adf71f783a420f8da85c421ea84d6c0dddc0a0632e0"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-02/arena-compare.json",
+   "new": "replays/arena/v08/bronze/upload-02/checks/arena-compare.json",
+   "sha256": "21b4ce1974f6e940ab7421bb80e80a4123cd64c7fb26dd79e4cd0e917216b4ec"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-02/cgAttribute.log",
+   "new": "replays/arena/v08/bronze/upload-02/checks/cgAttribute.log",
+   "sha256": "dfdf6d54f66a27ab4cccd262e0de93620870d1c4a68e9936adb3390f6cfd58d2"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-02/discover-and-watch.sh",
+   "new": "replays/arena/v08/bronze/upload-02/checks/discover-and-watch.sh",
+   "sha256": "41e99ee672fd3b6eae15f05ba2201727cdb4395160d1b3290216e726ac25f289"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-02/fetch-loop.log",
+   "new": "replays/arena/v08/bronze/upload-02/checks/fetch-loop.log",
+   "sha256": "ef1342325fca45b1b9538c9a67231a248793995a38f41e09ba9ae4b40edca63f"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-02/fetch-loop.sh",
+   "new": "replays/arena/v08/bronze/upload-02/checks/fetch-loop.sh",
+   "sha256": "963f6a7f58930507f6ea2cab353b568744964ebf3f5e4b53d4e5e1c9b1af7117"
+  },
+  {
+   "old": "replays/arena/v08/bronze/upload-02/placement-watch.log",
+   "new": "replays/arena/v08/bronze/upload-02/checks/placement-watch.log",
+   "sha256": "a0683d30ac823f03195926ac1a933749ae7b99a82eaa738205365e37cefe787f"
+  },
+  {
+   "old": "replays/arena/v08/silver/upload-03/arena-compare.json",
+   "new": "replays/arena/v08/silver/upload-03/checks/arena-compare.json",
+   "sha256": "96af8cfbc244ea778ac228bead3d375a79a597aa8e16939acf0883258139cbd9"
+  },
+  {
+   "old": "replays/arena/v08/silver/upload-03/cgAttribute.log",
+   "new": "replays/arena/v08/silver/upload-03/checks/cgAttribute.log",
+   "sha256": "399461813bc1021c05870a7382725e0a8db302b281cd13da4b3eecb8b898a49b"
+  },
+  {
+   "old": "replays/arena/v08/silver/upload-04/arena-compare.json",
+   "new": "replays/arena/v08/silver/upload-04/checks/arena-compare.json",
+   "sha256": "aeba57f35a83a0614765227df7c52bcaa9659221486bec83463fa5e396002899"
+  },
+  {
+   "old": "replays/arena/v08/silver/upload-04/cgAttribute.log",
+   "new": "replays/arena/v08/silver/upload-04/checks/cgAttribute.log",
+   "sha256": "aa448ffca02393338b679c690929681c1122768d991b18ff6cd56b3ff8d0cf62"
+  },
+  {
+   "old": "replays/arena/v08/silver/upload-04/fetch-loop.log",
+   "new": "replays/arena/v08/silver/upload-04/checks/fetch-loop.log",
+   "sha256": "aa01e4176d3f2e017dca0b025ef3b697e3a6bbc5440c5562d953c99a08b1530c"
+  },
+  {
+   "old": "replays/arena/v08/silver/upload-04/fetch-loop.sh",
+   "new": "replays/arena/v08/silver/upload-04/checks/fetch-loop.sh",
+   "sha256": "9035459ee7f09756e01d514f78bef76811f957ad2b22465a88e97cdf136c6301"
+  },
+  {
+   "old": "replays/arena/v08/silver/upload-04/placement-watch.log",
+   "new": "replays/arena/v08/silver/upload-04/checks/placement-watch.log",
+   "sha256": "d7262b773cfbc591cd2e59591b9f488ac9c19c751d9d2ec3586597acb10a0d55"
+  },
+  {
+   "old": "replays/arena/v08/silver/upload-04/watch-step.log",
+   "new": "replays/arena/v08/silver/upload-04/checks/watch-step.log",
+   "sha256": "88f88e323463111e667ef0c32021f15c5906b05f997141fd03045f786f75581e"
+  },
+  {
+   "old": "replays/arena/v08/silver/upload-04/watch.sh",
+   "new": "replays/arena/v08/silver/upload-04/checks/watch.sh",
+   "sha256": "ec5308aa8e426ab01f0de590879463d6f7275590f72463a86e9ea431c58a2ac1"
+  },
+  {
+   "old": "replays/arena/unknown/bronze/agent-6829912/snapshots/battles-20261031-021337-418028200.json",
+   "new": "replays/arena/v03/bronze/upload-03/snapshots/battles-20261031-021337-418028200.json",
+   "sha256": "de3d40304cfe0fc255f18d5a1cf71ac0057001a4b5728cbe40bf54ef0c4fca9f"
+  },
+  {
+   "old": "replays/arena/unknown/bronze/agent-6829912/snapshots/leaderboard-20261031-021337-418028200.json",
+   "new": "replays/arena/v03/bronze/upload-03/snapshots/leaderboard-20261031-021337-418028200.json",
+   "sha256": "289a97ee5fd73aca508ea5e18cd9fc774941c206dcb16e7ed159d758aeb54a1f"
+  }
+ ],
+ "digestNote": "Every upload's digest is the same after the move except v03/bronze/upload-03, which gains the two snapshots of unknown/bronze/agent-6829912 (66 -> 68 files); the 2738 file hashes under replays/arena are the same set before and after. Checked afterwards: every game of every manifest (1310) at its manifest's rawDirectory with its sha256."
+}

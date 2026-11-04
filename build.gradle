@@ -94,6 +94,13 @@ tasks.register('submit', JavaExec) {
     args prop('params', '')
 }
 
+// Identity of an artifact file as one JSON line (sha256, params, build id, config id): -Pfile=<Player.java>
+tasks.register('artifactInfo', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.submit.ArtifactInfo'
+    args prop('file', '')
+}
+
 // Run the merged artifact as a process on both seats: -Popp=v00 -Pgames=5 -PseedBase=1
 tasks.register('procCheck', JavaExec) {
     dependsOn 'submit'

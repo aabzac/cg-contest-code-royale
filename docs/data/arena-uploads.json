@@ -1,5 +1,5 @@
 {
- "what": "Arena uploads of this project, one entry per CG agent; tools/arena_compare.py reads and checks it (policy P1, docs/arena-uploads.md). A label holds one configuration (artifact.config, cr.submit.Build.config: the artifact text before the runner section plus PARAMS). An upload whose placement ended in a promotion gets promotedTo and no placement score. Scores compare within one league only. noiseMargins: a league whose P1 verdicts use another league's noise margin M by the user's decision (from: the source league, M: its value at the decision, which arena_compare.py requires it to still have).",
+ "what": "Arena uploads of this project, one entry per CG agent; tools/arena_compare.py reads and checks it (policy P1, docs/arena-uploads.md). A label holds one configuration (artifact.config, cr.submit.Build.config: the artifact text before the runner section plus PARAMS). An upload whose placement ended in a promotion gets promotedTo and no placement score. Scores compare within one league only. formerLabel: the label an upload had before a rename. noiseMargins: a league whose P1 verdicts use another league's noise margin M by the user's decision (from: the source league, M: its value at the decision, which arena_compare.py requires it to still have).",
  "noiseMargins": {
   "silver": {
    "from": "bronze",
@@ -225,7 +225,8 @@
    "attribution": "cgAttribute against the kept copy artifacts/d6266d41/Player.java: SAME in 60 of 60 games, 10,047 turns; marker cd1f3d33 in 60 of 60"
   },
   {
-   "label": "route",
+   "label": "v04",
+   "formerLabel": "route (until 2026-11-04: the configuration current?ROUTE=1, frozen later as v04; docs/data/arena-layout-2026-11-04/record.json)",
    "upload": 1,
    "agent": 6836411,
    "submission": 41613612,
@@ -253,7 +254,8 @@
    "replaced": "2026-11-02T01:42:40+02:00 by route upload 2 (the user's paste of the same artifact; this entry's placement was complete and saved)"
   },
   {
-   "label": "route",
+   "label": "v04",
+   "formerLabel": "route (until 2026-11-04: the configuration current?ROUTE=1, frozen later as v04; docs/data/arena-layout-2026-11-04/record.json)",
    "upload": 2,
    "agent": 6836589,
    "submission": 41613945,

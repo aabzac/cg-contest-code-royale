@@ -22,6 +22,9 @@ step of the promotion policy. The local screen a candidate passes before its fir
    build id and config id are recorded (`submit` prints them). The artifact prints the build id on turn
    0 (see "Build marker"). Preserve those exact bytes as `artifacts/<first 8 hex of its sha256>/Player.java`
    before another build replaces `build/submit`; see `docs/BOTS.md`, Artifacts.
+Steps 2-4 are one command since 2026-11-04: `python -B -I tools/arena.py follow <label>`, started just
+before the paste (Tools, below). The steps say what it does; the tools it runs stay usable alone.
+
 2. **Before every Submit, save the live entry**: `tools/arena_snapshot.py` and `tools/arena_games.py`.
    CG lists the games of the live agent only: 6823071's list was empty after the re-upload.
 3. The user submits. Register the new agent in `docs/data/arena-uploads.json` with its label, league,
@@ -33,6 +36,8 @@ step of the promotion policy. The local screen a candidate passes before its fir
    `build/submit` changes with every build), and check the markers in the manifest. Then complete the
    registry entry with placement and attribution evidence, and its row in `docs/BOTS.md` (Uploads).
    Where everything else goes: `.ai/project.md`, row "Записи после загрузки, эксперимента или решения".
+   `tools/arena.py` fills the registry entry (placement and attribution); the rows and records for people
+   stay to be written.
 5. **Upload the same configuration again** (normally the same artifact) and repeat 3-4 (upload 2).
 6. Decide within the current league with
    `python -I tools/arena_compare.py --candidate <label> --selected <label>`:
@@ -77,11 +82,17 @@ are listed, not refused. A candidate with an upload still placing gets "pending"
 
 ## Replay storage
 
-Our arena captures live under `replays/arena/<label>/<league>/upload-NN/`:
-`games/<gameId>.json` holds unchanged CodinGame responses, `snapshots/` holds battle lists and
-leaderboard captures, and `checks/` holds retained attribution/validation logs. Upload numbers
-come from the registry; re-uploading a build does not create a new version. Keep the number unique
-within a label, as required by `arena_compare.py`, including after promotion to another league.
+Our arena captures live under `replays/arena/<label>/<league>/upload-NN/`, and an upload directory
+holds these three and nothing else:
+- `games/<gameId>.json`: unchanged CodinGame responses;
+- `snapshots/`: battle lists and leaderboard captures, raw;
+- `checks/`: logs and reports, `arena.log` of `tools/arena.py` (with the output of the tools it ran),
+  `cgAttribute.log`, `arena-compare.json`; uploads before 2026-11-04 also keep there the logs of their
+  placements and, from v05 on, the one-off watch scripts (`*.sh`) that wrote them.
+
+Upload numbers come from the registry; re-uploading a build does not create a new version. Keep the
+number unique within a label, as required by `arena_compare.py`, including after promotion to another
+league (v08's Silver uploads are 3 and 4).
 External study/validation corpora remain in `replays/cg/legend-top` and `replays/cg2`.
 
 `docs/data/arena-uploads.json` is the source for agent-to-version/league/upload identity. Its
@@ -114,8 +125,38 @@ The 2026-10-31 migration and original-to-current path mapping are recorded in
 `docs/data/arena-layout-2026-10-31.json`. Historical raw captures, logs and derived CSV bytes are
 unchanged; their embedded old paths can be resolved through that mapping.
 
+The 2026-11-04 migration (`docs/data/arena-layout-2026-11-04/`: `migrate.py` and `record.json` with
+every move and its sha256) restored that layout:
+- the files written at the top of upload directories since v04 moved to `checks/`;
+- the two snapshots left in `unknown/bronze/agent-6829912` joined v03 upload 3;
+- the label `route` became **v04**: agents 6836411 and 6836589, uploaded as `current?ROUTE=1` and
+  frozen later as v04 (they play as v04 command for command). The registry keeps the old name as
+  `formerLabel`, and the two manifests point to `replays/arena/v04/`.
+
+Older text here and in `docs/DEVLOG.md` keeps the name `route` and the old file locations; the record
+maps them.
+
 ## Tools
 
+- `tools/arena.py`: one command for an upload, from the repository root.
+  - `status` shows the leaderboard row of `aabzac` and the registered upload it belongs to; it writes
+    nothing.
+  - `follow <label> [--selected <label>]`, started just before the paste:
+    1. saves the live entry;
+    2. waits for the new agent;
+    3. registers it with the artifact's identity (`./gradlew artifactInfo -Pfile=...` for new bytes) and
+       keeps the artifact in `artifacts/`;
+    4. follows the placement at P1's cadence while fetching the finished games every minute, and records
+       the placement score;
+    5. runs `cgAttribute` and records its result, then prints the label's comparison (with
+       `--selected`, the P1 verdict).
+
+    A promotion during the placement becomes the next upload in the new league. Interrupted, the same
+    command resumes.
+  - `fetch [--agent ID]` fetches the games again and reruns `cgAttribute`.
+
+  Progress goes to the console and to the upload's `checks/arena.log`. Offline tests:
+  `tools/tests/test_arena_follow.py`.
 - `tools/arena_snapshot.py`: the leaderboard row (by pseudo) and the live battle list.
 - `tools/arena_games.py`: the games of an agent and their manifest, including each game's build marker.
 - `./gradlew cgAttribute`: which code played, from the validated replays.

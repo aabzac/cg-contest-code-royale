@@ -20,7 +20,11 @@ def upload_dir(entry):
 
 def registry_entries(registry_path=DEFAULT_REGISTRY):
     with open(registry_path, encoding="utf-8") as f:
-        registry = json.load(f)
+        return check_registry(json.load(f))
+
+
+def check_registry(registry):
+    """The entries (uploads and legacyUploads) after the identity checks: unique agents and upload directories."""
     entries = registry["uploads"] + registry.get("legacyUploads", [])
     agents, destinations = set(), set()
     for entry in entries:

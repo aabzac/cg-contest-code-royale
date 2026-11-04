@@ -1,7 +1,7 @@
 {
  "fetched": "2026-11-02T01:30:21+0200",
  "agentId": 6836411,
- "raw": "replays/arena/route/bronze/upload-01/snapshots",
+ "raw": "replays/arena/v04/bronze/upload-01/snapshots",
  "services": [
   "Leaderboards/getFilteredPuzzleLeaderboard [code-royale, null, global, {active, KEYWORD, aabzac}]",
   "gamesPlayersRanking/findLastBattlesByAgentId [agentId, null]"

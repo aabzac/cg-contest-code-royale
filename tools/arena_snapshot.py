@@ -27,6 +27,16 @@ NAMES = {v: k for k, v in LEAGUES.items()}
 
 
 def snapshot(agent, pseudo, league, out_path, uploads):
+    out, raw_dir, tag = take(agent, pseudo, league, uploads)
+    return write_summary(out, out_path, raw_dir, tag)
+
+
+def take(agent, pseudo, league, uploads):
+    """The leaderboard row (by pseudo) and the observed agent's battle list, raw responses saved.
+
+    Returns (summary, raw directory, tag); the summary's agentId is the observed agent, which is the
+    leaderboard row's when it differs from the requested one (a replacement or a promotion).
+    """
     stamp = time.strftime("%Y-%m-%dT%H:%M:%S%z")
     tag = time.strftime("%Y%m%d-%H%M%S") + "-%09d" % (time.time_ns() % 1000000000)
     leaderboard_raw = call_raw("Leaderboards/getFilteredPuzzleLeaderboard",
@@ -96,6 +106,13 @@ def snapshot(agent, pseudo, league, out_path, uploads):
         "leagueTotal": lb["leagues"][str(division)]["divisionAgentsCount"],
         "battles": {"count": len(games), "done": len(done), "wins": wins, "games": games},
     }
+    return out, raw_dir, tag
+
+
+def write_summary(out, out_path, raw_dir, tag):
+    """Writes the summary to out_path unless that file belongs to another agent (then beside the raw files, code 1)."""
+    agent, stamp, entry = out["agentId"], out["fetched"], out["entry"]
+    games, done, wins = out["battles"]["games"], out["battles"]["done"], out["battles"]["wins"]
     out_path = Path(out_path)
     if out_path.exists():
         previous = json.loads(out_path.read_text(encoding="utf-8"))
@@ -114,7 +131,7 @@ def snapshot(agent, pseudo, league, out_path, uploads):
         f.write("\n")
     temporary.replace(out_path)
     print(json.dumps({"fetched": stamp, "entry": entry, "leagueTotal": out["leagueTotal"]}, ensure_ascii=False))
-    print(f"battles {len(games)} done {len(done)} wins {wins}")
+    print(f"battles {len(games)} done {done} wins {wins}")
     return 0
 
 

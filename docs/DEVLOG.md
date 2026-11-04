@@ -2107,3 +2107,79 @@ Records:
 - policy: `.ai/project.md` (the noise row, then sync to AGENTS.md); `docs/arena-uploads.md` (item 7 and a new
   section, Silver noise margin);
 - STATUS (the Silver noise margin line), PLAN, SUMMARY.
+
+## 2026-11-04 — `tools/arena.py`: one command for an upload; one layout of `replays/arena`; `route` → v04
+
+The user asked for one tool they can run themselves ("structured and understandable") and pointed at the
+mixed upload folders: `checks/` in v01-v03 only, no v04 but `route`, `*.sh` scripts in some. Asked about the
+rename, they chose v04.
+
+The tool:
+- `tools/arena.py` has three commands:
+  - `status`: the leaderboard row of `aabzac` and the registered upload it is; writes nothing;
+  - `follow <label> [--artifact] [--selected] [--wait]`: save the live entry, wait for the new agent,
+    register it, follow the placement and fetch games every minute, record the placement, fetch the rest,
+    cgAttribute, comparison;
+  - `fetch [--agent] [--no-attribute]`.
+- Registration:
+  - the label's next upload number in the league of the leaderboard row;
+  - the submission from the agent's battle list;
+  - `replaced` on the previous entry;
+  - "CG's promotion" when the submission equals the previous entry's;
+  - the artifact identity reused for known bytes, else from the new Gradle task `artifactInfo`
+    (`cr.submit.ArtifactInfo`, a JSON line from `Build.of/config/params`; not shipped);
+  - the kept copy written to `artifacts/<8 hex>/`;
+  - a label's other configuration refused.
+- A league change of the row during the placement:
+  - becomes the label's next upload in the new league;
+  - the old one gets `promotedTo` and `placement.lastPartial`.
+
+  An agent change in the same league stops the command (exit 3). The same command resumes after an
+  interruption.
+- The registry is re-read and checked (`arena_paths.check_registry`, split out of `registry_entries`)
+  before each write, which keeps its format and line endings.
+- `arena_snapshot.snapshot` is split into `take` (the requests and raw files) and `write_summary`, so the
+  watch writes a summary only for the agent it follows.
+- Progress goes to the console and to the upload's `checks/arena.log`, with the captured output of the
+  tools it ran.
+
+Checks:
+- Tests `tools/tests/test_arena_follow.py` (a simulated arena on a fake clock, a fake Gradle):
+  - a paste during the follow;
+  - a promotion during the placement;
+  - another paste;
+  - resume after an interruption;
+  - another configuration under a label;
+  - `status`.
+- `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: 51 OK.
+- `./gradlew test --tests cr.submit.ArtifactInfoTest --tests cr.submit.BuildTest`: passed.
+- `arena.gradle(["-q", "artifactInfo", "-Pfile=<main>/artifacts/5c16d925/Player.java"])` from Python on
+  Windows printed sha256 `5c16d925…`, build `3f19aa6e`, config `c9dad766`, as in the registry.
+- `python -B -I tools/arena.py status` live: agent 6844095 in Silver, 100 %, score 20.53, rank 5 of 201;
+  registered as v08 upload 4, 80 games saved.
+
+The layout (`docs/data/arena-layout-2026-11-04/`, `migrate.py` and `record.json`):
+- Dry run, then `--apply` on the main checkout's `replays/arena` (main at 6722a27, clean). It moved 374
+  files:
+  - 47 top-level files of upload directories (logs, reports, `*.sh`) into `checks/`;
+  - the 2 snapshots of `unknown/bronze/agent-6829912` into v03 upload 3;
+  - 325 files from `route/` to `v04/`.
+- The 2,738 file hashes are the same set before and after; every upload's digest is unchanged except
+  v03 upload 3 (66 → 68 files).
+- Checked afterwards: every upload directory holds `games`, `snapshots` and `checks` only, and all 1,310
+  games of every manifest are at the manifest's `rawDirectory` with their sha256.
+
+The rename in the tracked files:
+- the registry's label v04 with `formerLabel` for agents 6836411 and 6836589;
+- `replays/arena/route/` → `replays/arena/v04/` in their two games manifests and two placement summaries;
+- the path in `CgStudyTest`;
+- the two rows in `docs/BOTS.md` (Uploads);
+- `arena_compare.py` now prints `label v04 (config 347b908d): placement 22.89 22.10, mean 22.50`.
+
+Older DEVLOG entries, `docs/arena-uploads.md` sections and `docs/data/study-2026-11-03-losses/README.md`
+keep `route` and the old file locations (the record maps them). Committed and fast-forwarded into master
+on the user's request; until then the main checkout's registry still said `route` while its folder was
+already `v04`.
+
+Records: `.ai/project.md` (the row "Загрузка на арену одной командой" and the placement watch row),
+`docs/arena-uploads.md` (procedure, Replay storage, Tools), PLAN, SUMMARY.
