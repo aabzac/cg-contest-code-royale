@@ -2205,3 +2205,53 @@ Fix:
   `./gradlew test --tests cr.tools.CgAttributeTest` gave 8 of 8, the real-games case passed, not skipped.
 - After the merge (master at 9a04817), the full suite in the main checkout passed 148 of 148, none
   skipped; the tools' tests passed too.
+
+## 2026-11-04 — v08 upload 5 (Silver): 20.21, rank 6/201; the first run of `tools/arena.py follow`
+
+The user re-uploaded v08 ("what if I run the current version again"). Asked about the order, they started
+`python -B -I tools/arena.py follow v08` in the main checkout before the paste. Main's
+`build/submit/Player.java` was v03's `d6266d41`, so the file to paste was the kept copy
+`artifacts/5c16d925/Player.java`.
+
+The run (`replays/arena/v08/silver/upload-04/checks/arena.log` until the registration, then
+`upload-05/checks/arena.log`):
+- 22:50, with `TimeoutError` retries from the leaderboard service: the live entry v08 upload 4 saved, a
+  snapshot and 90 games. 10 of them were played after its placement (3 won). Then "paste the code".
+- The user pasted after 22:56. `status` and a read of the old agent's battle list (both read-only, from
+  this session): at 23:04 the leaderboard still showed 6844095 at 100 %; at 23:05 its battle list was
+  empty, so the paste had reached CG.
+- 23:06:49: the leaderboard showed agent 6847999 (created 22:59:16, already 43 %). The command fetched upload 4
+  once more (nothing new), saved a snapshot of the new agent and registered it as v08 upload 5:
+  submission 41637774, the kept copy's identity reused (same bytes), upload 4 `replaced`.
+- Snapshots: 43 % 18.96 (rank 13) at 23:06; 65 % 19.18 at 23:11; 76 % 19.29 at 23:14; 86 % 20.02 (rank 6)
+  from 23:17:53 to 23:23:53, with all 80 games finished from 23:18:53; 100 % at 23:24:50, score 20.21, local
+  rank 6 of 201, global 465, `eligibleForPromotion` false.
+- Fetches every minute (the first one, of 37 games, took five minutes under the timeouts). All 80 games had
+  marker `3f19aa6e`, no failures; the manifest is `docs/data/arena-6847999-games-2026-11-04.json`.
+- `cgAttribute` against the kept copy: SAME 80/80, 15,296 turns.
+- `arena_compare.py`, without a verdict:
+  - upload 5 at 60.0 % won and performance 20.27 ± 0.73;
+  - v08 in Silver: placements 20.70, 20.74 and 20.21, mean 20.55, pooled 20.40 ± 0.42 over 250 games
+    (scale 3.08);
+  - noise: Silver's own M 0.59 (2 df); the verdicts use Bronze's 2.46.
+- No failure and SAME 80/80, which is exit 0 by the tool's rule. The run took 35 minutes (22:50-23:25).
+
+Details:
+- Seats 28 of 43 and 20 of 37; 39 opponents, median 18.97; no opponent removed; 38 of 80 games to turn 250.
+- The Silver boss (1876720, 21.87-21.99): 3 games, 1 won (916722076).
+- 916719390: both queens die on turn 146, 0:0. The game result's ranks are [0, 1] with us as player 0,
+  counted as a win.
+- That game is why the snapshots' battle-list count says 47 wins and the manifest 48. The battle list gives
+  both players position 0 there, and a check of every saved list shows the same for all five of our
+  equal-score games (`docs/rules/inferred.md`).
+
+Records:
+- the registry: notes added to upload 5's placement and upload 4's `replaced`, by hand;
+- BOTS (the v08 row, uploads 4 and 5, the artifact row), STATUS, SUMMARY, PLAN, `docs/arena-uploads.md` (new
+  section), `docs/rules/inferred.md`.
+
+The tool-written files of the main checkout were copied into this branch to commit. Seen in the run and left
+for later (PLAN):
+- the paste prompt does not name the file;
+- it does not notice a paste the leaderboard has not listed yet;
+- the next fetch counts from the start of the previous one.

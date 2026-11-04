@@ -833,3 +833,48 @@ for that value. This account gets no more Bronze uploads, so in practice the val
 - **The report:** `python -I tools/arena_compare.py --candidate v08 --selected v08` now prints for Silver
   "M = 2 SD = 0.06; verdicts use M = 2.46 from bronze" and "not clearly worse" against −M = −2.46. The Bronze
   report is unchanged.
+
+## v08 in Silver, upload 5: the first run of `tools/arena.py` (2026-11-04)
+
+The user started `python -B -I tools/arena.py follow v08` in the main checkout at 22:50. When the command
+said so, they pasted the kept copy `artifacts/5c16d925/Player.java`; `build/submit/Player.java` there held
+v03's `d6266d41` at the time. The command then:
+- saved upload 4: a snapshot and its 90 games, 10 of them played after its placement;
+- waited, then registered agent 6847999 (created 22:59:16, submission 41637774) as v08 upload 5;
+- followed the placement while fetching the games every minute;
+- recorded the placement and `cgAttribute`.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v08/upload-3 | 6843976 | 20.70, rank 2/200 | 80 | 66.2 ± 5.3 | 27 of 40 | 26 of 40 | 18.73 | 20.46 ± 0.78 |
+| v08/upload-4 | 6844095 | 20.74, rank 3/200 | 90 | 58.9 ± 5.2 | 31 of 54 | 22 of 36 | 19.19 | 20.47 ± 0.68 |
+| v08/upload-5 | 6847999 | 20.21, rank 6/201 | 80 | 60.0 ± 5.5 | 28 of 43 | 20 of 37 | 18.97 | 20.27 ± 0.73 |
+| v08, three Silver uploads | | mean 20.55, SD 0.30 | 250 | | | | | 20.40 ± 0.42 |
+
+The figures are from `arena_compare.py` as `tools/arena.py` ran it, without a verdict (Silver: logistic
+scale 3.08, fitted on the three uploads; upload 5's `checks/arena-compare.json`). Upload 4's row now
+counts 90 games: the 10 played after its placement (3 won) were saved before the paste, as P1's step 2
+asks, and its rating moved from 20.90 ± 0.85 to 20.47 ± 0.68. The Bronze tables are unchanged.
+- **Same code:** `cgAttribute` finds every game identical to `5c16d925` (SAME 80/80, 15,296 turns), marker
+  `3f19aa6e` in all 80; the referee removed no opponent.
+- **Equal scores:** in 916719390 both queens die on turn 146 (0:0). CG's game result ranks player 0, us,
+  first, which the manifest counts as a win; the battle list gives both players position 0
+  (`docs/rules/inferred.md`, now seven games).
+- **The Silver boss:** 3 games, 1 won (916722076); with uploads 3 and 4, 6 of 16. Its rating was
+  21.87-21.99 at the fetches; v08's mean 20.55 is about 1.4 below it.
+- **The baseline:** three Silver placements, mean 20.55 (20.72 on two), pooled rating 20.40 ± 0.42. The
+  next candidate in Silver rolls back early below 15.62 (20.55 − 2 × 2.46).
+- **Noise:** Silver's own M is 0.59 on 2 df (SD 0.30; upload 5 is 0.5 below the first two). By the user's
+  decision the verdicts keep Bronze's 2.46 (Silver noise margin, above).
+- **The tool's first run:**
+  - CG created the agent at 22:59:16 but listed it on the leaderboard only at 23:06:49, already at 43 %,
+    while its API timed out (`TimeoutError` lines with retries). The command kept polling every 20 s and
+    went on. The old agent's battle list was already empty at 23:05, which shows the paste had reached CG.
+  - The first fetch after the registration took five minutes (37 games, slow responses), so the next
+    snapshot came at 23:11:53 rather than about 23:10.
+  - Once two fetches ran six seconds apart: the next fetch time counts from the start of the previous
+    one.
+  - The percentage stayed at 86 % from 23:17:53 to 23:23:53 with all 80 games finished. The completion
+    snapshot at 23:24:50 gave 20.21 (20.02 at 86 %).
+  - The prompt "paste the code" also shows after a paste that CG has not listed yet, and it does not name
+    the file to paste. These are left for later (`docs/PLAN.md`).

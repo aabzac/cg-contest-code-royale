@@ -89,6 +89,11 @@
 - [ ] Silver: re-validate the local proxy against Silver games (PV lapses on a league change: `docs/local-screen.md`)
 - [x] Arena uploads: one command, `tools/arena.py` (status, follow, fetch), and one layout of `replays/arena`;
   `route` renamed v04 (`docs/arena-uploads.md`, Tools and Replay storage)
+- [x] Silver: a third upload of v08 through `tools/arena.py follow`, its first live run (`docs/arena-uploads.md`,
+  v08 in Silver, upload 5)
+- [ ] `tools/arena.py`: name the file to paste; notice a paste the leaderboard does not show yet (the old battle
+  list empty); stop when the games carry another build's marker; count the next fetch from the end of the last
+  one (`docs/arena-uploads.md`, upload 5)
 - [x] Late economy (2026-11-03, `docs/data/exp-2026-11-03-late-income/`): INCOME_LATE (the income target after
   the ladder) neutral against v06 (0.505-0.513), with thinner top-ups a loss; off by default, not screened
 - [x] Study 2026-10-30 (`docs/data/study-2026-10-30/`): we build towers late and few, stronger players

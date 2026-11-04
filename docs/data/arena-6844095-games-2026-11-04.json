@@ -1,5 +1,5 @@
 {
- "fetched": "2026-11-04T00:32:31+0200",
+ "fetched": "2026-11-04T23:06:49+0200",
  "agentId": 6844095,
  "offline": false,
  "services": [
@@ -10,8 +10,8 @@
  "rawDirectory": "replays/arena/v08/silver/upload-04/games",
  "snapshotDirectory": "replays/arena/v08/silver/upload-04/snapshots",
  "battleRows": {
-  "live": 80,
-  "merged": 80,
+  "live": 0,
+  "merged": 90,
   "savedLists": [
    "replays/arena/v08/silver/upload-04/snapshots/battles-20261104-001650-061171700.json",
    "replays/arena/v08/silver/upload-04/snapshots/battles-20261104-001726-777223400.json",
@@ -33,16 +33,19 @@
    "replays/arena/v08/silver/upload-04/snapshots/battles-20261104-003014-919791600.json",
    "replays/arena/v08/silver/upload-04/snapshots/battles-20261104-003043-846946700.json",
    "replays/arena/v08/silver/upload-04/snapshots/battles-20261104-003123-141983100.json",
-   "replays/arena/v08/silver/upload-04/snapshots/battles-20261104-003147-296320500.json"
+   "replays/arena/v08/silver/upload-04/snapshots/battles-20261104-003147-296320500.json",
+   "replays/arena/v08/silver/upload-04/snapshots/battles-20261104-003231-371317500.json",
+   "replays/arena/v08/silver/upload-04/snapshots/battles-20261104-225018-631260100.json",
+   "replays/arena/v08/silver/upload-04/snapshots/battles-20261104-225131-230371100.json"
   ],
   "notDone": 0
  },
  "summary": {
-  "games": 80,
-  "wins": 50,
+  "games": 90,
+  "wins": 53,
   "scoreTies": 1,
   "markers": {
-   "3f19aa6e": 80
+   "3f19aa6e": 90
   },
   "failures": 0,
   "filesNotInLists": []
@@ -1807,6 +1810,226 @@
    "marker": "3f19aa6e",
    "sha256": "bfc4a40206bf43e13a0e1e6a598078eea706f29d530ad4cac0905834abb7bac6",
    "bytes": 598294
+  },
+  {
+   "gameId": 916568332,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "fabianoliver.at",
+    "agentId": 6846510,
+    "ratingAtFetch": 21.546910927791963
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    15.0
+   ],
+   "seed": "203654681",
+   "frames": 339,
+   "marker": "3f19aa6e",
+   "sha256": "3996a6c62a58cd37f3fd2d37a6b1522e5e9d4a4f34cbfc099dbb9319504f16cd",
+   "bytes": 433312
+  },
+  {
+   "gameId": 916569944,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "fabianoliver.at",
+    "agentId": 6846510,
+    "ratingAtFetch": 21.546910927791963
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    55.0
+   ],
+   "seed": "592410533",
+   "frames": 427,
+   "marker": "3f19aa6e",
+   "sha256": "cd17b4ef7838a9fc1190931cb6dfdc3084f8f3be93d683af36148170c8e04147",
+   "bytes": 539879
+  },
+  {
+   "gameId": 916570238,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "fabianoliver.at",
+    "agentId": 6846510,
+    "ratingAtFetch": 21.546910927791963
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    40.0
+   ],
+   "seed": "478666394",
+   "frames": 293,
+   "marker": "3f19aa6e",
+   "sha256": "67cad0fa8787e41dfcd52354a9f7a384efe6d17bc6e8b10b1948a0856eaa8ab3",
+   "bytes": 376868
+  },
+  {
+   "gameId": 916570388,
+   "seat": 1,
+   "opponent": {
+    "pseudo": "fabianoliver.at",
+    "agentId": 6846510,
+    "ratingAtFetch": 21.546910927791963
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    40.0,
+    67.0
+   ],
+   "seed": "161593975",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "fa096a61525a3cc2f871fdbe7d2a9f9b63737f8077c02c5c2a43f15b4e9c8399",
+   "bytes": 621554
+  },
+  {
+   "gameId": 916571369,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "fabianoliver.at",
+    "agentId": 6846510,
+    "ratingAtFetch": 21.546910927791963
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    69.0
+   ],
+   "seed": "668721651",
+   "frames": 293,
+   "marker": "3f19aa6e",
+   "sha256": "38d465a963c1011a0a34b244b7a5bc7ea638b3a36b66da35fb437f40acffbce9",
+   "bytes": 379061
+  },
+  {
+   "gameId": 916572106,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "fabianoliver.at",
+    "agentId": 6846510,
+    "ratingAtFetch": 21.546910927791963
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    33.0,
+    0.0
+   ],
+   "seed": "974110090",
+   "frames": 91,
+   "marker": "3f19aa6e",
+   "sha256": "8a71b7aad8d616eea2798acf967a3eaf77543cb544b8238bf87e6a7a3203411a",
+   "bytes": 104630
+  },
+  {
+   "gameId": 916572160,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "fabianoliver.at",
+    "agentId": 6846510,
+    "ratingAtFetch": 21.546910927791963
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    51.0
+   ],
+   "seed": "700202669",
+   "frames": 287,
+   "marker": "3f19aa6e",
+   "sha256": "659b389654345eeb802eb6e80e2c32b42132809ac15d4086059a320b138c820c",
+   "bytes": 373541
+  },
+  {
+   "gameId": 916572244,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "fabianoliver.at",
+    "agentId": 6846510,
+    "ratingAtFetch": 21.546910927791963
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    77.0
+   ],
+   "seed": "838131411",
+   "frames": 365,
+   "marker": "3f19aa6e",
+   "sha256": "f50dcb40fe6443ca33852c0b628f0d6c02549c15b092636ce5d0510c5b694661",
+   "bytes": 486899
+  },
+  {
+   "gameId": 916572472,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "fabianoliver.at",
+    "agentId": 6846510,
+    "ratingAtFetch": 21.546910927791963
+   },
+   "ranks": [
+    0,
+    1
+   ],
+   "scores": [
+    50.0,
+    7.0
+   ],
+   "seed": "900750997",
+   "frames": 501,
+   "marker": "3f19aa6e",
+   "sha256": "83660ebaac78d78c5a25ef6e31cb441d3da73486fa82c03e479533788184902a",
+   "bytes": 577613
+  },
+  {
+   "gameId": 916572593,
+   "seat": 0,
+   "opponent": {
+    "pseudo": "fabianoliver.at",
+    "agentId": 6846510,
+    "ratingAtFetch": 21.546910927791963
+   },
+   "ranks": [
+    1,
+    0
+   ],
+   "scores": [
+    0.0,
+    10.0
+   ],
+   "seed": "262302658",
+   "frames": 87,
+   "marker": "3f19aa6e",
+   "sha256": "9c07d269e3097c85ae7c02ffcb4aa55dc0c385e7ae497f08e9dd79acbbe5bb7e",
+   "bytes": 102194
   }
  ],
  "failures": []

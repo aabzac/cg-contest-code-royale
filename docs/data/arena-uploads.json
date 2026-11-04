@@ -594,7 +594,38 @@
    "snapshots": "docs/data/arena-6844095-placement-2026-11-04.json",
    "games": "docs/data/arena-6844095-games-2026-11-04.json",
    "submittedBy": "the user in the IDE (v08 upload 4, the second in Silver, under P1, 2026-11-04, 're-uploaded once more')",
-   "attribution": "cgAttribute against the kept copy artifacts/5c16d925/Player.java: SAME in 80 of 80 games, 16,757 turns, all validated; marker 3f19aa6e in 80 of 80"
+   "attribution": "cgAttribute against the kept copy artifacts/5c16d925/Player.java: SAME in 80 of 80 games, 16,757 turns, all validated; marker 3f19aa6e in 80 of 80",
+   "replaced": "2026-11-04T22:59:16+02:00 by v08 upload 5 (the user's paste of the same artifact, followed by tools/arena.py; this entry's 90 games, 10 of them played after its placement and 3 of those won, saved at 22:50 before the paste)"
+  },
+  {
+   "label": "v08",
+   "upload": 5,
+   "agent": 6847999,
+   "submission": 41637774,
+   "league": "silver",
+   "artifact": {
+    "sha256": "5c16d925b0c4e20746484cbdfb7826e82b4bc1ed8dd9e1e3e1a5b8954b917df6",
+    "build": "3f19aa6e",
+    "config": "c9dad766",
+    "source": "the same bytes as v08 upload 1; kept copy artifacts/5c16d925/Player.java"
+   },
+   "created": "2026-11-04T22:59:16+02:00",
+   "placement": {
+    "score": 20.21,
+    "rank": 6,
+    "agents": 201,
+    "games": 80,
+    "firstCompleteSnapshot": "2026-11-04T23:24:50+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-04T23:18:19+02:00 (leaderboard updateTime)",
+    "globalRank": 465,
+    "eligibleForPromotion": false,
+    "note": "followed by tools/arena.py from 2026-11-04T23:06:54+02:00 at 43 %; every snapshot in checks/arena.log; CG created the agent at 22:59:16 but listed it on the leaderboard only at 23:06:49, at 43 %, while its API timed out; the percentage stayed at 86 % from 23:17:53 to 23:23:53 with all 80 games finished; one game with equal scores (916719390, both queens dead on turn 146, 0:0, ranked as a win: CG put player 0, us, first; the battle list gives both players position 0); three games against the Silver boss (agent 1876720, rating 21.87-21.99), 1 won (916722076); no opponent removed; 38 of the 80 games went to turn 250"
+   },
+   "snapshots": "docs/data/arena-6847999-placement-2026-11-04.json",
+   "games": "docs/data/arena-6847999-games-2026-11-04.json",
+   "submittedBy": "the user in the IDE (v08 upload 5, the third in Silver, 2026-11-04; registered by tools/arena.py follow, its first run)",
+   "attribution": "cgAttribute against the kept copy artifacts/5c16d925/Player.java: SAME in 80 of 80 games, 15,296 turns; markers {3f19aa6e=80} (tools/arena.py, 2026-11-04)"
   }
  ],
  "legacyUploads": [

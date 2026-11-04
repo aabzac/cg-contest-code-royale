@@ -35,17 +35,25 @@ Result in strict mode (no corrections): **97/98 and 137/138 games match on every
 
 ## Not explained
 
-1. **Tie-break.** Six games end with equal scores:
+1. **Tie-break.** Seven games end with equal scores:
    - 911493205 (turn 250, 11:11);
    - 908057307 (both queens die on turn 72, 0:0);
    - 913398184 (v02 upload 1, 2026-10-30, both queens die on turn 38, 0:0);
    - 913453290 (v02 upload 2, 2026-10-30, turn 250, 50:50);
    - 913522461 (v03 upload 1, 2026-10-30, turn 250, 50:50; player 0 was the opponent);
-   - 916297591 (v08 upload 4, Silver, 2026-11-04, turn 250, 28:28; player 0 was the opponent).
+   - 916297591 (v08 upload 4, Silver, 2026-11-04, turn 250, 28:28; player 0 was the opponent);
+   - 916719390 (v08 upload 5, Silver, 2026-11-04, both queens die on turn 146, 0:0; player 0 was us).
 
-   CG ranks player 0 first in all six, while the simulator calls a draw (`winner 0 vs -1`). A
-   tie-break by seat would fit all six; it is not adopted on six samples. No game of v01's 180
-   placement games had equal scores.
+   The game result (`gameResult/findByGameId`) ranks player 0 first in all seven, while the simulator
+   calls a draw (`winner 0 vs -1`). A tie-break by seat would fit all seven; it is not adopted on seven
+   samples. No game of v01's 180 placement games had equal scores.
+
+   The battle list (`findLastBattlesByAgentId`) says otherwise: it gives both players position 0, a draw,
+   in each of our five such games with saved lists. That is every saved list that holds the finished game:
+   80, 48, 24, 16 and 27 lists for 913398184, 913453290, 913522461, 916297591 and 916719390. Which of the
+   two CG's rating uses is not known. The manifests and `arena_compare.py` count by the game result's
+   ranks, so such a game is a win for player 0. The battle-list summaries of `arena_snapshot.py` count it as
+   neither: 47 wins against the manifest's 48 in v08 upload 5.
 2. **Score after a mid-game timeout.** In 913520691 (v03 upload 1) the opponent timed out on turn
    115. Every turn matches, but CG scored the surviving queen 52 and the simulator 53. CG seems to
    finish the timeout's turn, so creeps still act, before it scores; the simulator ends the game when
