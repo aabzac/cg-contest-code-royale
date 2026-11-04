@@ -2203,4 +2203,5 @@ Fix:
   new flag already records at v01's behaviour, so it cannot go stale again.
 - With the two games copied into the worktree (and removed afterwards):
   `./gradlew test --tests cr.tools.CgAttributeTest` gave 8 of 8, the real-games case passed, not skipped.
-- After the merge, the full suite in the main checkout: see the commit.
+- After the merge (master at 9a04817), the full suite in the main checkout passed 148 of 148, none
+  skipped; the tools' tests passed too.
