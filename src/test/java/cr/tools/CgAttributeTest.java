@@ -10,7 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +21,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Properties;
 import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -148,9 +152,23 @@ class CgAttributeTest {
         assertTrue(log.toString(StandardCharsets.UTF_8).contains("ERROR 123: "), log.toString(StandardCharsets.UTF_8));
     }
 
-    /** v01's parameters: the placement games below were played by v01, and current's defaults have moved on. */
-    private static final String V01_PARAMS = "INCOME_TARGET=10,MAX_TOWERS=4,UNSTICK=0,ROUTE=0,MINES_FIRST=0";
+    /**
+     * v01's full parameters, from its frozen snapshot: the placement games below were played by v01, and current's
+     * defaults have moved on. The snapshot records each later flag at v01's behaviour; a hand-written subset went
+     * stale when v06-v08 changed the defaults (two barracks, the second tower, kiting) and matched 4 of 60 games.
+     */
+    private static final String V01_PARAMS = snapshotParams("v01");
     private static final String V01_PLAY = "current?" + V01_PARAMS;
+
+    private static String snapshotParams(String version) {
+        try (InputStream in = BotFactory.class.getResourceAsStream("versions/" + version + ".properties")) {
+            Properties p = new Properties();
+            p.load(in);
+            return p.getProperty("PARAMS");
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 
     /**
      * Two placement games of agent 6823071 (gitignored replays; skipped without them): seat 0 in

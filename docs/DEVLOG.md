@@ -2183,3 +2183,24 @@ already `v04`.
 
 Records: `.ai/project.md` (the row "Загрузка на арену одной командой" and the placement watch row),
 `docs/arena-uploads.md` (procedure, Replay storage, Tools), PLAN, SUMMARY.
+
+## 2026-11-04 — CgAttributeTest: v01's parameters from its snapshot (the test had failed since v06)
+
+After the merge, the full suite in the main checkout, which has the replays, gave 147 of 148.
+`CgAttributeTest.realPlacementGamesAreAttributedToTheBotThatPlayedThem` failed. It checks that
+`current?<v01's params>` replays v01's placement games. Its hand-written subset
+(`INCOME_TARGET=10,MAX_TOWERS=4,UNSTICK=0,ROUTE=0,MINES_FIRST=0`) was last updated at the v05 freeze.
+v06-v08 then changed current's defaults: BARRACKS=2, BARRACKS_AFTER_TOWERS=4, TRAIN_SYNC=1,
+THREAT_TOWERS_NEAR=2, THREAT_RADIUS=500, KITE=2 and KITE_PULL=100. The worktrees, without replays, skip
+the test, so nobody saw it fail.
+
+Evidence (main checkout):
+- `cgAttribute` of v01 upload 1, all 60 games: SAME 4 of 60 with the old subset;
+- SAME 60 of 60 with those flags at v01's values.
+
+Fix:
+- The test reads `PARAMS` from `src/main/resources/cr/bot/versions/v01.properties`, the snapshot that every
+  new flag already records at v01's behaviour, so it cannot go stale again.
+- With the two games copied into the worktree (and removed afterwards):
+  `./gradlew test --tests cr.tools.CgAttributeTest` gave 8 of 8, the real-games case passed, not skipped.
+- After the merge, the full suite in the main checkout: see the commit.
