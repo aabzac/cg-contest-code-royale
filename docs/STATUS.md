@@ -5,10 +5,14 @@ artifacts `docs/BOTS.md`, P1 comparisons and the noise margin `docs/arena-upload
 evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary for the user
 `docs/SUMMARY.md`. The history this page held until 2026-10-30: `git show 60f0b59:docs/STATUS.md`.
 
-- Date: 2026-11-04 (night). Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
+- Date: 2026-11-05. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Silver since 2026-11-03 23:46 (CG promoted v08 upload 2); the Bronze scores stay
-  Bronze-only. PV1/PV2 lapsed with the league change: P2 candidates are developed, not promoted, until the
-  proxy is re-checked against the Silver field (`docs/local-screen.md`).
+  Bronze-only. PV1/PV2 lapsed with the league change; **PV3** (2026-11-05, the user's decision on the Silver
+  study's proposal, `docs/data/study-2026-11-05-silver/`) renews the proxy for Silver. P2's blocks are now
+  strided (`screen-pv3` and `evaluation-pv3` in `docs/data/seed-ledger.json`, both next at k = 0), so every
+  block plays all 16 starting HPs. Giants and the late game of strong economies are recorded as
+  unrepresented, and candidates that depend on them are judged by the arena (`docs/local-screen.md`, PV3).
+  P2 candidates can be promoted again.
 - Selected version, local champion and `current` defaults: v08 = v07 with the kiting bound to the towers
   (KITE=2, KITE_PULL=100), frozen 2026-11-03 (`cr.bot.v08.GreedyBot`, `versions/v08.properties`; P2
   `docs/data/exp-2026-11-03-kite2/`: S 0.6670 against v07 and +14.8 pp against `field` on the evaluation
@@ -54,6 +58,15 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   (the games manifests of v08 uploads 3-5); v08 won 6 of its 16 games against it and stands about 1.4 below
   it (mean 20.55). The strongest other player met: mesavitae, 21.12-21.35. About half of v08's Silver
   placement games (40, 40 and 38 of 80) went to turn 250.
+- How v08 plays in Silver (the study of 2026-11-05, `docs/data/study-2026-11-05-silver/`; its README has the
+  numbers):
+  - most HP races are decided at the enemy's first wave (turn 23-28), which our second tower (turn 25) often
+    misses, and the boss games above all;
+  - 10 of 34 lost races were led after turn 200;
+  - giant players beat us about 2 rating points more than their ratings predict (p 0.03 with Silver's own
+    logistic scale, 3.16);
+  - the strongest four out-produce us (income 6 against 3, waves 10-13.5 against 6-7).
+  Next candidates proposed there: a second tower before the first wave, then holding an HP lead late.
 - Candidate judged under P1 (2026-11-03): v08. Placements 27.85 and 28.13 (mean 27.99, SD 0.20) against
   v07's 25.53; pooled rating 27.59 ± 0.50 against 25.42 ± 0.46 (scale 2.13); M 2.46 (11 df). Neither
   rollback condition holds (+2.46 against −2.46; +2.17 against −1.36), so v08 is the selected version. The
@@ -155,9 +168,9 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   to 27.90 during v08's placement (`docs/data/arena-6843773-games-2026-11-03.json`), and v08 won 3 of its 7
   games against it; v08's first placement 27.85 is 0.05 below it, v07's mean 25.53 about 2.4 below. Earlier bound: above about 27.1 (the Bronze leaderboard of
   2026-10-30, `docs/data/leaderboard-bronze-2026-10-30.json`). The local `boss` spec is the repository's Default AI: a floor, not this boss.
-- Waiting on the user: the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3
-  of P2).
-- Policies: P2 locally with gates G0-G4 (`docs/local-screen.md`; PV2 since 2026-11-03), then `submit` and both `procCheck`, then P1 on the arena
+- Waiting on the user: the choice of the next candidate (the study proposes the first-wave tower); the code
+  of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).
+- Policies: P2 locally with gates G0-G4 (`docs/local-screen.md`; PV3 since 2026-11-05), then `submit` and both `procCheck`, then P1 on the arena
   (`docs/arena-uploads.md`, `tools/arena_compare.py`, registry `docs/data/arena-uploads.json`).
 - Simulator: live rules in `cr.core`, listed in `docs/rules/inferred.md`; original validation corpora
   `replays/cg/legend-top` (88), `replays/arena/legacy/bronze/upload-01/games` (10) and

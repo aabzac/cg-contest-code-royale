@@ -1,0 +1,24 @@
+Local blocks (consecutive seeds)
+development 10000-10499                        500 maps, distinct starting HP  4, median  40.0, most common 95: 214, 35: 187, 40: 73, 90: 26
+development 11000-11199 (field calibration)    200 maps, distinct starting HP  1, median  35.0, most common 35: 200
+development 110000-110299 (legScan)            300 maps, distinct starting HP  2, median 100.0, most common 100: 220, 25: 80
+this study 150000-150499                       500 maps, distinct starting HP  2, median  35.0, most common 35: 484, 40: 16
+screen block 0 (200000-201999)                2000 maps, distinct starting HP  5, median  75.0, most common 80: 657, 55: 512, 75: 458, 60: 192
+screen block 1 (202000-203999)                2000 maps, distinct starting HP  5, median  90.0, most common 95: 612, 70: 512, 90: 442, 75: 240
+screen block 2 (204000-205999)                2000 maps, distinct starting HP  6, median  75.0, most common 70: 697, 85: 503, 65: 273, 90: 256
+screen block 3 (206000-207999)                2000 maps, distinct starting HP  5, median  80.0, most common 85: 697, 65: 425, 60: 423, 80: 270
+screen block 4 (208000-209999)                2000 maps, distinct starting HP  5, median  80.0, most common 100: 697, 75: 468, 80: 428, 95: 267
+screen block 5 (210000-211999)                2000 maps, distinct starting HP  5, median  40.0, most common 35: 697, 90: 513, 95: 431, 30: 264
+screen block 6 (212000-213999)                2000 maps, distinct starting HP  4, median  90.0, most common 90: 598, 25: 558, 30: 434, 95: 410
+screen block 7 (214000-215999)                2000 maps, distinct starting HP  5, median  80.0, most common 85: 697, 25: 595, 30: 365, 80: 243
+screen block 8 (216000-217999)                2000 maps, distinct starting HP  6, median  45.0, most common 100: 697, 40: 586, 45: 320, 95: 288
+screen block 9 (218000-219999)                2000 maps, distinct starting HP  6, median  35.0, most common 35: 691, 55: 538, 30: 333, 60: 275
+evaluation block 0 (400000-401999)            2000 maps, distinct starting HP  5, median  55.0, most common 60: 570, 55: 504, 45: 464, 65: 334
+evaluation block 1 (402000-403999)            2000 maps, distinct starting HP  5, median  40.0, most common 35: 697, 40: 570, 60: 419, 30: 189
+evaluation block 2 (404000-405999)            2000 maps, distinct starting HP  5, median  55.0, most common 50: 697, 55: 573, 75: 358, 45: 234
+evaluation block 3 (406000-407999)            2000 maps, distinct starting HP  6, median  70.0, most common 65: 697, 70: 560, 60: 279, 90: 265
+evaluation block 4 (408000-409999)            2000 maps, distinct starting HP  5, median  80.0, most common 80: 697, 85: 515, 65: 400, 75: 324
+evaluation block 5 (410000-411999)            2000 maps, distinct starting HP  5, median  60.0, most common 60: 698, 55: 698, 80: 352, 65: 244
+evaluation block 6 (412000-413999)            2000 maps, distinct starting HP  5, median  75.0, most common 75: 698, 70: 698, 95: 304, 80: 247
+evaluation block 7 (414000-415999)            2000 maps, distinct starting HP  6, median  85.0, most common 90: 698, 85: 698, 30: 253, 95: 250
+CG games in docs/data manifests               1400 maps, distinct starting HP 16, median  65.0, most common 80: 104, 75: 100, 70: 99, 85: 95

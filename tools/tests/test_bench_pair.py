@@ -30,15 +30,18 @@ def game(seed, a_seat, outcome, turns=100, fail_a=None, fail_b=None, score=None)
     return g
 
 
-def report(bot_a, bot_b, maps, seed_base=100, commit="c1", effective_b=None):
-    """maps: per map (game spec on seat 0, game spec on seat 1), each an outcome or a dict of game() arguments."""
+def report(bot_a, bot_b, maps, seed_base=100, commit="c1", effective_b=None, stride=None):
+    """maps: per map (game spec on seat 0, game spec on seat 1), each an outcome or a dict of game() arguments.
+    stride None writes a report as before PV3 (no seedStride, consecutive seeds)."""
     games = []
     for m, pair in enumerate(maps):
         for a_seat, spec in enumerate(pair):
             spec = {"outcome": spec} if isinstance(spec, str) else spec
-            games.append(game(seed_base + m, a_seat, **spec))
+            games.append(game(seed_base + m * (stride or 1), a_seat, **spec))
     rep = {"botA": bot_a, "botB": bot_b, "maps": len(maps), "seedBase": seed_base, "turnMs": 50, "threads": 8,
            "revision": {"commit": commit, "status": [], "diffSha256": "d"}, "games": games}
+    if stride is not None:
+        rep["seedStride"] = stride
     if effective_b:
         rep["effectiveB"] = effective_b
     return rep
@@ -188,6 +191,36 @@ class PairTest(unittest.TestCase):
         self.assertEqual(p, s["inputs"][0]["path"])
         self.assertEqual(64, len(s["inputs"][0]["sha256"]))
         self.assertEqual("c1", s["inputs"][0]["revision"]["commit"])
+        self.assertEqual(1, s["inputs"][0]["seedStride"], "a report without seedStride has consecutive seeds")
+
+    def test_strided_seeds_pair_map_by_map(self):
+        """PV3 blocks: the maps are seedBase + seedStride * k."""
+        maps = [("A", "A"), ("A", "B"), ("B", "B")]
+        cand = self.path(report("cand", "boss", maps, seed_base=1000000, stride=397), "c.json")
+        ctrl = self.path(report("ctrl", "boss", [("A", "B")] * 3, seed_base=1000000, stride=397), "k.json")
+        code, s = self.summary("common", cand, ctrl)
+        self.assertEqual(0, code)
+        self.assertEqual(397, s["inputs"][0]["seedStride"])
+        self.assertEqual([1000000, 1000794], s["changedMaps"])
+        self.assertAlmostEqual((0.5 + 0 - 0.5) / 3, s["delta"]["mean"])
+        mirror = self.path(report("ctrl", "ctrl", [("A", "B")] * 3, seed_base=1000000, stride=397), "m.json")
+        direct = self.path(report("cand", "ctrl", maps, seed_base=1000000, stride=397), "d.json")
+        code, s = self.summary("direct", direct, "--mirror", mirror)
+        self.assertEqual([1000000, 1000794], s["changedMaps"])
+
+    def test_a_stride_must_match_the_games_and_the_paired_report(self):
+        good = report("cand", "boss", [("A", "B")] * 3, stride=397)
+        consecutive = json.loads(json.dumps(good))
+        consecutive["seedStride"] = 1          # the games are still 397 apart
+        for bad in (0, -397, "397", 1.5, True):
+            rep = json.loads(json.dumps(good))
+            rep["seedStride"] = bad
+            self.assertEqual(2, self.run_tool("direct", self.path(rep, "bad.json"))[0], bad)
+        self.assertEqual(2, self.run_tool("direct", self.path(consecutive, "bad.json"))[0])
+        # the same base and number of maps, consecutive against strided seeds: not one series
+        cand = self.path(good, "c.json")
+        ctrl = self.path(report("ctrl", "boss", [("A", "B")] * 3), "k.json")
+        self.assertEqual(2, self.run_tool("common", cand, ctrl)[0])
 
 
 if __name__ == "__main__":

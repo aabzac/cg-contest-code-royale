@@ -1,0 +1,133 @@
+# LocalProfile and bench outputs of the Silver study (2026-11-05). The commands ran from a worktree; their
+# '../../../replays/' paths are shown as the repository's 'replays/'. Raw logs: replays/bench/study-2026-11-05-silver/.
+# First run (seeds 150000.., stride 1): replays/bench/study-2026-11-05-silver/runs.log
+### ./gradlew -q bench -Pbot1=v08 -Pbot2=v08 -Pmaps=500 -Pthreads=8 -PseedBase=150000 -PturnMs=50 -Pout=replays/bench/study-2026-11-05-silver/v08-vs-v08.json
+v08 vs v08: maps=500 games=1000 score=0.500 +-0.000 (95% CI, map-paired) W/D/L=457/86/457 winsAsP0=244 winsAsP1=213
+  avgTurns=221.6 errors A=0 B=0 extraLines A=0 B=0 slow A=8 B=6 timeouts A=0 B=0 time/move avg A=0.07ms B=0.07ms max A=103.0ms B=71.7ms
+  report replays\bench\study-2026-11-05-silver\v08-vs-v08.json
+### ./gradlew -q bench -Pbot1=v08 -Pbot2=field -Pmaps=500 -Pthreads=8 -PseedBase=150000 -PturnMs=50 -Pout=replays/bench/study-2026-11-05-silver/v08-vs-field.json
+v08 vs field: maps=500 games=1000 score=0.903 +-0.021 (95% CI, map-paired) W/D/L=901/3/96 winsAsP0=459 winsAsP1=442
+  avgTurns=163.8 errors A=0 B=0 extraLines A=0 B=0 slow A=0 B=0 timeouts A=0 B=0 time/move avg A=0.06ms B=0.00ms max A=18.6ms B=14.2ms
+  report replays\bench\study-2026-11-05-silver\v08-vs-field.json
+### ./gradlew -q bench -Pbot1=v08 -Pbot2=field?GIANTS=1 -Pmaps=500 -Pthreads=8 -PseedBase=150000 -PturnMs=50 -Pout=replays/bench/study-2026-11-05-silver/v08-vs-field-giants.json
+v08 vs field?GIANTS=1: maps=500 games=1000 score=0.937 +-0.016 (95% CI, map-paired) W/D/L=936/2/62 winsAsP0=476 winsAsP1=460
+  avgTurns=146.4 errors A=0 B=0 extraLines A=0 B=0 slow A=2 B=0 timeouts A=0 B=0 time/move avg A=0.08ms B=0.01ms max A=79.5ms B=36.3ms
+  report replays\bench\study-2026-11-05-silver\v08-vs-field-giants.json
+### ./gradlew -q bench -Pbot1=v08 -Pbot2=boss -Pmaps=500 -Pthreads=3 -PseedBase=150000 -PturnMs=200 -Pout=replays/bench/study-2026-11-05-silver/v08-vs-boss.json
+v08 vs boss: maps=500 games=1000 score=1.000 +-0.000 (95% CI, map-paired) W/D/L=1000/0/0 winsAsP0=500 winsAsP1=500
+  avgTurns=41.6 errors A=0 B=0 extraLines A=0 B=0 slow A=0 B=0 timeouts A=0 B=0 time/move avg A=0.06ms B=7.40ms max A=19.7ms B=57.9ms
+  report replays\bench\study-2026-11-05-silver\v08-vs-boss.json
+### ./gradlew -q localProfile -PbotA=v08 -PbotB=v08 -Pmaps=200 -PseedBase=150000
+v08 vs v08: 400 games, v08 wins 188 (47.0 %), queen deaths 52, enemy queens killed 52
+turn 50: income 4 mines 2 towers 3 towerHp 1572 queenHp 30
+turn 100: income 3 mines 2 towers 4 towerHp 2564 queenHp 29
+turn 150: income 4 mines 2 towers 6 towerHp 3008 queenHp 27
+waves: knight 10, giant 0 (medians); death turn median 157 over the deaths; game length median 250, mean 220.2; at the 250-turn limit 298 (75 %)
+under knights (medians over games with contact): contact turns 34, % near an own tower 86.0, HP lost per contact turn 0.3, % MOVE 64.3
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 6 (mean 9.1); HP lost on turns 25-50 5 (mean 7.5, games reaching turn 50)
+### ./gradlew -q localProfile -PbotA=v08 -PbotB=field -Pmaps=200 -PseedBase=150000
+v08 vs field: 400 games, v08 wins 353 (88.3 %), queen deaths 32, enemy queens killed 286
+turn 50: income 4 mines 2 towers 3 towerHp 1876 queenHp 28
+turn 100: income 3 mines 2 towers 4 towerHp 2540 queenHp 26
+turn 150: income 2 mines 1 towers 5 towerHp 2464 queenHp 26
+waves: knight 7, giant 0 (medians); death turn median 145 over the deaths; game length median 163, mean 160.9; at the 250-turn limit 83 (21 %)
+under knights (medians over games with contact): contact turns 37, % near an own tower 77.6, HP lost per contact turn 0.3, % MOVE 58.1
+first contact (medians over games with contact): turn 21, own towers then 1, HP lost in the next 20 turns 7 (mean 7.5); HP lost on turns 25-50 3 (mean 3.8, games reaching turn 50)
+### ./gradlew -q localProfile -PbotA=field -PbotB=v08 -Pmaps=200 -PseedBase=150000
+field vs v08: 400 games, field wins 45 (11.3 %), queen deaths 286, enemy queens killed 32
+turn 50: income 6 mines 3 towers 2 towerHp 1372 queenHp 19
+turn 100: income 7 mines 3 towers 4 towerHp 2384 queenHp 12
+turn 150: income 8 mines 3 towers 4 towerHp 2092 queenHp 10
+waves: knight 12, giant 0 (medians); death turn median 136 over the deaths; game length median 163, mean 160.9; at the 250-turn limit 83 (21 %)
+under knights (medians over games with contact): contact turns 31, % near an own tower 83.9, HP lost per contact turn 0.9, % MOVE 0.0
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 16 (mean 17.5); HP lost on turns 25-50 16 (mean 17.0, games reaching turn 50)
+### ./gradlew -q localProfile -PbotA=v08 -PbotB=field?GIANTS=1 -Pmaps=200 -PseedBase=150000
+v08 vs field?GIANTS=1: 400 games, v08 wins 376 (94.0 %), queen deaths 23, enemy queens killed 350
+turn 50: income 4 mines 2 towers 3 towerHp 1876 queenHp 28
+turn 100: income 3 mines 2 towers 4 towerHp 2556 queenHp 26
+turn 150: income 4 mines 2 towers 5 towerHp 2296 queenHp 26
+waves: knight 7, giant 0 (medians); death turn median 136 over the deaths; game length median 149, mean 143.9; at the 250-turn limit 29 (7 %)
+under knights (medians over games with contact): contact turns 21, % near an own tower 76.9, HP lost per contact turn 0.4, % MOVE 53.8
+first contact (medians over games with contact): turn 21, own towers then 1, HP lost in the next 20 turns 7 (mean 7.5); HP lost on turns 25-50 3 (mean 3.8, games reaching turn 50)
+### ./gradlew -q localProfile -PbotA=field?GIANTS=1 -PbotB=v08 -Pmaps=200 -PseedBase=150000
+field?GIANTS=1 vs v08: 400 games, field?GIANTS=1 wins 24 (6.0 %), queen deaths 350, enemy queens killed 23
+turn 50: income 6 mines 3 towers 2 towerHp 1372 queenHp 19
+turn 100: income 6 mines 3 towers 4 towerHp 2328 queenHp 12
+turn 150: income 7 mines 3 towers 4 towerHp 2172 queenHp 8
+waves: knight 6, giant 2 (medians); death turn median 143 over the deaths; game length median 149, mean 143.9; at the 250-turn limit 29 (7 %)
+under knights (medians over games with contact): contact turns 32, % near an own tower 83.3, HP lost per contact turn 0.9, % MOVE 0.0
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 16 (mean 17.5); HP lost on turns 25-50 16 (mean 17.0, games reaching turn 50)
+### ./gradlew -q localProfile -PbotA=v08 -PbotB=boss -Pmaps=100 -PseedBase=150000
+v08 vs boss: 200 games, v08 wins 200 (100.0 %), queen deaths 0, enemy queens killed 200
+turn 50: income 4 mines 2 towers 3 towerHp 2112 queenHp 29
+turn 100: income - mines - towers - towerHp - queenHp -
+turn 150: income - mines - towers - towerHp - queenHp -
+waves: knight 3, giant 0 (medians); death turn median - over the deaths; game length median 40, mean 41.9; at the 250-turn limit 0 (0 %)
+under knights (medians over games with contact): contact turns 8, % near an own tower 70.0, HP lost per contact turn 0.7, % MOVE 28.6
+first contact (medians over games with contact): turn 19, own towers then 1, HP lost in the next 20 turns 7 (mean 6.9); HP lost on turns 25-50 0 (mean 0.9, games reaching turn 50)
+### done
+# Second run (the stride-1 regression, then 1 + 397k): replays/bench/study-2026-11-05-silver/runs-strided.log
+### ./gradlew -q localProfile -PbotA=v08 -PbotB=v08 -Pmaps=200 -PseedBase=150000
+v08 vs v08: 400 games, v08 wins 188 (47.0 %), queen deaths 52, enemy queens killed 52
+maps 200 from seed 150000, stride 1: starting HP median 35, 2 distinct values; decided at the limit 274, by <= 10 HP 210
+turn 50: income 4 mines 2 towers 3 towerHp 1572 queenHp 30
+turn 100: income 3 mines 2 towers 4 towerHp 2564 queenHp 29
+turn 150: income 4 mines 2 towers 6 towerHp 3008 queenHp 27
+waves: knight 10, giant 0 (medians); death turn median 157 over the deaths; game length median 250, mean 220.2; at the 250-turn limit 298 (75 %)
+under knights (medians over games with contact): contact turns 34, % near an own tower 86.0, HP lost per contact turn 0.3, % MOVE 64.3
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 6 (mean 9.1); HP lost on turns 25-50 5 (mean 7.5, games reaching turn 50)
+### ./gradlew -q localProfile -PbotA=v08 -PbotB=v08 -Pmaps=500 -PseedBase=1 -PseedStride=397
+v08 vs v08: 1000 games, v08 wins 453 (45.3 %), queen deaths 51, enemy queens killed 51
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 806, by <= 10 HP 568
+turn 50: income 4 mines 2 towers 3 towerHp 1652 queenHp 55
+turn 100: income 3 mines 2 towers 4 towerHp 2616 queenHp 53
+turn 150: income 4 mines 2 towers 6 towerHp 3024 queenHp 51
+waves: knight 10, giant 0 (medians); death turn median 173 over the deaths; game length median 250, mean 240.9; at the 250-turn limit 900 (90 %)
+under knights (medians over games with contact): contact turns 35, % near an own tower 86.1, HP lost per contact turn 0.3, % MOVE 65.1
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 5 (mean 8.1); HP lost on turns 25-50 4 (mean 7.2, games reaching turn 50)
+### ./gradlew -q localProfile -PbotA=v08 -PbotB=field -Pmaps=500 -PseedBase=1 -PseedStride=397
+v08 vs field: 1000 games, v08 wins 929 (92.9 %), queen deaths 24, enemy queens killed 396
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 577, by <= 10 HP 111
+turn 50: income 4 mines 2 towers 3 towerHp 1988 queenHp 56
+turn 100: income 3 mines 2 towers 4 towerHp 2592 queenHp 57
+turn 150: income 2 mines 1 towers 5 towerHp 2496 queenHp 58
+waves: knight 7, giant 0 (medians); death turn median 177 over the deaths; game length median 250, mean 209.5; at the 250-turn limit 582 (58 %)
+under knights (medians over games with contact): contact turns 58, % near an own tower 80.0, HP lost per contact turn 0.2, % MOVE 60.2
+first contact (medians over games with contact): turn 21, own towers then 1, HP lost in the next 20 turns 7 (mean 7.5); HP lost on turns 25-50 3 (mean 3.3, games reaching turn 50)
+### ./gradlew -q localProfile -PbotA=field -PbotB=v08 -Pmaps=500 -PseedBase=1 -PseedStride=397
+field vs v08: 1000 games, field wins 66 (6.6 %), queen deaths 396, enemy queens killed 24
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 577, by <= 10 HP 111
+turn 50: income 6 mines 3 towers 2 towerHp 1400 queenHp 46
+turn 100: income 8 mines 3 towers 4 towerHp 2376 queenHp 39
+turn 150: income 7 mines 3 towers 4 towerHp 2104 queenHp 36
+waves: knight 18, giant 0 (medians); death turn median 170 over the deaths; game length median 250, mean 209.5; at the 250-turn limit 582 (58 %)
+under knights (medians over games with contact): contact turns 34, % near an own tower 83.9, HP lost per contact turn 1.0, % MOVE 0.0
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 15 (mean 16.9); HP lost on turns 25-50 14 (mean 16.0, games reaching turn 50)
+### ./gradlew -q localProfile -PbotA=v08 -PbotB=field?GIANTS=1 -Pmaps=500 -PseedBase=1 -PseedStride=397
+v08 vs field?GIANTS=1: 1000 games, v08 wins 940 (94.0 %), queen deaths 31, enemy queens killed 593
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 373, by <= 10 HP 33
+turn 50: income 4 mines 2 towers 3 towerHp 1988 queenHp 56
+turn 100: income 3 mines 2 towers 5 towerHp 2660 queenHp 57
+turn 150: income 4 mines 2 towers 5 towerHp 2300 queenHp 60
+waves: knight 9, giant 0 (medians); death turn median 210 over the deaths; game length median 217, mean 196.2; at the 250-turn limit 377 (38 %)
+under knights (medians over games with contact): contact turns 25, % near an own tower 77.8, HP lost per contact turn 0.4, % MOVE 53.8
+first contact (medians over games with contact): turn 21, own towers then 1, HP lost in the next 20 turns 7 (mean 7.5); HP lost on turns 25-50 3 (mean 3.3, games reaching turn 50)
+### ./gradlew -q localProfile -PbotA=field?GIANTS=1 -PbotB=v08 -Pmaps=500 -PseedBase=1 -PseedStride=397
+field?GIANTS=1 vs v08: 1000 games, field?GIANTS=1 wins 56 (5.6 %), queen deaths 593, enemy queens killed 31
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 373, by <= 10 HP 33
+turn 50: income 6 mines 3 towers 2 towerHp 1400 queenHp 46
+turn 100: income 7 mines 3 towers 4 towerHp 2324 queenHp 38
+turn 150: income 7 mines 3 towers 4 towerHp 2148 queenHp 33
+waves: knight 6, giant 4 (medians); death turn median 175 over the deaths; game length median 217, mean 196.2; at the 250-turn limit 377 (38 %)
+under knights (medians over games with contact): contact turns 42, % near an own tower 83.7, HP lost per contact turn 1.1, % MOVE 0.0
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 15 (mean 16.9); HP lost on turns 25-50 14 (mean 16.0, games reaching turn 50)
+### ./gradlew -q localProfile -PbotA=v08 -PbotB=boss -Pmaps=100 -PseedBase=1 -PseedStride=397
+v08 vs boss: 200 games, v08 wins 200 (100.0 %), queen deaths 0, enemy queens killed 200
+maps 100 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 0, by <= 10 HP 0
+turn 50: income 4 mines 2 towers 3 towerHp 1940 queenHp 75
+turn 100: income 3 mines 2 towers 5 towerHp 2920 queenHp 77
+turn 150: income 4 mines 2 towers 5 towerHp 3020 queenHp 92
+waves: knight 3, giant 0 (medians); death turn median - over the deaths; game length median 50, mean 59.6; at the 250-turn limit 0 (0 %)
+under knights (medians over games with contact): contact turns 10, % near an own tower 75.0, HP lost per contact turn 0.5, % MOVE 33.3
+first contact (medians over games with contact): turn 19, own towers then 1, HP lost in the next 20 turns 7 (mean 6.9); HP lost on turns 25-50 0 (mean 1.6, games reaching turn 50)
+### done

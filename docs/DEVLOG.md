@@ -2401,3 +2401,154 @@ horizontal scroll. Dark mode was not checked: the static snapshot always renders
 tokens are unchanged. Docs only: no code changed and no tests run.
 
 Records: SUMMARY, PLAN.
+
+## 2026-11-05 — Study of v08's Silver games and of the local proxy against the Silver field
+
+The user's "start the study", after the session's recommendation: a study of v08's 250 Silver games that
+also re-checks the local proxy, whose validation (PV1/PV2) lapsed with the promotion. The quick pass the
+same day (`cgStudy` only, scratch scripts) had suggested two things. The HP races are decided on turns
+25-50. Giants are no special weakness once the opponents' ratings are accounted for (logistic scale 1.33).
+The first held up only in part, the second not at all (below). Record: `docs/data/study-2026-11-05-silver/`
+(README, `silver.py` → `silver.txt`, `start_hp.py` → `start_hp.txt`, `local-profiles.txt`).
+
+**Inputs** (gitignored, main checkout; the commands are in the README):
+- `replays/study/features-v08-silver-2026-11-05.csv` (sha256 8a2d927c827316e2f85b17ab037bcb10cfe8086739c649e4f3f02c5a49c6f421)
+  and `features-v08-bronze-2026-11-05.csv` (ff28ef5d591050a456639074a3f6cbab704d0749d48156241638a021f7130ec0);
+- `replays/study/traces/all-v08s-ours.txt` (a5f645fa7dfe868ccb85bf677eebd3495efbe7f2e9757d98921da24b61c3c0cd)
+  and `all-v08s-opp.txt` (ffc38dbe3499452d29218d320d0142edd1efab8bfcb9323a68125cd15230cf9a), with the per-upload
+  pieces beside them;
+- `replays/bench/study-2026-11-05-silver/`: the bench reports `v08-vs-v08.json` (5ad0a9ee…), `v08-vs-field.json`
+  (e85d7a8a…), `v08-vs-field-giants.json` (7db705c3…), `v08-vs-boss.json` (29e96e5d…), and the run logs
+  `runs.log` (2e179b86…) and `runs-strided.log` (701902d9…). Development seeds 150000-150499 and 1 + 397k, k < 500.
+  The ledger is not touched.
+- The study ran in a worktree; `refs/referee-csj/config/level4/Boss.java` was copied there (sha256 a1a3f043…,
+  identical).
+
+**Tool changes** (the bot, `current` and the artifact unchanged; `cr/tools` is not shipped):
+- `cr.tools.DeathTrace`: appended columns `kd` and `td` split each turn's HP loss by source, from two probe
+  copies of the turn: enemy tower ranges set to 0, or enemy knights removed. The split misses the loss on 20
+  of 4,944 turns with a loss. A `foe` flag traces the other seat, and the header ends with the traced agent.
+  The parsers of the 2026-11-03 studies match without an end anchor, so they still read the new lines.
+- `cr.tools.LocalProfile`:
+  - **bug fixed.** `median()` filtered on "the last column" as the game length. That stopped being true in
+    da6384a (2026-11-03), when the four under-knights columns were appended: from then on the turn-50/100/150
+    medians, the waves and the game length were filtered on the MOVE share. Named column indices now.
+  - The contact-turns median keeps its meaning (games with contact), and the records after da6384a quote only
+    the under-knights line (`docs/data/exp-2026-11-03-kite2/`), which never used the filter. So no recorded
+    number changes.
+  - With stride 1 the fixed tool printed this study's first profile again, line for line.
+  - New output: the first contact, the HP lost on turns 25-50, the games at the limit, the close ones, and the
+    maps' starting HP. An optional seed stride.
+- `build.gradle`: tasks `deathTrace` (`-Pagent -Pall -Pfoe -Preplays`, stdout) and `localProfile`
+  (`-PbotA -PbotB -Pmaps -PseedBase -PseedStride`).
+- `.ai/project.md` is not updated with the two tasks: its edit needs the kit's synchronizer, not run here.
+
+**Results** (the README has the tables):
+- **Outcomes.** 250 games: 153 won, 95 lost (61 deaths, median turn 166; 34 on HP at the limit), 2 draws.
+  48 % reach the limit (Bronze 26 %). The starting HP sets how a game ends (28 % at the limit at 25-40 HP,
+  68 % at 85-100), not the score (60-64 % in every band).
+- **Damage.** Knights 7,083 of the 7,897 HP our queen lost, enemy towers 805.
+- **The first wave.** First contact at turn 23-28; our second tower stands at turn 25 in every group.
+  - One own tower then (86 games): 12 HP in 20 turns, score 48 %.
+  - Two (132 games): 5 HP, 65 %. Three or more (28): 0 HP, 82 %.
+  - The races we win build their lead there (+10.3 HP on turns 25-50; 70 of 85 ahead after turn 50).
+  - The Silver boss: one tower at its first wave in 12 of 16 games; 6 of the 10 losses decided on turns 25-50.
+- **The late game.** Races lost: the lead falls most on turns 200-250 (−6.8 mean).
+  - 10 of the 34 were led after turn 200; there the queen lost 278 HP to knights, walking to build, topping
+    up or kiting.
+  - 21 of the 34 were lost by 10 HP or less.
+- **Giants.** 62 of 250 games; score 40 % against 69 %.
+  - The logistic scale fitted on these games is 3.16; Bronze's 1.33 fits far worse (log-likelihood −167.6
+    against −154.6).
+  - With 3.16 the performance rating is 19.02 ± 0.84 against giant players and 20.96 ± 0.52 against the rest;
+    LR 4.66, 1 df, p 0.03, the scale re-fitted under each model.
+  - With 1.33 the two are equal: that was the quick pass's claim, now withdrawn.
+  - Against giants our first tower falls around turn 138, and the queen dies late (turn 196).
+- **The strongest four** (the boss and three players at 20.9-21.7): 16.5 of 55.
+  - Per contact turn our queen loses less (0.5 HP against their 0.8-1.1).
+  - After turn 100 their knights reach her on 32 turns against 9 for ours near theirs. Income 6 against
+    3, waves 10-13.5 against 6-7 (the boss: 10 against 11).
+- **The proxy.** `MapGen`'s first draw is the starting HP, `Random(seed).nextInt(16)`.
+  - Consecutive seeds barely move it, so local blocks play 1-6 of the 16 HP values. The study's block: 484 of
+    500 at 35; the `field` calibration: all 200 at 35; P2's screen and evaluation blocks: 4-6 values each.
+  - CG: all 16, median 65. The formula matches the start of all 250 replayed games.
+  - With spread seeds (stride 397) the mirror reaches the limit in 90 % of the games, 70 % of those close
+    (Silver 48 %, 33 %); `field` 58 % (21 % on the 35-HP block); `boss` 0 %.
+  - The first contact is local-like everywhere (turn 19-24, one tower, 5-7 HP).
+  - No local opponent plays giants as the field does (`field?GIANTS=1` loses 94 %). `field` out-expands the
+    strongest four (income 8, 18 waves) but never kites.
+
+**What follows** (the README; the user's decisions):
+- PV3 proposed:
+  - P2's series spread over the starting HP, with a seed stride in `bench`, `bench_pair.py` and the ledger
+    (new blocks in their own seed range);
+  - the panel kept, with what each opponent stands for recorded;
+  - giants and the late game of strong economies recorded as unrepresented, judged by the arena.
+- Candidates in order:
+  1. a second tower before the enemy's first wave;
+  2. holding an HP lead after turn 200;
+  3. a giants response, once a local giant opponent exists;
+  4. the economy against the strongest.
+
+Checks: `./gradlew compileJava` and `./gradlew test` (148 tests, 0 failures, 3 skipped for want of the arena
+replays in the worktree: CgAttributeTest, CgStudyTest and CgViewReplayTest's corpus tests). The page's tags
+balance, and in the built-in browser (a static snapshot) the directions table renders with no console
+messages. No commit (not asked).
+
+Records: STATUS, SUMMARY, PLAN, the architecture page's directions.
+
+## 2026-11-05 — PV3 adopted: P2's blocks move to strided seeds; the panel's coverage recorded
+
+The user's decision on the Silver study's proposal ("Да, принять PV3"). PV3 renews P2's proxy validation
+for Silver (PV1/PV2 lapsed with the promotion). It has two parts:
+- the screen and evaluation blocks move to strided seeds, so every block plays all 16 starting HPs;
+- the record of what each opponent represents in Silver, and what none of them does (giants, the late game
+  of strong economies), whose candidates the arena judges.
+
+Policy text: `docs/local-screen.md` (status, PV3 section, seeds table, commands) and `.ai/project.md`
+(P2 section and the promotion table). `AGENTS.md` and `.ai/kit.lock.json` were regenerated by
+`python -B -I .ai/sync.py sync . --source C:/Disk_D/Programming/CG/cg-agent-kit`. `sync` keeps the locked kit
+commit f4a5bd63, which is also the local kit's HEAD. Only the `AGENTS.md` digest changed in the lock, and
+`check` reports OK.
+
+**Tooling:**
+- `cr.runner.BenchmarkRunner`: an optional eighth argument `seedStride` (`./gradlew bench -PseedStride=397`).
+  - The maps are seedBase + stride k; a stride below 1 is refused.
+  - The report records `seedStride`, and the summary line prints the seeds when the stride is not 1.
+  - Without it nothing changes.
+- `tools/bench_pair.py`:
+  - a report's seeds are seedBase + seedStride k; a report written before PV3 has no `seedStride` and reads
+    as stride 1;
+  - a non-positive or non-integer stride is invalid;
+  - paired reports must agree in base, stride, count and turnMs;
+  - the summary's inputs carry the stride.
+- Tests:
+  - `tools/tests/test_bench_pair.py`: strided pairing in both modes, a stride that does not match the games,
+    a stride mismatch between paired reports, the default stride of an old report;
+  - `cr.runner.BenchmarkRunnerTest` (new): the strided seeds and the recorded stride, consecutive seeds
+    without a stride, a stride of 0 refused.
+
+**The pools** (`docs/data/seed-ledger.json`; the 18 used blocks unchanged):
+- `screen-pv3`, block k = 1000000000 + 1000000 k + 397 i, i < 2000; `evaluation-pv3`, block k =
+  2000000000 + 1000000 k + 397 i. Both next at k = 0; every seed stays below 2^31 for k < 140.
+- The consecutive pools `screen` and `evaluation` are closed; their verdicts stand.
+- Checked with `docs/data/study-2026-11-05-silver/start_hp.py`'s formula: every block k < 20 of both pools
+  plays all 16 starting HPs, 110-143 maps each of 2000 and 23-41 each of the first 500, which the process
+  opponents play.
+- The other map features do not depend on the stride. A throwaway MapGen check (scratchpad, not kept)
+  compared four seed sets: the 1,400 CG seeds of the manifests, the old screen block 0, 1 + 397 k and PV3
+  screen block 0.
+  - The same in all four: 24 sites, gold 253 per site, max mine size 2.56-2.57, radius 74.9-75.1, queen 0
+    at x 221-223.
+  - Only the mean starting HP differs: 62.9 on CG, 69.6 on the old block, 62.4 strided.
+
+Checks:
+- `./gradlew test`: 151 tests, 0 failures, 3 skipped (the corpus tests that need the arena replays, absent
+  from the worktree).
+- `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: 59 OK.
+- The visualizer's node tests: 18 of 18.
+- End to end on development seeds 1 + 397 k, k < 20 (`replays/bench/pv3-check-2026-11-05/`, main checkout):
+  `current` against v08 and the v08 mirror through `bench -PseedStride=397`, then `bench_pair.py direct
+  --mirror`. It reads "seeds 1 + 397 k, k < 20", S 0.5000, 0 changed maps, pass: `current` still plays as v08.
+
+No candidate was screened, so no PV3 block is used yet.

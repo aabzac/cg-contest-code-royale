@@ -58,10 +58,11 @@ tasks.register('serve', JavaExec) {
 }
 
 // Paired bench: -Pbot1=current -Pbot2=v00 -Pmaps=100 -Pthreads=8 -PseedBase=1000 -PturnMs=50 [-Pout=replays/bench/<exp>/<name>.json]
+// [-PseedStride=397: maps seedBase + k * stride, as P2's blocks since PV3, docs/local-screen.md]
 tasks.register('bench', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'cr.runner.BenchmarkRunner'
-    args prop('bot1', 'current'), prop('bot2', 'v00'), prop('maps', '100'), prop('threads', '8'), prop('seedBase', '1000'), prop('turnMs', '50'), prop('out', '')
+    args prop('bot1', 'current'), prop('bot2', 'v00'), prop('maps', '100'), prop('threads', '8'), prop('seedBase', '1000'), prop('turnMs', '50'), prop('out', ''), prop('seedStride', '1')
 }
 
 // Per-player features of recorded CG games (replayed through Rules): -Pout=<file.csv> -Preplays=<dirs or files, space-separated>
@@ -69,6 +70,25 @@ tasks.register('cgStudy', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'cr.tools.CgStudy'
     args([prop('out', 'build/study.csv')] + prop('replays', 'replays/cg2').split(' ').toList())
+}
+
+// Queen traces of recorded CG games (cr.tools.DeathTrace), printed to stdout (run with -q and redirect):
+// -Pagent=<agentId> [-Pall=1] [-Pfoe=1] -Preplays=<dirs or files, space-separated>
+tasks.register('deathTrace', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.tools.DeathTrace'
+    def flags = []
+    if (prop('all', '0') == '1') flags << 'all'
+    if (prop('foe', '0') == '1') flags << 'foe'
+    args([prop('agent', '')] + flags + prop('replays', '').split(' ').toList())
+}
+
+// A bot's local profile in the arena studies' terms (cr.tools.LocalProfile), botA on both seats against botB:
+// -PbotA=v08 -PbotB=field -Pmaps=200 -PseedBase=150000 [-PseedStride=397: maps seedBase + k * stride, all 16 starting HPs]
+tasks.register('localProfile', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.tools.LocalProfile'
+    args prop('botA', 'current'), prop('botB', 'v08'), prop('maps', '100'), prop('seedBase', '10000'), prop('seedStride', '1')
 }
 
 // Queen stalls (BUILD to an untouched site, queen did not move) of a bot on both seats:

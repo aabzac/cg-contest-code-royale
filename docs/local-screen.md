@@ -3,7 +3,9 @@
 Status: **adopted 2026-10-30** by the user, as proposed in that day's session, with the old bot added to
 the opponent panel and the boss's exact rating left for later. P2 is the local part of the promotion
 policy. The arena step stays P1 (`docs/arena-uploads.md`). A candidate first passes P2, then the artifact
-checks (`submit`, both `procCheck` runs), then P1 on the arena.
+checks (`submit`, both `procCheck` runs), then P1 on the arena. Proxy validation: PV1 (2026-10-30), PV2
+(2026-11-03, `field`), **PV3 (2026-11-05, Silver; the user's decision)**: strided seed blocks and a record of
+what the panel represents (below).
 
 ## Why
 
@@ -22,12 +24,12 @@ checks (`submit`, both `procCheck` runs), then P1 on the arena.
 ## Roles
 
 - **Candidate**: `current` with its flag on. Unrelated flags are off.
-- **Control**: the version the candidate would replace, which is the local champion. Now v05 (`docs/STATUS.md`).
+- **Control**: the version the candidate would replace, which is the local champion (`docs/STATUS.md`).
 - **Local champion**: the last version that passed P2. Its configuration becomes the `current` defaults,
   and the next candidates are screened against it.
-- **Selected version**: the arena's (P1). Now v05 (`docs/STATUS.md`).
+- **Selected version**: the arena's (P1; `docs/STATUS.md`).
 
-## Opponents and proxy validation PV1, PV2
+## Opponents and proxy validation PV1, PV2, PV3
 
 | Spec | Role | What it is |
 | --- | --- | --- |
@@ -67,17 +69,48 @@ changed, so PV1's fingerprints are kept and `field`'s added (`docs/data/exp-2026
   three games in four while they beat v06.
 - PV2 lapses as PV1 does.
 
+**PV3** (2026-11-05, Silver, the user's decision on the proposal of `docs/data/study-2026-11-05-silver/`).
+PV1/PV2 lapsed with the promotion to Silver on 2026-11-03. The study compared v08's 250 Silver placement
+games with local series of v08 against each opponent; PV3 renews the validation for Silver.
+- **The maps.** The queens' starting HP is `MapGen`'s first draw (`Random(seed).nextInt(16) * 5 + 25`).
+  - Consecutive seeds barely move that draw: every block of the old pools played 4-6 of the 16 values,
+    and some development blocks one or two. CG plays all 16 evenly (median 65).
+  - The starting HP changes the games: v08 against `field` reaches turn 250 in 21 % of the games at 35 HP
+    and in 58 % at CG's spread.
+  - Since PV3 a block's maps are strided, seedBase + 397 k. Stride 397 covers all 16 values in every block,
+    and the other map features (sites, gold, mine sizes, radii) do not depend on it.
+  - The consecutive pools are closed; their verdicts stand.
+- **What the panel represents in Silver** (v08's local series at CG's HP spread against the Silver games;
+  the table is in the study's `silver.txt`, section 6):
+  - The first contact with enemy knights: turn 19-24 locally with one own tower, 23-28 in Silver. Every
+    opponent represents it.
+  - The mirror: close HP races, which it over-weights. It reaches the limit in 90 % of the games (Silver
+    48 %), and 70 % of those are decided by 10 HP or less (Silver 33 %).
+  - `field`: the field's economy and its knight waves. It out-expands even the strongest Silver players
+    (income 8 against 6) but never kites, and v08 beats it in 93 % of the games.
+  - `boss`: a floor. Its games end by turn 50.
+- **What the panel does not represent:**
+  - giants: 25 % of the Silver games and 65 % of the strongest four players' games; v08's rating against
+    giant players is about 2 points lower, p 0.03; `field?GIANTS=1` loses 94 % against v08;
+  - the late pressure of strong economies (waves 10-13 against our 6-7).
+
+  A candidate whose effect depends on these is judged by the arena (P1), and its record says so.
+- **Calibration** with `old` (PV1) is still pending, and G3 is skipped until its code is in place.
+- PV3 lapses as PV1 does.
+
 ## Seeds
 
 The map is `MapGen.generate(seed)`: `java.util.Random(seed)`, validated against CG maps. Each map is
 played twice with the seats swapped, by fresh bots. The ledger `docs/data/seed-ledger.json` records each
-block's use; a used block becomes development data.
+block's use; a used block becomes development data. Since PV3 (2026-11-05) a block's maps are seedBase +
+397 k (`./gradlew bench -PseedStride=397`), so that every block plays all 16 starting HPs as CG does.
 
 | Pool | Seeds | Use |
 | --- | --- | --- |
-| development | every seed below 200000, the blocks used so far, the fixtures | free reuse, exploratory evidence |
-| screen | block k: 200000 + 2000 k .. + 1999 | one fresh block per candidate: in-process series play all 2000 maps, process opponents the first 500 |
-| final evaluation | block k: 400000 + 2000 k .. + 1999 | once per upload candidate |
+| development | every seed below 200000, the blocks used so far, the fixtures; strided series 1 + 397 k (k < 500) cover all starting HPs | free reuse, exploratory evidence |
+| screen (PV3) | block k: 1000000000 + 1000000 k + 397 i, i < 2000 | one fresh block per candidate: in-process series play all 2000 maps, process opponents the first 500 (the same base and stride) |
+| final evaluation (PV3) | block k: 2000000000 + 1000000 k + 397 i, i < 2000 | once per upload candidate |
+| screen, evaluation (closed by PV3) | 200000 + 2000 k .. + 1999 and 400000 + 2000 k .. + 1999 | none: consecutive seeds; the verdicts on them stand |
 
 ## Metric
 
@@ -141,18 +174,23 @@ It joins the local champion and needs no upload of its own.
 
 ## Commands
 
-For a candidate `current?FLAG=1` against the control v01 on screen block 0 (seedBase 200000):
+For a candidate `current?FLAG=1` against the control v08 on PV3 screen block 0 (seedBase 1000000000,
+stride 397; block k starts at 1000000000 + 1000000 k):
 
 ```
-./gradlew bench "-Pbot1=current?FLAG=1" -Pbot2=v01 -Pmaps=2000 -Pthreads=8 -PseedBase=200000 -Pout=replays/bench/<exp>/direct.json
-./gradlew bench -Pbot1=v01 -Pbot2=v01 -Pmaps=2000 -Pthreads=8 -PseedBase=200000 -Pout=replays/bench/<exp>/mirror.json
+./gradlew bench "-Pbot1=current?FLAG=1" -Pbot2=v08 -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/direct.json
+./gradlew bench -Pbot1=v08 -Pbot2=v08 -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/mirror.json
 python -I tools/bench_pair.py direct replays/bench/<exp>/direct.json --mirror replays/bench/<exp>/mirror.json --min-lower 0.5 --out docs/data/<exp>/g1.json
-./gradlew bench "-Pbot1=current?FLAG=1" -Pbot2=boss -Pmaps=500 -Pthreads=3 -PturnMs=200 -PseedBase=200000 -Pout=replays/bench/<exp>/boss-cand.json
-./gradlew bench -Pbot1=v01 -Pbot2=boss -Pmaps=500 -Pthreads=3 -PturnMs=200 -PseedBase=200000 -Pout=replays/bench/<exp>/boss-ctrl.json
+./gradlew bench "-Pbot1=current?FLAG=1" -Pbot2=boss -Pmaps=500 -Pthreads=3 -PturnMs=200 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/boss-cand.json
+./gradlew bench -Pbot1=v08 -Pbot2=boss -Pmaps=500 -Pthreads=3 -PturnMs=200 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/boss-ctrl.json
 python -I tools/bench_pair.py common replays/bench/<exp>/boss-cand.json replays/bench/<exp>/boss-ctrl.json --min-delta -0.02 --out docs/data/<exp>/g2.json
+./gradlew bench "-Pbot1=current?FLAG=1" -Pbot2=field -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/field-cand.json
+./gradlew bench -Pbot1=v08 -Pbot2=field -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/field-ctrl.json
+python -I tools/bench_pair.py common replays/bench/<exp>/field-cand.json replays/bench/<exp>/field-ctrl.json --min-delta -0.02 --out docs/data/<exp>/g4.json
 ```
 
-G3 is run the same way with `-Pbot2=old`. For a targeted fix, use `direct ... --min-score 0.5
+`bench_pair.py` refuses to pair reports whose seeds differ in base, stride or count; a report written
+before PV3 has no `seedStride` and reads as stride 1. G3 is run the same way with `-Pbot2=old`. For a targeted fix, use `direct ... --min-score 0.5
 --max-changed 0.1` and `common ... --min-delta -0.01` against `boss`. `bench_pair.py` exits with 0 when
 every gate passes, 1 when one fails, and 2 when the input or the series is invalid. Its tests run with the
 other tools' tests: `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`.

@@ -1,14 +1,18 @@
 {
- "policy": "P2, adopted 2026-10-30 (docs/local-screen.md)",
- "map": "MapGen.generate(seed): java.util.Random(seed), validated against CG maps; every bot runs with SEED=1",
+ "policy": "P2, adopted 2026-10-30; proxy validation PV3 of 2026-11-05 (the user's decision) moved the screen and evaluation blocks to strided seeds (docs/local-screen.md)",
+ "map": "MapGen.generate(seed): java.util.Random(seed), validated against CG maps; every bot runs with SEED=1. The queens' starting HP is the generator's first draw, nextInt(16) * 5 + 25, which consecutive seeds barely move: a block of consecutive seeds plays 1-6 of the 16 values, CG all 16. Stride 397 spreads it evenly; the other map features do not depend on the stride (docs/data/study-2026-11-05-silver/)",
  "pools": {
-  "development": "every seed below 200000, including the blocks already used (1-..., 1000-1499, 5000-5099, 6000-6099, 8000-8049, 9000-9049, 10000-10499) and the fixtures; reuse is free, the evidence exploratory",
-  "screen": "block k = seeds 200000 + 2000 k .. 200000 + 2000 k + 1999, one fresh block per candidate; in-process series play all 2000 maps, process opponents the first 500",
-  "evaluation": "block k = seeds 400000 + 2000 k .. 400000 + 2000 k + 1999, one fresh block per upload candidate, used once"
+  "development": "every seed below 200000, including the blocks already used (1-..., 1000-1499, 5000-5099, 6000-6099, 8000-8049, 9000-9049, 10000-10499) and the fixtures; reuse is free, the evidence exploratory. Strided series (1 + 397 k, k < 500, below 200000) cover all 16 starting HPs",
+  "screen-pv3": "block k = seeds 1000000000 + 1000000 k + 397 i, i < 2000 (./gradlew bench -PseedBase=1000000000+1000000k -PseedStride=397), one fresh block per candidate; in-process series play all 2000 maps, process opponents the first 500 (-Pmaps=500, the same base and stride). All 16 starting HPs in every block k < 20: 110-143 maps each of 2000, 23-41 of the first 500",
+  "evaluation-pv3": "block k = seeds 2000000000 + 1000000 k + 397 i, i < 2000, one fresh block per upload candidate, used once; process opponents play the first 500 maps",
+  "screen": "closed 2026-11-05 by PV3 (consecutive seeds: each block plays 4-6 starting HPs); was block k = seeds 200000 + 2000 k .. + 1999; its verdicts stand",
+  "evaluation": "closed 2026-11-05 by PV3 (as the screen pool); was block k = seeds 400000 + 2000 k .. + 1999; its verdicts stand"
  },
  "next": {
-  "screen": 10,
-  "evaluation": 8
+  "screen-pv3": 0,
+  "evaluation-pv3": 0,
+  "screen": null,
+  "evaluation": null
  },
  "used": [
   {

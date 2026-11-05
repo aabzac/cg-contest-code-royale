@@ -6,8 +6,9 @@ Usage:
   python -I tools/bench_pair.py common CANDIDATE_REPORT CONTROL_REPORT [--min-delta X] [--max-changed F]
                                 [--out SUMMARY.json]
 
-A report is written by ./gradlew bench (cr.runner.BenchmarkRunner): botA plays botB on the maps seedBase ..
-seedBase+maps-1, each map twice with the seats swapped. botA's map score is the mean of its two games
+A report is written by ./gradlew bench (cr.runner.BenchmarkRunner): botA plays botB on the maps
+seedBase + seedStride * k, k < maps (a report without seedStride, written before PV3 of 2026-11-05, has
+stride 1), each map twice with the seats swapped. botA's map score is the mean of its two games
 (win 1, draw 1/2, loss 0). Means and 95 % intervals are taken over maps, mean +- 1.96 SD / sqrt(maps), as
 the bench prints them: the two games of a map are one sample.
 
@@ -57,12 +58,25 @@ def load(path):
     for k in ("botA", "botB", "maps", "seedBase", "turnMs", "games"):
         if k not in rep:
             raise Invalid("%s: no %r" % (path, k))
+    stride = rep.setdefault("seedStride", 1)
+    if not isinstance(stride, int) or isinstance(stride, bool) or stride < 1:
+        raise Invalid("%s: seedStride %r is not a positive integer" % (path, stride))
     rep["_path"], rep["_sha256"] = path, hashlib.sha256(data).hexdigest()
     return rep
 
 
+def seeds_of(rep):
+    return [rep["seedBase"] + rep["seedStride"] * k for k in range(rep["maps"])]
+
+
+def seed_text(rep):
+    if rep["seedStride"] == 1:
+        return "%d..%d" % (rep["seedBase"], rep["seedBase"] + rep["maps"] - 1)
+    return "%d + %d k, k < %d" % (rep["seedBase"], rep["seedStride"], rep["maps"])
+
+
 def by_map(rep):
-    """{seed: (botA's game on seat 0, on seat 1)}, which must cover seedBase .. seedBase+maps-1 exactly."""
+    """{seed: (botA's game on seat 0, on seat 1)}, which must cover seedBase + seedStride * k, k < maps, exactly."""
     games = {}
     for g in rep["games"]:
         for k in FIELDS:
@@ -72,10 +86,9 @@ def by_map(rep):
         if g["aSeat"] not in (0, 1) or key in games:
             raise Invalid("%s: seed %s has a bad or repeated seat %r" % (rep["_path"], g["seed"], g["aSeat"]))
         games[key] = g
-    seeds = range(rep["seedBase"], rep["seedBase"] + rep["maps"])
+    seeds = seeds_of(rep)
     if rep["maps"] < 1 or set(games) != {(s, a) for s in seeds for a in (0, 1)}:
-        raise Invalid("%s: the games do not cover seeds %d..%d on both seats exactly"
-                      % (rep["_path"], rep["seedBase"], rep["seedBase"] + rep["maps"] - 1))
+        raise Invalid("%s: the games do not cover seeds %s on both seats exactly" % (rep["_path"], seed_text(rep)))
     return {s: (games[(s, 0)], games[(s, 1)]) for s in seeds}
 
 
@@ -127,7 +140,7 @@ def candidate_failures(maps):
 
 
 def same_series(a, b):
-    for k in ("seedBase", "maps", "turnMs"):
+    for k in ("seedBase", "seedStride", "maps", "turnMs"):
         if a[k] != b[k]:
             raise Invalid("%s and %s differ in %s (%r, %r)" % (a["_path"], b["_path"], k, a[k], b[k]))
     ra, rb = a.get("revision") or {}, b.get("revision") or {}
@@ -152,8 +165,8 @@ def check_dropped(dropped, n):
 
 
 def source(rep):
-    return {k: rep.get(k) for k in ("botA", "botB", "effectiveA", "effectiveB", "seedBase", "maps", "turnMs", "threads",
-                                     "java", "revision")} | {"path": rep["_path"], "sha256": rep["_sha256"]}
+    return {k: rep.get(k) for k in ("botA", "botB", "effectiveA", "effectiveB", "seedBase", "seedStride", "maps", "turnMs",
+                                     "threads", "java", "revision")} | {"path": rep["_path"], "sha256": rep["_sha256"]}
 
 
 def direct(rep, mirror=None):
@@ -218,8 +231,10 @@ def fmt(iv):
 def report(out):
     for i in out["inputs"]:
         rev = i.get("revision") or {}
-        print("input %s sha256 %s: %s vs %s, seeds %s+%s, turnMs %s, threads %s, commit %s%s"
-              % (i["path"], i["sha256"][:12], i["botA"], i["botB"], i["seedBase"], i["maps"], i["turnMs"], i.get("threads"),
+        seeds = ("%s+%s" % (i["seedBase"], i["maps"]) if i.get("seedStride", 1) == 1
+                 else "%s + %s k, k < %s" % (i["seedBase"], i["seedStride"], i["maps"]))
+        print("input %s sha256 %s: %s vs %s, seeds %s, turnMs %s, threads %s, commit %s%s"
+              % (i["path"], i["sha256"][:12], i["botA"], i["botB"], seeds, i["turnMs"], i.get("threads"),
                  (rev.get("commit") or "?")[:10], " dirty" if rev.get("status") else ""))
         for side in ("A", "B"):
             if i.get("effective" + side):

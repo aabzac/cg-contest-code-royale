@@ -21,8 +21,11 @@ import java.util.concurrent.Future;
 /**
  * Paired benchmark: every map seed is played twice with seats swapped and fresh bots.
  * Uncertainty is computed over maps (a seat-swapped pair is one sample).
- * Usage: BenchmarkRunner botA botB maps threads seedBase turnMs [report.json]
- * The report (default build/bench/&lt;time&gt;.json) holds every game, what each spec plays
+ * Usage: BenchmarkRunner botA botB maps threads seedBase turnMs [report.json] [seedStride]
+ * The maps are seedBase + k * seedStride, k &lt; maps (stride 1 by default). The queens' starting HP
+ * is the map generator's first draw, which consecutive seeds barely move; policy P2's blocks since
+ * PV3 (2026-11-05) use stride 397, which spreads it over all 16 values (docs/local-screen.md).
+ * The report (default build/bench/&lt;time&gt;.json) holds every game, the seeds, what each spec plays
  * ({@link BotFactory#describe}) and the git revision; tools/bench_pair.py pairs reports (policy P2).
  */
 public final class BenchmarkRunner {
@@ -33,12 +36,14 @@ public final class BenchmarkRunner {
         long seedBase = Long.parseLong(args[4]);
         long turnMs = Long.parseLong(args[5]);
         String reportPath = args.length > 6 && !args[6].isBlank() ? args[6] : null;
+        long seedStride = args.length > 7 && !args[7].isBlank() ? Long.parseLong(args[7]) : 1;
+        if (seedStride < 1) throw new IllegalArgumentException("seedStride must be at least 1: " + seedStride);
         String effA = BotFactory.describe(a), effB = BotFactory.describe(b);
 
         ExecutorService ex = Executors.newFixedThreadPool(threads);
         List<Future<Referee.Result[]>> fut = new ArrayList<>();
         for (int m = 0; m < maps; m++) {
-            long seed = seedBase + m;
+            long seed = seedBase + m * seedStride;
             fut.add(ex.submit(() -> new Referee.Result[]{
                 Referee.play(seed, BotFactory.create(a), BotFactory.create(b), false, turnMs),
                 Referee.play(seed, BotFactory.create(b), BotFactory.create(a), false, turnMs)}));
@@ -78,14 +83,15 @@ public final class BenchmarkRunner {
         double sd = maps > 1 ? Math.sqrt(Math.max(0, (sumSq - maps * mean * mean) / (maps - 1))) : 0;
         double ci = 1.96 * sd / Math.sqrt(maps);
         int n = 2 * maps;
-        System.out.printf(java.util.Locale.ROOT, "%s vs %s: maps=%d games=%d score=%.3f +-%.3f (95%% CI, map-paired) W/D/L=%d/%d/%d winsAsP0=%d winsAsP1=%d%n",
-            a, b, maps, n, mean, ci, wins, draws, losses, winsAsP0, winsAsP1);
+        System.out.printf(java.util.Locale.ROOT, "%s vs %s: maps=%d games=%d score=%.3f +-%.3f (95%% CI, map-paired) W/D/L=%d/%d/%d winsAsP0=%d winsAsP1=%d%s%n",
+            a, b, maps, n, mean, ci, wins, draws, losses, winsAsP0, winsAsP1,
+            seedStride == 1 ? "" : String.format(java.util.Locale.ROOT, " seeds=%d+%d*k", seedBase, seedStride));
         System.out.printf(java.util.Locale.ROOT, "  avgTurns=%.1f errors A=%d B=%d extraLines A=%d B=%d slow A=%d B=%d timeouts A=%d B=%d time/move avg A=%.2fms B=%.2fms max A=%.1fms B=%.1fms%n",
             (double) turns / n, errA, errB, extraA, extraB, slowA, slowB, toA, toB, totA / 1e6 / Math.max(1, turns), totB / 1e6 / Math.max(1, turns), maxA / 1e6, maxB / 1e6);
 
         Map<String, Object> rep = new LinkedHashMap<>();
         rep.put("botA", a); rep.put("botB", b); rep.put("effectiveA", effA); rep.put("effectiveB", effB);
-        rep.put("maps", maps); rep.put("seedBase", seedBase); rep.put("turnMs", turnMs); rep.put("threads", threads);
+        rep.put("maps", maps); rep.put("seedBase", seedBase); rep.put("seedStride", seedStride); rep.put("turnMs", turnMs); rep.put("threads", threads);
         rep.put("revision", revision()); rep.put("java", System.getProperty("java.version"));
         rep.put("score", mean); rep.put("ci95", ci); rep.put("wins", wins); rep.put("draws", draws); rep.put("losses", losses);
         rep.put("errorsA", errA); rep.put("errorsB", errB); rep.put("extraLinesA", extraA); rep.put("extraLinesB", extraB);

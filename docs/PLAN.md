@@ -86,7 +86,13 @@
 - [x] Silver: a second upload of v08 completes its Silver baseline (P1; `docs/arena-uploads.md`, the Silver baseline)
 - [x] Silver: the noise margin M in Silver is borrowed from Bronze by the user's decision (`docs/arena-uploads.md`,
   Silver noise margin)
-- [ ] Silver: re-validate the local proxy against Silver games (PV lapses on a league change: `docs/local-screen.md`)
+- [x] Silver: study of v08's 250 Silver games and the local opponents' fingerprints (2026-11-05,
+  `docs/data/study-2026-11-05-silver/`)
+- [x] Silver: the local proxy renewed as PV3 (2026-11-05, the user's decision): strided seed blocks and the
+  panel's coverage recorded (`docs/local-screen.md`, PV3; `docs/data/seed-ledger.json`)
+- [ ] Candidate from the Silver study: a second tower before the enemy's first wave arrives
+  (`docs/data/study-2026-11-05-silver/`, What follows)
+- [ ] Candidate from the Silver study: hold an HP lead after turn 200 (no walks to build under knights)
 - [x] Arena uploads: one command, `tools/arena.py` (status, follow, fetch), and one layout of `replays/arena`;
   `route` renamed v04 (`docs/arena-uploads.md`, Tools and Replay storage)
 - [x] Silver: a third upload of v08 through `tools/arena.py follow`, its first live run (`docs/arena-uploads.md`,
@@ -149,7 +155,8 @@
   - [ ] Step 3: `ORDER=k`, target choice by turns, against v04 (the `current` defaults)
   - [ ] Step 4: own towers on the route (ROUTE walks past them, so fewer top-ups; same README), flee
     routing, teardown bonus
-- [ ] A local opponent with giants (they break towers; 12 % of the arena opponents build them)
+- [ ] A local opponent with giants (they break towers; `field?GIANTS=1` is too weak to judge by:
+  `docs/data/study-2026-11-05-silver/`)
 - [x] Organize our arena replays by version, league and upload; downloaders use the registry (`docs/arena-uploads.md`, Replay storage)
 - [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/arena/v01/bronze/upload-<NN>/games`,
   manifests `docs/data/arena-<agent>-games-2026-10-29.json` for 6823071, 6823455 and 6824680)

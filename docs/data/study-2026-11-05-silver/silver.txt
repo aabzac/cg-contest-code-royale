@@ -1,0 +1,147 @@
+Study 2026-11-05: v08's Silver placement games (agents 6843976, 6844095, 6847999)
+
+1. Outcomes
+  Silver, 3 uploads            250 games: won 153 (at the limit 85), lost 95 (at the limit 34), draws 2; turns mean 198.3, median 232.5; at the 250 limit 120 (48 %); our queen died at turn 166 (median), theirs at 167
+  Bronze, 2 uploads (context)  120 games: won 90 (at the limit 22), lost 30 (at the limit 9), draws 0; turns mean 154.6, median 159.0; at the 250 limit 31 (26 %); our queen died at turn 151 (median), theirs at 106
+
+1b. By the queens' starting HP (equal for both, 25-100 in steps of 5; the map generator's first draw)
+   25-40   58 games, score 64 %, at the limit 28 %, our queen died in 26 %, turns median 164.5
+   45-60   53 games, score 62 %, at the limit 43 %, our queen died in 26 %, turns median 211
+   65-80   73 games, score 60 %, at the limit 49 %, our queen died in 23 %, turns median 247
+   85-100  66 games, score 61 %, at the limit 68 %, our queen died in 24 %, turns median 250.0
+
+2. The HP race: games that reached turn 250
+  119 decided games: 34 lost, 85 won
+    lost by <=  5 HP:  8 of 34; won by <=  5 HP:  7 of 85
+    lost by <= 10 HP: 21 of 34; won by <= 10 HP: 18 of 85
+    lost by <= 20 HP: 25 of 34; won by <= 20 HP: 38 of 85
+    ahead after turn 200 but lost: 10; behind after turn 200 but won: 2
+
+  Our HP lead (ours - theirs) after each checkpoint, and its mean change per window
+    lost at the limit  n=34  after 25: ahead 11 / behind 4  after 50: ahead 14 / behind 19  after 100: ahead 17 / behind 17  after 150: ahead 9 / behind 25  after 200: ahead 10 / behind 24  after 250: ahead 0 / behind 34
+                             change per window: 0-25 +0.8  25-50 -3.1  50-100 +1.2  100-150 -3.9  150-200 -1.1  200-250 -6.8
+    won at the limit   n=85  after 25: ahead 29 / behind 8  after 50: ahead 70 / behind 8  after 100: ahead 74 / behind 7  after 150: ahead 79 / behind 3  after 200: ahead 82 / behind 2  after 250: ahead 85 / behind 0
+                             change per window: 0-25 +1.3  25-50 +10.3  50-100 +3.6  100-150 +2.3  150-200 +4.6  200-250 +3.4
+
+  Limit games: our HP lost on turns 100-200 and 200-250 (means), our and their towers after turns 150/200/249 (medians)
+    lost at the limit  giants    n=12  ours: 100-200 7.1, 200-250 12.9 (contact turns 12.4) | theirs 200-250 4.2 | towers ours 4.5/5.0/4.5, theirs 4.0/4.0/4.5
+    lost at the limit  no giants n=22  ours: 100-200 12.5, 200-250 8.5 (contact turns 12.4) | theirs 200-250 2.8 | towers ours 5.0/6.0/5.0, theirs 5.0/5.0/5.0
+    won at the limit   giants    n=19  ours: 100-200 3.3, 200-250 1.7 (contact turns 4.0) | theirs 200-250 6.9 | towers ours 5/5/5, theirs 5/5/6
+    won at the limit   no giants n=66  ours: 100-200 3.8, 200-250 2.9 (contact turns 9.7) | theirs 200-250 5.7 | towers ours 5.0/6.0/5.0, theirs 4.0/4.0/4.0
+
+  The games lost at the limit after leading after turn 200
+    916289201 giants    after 200  64:59  end  41:48  | our loss on 200-250 23 (knights 23, towers 0), contact turns 12, own towers 0 -> 1; the losing turns: MOVE 5, top-up 4, walk to build 2, build where she stands 1
+    916289736 no giants after 200  29:19  end   9:19  | our loss on 200-250 20 (knights 20, towers 0), contact turns 17, own towers 4 -> 5; the losing turns: walk to build 7, MOVE 3, top-up 2
+    916289976 giants    after 200  75:63  end  34:63  | our loss on 200-250 41 (knights 41, towers 0), contact turns 23, own towers 1 -> 1; the losing turns: walk to build 8, MOVE 4, top-up 3, build where she stands 3
+    916296237 giants    after 200  79:47  end   6:29  | our loss on 200-250 73 (knights 64, towers 8), contact turns 36, own towers 2 -> 2; the losing turns: top-up 12, MOVE 10, walk to build 3
+    916296867 no giants after 200  60:55  end  27:55  | our loss on 200-250 33 (knights 33, towers 0), contact turns 15, own towers 6 -> 6; the losing turns: MOVE 6, walk to build 4, top-up 3
+    916297004 no giants after 200  48:27  end   7:27  | our loss on 200-250 41 (knights 37, towers 4), contact turns 26, own towers 6 -> 6; the losing turns: MOVE 20, walk to build 6, top-up 1
+    916297063 no giants after 200  12:11  end   2:9   | our loss on 200-250 10 (knights 10, towers 0), contact turns 21, own towers 6 -> 5; the losing turns: MOVE 9
+    916297358 no giants after 200  28:23  end  12:20  | our loss on 200-250 16 (knights 15, towers 0), contact turns 21, own towers 3 -> 5; the losing turns: MOVE 7, top-up 4
+    916300720 no giants after 200  54:50  end  30:50  | our loss on 200-250 24 (knights 24, towers 0), contact turns 31, own towers 4 -> 3; the losing turns: MOVE 16, top-up 2
+    916720590 giants    after 200  28:23  end  17:23  | our loss on 200-250 11 (knights 11, towers 0), contact turns 28, own towers 3 -> 3; the losing turns: top-up 3, walk to build 2, MOVE 2
+
+  HP lost per window (mean over games of the group; ours = knights + towers | theirs = knights + towers)
+    group                 n  0-25               25-50              50-100             100-150            150-200            200-250          
+    lost at the limit    34  0.6+0.0|1.4+0.0    14.8+0.1|11.7+0.0  4.3+0.0|5.3+0.3    5.7+0.4|2.3+0.0    4.1+0.2|3.2+0.0    9.7+0.4|3.1+0.1  
+    won at the limit     85  0.6+0.0|1.9+0.0    4.6+0.0|14.9+0.0   3.0+0.0|6.4+0.3    1.4+0.2|3.8+0.1    2.1+0.0|6.6+0.2    2.7+0.0|5.4+0.6  
+    lost before it       61  0.7+0.0|2.6+0.0    15.2+0.1|18.3+0.2  8.8+2.3|5.5+0.5    11.1+3.7|3.7+0.1   10.0+4.7|2.4+0.2   6.6+0.1|1.1+0.0  
+    won before it        68  1.1+0.0|1.9+0.0    7.0+0.0|21.6+0.2   3.9+0.0|8.4+1.0    2.7+0.5|6.5+2.3    2.5+0.3|4.1+1.2    0.6+0.0|2.5+0.7  
+  All games: our queen lost 7897 HP (knights 7083, towers 805), theirs 10023 (our knights 9463, our towers 567); the split misses the loss on 20 of 4944 turns with a loss
+
+3. The first contact (the first turn an enemy knight is within 250 of the queen)
+  medians over the games of each group; 'in 20 turns' counts the first contact turn and the 19 after it
+  lost at the limit  ours: turn 25.0, own towers then 1.5, knights within 250 up to 4.0, HP lost in 20 turns 13.0 (mean 14.5) | theirs: turn 24.0, own towers then 1.0, HP lost in 20 turns 10.5 (mean 12.6)
+                       our contact turns in those 20: MOVE 72 %, walk to build 17 %, top-up 12 %; at an own tower (within 130) 89 %
+  won at the limit   ours: turn 28, own towers then 2, knights within 250 up to 3, HP lost in 20 turns 3 (mean 5.3) | theirs: turn 24, own towers then 1, HP lost in 20 turns 15 (mean 16.1)
+                       our contact turns in those 20: MOVE 79 %, top-up 12 %, walk to build 9 %; at an own tower (within 130) 90 %
+  lost before it     ours: turn 25, own towers then 2, knights within 250 up to 4, HP lost in 20 turns 13 (mean 17.0) | theirs: turn 23, own towers then 1, HP lost in 20 turns 20 (mean 19.6)
+                       our contact turns in those 20: MOVE 67 %, top-up 17 %, walk to build 16 %; at an own tower (within 130) 90 %
+  won before it      ours: turn 28.0, own towers then 2.0, knights within 250 up to 3.0, HP lost in 20 turns 6.5 (mean 9.6) | theirs: turn 23.5, own towers then 1.0, HP lost in 20 turns 20.5 (mean 23.2)
+                       our contact turns in those 20: MOVE 73 %, walk to build 14 %, top-up 14 %; at an own tower (within 130) 89 %
+
+  By our towers at the first contact (all games)
+    1  own towers:  86 games, first contact turn 23.0, HP lost in 20 turns median 12.0 (mean 13.3), score 48 %; their first contact turn 23.0
+    2  own towers: 132 games, first contact turn 28.0, HP lost in 20 turns median 5.0 (mean 10.3), score 65 %; their first contact turn 24.0
+    3+ own towers:  28 games, first contact turn 51.0, HP lost in 20 turns median 0.0 (mean 5.5), score 82 %; their first contact turn 23.0
+
+  The turn of the k-th own tower (median over games; the first contact for reference)
+    lost at the limit  ours 1st/2nd/3rd at 14.0/24.5/51, first contact 25.0 | theirs 16.5/26.0/37, first contact 24.0
+    won at the limit   ours 1st/2nd/3rd at 14/25/42, first contact 28 | theirs 16/27/38.0, first contact 24
+    lost before it     ours 1st/2nd/3rd at 14/25/43.5, first contact 25 | theirs 18.5/27.0/38.5, first contact 23
+    won before it      ours 1st/2nd/3rd at 14.0/25.0/44.0, first contact 28.0 | theirs 20/28.0/39, first contact 23.5
+
+  The opening (cgStudy: medians; knights alive at turn 25 are the first waves)
+    group              who       firstMine firstBarracks    firstTower     towers_25    knights_25        inc_25         hp_25         hp_50
+    lost at the limit  ours            1.0           9.5          14.0           2.0           7.0           4.5          67.5          47.0
+    lost at the limit  them            1.0          12.0          16.5           1.0           7.0           5.0          65.5          52.5
+    won at the limit   ours            1.0           9.0          14.0           2.0           7.0           4.0          75.0          70.0
+    won at the limit   them            1.0          14.0          16.0           1.0           4.0           5.0          71.0          58.0
+    lost before it     ours            1.0           9.0          14.0           2.0           7.0           4.0          60.0          56.0
+    lost before it     them            1.0          14.0          18.5           1.0           4.0           5.0          63.0          45.0
+    won before it      ours            1.0          10.0          14.0           2.0           8.0           4.0          50.0          40.0
+    won before it      them            1.0          14.0          20.0           1.0           4.0           5.0          49.0          31.0
+
+4. Our queen's deaths
+  against giants    25 deaths, turn 196 (median) | own towers: most over the game 5, 30 turns before 3, at death 3 | enemy knights within 250 per turn 2.3, at an own tower 66.7 % | HP 30 turns before 40, lost to knights 26, to towers 0
+  against no giants 36 deaths, turn 133.5 (median) | own towers: most over the game 4.0, 30 turns before 3.0, at death 4.0 | enemy knights within 250 per turn 2.0, at an own tower 73.3 % | HP 30 turns before 35.0, lost to knights 29.5, to towers 0.0
+
+5. Opponent strength, giants and the strongest opponents
+  Opponents who trained giants: 62 of 250 games (25 %), archers: 2
+  Logistic scale fitted on all 250 games (one rating): 3.16 (fitted); the profile log-likelihood by scale: 1.33: -167.6, 2.00: -157.3, 2.50: -155.2, 3.16: -154.6, 4.00: -155.0, 5.00: -155.9, 7.00: -157.6
+    against giants     62 games, score 40 %, opponents' rating median 20.77; performance rating 19.02 ± 0.84 (scale 3.16), 19.78 ± 0.39 (Bronze's scale 1.33)
+    against no giants 188 games, score 69 %, opponents' rating median 18.79; performance rating 20.96 ± 0.52 (scale 3.16), 19.81 ± 0.24 (Bronze's scale 1.33)
+    one rating against separate ratings for giant and other opponents, the scale re-fitted in each (3.16, 4.03): LR 4.66 on 1 df, p 0.031
+  Opponents rated 20.5 or more: 55 games against 4 agents, score 16.5 (30 %); with giants 36 games, score 9.0; without 19, score 7.5
+    top   55 games, lost 38: our queen died in 26 (turn 182.5), at the limit 12
+    rest 195 games, lost 57: our queen died in 35 (turn 151), at the limit 22
+
+  Both queens, means over games (window turns 25-100, then 100-250; 'contact' = an enemy knight within 250)
+     25-100 top  ours   HP lost 17.2  contact turns 27.9  HP per contact turn 0.5  % at an own tower 86.5  % MOVE 82.1  % top-up 10.7  moved per contact turn 50.0  own towers 3.1
+     25-100 top  theirs HP lost 21.5  contact turns 18.6  HP per contact turn 1.1  % at an own tower 77.3  % MOVE 24.7  % top-up 51.4  moved per contact turn 24.4  own towers 3.0
+     25-100 rest ours   HP lost 14.6  contact turns 24.8  HP per contact turn 0.5  % at an own tower 87.6  % MOVE 83.3  % top-up 9.8  moved per contact turn 48.3  own towers 3.1
+     25-100 rest theirs HP lost 25.7  contact turns 21.8  HP per contact turn 1.1  % at an own tower 65.3  % MOVE 43.1  % top-up 35.6  moved per contact turn 32.8  own towers 2.9
+    100-250 top  ours   HP lost 26.3  contact turns 31.9  HP per contact turn 0.5  % at an own tower 78.0  % MOVE 81.6  % top-up 11.0  moved per contact turn 47.5  own towers 4.0
+    100-250 top  theirs HP lost 7.7  contact turns 8.6  HP per contact turn 0.8  % at an own tower 76.8  % MOVE 39.6  % top-up 38.6  moved per contact turn 28.7  own towers 4.3
+    100-250 rest ours   HP lost 15.2  contact turns 27.5  HP per contact turn 0.4  % at an own tower 84.5  % MOVE 87.3  % top-up 7.2  moved per contact turn 49.7  own towers 4.8
+    100-250 rest theirs HP lost 17.6  contact turns 14.4  HP per contact turn 1.0  % at an own tower 56.7  % MOVE 54.5  % top-up 20.1  moved per contact turn 38.9  own towers 4.3
+
+  The strongest agents one by one, turns 100-250 (means): our queen | theirs; knight waves trained (median)
+    boss 1876720  21.99 16 games, score  6.0, giants in  9 | ours: HP lost 9.4, contact 17.1, per contact 0.2 | theirs: HP lost 3.4, contact 9.0, per contact 0.3 | waves 10.0 against our 11.0
+    6846510  21.67 11 games, score  3.0, giants in  6 | ours: HP lost 38.7, contact 40.4, per contact 0.8 | theirs: HP lost 6.0, contact 5.1, per contact 0.9 | waves 12.0 against our 6.0
+    5068856  21.53 14 games, score  3.0, giants in 13 | ours: HP lost 39.0, contact 33.1, per contact 0.7 | theirs: HP lost 6.6, contact 8.7, per contact 0.8 | waves 10.0 against our 7.0
+    3065255  20.88 14 games, score  4.5, giants in  8 | ours: HP lost 25.9, contact 43.0, per contact 0.6 | theirs: HP lost 15.2, contact 10.4, per contact 1.5 | waves 13.5 against our 7.0
+
+  Economy and army (cgStudy medians): ours in all games | ours in losses | opponents who beat us | opponents we beat | the strongest
+    inc_100              3.0      3.0      6.0      5.0      6.0 (ours against them 3.0)
+    maxIncome            5.0      5.0      8.0      7.0      9.0 (ours against them 4.0)
+    minesBuilt           4.0      4.0      7.0      7.0      7.0 (ours against them 4.0)
+    mineUpgrades         5.0      4.0      9.0      8.0      9.0 (ours against them 3.0)
+    trainK               8.0      7.0     12.0     11.0     11.0 (ours against them 7.0)
+    trainG               0.0      0.0      0.0      0.0      1.0 (ours against them 0.0)
+    towers_100           4.0      4.0      4.0      3.0      3.0 (ours against them 4.0)
+    thp_100           2476.0   2362.0   1910.0   1808.0   1916.0 (ours against them 2360.0)
+    towerTopUps         57.5     51.0     48.0     52.0     50.0 (ours against them 57.0)
+    firstTowerLost     100.0    104.0     54.0     58.0     66.0 (ours against them 115.0)
+
+6. The local opponents next to the Silver field (local: cr.tools.LocalProfile with v08 as botA on both seats)
+  Seeds: 'consecutive' = 150000.. (stride 1; the starting HP of 484 of the 500 maps is 35), 'spread' = 1 + 397k (all 16
+  starting HPs, 26-36 maps each, as on CG). Win % is botA's; 'close' = decided at the limit by <= 10 HP, of those decided there.
+  series                                games  win %   start  at limit    close  turn 100   1st contact     lost 20 lost 25-50  contact at tower  per t      MOVE
+  Silver arena (v08)                      250   61.2 65 (16)       48%   39/119 3.0/4.0/54.0    t26.5 T2.0  7.0 (10.8) 3.5 (8.6)     48.0    86.5    0.5      84.2
+  v08 vs v08, consecutive                 400   47.0  35 (2)       75%        -    3/4/29        t24 T1     6 (9.1)  5 (7.5)       34    86.0    0.3      64.3
+  v08 vs field, consecutive               400   88.3  35 (2)       21%        -    3/4/26        t21 T1     7 (7.5)  3 (3.8)       37    77.6    0.3      58.1
+  field vs v08, consecutive               400   11.3  35 (2)       21%        -    7/4/12        t24 T1   16 (17.5) 16 (17.0)       31    83.9    0.9       0.0
+  v08 vs field?GIANTS=1, consecutive      400   94.0  35 (2)        7%        -    3/4/26        t21 T1     7 (7.5)  3 (3.8)       21    76.9    0.4      53.8
+  field?GIANTS=1 vs v08, consecutive      400    6.0  35 (2)        7%        -    6/4/12        t24 T1   16 (17.5) 16 (17.0)       32    83.3    0.9       0.0
+  v08 vs boss, consecutive                200  100.0  35 (2)        0%        -     -/-/-        t19 T1     7 (6.9)  0 (0.9)        8    70.0    0.7      28.6
+  v08 vs v08, spread                     1000   45.3 65 (16)       90%  568/806    3/4/53        t24 T1     5 (8.1)  4 (7.2)       35    86.1    0.3      65.1
+  v08 vs field, spread                   1000   92.9 65 (16)       58%  111/577    3/4/57        t21 T1     7 (7.5)  3 (3.3)       58    80.0    0.2      60.2
+  field vs v08, spread                   1000    6.6 65 (16)       58%  111/577    8/4/39        t24 T1   15 (16.9) 14 (16.0)       34    83.9    1.0       0.0
+  v08 vs field?GIANTS=1, spread          1000   94.0 65 (16)       38%   33/373    3/5/57        t21 T1     7 (7.5)  3 (3.3)       25    77.8    0.4      53.8
+  field?GIANTS=1 vs v08, spread          1000    5.6 65 (16)       38%   33/373    7/4/38        t24 T1   15 (16.9) 14 (16.0)       42    83.7    1.1       0.0
+  v08 vs boss, spread                     200  100.0 65 (16)        0%      0/0    3/5/77        t19 T1     7 (6.9)  0 (1.6)       10    75.0    0.5      33.3
+  Columns: start = starting HP median (distinct values); turn 100 = income/towers/queen HP (medians); 1st contact = its turn and
+  our towers then; lost 20 = HP lost in the 20 turns from it, median (mean); lost 25-50 likewise; contact = turns with an enemy
+  knight within 250, at tower = % of them within 130 of an own tower, per t = HP lost per contact turn, MOVE = % MOVE (medians).
+
