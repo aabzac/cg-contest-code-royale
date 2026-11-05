@@ -1,0 +1,172 @@
+{
+ "mode": "common",
+ "inputs": [
+  {
+   "botA": "current?LATE_HOLD=200",
+   "botB": "boss",
+   "effectiveA": "current INCOME_TARGET=3,MAX_TOWERS=6,BARRACKS=2,BARRACKS_AFTER_TOWERS=4,BARRACKS_FORWARD=0,TRAIN_SYNC=1,THREAT_RANGE=250,THREAT_TOWERS_NEAR=2,THREAT_RADIUS=500,INCOME_LATE=0,KITE=2,KITE_RANGE=250,KITE_COVER=1,KITE_PULL=100,KITE_MAX=0,UNSTICK=1,APPROACH=0,ROUTE=1,MINES_FIRST=2,TOWER_HP=700,UPGRADE=0,WAVE_TOWERS=0,TOPUP_FROM=0,LATE_HOLD=200,SEED=1,DEBUG=0",
+   "effectiveB": "boss sha256=a1a3f04371a52de63adaba5c0114ee1abd563d8ccf7d6c9525cce919b4f605f0",
+   "seedBase": 1000000000,
+   "seedStride": 397,
+   "maps": 500,
+   "turnMs": 200,
+   "threads": 2,
+   "java": "17.0.12",
+   "revision": {
+    "commit": "77bb1d6afb07117affeda46ddbda34f0152b92d2",
+    "status": [
+     " M docs/BOTS.md",
+     " M docs/DEVLOG.md",
+     " M docs/PLAN.md",
+     " M docs/STATUS.md",
+     " M docs/SUMMARY.md",
+     " M docs/bot-architecture.html",
+     " M docs/data/study-2026-11-05-silver/README.md",
+     " M src/main/java/cr/bot/Params.java",
+     " M src/main/java/cr/bot/current/MainBot.java",
+     " M src/main/resources/cr/bot/versions/v01.properties",
+     " M src/main/resources/cr/bot/versions/v02.properties",
+     " M src/main/resources/cr/bot/versions/v03.properties",
+     " M src/main/resources/cr/bot/versions/v04.properties",
+     " M src/main/resources/cr/bot/versions/v05.properties",
+     " M src/main/resources/cr/bot/versions/v06.properties",
+     " M src/main/resources/cr/bot/versions/v07.properties",
+     " M src/main/resources/cr/bot/versions/v08.properties",
+     " M src/test/java/cr/bot/current/StrategyParamsTest.java",
+     "?? docs/data/exp-2026-11-05-first-wave/",
+     "?? docs/data/exp-2026-11-05-late-hold/"
+    ],
+    "diffSha256": "c53c7ec51f5e6518138078e39eb2dcca70f42cf148d567b62ec1272ac3c5708f",
+    "untracked": {
+     "docs/data/exp-2026-11-05-first-wave/README.md": "9aa29438042c05a31f57920eb1eb2481f37b1023a9c4a8d61f884d15798a4576",
+     "docs/data/exp-2026-11-05-first-wave/profiles.txt": "51306d144fe68184ad3b2bd738ba614ec26fb08ba4612a193551a3b1258e66b6",
+     "docs/data/exp-2026-11-05-first-wave/sweep.sh": "23d01025185c7808e1c7e00a254531da04bbc990204d04125413897f141e2aa0",
+     "docs/data/exp-2026-11-05-first-wave/sweep.txt": "9211a2a68efef653c4f4285f707155fe3f5c2e526906f6d929c47fe6e3b00a4a",
+     "docs/data/exp-2026-11-05-first-wave/sweep_table.py": "26d0ecb4062826e9ceba57c1cfb93576ebd709c89d2b2f75432a77b5e56bdcfe",
+     "docs/data/exp-2026-11-05-late-hold/README.md": "fb21d0ee929f58ee1408cc2162c546e6f85e49fe207f09aedbc970e4e49e1c0e",
+     "docs/data/exp-2026-11-05-late-hold/g1.json": "c4f2254a284eca33af741b4da96baa67e05816134e264d5354ba3ebb35586f82",
+     "docs/data/exp-2026-11-05-late-hold/g4.json": "b48ccd0f897bc104132694c0e84571d7fb78ac46a1209cfa7f8fa7e515d67183",
+     "docs/data/exp-2026-11-05-late-hold/rerun.sh": "05e9d0e9e2b7a568cd70848a4c0a1bf71f90dba472213416ffdbbe9e4300a673",
+     "docs/data/exp-2026-11-05-late-hold/same_games.py": "9b7314e45bde44a044fdf576587cfa8b459e32882726aebe85db9320fd8fa535",
+     "docs/data/exp-2026-11-05-late-hold/screen.sh": "65d2197139227ce17882c968b1155aebe4a7aaea5f0b41c4a34f4ea9d33b33b2",
+     "docs/data/exp-2026-11-05-late-hold/sweep.sh": "f17ca30698e56dbe282e40d7f8bfaf042ffe671a225412b086dc32c410928aaf",
+     "docs/data/exp-2026-11-05-late-hold/sweep.txt": "52fa12524bbd69b02156516e8bb13bee73d7e2634ea527824bf665176caa657e",
+     "docs/data/exp-2026-11-05-late-hold/sweep_table.py": "038dca006e06eb1a779d4586348d6faef291466ba5e862bc017f9e5e66b6cdde"
+    }
+   },
+   "path": "../../../replays/bench/exp-2026-11-05-late-hold/boss-cand-rerun.json",
+   "sha256": "2d843be5077b7f0013117ef181cf6e251a1be2d1f15c2f719b9d7e03abfb27f6"
+  },
+  {
+   "botA": "v08",
+   "botB": "boss",
+   "effectiveA": "v08 INCOME_TARGET=3,MAX_TOWERS=6,BARRACKS=2,BARRACKS_AFTER_TOWERS=4,BARRACKS_FORWARD=0,TRAIN_SYNC=1,THREAT_RANGE=250,THREAT_TOWERS_NEAR=2,THREAT_RADIUS=500,INCOME_LATE=0,KITE=2,KITE_RANGE=250,KITE_COVER=1,KITE_PULL=100,KITE_MAX=0,UNSTICK=1,APPROACH=0,ROUTE=1,MINES_FIRST=2,TOWER_HP=700,UPGRADE=0,WAVE_TOWERS=0,TOPUP_FROM=0,LATE_HOLD=0,SEED=1,DEBUG=0",
+   "effectiveB": "boss sha256=a1a3f04371a52de63adaba5c0114ee1abd563d8ccf7d6c9525cce919b4f605f0",
+   "seedBase": 1000000000,
+   "seedStride": 397,
+   "maps": 500,
+   "turnMs": 200,
+   "threads": 3,
+   "java": "17.0.12",
+   "revision": {
+    "commit": "77bb1d6afb07117affeda46ddbda34f0152b92d2",
+    "status": [
+     " M docs/BOTS.md",
+     " M docs/DEVLOG.md",
+     " M docs/PLAN.md",
+     " M docs/STATUS.md",
+     " M docs/SUMMARY.md",
+     " M docs/bot-architecture.html",
+     " M docs/data/study-2026-11-05-silver/README.md",
+     " M src/main/java/cr/bot/Params.java",
+     " M src/main/java/cr/bot/current/MainBot.java",
+     " M src/main/resources/cr/bot/versions/v01.properties",
+     " M src/main/resources/cr/bot/versions/v02.properties",
+     " M src/main/resources/cr/bot/versions/v03.properties",
+     " M src/main/resources/cr/bot/versions/v04.properties",
+     " M src/main/resources/cr/bot/versions/v05.properties",
+     " M src/main/resources/cr/bot/versions/v06.properties",
+     " M src/main/resources/cr/bot/versions/v07.properties",
+     " M src/main/resources/cr/bot/versions/v08.properties",
+     " M src/test/java/cr/bot/current/StrategyParamsTest.java",
+     "?? docs/data/exp-2026-11-05-first-wave/",
+     "?? docs/data/exp-2026-11-05-late-hold/"
+    ],
+    "diffSha256": "c53c7ec51f5e6518138078e39eb2dcca70f42cf148d567b62ec1272ac3c5708f",
+    "untracked": {
+     "docs/data/exp-2026-11-05-first-wave/README.md": "9aa29438042c05a31f57920eb1eb2481f37b1023a9c4a8d61f884d15798a4576",
+     "docs/data/exp-2026-11-05-first-wave/profiles.txt": "51306d144fe68184ad3b2bd738ba614ec26fb08ba4612a193551a3b1258e66b6",
+     "docs/data/exp-2026-11-05-first-wave/sweep.sh": "23d01025185c7808e1c7e00a254531da04bbc990204d04125413897f141e2aa0",
+     "docs/data/exp-2026-11-05-first-wave/sweep.txt": "9211a2a68efef653c4f4285f707155fe3f5c2e526906f6d929c47fe6e3b00a4a",
+     "docs/data/exp-2026-11-05-first-wave/sweep_table.py": "26d0ecb4062826e9ceba57c1cfb93576ebd709c89d2b2f75432a77b5e56bdcfe",
+     "docs/data/exp-2026-11-05-late-hold/README.md": "fb21d0ee929f58ee1408cc2162c546e6f85e49fe207f09aedbc970e4e49e1c0e",
+     "docs/data/exp-2026-11-05-late-hold/screen.sh": "65d2197139227ce17882c968b1155aebe4a7aaea5f0b41c4a34f4ea9d33b33b2",
+     "docs/data/exp-2026-11-05-late-hold/sweep.sh": "f17ca30698e56dbe282e40d7f8bfaf042ffe671a225412b086dc32c410928aaf",
+     "docs/data/exp-2026-11-05-late-hold/sweep.txt": "52fa12524bbd69b02156516e8bb13bee73d7e2634ea527824bf665176caa657e",
+     "docs/data/exp-2026-11-05-late-hold/sweep_table.py": "038dca006e06eb1a779d4586348d6faef291466ba5e862bc017f9e5e66b6cdde"
+    }
+   },
+   "path": "../../../replays/bench/exp-2026-11-05-late-hold/boss-ctrl.json",
+   "sha256": "f58ffd748c4f5ef824d15b64d99107f804c09a88a6ba4f1b3d41a97d4163da1d"
+  }
+ ],
+ "maps": 500,
+ "keptMaps": 500,
+ "droppedMaps": [],
+ "candidate": {
+  "mean": 1.0,
+  "sd": 0.0,
+  "lower": 1.0,
+  "upper": 1.0
+ },
+ "control": {
+  "mean": 1.0,
+  "sd": 0.0,
+  "lower": 1.0,
+  "upper": 1.0
+ },
+ "delta": {
+  "mean": 0.0,
+  "sd": 0.0,
+  "lower": 0.0,
+  "upper": 0.0
+ },
+ "candidateRecord": {
+  "seat0": {
+   "wins": 500,
+   "draws": 0,
+   "losses": 0
+  },
+  "seat1": {
+   "wins": 500,
+   "draws": 0,
+   "losses": 0
+  }
+ },
+ "controlRecord": {
+  "seat0": {
+   "wins": 500,
+   "draws": 0,
+   "losses": 0
+  },
+  "seat1": {
+   "wins": 500,
+   "draws": 0,
+   "losses": 0
+  }
+ },
+ "changedMaps": [],
+ "candidateFailures": {
+  "errors": 0,
+  "timeouts": 0,
+  "slow": 0,
+  "extraLines": 0
+ },
+ "candidateFailureSeeds": [],
+ "gates": {
+  "G0": true,
+  "delta >= -0.02": true
+ },
+ "policy": "P2",
+ "verdict": "pass"
+}

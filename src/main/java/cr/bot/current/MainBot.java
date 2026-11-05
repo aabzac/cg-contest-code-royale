@@ -76,6 +76,13 @@ public final class MainBot implements Bot {
         int threat = 0;
         for (int i = 0; i < s.nCreeps; i++)
             if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT && Physics.distSq(s.cx[i], s.cy[i], qx, qy) < (double) p.THREAT_RANGE * p.THREAT_RANGE) threat++;
+        // WAVE_TOWERS: an enemy knight wave is coming and too few own towers stand, so towers come before
+        // the income phase, mine upgrades and top-ups. The ladder sees the income target as met.
+        final boolean wave = p.WAVE_TOWERS > 0 && towers < p.WAVE_TOWERS && knightWaveComing(s);
+        final int ladderIncome = wave ? Math.max(income, p.INCOME_TARGET) : income;
+        final boolean topUp = !wave && towers >= p.TOPUP_FROM;
+        // LATE_HOLD: late in the game and ahead on HP (the limit's score), the queen stops walking out to build.
+        final boolean hold = p.LATE_HOLD > 0 && s.turn >= p.LATE_HOLD && s.hp[0] > s.hp[1];
 
         if (threat > 0 && p.THREAT_TOWERS_NEAR > 0) {
             // Defence first: another tower near her beats topping up the one she touches.
@@ -85,20 +92,20 @@ public final class MainBot implements Bot {
                 if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && Physics.distSq(s.sx[i], s.sy[i], qx, qy) < r2) near++;
             if (near < p.THREAT_TOWERS_NEAR) {
                 int d = nearest(s, qx, qy, i -> free(s, i) && !underEnemyTower(s, i) && Physics.distSq(s.sx[i], s.sy[i], qx, qy) < r2);
-                if (d >= 0) cmd = Command.build(d, "TOWER");
+                if (d >= 0 && (!hold || d == touched)) cmd = Command.build(d, "TOWER");
             }
         }
         if (cmd == null && p.KITE >= 1) cmd = kite(s, qx, qy);
         if (cmd == null && touched >= 0 && !underEnemyTower(s, touched)) {
             int t = touched;
-            if (s.stType[t] == Const.MINE && s.stOwner[t] == 0 && s.mineRate[t] < s.sMaxMine[t] && threat == 0)
+            if (s.stType[t] == Const.MINE && s.stOwner[t] == 0 && s.mineRate[t] < s.sMaxMine[t] && threat == 0 && !wave)
                 cmd = Command.build(t, "MINE");
-            else if (s.stType[t] == Const.TOWER && s.stOwner[t] == 0 && s.towerHp[t] < p.TOWER_HP)
+            else if (s.stType[t] == Const.TOWER && s.stOwner[t] == 0 && s.towerHp[t] < p.TOWER_HP && topUp)
                 cmd = Command.build(t, "TOWER");
             else if (free(s, t)) {
                 if (mines < p.MINES_FIRST && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
                 else if (wantsBarracks(p, barracks, towers)) cmd = Command.build(t, "BARRACKS-KNIGHT");
-                else if (income < p.INCOME_TARGET && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
+                else if (ladderIncome < p.INCOME_TARGET && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
                 else if (towers < p.MAX_TOWERS) cmd = Command.build(t, "TOWER");
                 else if (income < p.INCOME_LATE && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
             }
@@ -109,14 +116,14 @@ public final class MainBot implements Bot {
             else cmd = Command.move((int) hx, (int) hy);
         }
         if (cmd == null) {
-            int target = nextSite(s, (qx + hx) / 2, (qy + hy) / 2, hx, hy, p, mines, barracks, income, towers, -1);
+            int target = hold ? -1 : nextSite(s, (qx + hx) / 2, (qy + hy) / 2, hx, hy, p, mines, barracks, ladderIncome, towers, -1);
             if (target >= 0) {
                 String what = !free(s, target) || mines < p.MINES_FIRST && s.sGold[target] > 0 ? "MINE"
-                    : wantsBarracks(p, barracks, towers) ? "BARRACKS-KNIGHT" : income < p.INCOME_TARGET ? "MINE" : "TOWER";
+                    : wantsBarracks(p, barracks, towers) ? "BARRACKS-KNIGHT" : ladderIncome < p.INCOME_TARGET ? "MINE" : "TOWER";
                 cmd = Command.build(target, what);
                 if (p.ROUTE == 1) {
                     if (route == null) route = new RoutePlanner();
-                    cmd = route.plan(s, cmd, hx, hy, p, barracks, income, towers);
+                    cmd = route.plan(s, cmd, hx, hy, p, barracks, ladderIncome, towers);
                 } else {
                     if (p.UNSTICK == 1) cmd = unstick(s, cmd);
                     if (p.APPROACH == 1 && threat == 0 && cmd.queen == Command.BUILD) {
@@ -125,7 +132,7 @@ public final class MainBot implements Bot {
                     }
                 }
             } else {
-                int late = income < p.INCOME_LATE && threat == 0 ? lateSite(s, (qx + hx) / 2, (qy + hy) / 2) : -1;
+                int late = income < p.INCOME_LATE && threat == 0 && !hold ? lateSite(s, (qx + hx) / 2, (qy + hy) / 2) : -1;
                 if (late >= 0) {
                     // The ladder is complete: the idle queen raises the income instead of pumping her home tower.
                     cmd = Command.build(late, "MINE");
@@ -240,6 +247,15 @@ public final class MainBot implements Bot {
     static int lateSite(GameState s, double cx, double cy) {
         return nearest(s, cx, cy, i -> !underEnemyTower(s, i)
             && (free(s, i) ? s.sGold[i] > 0 : s.stType[i] == Const.MINE && s.stOwner[i] == 0 && s.mineRate[i] < s.sMaxMine[i]));
+    }
+
+    /** An enemy knight wave is coming: an enemy knight barracks trains, or enemy knights are on the board. */
+    static boolean knightWaveComing(GameState s) {
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stOwner[i] == 1 && s.stType[i] == Const.BARRACKS && s.barrType[i] == Const.KNIGHT && s.barrTraining[i]) return true;
+        for (int i = 0; i < s.nCreeps; i++)
+            if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT) return true;
+        return false;
     }
 
     /**

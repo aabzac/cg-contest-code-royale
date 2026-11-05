@@ -1,0 +1,6 @@
+Seeds 1 + 397 k, k < 500; each map on both seats. S against v08 with its 95 % CI; field: the arm's map score against field minus v08's on the same maps (control 0.9315).
+arm                            S vs v08                     delta vs field                 candidate failures (both series)
+WAVE_TOWERS=2                  0.4675 (0.4344..0.5006)       -0.0370 (-0.0608..-0.0132)        {'errors': 0, 'timeouts': 0, 'slow': 1, 'extraLines': 0}
+WAVE_TOWERS=3                  0.3135 (0.2817..0.3453)       -0.0940 (-0.1216..-0.0664)        {'errors': 0, 'timeouts': 0, 'slow': 8, 'extraLines': 0}
+TOPUP_FROM=2                   0.4620 (0.4292..0.4948)       -0.0335 (-0.0554..-0.0116)        {'errors': 0, 'timeouts': 0, 'slow': 2, 'extraLines': 0}
+WAVE_TOWERS=2,TOPUP_FROM=2     0.4675 (0.4344..0.5006)       -0.0370 (-0.0608..-0.0132)        {'errors': 0, 'timeouts': 0, 'slow': 8, 'extraLines': 0}

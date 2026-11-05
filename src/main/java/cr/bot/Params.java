@@ -115,6 +115,25 @@ public final class Params {
      * touch (0: only free gold sites are targets, as v01-v04; a mine is upgraded only when passed).
      */
     public int UPGRADE = 0;
+    /**
+     * N > 0: while an enemy knight wave is coming (an enemy knight barracks trains, or enemy knights are
+     * on the board) and fewer than N own towers stand, the ladder takes towers before its income phase,
+     * and the queen neither upgrades a mine nor tops up a tower she touches (0: off, as v01-v08). From the
+     * Silver study of 2026-11-05 (docs/data/study-2026-11-05-silver): the enemy's first wave meets v08
+     * with one own tower in a third of the games, which lose 12 HP in its first 20 turns (5 with two).
+     */
+    public int WAVE_TOWERS = 0;
+    /** N > 0: the queen tops up an own tower she touches only once N own towers stand (0: from the first, as v01-v08). */
+    public int TOPUP_FROM = 0;
+    /**
+     * T > 0: from turn T on, while our queen has more HP than the enemy's (the score at the 250-turn limit),
+     * the queen holds: no walk to the ladder's next site (she builds her own tower nearest home instead), and
+     * the defence under threat builds only on a site she touches. Kiting, the flight and the touch rules
+     * stay (0: off, as v01-v08). From the Silver study of 2026-11-05: 10 of the 34 races v08 lost at the
+     * limit it led after turn 200. 200 by default since v09 (2026-11-05: P2 docs/data/exp-2026-11-05-late-hold,
+     * screen S 0.5269 against v08, +1.46 pp against field; the local champion, not uploaded).
+     */
+    public int LATE_HOLD = 200;
     public long SEED = 1;
     public int DEBUG = 0;
 

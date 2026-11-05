@@ -90,9 +90,12 @@
   `docs/data/study-2026-11-05-silver/`)
 - [x] Silver: the local proxy renewed as PV3 (2026-11-05, the user's decision): strided seed blocks and the
   panel's coverage recorded (`docs/local-screen.md`, PV3; `docs/data/seed-ledger.json`)
-- [ ] Candidate from the Silver study: a second tower before the enemy's first wave arrives
-  (`docs/data/study-2026-11-05-silver/`, What follows)
-- [ ] Candidate from the Silver study: hold an HP lead after turn 200 (no walks to build under knights)
+- [x] Candidate from the Silver study: a second tower before the enemy's first wave arrives; loses on the
+  development seeds, not screened, flags off (`docs/data/exp-2026-11-05-first-wave/`)
+- [x] Candidate from the Silver study: hold an HP lead after turn 200; `LATE_HOLD=200` passed the P2 screen on
+  PV3 block 0, the local champion, off by default (`docs/data/exp-2026-11-05-late-hold/`)
+- [x] `LATE_HOLD=200` frozen as v09 and made the `current` default by the user's decision, not uploaded
+  (`docs/BOTS.md`, v09)
 - [x] Arena uploads: one command, `tools/arena.py` (status, follow, fetch), and one layout of `replays/arena`;
   `route` renamed v04 (`docs/arena-uploads.md`, Tools and Replay storage)
 - [x] Silver: a third upload of v08 through `tools/arena.py follow`, its first live run (`docs/arena-uploads.md`,

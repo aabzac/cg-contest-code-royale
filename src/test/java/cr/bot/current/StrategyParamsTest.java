@@ -73,6 +73,89 @@ class StrategyParamsTest {
         assertEquals("0:B", builds(s, "MINES_FIRST=1", 10));
     }
 
+    /**
+     * The first-wave position of the Silver study: one fresh own tower at A, two own mines (income 2, below
+     * the target 3) and a knight barracks, so v08 tops A up and then builds a third mine. Sites: B (680,160,
+     * no gold) is the free site nearest to the ladder's midpoint; C (300,700) has gold.
+     */
+    private static GameState firstWave(boolean enemyTrains) {
+        GameState s = position();
+        s.stType[0] = Const.TOWER; s.stOwner[0] = 0; s.towerHp[0] = 200; s.towerRange[0] = 262;
+        site(s, 3, 900, 600, 300, 3); s.stType[3] = Const.MINE; s.stOwner[3] = 0; s.mineRate[3] = 1;
+        site(s, 4, 1100, 300, 300, 3); s.stType[4] = Const.MINE; s.stOwner[4] = 0; s.mineRate[4] = 1;
+        site(s, 5, 800, 850, 300, 3); s.stType[5] = Const.BARRACKS; s.stOwner[5] = 0; s.barrType[5] = Const.KNIGHT;
+        site(s, 6, 1600, 800, 300, 3); s.stType[6] = Const.BARRACKS; s.stOwner[6] = 1; s.barrType[6] = Const.KNIGHT;
+        s.barrTraining[6] = enemyTrains; s.barrProgress[6] = enemyTrains ? 1 : 0;
+        s.qx[0] = 350 + 70 + Const.QUEEN_RADIUS + 2; s.qy[0] = 350; // touching A
+        return s;
+    }
+
+    private static String queen(GameState s, String params) {
+        return new MainBot(new Params().apply(params)).play(s, Protocol.touchedSite(s, 0), Long.MAX_VALUE).queenLine();
+    }
+
+    @Test
+    void waveTowersBuildTheSecondTowerBeforeTopUpsAndMines() {
+        String plain = "ROUTE=0,UNSTICK=0";   // the plain BUILD towards the target, so that the target shows
+        GameState quiet = firstWave(false);
+        assertEquals(0, Protocol.touchedSite(quiet, 0));
+        assertEquals("BUILD 0 TOWER", queen(quiet, plain), "v08: top up the fresh tower");
+        assertEquals("BUILD 0 TOWER", queen(quiet, plain + ",WAVE_TOWERS=2"), "no wave coming: as v08");
+        GameState trains = firstWave(true);
+        assertEquals("BUILD 0 TOWER", queen(trains, plain), "v08 ignores the enemy barracks");
+        assertEquals("BUILD 1 TOWER", queen(trains, plain + ",WAVE_TOWERS=2"), "the enemy trains knights: a second tower at B, not the top-up");
+        assertEquals("BUILD 0 TOWER", queen(trains, plain + ",WAVE_TOWERS=1"), "one tower is enough for N=1");
+        // enemy knights already out, the barracks idle: the wave is still coming
+        GameState out = firstWave(false);
+        out.nCreeps = 1; out.cOwner[0] = 1; out.cType[0] = Const.KNIGHT; out.cHp[0] = 25; out.cx[0] = 1500; out.cy[0] = 700;
+        assertEquals("BUILD 1 TOWER", queen(out, plain + ",WAVE_TOWERS=2"));
+        // a second own tower stands: the top-up again
+        GameState two = firstWave(true);
+        site(two, 7, 150, 150, 300, 3); two.stType[7] = Const.TOWER; two.stOwner[7] = 0; two.towerHp[7] = 300; two.towerRange[7] = 300;
+        assertEquals("BUILD 0 TOWER", queen(two, plain + ",WAVE_TOWERS=2"));
+        // touching an own mine below its maximum: v08 upgrades it, the wave skips the upgrade for the tower
+        GameState mine = firstWave(true);
+        mine.qx[0] = 900 + 70 + Const.QUEEN_RADIUS + 2; mine.qy[0] = 600;
+        assertEquals(3, Protocol.touchedSite(mine, 0));
+        assertEquals("BUILD 3 MINE", queen(mine, plain));
+        assertEquals("BUILD 1 TOWER", queen(mine, plain + ",WAVE_TOWERS=2"));
+    }
+
+    /**
+     * LATE_HOLD: an own tower at A (the one nearest home), the queen 150 from it with no mine, so the ladder
+     * walks her to C for a mine. Late and ahead on HP she stays with the home tower instead; under threat
+     * the defence would walk her to B for a second tower, which the hold leaves to the flight.
+     */
+    @Test
+    void lateHoldKeepsTheQueenHomeWhenAheadLate() {
+        String plain = "ROUTE=0,UNSTICK=0,KITE=0,LATE_HOLD=0";   // v08's rule; the hold arms set LATE_HOLD after it
+        GameState s = position();
+        s.stType[0] = Const.TOWER; s.stOwner[0] = 0; s.towerHp[0] = 750; s.towerRange[0] = 300;
+        s.turn = 210; s.hp[0] = 50; s.hp[1] = 40;
+        assertEquals(-1, Protocol.touchedSite(s, 0));
+        assertEquals("BUILD 2 MINE", queen(s, plain), "v08: the ladder's mine at C");
+        assertEquals("BUILD 0 TOWER", queen(s, plain + ",LATE_HOLD=200"), "late and ahead: hold at the home tower");
+        assertEquals("BUILD 0 TOWER", queen(s, "ROUTE=0,UNSTICK=0,KITE=0"), "the defaults hold since v09");
+        assertEquals("BUILD 2 MINE", queen(s, plain + ",LATE_HOLD=220"), "before the hold turn: the ladder");
+        s.hp[1] = 50;
+        assertEquals("BUILD 2 MINE", queen(s, plain + ",LATE_HOLD=200"), "level on HP: no hold");
+        s.hp[1] = 40;
+        // a knight within 250, one own tower near: the defence walks to B, the hold flees to A
+        s.nCreeps = 1; s.cOwner[0] = 1; s.cType[0] = Const.KNIGHT; s.cHp[0] = 25; s.cx[0] = 650; s.cy[0] = 350;
+        assertEquals("BUILD 1 TOWER", queen(s, plain), "v08: a second tower at B");
+        assertEquals("BUILD 0 TOWER", queen(s, plain + ",LATE_HOLD=200"), "the hold: the flight to the own tower");
+    }
+
+    @Test
+    void topUpFromWaitsForTheTowerCount() {
+        String plain = "ROUTE=0,UNSTICK=0";
+        GameState s = firstWave(false);
+        assertEquals("BUILD 0 TOWER", queen(s, plain + ",TOPUP_FROM=1"), "one tower stands: top up");
+        assertEquals("BUILD 2 MINE", queen(s, plain + ",TOPUP_FROM=2"), "no top-up yet: the ladder's income phase, a mine at C");
+        site(s, 7, 150, 150, 300, 3); s.stType[7] = Const.TOWER; s.stOwner[7] = 0; s.towerHp[7] = 300; s.towerRange[7] = 300;
+        assertEquals("BUILD 0 TOWER", queen(s, plain + ",TOPUP_FROM=2"), "two towers: top up");
+    }
+
     @Test
     void towerHpIsTheTopUpThreshold() {
         GameState s = position();

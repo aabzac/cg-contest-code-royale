@@ -2552,3 +2552,165 @@ Checks:
   --mirror`. It reads "seeds 1 + 397 k, k < 20", S 0.5000, 0 changed maps, pass: `current` still plays as v08.
 
 No candidate was screened, so no PV3 block is used yet.
+
+## 2026-11-05 — The first-wave tower (WAVE_TOWERS, TOPUP_FROM): loses on the development seeds, not screened
+
+The user's "Да, начинай": the Silver study's first candidate (`docs/data/study-2026-11-05-silver/`). Hypothesis:
+a second own tower before the enemy's first knight wave cuts the first-contact HP loss and wins more HP races.
+In Silver one tower meets the wave in 86 of 250 games, with 12 HP lost in 20 turns and a score of 48 %; two
+towers lose 5 HP and score 65 %. v08's second tower comes at turn 25, after about six top-ups of the first.
+Record: `docs/data/exp-2026-11-05-first-wave/` (README, `sweep.sh`, `sweep_table.py` → `sweep.txt`,
+`profiles.txt`).
+
+**Code** (`current`, off by default, so `current` still plays as v08):
+- `Params.WAVE_TOWERS=N`. While an enemy knight wave is coming (`MainBot.knightWaveComing`: an enemy knight
+  barracks trains or enemy knights are on the board) and fewer than N own towers stand, the ladder sees
+  the income target as met, so towers come before the income phase. The queen neither upgrades a touched
+  mine nor tops up a touched tower.
+- `Params.TOPUP_FROM=N`: the touch top-up waits until N own towers stand.
+- Both are written as 0 into the snapshots v01-v08 (`BotFactoryTest` requires every field there).
+- Tests: `StrategyParamsTest.waveTowersBuildTheSecondTowerBeforeTopUpsAndMines` and
+  `topUpFromWaitsForTheTowerCount`. `StrategyParamsTest`, `MainBotTest` (the identity of `current` with
+  v08 and the older snapshots) and `BotFactoryTest` pass.
+
+**Development sweep**: seeds 1 + 397 k, k < 500, 8 threads, 50 ms. Raw reports in
+`replays/bench/dev-first-wave-2026-11-05/` (main checkout, gitignored):
+- ctrl-field 0b6a9e1a…, wave_towers-2-v08 93874d66…, wave_towers-2-field 1d569e5f…, wave_towers-3-v08 6b00cd7c…,
+  wave_towers-3-field c72c4293…, topup_from-2-v08 a3282731…, topup_from-2-field 068c8d6d…;
+- the combined arm: …-v08 a086c980…, …-field 013773bd….
+
+| Arm | S against v08 | Δ against `field` |
+| --- | --- | --- |
+| `WAVE_TOWERS=2` | 0.4675 (0.4344-0.5006) | −0.0370 |
+| `WAVE_TOWERS=3` | 0.3135 (0.2817-0.3453) | −0.0940 |
+| `TOPUP_FROM=2` | 0.4620 (0.4292-0.4948) | −0.0335 |
+| both (2, 2) | the same games as `WAVE_TOWERS=2` | |
+
+`v08` against `field` scores 0.9315 here. The arms had 1-8 slow turns in these series, but no gate is judged
+on development seeds.
+
+**Profiles** (`LocalProfile`, 200 maps 1 + 397 k against v08):
+- The arms meet the first wave with two towers (v08: one), at turn 23.
+- The 20-turn loss: median 3 against 5 HP, but mean 7.3 and 8.2 against 7.8.
+- At turn 50 the arms' towers hold 1,464 and 1,436 HP against v08's 1,648.
+- The queen dies in 36 games of 400 against 18.
+
+**Verdict:** every arm fails the development bar (S < 0.50, Δ < −2 pp against `field`); no screen, no PV3
+block used, the flags stay off.
+- The arena correlation probably stands in for the opponent's timing: the one-tower games met the wave
+  earlier (turn 23 against 28).
+- In Silver a single tower loses more at the first contact (12 HP) than in any local series (5-7 HP); the
+  Silver races lost at the limit faced 7 enemy knights at turn 25, those won 4.
+- No local opponent sends such a wave. This is a limit of the panel beside giants (the README says so; PV3's
+  record is left as it is until the user decides).
+
+Records: BOTS (flags table), STATUS, SUMMARY, PLAN, the architecture page (directions, parameters), the
+Silver study's README (the candidate's outcome).
+
+## 2026-11-05 — Holding an HP lead late (LATE_HOLD=200): passes the P2 screen on PV3 block 0, S 0.527 against v08
+
+The user's "Да, начинай": the Silver study's second candidate. Evidence from the traces of the 10 races lost
+at the limit from a lead after turn 200:
+- In the last 50 turns the queen lost 292 HP: kiting 111, topping up under knights 94, walking to a tower
+  under knights 73, the rest building in place or walking to a mine.
+- In seven of the ten the ladder reopened after turn 200 (mines ran dry) and walked her out to a mine with
+  no knight near. The others walked to tower sites.
+
+Record: `docs/data/exp-2026-11-05-late-hold/`: README, `sweep.sh`, `sweep_table.py` → `sweep.txt`, `screen.sh`,
+`rerun.sh`, `same_games.py`, and the `bench_pair.py` summaries `g1*.json`, `g2-rerun.json`, `g4*.json`.
+
+**Code** (`current`, off by default):
+- `Params.LATE_HOLD=T`: from turn T, while `s.hp[0] > s.hp[1]` (the limit's score), the ladder has no target,
+  so the idle rule builds the own tower nearest home. The defence builds only on a touched site.
+- `LATE_HOLD=0` is written into the snapshots v01-v08.
+- Test: `StrategyParamsTest.lateHoldKeepsTheQueenHomeWhenAheadLate`; the identity tests pass.
+
+**Development sweep** (1 + 397 k, k < 500; raw reports in `replays/bench/dev-late-hold-2026-11-05/`):
+- T = 100: 0.4830 against v08, +2.15 pp against `field`;
+- T = 150: 0.5310, +2.25 pp;
+- T = 200: 0.5310 (0.5190-0.5430), +1.25 pp;
+- T = 225: 0.5110, +0.40 pp.
+
+200 went to the screen alone: it ties 150 against v08 with the narrower interval, changes the least, and aims
+at the arena's leads lost after turn 200.
+
+**Screen** on PV3 screen block 0 (1000000000 + 397 k; the ledger's first `screen-pv3` entry). Raw reports in
+`replays/bench/exp-2026-11-05-late-hold/` (main checkout, gitignored), sha256:
+
+| report | sha256 |
+| --- | --- |
+| `direct.json` | cb204b67… |
+| `direct-rerun.json` | 0db2dfd9… |
+| `mirror.json` | e2c7e82d… |
+| `boss-cand.json` | 749661d8… |
+| `boss-cand-rerun.json` | 2d843be5… |
+| `boss-ctrl.json` | f58ffd74… |
+| `field-cand.json` | 1eb4e035… |
+| `field-cand-rerun.json` | 3e6abc76… |
+| `field-cand-rerun2.json` | 174b8244… |
+| `field-cand-rerun3.json` | d681bdb1… |
+| `field-ctrl.json` | e669e20b… |
+
+Results:
+- **G1:** S 0.5269 (CI 0.5208-0.5329), 665 of 2000 maps changed against the mirror (a strategy candidate).
+- **G2:** Δ 0.0000 against `boss` (1000 of 1000 each).
+- **G4:** Δ +0.0146 (CI +0.0105..+0.0187) against `field`: 0.9275 against 0.9129.
+- **G3:** skipped (no `old`).
+- **G0** by quiet repeats; every repeat played the same games (`same_games.py`: 0 of 4000 differ, apart from
+  the six boss timeouts).
+  - First runs: the candidate had 3 slow turns in the direct series and 1 against `field`. v08 had 5 in the
+    direct series and 7 in its mirror. They fell on runs of neighbouring maps.
+  - Boss: 6 boss timeouts made the first series invalid (more than 1 % of the maps).
+  - Repeats: direct at 8 threads was clean. Field had 2 slow turns at 8 threads and 18 at 4, none at 2
+    (max 9.6 ms). Boss at 2 threads was clean.
+  - The host is an Intel Core Ultra 7 155U laptop (two performance and ten efficiency cores, an IDE and a
+    browser open). Threads on the efficiency cores stall; 2 threads do not.
+
+**Verdict:** passes the screen; the local champion by the policy.
+- S < 0.60, so no upload recommendation: about +0.14 rating points at the Bronze scale, +0.34 at Silver's,
+  inside M = 2.46.
+- PV3: the mirror over-weights close HP races, so `field`'s +1.5 pp is the more representative gain.
+- `current`'s defaults are unchanged (LATE_HOLD=0). Whether it becomes the default, the final evaluation, a
+  freeze and any upload are the user's decisions.
+
+Checks:
+- `./gradlew test`: 154 tests, 0 failures, 3 skipped (the corpus tests, no arena replays in the worktree).
+- The tool tests: OK.
+- `./gradlew submit` with all three new flags off: 80,245 characters of 100,000.
+
+Records: BOTS (flags table), STATUS, SUMMARY, PLAN, the architecture page, the ledger, the Silver study's README.
+
+## 2026-11-05 — Freeze v09: the late hold (LATE_HOLD=200) as the local champion and the current default, not uploaded
+
+The user's answer to "make LATE_HOLD=200 the default of current without an upload": "Да, по умолчанию". The
+defaults of `current` always equal a frozen snapshot (`BotFactoryTest`), so the default comes as a freeze. P2
+screen: `docs/data/exp-2026-11-05-late-hold/`.
+
+- **Code:**
+  - `cr.bot.v09.GreedyBot` with its own `RoutePlanner` and `ApproachPlanner` is a copy of current: the package,
+    the class name, `name()` "v09", and no queen-step counter, as in the earlier frozen copies.
+  - `versions/v09.properties` is v08's snapshot with LATE_HOLD=200, and `Params.LATE_HOLD` defaults to 200.
+  - `BotFactory` creates and describes v09.
+  - The local-games catalog lists v09 as the frozen local champion, v08 as the arena's selected version, and
+    v09 as the default second side (`LocalGames`, `visualizer/local.js`).
+- **Tests:**
+  - `MainBotTest.withDefaultsCurrentPlaysAsV09` checks the fixture seeds and PV3 screen block 0's first maps.
+  - `withV08ParamsCurrentPlaysAsV08` runs `current?LATE_HOLD=0`.
+  - The older identity constants (V02, V05, V06, V07) gained LATE_HOLD=0.
+  - `BotFactoryTest` checks the chain v08 → v09 and that the live defaults are v09's.
+  - `LocalGamesTest`: 12 choices, default v09.
+  - `StrategyParamsTest.lateHoldKeepsTheQueenHomeWhenAheadLate` sets v08's rule explicitly and checks the new
+    default.
+- **Results:** 155 Java tests, 0 failures, 3 skipped (the corpus tests); the visualizer's node tests 18 of 18;
+  the tool tests OK.
+- **Artifact:** `./gradlew submit` with empty PARAMS: 80,247 characters, now v09's play. It is not kept and not
+  checked by `procCheck`, since there is no upload.
+- **Not done:** no final evaluation (the `evaluation-pv3` pool is untouched), no upload. v08 stays the selected
+  version and the rollback artifact stays `5c16d925`. The next P2 candidates are screened against v09.
+- **Records:**
+  - BOTS: the v09 row, the flags text (defaults play as v09), and the stale "(= v05)" of the `current` row
+    corrected;
+  - STATUS, SUMMARY and PLAN;
+  - the architecture page: the versions table and the parameters;
+  - `docs/visualizer.md` and `.ai/project.md` (v00-v09; `AGENTS.md` resynced at the locked kit commit);
+  - the experiment's README.

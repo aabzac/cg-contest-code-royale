@@ -16,13 +16,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MainBotTest {
     /** v01's and v02's parameters besides UNSTICK (ROUTE=0: the planner would replace UNSTICK; MINES_FIRST=0: the barracks first): the captured positions and the audit's games were played with them. */
-    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0," + "BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,";
+    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0," + "BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,LATE_HOLD=0,";
     /** v05's values of the fields v06 changed: one barracks, 8 towers, the flight to the nearest tower. */
-    static final String V05 = "MAX_TOWERS=8,BARRACKS=1,BARRACKS_AFTER_TOWERS=0,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,THREAT_RADIUS=400,KITE=0,";
-    /** v06's value of the field v07 changed: no kiting. */
-    static final String V06 = "KITE=0,";
-    /** v07's values of the fields v08 changed: its own kiting rule. */
-    static final String V07 = "KITE=1,KITE_PULL=50,";
+    static final String V05 = "MAX_TOWERS=8,BARRACKS=1,BARRACKS_AFTER_TOWERS=0,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,THREAT_RADIUS=400,KITE=0,LATE_HOLD=0,";
+    /** v06's values of the fields v07 and v09 changed: no kiting, no late hold. */
+    static final String V06 = "KITE=0,LATE_HOLD=0,";
+    /** v07's values of the fields v08 and v09 changed: its own kiting rule, no late hold. */
+    static final String V07 = "KITE=1,KITE_PULL=50,LATE_HOLD=0,";
+    /** v08's value of the field v09 changed: no late hold. */
+    static final String V08 = "LATE_HOLD=0,";
 
     /**
      * A captured position: the init and turn input that seat 1 of v01 against current read on one
@@ -165,10 +167,16 @@ class MainBotTest {
         assertSamePlay("current?" + V07, "v07", new long[]{100000, 110135, 10394, 10477, 216000, 216001, 216002, 412000});
     }
 
-    /** With its defaults (the kiting bound to the towers since v08), current plays the frozen v08's games command for command (fixture seeds, screened and evaluated maps). */
+    /** With v08's parameters (no late hold), current plays the frozen v08's games command for command (fixture seeds, screened and evaluated maps). */
     @Test
-    void withDefaultsCurrentPlaysAsV08() {
-        assertSamePlay("current", "v08", new long[]{100000, 110135, 10394, 10477, 218000, 218001, 218002, 414000});
+    void withV08ParamsCurrentPlaysAsV08() {
+        assertSamePlay("current?" + V08, "v08", new long[]{100000, 110135, 10394, 10477, 218000, 218001, 218002, 414000});
+    }
+
+    /** With its defaults (the late hold since v09), current plays the frozen v09's games command for command (fixture seeds and PV3 screen block 0's maps). */
+    @Test
+    void withDefaultsCurrentPlaysAsV09() {
+        assertSamePlay("current", "v09", new long[]{100000, 110135, 10394, 10477, 1000000000, 1000000397, 1000000794});
     }
 
     /** bot and frozen play the same commands on both seats against v01 and v02. */

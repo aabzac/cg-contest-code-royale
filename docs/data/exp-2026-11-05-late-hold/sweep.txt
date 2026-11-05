@@ -1,0 +1,6 @@
+Seeds 1 + 397 k, k < 500; each map on both seats. S against v08 with its 95 % CI; field: the arm's map score against field minus v08's on the same maps (control 0.9315); at the limit against v08: games, won, lost.
+arm              S vs v08                   delta vs field                 limit games vs v08     candidate failures
+LATE_HOLD=100    0.4830 (0.4603..0.5057)   +0.0215 (+0.0081..+0.0349)      909: 396 won, 413 lost   {'errors': 0, 'timeouts': 0, 'slow': 2, 'extraLines': 0}
+LATE_HOLD=150    0.5310 (0.5127..0.5493)   +0.0225 (+0.0118..+0.0332)      907: 440 won, 373 lost   {'errors': 0, 'timeouts': 0, 'slow': 0, 'extraLines': 0}
+LATE_HOLD=200    0.5310 (0.5190..0.5430)   +0.0125 (+0.0039..+0.0211)      902: 435 won, 375 lost   {'errors': 0, 'timeouts': 0, 'slow': 0, 'extraLines': 0}
+LATE_HOLD=225    0.5110 (0.5044..0.5176)   +0.0040 (-0.0010..+0.0090)      901: 415 won, 394 lost   {'errors': 0, 'timeouts': 0, 'slow': 3, 'extraLines': 0}

@@ -9,7 +9,7 @@
   "evaluation": "closed 2026-11-05 by PV3 (as the screen pool); was block k = seeds 400000 + 2000 k .. + 1999; its verdicts stand"
  },
  "next": {
-  "screen-pv3": 0,
+  "screen-pv3": 1,
   "evaluation-pv3": 0,
   "screen": null,
   "evaluation": null
@@ -212,6 +212,17 @@
    "control": "v07 (the selected version)",
    "series": "direct and mirror on 2000 maps; candidate and v07 against boss on 414000-414499; candidate and v07 against field on 2000 maps (G4)",
    "verdict": "G0-G2 and G4 pass (G3 skipped, no old): S 0.6670 (CI 0.6522-0.6818) against v07, boss delta 0.0000 (2 maps dropped: boss timeouts in the control), field delta +0.1484; G0 by the quiet repeats (two 50 ms turns at the threshold were host noise, identical outcomes); S >= 0.60: upload recommended; the freeze (v08) and the upload are the user's decisions"
+  },
+  {
+   "pool": "screen-pv3",
+   "k": 0,
+   "seeds": "1000000000 + 397 i, i < 2000",
+   "date": "2026-11-05",
+   "experiment": "docs/data/exp-2026-11-05-late-hold",
+   "candidate": "current?LATE_HOLD=200",
+   "control": "v08 (the selected version and local champion)",
+   "series": "direct and mirror on 2000 maps; candidate and v08 against boss on the first 500 maps (3 threads, 200 ms); candidate and v08 against field on 2000 maps (G4)",
+   "verdict": "G0-G2 and G4 pass (G3 skipped, no old): S 0.5269 (CI 0.5208-0.5329) against v08, 665 of 2000 maps changed against the mirror (a strategy candidate); boss delta 0.0000; field delta +0.0146 (CI +0.0105..+0.0187). G0 by quiet repeats with identical games: the first runs had slow turns of both sides on runs of neighbouring maps at 8 threads (host noise on a hybrid-core laptop CPU), the repeats direct at 8 threads, boss and field at 2 threads were clean; the first boss series lost 6 maps to boss timeouts (invalid), its 2-thread repeat none. The local champion; S < 0.60, so no upload recommendation; the final evaluation, the freeze and any upload are the user's decisions"
   }
  ]
 }

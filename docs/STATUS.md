@@ -13,7 +13,12 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   block plays all 16 starting HPs. Giants and the late game of strong economies are recorded as
   unrepresented, and candidates that depend on them are judged by the arena (`docs/local-screen.md`, PV3).
   P2 candidates can be promoted again.
-- Selected version, local champion and `current` defaults: v08 = v07 with the kiting bound to the towers
+- Local champion and `current` defaults: **v09** = v08 with the late hold (LATE_HOLD=200: from turn 200, ahead on
+  HP, no walk to the ladder's next site), frozen 2026-11-05 by the user's decision ("the default without an
+  upload"; `cr.bot.v09.GreedyBot`, `versions/v09.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV09`). P2
+  screen on PV3 block 0: S 0.5269 against v08, +1.46 pp against `field` (`docs/data/exp-2026-11-05-late-hold/`).
+  Not uploaded, no final evaluation, no artifact checked; the next P2 candidates are screened against v09.
+- Selected version (the arena's): v08 = v07 with the kiting bound to the towers
   (KITE=2, KITE_PULL=100), frozen 2026-11-03 (`cr.bot.v08.GreedyBot`, `versions/v08.properties`; P2
   `docs/data/exp-2026-11-03-kite2/`: S 0.6670 against v07 and +14.8 pp against `field` on the evaluation
   block). Selected under P1 on 2026-11-03 by two placements (mean 27.99 against v07's 25.53, "not clearly
@@ -66,7 +71,13 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   - giant players beat us about 2 rating points more than their ratings predict (p 0.03 with Silver's own
     logistic scale, 3.16);
   - the strongest four out-produce us (income 6 against 3, waves 10-13.5 against 6-7).
-  Next candidates proposed there: a second tower before the first wave, then holding an HP lead late.
+  Candidates from it (2026-11-05):
+  - a second tower before the first wave lost on the development seeds (`WAVE_TOWERS`, `TOPUP_FROM`, off;
+    `docs/data/exp-2026-11-05-first-wave/`);
+  - holding an HP lead late passed the P2 screen on PV3 block 0 (`docs/data/exp-2026-11-05-late-hold/`).
+- v09's screen (P2, 2026-11-05, `current?LATE_HOLD=200` before the freeze): S 0.5269 (CI 0.5208-0.5329)
+  against v08, Δ 0.0000 against `boss`, Δ +0.0146 against `field`, G0 by quiet repeats (`-Pthreads=2` for the
+  in-process repeats on this laptop's hybrid cores), G3 skipped. S < 0.60, so no upload recommendation.
 - Candidate judged under P1 (2026-11-03): v08. Placements 27.85 and 28.13 (mean 27.99, SD 0.20) against
   v07's 25.53; pooled rating 27.59 ± 0.50 against 25.42 ± 0.46 (scale 2.13); M 2.46 (11 df). Neither
   rollback condition holds (+2.46 against −2.46; +2.17 against −1.36), so v08 is the selected version. The
@@ -168,8 +179,9 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   to 27.90 during v08's placement (`docs/data/arena-6843773-games-2026-11-03.json`), and v08 won 3 of its 7
   games against it; v08's first placement 27.85 is 0.05 below it, v07's mean 25.53 about 2.4 below. Earlier bound: above about 27.1 (the Bronze leaderboard of
   2026-10-30, `docs/data/leaderboard-bronze-2026-10-30.json`). The local `boss` spec is the repository's Default AI: a floor, not this boss.
-- Waiting on the user: the choice of the next candidate (the study proposes the first-wave tower); the code
-  of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).
+- Waiting on the user:
+  - the next candidate (screened against v09); an upload of v09 only as an exception (S < 0.60);
+  - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).
 - Policies: P2 locally with gates G0-G4 (`docs/local-screen.md`; PV3 since 2026-11-05), then `submit` and both `procCheck`, then P1 on the arena
   (`docs/arena-uploads.md`, `tools/arena_compare.py`, registry `docs/data/arena-uploads.json`).
 - Simulator: live rules in `cr.core`, listed in `docs/rules/inferred.md`; original validation corpora

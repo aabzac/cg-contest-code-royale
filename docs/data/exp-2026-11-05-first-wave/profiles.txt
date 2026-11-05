@@ -1,0 +1,25 @@
+# ./gradlew -q localProfile -PbotA=<a> -PbotB=v08 -Pmaps=200 -PseedBase=1 -PseedStride=397 (2026-11-05; turn-150 lines left out)
+### v08 vs v08
+v08 vs v08: 400 games, v08 wins 182 (45.5 %), queen deaths 18, enemy queens killed 18
+maps 200 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 328, by <= 10 HP 230
+turn 50: income 4 mines 2 towers 3 towerHp 1648 queenHp 57
+turn 100: income 3 mines 2 towers 4 towerHp 2600 queenHp 55
+waves: knight 10, giant 0 (medians); death turn median 150 over the deaths; game length median 250, mean 239.4; at the 250-turn limit 364 (91 %)
+under knights (medians over games with contact): contact turns 35, % near an own tower 86.5, HP lost per contact turn 0.3, % MOVE 66.7
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 5 (mean 7.8); HP lost on turns 25-50 4 (mean 6.8, games reaching turn 50)
+### current?WAVE_TOWERS=2 vs v08
+current?WAVE_TOWERS=2 vs v08: 400 games, current?WAVE_TOWERS=2 wins 167 (41.8 %), queen deaths 36, enemy queens killed 17
+maps 200 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 327, by <= 10 HP 194
+turn 50: income 4 mines 2 towers 3 towerHp 1464 queenHp 57
+turn 100: income 3 mines 2 towers 4 towerHp 2588 queenHp 55
+waves: knight 10, giant 0 (medians); death turn median 162 over the deaths; game length median 250, mean 235.9; at the 250-turn limit 348 (87 %)
+under knights (medians over games with contact): contact turns 36, % near an own tower 88.2, HP lost per contact turn 0.3, % MOVE 66.7
+first contact (medians over games with contact): turn 23, own towers then 2, HP lost in the next 20 turns 3 (mean 7.3); HP lost on turns 25-50 3 (mean 7.0, games reaching turn 50)
+### current?TOPUP_FROM=2 vs v08
+current?TOPUP_FROM=2 vs v08: 400 games, current?TOPUP_FROM=2 wins 169 (42.3 %), queen deaths 36, enemy queens killed 18
+maps 200 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 330, by <= 10 HP 187
+turn 50: income 4 mines 2 towers 3 towerHp 1436 queenHp 55
+turn 100: income 3 mines 2 towers 4 towerHp 2584 queenHp 55
+waves: knight 10, giant 0 (medians); death turn median 162 over the deaths; game length median 250, mean 235.7; at the 250-turn limit 347 (87 %)
+under knights (medians over games with contact): contact turns 36, % near an own tower 88.5, HP lost per contact turn 0.3, % MOVE 66.7
+first contact (medians over games with contact): turn 23, own towers then 2, HP lost in the next 20 turns 3 (mean 8.2); HP lost on turns 25-50 3 (mean 7.7, games reaching turn 50)

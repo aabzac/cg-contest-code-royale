@@ -153,10 +153,14 @@ such turn; its HP loss is counted over that turn and the 19 after it.
    mines and upgrades while an enemy knight barracks trains or its wave is on the way.
    - The evidence: points 3 and 7.
    - Locally measurable: every local opponent meets v08 with one tower at turn 19-24.
+   - **Tried on 2026-11-05: it loses on the development seeds** (`docs/data/exp-2026-11-05-first-wave/`). Two
+     towers met the wave, but the loss there did not shrink on average and the queen died twice as often.
 2. **Holding a lead late.** After turn 200, with more HP than the enemy queen, no walking to build under
    knights; stay at the strongest own towers.
    - The evidence: 10 races lost from ahead (point 4).
    - The mirror would over-reward it (point 8), so the arena judges.
+   - **Tried on 2026-11-05: `LATE_HOLD=200` passes the P2 screen** (S 0.527 against v08, +1.5 pp against `field`;
+     `docs/data/exp-2026-11-05-late-hold/`), below the 0.60 upload recommendation.
 3. **Giants.** A response to giants (archers, or tower spacing), once a local opponent plays giants as the
    Silver field does.
 4. **Economy against the strongest four.** Income 3 against 6 and 7 waves against 11. Untestable locally
