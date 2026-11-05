@@ -2294,3 +2294,110 @@ Tests in `tools/tests/test_arena_follow.py`, six new:
 `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: 57 OK.
 
 Records: `.ai/project.md` (the row, then sync), `docs/arena-uploads.md` (Tools), PLAN, SUMMARY.
+
+## 2026-11-05 — The architecture page checked against v08's code and rewritten
+
+The user asked for an analysis of the current bot and for `docs/bot-architecture.html` to be brought in
+line with it in every part (the pseudo-code, the target choice, the queen's movement), with what the bot no
+longer uses removed or moved to the background. The bot's code has not changed since the v08 freeze
+(da6384a); the page last changed in 20e2b8b, before the promotion to Silver. No code changed now.
+
+Method: two read-only workflows over the page, the code (v08 defaults) and the records.
+- **Audit:** 9 auditors by section group, each group's findings checked by a skeptic. 165 findings: 129
+  confirmed, 35 partly (the correction adjusted), 1 refuted. By kind: 8 wrong, 57 imprecise, 33 stale,
+  24 missing, 43 code quirks.
+- **Review of the rewritten page:** 6 reviewers (651 claims checked) and 6 skeptics. 24 errors reported, 23
+  kept and fixed (the refuted one was reworded for clarity anyway).
+- Raw outputs, main checkout, gitignored: `replays/study/audit-2026-11-05-architecture/audit-findings.json`
+  (sha256 41433eb9f907391f452b6f62c8e3b04684b64fec00c8a837ccaa7c1a1495fef8) and `review-errors.json`
+  (c287f8fdf52740b8b88c51f1e6cbaeac637bb28f420cccd83672705e3a7af0ca).
+
+What changed on the page:
+- **State:** league Silver; v08's three Silver placements in a fact tile and in a Silver column of the
+  versions table.
+- **Rule order:** the lead and the flow give the order of `MainBot.play`: defence, kiting, touch rules,
+  flight, the ladder via ROUTE, the idle home tower. The defence edge now covers "no eligible site", and
+  TRAIN is drawn apart from the queen's command.
+- **"Easy to miss":**
+  - under threat the kiting now pre-empts the touch builds (stale since v07);
+  - the ladder is recomputed every turn, so lost mines reopen their step;
+  - a far BUILD is only a walk;
+  - a double touch gives `touched` = −1.
+- **Runner:** the six warm-up copies (with v08 the knight copy hits the defence rule) and v08's marker
+  `TRAIN 3 15 1 9 10 10 6 14`, plus the SLOW timing.
+- **Pseudo-code at v08's values:** the kiting threshold is ≥ 5 and the heading origin is stated. The target
+  search follows the code: the two-mines step comes before the ladder check. Site gold and the player's gold
+  are told apart, and the TRAIN cap is shown.
+- **Target choice:** the filter of each ladder step. Unseen sites count as gold sites (225). The target is not
+  stored, and the BUILD type has two uses.
+- **"Движение королевы" (new):** which commands move the queen. Only the ladder BUILD goes through ROUTE; the
+  defence, flight and idle walks go straight.
+- **Defence:** the tower damage is 3 + ⌊(range − d)/200⌋, so a top-up raises it by a third, not a quarter.
+  Creeps also lose 1 HP a turn. Towers are counted by centre distance, and the cap is not checked.
+- **Kiting:** rewritten for KITE=2 first; v07's rule and study moved to the history.
+- **ROUTE:**
+  - the clean-walk test: each step's segment against range + 2, and the straight bound;
+  - B and the thresholds of its quiet-step check;
+  - 23 headings, 180° searched twice;
+  - the landing ring r+33 and the same-B filter;
+  - the plain BUILD fallback, which always applies when the queen stands in an enemy range.
+- **Versions:** the table gains defence, kiting and walk columns. UNSTICK and KITE_COVER are marked inert in
+  v08. The top-up sentence now says "worse than 700", not "loses to v04".
+- **File map:** the planners' roles; `queenStep` serves ROUTE and kiting; rows for `cr/runner`,
+  `cr/referee`, `cr/tools` and `FileMerger`.
+- **Gaps:** the enemy-tower claim is corrected (ROUTE does avoid the range on the ladder walk). The turn-250
+  HP race and the enemy queen are added. The top-up numbers carry their version.
+- **"Особенности кода" (new):** nine behaviours that look unintended (below).
+- **Directions:**
+  - open ones first: the PV re-check in Silver, the HP race, untried queen safety, archers and giants, route
+    steps 2-4;
+  - the closed ones in their own table;
+  - the base is v08, and PV lapsed in Silver.
+- **History (collapsed):** UNSTICK, APPROACH, v07's kiting, v05's arena profile.
+
+Code quirks put on the page, none fixed:
+- the flight and the idle tower can choose an own tower whose centre is in an enemy tower's range, which the
+  touch rule skips (`MainBot.java:106-108, 137`);
+- the straight walk's unreachable B (`nextTurns` −1) ranks as "B within a turn" (`RoutePlanner.java:82-93,
+  172-177`);
+- a 2-3 MOVE plan sends its last prefix target, not the first (`RoutePlanner.java:105, 120-129`);
+- the hysteresis compares headings exactly against a fan rebuilt from the new bearing
+  (`RoutePlanner.java:97-101, 180`);
+- +180° and −180° are searched twice (`RoutePlanner.java:99-101`; UNSTICK `MainBot.java:307-309`);
+- `diverts()` lacks the MINES_FIRST branch (`RoutePlanner.java:240-243`);
+- an exhausted mine out of sight keeps its last gold (`InputReader.java:73`);
+- the mine phase with no known gold site returns −1 (`MainBot.java:275-278`);
+- the warm-up reaches neither the kiting loop nor the flight (`CGRunner.java:102-104`).
+
+Two fixes would not change the play: dropping the −180° duplicate (the last heading, never chosen) and
+the warm-up (the runner only; a new artifact needs `submit` and both `procCheck`). The others change the
+play and would be P2 candidates.
+
+Stale comments and records found and not changed (comments do not reach the artifact):
+- **Bot comments:**
+  - `MainBot`'s class javadoc (no defence or kiting; "Trains whenever affordable"; ROUTE as the option) and
+    `kite`'s javadoc (KITE=1 only);
+  - `Params` comments: short version ranges (THREAT_RANGE, INCOME_LATE, APPROACH, TOWER_HP, UPGRADE) and
+    "a quarter" at THREAT_TOWERS_NEAR;
+  - `CGRunner.warmUp`'s "the flight from a knight (MOVE)";
+  - `ApproachPlanner.nextTarget`'s "an unknown mine gives no next target" (InputReader never stores −1, and
+    `InputReader.goldKnown` is never read).
+- **Tests:**
+  - `CGRunnerTest` runs "" and "ROUTE=1", the same configuration since v04 (its comment still says
+    "UNSTICK with the defaults");
+  - `StrategyParamsTest`'s javadoc links the absent `withDefaultsCurrentPlaysAsV05`;
+  - `RoutePlannerTest.V02` sets MAX_TOWERS twice (8 wins);
+  - the `HORIZON_SLACK` comment of `theSearchIgnoresTheClock` is out of date.
+- **Records:**
+  - `docs/BOTS.md`'s flags table gives the defaults the flags had when introduced (BARRACKS 1 and 0,
+    THREAT_TOWERS_NEAR 0 and 400, TRAIN_SYNC 0, KITE 0) and cites absent `withDefaultsCurrentPlaysAsV02…V07`;
+  - its `current` row ends "(= v05)";
+  - `.ai/project.md` (the marker row) says a repeated site was never seen live, but v08's marker repeats
+    site 10 in all its games.
+
+Checks: the page opened in the built-in browser (a static snapshot). Both mermaid diagrams render as
+flowcharts, there are no console messages, and all 33 internal links resolve. At 375 px there is no
+horizontal scroll. Dark mode was not checked: the static snapshot always renders light, and the colour
+tokens are unchanged. Docs only: no code changed and no tests run.
+
+Records: SUMMARY, PLAN.

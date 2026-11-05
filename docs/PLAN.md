@@ -177,5 +177,12 @@
   fallback and the turn deadline get unit tests; optionally count the warm-up cap from JVM start
 - [ ] Before any bot simulates with `Rules`: keep the global seat in `InputReader` (the build-conflict
   parity depends on it)
+- [x] The architecture page checked against v08's code and rewritten (2026-11-05, `docs/DEVLOG.md`)
+- [ ] Code quirks found by that check (`docs/bot-architecture.html`, «Особенности кода»): P2 candidates,
+  except the −180° duplicate and the warm-up, which do not change the play (the warm-up can join the runner
+  item above)
+- [ ] Stale comments and records found by that check (`docs/DEVLOG.md`, 2026-11-05): the javadoc of
+  `MainBot` and `kite`, `Params` ranges, `CGRunner.warmUp`, test comments and `CGRunnerTest`'s second
+  configuration; the flags table and test names in `docs/BOTS.md`; the marker row of `.ai/project.md`
 - [ ] Optional: warm `nextInt` and the println path past their JIT thresholds (bursts up to 20 ms on
   one slow core at turns 24-26, 127, 191)
