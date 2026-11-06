@@ -59,14 +59,22 @@ public final class MainBot implements Bot {
 
     @Override
     public Command play(GameState s, int touched, long deadlineNanos) {
-        int inc = 0, bar = 0, tow = 0, min = 0;
+        int inc = 0, bar = 0, tow = 0, min = 0, gbar = 0, abar = 0;
         for (int i = 0; i < s.nSites; i++) {
             if (s.stOwner[i] != 0) continue;
             if (s.stType[i] == Const.MINE) { inc += s.mineRate[i]; min++; }
-            if (s.stType[i] == Const.BARRACKS) bar++;
+            if (s.stType[i] == Const.BARRACKS) {
+                if (s.barrType[i] == Const.GIANT) gbar++;
+                else if (s.barrType[i] == Const.ARCHER) abar++;
+                else bar++;
+            }
             if (s.stType[i] == Const.TOWER) tow++;
         }
         final int income = inc, barracks = bar, towers = tow, mines = min;
+        // GIANTS: a giant barracks is wanted (none stands, from GIANT_TURN on, the enemy holds a tower, giants left).
+        final boolean wantGiant = p.GIANTS == 1 && gbar == 0 && s.turn >= p.GIANT_TURN && giantsLeft() && enemyTowers(s) > 0;
+        // ARCHERS: an archer barracks is wanted (none stands, an enemy giant near an own tower).
+        final boolean wantArcher = p.ARCHERS == 1 && abar == 0 && giantNearTowers(s, p.ARCHER_RANGE);
         double qx = s.qx[0], qy = s.qy[0];
         // Home corner: the side we started on (queen 0 starts top-left or bottom-right).
         boolean left = homeLeft(s);
@@ -96,6 +104,11 @@ public final class MainBot implements Bot {
             }
         }
         if (cmd == null && p.KITE >= 1) cmd = kite(s, qx, qy);
+        if (cmd == null && p.GIANT_GUARD > 0) {
+            // GIANT_GUARD: top up the own tower an enemy giant attacks (a walk only with no knight threat).
+            int g = guardTower(s, p.GIANT_GUARD);
+            if (g >= 0 && (threat == 0 || g == touched)) cmd = walkTo(s, Command.build(g, "TOWER"), g == touched, hx, hy, barracks, ladderIncome, towers);
+        }
         if (cmd == null && touched >= 0 && !underEnemyTower(s, touched)) {
             int t = touched;
             if (s.stType[t] == Const.MINE && s.stOwner[t] == 0 && s.mineRate[t] < s.sMaxMine[t] && threat == 0 && !wave)
@@ -105,6 +118,8 @@ public final class MainBot implements Bot {
             else if (free(s, t)) {
                 if (mines < p.MINES_FIRST && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
                 else if (wantsBarracks(p, barracks, towers)) cmd = Command.build(t, "BARRACKS-KNIGHT");
+                else if (wantArcher) cmd = Command.build(t, "BARRACKS-ARCHER");
+                else if (wantGiant && !hold) cmd = Command.build(t, "BARRACKS-GIANT");
                 else if (ladderIncome < p.INCOME_TARGET && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
                 else if (towers < p.MAX_TOWERS) cmd = Command.build(t, "TOWER");
                 else if (income < p.INCOME_LATE && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
@@ -114,6 +129,16 @@ public final class MainBot implements Bot {
             int tw = nearest(s, qx, qy, i -> s.stType[i] == Const.TOWER && s.stOwner[i] == 0);
             if (tw >= 0) cmd = Command.build(tw, "TOWER");
             else cmd = Command.move((int) hx, (int) hy);
+        }
+        if (cmd == null && wantArcher && !wantsBarracks(p, barracks, towers)) {
+            // The archer barracks before the ladder's next site (a knight barracks the ladder wants comes first).
+            int a = nearest(s, (qx + hx) / 2, (qy + hy) / 2, i -> free(s, i) && !underEnemyTower(s, i));
+            if (a >= 0) cmd = walkTo(s, Command.build(a, "BARRACKS-ARCHER"), false, hx, hy, barracks, ladderIncome, towers);
+        }
+        if (cmd == null && wantGiant && !hold && !wantsBarracks(p, barracks, towers)) {
+            // The giant barracks before the ladder's next site (a knight barracks the ladder wants comes first).
+            int g = nearest(s, (qx + hx) / 2, (qy + hy) / 2, i -> free(s, i) && !underEnemyTower(s, i));
+            if (g >= 0) cmd = walkTo(s, Command.build(g, "BARRACKS-GIANT"), false, hx, hy, barracks, ladderIncome, towers);
         }
         if (cmd == null) {
             int target = hold ? -1 : nextSite(s, (qx + hx) / 2, (qy + hy) / 2, hx, hy, p, mines, barracks, ladderIncome, towers, -1);
@@ -132,7 +157,8 @@ public final class MainBot implements Bot {
                     }
                 }
             } else {
-                int late = income < p.INCOME_LATE && threat == 0 && !hold ? lateSite(s, (qx + hx) / 2, (qy + hy) / 2) : -1;
+                int late = income < p.INCOME_LATE && threat == 0 && !hold && clearOfKnights(s, qx, qy, p.LATE_CLEAR)
+                    ? lateSite(s, (qx + hx) / 2, (qy + hy) / 2, p, hx, hy) : -1;
                 if (late >= 0) {
                     // The ladder is complete: the idle queen raises the income instead of pumping her home tower.
                     cmd = Command.build(late, "MINE");
@@ -159,16 +185,38 @@ public final class MainBot implements Bot {
     int[] train(GameState s) {
         int gold = s.gold[0], units = 0, idle = 0, cost = 0;
         for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == 0) units++;
+        int[] train = new int[s.nSites];
+        int n = 0;
+        // GIANTS and ARCHERS: their barracks first while they are wanted (giants: the enemy holds a tower and giants are
+        // left; archers: an enemy giant near an own tower). While one is idle and short of its gold, nothing else
+        // trains, so the cheaper knights do not spend the gold every time.
         for (int i = 0; i < s.nSites; i++) {
-            if (s.stType[i] != Const.BARRACKS || s.stOwner[i] != 0) continue;
+            if (s.stType[i] != Const.BARRACKS || s.stOwner[i] != 0 || s.barrType[i] == Const.KNIGHT || s.barrTraining[i]) continue;
+            int type = s.barrType[i];
+            boolean wanted = type == Const.GIANT ? p.GIANTS == 1 && giantsLeft() && enemyTowers(s) > 0
+                                                 : p.ARCHERS == 1 && giantNearTowers(s, p.ARCHER_RANGE);
+            if (!wanted) continue;
+            if (gold < Const.CREEP_COST[type]) return java.util.Arrays.copyOf(train, n);
+            if (units + Const.CREEP_COUNT[type] > Const.CREEP_LIMIT) continue;
+            gold -= Const.CREEP_COST[type];
+            units += Const.CREEP_COUNT[type];
+            train[n++] = i;
+            if (type == Const.GIANT) giantsTrained++;
+        }
+        for (int i = 0; i < s.nSites; i++) {
+            if (s.stType[i] != Const.BARRACKS || s.stOwner[i] != 0 || s.barrType[i] != Const.KNIGHT) continue;
             if (s.barrTraining[i]) idle = Integer.MIN_VALUE;
             else { idle++; cost += Const.CREEP_COST[s.barrType[i]]; }
         }
-        if (p.TRAIN_SYNC == 1 && (idle <= 0 || gold < cost)) return new int[0];
-        int[] train = new int[s.nSites];
-        int n = 0;
+        if (p.TRAIN_SYNC == 1 && (idle <= 0 || gold < cost)) { readySince = -1; return java.util.Arrays.copyOf(train, n); }
+        if (p.TRAIN_SYNC == 1 && p.RELEASE_NEAR > 0 && p.RELEASE_HOLD > 0) {
+            // RELEASE_NEAR: the ready release waits for the enemy queen to come within RELEASE_NEAR of a knight barracks.
+            if (readySince < 0) readySince = s.turn;
+            if (s.turn - readySince < p.RELEASE_HOLD && !enemyQueenNearKnightBarracks(s, p.RELEASE_NEAR)) return java.util.Arrays.copyOf(train, n);
+        }
+        readySince = -1;
         for (int i = 0; i < s.nSites; i++) {
-            if (s.stType[i] != Const.BARRACKS || s.stOwner[i] != 0 || s.barrTraining[i]) continue;
+            if (s.stType[i] != Const.BARRACKS || s.stOwner[i] != 0 || s.barrTraining[i] || s.barrType[i] != Const.KNIGHT) continue;
             int c = Const.CREEP_COST[s.barrType[i]], u = Const.CREEP_COUNT[s.barrType[i]];
             if (gold < c || units + u > Const.CREEP_LIMIT) continue;
             gold -= c;
@@ -224,6 +272,64 @@ public final class MainBot implements Bot {
     /** Consecutive turns of kiting so far (KITE_MAX). */
     private int kiteRun;
 
+    /** Giant trainings started so far (GIANTS_MAX). */
+    private int giantsTrained;
+
+    /** RELEASE_HOLD: the turn the current knight release became ready, or -1. */
+    private int readySince = -1;
+
+    /** RELEASE_NEAR: the enemy queen within r of one of our knight barracks. */
+    static boolean enemyQueenNearKnightBarracks(GameState s, int r) {
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stType[i] == Const.BARRACKS && s.stOwner[i] == 0 && s.barrType[i] == Const.KNIGHT
+                && Physics.distSq(s.sx[i], s.sy[i], s.qx[1], s.qy[1]) < (double) r * r) return true;
+        return false;
+    }
+
+    private boolean giantsLeft() { return p.GIANTS_MAX == 0 || giantsTrained < p.GIANTS_MAX; }
+
+    private static int enemyTowers(GameState s) {
+        int n = 0;
+        for (int i = 0; i < s.nSites; i++) if (s.stType[i] == Const.TOWER && s.stOwner[i] == 1) n++;
+        return n;
+    }
+
+    /** GIANT_GUARD: the own tower with an enemy giant nearest its centre, within d, or -1. */
+    static int guardTower(GameState s, int d) {
+        int best = -1;
+        double bd = (double) d * d;
+        for (int i = 0; i < s.nSites; i++) {
+            if (s.stType[i] != Const.TOWER || s.stOwner[i] != 0) continue;
+            for (int c = 0; c < s.nCreeps; c++) {
+                if (s.cOwner[c] != 1 || s.cType[c] != Const.GIANT) continue;
+                double dd = Physics.distSq(s.cx[c], s.cy[c], s.sx[i], s.sy[i]);
+                if (dd < bd) { bd = dd; best = i; }
+            }
+        }
+        return best;
+    }
+
+    /** ARCHERS: an enemy giant within r of an own tower's centre; r = 0, any enemy giant on the board. */
+    static boolean giantNearTowers(GameState s, int r) {
+        for (int c = 0; c < s.nCreeps; c++) {
+            if (s.cOwner[c] != 1 || s.cType[c] != Const.GIANT) continue;
+            if (r <= 0) return true;
+            for (int i = 0; i < s.nSites; i++)
+                if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && Physics.distSq(s.cx[c], s.cy[c], s.sx[i], s.sy[i]) < (double) r * r) return true;
+        }
+        return false;
+    }
+
+    /** The walk to a BUILD target: as it is when the queen touches the site, else ROUTE's plan (or UNSTICK's detour). */
+    private Command walkTo(GameState s, Command build, boolean touching, double hx, double hy, int barracks, int income, int towers) {
+        if (touching) return build;
+        if (p.ROUTE == 1) {
+            if (route == null) route = new RoutePlanner();
+            return route.plan(s, build, hx, hy, p, barracks, income, towers);
+        }
+        return p.UNSTICK == 1 ? unstick(s, build) : build;
+    }
+
     private static double nearestOwnTowerSq(GameState s, double x, double y) {
         double tower = Double.MAX_VALUE;
         for (int i = 0; i < s.nSites; i++)
@@ -243,10 +349,25 @@ public final class MainBot implements Bot {
         return false;
     }
 
-    /** INCOME_LATE's target: the nearest to (cx, cy) of a free gold site not under an enemy tower and an own mine below its maximum, or -1. */
-    static int lateSite(GameState s, double cx, double cy) {
+    /**
+     * INCOME_LATE's target: the nearest to (cx, cy) of a free gold site not under an enemy tower and an own mine below
+     * its maximum, or -1. With LATE_COVER=1 only sites an own tower covers, with LATE_HALF=1 only sites nearer the home
+     * corner (hx, hy) than the enemy's.
+     */
+    static int lateSite(GameState s, double cx, double cy, Params p, double hx, double hy) {
+        double ex = Const.WIDTH - hx, ey = Const.HEIGHT - hy;
         return nearest(s, cx, cy, i -> !underEnemyTower(s, i)
-            && (free(s, i) ? s.sGold[i] > 0 : s.stType[i] == Const.MINE && s.stOwner[i] == 0 && s.mineRate[i] < s.sMaxMine[i]));
+            && (free(s, i) ? s.sGold[i] > 0 : s.stType[i] == Const.MINE && s.stOwner[i] == 0 && s.mineRate[i] < s.sMaxMine[i])
+            && (p.LATE_COVER == 0 || coveredByOwnTower(s, s.sx[i], s.sy[i]))
+            && (p.LATE_HALF == 0 || Physics.distSq(s.sx[i], s.sy[i], hx, hy) < Physics.distSq(s.sx[i], s.sy[i], ex, ey)));
+    }
+
+    /** LATE_CLEAR: no enemy knight within r of (x, y); r = 0 is always clear. */
+    static boolean clearOfKnights(GameState s, double x, double y, int r) {
+        if (r <= 0) return true;
+        for (int i = 0; i < s.nCreeps; i++)
+            if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT && Physics.distSq(s.cx[i], s.cy[i], x, y) < (double) r * r) return false;
+        return true;
     }
 
     /** An enemy knight wave is coming: an enemy knight barracks trains, or enemy knights are on the board. */

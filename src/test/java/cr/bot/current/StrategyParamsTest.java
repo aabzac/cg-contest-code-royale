@@ -353,4 +353,149 @@ class StrategyParamsTest {
         s.cOwner[26] = 1;
         assertArrayEquals(new int[]{0}, bot.train(s), "26 own alive + 4 = 30");
     }
+
+    /** The ladder complete as in {@link #lateIncomeRaisesTheIncomeAfterTheLadder}, the own mine A full, the home tower at 100,100. */
+    private static GameState ladderComplete() {
+        GameState s = position();
+        s.stType[0] = Const.MINE; s.stOwner[0] = 0; s.mineRate[0] = 3; s.sMaxMine[0] = 3; s.sGold[0] = 300;
+        s.stType[1] = Const.BARRACKS; s.stOwner[1] = 0; s.barrType[1] = Const.KNIGHT;
+        site(s, 3, 100, 100, 0, 0);
+        s.stType[3] = Const.TOWER; s.stOwner[3] = 0; s.towerHp[3] = 700; s.towerRange[3] = 400;
+        s.qx[0] = 600; s.qy[0] = 350;
+        return s;
+    }
+
+    private static final String LADDER_DONE = "MINES_FIRST=0,INCOME_TARGET=2,MAX_TOWERS=0,BARRACKS=1,ROUTE=0,UNSTICK=0,THREAT_TOWERS_NEAR=0,KITE=0";
+
+    /**
+     * INCOME_LATE's safety conditions (2026-11-06): the late site is the gold site C, 632 from the home tower; LATE_COVER=1
+     * pumps instead until the tower's range covers C. A gold site D on the enemy's half is left with LATE_HALF=1. A knight
+     * 400 away (beyond the threat range) keeps the queen home with LATE_CLEAR=600, not with 300.
+     */
+    @Test
+    void lateIncomeSafetyConditions() {
+        GameState s = ladderComplete();
+        String p = LADDER_DONE + ",INCOME_LATE=5";
+        assertEquals("BUILD 2 MINE", queen(s, p), "A is full: the gold site C");
+        assertEquals("BUILD 3 TOWER", queen(s, p + ",LATE_COVER=1"), "the home tower (range 400) does not cover C: pump");
+        s.towerRange[3] = 700;
+        assertEquals("BUILD 2 MINE", queen(s, p + ",LATE_COVER=1"), "range 700 covers C");
+        s.sGold[2] = 0;
+        site(s, 4, 1300, 600, 300, 3);
+        assertEquals("BUILD 4 MINE", queen(s, p), "C spent: the gold site D");
+        assertEquals("BUILD 3 TOWER", queen(s, p + ",LATE_HALF=1"), "D is nearer the enemy's corner: pump");
+        s.sGold[2] = 300;
+        s.nCreeps = 1; s.cOwner[0] = 1; s.cType[0] = Const.KNIGHT; s.cHp[0] = 25; s.cx[0] = s.qx[0] + 400; s.cy[0] = s.qy[0];
+        assertEquals("BUILD 2 MINE", queen(s, p), "a knight 400 away is no threat");
+        assertEquals("BUILD 3 TOWER", queen(s, p + ",LATE_CLEAR=600"), "LATE_CLEAR=600 waits for it to leave");
+        assertEquals("BUILD 2 MINE", queen(s, p + ",LATE_CLEAR=300"));
+    }
+
+    /**
+     * GIANTS (2026-11-06): with the ladder complete and an enemy tower standing, the queen builds a giant barracks on the
+     * free site C from GIANT_TURN on, not before and not without an enemy tower. The giant barracks trains first, the
+     * knights wait while it lacks its 140 gold, and GIANTS_MAX caps its trainings.
+     */
+    @Test
+    void giantsBarracksAndTraining() {
+        GameState s = ladderComplete();
+        site(s, 4, 1700, 800, 0, 0);
+        s.stType[4] = Const.TOWER; s.stOwner[4] = 1; s.towerHp[4] = 700; s.towerRange[4] = 300;
+        s.turn = 80;
+        assertEquals("BUILD 3 TOWER", queen(s, LADDER_DONE), "v09: the ladder is complete, pump");
+        assertEquals("BUILD 2 BARRACKS-GIANT", queen(s, LADDER_DONE + ",GIANTS=1,GIANT_TURN=80"), "turn 80: the giant barracks on C");
+        assertEquals("BUILD 3 TOWER", queen(s, LADDER_DONE + ",GIANTS=1,GIANT_TURN=81"), "not before GIANT_TURN");
+        s.stOwner[4] = 0;
+        assertEquals("BUILD 3 TOWER", queen(s, LADDER_DONE + ",GIANTS=1,GIANT_TURN=80"), "no enemy tower: no giant barracks");
+        s.stOwner[4] = 1;
+        // C is the giant barracks now, B the knight barracks
+        s.stType[2] = Const.BARRACKS; s.stOwner[2] = 0; s.barrType[2] = Const.GIANT;
+        MainBot bot = new MainBot(new Params().apply(LADDER_DONE + ",GIANTS=1,GIANTS_MAX=1"));
+        s.gold[0] = 100;
+        assertArrayEquals(new int[0], bot.train(s), "the idle giant barracks saves for 140: the knights wait");
+        s.gold[0] = 230;
+        assertArrayEquals(new int[]{2, 1}, bot.train(s), "the giant first, the knights with the rest");
+        s.gold[0] = 100;
+        assertArrayEquals(new int[]{1}, bot.train(s), "GIANTS_MAX=1 reached: the knights only");
+        assertArrayEquals(new int[]{1}, new MainBot(new Params().apply(LADDER_DONE)).train(s), "GIANTS=0 never trains giants");
+    }
+
+    /** One enemy giant, at (430, 700). */
+    private static void enemyGiant(GameState s) {
+        s.nCreeps = 1; s.cOwner[0] = 1; s.cType[0] = Const.GIANT; s.cHp[0] = 200; s.cx[0] = 430; s.cy[0] = 700;
+    }
+
+    /**
+     * GIANT_GUARD (2026-11-06): the ladder complete, an own tower at C (300,700) with an enemy giant 130 from its centre.
+     * v09 pumps the home tower; GIANT_GUARD=200 walks to C and tops it up; with 100 the giant is too far to count.
+     */
+    @Test
+    void giantGuardTopsUpTheAttackedTower() {
+        GameState s = ladderComplete();
+        s.stType[2] = Const.TOWER; s.stOwner[2] = 0; s.towerHp[2] = 500; s.towerRange[2] = 300;
+        enemyGiant(s);
+        assertEquals("BUILD 3 TOWER", queen(s, LADDER_DONE), "v09: pump the home tower");
+        assertEquals("BUILD 2 TOWER", queen(s, LADDER_DONE + ",GIANT_GUARD=200"), "the giant at C: top C up");
+        assertEquals("BUILD 3 TOWER", queen(s, LADDER_DONE + ",GIANT_GUARD=100"), "130 from C is beyond 100");
+        s.nCreeps = 0;
+        assertEquals("BUILD 3 TOWER", queen(s, LADDER_DONE + ",GIANT_GUARD=200"), "no giant: pump");
+    }
+
+    /**
+     * ARCHERS (2026-11-06): the ladder complete, an enemy giant 685 from the home tower. ARCHERS=1 builds an archer
+     * barracks on the free site C (any giant counts with ARCHER_RANGE=0; 800 sees it, 200 does not). The archer barracks
+     * trains before the knights while a giant is near, the knights wait while it lacks its 100 gold, and with no giant
+     * near only the knights train.
+     */
+    @Test
+    void archersAgainstGiants() {
+        GameState s = ladderComplete();
+        enemyGiant(s);
+        assertEquals("BUILD 2 BARRACKS-ARCHER", queen(s, LADDER_DONE + ",ARCHERS=1"), "a giant out: the archer barracks on C");
+        assertEquals("BUILD 2 BARRACKS-ARCHER", queen(s, LADDER_DONE + ",ARCHERS=1,ARCHER_RANGE=800"));
+        assertEquals("BUILD 3 TOWER", queen(s, LADDER_DONE + ",ARCHERS=1,ARCHER_RANGE=200"), "685 from the tower is beyond 200");
+        s.nCreeps = 0;
+        assertEquals("BUILD 3 TOWER", queen(s, LADDER_DONE + ",ARCHERS=1"), "no giant: pump");
+        // C is the archer barracks now, B the knight barracks
+        s.stType[2] = Const.BARRACKS; s.stOwner[2] = 0; s.barrType[2] = Const.ARCHER;
+        MainBot bot = new MainBot(new Params().apply(LADDER_DONE + ",ARCHERS=1"));
+        s.gold[0] = 100;
+        assertArrayEquals(new int[]{1}, bot.train(s), "no giant: the knights only");
+        enemyGiant(s);
+        s.gold[0] = 50;
+        assertArrayEquals(new int[0], bot.train(s), "a giant out: the archer barracks saves for 100, the knights wait");
+        s.gold[0] = 180;
+        assertArrayEquals(new int[]{2, 1}, bot.train(s), "the archers first, the knights with the rest");
+        assertArrayEquals(new int[]{1}, new MainBot(new Params().apply(LADDER_DONE)).train(s), "ARCHERS=0 never trains archers");
+    }
+
+    /**
+     * RELEASE_NEAR / RELEASE_HOLD (2026-11-06): one knight barracks B at (680,160), 100 gold, the enemy queen 1342 away.
+     * v09 releases at once. RELEASE_NEAR=800,RELEASE_HOLD=3 waits from the turn the release is ready and releases after 3
+     * turns, or at once when the enemy queen stands within 800 of B. A turn without the gold resets the wait.
+     */
+    @Test
+    void releaseWaitsForTheEnemyQueen() {
+        GameState s = position();
+        s.stType[1] = Const.BARRACKS; s.stOwner[1] = 0; s.barrType[1] = Const.KNIGHT;
+        String p = "BARRACKS=1,RELEASE_NEAR=800,RELEASE_HOLD=3";
+        s.turn = 10;
+        assertArrayEquals(new int[]{1}, new MainBot(new Params().apply("BARRACKS=1")).train(s), "v09: release at once");
+        MainBot bot = new MainBot(new Params().apply(p));
+        for (int t = 10; t < 13; t++) {
+            s.turn = t;
+            assertArrayEquals(new int[0], bot.train(s), "turn " + t + ": the enemy queen is far, wait");
+        }
+        s.turn = 13;
+        assertArrayEquals(new int[]{1}, bot.train(s), "3 turns waited: release");
+        s.turn = 20;
+        s.gold[0] = 50;
+        assertArrayEquals(new int[0], bot.train(s), "no gold: not ready");
+        s.turn = 21;
+        s.gold[0] = 100;
+        assertArrayEquals(new int[0], bot.train(s), "ready again on turn 21: the wait starts over");
+        s.qx[1] = 1000; s.qy[1] = 400;
+        s.turn = 22;
+        assertArrayEquals(new int[]{1}, bot.train(s), "the enemy queen 400 from B: release");
+    }
 }

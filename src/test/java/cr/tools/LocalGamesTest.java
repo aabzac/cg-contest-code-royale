@@ -53,9 +53,9 @@ class LocalGamesTest {
         try {
             String base = base(server);
             JsonObject choices = object(get(base + "/api/local/bots"));
-            assertEquals(12, choices.getAsJsonArray("bots").size());
+            assertEquals(13, choices.getAsJsonArray("bots").size());
             assertEquals("current", choices.getAsJsonObject("defaults").get("bot0").getAsString());
-            assertEquals("v09", choices.getAsJsonObject("defaults").get("bot1").getAsString());
+            assertEquals("v10", choices.getAsJsonObject("defaults").get("bot1").getAsString());
             JsonArray flags = choices.getAsJsonArray("bots").get(0).getAsJsonObject().getAsJsonArray("flags");
             assertEquals(List.of("UNSTICK", "APPROACH", "ROUTE"), flags.asList().stream()
                 .map(f -> f.getAsJsonObject().get("id").getAsString()).toList());

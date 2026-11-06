@@ -9,8 +9,8 @@
   "evaluation": "closed 2026-11-05 by PV3 (as the screen pool); was block k = seeds 400000 + 2000 k .. + 1999; its verdicts stand"
  },
  "next": {
-  "screen-pv3": 1,
-  "evaluation-pv3": 0,
+  "screen-pv3": 4,
+  "evaluation-pv3": 1,
   "screen": null,
   "evaluation": null
  },
@@ -223,6 +223,50 @@
    "control": "v08 (the selected version and local champion)",
    "series": "direct and mirror on 2000 maps; candidate and v08 against boss on the first 500 maps (3 threads, 200 ms); candidate and v08 against field on 2000 maps (G4)",
    "verdict": "G0-G2 and G4 pass (G3 skipped, no old): S 0.5269 (CI 0.5208-0.5329) against v08, 665 of 2000 maps changed against the mirror (a strategy candidate); boss delta 0.0000; field delta +0.0146 (CI +0.0105..+0.0187). G0 by quiet repeats with identical games: the first runs had slow turns of both sides on runs of neighbouring maps at 8 threads (host noise on a hybrid-core laptop CPU), the repeats direct at 8 threads, boss and field at 2 threads were clean; the first boss series lost 6 maps to boss timeouts (invalid), its 2-thread repeat none. The local champion; S < 0.60, so no upload recommendation; the final evaluation, the freeze and any upload are the user's decisions"
+  },
+  {
+   "pool": "screen-pv3",
+   "k": 1,
+   "seeds": "1001000000 + 397 i, i < 2000",
+   "date": "2026-11-06",
+   "experiment": "docs/data/exp-2026-11-06-income",
+   "candidate": "current?MAX_TOWERS=5,INCOME_LATE=6,LATE_CLEAR=1000",
+   "control": "v09 (the local champion)",
+   "series": "direct and mirror on 2000 maps; candidate and v09 against field and against rival on 2000 maps (G4, G5); candidate and v09 against boss on the first 500 maps (3 threads, 200 ms)",
+   "verdict": "G1 fails: S 0.5016 (CI 0.4898-0.5135) against v09, 1769 of 2000 maps changed against the mirror; G4 field delta +0.0031; G5 rival delta +0.0179 (CI +0.0048..+0.0310); G2 G2 not established (boss timeouts on 48 of the 500 maps of the candidate's series, none in v09's); G3 skipped (no old). Not the local champion; the flags stay off"
+  },
+  {
+   "pool": "screen-pv3",
+   "k": 2,
+   "seeds": "1002000000 + 397 i, i < 2000",
+   "date": "2026-11-06",
+   "experiment": "docs/data/exp-2026-11-06-giants",
+   "candidate": "current?ARCHERS=1,ARCHER_RANGE=1000",
+   "control": "v09 (the local champion)",
+   "series": "direct and mirror on 2000 maps; candidate and v09 against field, rival and field?GIANTS=1 on 2000 maps; candidate and v09 against boss on the first 500 maps (3 threads, 200 ms)",
+   "verdict": "A targeted fix by P2's letter (0 of 2000 maps changed against the mirror, S 0.5000, G0 clean); field delta 0; rival delta +0.0036 (CI -0.0088..+0.0160), 1740 maps changed; field?GIANTS=1 delta -0.0099 (CI -0.0179..-0.0019); G2 boss delta 0.0000 with v09's games (passes the targeted fix's -1 pp). The development gain (+0.0305) did not replicate: not adopted by the user's decision (2026-11-06), against P2's letter; the flags stay off"
+  },
+  {
+   "pool": "screen-pv3",
+   "k": 3,
+   "seeds": "1003000000 + 397 i, i < 2000",
+   "date": "2026-11-06",
+   "experiment": "docs/data/exp-2026-11-06-waves",
+   "candidate": "current?BARRACKS_FORWARD=50",
+   "control": "v09 (the local champion)",
+   "series": "direct and mirror on 2000 maps; candidate and v09 against field and rival on 2000 maps (G4, G5); candidate and v09 against boss on the first 500 maps (3 threads, 200 ms); quiet repeats of the candidate series with slow turns at 2 threads",
+   "verdict": "S 0.5426 (CI 0.5293-0.5560) against v09, 1837 of 2000 maps changed against the mirror; field delta +0.0081; rival delta +0.0309 (CI +0.0156..+0.0461); G2 boss delta 0.0000 (1.000 against 1.000); G0 by repeats (the 2-thread repeats held the same 12000 games, and the 8 maps still slow there, repeated one at a time in 1 thread, were identical and clean); G3 skipped (no old). Passes: the local champion by P2; the freeze, the default and any upload are the user's decisions"
+  },
+  {
+   "pool": "evaluation-pv3",
+   "k": 0,
+   "seeds": "2000000000 + 397 i, i < 2000",
+   "date": "2026-11-06",
+   "experiment": "docs/data/exp-2026-11-06-waves",
+   "candidate": "v10 (the local champion: v09 with BARRACKS_FORWARD=50)",
+   "control": "v08 (the selected version)",
+   "series": "direct and mirror on 2000 maps; v10 and v08 against field and rival on 2000 maps (G4, G5); v10 and v08 against boss on the first 500 maps (3 threads, 200 ms); quiet repeats of v10's series for G0",
+   "verdict": "S 0.5764 (CI 0.5626-0.5902) against v08; G2 passes: boss delta 0.0000 (1.000 against 1.000); G4 passes: field delta +0.0149 (CI +0.0063..+0.0234); G5 passes: rival delta +0.0843 (CI +0.0683..+0.1002); G0 by quiet repeats: v10's three series repeated with 2 threads held the same 12000 games without a slow turn. G0-G2, G4 and G5 pass (G3 skipped): v10 passes the final evaluation against v08; S < 0.60: no upload recommendation; any upload is the user's decision"
   }
  ]
 }

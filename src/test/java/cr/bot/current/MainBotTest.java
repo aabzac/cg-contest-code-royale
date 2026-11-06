@@ -16,15 +16,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MainBotTest {
     /** v01's and v02's parameters besides UNSTICK (ROUTE=0: the planner would replace UNSTICK; MINES_FIRST=0: the barracks first): the captured positions and the audit's games were played with them. */
-    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0," + "BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,LATE_HOLD=0,";
+    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0," + "BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,";
     /** v05's values of the fields v06 changed: one barracks, 8 towers, the flight to the nearest tower. */
-    static final String V05 = "MAX_TOWERS=8,BARRACKS=1,BARRACKS_AFTER_TOWERS=0,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,THREAT_RADIUS=400,KITE=0,LATE_HOLD=0,";
-    /** v06's values of the fields v07 and v09 changed: no kiting, no late hold. */
-    static final String V06 = "KITE=0,LATE_HOLD=0,";
-    /** v07's values of the fields v08 and v09 changed: its own kiting rule, no late hold. */
-    static final String V07 = "KITE=1,KITE_PULL=50,LATE_HOLD=0,";
-    /** v08's value of the field v09 changed: no late hold. */
-    static final String V08 = "LATE_HOLD=0,";
+    static final String V05 = "MAX_TOWERS=8,BARRACKS=1,BARRACKS_AFTER_TOWERS=0,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,THREAT_RADIUS=400,KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,";
+    /** v06's values of the fields v07, v09 and v10 changed: no kiting, no late hold, the usual barracks site. */
+    static final String V06 = "KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,";
+    /** v07's values of the fields v08, v09 and v10 changed: its own kiting rule, no late hold, the usual barracks site. */
+    static final String V07 = "KITE=1,KITE_PULL=50,LATE_HOLD=0,BARRACKS_FORWARD=0,";
+    /** v08's values of the fields v09 and v10 changed: no late hold, the usual barracks site. */
+    static final String V08 = "LATE_HOLD=0,BARRACKS_FORWARD=0,";
+    /** v09's value of the field v10 changed: the second barracks at the ladder's usual site. */
+    static final String V09 = "BARRACKS_FORWARD=0,";
 
     /**
      * A captured position: the init and turn input that seat 1 of v01 against current read on one
@@ -173,10 +175,16 @@ class MainBotTest {
         assertSamePlay("current?" + V08, "v08", new long[]{100000, 110135, 10394, 10477, 218000, 218001, 218002, 414000});
     }
 
-    /** With its defaults (the late hold since v09), current plays the frozen v09's games command for command (fixture seeds and PV3 screen block 0's maps). */
+    /** With v09's parameters (the second barracks at the usual site), current plays the frozen v09's games command for command (fixture seeds and PV3 screen block 0's maps). */
     @Test
-    void withDefaultsCurrentPlaysAsV09() {
-        assertSamePlay("current", "v09", new long[]{100000, 110135, 10394, 10477, 1000000000, 1000000397, 1000000794});
+    void withV09ParamsCurrentPlaysAsV09() {
+        assertSamePlay("current?" + V09, "v09", new long[]{100000, 110135, 10394, 10477, 1000000000, 1000000397, 1000000794});
+    }
+
+    /** With its defaults (the second barracks at the centre since v10), current plays the frozen v10's games command for command (fixture seeds and PV3 screen block 3's maps). */
+    @Test
+    void withDefaultsCurrentPlaysAsV10() {
+        assertSamePlay("current", "v10", new long[]{100000, 110135, 10394, 10477, 1003000000, 1003000397, 1003000794});
     }
 
     /** bot and frozen play the same commands on both seats against v01 and v02. */

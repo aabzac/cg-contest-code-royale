@@ -91,6 +91,14 @@ tasks.register('localProfile', JavaExec) {
     args prop('botA', 'current'), prop('botB', 'v08'), prop('maps', '100'), prop('seedBase', '10000'), prop('seedStride', '1')
 }
 
+// Our knight waves and their damage to the enemy queen (cr.tools.WaveScan), botA on both seats against botB:
+// -PbotA=v09 -PbotB=rival -Pmaps=500 -PseedBase=1 -PseedStride=397
+tasks.register('waveScan', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.tools.WaveScan'
+    args prop('botA', 'current'), prop('botB', 'v09'), prop('maps', '100'), prop('seedBase', '1'), prop('seedStride', '397')
+}
+
 // Queen stalls (BUILD to an untouched site, queen did not move) of a bot on both seats:
 // -Pbot=current -Popp=v01 -Pmaps=500 -PseedBase=10000 [-Pthreads=8]
 tasks.register('stallScan', JavaExec) {

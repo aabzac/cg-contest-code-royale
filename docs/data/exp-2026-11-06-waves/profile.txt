@@ -1,0 +1,9 @@
+[BARRACKS_FORWARD=0] current?BARRACKS_FORWARD=0 vs v09: 400 games, current?BARRACKS_FORWARD=0 wins 186 (46.5 %), queen deaths 16, enemy queens killed 16
+[BARRACKS_FORWARD=0] waves: knight 10, giant 0 (medians), archer 0.0 (mean); death turn median 139 over the deaths; game length median 250, mean 239.7; at the 250-turn limit 368 (92 %)
+[BARRACKS_FORWARD=0] our waves (means over games, from turn 30): the enemy queen outside her towers' ranges on 0.1 % of the turns and at 0.2 % of our knight trainings, 1038 from our nearest knight barracks; she loses 1.5 HP with our knights within 250 per knight training (whole game)
+[RELEASE_NEAR=800,RELEASE_HOLD=30] current?RELEASE_NEAR=800,RELEASE_HOLD=30 vs v09: 400 games, current?RELEASE_NEAR=800,RELEASE_HOLD=30 wins 100 (25.0 %), queen deaths 34, enemy queens killed 14
+[RELEASE_NEAR=800,RELEASE_HOLD=30] waves: knight 9, giant 0 (medians), archer 0.0 (mean); death turn median 167 over the deaths; game length median 250, mean 238.5; at the 250-turn limit 352 (88 %)
+[RELEASE_NEAR=800,RELEASE_HOLD=30] our waves (means over games, from turn 30): the enemy queen outside her towers' ranges on 0.1 % of the turns and at 0.2 % of our knight trainings, 1041 from our nearest knight barracks; she loses 0.8 HP with our knights within 250 per knight training (whole game)
+[BARRACKS_FORWARD=50] current?BARRACKS_FORWARD=50 vs v09: 400 games, current?BARRACKS_FORWARD=50 wins 202 (50.5 %), queen deaths 19, enemy queens killed 27
+[BARRACKS_FORWARD=50] waves: knight 10, giant 0 (medians), archer 0.0 (mean); death turn median 147 over the deaths; game length median 250, mean 237.1; at the 250-turn limit 354 (89 %)
+[BARRACKS_FORWARD=50] our waves (means over games, from turn 30): the enemy queen outside her towers' ranges on 0.2 % of the turns and at 0.4 % of our knight trainings, 860 from our nearest knight barracks; she loses 1.6 HP with our knights within 250 per knight training (whole game)

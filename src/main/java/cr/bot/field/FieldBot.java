@@ -30,6 +30,8 @@ public final class FieldBot implements Bot {
     private final FieldParams p;
     private final Physics ph = new Physics();
     private Boolean homeLeft;
+    /** Giant trainings started so far (GIANTS_MAX). */
+    private int giantsTrained;
 
     public FieldBot(FieldParams p) { this.p = p; }
 
@@ -92,6 +94,7 @@ public final class FieldBot implements Bot {
                 if (d >= 0) cmd = Command.build(d, "TOWER");
             }
         }
+        if (cmd == null && p.KITE == 1) cmd = kite(s, qx, qy);
         if (cmd == null && touched >= 0 && !underEnemyTower(s, touched)) {
             int t = touched;
             if (s.stType[t] == Const.MINE && s.stOwner[t] == 0 && s.mineRate[t] < s.sMaxMine[t] && threat == 0) cmd = Command.build(t, "MINE");
@@ -110,12 +113,12 @@ public final class FieldBot implements Bot {
             IntPredicate gold = i -> ok.test(i) && s.sGold[i] > 0;
             int target = -1;
             String what = null;
-            if (mines < 1 && (target = nearest(s, cx, cy, gold)) >= 0) what = "MINE";
+            if (mines < p.MINES_FIRST && (target = nearest(s, cx, cy, gold)) >= 0) what = "MINE";
             else if (kBarracks < 1 && (target = nearest(s, cx, cy, ok)) >= 0) what = "BARRACKS-KNIGHT";
             else if (towers < 1 && (target = nearest(s, cx, cy, ok)) >= 0) what = "TOWER";
             else if (mines < p.MINES && (target = nearest(s, cx, cy, gold)) >= 0) what = "MINE";
             else if (towers < p.TOWERS && (target = nearest(s, cx, cy, ok)) >= 0) what = "TOWER";
-            else if (p.GIANTS == 1 && gBarracks < 1 && enemyTowers >= p.GIANT_TOWERS && (target = nearest(s, cx, cy, ok)) >= 0) what = "BARRACKS-GIANT";
+            else if (wantsGiantBarracks(s, gBarracks, enemyTowers) && (target = nearest(s, cx, cy, ok)) >= 0) what = "BARRACKS-GIANT";
             else if (income < p.INCOME && (target = nearest(s, cx, cy, i -> !underEnemyTower(s, i)
                 && (free(s, i) ? s.sGold[i] > 0 : s.stType[i] == Const.MINE && s.stOwner[i] == 0 && s.mineRate[i] < s.sMaxMine[i]))) >= 0) what = "MINE";
             if (what != null) cmd = walk(s, Command.build(target, what));
@@ -127,15 +130,77 @@ public final class FieldBot implements Bot {
         return cmd.train(train(s, enemyTowers));
     }
 
+    /**
+     * KITE=1, the kiting of v08 (MainBot.kite with KITE=2): with enemy knights within KITE_RANGE, the MOVE among 24
+     * headings (200 ahead, the first one away from the board's centre) whose predicted step ends within an own
+     * tower's range and outside every enemy tower's, scored by the distance to the nearest knight minus KITE_PULL
+     * percent of the distance to the nearest own tower; taken when it beats standing by 5. Null otherwise.
+     */
+    private Command kite(GameState s, double qx, double qy) {
+        double r2 = (double) p.KITE_RANGE * p.KITE_RANGE, d0 = Double.MAX_VALUE;
+        int n = 0;
+        for (int i = 0; i < s.nCreeps; i++) {
+            if (s.cOwner[i] != 1 || s.cType[i] != Const.KNIGHT) continue;
+            double d = Physics.distSq(s.cx[i], s.cy[i], qx, qy);
+            if (d < r2) n++;
+            if (d < d0) d0 = d;
+        }
+        if (n == 0) return null;
+        double pull = p.KITE_PULL / 100.0;
+        double a0 = Math.atan2(qy - Const.HEIGHT / 2.0, qx - Const.WIDTH / 2.0);
+        Command best = null;
+        double bestScore = Math.sqrt(d0) - pull * Math.sqrt(nearestOwnTowerSq(s, qx, qy)) + 5, bestTower = Double.MAX_VALUE;
+        for (int k = 0; k < 24; k++) {
+            double a = a0 + k * Math.PI / 12;
+            Command m = Command.move((int) Math.max(0, Math.min(Const.WIDTH, Math.round(qx + 200 * Math.cos(a)))),
+                (int) Math.max(0, Math.min(Const.HEIGHT, Math.round(qy + 200 * Math.sin(a)))));
+            ph.queenStep(s, qx, qy, m.x, m.y, PASSES);
+            double x = ph.rx, y = ph.ry;
+            if (Physics.distSq(x, y, qx, qy) < 4) continue;
+            if (underEnemyTowerAt(s, x, y) || !coveredByOwnTower(s, x, y)) continue;
+            double near = Double.MAX_VALUE;
+            for (int i = 0; i < s.nCreeps; i++)
+                if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT) near = Math.min(near, Physics.distSq(s.cx[i], s.cy[i], x, y));
+            double tower = nearestOwnTowerSq(s, x, y);
+            double score = Math.sqrt(near) - pull * Math.sqrt(tower);
+            if (score > bestScore || score == bestScore && tower < bestTower) { bestScore = score; bestTower = tower; best = m; }
+        }
+        return best;
+    }
+
+    private static double nearestOwnTowerSq(GameState s, double x, double y) {
+        double tower = Double.MAX_VALUE;
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0) tower = Math.min(tower, Physics.distSq(s.sx[i], s.sy[i], x, y));
+        return tower == Double.MAX_VALUE ? 0 : tower;
+    }
+
+    private static boolean coveredByOwnTower(GameState s, double x, double y) {
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && Physics.distSq(s.sx[i], s.sy[i], x, y) < (double) s.towerRange[i] * s.towerRange[i]) return true;
+        return false;
+    }
+
+    private static boolean underEnemyTowerAt(GameState s, double x, double y) {
+        for (int j = 0; j < s.nSites; j++)
+            if (s.stType[j] == Const.TOWER && s.stOwner[j] == 1 && Physics.distSq(s.sx[j], s.sy[j], x, y) < (double) s.towerRange[j] * s.towerRange[j]) return true;
+        return false;
+    }
+
+    /** A giant barracks is wanted: GIANTS=1, none stands, the enemy holds GIANT_TOWERS towers, from GIANT_TURN on, and GIANTS_MAX not reached. */
+    private boolean wantsGiantBarracks(GameState s, int gBarracks, int enemyTowers) {
+        return p.GIANTS == 1 && gBarracks < 1 && enemyTowers >= p.GIANT_TOWERS && s.turn >= p.GIANT_TURN && (p.GIANTS_MAX == 0 || giantsTrained < p.GIANTS_MAX);
+    }
+
     /** What the plan builds on the free site t the queen touches, or null when it wants nothing there. */
     private String wantFree(GameState s, int t, int income, int mines, int towers, int kBarracks, int gBarracks, int enemyTowers, int threat) {
         boolean gold = s.sGold[t] > 0;
-        if (mines < 1 && gold && threat == 0) return "MINE";
+        if (mines < p.MINES_FIRST && gold && threat == 0) return "MINE";
         if (kBarracks < 1) return "BARRACKS-KNIGHT";
         if (towers < 1) return "TOWER";
         if (mines < p.MINES && gold && threat == 0) return "MINE";
         if (towers < p.TOWERS) return "TOWER";
-        if (p.GIANTS == 1 && gBarracks < 1 && enemyTowers >= p.GIANT_TOWERS) return "BARRACKS-GIANT";
+        if (wantsGiantBarracks(s, gBarracks, enemyTowers)) return "BARRACKS-GIANT";
         if (income < p.INCOME && gold && threat == 0) return "MINE";
         return null;
     }
@@ -169,12 +234,14 @@ public final class FieldBot implements Bot {
      * cap; while an idle giant barracks waits for its 140 gold, the knights wait too (otherwise the
      * cheaper wave would spend the gold every time).
      */
+    private boolean giantsLeft() { return p.GIANTS_MAX == 0 || giantsTrained < p.GIANTS_MAX; }
+
     private int[] train(GameState s, int enemyTowers) {
         int gold = s.gold[0], units = 0;
         for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == 0) units++;
         boolean saveForGiant = false;
         for (int i = 0; i < s.nSites; i++)
-            if (s.stType[i] == Const.BARRACKS && s.stOwner[i] == 0 && !s.barrTraining[i] && s.barrType[i] == Const.GIANT && enemyTowers > 0 && gold < Const.CREEP_COST[Const.GIANT]) saveForGiant = true;
+            if (s.stType[i] == Const.BARRACKS && s.stOwner[i] == 0 && !s.barrTraining[i] && s.barrType[i] == Const.GIANT && enemyTowers > 0 && gold < Const.CREEP_COST[Const.GIANT] && giantsLeft()) saveForGiant = true;
         int[] train = new int[s.nSites];
         int n = 0;
         for (int pass = 0; pass < 2; pass++) {
@@ -182,12 +249,13 @@ public final class FieldBot implements Bot {
             if (type == Const.KNIGHT && saveForGiant) break;
             for (int i = 0; i < s.nSites; i++) {
                 if (s.stType[i] != Const.BARRACKS || s.stOwner[i] != 0 || s.barrTraining[i] || s.barrType[i] != type) continue;
-                if (type == Const.GIANT && enemyTowers == 0) continue;
+                if (type == Const.GIANT && (enemyTowers == 0 || !giantsLeft())) continue;
                 int c = Const.CREEP_COST[type], u = Const.CREEP_COUNT[type];
                 if (gold < c || units + u > Const.CREEP_LIMIT) continue;
                 gold -= c;
                 units += u;
                 train[n++] = i;
+                if (type == Const.GIANT) giantsTrained++;
             }
         }
         return java.util.Arrays.copyOf(train, n);

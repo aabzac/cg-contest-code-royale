@@ -1,0 +1,94 @@
+# The rival's calibration runs (2026-11-06), run from a worktree: '../../../replays/' is the main checkout's replays/.
+
+## calib1.sh: the regression check of the default field and the first profiles (turn-50/150 lines kept)
+v08 vs field: maps=500 games=1000 score=0.932 +-0.016 (95% CI, map-paired) W/D/L=929/5/66 winsAsP0=469 winsAsP1=460 seeds=1+397*k
+replays/bench/dev-first-wave-2026-11-05/ctrl-field.json vs replays/bench/dev-rival-2026-11-06/v08-field-regression.json: 1000 games in both, 0 differ []
+   first:  candidate {'slow': 0, 'timeouts': 0, 'errors': 0}, opponent {'slow': 0, 'timeouts': 0, 'errors': 0}
+   repeat: candidate {'slow': 0, 'timeouts': 0, 'errors': 0}, opponent {'slow': 0, 'timeouts': 0, 'errors': 0}
+### v09 vs field?KITE=1
+v09 vs field?KITE=1: 1000 games, v09 wins 834 (83.4 %), queen deaths 30, enemy queens killed 181
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 781, by <= 10 HP 286
+turn 50: income 4 mines 2 towers 3 towerHp 1976 queenHp 56
+turn 100: income 3 mines 2 towers 5 towerHp 2652 queenHp 55
+turn 150: income 3 mines 1 towers 5 towerHp 2748 queenHp 55
+waves: knight 9, giant 0 (medians); death turn median 179 over the deaths; game length median 250, mean 228.6; at the 250-turn limit 790 (79 %)
+under knights (medians over games with contact): contact turns 49, % near an own tower 80.0, HP lost per contact turn 0.2, % MOVE 59.1
+first contact (medians over games with contact): turn 21, own towers then 1, HP lost in the next 20 turns 7 (mean 7.4); HP lost on turns 25-50 3 (mean 3.3, games reaching turn 50)
+### field?KITE=1 vs v09
+field?KITE=1 vs v09: 1000 games, field?KITE=1 wins 157 (15.7 %), queen deaths 181, enemy queens killed 30
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 781, by <= 10 HP 286
+turn 50: income 5 mines 3 towers 2 towerHp 1156 queenHp 49
+turn 100: income 6 mines 3 towers 4 towerHp 1932 queenHp 45
+turn 150: income 7 mines 3 towers 4 towerHp 1940 queenHp 44
+waves: knight 17, giant 0 (medians); death turn median 162 over the deaths; game length median 250, mean 228.6; at the 250-turn limit 790 (79 %)
+under knights (medians over games with contact): contact turns 43, % near an own tower 81.6, HP lost per contact turn 0.6, % MOVE 66.7
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 13 (mean 14.5); HP lost on turns 25-50 11 (mean 13.3, games reaching turn 50)
+### v09 vs field?KITE=1,GIANTS=1
+v09 vs field?KITE=1,GIANTS=1: 1000 games, v09 wins 882 (88.2 %), queen deaths 24, enemy queens killed 271
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 698, by <= 10 HP 201
+turn 50: income 4 mines 2 towers 3 towerHp 1976 queenHp 56
+turn 100: income 3 mines 2 towers 5 towerHp 2676 queenHp 55
+turn 150: income 4 mines 2 towers 5 towerHp 2608 queenHp 55
+waves: knight 10, giant 0 (medians); death turn median 184 over the deaths; game length median 250, mean 223.8; at the 250-turn limit 705 (71 %)
+under knights (medians over games with contact): contact turns 28, % near an own tower 79.1, HP lost per contact turn 0.3, % MOVE 56.8
+first contact (medians over games with contact): turn 21, own towers then 1, HP lost in the next 20 turns 7 (mean 7.4); HP lost on turns 25-50 3 (mean 3.3, games reaching turn 50)
+### field?KITE=1,GIANTS=1 vs v09
+field?KITE=1,GIANTS=1 vs v09: 1000 games, field?KITE=1,GIANTS=1 wins 111 (11.1 %), queen deaths 271, enemy queens killed 24
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 698, by <= 10 HP 201
+turn 50: income 5 mines 3 towers 2 towerHp 1156 queenHp 49
+turn 100: income 6 mines 3 towers 4 towerHp 1896 queenHp 45
+turn 150: income 6 mines 3 towers 4 towerHp 1936 queenHp 44
+waves: knight 7, giant 4 (medians); death turn median 177 over the deaths; game length median 250, mean 223.8; at the 250-turn limit 705 (71 %)
+under knights (medians over games with contact): contact turns 51, % near an own tower 81.8, HP lost per contact turn 0.6, % MOVE 68.6
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 13 (mean 14.5); HP lost on turns 25-50 11 (mean 13.3, games reaching turn 50)
+
+## grid1.sh
+v08 vs field: maps=500 games=1000 score=0.932 +-0.016 (95% CI, map-paired) W/D/L=929/5/66 winsAsP0=469 winsAsP1=460 seeds=1+397*k
+replays/bench/dev-first-wave-2026-11-05/ctrl-field.json vs replays/bench/dev-rival-2026-11-06/v08-field-regression2.json: 1000 games in both, 0 differ []
+v09 vs field?KITE=1,MINES_FIRST=2: maps=300 games=600 score=0.809 +-0.034 (95% CI, map-paired) W/D/L=482/7/111 winsAsP0=249 winsAsP1=233 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,INCOME=6: maps=300 games=600 score=0.815 +-0.033 (95% CI, map-paired) W/D/L=484/10/106 winsAsP0=252 winsAsP1=232 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2: maps=300 games=600 score=0.797 +-0.035 (95% CI, map-paired) W/D/L=475/6/119 winsAsP0=244 winsAsP1=231 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2,TOWERS=5: maps=300 games=600 score=0.781 +-0.036 (95% CI, map-paired) W/D/L=463/11/126 winsAsP0=237 winsAsP1=226 seeds=1+397*k
+v09 vs field?MINES_FIRST=2,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2: maps=300 games=600 score=0.823 +-0.034 (95% CI, map-paired) W/D/L=492/3/105 winsAsP0=253 winsAsP1=239 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2,TOWER_HP=700: maps=300 games=600 score=0.706 +-0.038 (95% CI, map-paired) W/D/L=420/7/173 winsAsP0=213 winsAsP1=207 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2,INCOME=6,TOWERS=5: maps=300 games=600 score=0.779 +-0.036 (95% CI, map-paired) W/D/L=462/11/127 winsAsP0=237 winsAsP1=225 seeds=1+397*k
+
+## grid2.sh
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2,TOWERS=5: maps=300 games=600 score=0.738 +-0.036 (95% CI, map-paired) W/D/L=437/12/151 winsAsP0=227 winsAsP1=210 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2,TOWERS=6: maps=300 games=600 score=0.746 +-0.038 (95% CI, map-paired) W/D/L=439/17/144 winsAsP0=228 winsAsP1=211 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=800,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2: maps=300 games=600 score=0.875 +-0.032 (95% CI, map-paired) W/D/L=523/4/73 winsAsP0=264 winsAsP1=259 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2,INCOME=6: maps=300 games=600 score=0.761 +-0.037 (95% CI, map-paired) W/D/L=452/9/139 winsAsP0=229 winsAsP1=223 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700: maps=300 games=600 score=0.763 +-0.036 (95% CI, map-paired) W/D/L=453/10/137 winsAsP0=236 winsAsP1=217 seeds=1+397*k
+v09 vs field?MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2: maps=300 games=600 score=0.835 +-0.032 (95% CI, map-paired) W/D/L=500/2/98 winsAsP0=256 winsAsP1=244 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2,KITE_PULL=200: maps=300 games=600 score=0.706 +-0.040 (95% CI, map-paired) W/D/L=420/7/173 winsAsP0=221 winsAsP1=199 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=4: maps=300 games=600 score=0.774 +-0.035 (95% CI, map-paired) W/D/L=461/7/132 winsAsP0=237 winsAsP1=224 seeds=1+397*k
+
+## grid3.sh
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=60,GIANTS_MAX=2: maps=300 games=600 score=0.695 +-0.039 (95% CI, map-paired) W/D/L=413/8/179 winsAsP0=215 winsAsP1=198 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=100,GIANTS_MAX=2: maps=300 games=600 score=0.732 +-0.039 (95% CI, map-paired) W/D/L=436/6/158 winsAsP0=220 winsAsP1=216 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=1: maps=300 games=600 score=0.728 +-0.038 (95% CI, map-paired) W/D/L=434/5/161 winsAsP0=226 winsAsP1=208 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=3: maps=300 games=600 score=0.751 +-0.037 (95% CI, map-paired) W/D/L=445/11/144 winsAsP0=227 winsAsP1=218 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2,TOWERS=3: maps=300 games=600 score=0.710 +-0.037 (95% CI, map-paired) W/D/L=424/4/172 winsAsP0=219 winsAsP1=205 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2,INCOME=10: maps=300 games=600 score=0.705 +-0.037 (95% CI, map-paired) W/D/L=419/8/173 winsAsP0=210 winsAsP1=209 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2,KITE_RANGE=350: maps=300 games=600 score=0.702 +-0.042 (95% CI, map-paired) W/D/L=419/4/177 winsAsP0=212 winsAsP1=207 seeds=1+397*k
+
+## ladder.sh: the version ladder against R0 and R0's profiles (turn-50/150 lines left out)
+v05 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2: maps=500 games=1000 score=0.269 +-0.030 (95% CI, map-paired) W/D/L=261/16/723 winsAsP0=151 winsAsP1=110 seeds=1+397*k
+v06 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2: maps=500 games=1000 score=0.372 +-0.033 (95% CI, map-paired) W/D/L=366/12/622 winsAsP0=191 winsAsP1=175 seeds=1+397*k
+v07 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2: maps=500 games=1000 score=0.412 +-0.031 (95% CI, map-paired) W/D/L=404/16/580 winsAsP0=212 winsAsP1=192 seeds=1+397*k
+v08 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2: maps=500 games=1000 score=0.651 +-0.032 (95% CI, map-paired) W/D/L=644/13/343 winsAsP0=333 winsAsP1=311 seeds=1+397*k
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2: maps=500 games=1000 score=0.703 +-0.031 (95% CI, map-paired) W/D/L=699/7/294 winsAsP0=357 winsAsP1=342 seeds=1+397*k
+### rival vs v09
+field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2 vs v09: 1000 games, field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2 wins 294 (29.4 %), queen deaths 131, enemy queens killed 135
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 729, by <= 10 HP 267
+turn 100: income 5 mines 3 towers 4 towerHp 2276 queenHp 47
+waves: knight 13, giant 2 (medians); death turn median 172 over the deaths; game length median 250, mean 229.7; at the 250-turn limit 736 (74 %)
+under knights (medians over games with contact): contact turns 44, % near an own tower 80.4, HP lost per contact turn 0.5, % MOVE 65.6
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 12 (mean 12.9); HP lost on turns 25-50 10 (mean 12.2, games reaching turn 50)
+### v09 vs rival
+v09 vs field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2: 1000 games, v09 wins 699 (69.9 %), queen deaths 135, enemy queens killed 131
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 729, by <= 10 HP 267
+turn 100: income 3 mines 2 towers 4 towerHp 2540 queenHp 54
+waves: knight 9, giant 0 (medians); death turn median 204 over the deaths; game length median 250, mean 229.7; at the 250-turn limit 736 (74 %)
+under knights (medians over games with contact): contact turns 52, % near an own tower 83.1, HP lost per contact turn 0.3, % MOVE 62.3
+first contact (medians over games with contact): turn 25, own towers then 1, HP lost in the next 20 turns 4 (mean 7.6); HP lost on turns 25-50 3 (mean 7.1, games reaching turn 50)

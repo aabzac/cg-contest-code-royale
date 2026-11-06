@@ -1,0 +1,24 @@
+LocalProfile of the screened candidate current?MAX_TOWERS=5,INCOME_LATE=6,LATE_CLEAR=1000 on the development seeds
+1 + 397 k, k < 500, both seats: against rival (R0) first, then against v09 (profile.sh; v09's own profiles are in
+profile1.txt).
+
+current?MAX_TOWERS=5,INCOME_LATE=6,LATE_CLEAR=1000 vs rival: 1000 games, current?MAX_TOWERS=5,INCOME_LATE=6,LATE_CLEAR=1000 wins 733 (73.3 %), queen deaths 116, enemy queens killed 171
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 708, by <= 10 HP 257
+turn 50: income 4 mines 2 towers 3 towerHp 1664 queenHp 55
+turn 100: income 3 mines 2 towers 4 towerHp 2532 queenHp 54
+turn 150: income 4 mines 2 towers 5 towerHp 2360 queenHp 53
+turn 200: income 3 mines 2 towers 4 towerHp 1820 queenHp 51
+waves: knight 10, giant 0 (medians); death turn median 201 over the deaths; game length median 250, mean 228.1; at the 250-turn limit 714 (71 %)
+under knights (medians over games with contact): contact turns 50, % near an own tower 83.3, HP lost per contact turn 0.3, % MOVE 62.0
+first contact (medians over games with contact): turn 25, own towers then 1, HP lost in the next 20 turns 4 (mean 7.6); HP lost on turns 25-50 3 (mean 7.1, games reaching turn 50)
+economy over the game (medians; means): own mines built 5; 5.1, upgrades 7; 7.3, torn down 2; 1.8, depleted 2; 2.4, gold mined 796; 790.2
+current?MAX_TOWERS=5,INCOME_LATE=6,LATE_CLEAR=1000 vs v09: 1000 games, current?MAX_TOWERS=5,INCOME_LATE=6,LATE_CLEAR=1000 wins 486 (48.6 %), queen deaths 53, enemy queens killed 61
+maps 500 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 841, by <= 10 HP 555
+turn 50: income 4 mines 2 towers 3 towerHp 1652 queenHp 55
+turn 100: income 4 mines 2 towers 4 towerHp 2604 queenHp 53
+turn 150: income 5 mines 2 towers 5 towerHp 2660 queenHp 51
+turn 200: income 4 mines 2 towers 5 towerHp 2336 queenHp 50
+waves: knight 12, giant 0 (medians); death turn median 176 over the deaths; game length median 250, mean 240.3; at the 250-turn limit 887 (89 %)
+under knights (medians over games with contact): contact turns 35, % near an own tower 87.2, HP lost per contact turn 0.3, % MOVE 64.9
+first contact (medians over games with contact): turn 24, own towers then 1, HP lost in the next 20 turns 5 (mean 8.1); HP lost on turns 25-50 4 (mean 7.2, games reaching turn 50)
+economy over the game (medians; means): own mines built 5; 5.6, upgrades 8; 8.7, torn down 1; 1.5, depleted 3; 2.9, gold mined 934; 914.4

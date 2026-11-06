@@ -27,9 +27,11 @@ public final class Params {
      * Where the second and every later barracks goes: 0, the ladder's usual site (nearest to the
      * midpoint of the queen and home); otherwise the free site, not under an enemy tower, nearest to
      * the point this many percent of the way from the home corner to the enemy's corner (50: the
-     * centre of the board). Knights from there walk less under the enemy's towers.
+     * centre of the board). Knights from there walk less under the enemy's towers. 50 by default since v10
+     * (2026-11-06: P2 docs/data/exp-2026-11-06-waves, screen S 0.5426 against v09, +3.09 pp against the rival R0;
+     * 0 in v01-v09).
      */
-    public int BARRACKS_FORWARD = 0;
+    public int BARRACKS_FORWARD = 50;
     /**
      * 1: TRAIN only when every own barracks is idle and the gold covers all of them, so two barracks
      * release their waves on the same turn (one wave of 8 knights rather than two of 4). With one
@@ -134,6 +136,50 @@ public final class Params {
      * screen S 0.5269 against v08, +1.46 pp against field; the local champion, not uploaded).
      */
     public int LATE_HOLD = 200;
+    /**
+     * Safety conditions on INCOME_LATE's walks to a late site (0: off, as v06-v09; the touch rule is unchanged).
+     * LATE_COVER=1: only sites an own tower covers. LATE_HALF=1: only sites nearer the home corner than the enemy's.
+     * LATE_CLEAR=R &gt; 0: no walk while an enemy knight is within R of the queen. From the income experiment of
+     * 2026-11-06 (docs/data/exp-2026-11-06-income): INCOME_LATE gains against the rival R0 but loses the v09 mirror,
+     * where our queen dies more often.
+     */
+    public int LATE_COVER = 0;
+    public int LATE_HALF = 0;
+    public int LATE_CLEAR = 0;
+    /**
+     * 1: giants. From GIANT_TURN on, while the enemy holds a tower and fewer than GIANTS_MAX giants have been trained
+     * (0: no cap), the queen builds a giant barracks before the ladder's next site (a free site nearest the midpoint of
+     * herself and home, not under an enemy tower; the touch rule builds it on a free site too); its giants are trained
+     * before the knights, which wait while the idle giant barracks saves for its 140 gold. The knight barracks of the
+     * ladder (BARRACKS) do not count it. 0: off, as v01-v09. From the income experiment of 2026-11-06
+     * (docs/data/exp-2026-11-06-income): the late income buys knights that the mirror's six towers grind down, while
+     * the rival R0's two giants from turn 80 cost v09 6 pp (docs/data/exp-2026-11-06-rival).
+     */
+    public int GIANTS = 0;
+    public int GIANT_TURN = 0;
+    public int GIANTS_MAX = 0;
+    /**
+     * Answers to the enemy's giants (0: off, as v01-v09). From the giants experiment of 2026-11-06
+     * (docs/data/exp-2026-11-06-giants): the rival R0's giants knock down 3.8 of v09's towers a game and double its
+     * queen's deaths. GIANT_GUARD=D &gt; 0: with no knight threat, while an enemy giant stands within D of an own tower's
+     * centre, the queen walks to that tower (the one with the giant nearest) and tops it up, after the defence and the
+     * kiting and before the touch rule (a top-up adds 100 HP, a giant busts 80 a turn). ARCHERS=1: while an enemy giant
+     * stands within ARCHER_RANGE of an own tower's centre (0: anywhere on the board), the queen builds an archer barracks
+     * on the free site nearest the midpoint of herself and home before the ladder's next site, and its archers train
+     * before the knights, which wait while it saves for 100 gold.
+     */
+    public int GIANT_GUARD = 0;
+    public int ARCHERS = 0;
+    public int ARCHER_RANGE = 0;
+    /**
+     * RELEASE_NEAR=R &gt; 0 with RELEASE_HOLD=T &gt; 0 (TRAIN_SYNC=1 only): a ready knight release (every knight barracks
+     * idle and the gold for all of them) waits until the enemy queen is within R of one of our knight barracks, at most
+     * T turns; 0: off, as v01-v09. From the waves experiment of 2026-11-06 (docs/data/exp-2026-11-06-waves): v09's waves
+     * released with the enemy queen within 600 of the barracks do 8.2 HP of damage against the rival R0, those from
+     * 1000-1200 away 2.8.
+     */
+    public int RELEASE_NEAR = 0;
+    public int RELEASE_HOLD = 0;
     public long SEED = 1;
     public int DEBUG = 0;
 

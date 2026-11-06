@@ -1,0 +1,8 @@
+the strongest four (rated 20.5+): 55 games against v08, their score 70 %
+  turn 100: income 6 mines 3 towers 3 towerHp 1916 queenHp 42
+  trainings: knight 11, giant 1 (medians); games with giants 36 of 55; game length median 225, mean 201.9; at the limit 44 %
+  under our knights (medians over games with contact): contact turns 26, % near an own tower 77.3, HP lost per contact turn 1.07, % MOVE 14.3
+the rest of the Silver field: 195 games against v08, their score 29 %
+  turn 100: income 5 mines 3 towers 4 towerHp 1818 queenHp 39
+  trainings: knight 12, giant 0 (medians); games with giants 26 of 195; game length median 241, mean 197.3; at the limit 49 %
+  under our knights (medians over games with contact): contact turns 36, % near an own tower 64.3, HP lost per contact turn 1.09, % MOVE 50.0

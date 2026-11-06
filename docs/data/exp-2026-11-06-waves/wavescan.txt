@@ -1,0 +1,30 @@
+v09 vs rival: 500 maps from seed 1, stride 397; 5201 waves of v09 from turn 30 (knight barracks starting on one turn)
+mean damage to the enemy queen in the next 35 turns with our knights within 250: 3.22 HP; covered by an enemy tower at release: 99.3 %
+  enemy queen    0-  600 from the barracks:   286 waves ( 5.5 %), damage 8.21
+  enemy queen  600-  800 from the barracks:   531 waves (10.2 %), damage 5.24
+  enemy queen  800- 1000 from the barracks:  1106 waves (21.3 %), damage 3.62
+  enemy queen 1000- 1200 from the barracks:  1784 waves (34.3 %), damage 2.83
+  enemy queen 1200- 1500 from the barracks:  1416 waves (27.2 %), damage 1.79
+  enemy queen 1500-99999 from the barracks:    78 waves ( 1.5 %), damage 0.32
+  enemy towers 0:     0 waves, damage NaN
+  enemy towers 1:    13 waves, damage 14.38
+  enemy towers 2:  1525 waves, damage 3.49
+  enemy towers 3:  1058 waves, damage 1.80
+  enemy towers 4:  2535 waves, damage 3.53
+  enemy towers 5:    63 waves, damage 5.37
+  enemy towers 6+:     7 waves, damage 4.57
+v09 vs v09: 500 maps from seed 1, stride 397; 5454 waves of v09 from turn 30 (knight barracks starting on one turn)
+mean damage to the enemy queen in the next 35 turns with our knights within 250: 1.52 HP; covered by an enemy tower at release: 99.8 %
+  enemy queen    0-  600 from the barracks:   158 waves ( 2.9 %), damage 3.79
+  enemy queen  600-  800 from the barracks:   460 waves ( 8.4 %), damage 2.00
+  enemy queen  800- 1000 from the barracks:  1075 waves (19.7 %), damage 1.83
+  enemy queen 1000- 1200 from the barracks:  1847 waves (33.9 %), damage 1.59
+  enemy queen 1200- 1500 from the barracks:  1811 waves (33.2 %), damage 1.02
+  enemy queen 1500-99999 from the barracks:   103 waves ( 1.9 %), damage 0.13
+  enemy towers 0:     0 waves, damage NaN
+  enemy towers 1:     8 waves, damage 13.25
+  enemy towers 2:   729 waves, damage 2.37
+  enemy towers 3:  1119 waves, damage 1.46
+  enemy towers 4:  1248 waves, damage 1.37
+  enemy towers 5:   833 waves, damage 2.17
+  enemy towers 6+:  1517 waves, damage 0.85

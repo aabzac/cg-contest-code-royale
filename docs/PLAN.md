@@ -158,8 +158,16 @@
   - [ ] Step 3: `ORDER=k`, target choice by turns, against v04 (the `current` defaults)
   - [ ] Step 4: own towers on the route (ROUTE walks past them, so fewer top-ups; same README), flee
     routing, teardown bonus
-- [ ] A local opponent with giants (they break towers; `field?GIANTS=1` is too weak to judge by:
-  `docs/data/study-2026-11-05-silver/`)
+- [x] A local opponent with giants, like the strongest Silver players: the rival R0, `field` with kiting, two mines
+  first and capped giants (`docs/data/exp-2026-11-06-rival/`)
+- [x] PV4: R0 as P2's gate G5, spec `rival` (2026-11-06, the user's decision; `docs/local-screen.md`, PV4)
+- [x] The late income against R0 (2026-11-06): even with v09, failed G1; the flags stay off (`docs/data/exp-2026-11-06-income/`)
+- [x] An answer to the enemy's giants against R0 (2026-11-06): the tower guard loses, archers gained on the
+  development seeds only; not adopted (`docs/data/exp-2026-11-06-giants/`)
+- [x] When to release the knight waves (2026-11-06): holding loses; the second knight barracks at the centre passed the P2 screen and is v10, the
+  default (the user's decision; `docs/data/exp-2026-11-06-waves/`)
+- [x] The final evaluation of v10 against v08 (2026-11-06): S 0.5764, below the 0.60 upload recommendation
+  (`docs/data/exp-2026-11-06-waves/`)
 - [x] Organize our arena replays by version, league and upload; downloaders use the registry (`docs/arena-uploads.md`, Replay storage)
 - [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/arena/v01/bronze/upload-<NN>/games`,
   manifests `docs/data/arena-<agent>-games-2026-10-29.json` for 6823071, 6823455 and 6824680)

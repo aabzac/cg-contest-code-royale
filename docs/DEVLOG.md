@@ -2714,3 +2714,325 @@ screen: `docs/data/exp-2026-11-05-late-hold/`.
   - the architecture page: the versions table and the parameters;
   - `docs/visualizer.md` and `.ai/project.md` (v00-v09; `AGENTS.md` resynced at the locked kit commit);
   - the experiment's README.
+
+## 2026-11-06 — A rival like the strongest Silver players: `field` with kiting, two mines first and capped giants (R0)
+
+The user's "Да, начинай" to the proposed next step: a local opponent that plays like the strongest Silver
+players, so that economy and giant candidates can be measured. Record: `docs/data/exp-2026-11-06-rival/`:
+- `README.md`;
+- `target.py` → `target.txt`;
+- the scripts `calib1.sh`, `grid1.sh`, `grid2.sh`, `grid3.sh`, `ladder.sh`;
+- their outputs, in `runs.txt`.
+
+**Target:** the four agents rated 20.5+ in v08's Silver games against v08:
+- their score 70 %;
+- turn 100: income 6, 3 mines, 3 towers at 1,916 HP;
+- 11 knight trainings, 1 giant (giants in 36 of 55 games, the giant barracks ordered at turn 84);
+- the opening M M BK;
+- under our knights, only 14 % MOVE and 1.07 HP per contact turn.
+
+**Code** (not shipped; `cr.bot.field`). New `FieldParams` knobs, all off by default:
+- `KITE=1` with `KITE_RANGE`, `KITE_PULL`: v08's kiting (`FieldBot.kite`, a copy of `MainBot.kite` with KITE=2);
+- `MINES_FIRST`;
+- `GIANT_TURN`;
+- `GIANTS_MAX`, a counter of the giant trainings the bot ordered.
+
+v08 against the default `field` on 1 + 397 k, k < 500, plays the same 1000 games as the first-wave sweep's
+control, after the kiting and after the other knobs (`same_games.py`: 0 differ). Tests:
+`FieldBotTest.kitingStaysUnderTheTowers` and `openingGiantTurnAndGiantCap` (`FieldBotTest` 4 of 4).
+
+**Calibration** (v09 against the variant on 1 + 397 k; raw reports in `replays/bench/dev-rival-2026-11-06/`, main
+checkout, gitignored):
+- kiting alone lifts the ladder from 0.93 to 0.83;
+- two mines first and giants from turn 80, at most 2: 0.80;
+- with TOWER_HP=700 (R0): **0.706**, 0.703 on 500 maps.
+
+Around R0 every knob was the same or worse (0.70-0.88): 3/5/6 towers, income 6 or 10, the giant turn 60/100, the
+cap 1/3/4, no giants (0.76), no kiting (0.84), TOWER_HP=800 (0.88), the kiting pull and range. The ladder
+plateaus near 0.70, far from the strongest four's 70 % against v08.
+
+**R0's profile** against v09 (500 maps) next to the target:
+- turn 100: income 5, 3 mines, 4 towers at 2,276 HP;
+- 13 knight and 2 giant trainings;
+- 74 % of the games at the limit (target 44 %);
+- under knights 66 % MOVE (target 14 %) and 0.5 HP per contact turn (target 1.07).
+
+**Validation, the version ladder against R0** (500 maps each; `ladder-v05.json` … `ladder-v09.json`, sha256 cacb45c8,
+5df9fdf3, 898da981, 7bc41fd4, a1d37802): v05 0.269, v06 0.372, v07 0.412, v08 0.651, v09 0.703.
+- The logit steps: v06 +0.48, v07 +0.17, v08 +0.98, v09 +0.24.
+- They give the Bronze arena's order of steps (v06 +0.85, v07 −0.71, v08 +2.46 on the means). P2's direct S at
+  the time put v07's step first (0.680 against v06).
+- Three steps are a small sample, and R0 still gives v07 a gain where the arena showed none.
+
+**Proposal (PV4, the user's decision):** R0 as P2's gate G5, Δ ≥ −2 pp on the block's 2000 maps, in-process. What
+it does not represent is recorded in the README: the strongest players' strength, their low kiting, the
+games decided before the limit. Policy text unchanged until the user decides.
+
+Records: BOTS (the opponents), STATUS, SUMMARY, PLAN, the architecture page (giants), the README.
+
+## 2026-11-06 — PV4 adopted: the rival R0 as P2's gate G5 (spec `rival`)
+
+The user's decision on the proposal of `docs/data/exp-2026-11-06-rival/` ("Да, принять PV4").
+
+**Gate G5:** Δ against R0 ≥ −2 pp on the 2000 maps of the block, in-process (8 threads, 50 ms), as G4.
+- P2 now has gates G0-G5, and the upload recommendation asks for G0-G5 on the evaluation block.
+- PV4 lapses as PV1 does.
+- What R0 does not represent is recorded with it: the strongest players' strength (R0 29 % against v09, they 70 %
+  against v08), their low kiting (14 % MOVE against R0's 66 %), and the games decided before the limit (R0 at the
+  limit in 74 % of the games, they 44 %).
+
+**The spec `rival`:**
+- `BotFactory.create`/`describe` build `FieldBot` with `FieldParams.RIVAL`
+  (`KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2`) before any overrides, so a report records the
+  full configuration as "rival …".
+- `BotFactoryTest.rivalIsTheFieldBotWithTheRivalParameters` checks the description and that three games equal those of
+  the spelled-out `field?…` spec.
+
+**Policy text:**
+- `docs/local-screen.md`: the status, the opponents table, the PV4 section, the gates table, the upload
+  recommendation, and the commands (the example's control is now v09, the local champion);
+- `.ai/project.md`: the P2 section and the promotion table, with `AGENTS.md` resynced at the locked kit commit
+  f4a5bd63 (`check` OK). The bench row's list of specs that take parameters is corrected: it named only `current`
+  and `v01`, while v01-v09, `field` and now `rival` take them (`submit`, `boss`, `old` and `v00` refuse them).
+
+The verdicts before PV4 stand; v09 against R0 on the development seeds was +5.2 pp over v08's (the rival experiment).
+
+Records: BOTS (the opponents), STATUS, SUMMARY, PLAN, the rival README, the architecture page.
+
+Checks: `./gradlew test` 158 tests, 0 failures, 3 skipped; `tools/tests` OK; the visualizer's node tests 18 passed;
+the architecture page's tags balance; `.ai/sync.py check` OK. Nothing committed.
+
+## 2026-11-06 — The late income against the rival R0: four development sweeps, five towers with the safe late income screened
+
+The user's choice after PV4 ("Да, начинай": the income first, the giants next). Everything is in
+`docs/data/exp-2026-11-06-income/` (README, `sweep.sh`, `sweep_table.py`, `sweep.txt`, `profile.sh`, `profile1.txt`,
+`screen.sh`). Raw reports are in the main checkout: `replays/bench/dev-income-2026-11-06/` (68 development series)
+and `replays/bench/exp-2026-11-06-income/` (the screen).
+
+**Starting point:** commit 7e5e346 with the uncommitted rival and PV4 changes; each report records the status and the
+sha256 of the changes.
+
+**The profile tool.** `cr.tools.LocalProfile` gains the turn-200 line and an economy line: own mines built, upgrades,
+mines torn down (gold left on the site) or depleted, the gold mined. v09 against R0 mines 723 gold a game with 4.6
+mines built; R0 mines 1,204 with 8.1, and still loses 70 % of the games.
+
+**The hypothesis and criteria** were written into the README before the first sweep. An arm is a candidate if, on the
+development seeds 1 + 397 k (500 maps), it gains ≥ +2 pp against R0, scores S ≥ 0.50 against v09 and loses at most
+2 pp against `field`. The best such arm goes to the P2 screen on `screen-pv3` k = 1.
+
+**The sweeps** (22 arms, each against v09, R0 and `field`; the tables are in the README):
+1. `INCOME_LATE` 4-8: +1.3..+1.9 pp against R0, S 0.478-0.485 against v09, ≈ 0 against `field`. `UPGRADE=1` changes
+   19 of 500 maps (the touch rule already fills a new mine).
+   - The profile: the income rises 5-8 %, about one wave. In the mirror our queen dies 63 times per 1000 games
+     instead of 47.
+   - The late phase starts when the ladder is complete, and the ladder has made our half's sites towers.
+2. Safety conditions on the late walks, new flags off by default: `LATE_COVER`, `LATE_HALF`, `LATE_CLEAR`.
+   `LATE_CLEAR=1000` brings the mirror to 0.498 and keeps +1.95 pp against R0.
+3. The tower-mine balance and our own giants. New flags `GIANTS`, `GIANT_TURN` and `GIANTS_MAX`, off by default, play
+   as R0's giants.
+   - `MAX_TOWERS=5,INCOME_LATE=6,LATE_CLEAR=1000`: S 0.5090 against v09, +3.35 pp against R0, −0.20 pp against
+     `field`, the first arm to meet the criteria.
+   - Four towers lose the mirror (0.467), and mines before the towers lose (target 4: 0.481; target 5: 0.402).
+   - Our giants lose heavily: 0.379 against v09, −21.6 pp against R0, −9.5 pp against `field`.
+4. The neighbourhood of five towers.
+   - Five towers alone lose (0.471, −4.0 pp against R0).
+   - Without `LATE_CLEAR` the income loses the mirror (0.462).
+   - Targets 4 and 8 with `LATE_CLEAR=1000` score 0.463 and 0.495; `LATE_CLEAR=600` scores 0.5035 and +3.65 pp.
+   - So the mirror stays near even across the family, and the best arm's 0.509 is in part the pick's luck.
+   - The pick rule, stated before sweep 4: the highest S against v09 among the arms meeting the criteria.
+
+**Code** (all new flags off, `current` plays as v09):
+- `Params`: `LATE_COVER`, `LATE_HALF`, `LATE_CLEAR`, `GIANTS`, `GIANT_TURN`, `GIANTS_MAX`;
+- `MainBot`:
+  - `lateSite` takes the conditions;
+  - new `clearOfKnights`;
+  - the giant barracks before the ladder's next site and on a touched free site;
+  - `train` trains the giant barracks first and saves for it; the knights' sync counts only knight barracks, which
+    changes nothing without a giant barracks;
+- the snapshots v01-v09 record the six fields at 0;
+- tests `StrategyParamsTest.lateIncomeSafetyConditions` and `giantsBarracksAndTraining`.
+
+**The P2 screen** (`screen.sh`), PV3 screen block 1 (1001000000 + 397 i, i < 2000), candidate
+`current?MAX_TOWERS=5,INCOME_LATE=6,LATE_CLEAR=1000` against v09:
+- G1 **fails**: S 0.5016 (CI 0.4898-0.5135), 1,769 of 2,000 maps changed against the mirror.
+- G4 passes: +0.31 pp against `field`.
+- G5 passes: +1.79 pp (CI +0.48..+3.10) against R0, half the development estimate.
+- G2 not established. The candidate scored 999 of 1,000 against `boss`, but `boss` timed out on 48 of 500 maps, a run
+  of consecutive seeds (host load), so the series is invalid.
+- G0 not established: 5 slow candidate turns at 8 threads, on neighbouring maps and on both sides; v09's mirror and
+  R0 control had them too.
+- Neither is repeated, because G1 decides.
+- The verdict: not the local champion, v09 stays, the flags stay off. Recorded in `docs/data/seed-ledger.json`
+  (`screen-pv3` next at k = 2).
+
+About 0.3 rating points against R0-like opponents with Silver's scale: the economy as this ladder can express it is not
+the lever. The next direction (README): an answer to the enemy's giants, measured against R0.
+
+## 2026-11-06 — An answer to the enemy's giants against R0: archers screened as a targeted fix
+
+The user's choice after the income experiment ("Да, начинай"). Everything is in `docs/data/exp-2026-11-06-giants/`:
+README, `sweep.sh`, `sweep_table.py`, `sweep.txt`, `profile-archers-rival.txt`, `screen.sh`. Raw reports are in the
+main checkout: `replays/bench/dev-giants-2026-11-06/` (31 development series) and
+`replays/bench/exp-2026-11-06-giants/` (the screen).
+
+**The problem.** `LocalProfile` gains a giants line (giants out, own towers lost while a giant touched them, the other
+towers lost, the first giant at an own tower) and an archer count. Against R0, v09 meets 1.7 giants a game in 884 of
+1000 games. They knock down 3.8 of its towers a game (other causes, 1.0) from turn 151. Our queen dies 135 times per
+1000 games, against 62 when R0 trains no giants, and v09's wins fall from 74.8 % to 69.9 %.
+
+**The answers**, new flags off by default (`Params`, `MainBot`; snapshots v01-v09 record them at 0):
+- `GIANT_GUARD=D`: the queen tops up the tower a giant attacks.
+- `ARCHERS=1` with `ARCHER_RANGE=R`: an archer barracks and archers before knights while a giant is out.
+- `MainBot` also gains `walkTo` (the walk to a BUILD target, shared by the late income, giant and archer barracks
+  rules), `guardTower` and `giantNearTowers`. `train` trains the special barracks first and syncs the knights over
+  knight barracks only.
+- Tests: `StrategyParamsTest.giantGuardTopsUpTheAttackedTower` and `archersAgainstGiants`.
+
+**Hypothesis and criteria** were written into the README before the sweep: Δ against R0 ≥ +2 pp, S against v09
+≥ 0.50, Δ against `field` ≥ −2 pp, on 1 + 397 k (500 maps); `field?GIANTS=1` as a check of generality.
+
+The answers act only on enemy giants. Every arm scores exactly 0.5000 against v09 and plays v09's games against
+`field`. By P2's letter the screen is therefore a targeted fix (fewer than 10 % of the maps changed against the
+control's mirror): G0, S ≥ 0.500, Δ against `boss` ≥ −1 pp, a regression test. G5 against R0 is reported as the
+evidence of benefit.
+
+**The sweep** (7 arms):
+- the guard loses at every radius: D 150/300/500 → −1.8/−3.3/−2.5 pp against R0;
+- archers answering any giant, or one within 1000 of our towers, gain +3.05 pp against R0 and cost 1.3-1.45 pp against
+  `field?GIANTS=1`, inside their intervals; within 600 they gain +1.75;
+- archers with the guard: +0.9 pp against R0.
+
+The tie between `ARCHER_RANGE=0` and `1000` was broken by the smaller loss against `field?GIANTS=1`, a rule set after
+the tie appeared. The pick is `current?ARCHERS=1,ARCHER_RANGE=1000`. Its profile against R0:
+- own towers lost to giants: 2.0 a game (v09 3.8);
+- our queen's deaths: 80 of 1000 games (v09 135);
+- enemy queens killed: 97 (v09 131);
+- knight waves 8, and 1.2 archer pairs a game.
+
+**The P2 screen** (`screen.sh`), PV3 screen block 2 (1002000000 + 397 i, i < 2000), candidate
+`current?ARCHERS=1,ARCHER_RANGE=1000` against v09:
+- the direct match: S 0.5000, 0 of 2,000 maps changed against the mirror, G0 clean;
+- `field`: the same games as v09's;
+- R0: +0.36 pp (CI -0.88..+1.60), 1,740 maps changed;
+- `field?GIANTS=1`: -0.99 pp (CI -1.79..-0.19);
+- boss delta 0.0000 with v09's games (passes the targeted fix's -1 pp);
+- no slow turn, timeout or error in any series.
+
+The development gain of +3.05 pp did not replicate. By P2's letter this is a targeted fix: it changes no map
+against the control's mirror. In substance it changes 87 % of the games against R0 and gains nothing there.
+Not adopted, by the user's decision against P2's letter ("Да, не принимать"); the flags stay off. The README records the policy gap: the changed maps are counted
+against the mirror only. Recorded in `docs/data/seed-ledger.json` (`screen-pv3` next at k = 3).
+
+## 2026-11-06 — When to release the knight waves: holding loses, the forward second barracks screened
+
+The user's choice after the giants experiment ("Да, начинай": hold a wave until the enemy queen leaves her towers).
+Everything is in `docs/data/exp-2026-11-06-waves/`: README, `wavescan.txt`, `sweep.sh`, `sweep_table.py`, `sweep.txt`,
+`screen.sh`. Raw reports are in the main checkout: `replays/bench/dev-waves-2026-11-06/` (23 development series) and
+`replays/bench/exp-2026-11-06-waves/` (the screen).
+
+**The idea as proposed does not work.** `LocalProfile` gains a waves line. From turn 30 on, the enemy queen stands
+outside all her towers' ranges on 0.9 % of the turns against R0 and 0.2 % in the mirror, and the shares at our
+releases are the same. Tower ranges of 360-510 cover almost every move she makes.
+
+**What a wave depends on.** `cr.tools.WaveScan` is new (`./gradlew waveScan`). It measures, for each of our waves from
+turn 30, the HP the enemy queen loses in the next 35 turns on turns with our knights within 250. That damage falls
+with her distance from the releasing barracks at release: against R0 8.2 HP below 600, 2.8 at 1000-1200, 1.8 at
+1200-1500; against v09 3.8 and 1.6. That is a correlation, so the sweep tests it.
+
+**Code** (off by default, `current` plays as v09):
+- `RELEASE_NEAR=R` with `RELEASE_HOLD=T` in `MainBot.train`: a ready knight release waits until the enemy queen is
+  within R of a knight barracks, at most T turns (`enemyQueenNearKnightBarracks`, `readySince`);
+- the snapshots v01-v09 record both at 0;
+- test `StrategyParamsTest.releaseWaitsForTheEnemyQueen`.
+
+**Hypothesis and criteria** were written into the README before the sweep: S ≥ 0.52 against v09, Δ ≥ −2 pp against
+R0 and against `field`, on 1 + 397 k (500 maps).
+
+**The sweep** (7 arms):
+- every hold loses heavily: R/T 800/15, 800/30, 1000/15, 1000/30, 600/30 → 0.332, 0.296, 0.377, 0.346, 0.254 against
+  v09, from −6.9 to −19.8 pp against R0;
+- the existing `BARRACKS_FORWARD`, the second knight barracks toward the enemy: 35 → 0.503 and +4.5 pp against R0;
+  50 → 0.5425 (CI 0.515-0.570), +5.35 pp against R0, −0.75 pp against `field`;
+- the pick, the only arm that meets the criteria: `current?BARRACKS_FORWARD=50`.
+
+**The P2 screen** (`screen.sh`), PV3 screen block 3 (1003000000 + 397 i, i < 2000), candidate
+`current?BARRACKS_FORWARD=50` against v09:
+- G1 passes: S 0.5426 (CI 0.5293-0.5560), 1,837 of 2,000 maps changed against the mirror;
+- G2 passes: Δ 0.0000 against `boss` (1.000 both);
+- G4 passes: +0.81 pp against `field`;
+- G5 passes: +3.09 pp (CI +1.56..+4.61) against R0;
+- G0 by repeats:
+  - the first run had slow candidate turns in 6, 6 and 11 games, and v09's own mirror in 22 and 21;
+  - `rerun.sh` with 2 threads held the same 12,000 games, with 3, 4 and 3 slow games left on other maps (stalls up to
+    330 ms, v09 one of 560 ms);
+  - `maprepeat.sh` replayed those 8 maps one at a time in 1 thread: the same 16 games, clean (`map_check.py`, new,
+    with `slow_seeds.py`).
+- G3 skipped.
+
+The candidate passes: the local champion by P2, about +0.5 rating points head-to-head (logit 0.171 times Silver's
+scale 3.16). The freeze, the default, the
+final evaluation against v08 and any upload are the user's decisions. A profile corrects the README's first account of
+the holds: a hold costs about one wave of ten, and it halves what a knight training takes from the enemy queen (0.8
+against 1.5 HP). Recorded in `docs/data/seed-ledger.json` (`screen-pv3` next at k = 4).
+
+## 2026-11-06 — Freeze v10: the second knight barracks at the centre as the local champion and the current default
+
+The user's decision on the waves screen ("Да, по умолчанию"), as for v09: the default without an upload.
+- `cr.bot.v10` is a frozen copy of `current` (`GreedyBot`, `RoutePlanner`, `ApproachPlanner`). It carries the off flags of
+  the income, giants and waves experiments.
+- `versions/v10.properties` is v09's snapshot with BARRACKS_FORWARD=50, and `Params` defaults to it.
+- `BotFactory`, the local-games catalog (`LocalGames`, `visualizer/local.js`: v10 is the default second side) and
+  `.ai/project.md` and `docs/visualizer.md` (v00-v10) know v10. `AGENTS.md` is resynced (`check` OK).
+- Tests:
+  - `MainBotTest.withDefaultsCurrentPlaysAsV10` (fixture seeds and PV3 screen block 3's maps) and
+    `withV09ParamsCurrentPlaysAsV09` (the former defaults test);
+  - the older identity constants carry BARRACKS_FORWARD=0;
+  - `BotFactoryTest` chains v09 to v10, and the live defaults equal v10;
+  - `LocalGamesTest` counts 13 choices.
+- The architecture page:
+  - its rules describe v08, the selected version, and stay;
+  - the versions section, the table (a v10 row) and the identity-test list are updated;
+  - the stale "the values are the defaults, v08" now says the values are v08's snapshot.
+- Records: BOTS (the v10 row, the v09 row, `current`, the BARRACKS_FORWARD flag), STATUS, SUMMARY, PLAN (the final
+  evaluation of v10 against v08 is open), the waves README.
+
+v08 stays the selected version on the arena. There is no final evaluation and no artifact check yet. The trial
+`submit` of the screen built 86,098 characters.
+
+## 2026-11-06 — v10's final evaluation against v08: S 0.5764, below the 0.60 upload recommendation
+
+The user's request ("Да, запускай"), under P2: the local champion against the selected version on a fresh final
+evaluation block. PV3 evaluation block 0 (2000000000 + 397 i, i < 2000), the first of that pool. The scripts are
+`eval.sh` and `eval-rerun.sh` in `docs/data/exp-2026-11-06-waves/`. The raw reports are in the main checkout's
+`replays/bench/exp-2026-11-06-waves-eval/`.
+- G1: S 0.5764 (CI 0.5626-0.5902) against v08, 1,866 of 2,000 maps changed against v08's mirror;
+- G2: G2 passes: boss delta 0.0000 (1.000 against 1.000);
+- G4: G4 passes: field delta +0.0149 (CI +0.0063..+0.0234);
+- G5: G5 passes: rival delta +0.0843 (CI +0.0683..+0.1002);
+- G0: G0 by quiet repeats: v10's three series repeated with 2 threads held the same 12000 games without a slow turn;
+- G3 skipped.
+
+G0-G2, G4 and G5 pass (G3 skipped): v10 passes the final evaluation against v08. The upload recommendation (S ≥ 0.60) is not met: even the upper bound, 0.5902, is below it.
+- With Silver's scale 3.16 the gain is about +1.0 rating point head-to-head; with Bronze's 1.33, +0.4.
+- Against R0 the gain over v08 is large, +8.4 pp: the late hold (+5.2 pp in the rival experiment) and the forward
+  barracks (+3.1 on the screen) add up.
+- The bench's slow turns are host stalls of up to 560 ms on both sides, the frozen controls included; the average
+  turn takes 0.05-0.08 ms. The CG time limits of an artifact are `procCheck`'s to check, before any upload.
+- An upload of v10 would be the user's exception, as `route`'s was at 0.5856. Recorded in the seed ledger
+  (`evaluation-pv3` next at k = 1).
+
+## 2026-11-07 — v10's artifact for an upload as an exception
+
+The user's decision after the final evaluation ("Да, готовь"): prepare v10 for the arena, although S 0.5764
+against v08 is below the 0.60 upload recommendation.
+- `./gradlew submit` with empty PARAMS (v10's defaults): `21665009d7b3db69ccd12fe808d203286c6a2f8a3b0ef0da1da683c7267d7543`, 86,080 characters, build `8c3b0d9a`,
+  config `ca7e6562`. A second build gave the same bytes.
+- `procCheck`: procCheck vs v01 100 maps @5000: 200/200 identical to current, 199 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 333.3 ms, later 3.5 ms; vs boss 100 maps @6000: 200/200 identical to current, 200 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 341.1 ms, later 7.1 ms (logs `replays/bench/exp-2026-11-06-waves-eval/proccheck-v10-*.log`).
+- The kept copy: `artifacts/21665009/Player.java` in the main checkout.
+- The commit and the fast-forward merge into master: the user's request ("Да, влей в master").
+  - A clean export of the staged tree (`git write-tree`, `git archive`) ran `./gradlew submit` and rebuilt the same
+    bytes before the commit; the commit carries the same sources.
+  - After the merge `./gradlew submit` in the main checkout builds them too, so its `build/submit` holds the file
+    to paste.
+- Next: from the main checkout, `python -B -I tools/arena.py follow v10 --selected v08` before the paste.
+- The selected version stays v08 until P1 judges two placements of v10.

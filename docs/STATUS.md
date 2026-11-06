@@ -5,19 +5,25 @@ artifacts `docs/BOTS.md`, P1 comparisons and the noise margin `docs/arena-upload
 evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary for the user
 `docs/SUMMARY.md`. The history this page held until 2026-10-30: `git show 60f0b59:docs/STATUS.md`.
 
-- Date: 2026-11-05. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
+- Date: 2026-11-06. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: Silver since 2026-11-03 23:46 (CG promoted v08 upload 2); the Bronze scores stay
   Bronze-only. PV1/PV2 lapsed with the league change; **PV3** (2026-11-05, the user's decision on the Silver
   study's proposal, `docs/data/study-2026-11-05-silver/`) renews the proxy for Silver. P2's blocks are now
   strided (`screen-pv3` and `evaluation-pv3` in `docs/data/seed-ledger.json`, both next at k = 0), so every
   block plays all 16 starting HPs. Giants and the late game of strong economies are recorded as
   unrepresented, and candidates that depend on them are judged by the arena (`docs/local-screen.md`, PV3).
-  P2 candidates can be promoted again.
-- Local champion and `current` defaults: **v09** = v08 with the late hold (LATE_HOLD=200: from turn 200, ahead on
+  **PV4** (2026-11-06, the user's decision) adds the rival R0 as gate G5 (spec `rival`). P2's gates are now
+  G0-G5, and P2 candidates can be promoted.
+- Local champion and `current` defaults: **v10** = v09 with the second knight barracks at the centre of the board
+  (BARRACKS_FORWARD=50), frozen 2026-11-06 by the user's decision ("the default"; `cr.bot.v10.GreedyBot`,
+  `versions/v10.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV10`). P2 screen on PV3 block 3: S 0.5426 against
+  v09, +3.09 pp against R0 (`docs/data/exp-2026-11-06-waves/`). Not uploaded, no final evaluation against v08, no
+  artifact checked; the next P2 candidates are screened against v10.
+- Previous local champion: v09 (2026-11-05 to 2026-11-06) = v08 with the late hold (LATE_HOLD=200: from turn 200, ahead on
   HP, no walk to the ladder's next site), frozen 2026-11-05 by the user's decision ("the default without an
-  upload"; `cr.bot.v09.GreedyBot`, `versions/v09.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV09`). P2
+  upload"; `cr.bot.v09.GreedyBot`, `versions/v09.properties`; `MainBotTest.withV09ParamsCurrentPlaysAsV09`). P2
   screen on PV3 block 0: S 0.5269 against v08, +1.46 pp against `field` (`docs/data/exp-2026-11-05-late-hold/`).
-  Not uploaded, no final evaluation, no artifact checked; the next P2 candidates are screened against v09.
+  Not uploaded, no final evaluation, no artifact checked.
 - Selected version (the arena's): v08 = v07 with the kiting bound to the towers
   (KITE=2, KITE_PULL=100), frozen 2026-11-03 (`cr.bot.v08.GreedyBot`, `versions/v08.properties`; P2
   `docs/data/exp-2026-11-03-kite2/`: S 0.6670 against v07 and +14.8 pp against `field` on the evaluation
@@ -179,10 +185,39 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   to 27.90 during v08's placement (`docs/data/arena-6843773-games-2026-11-03.json`), and v08 won 3 of its 7
   games against it; v08's first placement 27.85 is 0.05 below it, v07's mean 25.53 about 2.4 below. Earlier bound: above about 27.1 (the Bronze leaderboard of
   2026-10-30, `docs/data/leaderboard-bronze-2026-10-30.json`). The local `boss` spec is the repository's Default AI: a floor, not this boss.
+- Rival opponent (2026-11-06, `docs/data/exp-2026-11-06-rival/`):
+  R0 = `field?KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2`, the closest the ladder
+  gets to the strongest four Silver players.
+  - v09 scores 0.703 against it (`field` 0.93). Against R0 the versions v05-v09 score 0.27, 0.37, 0.41, 0.65 and
+    0.70, the Bronze arena's order of steps.
+  - Gate G5 of P2 since PV4 (2026-11-06; spec `rival`, `docs/local-screen.md`).
+- Income candidate (2026-11-06, `docs/data/exp-2026-11-06-income/`): the late income gains 1-2 pp against R0 and
+  loses the v09 mirror (our half's sites are towers when the ladder ends, and the walks to far mines kill the
+  queen). Five towers with the late income and no walk while enemy knights are within 1000
+  (`current?MAX_TOWERS=5,INCOME_LATE=6,LATE_CLEAR=1000`) failed the P2 screen on PV3 screen block 1: S 0.5016
+  (CI 0.4898-0.5135) against v09, G1 fails; +1.79 pp against R0, +0.31 pp against `field`, G2 not established (boss timeouts on 48 of the 500 maps of the candidate's series, none in v09's). Our own
+  giants lose 21 pp against R0. All new flags stay off; v09 stays the local champion.
+- Giants answer (2026-11-06, `docs/data/exp-2026-11-06-giants/`): R0's giants knock down 3.8 of v09's towers a game
+  and double its queen's deaths. Topping up the attacked tower (`GIANT_GUARD`) loses 1.8-3.3 pp against R0.
+  Archers (`ARCHERS=1,ARCHER_RANGE=1000`) gained +3.05 pp on the development seeds. On PV3 screen block 2 they are
+  +0.36 pp (CI -0.88..+1.60) against R0 and -0.99 pp against `field?GIANTS=1`, with v09's games against v09 and
+  `field` (a targeted fix by P2's letter), boss delta 0.0000 with v09's games (passes the targeted fix's -1 pp). Not adopted by the user's decision, against P2's letter (a passing targeted fix joins
+  the local champion): no gain on fresh seeds; the flags stay off.
+- Knight waves (2026-11-06, `docs/data/exp-2026-11-06-waves/`): holding a ready wave until the enemy queen comes
+  near our barracks loses 6.9-19.8 pp against R0 (the queen almost never leaves her towers' ranges, and a held wave
+  takes half the HP). The second knight barracks at the centre (`current?BARRACKS_FORWARD=50`) on PV3 screen
+  block 3: S 0.5426 (CI 0.5293-0.5560) against v09, +3.09 pp against R0, +0.81 pp against `field`, G2 boss delta 0.0000 (1.000 against 1.000),
+  G0 by repeats (the 2-thread repeats held the same 12000 games, and the 8 maps still slow there, repeated one at a time in 1 thread, were identical and clean); passes the P2 screen; frozen as v10, the default (the user's decision).
+- v10's final evaluation (2026-11-06, PV3 evaluation block 0): S 0.5764 (CI 0.5626-0.5902) against v08; G2 passes: boss delta 0.0000 (1.000 against 1.000); G4 passes: field delta +0.0149 (CI +0.0063..+0.0234); G5 passes: rival delta +0.0843 (CI +0.0683..+0.1002); G0 by quiet repeats: v10's three series repeated with 2 threads held the same 12000 games without a slow turn. G0-G2, G4 and G5 pass (G3 skipped): v10 passes the final evaluation against v08; S < 0.60, so no upload recommendation (an upload would be the user's
+  exception).
+- v10's artifact (2026-11-07): `21665009…`, 86,080 characters, build `8c3b0d9a`, config `ca7e6562`; procCheck vs v01 100 maps @5000: 200/200 identical to current, 199 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 333.3 ms, later 3.5 ms; vs boss 100 maps @6000: 200/200 identical to current, 200 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 341.1 ms, later 7.1 ms (logs `replays/bench/exp-2026-11-06-waves-eval/proccheck-v10-*.log`).
+  The copy for the paste is `artifacts/21665009/Player.java` in the main checkout. Committed and merged into master
+  on 2026-11-07 (a clean export rebuilds the bytes). Next, from the main checkout:
+  `python -B -I tools/arena.py follow v10 --selected v08`, then the paste.
 - Waiting on the user:
-  - the next candidate (screened against v09); an upload of v09 only as an exception (S < 0.60);
+  - the next candidate (screened against v10); an upload of v10 only as an exception (S 0.5764 < 0.60);
   - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).
-- Policies: P2 locally with gates G0-G4 (`docs/local-screen.md`; PV3 since 2026-11-05), then `submit` and both `procCheck`, then P1 on the arena
+- Policies: P2 locally with gates G0-G5 (`docs/local-screen.md`; PV4 since 2026-11-06), then `submit` and both `procCheck`, then P1 on the arena
   (`docs/arena-uploads.md`, `tools/arena_compare.py`, registry `docs/data/arena-uploads.json`).
 - Simulator: live rules in `cr.core`, listed in `docs/rules/inferred.md`; original validation corpora
   `replays/cg/legend-top` (88), `replays/arena/legacy/bronze/upload-01/games` (10) and

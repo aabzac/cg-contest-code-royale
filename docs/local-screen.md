@@ -5,7 +5,7 @@ the opponent panel and the boss's exact rating left for later. P2 is the local p
 policy. The arena step stays P1 (`docs/arena-uploads.md`). A candidate first passes P2, then the artifact
 checks (`submit`, both `procCheck` runs), then P1 on the arena. Proxy validation: PV1 (2026-10-30), PV2
 (2026-11-03, `field`), **PV3 (2026-11-05, Silver; the user's decision)**: strided seed blocks and a record of
-what the panel represents (below).
+what the panel represents; **PV4 (2026-11-06; the user's decision)**: the rival R0 as gate G5 (below).
 
 ## Why
 
@@ -29,7 +29,7 @@ what the panel represents (below).
   and the next candidates are screened against it.
 - **Selected version**: the arena's (P1; `docs/STATUS.md`).
 
-## Opponents and proxy validation PV1, PV2, PV3
+## Opponents and proxy validation PV1, PV2, PV3, PV4
 
 | Spec | Role | What it is |
 | --- | --- | --- |
@@ -37,6 +37,7 @@ what the panel represents (below).
 | `boss` | G2, floor | the referee repository's Default AI (`refs/referee-csj/config/level4/Boss.java`, csj/code-royale@349924a): one knight barracks, mines to income 10, then towers, no evasion. v01 wins 95 % of games against it. It is not a model of the live boss "Princess Boss", which stands above about 27.1 |
 | `old` | G3, stronger reference | the code of the replaced entry 3315948 (long-run 19.64 in Bronze), which the user keeps from the IDE at `refs/old-3315948/Player.java` (gitignored). It is compiled into `build/opponents/old` and runs as a process. It is not part of our bot. Pending: the code is not in place yet |
 | `field` | G4, the field's balance (since 2026-11-03, PV2) | `cr.bot.field.FieldBot` (in-process, `field?K=v`): a greedy ladder with the arena field's balance — a mine first, 3 mines upgraded to income 8, 4 towers at 600, v06's defence, 17 knight waves; giants optional and off. Its play is not our ladder (income 7 against 3, 4 towers at 600 against 6 at 700). S 0.255 against v06, 0.735 against v03, 60/60 against `boss` (`docs/data/exp-2026-11-03-field-opponent/`). Not the arena's strong players, who beat v06 |
+| `rival` | G5, the strongest Silver players' build (since 2026-11-06, PV4) | the rival R0: `FieldBot` with `FieldParams.RIVAL` = `KITE=1,MINES_FIRST=2,TOWER_HP=700,GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2` (in-process, `rival?K=v`): two mines first, income 5, 13 knight and 2 giant trainings, v08's kiting. v09 scores 0.703 against it (`field` 0.93); the versions v05-v09 score 0.27, 0.37, 0.41, 0.65, 0.70 (`docs/data/exp-2026-11-06-rival/`). Far weaker than the strongest Silver players, who score 70 % against v08 |
 
 Process opponents run with `-Pthreads=3 -PturnMs=200`, which avoids timeouts from CPU contention.
 
@@ -98,6 +99,23 @@ games with local series of v08 against each opponent; PV3 renews the validation 
 - **Calibration** with `old` (PV1) is still pending, and G3 is skipped until its code is in place.
 - PV3 lapses as PV1 does.
 
+**PV4** (2026-11-06, the user's decision on the proposal of `docs/data/exp-2026-11-06-rival/`): the rival R0
+joins the panel as gate G5.
+- **Built for** the play PV3 left unrepresented: the strongest four Silver players of v08's placements. They
+  open with two mines, hold income 6, train 11 knight waves and a giant or two (giants in 36 of 55 games), and
+  score 70 % against v08.
+- **R0** is the `field` ladder with v08's kiting, two mines first, top-ups to 700 and at most two giants from
+  turn 80. Other balances of the same ladder plateau near v09 0.70 against them, so R0 is the closest the
+  ladder gets.
+- **The check:** against R0 the versions v05-v09 score 0.269, 0.372, 0.412, 0.651, 0.703. The steps (in logits
+  +0.48, +0.17, +0.98) come in the Bronze arena's order: v06 +0.85, v07 −0.71, v08 +2.46 on the placement means.
+  P2's direct matches had put v07's step first. Three steps are a small sample.
+- **Not represented**, beside PV3's list:
+  - the strongest players' strength: R0 scores 29 % against v09, they score 70 % against v08;
+  - their low kiting: 14 % MOVE under knights against R0's 66 %;
+  - the share of games decided before the limit: R0 goes to the limit in 74 % of the games, they in 44 %.
+- PV4 lapses as PV1 does.
+
 ## Seeds
 
 The map is `MapGen.generate(seed)`: `java.util.Random(seed)`, validated against CG maps. Each map is
@@ -131,11 +149,12 @@ block's use; a used block becomes development data. Since PV3 (2026-11-05) a blo
 | G2 | `boss`, 500 maps of the block: Δ ≥ −2 pp |
 | G3 | `old` (once present), 500 maps of the block: Δ ≥ −2 pp. Until then G3 is skipped, and the record says so |
 | G4 | `field` (in-process), the 2000 maps of the block: Δ ≥ −2 pp (since 2026-11-03, PV2) |
+| G5 | `rival` (in-process), the 2000 maps of the block: Δ ≥ −2 pp (since 2026-11-06, PV4) |
 
 - **Replication** is needed only when several arms were screened on one block: the chosen arm repeats
   G0-G4 on a new screen block.
 - A candidate that passes becomes the local champion.
-- **Upload recommendation**: when the local champion passes G0-G4 against the selected version on a fresh
+- **Upload recommendation**: when the local champion passes G0-G5 against the selected version on a fresh
   final-evaluation block, with S ≥ 0.60. The user decides whether to upload. The upload then follows the
   artifact checks and P1.
 
@@ -149,6 +168,10 @@ the same maps) on fewer than 10 % of the block's maps. It needs:
 - Δ ≥ −1 pp against `boss`.
 
 It joins the local champion and needs no upload of its own.
+
+On 2026-11-06 the user did not adopt a change that passed these gates by the letter. The archers against giants
+(`docs/data/exp-2026-11-06-giants/`) changed no map against the mirror, but 1,740 of 2,000 against R0, with no gain
+there.
 
 ## Draws, failures, sample size
 
@@ -174,19 +197,22 @@ It joins the local champion and needs no upload of its own.
 
 ## Commands
 
-For a candidate `current?FLAG=1` against the control v08 on PV3 screen block 0 (seedBase 1000000000,
+For a candidate `current?FLAG=1` against the control v10 on PV3 screen block 0 (seedBase 1000000000,
 stride 397; block k starts at 1000000000 + 1000000 k):
 
 ```
-./gradlew bench "-Pbot1=current?FLAG=1" -Pbot2=v08 -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/direct.json
-./gradlew bench -Pbot1=v08 -Pbot2=v08 -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/mirror.json
+./gradlew bench "-Pbot1=current?FLAG=1" -Pbot2=v10 -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/direct.json
+./gradlew bench -Pbot1=v10 -Pbot2=v10 -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/mirror.json
 python -I tools/bench_pair.py direct replays/bench/<exp>/direct.json --mirror replays/bench/<exp>/mirror.json --min-lower 0.5 --out docs/data/<exp>/g1.json
 ./gradlew bench "-Pbot1=current?FLAG=1" -Pbot2=boss -Pmaps=500 -Pthreads=3 -PturnMs=200 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/boss-cand.json
-./gradlew bench -Pbot1=v08 -Pbot2=boss -Pmaps=500 -Pthreads=3 -PturnMs=200 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/boss-ctrl.json
+./gradlew bench -Pbot1=v10 -Pbot2=boss -Pmaps=500 -Pthreads=3 -PturnMs=200 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/boss-ctrl.json
 python -I tools/bench_pair.py common replays/bench/<exp>/boss-cand.json replays/bench/<exp>/boss-ctrl.json --min-delta -0.02 --out docs/data/<exp>/g2.json
 ./gradlew bench "-Pbot1=current?FLAG=1" -Pbot2=field -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/field-cand.json
-./gradlew bench -Pbot1=v08 -Pbot2=field -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/field-ctrl.json
+./gradlew bench -Pbot1=v10 -Pbot2=field -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/field-ctrl.json
 python -I tools/bench_pair.py common replays/bench/<exp>/field-cand.json replays/bench/<exp>/field-ctrl.json --min-delta -0.02 --out docs/data/<exp>/g4.json
+./gradlew bench "-Pbot1=current?FLAG=1" -Pbot2=rival -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/rival-cand.json
+./gradlew bench -Pbot1=v10 -Pbot2=rival -Pmaps=2000 -Pthreads=8 -PseedBase=1000000000 -PseedStride=397 -Pout=replays/bench/<exp>/rival-ctrl.json
+python -I tools/bench_pair.py common replays/bench/<exp>/rival-cand.json replays/bench/<exp>/rival-ctrl.json --min-delta -0.02 --out docs/data/<exp>/g5.json
 ```
 
 `bench_pair.py` refuses to pair reports whose seeds differ in base, stride or count; a report written

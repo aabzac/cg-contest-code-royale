@@ -1,0 +1,9 @@
+Seeds 1 + 397 k, k < 500; each map on both seats. S against v09 with its 95 % CI; rival and field: the arm's map score minus v09's on the same maps (v09 scores 0.7025 against rival, 0.9440 against field); changed: maps whose games against rival differ from v09's.
+arm                                S vs v09                   delta vs rival               delta vs field               changed  candidate failures
+RELEASE_NEAR=800,RELEASE_HOLD=15   0.3320 (0.3001..0.3639)    -0.1200 (-0.1612..-0.0788)   -0.0700 (-0.0949..-0.0451)   500      {'slow': 27}
+RELEASE_NEAR=800,RELEASE_HOLD=30   0.2955 (0.2629..0.3281)    -0.1645 (-0.2076..-0.1214)   -0.0765 (-0.1026..-0.0504)   500      {'slow': 36}
+RELEASE_NEAR=1000,RELEASE_HOLD=15  0.3765 (0.3429..0.4101)    -0.0780 (-0.1212..-0.0348)   -0.0265 (-0.0472..-0.0058)   500      {'slow': 17}
+RELEASE_NEAR=1000,RELEASE_HOLD=30  0.3455 (0.3122..0.3788)    -0.0685 (-0.1105..-0.0265)   -0.0445 (-0.0671..-0.0219)   500      {'slow': 12}
+RELEASE_NEAR=600,RELEASE_HOLD=30   0.2535 (0.2229..0.2841)    -0.1980 (-0.2423..-0.1537)   -0.1095 (-0.1384..-0.0806)   500      {'slow': 15}
+BARRACKS_FORWARD=35                0.5030 (0.4796..0.5264)    +0.0450 (+0.0174..+0.0726)   -0.0045 (-0.0178..+0.0088)   425      {'slow': 30}
+BARRACKS_FORWARD=50                0.5425 (0.5152..0.5698)    +0.0535 (+0.0223..+0.0847)   -0.0075 (-0.0242..+0.0092)   478      {'slow': 8}

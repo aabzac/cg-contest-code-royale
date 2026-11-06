@@ -34,6 +34,65 @@ class FieldBotTest {
         return s;
     }
 
+    /**
+     * KITE=1: two own towers (ranges 300) at A and B, the queen touching A, two enemy knights 120-150 east of
+     * her. Without kiting she tops A up; with it she MOVEs west, away from them, within the cover. Out of
+     * every tower's reach the kiting finds no step: the defence (a free site D within 500) or the flight applies.
+     */
+    @Test
+    void kitingStaysUnderTheTowers() {
+        GameState s = position();
+        s.stType[0] = Const.TOWER; s.stOwner[0] = 0; s.towerHp[0] = 400; s.towerRange[0] = 300;
+        s.stType[1] = Const.TOWER; s.stOwner[1] = 0; s.towerHp[1] = 400; s.towerRange[1] = 300;
+        s.qx[0] = 350 + 70 + Const.QUEEN_RADIUS + 2; s.qy[0] = 350;
+        s.nCreeps = 2;
+        for (int i = 0; i < 2; i++) { s.cOwner[i] = 1; s.cType[i] = Const.KNIGHT; s.cHp[i] = 25; s.cx[i] = s.qx[0] + 120 + 30 * i; s.cy[i] = 350; }
+        int touched = Protocol.touchedSite(s, 0);
+        assertEquals(0, touched);
+        assertEquals("BUILD 0 TOWER", new FieldBot(new FieldParams()).play(s, touched, Long.MAX_VALUE).queenLine(), "KITE=0: the top-up at A");
+        Command k = new FieldBot(new FieldParams().apply("KITE=1")).play(s, touched, Long.MAX_VALUE);
+        assertEquals(Command.MOVE, k.queen, "KITE=1: a kiting MOVE");
+        assertTrue(k.x < s.qx[0], "away from the knights: " + k.queenLine());
+        s.qx[0] = 1100; s.qy[0] = 350;
+        for (int i = 0; i < 2; i++) s.cx[i] = s.qx[0] + 120 + 30 * i;
+        assertEquals("BUILD 3 TOWER", new FieldBot(new FieldParams().apply("KITE=1")).play(s, Protocol.touchedSite(s, 0), Long.MAX_VALUE).queenLine(),
+            "out of reach, one tower within 500: the defence builds at D first");
+        assertEquals("BUILD 1 TOWER", new FieldBot(new FieldParams().apply("KITE=1,THREAT_TOWERS_NEAR=0")).play(s, Protocol.touchedSite(s, 0), Long.MAX_VALUE).queenLine(),
+            "out of reach without the defence: the flight to the nearest own tower B");
+    }
+
+    /**
+     * The rival's knobs (2026-11-06): MINES_FIRST=2 opens with two mines before the knight barracks;
+     * GIANT_TURN holds the giant barracks back until that turn; GIANTS_MAX stops the giant trainings after
+     * that many, and the knights then get the gold.
+     */
+    @Test
+    void openingGiantTurnAndGiantCap() {
+        GameState s = position();
+        s.stType[0] = Const.MINE; s.stOwner[0] = 0; s.mineRate[0] = 3;   // a full mine at A
+        assertEquals("BUILD 1 BARRACKS-KNIGHT", new FieldBot(new FieldParams()).play(s, -1, Long.MAX_VALUE).queenLine(), "one mine first (default)");
+        assertEquals("BUILD 2 MINE", new FieldBot(new FieldParams().apply("MINES_FIRST=2")).play(s, -1, Long.MAX_VALUE).queenLine(), "a second mine first (C)");
+        // the giant barracks: two enemy towers, the plan's line done (TOWERS=1, MINES=1)
+        s.stType[1] = Const.BARRACKS; s.stOwner[1] = 0; s.barrType[1] = Const.KNIGHT;
+        s.stType[2] = Const.TOWER; s.stOwner[2] = 0; s.towerHp[2] = 500; s.towerRange[2] = 300;
+        s.stType[3] = Const.TOWER; s.stOwner[3] = 1; s.towerHp[3] = 400; s.towerRange[3] = 300;
+        site(s, 4, 900, 300, 0, 0); s.stType[4] = Const.TOWER; s.stOwner[4] = 1; s.towerHp[4] = 400; s.towerRange[4] = 300;
+        site(s, 5, 500, 550, 0, 0);
+        String small = "TOWERS=1,MINES=1,GIANTS=1,INCOME=3";
+        s.turn = 50;
+        assertEquals("BUILD 5 BARRACKS-GIANT", new FieldBot(new FieldParams().apply(small)).play(s, -1, Long.MAX_VALUE).queenLine());
+        assertNotEquals("BUILD 5 BARRACKS-GIANT", new FieldBot(new FieldParams().apply(small + ",GIANT_TURN=80")).play(s, -1, Long.MAX_VALUE).queenLine(), "turn 50 < 80: not yet");
+        s.turn = 80;
+        assertEquals("BUILD 5 BARRACKS-GIANT", new FieldBot(new FieldParams().apply(small + ",GIANT_TURN=80")).play(s, -1, Long.MAX_VALUE).queenLine(), "from turn 80");
+        // the cap: one giant training, then knights
+        s.stType[5] = Const.BARRACKS; s.stOwner[5] = 0; s.barrType[5] = Const.GIANT;
+        FieldBot capped = new FieldBot(new FieldParams().apply(small + ",GIANTS_MAX=1"));
+        s.gold[0] = 140;
+        assertArrayEquals(new int[]{5}, capped.play(s, -1, Long.MAX_VALUE).train, "the first giant");
+        s.gold[0] = 140;
+        assertArrayEquals(new int[]{1}, capped.play(s, -1, Long.MAX_VALUE).train, "the cap reached: knights, not a second giant");
+    }
+
     /** Ten maps on both seats against v06 with GIANTS=1: no error, kill, timeout or extra line; giants trained in at least one game; the spec describes itself. */
     @Test
     void playsLegallyAgainstV06AndTrainsGiants() {

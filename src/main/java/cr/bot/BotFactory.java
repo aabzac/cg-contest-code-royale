@@ -25,6 +25,8 @@ import java.util.Properties;
  * referee repository's level-N default AI, compiled from refs/referee-csj; boss = boss4), "old"
  * (the code of the replaced arena entry 3315948, which the user keeps outside the project:
  * refs/old-3315948/Player.java, compiled into build/opponents/old) and "proc:&lt;command line&gt;".
+ * In-process opponents: "field" ({@link cr.bot.field.FieldBot} with its defaults) and "rival" (the same bot
+ * with {@link cr.bot.field.FieldParams#RIVAL} before the overrides, P2's gate G5).
  */
 public final class BotFactory {
     static final Path OLD_SOURCE = Paths.get("refs/old-3315948/Player.java");
@@ -63,8 +65,10 @@ public final class BotFactory {
             case "v07": return new cr.bot.v07.GreedyBot(snapshot("v07").apply(overrides));
             case "v08": return new cr.bot.v08.GreedyBot(snapshot("v08").apply(overrides));
             case "v09": return new cr.bot.v09.GreedyBot(snapshot("v09").apply(overrides));
+            case "v10": return new cr.bot.v10.GreedyBot(snapshot("v10").apply(overrides));
             case "current": return new MainBot(new Params().apply(overrides));
             case "field": return new cr.bot.field.FieldBot(new cr.bot.field.FieldParams().apply(overrides));
+            case "rival": return new cr.bot.field.FieldBot(new cr.bot.field.FieldParams().apply(cr.bot.field.FieldParams.RIVAL).apply(overrides));
             default:
                 throw new IllegalArgumentException("unknown bot " + name);
         }
@@ -96,8 +100,10 @@ public final class BotFactory {
             case "v07": return "v07 " + snapshot("v07").apply(overrides);
             case "v08": return "v08 " + snapshot("v08").apply(overrides);
             case "v09": return "v09 " + snapshot("v09").apply(overrides);
+            case "v10": return "v10 " + snapshot("v10").apply(overrides);
             case "current": return "current " + new Params().apply(overrides);
             case "field": return "field " + new cr.bot.field.FieldParams().apply(overrides);
+            case "rival": return "rival " + new cr.bot.field.FieldParams().apply(cr.bot.field.FieldParams.RIVAL).apply(overrides);
             default:
                 throw new IllegalArgumentException("unknown bot " + name);
         }
