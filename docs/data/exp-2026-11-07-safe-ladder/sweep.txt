@@ -1,0 +1,4 @@
+Seeds 1 + 397 k, k < 500; each map on both seats. S against v10 with its 95 % CI and the maps whose games differ from v10's mirror; rival and field: the arm's map score minus v10's on the same maps (v10 scores 0.7560 against rival, 0.9365 against field) and the maps whose games differ.
+arm              S vs v10                   changed   delta vs rival               changed   delta vs field               changed   candidate failures
+SAFE_LADDER=1    0.5025 (0.4972..0.5078)    37        +0.0010 (-0.0042..+0.0062)   35        +0.0055 (-0.0004..+0.0114)   46        0
+SAFE_LADDER=2    0.5075 (0.4921..0.5229)    219       +0.0095 (-0.0057..+0.0247)   209       +0.0085 (-0.0007..+0.0177)   197       0

@@ -886,3 +886,96 @@ asks, and its rating moved from 20.90 ± 0.85 to 20.47 ± 0.68. The Bronze table
     snapshot at 23:24:50 gave 20.21 (20.02 at 86 %).
   - The prompt "paste the code" also shows after a paste that CG has not listed yet, and it does not name
     the file to paste. These are left for later (`docs/PLAN.md`).
+
+## Eighth candidate: v10 (the second knight barracks at the centre), first upload in Silver (2026-11-07)
+
+v10 is v09 (the late hold, never uploaded) with BARRACKS_FORWARD=50. Its final evaluation against v08 gave S 0.5764
+(`docs/data/exp-2026-11-06-waves/`), below P2's 0.60 upload recommendation, and the user chose to upload it as an
+exception ("Да, готовь"). The user ran `python -B -I tools/arena.py follow v10 --selected v08` in the main checkout at
+00:34 and pasted `21665009`, which is `build/submit/Player.java` there, rebuilt from master bac2788. The command:
+- saved v08 upload 5 (80 games, none played after its placement);
+- saw the new agent 6857063 at 00:37:47 (created 00:37:28, submission 41655689);
+- registered it as v10 upload 1 at 00:37:52, once its first game showed build `8c3b0d9a`;
+- followed the placement to its end at 00:56, 19 minutes after the paste, fetching the games;
+- ran `cgAttribute` and the P1 comparison.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v10/upload-1 | 6857063 | 19.38, rank 6/201 | 80 | 67.5 ± 5.2 | 26 of 35 | 28 of 45 | 17.21 | 19.30 ± 0.81 |
+| v08, three Silver uploads | | mean 20.55, SD 0.30 | 250 | | | | 18.73-19.19 | 20.46 ± 0.44 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it: Silver's logistic scale 3.22, fitted on the four
+uploads; upload 1's `checks/arena-compare.json`.
+- **Same code:** `cgAttribute` finds every game identical to `21665009` (SAME 80/80, 14,998 turns), marker `8c3b0d9a`
+  in all 80.
+- **The referee removed one opponent:** in 917798617 (nicolegrimpeur) the opponent's score is −1, a win for us. CG and
+  these numbers count it as an ordinary win.
+- **Equal scores:** 917804072 against Reynadan ends at turn 250 at 7:7.
+  - CG's game result ranks player 0, us, first. The four saved battle lists that hold the finished game give both
+    players position 0.
+  - It is the eighth such game (`docs/rules/inferred.md`).
+- **Weaker opponents:**
+  - The opponents' median is 17.21, against 18.73-19.19 in v08's three uploads.
+  - There was no game against the Silver boss; v08 met it 3-10 times.
+  - Only 6 games came against players rated 20.5 or more (1 won); v08 had 13-24 (3-8 won).
+  - So more wins came at a lower score: the placement drew from another part of the field.
+  - The scale did not drift: the 28 opponents both versions met moved by a median of −0.08 between the fetches of
+    2026-11-04 and 2026-11-07.
+- **Against v08's baseline:**
+  - −1.17 on the mean (19.38 against 20.55) with 2M = 4.93, so no early rollback (below 15.62).
+  - The verdict needs the second upload of the same artifact.
+  - The performance rating, 19.30 ± 0.81 against 20.46 ± 0.44 (−1.16 ± 0.92), is context until then.
+- **Local prediction:** P2's final evaluation put v10 about +1.0 rating point head-to-head over v08, and +8.4 pp
+  against R0. The first placement is −1.2: one placement, inside the arena's noise (M 2.46).
+- **Placement speed:** 19 minutes.
+
+## The v10 candidate, second upload and the P1 verdict (2026-11-07): v10 selected
+
+The user pasted the same `21665009` again ("Запустил вторую"), with `python -B -I tools/arena.py follow v10 --selected
+v08` running in the main checkout. The command:
+- saw the new agent 6857144 at 01:05:22 (created 01:04:47, submission 41655831; 12 % of the placement played) and saved
+  what was left of upload 1 (80 games, none after its placement);
+- registered it as v10 upload 2 at 01:05:29, once its first game showed build `8c3b0d9a`;
+- followed the placement to its end at 01:22:37, 18 minutes after the paste;
+- fetched the games, ran `cgAttribute` and gave P1's verdict.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v10/upload-1 | 6857063 | 19.38, rank 6/201 | 80 | 67.5 ± 5.2 | 26 of 35 | 28 of 45 | 17.21 | 19.59 ± 0.92 |
+| v10/upload-2 | 6857144 | 21.33, rank 2/201 | 80 | 67.5 ± 5.2 | 25 of 39 | 29 of 41 | 18.97 | 21.45 ± 0.91 |
+| v10, both | | mean 20.35, SD 1.38 | 160 | | | | | 20.56 ± 0.65 |
+| v08, three Silver uploads | | mean 20.55, SD 0.30 | 250 | | | | 18.73-19.19 | 20.64 ± 0.50 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it (upload 2's `checks/arena-compare.json`). Silver's
+logistic scale is 3.68, fitted on the five uploads (3.22 on four), so the performance ratings of upload 1 and v08 differ
+from the previous section's.
+- **Same code:** `cgAttribute` finds every game identical to `21665009` (SAME 80/80, 13,445 turns), marker `8c3b0d9a`
+  in all 80.
+- **The referee removed one opponent:** in 917807402 (RAAAT) the opponent's score is −1, a win for us, counted as an
+  ordinary win.
+- **Equal scores:** 917810075 against godlikegod ends at turn 250 at 7:7.
+  - CG's game result ranks player 0, us, first. All 15 saved battle lists that hold the finished game give both
+    players position 0.
+  - It is the ninth such game (`docs/rules/inferred.md`).
+- **The boss:** 4 games against the Silver boss (agent 1876720), all won; its score at the fetches fell from 21.84 to
+  21.54. v08 won 6 of its 16. The opponents' median, 18.97, is v08's (18.73-19.19); upload 1's was 17.21.
+- **P1 verdict against v08:**
+  - M is 2.46, borrowed from Bronze. Silver's own M is now 1.66 on 3 df (pooled SD 0.83, v08's three placements and
+    v10's two), printed as context.
+  - Mean: 20.35 against 20.55, −0.20 against −M = −2.46.
+  - Performance: 20.56 ± 0.65 against 20.64 ± 0.50, −0.08 against −2 SE = −1.63.
+  - Neither rollback condition holds, so v10 is not clearly worse and becomes the **selected version** (2026-11-07).
+- **The next candidate in Silver** is judged against v10's mean 20.35 and rating 20.56 ± 0.65:
+  - rollback: the candidate's mean is below by more than 2.46 and its rating below by more than 2 SE of the difference;
+  - early rollback: its first placement is below 15.43 (2M = 4.93).
+  The rollback artifact is `21665009` (`docs/BOTS.md`, Artifacts).
+- **Local prediction:** P2's final evaluation put v10 about +1.0 rating point head-to-head over v08 (S 0.5764). The
+  arena gives −0.20 on the mean and −0.08 on the rating, inside its noise: it neither confirms nor refutes the step.
+- **Spread:** the two placements of the same code differ by 1.95. Upload 1 met weaker opponents and no boss.
+- **Where v10 differs from v08** (`docs/data/study-2026-11-07-tower-fire/`):
+  - against opponents at 21 and up and the boss, v10 won 10 of 15 where the logistic model expects 43 %; v08 won
+    12 of 41 (expected 44 %);
+  - against opponents below 19, v10 won 72 % (expected 75 %) and v08 77 % (expected 72 %).
+  The rating is the same because most games come against the weaker part of the field.
+- **Promotion:** `eligibleForPromotion` false after both placements. Upload 2 ranks 2 of 201, below the boss.
+- **Placement speed:** 18 minutes.

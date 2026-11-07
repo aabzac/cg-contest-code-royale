@@ -1,0 +1,29 @@
+Silver logistic scale 3.68
+v08: performance 20.64; results by the opponent's score at fetch (points, ties 1/2; expected from the rating)
+  below 17        49 games   38.0 points   78 %  expected  82 % (40.0 points)
+  17-19           72 games   55.0 points   76 %  expected  65 % (46.6 points)
+  19-21           88 games   49.0 points   56 %  expected  56 % (49.5 points)
+  21 and above    25 games    6.0 points   24 %  expected  45 % (11.2 points)
+  the boss        16 games    6.0 points   38 %  expected  42 % ( 6.6 points)
+  below 19       121 games   93.0 points   77 %  expected  72 % (86.6 points)
+  21 up, boss     41 games   12.0 points   29 %  expected  44 % (17.8 points)
+v10: performance 20.56; results by the opponent's score at fetch (points, ties 1/2; expected from the rating)
+  below 17        59 games   44.0 points   75 %  expected  81 % (48.0 points)
+  17-19           52 games   36.0 points   69 %  expected  67 % (34.7 points)
+  19-21           34 games   18.0 points   53 %  expected  55 % (18.8 points)
+  21 and above    11 games    6.0 points   55 %  expected  43 % ( 4.7 points)
+  the boss         4 games    4.0 points  100 %  expected  42 % ( 1.7 points)
+  below 19       111 games   80.0 points   72 %  expected  75 % (82.8 points)
+  21 up, boss     15 games   10.0 points   67 %  expected  43 % ( 6.4 points)
+v08: 250 games
+  lost on HP at turn 250: 35; in 1 of them the HP lost to towers is at least the margin
+  turns under enemy tower fire 494, HP 805, 3.2 +- 0.7 HP a game (SE); {'no knight within 250': 366, 'a knight within 250': 128}
+  HP a game to enemy towers by the opponent's score: below 17 2.2 +- 1.7 (49), 17-19 3.0 +- 1.4 (72), 19-21 2.0 +- 0.7 (88), 21 and above 11.4 +- 3.7 (25), the boss 1.6 +- 1.6 (16)
+  commands on those turns: [('BUILD TOWER', 282), ('BUILD MINE', 168), ('BUILD BARRACKS-KNIGHT', 27), ('MOVE', 17)]
+  deaths 61: in their last 30 turns 2095 HP lost, 377 to towers (18 %); deaths with 10+ HP from towers: 12
+v10: 160 games
+  lost on HP at turn 250: 9; in 1 of them the HP lost to towers is at least the margin
+  turns under enemy tower fire 467, HP 810, 5.1 +- 1.2 HP a game (SE); {'a knight within 250': 154, 'no knight within 250': 313}
+  HP a game to enemy towers by the opponent's score: below 17 3.7 +- 1.4 (59), 17-19 7.8 +- 2.6 (52), 19-21 4.3 +- 2.5 (34), 21 and above 3.2 +- 3.2 (11), the boss 0.0 +- 0.0 (4)
+  commands on those turns: [('BUILD TOWER', 257), ('BUILD MINE', 188), ('BUILD BARRACKS-KNIGHT', 22)]
+  deaths 43: in their last 30 turns 1790 HP lost, 558 to towers (31 %); deaths with 10+ HP from towers: 12

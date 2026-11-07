@@ -3036,3 +3036,245 @@ against v08 is below the 0.60 upload recommendation.
     to paste.
 - Next: from the main checkout, `python -B -I tools/arena.py follow v10 --selected v08` before the paste.
 - The selected version stays v08 until P1 judges two placements of v10.
+
+## 2026-11-07 — v10 upload 1 in Silver: 19.38, rank 6/201; P1 asks for the second upload
+
+The user ran `python -B -I tools/arena.py follow v10 --selected v08` in the main checkout and pasted `21665009` ("Прогнал").
+The tool:
+- saved v08 upload 5 (80 games, none after its placement);
+- registered agent 6857063 (submission 41655689) as v10 upload 1 when its first game showed build `8c3b0d9a`;
+- followed the placement to its end at 00:56, 19 minutes after the paste;
+- fetched the 80 games and ran `cgAttribute`: SAME 80/80, 14,998 turns, marker `8c3b0d9a` in all 80;
+- gave P1's verdict: "upload the candidate again".
+
+Its files: `replays/arena/v10/silver/upload-01/` (games, snapshots, `checks/arena.log`, `checks/cgAttribute.log`,
+`checks/arena-compare.json`), `docs/data/arena-6857063-games-2026-11-07.json`,
+`docs/data/arena-6857063-placement-2026-11-07.json` and the registry entry.
+
+**The placement:**
+- score 19.38, local rank 6/201 (global 465), `eligibleForPromotion` false;
+- 54 wins in 80 (seat 0: 26 of 35, seat 1: 28 of 45);
+- performance rating 19.30 ± 0.81, with Silver's logistic scale 3.22 fitted on the four uploads.
+
+Two notes:
+- in 917798617 the referee removed the opponent;
+- 917804072 ends at turn 250 at 7:7. CG's game result ranks us (player 0) first, while the four saved battle lists
+  give both players position 0. It is the eighth equal-score game, added to `docs/rules/inferred.md`.
+
+**Against v08:**
+- v08's three Silver placements have a mean of 20.55 and a performance of 20.46 ± 0.44; v10's placement is −1.17
+  below that mean.
+- 2M = 4.93 with the borrowed M 2.46, so there is no early rollback (the threshold is 15.62).
+- The second upload of the same artifact decides.
+
+Why the score sits below v08's while the wins rise (54 of 80 against 48-53):
+- v10 met weaker opponents: median 17.21 against 18.73-19.19.
+- It played no game against the Silver boss (v08 met it 3-10 times).
+- It had 6 games against players rated 20.5 or more (1 won); v08 had 13-24 (3-8 won).
+- The scale did not drift: the 28 opponents both versions met moved by a median of −0.08 between the fetches of
+  2026-11-04 and 2026-11-07.
+
+P2 predicted about +1.0 rating point head-to-head. The first placement is −1.2, inside the arena's noise.
+
+Records: BOTS (Uploads, the artifact's uploads), STATUS (the arena entry, the pending P1 candidate),
+`docs/arena-uploads.md` (the eighth candidate), `docs/local-screen.md` (local against arena), `docs/rules/inferred.md`
+(the eighth tie), SUMMARY. Not committed.
+
+## 2026-11-07 — v10 upload 2 in Silver: 21.33, rank 2/201; P1 selects v10
+
+The user pasted the same `21665009` again ("Запустил вторую. …") with `python -B -I tools/arena.py follow v10 --selected
+v08` running in the main checkout. The tool:
+- saw the new agent 6857144 at 01:05:22 (created 01:04:47, submission 41655831, 12 % played) and saved what was left of
+  v10 upload 1 (80 games, none after its placement);
+- registered it as v10 upload 2 at 01:05:29, when its first game showed build `8c3b0d9a`;
+- followed the placement to its end at 01:22:37, 18 minutes after the paste;
+- fetched the 80 games and ran `cgAttribute`: SAME 80/80, 13,445 turns, marker `8c3b0d9a` in all 80;
+- gave P1's verdict: "not clearly worse".
+
+Its files: `replays/arena/v10/silver/upload-02/` (games, snapshots, `checks/arena.log`, `checks/cgAttribute.log`,
+`checks/arena-compare.json`), `docs/data/arena-6857144-games-2026-11-07.json`,
+`docs/data/arena-6857144-placement-2026-11-07.json` and the registry entry.
+
+**The placement:**
+- score 21.33, local rank 2/201 (global 461), `eligibleForPromotion` false;
+- 54 wins in 80 (seat 0: 25 of 39, seat 1: 29 of 41), 4 of them against the Silver boss (all its games);
+- opponents' median 18.97; performance 21.45 ± 0.91 with Silver's scale 3.68, now fitted on five uploads.
+
+Two notes:
+- in 917807402 the referee removed the opponent (score −1);
+- 917810075 ends at turn 250 at 7:7. CG's game result ranks us (player 0) first; all 15 saved battle lists give both
+  players position 0. It is the ninth equal-score game (`docs/rules/inferred.md`).
+
+**P1 (`docs/arena-uploads.md`):**
+- v10's placements 19.38 and 21.33 (mean 20.35) against v08's 20.55: −0.20 against −M = −2.46. M is borrowed from
+  Bronze; Silver's own M is 1.66 on 3 df.
+- Performance 20.56 ± 0.65 against 20.64 ± 0.50: −0.08 against −2 SE = −1.63.
+- Neither rollback condition holds: **v10 is the selected version**. Its artifact `21665009` is the rollback artifact for
+  the next candidate, whose early rollback is below 15.43.
+- P2's +1.0 head-to-head is inside the arena's noise.
+
+**Where the records live:**
+- This session runs in the worktree `claude/bot-improvement-next-steps-4b8f4e`. Its script first wrote the upload 1
+  records into the main checkout, next to the files the follow tool writes there. A harness rule then stopped this
+  session's edits of the main checkout.
+- All the records are now in this worktree's branch: upload 1's, upload 2's, and the follow tool's data files (the
+  registry, the four new manifests, the re-fetched manifest of v08 upload 5).
+- The main checkout keeps its uncommitted copies until the branch is merged, a subset of the branch's changes. They have
+  to be dropped there before the merge.
+
+Records:
+- BOTS: Uploads, the versions table, the artifact's uploads, the line "defaults play as v10".
+- STATUS, `docs/arena-uploads.md`, `docs/local-screen.md`, `docs/rules/inferred.md`, PLAN, SUMMARY.
+- `docs/bot-architecture.html` describes v10, the selected version: header, flowchart, pseudocode, target choice,
+  versions, limits and directions, with the late hold and the second barracks at the centre read from
+  `cr.bot.v10.GreedyBot`. The flowchart renders without a Mermaid error.
+
+Not committed.
+
+## 2026-11-07 — Study: v10 against weaker and stronger opponents, its losses, the queen under enemy tower fire
+
+The user's observation after upload 1: the bot loses to some weaker players and wins near the top. In about ten IDE
+games against the Silver boss (21.96), the boss won once. The study is `docs/data/study-2026-11-07-tower-fire/`
+(README, `towers.py`, `opponents.py` and their outputs). The traces and cgStudy tables it reads are in
+`replays/study/tower-fire-2026-11-07/` (gitignored).
+
+**By the opponent's score.** The logistic model of `arena_compare.py`, scale 3.68:
+- Against opponents below 19, v10 scores 72 % where its rating predicts 75 %; v08 scored 77 % against 72 %.
+- Against those at 21 and up and the boss, v10 wins 10 of 15 against 43 %; v08 won 12 of 41 against 44 %.
+- So v10 gives up a little against the weaker players and gains a lot against the stronger ones. Most games come against
+  the weaker, so the rating stays.
+
+**Losses to weaker opponents** (cgStudy):
+- 24 of v10's 31 losses to opponents below 19 are deaths, median turn 142.
+- The winners hold income 6 at turn 100 to our 3 and knights on the board (3 against 0). They build fewer towers and
+  top up less.
+- v08's 28 such losses look the same: 16 deaths, income 5 against our 2 at turn 150.
+- On HP at turn 250, v08 lost 35 games of 250 and v10 9 of 160.
+
+**Enemy tower fire** (`cr.tools.DeathTrace`, the `td` column):
+- v10's queen loses 5.1 ± 1.2 HP a game to enemy towers, v08's 3.2 ± 0.7. The difference is within the per-game spread.
+- Of v10's 467 such turns, 313 had no enemy knight within 250.
+- The commands on those turns were BUILD TOWER (257), BUILD MINE (188) and BUILD BARRACKS-KNIGHT (22).
+- In 12 of v10's 43 deaths, towers took 10+ HP in the last 30 turns: 31 % of those turns' HP, against v08's 18 %.
+- In 1 of the 9 losses on HP at turn 250, the HP lost to towers covers the margin.
+
+**From the code** (`cr.bot.v10.GreedyBot`, `RoutePlanner`):
+- A site is no target when an enemy tower's range covers its centre; the touch point and the walk are not checked.
+- When no clean plan avoids the ranges, `RoutePlanner.plan` returns the straight BUILD. Example: 917802377, from turn 145
+  under two enemy towers, targets alternating between sites 20 and 3, dead at turn 166.
+
+Proposed candidates:
+- Keep the queen's walks out of enemy tower ranges: check the touch point and the path, and add target hysteresis. A
+  targeted fix, measurable locally by the HP lost to towers.
+- The late economy gap against opponents with twice our income, which the income candidates of 2026-11-06 did not close
+  locally (`docs/data/exp-2026-11-06-income/`).
+
+## 2026-11-07 — SAFE_LADDER: no ladder walks into the enemy base; passes P2 as a targeted fix
+
+The user's "Да, начинай" for the candidate the study of the same day proposed: keep the queen's walks out of enemy tower
+ranges. Experiment `docs/data/exp-2026-11-07-safe-ladder/` (README, scripts, summaries).
+
+**Diagnosis** (`cr.tools.TowerFire`, gradle task `towerFire`; outputs `classes-v10.txt` and `classes-v08.txt` in the
+study folder):
+- The tool replays the arena games and classes every turn on which the probe without enemy knights loses HP. A class is
+  the command and its target, touching or walking, the target's centre and sides against the ranges, the queen's start,
+  knights near, the target's half and the straight walk.
+- 436 of v10's 810 tower HP (v08: 426 of 805) came on walks to free sites on the enemy half through enemy ranges.
+- The rest: 75 on walks to our half; 282 at or walking to own towers (205 with knights near).
+- Example 917798608: our half's free sites lie in enemy ranges, so the ladder's sixth tower targets site 9 by the
+  enemy's corner. The queen alternates between walking there and topping up her own tower 15, which stands in an enemy
+  range, until she dies.
+- `-Pagents=dump` prints a game's board and the queen's path over a turn window.
+
+**Local measure.** `cr.tools.LocalProfile` gets a line from the same probe: the HP our queen loses to enemy towers a game,
+and the turns she walks to a free site on the enemy half through an enemy range. v10 on seeds 1 + 397 k, k < 200, loses
+0.3, 0.5 and 0.9 HP a game against rival, field and v10, against 5.1 on the arena.
+
+**The flag `SAFE_LADDER`:**
+- `Params`, default 0. `MainBot.nextSite` now takes the walker's position (the queen, or ROUTE's landing point via
+  `ApproachPlanner.nextTarget`) and computes the midpoint itself; the same doubles, so the defaults play as before.
+- `safeLadder`: a site on the enemy half (nearer the enemy's corner) needs, with 1, a straight walk outside every enemy
+  tower range (`walkUnderEnemyTower`, every 20 units until touching); with 2 it never qualifies.
+- With no target left, the existing branch pumps the tower nearest home.
+- The snapshots v01-v10 gained `SAFE_LADDER=0`. The test is `StrategyParamsTest.safeLadderKeepsTheQueenOutOfTheEnemyBase`.
+- `StrategyParamsTest`, `MainBotTest` (v10 equivalence) and `BotFactoryTest` pass.
+
+**Development sweep** (`sweep.sh`, seeds 1 + 397 k, k < 500):
+- SAFE_LADDER=1: S 0.5025 against v10, 37 maps changed against the mirror, rival +0.0010, field +0.0055.
+- SAFE_LADDER=2: S 0.5075, 219 maps changed, rival +0.0095, field +0.0085.
+- Only 1 went to the screen: a targeted fix. Arm 2 changes 44 % of the maps for no clear gain.
+
+**P2 screen on PV3 screen block 4** (`screen.sh`, `rerun.sh`; seeds 1004000000 + 397 i, i < 2000):
+- 148 of 2000 maps changed against the mirror (7.4 %, a targeted fix); S 0.5030 (CI 0.5000-0.5060).
+- G2 boss delta 0.0000; field delta 0.0000 (CI -0.0021..+0.0021); rival delta +0.0013 (CI -0.0018..+0.0043).
+- G0:
+  - In the first run the candidate had one slow turn (map 1004717379), and v10 one on a neighbouring map of the same
+    series.
+  - The quiet repeat at 2 threads held the same 4000 games with no slow turn on either side. The candidate's longest
+    move was 13.1 ms.
+- G3 skipped. The flag passes P2 as a targeted fix.
+
+**On v10's arena games** (`cgAttribute -Pbot=current?SAFE_LADDER=1`, `arena_diff.py`):
+- The flag changes a decision in 31 of 160 games: 20 losses (17 queen deaths, 667 tower HP after the changed turn) and
+  11 wins (32 tower HP).
+- The changed decision is mostly a BUILD MINE on the enemy half, 14 of the 20 losses: the income below its target again.
+- The counterfactual outcomes are unknown.
+
+**Records:** BOTS (the flag's row), STATUS, SUMMARY, PLAN, the seed ledger (screen-pv3 block 4, next 5), the architecture
+page (an off flag). The raw reports are in this worktree's `replays/bench/exp-2026-11-07-safe-ladder/` (gitignored; to
+copy to the main checkout's `replays/bench/` before the worktree goes).
+
+The flag stays off: adopting a targeted fix into the local champion (and freezing v11) is the user's decision. Not
+committed.
+
+## 2026-11-07 — v11: SAFE_LADDER=1 by default (the user's decision)
+
+The user adopted the targeted fix ("Да, по умолчанию"):
+- `Params.SAFE_LADDER = 1`, documented as the default since v11.
+- `cr.bot.v11` (`GreedyBot`, `RoutePlanner`, `ApproachPlanner`) is a frozen copy of current: the package, the class and
+  name "v11", no `queenSteps`, a header javadoc.
+- `versions/v11.properties` is v10's snapshot with SAFE_LADDER=1.
+- `BotFactory`, `LocalGames` (choice v11, default bot1 v11, its resource list) and `visualizer/local.js` know v11.
+- `.ai/project.md` and `docs/visualizer.md` name v00-v11. `AGENTS.md` and `.ai/kit.lock.json` were regenerated with
+  `python -B -I .ai/sync.py sync . --source C:/Disk_D/Programming/CG/cg-agent-kit` at the locked kit f4a5bd63; `check` OK.
+
+Tests:
+- `MainBotTest`: the constants V02 and V05-V09 gained SAFE_LADDER=0, and V10 = "SAFE_LADDER=0,".
+  `withV10ParamsCurrentPlaysAsV10` replaces the defaults' v10 test. `withDefaultsCurrentPlaysAsV11` plays the fixture
+  seeds and PV3 screen block 4's first maps.
+- `BotFactoryTest`: the chain v10 → v11 and the defaults equal v11.
+- `LocalGamesTest`: 14 choices, default v11.
+- `StrategyParamsTest.safeLadderKeepsTheQueenOutOfTheEnemyBase`: its v10 case now names SAFE_LADDER=0.
+- Results: 166 Java tests, 3 corpus tests skipped for want of the arena replays in the worktree; visualizer 18 of 18.
+
+Records:
+- BOTS: the v11 row, the v10 row, current, the flag's default.
+- STATUS (local champion v11; v10 stays the selected version), SUMMARY, PLAN, the experiment's verdict.
+- The architecture page: it still describes v10, the selected version. Its header names current = v11, the target
+  choice and the pseudocode note v11's rule, and the versions table gains v11.
+
+The selected version stays v10. A targeted fix needs no upload of its own. An upload of v11 would be the user's
+exception: S 0.5030 against v10, far below 0.60, and only the arena can show the effect. Not committed.
+
+## 2026-11-07 — v11's artifact for an upload as an exception
+
+The user's decision after the freeze ("Да, готовь"): prepare v11 for the arena, although a targeted fix needs no
+upload of its own and S 0.5030 against v10 is far below the 0.60 recommendation. Only the arena can show its effect.
+- `./gradlew submit` with empty PARAMS (v11's defaults): `cf71d566d41f77394502c11174496c39e2f94d4b2c4a0c27071f3283b450dff9`, 86,973 characters, build `cf3b2e46`
+  (turn 0: `TRAIN 12 15 3 11 2 14 4 6`), config `bc23e79d`. A second build gave the same bytes.
+- Reproducibility before any commit:
+  - a temporary index (`GIT_INDEX_FILE`, `git read-tree HEAD`, `git add -A`, `git write-tree`: tree d87439fa) took
+    the working tree as it stands, leaving the real index alone;
+  - `git archive` of that tree, built with `./gradlew -p <export> submit`, gave the same bytes.
+- `procCheck`: procCheck vs v01 100 maps @5000: 200/200 identical to current, 200 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 372.0 ms, later 7.6 ms; vs boss 100 maps @6000: 200/200 identical to current, 200 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 370.6 ms, later 4.8 ms (logs `replays/bench/exp-2026-11-07-safe-ladder/proccheck-v11-*.log`).
+- The kept copy: `artifacts/cf71d566/Player.java` in this worktree, gitignored. It goes to the main checkout's
+  `artifacts/` with the merge, where `tools/arena.py` looks for it.
+- The commit and the fast-forward merge into master: the user's request ("Да, влей в master").
+  - The commit's sources equal the exported tree's, so the clean export stands for the commit.
+  - The main checkout's uncommitted copies of the upload records were dropped before the merge. Its data files were
+    byte-identical to the branch's, and the document lines the branch lacked were the ones it had superseded.
+  - The artifact copy, the raw bench reports (`replays/bench/exp-2026-11-07-safe-ladder/`) and the study's traces
+    (`replays/study/tower-fire-2026-11-07/`), all gitignored, were copied to the main checkout.
+  - `./gradlew submit` in the main checkout builds the same bytes into `build/submit/Player.java`.
+- Next: from the main checkout, `python -B -I tools/arena.py follow v11 --selected v10` before the paste.
+- The selected version stays v10 until P1 judges two placements of v11.

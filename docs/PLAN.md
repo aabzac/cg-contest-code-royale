@@ -168,6 +168,13 @@
   default (the user's decision; `docs/data/exp-2026-11-06-waves/`)
 - [x] The final evaluation of v10 against v08 (2026-11-06): S 0.5764, below the 0.60 upload recommendation
   (`docs/data/exp-2026-11-06-waves/`)
+- [x] v10 on the arena under P1 (2026-11-07, two Silver uploads): not clearly worse, selected (`docs/arena-uploads.md`)
+- [x] Why v10 loses to weaker players and beats stronger ones (2026-11-07, `docs/data/study-2026-11-07-tower-fire/`)
+- [x] The ladder's walks into the enemy base through enemy tower ranges (2026-11-07): `SAFE_LADDER=1` passed P2 as a
+  targeted fix (`docs/data/exp-2026-11-07-safe-ladder/`)
+- [x] Adopt SAFE_LADDER into the local champion: default 1, v11 frozen (2026-11-07, the user's call)
+- [ ] The queen's top-ups and flights to own towers under enemy tower fire (same study)
+- [ ] Deaths around turn 140 against opponents with twice our income and a standing knight army (same study)
 - [x] Organize our arena replays by version, league and upload; downloaders use the registry (`docs/arena-uploads.md`, Replay storage)
 - [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/arena/v01/bronze/upload-<NN>/games`,
   manifests `docs/data/arena-<agent>-games-2026-10-29.json` for 6823071, 6823455 and 6824680)

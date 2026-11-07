@@ -1,0 +1,34 @@
+game  id         opponent          turn  recorded (v10)                     SAFE_LADDER=1                      tower HP after / in game, queen died
+lost  917811593  Reynadan           136  BUILD 13 MINE | TRAIN              BUILD 8 TOWER | TRAIN               74 /  74 died
+lost  917808988  TzeKin             127  BUILD 21 MINE | TRAIN              MOVE 677 71 | TRAIN                 70 /  70 died
+lost  917798608  OhMaley            160  BUILD 9 TOWER | TRAIN              BUILD 8 TOWER | TRAIN               63 /  63 died
+lost  917801950  Krikolo            110  BUILD 10 MINE | TRAIN              BUILD 21 TOWER | TRAIN              63 /  63 died
+lost  917802092  Csipcsirip         140  BUILD 20 MINE | TRAIN              BUILD 7 TOWER | TRAIN               55 /  55 
+lost  917808276  JBence             108  BUILD 12 MINE | TRAIN              BUILD 10 TOWER | TRAIN              51 /  51 died
+lost  917802377  WookieWarlord      136  BUILD 13 MINE | TRAIN              BUILD 16 TOWER | TRAIN              49 /  49 died
+lost  917799223  cocoche007         131  BUILD 20 TOWER | TRAIN             BUILD 4 TOWER | TRAIN               37 /  37 died
+lost  917799421  GaetR              161  BUILD 9 MINE | TRAIN               BUILD 16 BARRACKS-KNIGHT | TRAIN    35 /  42 died
+lost  917812458  mesavitae          116  BUILD 20 MINE | TRAIN              MOVE 606 43 | TRAIN                 35 /  35 died
+lost  917808754  Pouyou             123  BUILD 16 MINE | TRAIN              BUILD 7 TOWER | TRAIN               32 /  32 died
+lost  917803430  Reynadan           194  MOVE 1477 502 | TRAIN              BUILD 0 TOWER | TRAIN               26 /  26 died
+lost  917802284  Auncly             202  BUILD 10 MINE | TRAIN              BUILD 15 TOWER | TRAIN              25 /  36 died
+lost  917810626  Ariko              115  BUILD 10 MINE | TRAIN              BUILD 11 TOWER | TRAIN              22 /  38 died
+lost  917810928  AleXY               58  BUILD 1 BARRACKS-KNIGHT | TRAIN    MOVE 1459 532 | TRAIN                9 /   9 died
+lost  917800289  brms-dev           120  BUILD 2 MINE | TRAIN               BUILD 18 TOWER | TRAIN               8 /  13 died
+lost  917807392  ShadowKat           51  BUILD 2 BARRACKS-KNIGHT | TRAIN    BUILD 12 BARRACKS-KNIGHT | TRAIN     7 /   9 
+lost  917808148  Bubaptik           117  BUILD 15 MINE | TRAIN              BUILD 11 TOWER | TRAIN               6 /   6 died
+lost  917798607  ROARd              214  BUILD 21 MINE | TRAIN              BUILD 15 TOWER | TRAIN               0 /   0 
+lost  917799823  perrinod           139  MOVE 506 164 | TRAIN               MOVE 716 621 | TRAIN                 0 /   0 died
+won   917802000  ludopant           126  BUILD 21 MINE | TRAIN              BUILD 1 TOWER | TRAIN               14 /  14 
+won   917802171  Bubaptik           121  BUILD 21 MINE | TRAIN              BUILD 16 TOWER | TRAIN              10 /  10 
+won   917807770  Layfown             96  BUILD 9 BARRACKS-KNIGHT | TRAIN    BUILD 20 BARRACKS-KNIGHT | TRAIN     5 /   8 
+won   917798615  BigUP              106  BUILD 10 TOWER | TRAIN 0 21        BUILD 11 TOWER | TRAIN 0 21          2 /   2 
+won   917800246  VSLourenco          82  BUILD 10 TOWER | TRAIN             BUILD 16 TOWER | TRAIN               1 /   1 
+won   917798787  _O-MEGA             52  MOVE 820 268 | TRAIN               MOVE 897 228 | TRAIN                 0 /   0 
+won   917799909  BigUP               89  BUILD 16 BARRACKS-KNIGHT | TRAIN   BUILD 11 TOWER | TRAIN               0 /   0 
+won   917800594  Maxime01           197  MOVE 255 778 | TRAIN               MOVE 167 653 | TRAIN                 0 /   3 
+won   917803902  ShadowKat          165  BUILD 3 MINE | TRAIN               BUILD 2 TOWER | TRAIN                0 /   0 
+won   917808655  Csipcsirip         176  BUILD 16 TOWER | TRAIN             BUILD 17 TOWER | TRAIN               0 /   0 
+won   917809301  TzeKin             142  BUILD 20 MINE | TRAIN              BUILD 16 TOWER | TRAIN               0 /   0 
+won: 11 games; tower HP after the first changed turn 32 (in 5 games); queens died 0
+lost: 20 games; tower HP after the first changed turn 667 (in 18 games); queens died 17

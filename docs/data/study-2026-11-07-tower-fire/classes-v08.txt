@@ -1,0 +1,37 @@
+games 250, with tower fire 38; turns 494, HP 805
+class | turns | HP | games | examples (game:turn)
+BUILD free site, walking, centre outside, a safe side, starts in range, no knight, target on the enemy half, path through range  170   380   24  916284408:146 916284408:147 916284408:148 916284408:149
+BUILD free site, walking, centre outside, a safe side, starts in range, no knight, target on our half, path through range   59    89   14  916284681:71 916285734:68 916287473:128 916287473:129
+BUILD own tower, touching, centre outside, a safe side, starts in range, no knight   49    51   10  916285734:82 916285734:83 916295862:174 916295862:175
+BUILD own tower, walking, centre outside, a safe side, starts in range, no knight   26    41    6  916284412:199 916284599:111 916284599:112 916288174:159
+BUILD own tower, walking, centre outside, a safe side, starts in range, knight<250   25    36    7  916284408:151 916284408:152 916284408:153 916284408:154
+BUILD free site, walking, centre outside, a safe side, starts outside, no knight, target on the enemy half, path through range   27    28   20  916284408:145 916284408:178 916288522:82 916289381:191
+MOVE, starts in range, knight<250                                             17    25    1  916720032:149 916720032:150 916720032:151 916720032:152
+BUILD own tower, touching, centre in range, no safe side, starts in range, knight<250   13    24    4  916284412:180 916284412:181 916284412:183 916284412:185
+BUILD own tower, touching, centre outside, a safe side, starts in range, knight<250   21    22   10  916285556:28 916285556:29 916288522:98 916288522:99
+BUILD own tower, walking, centre in range, a safe side, starts in range, knight<250   16    21    4  916295246:125 916297455:129 916297455:130 916297455:131
+BUILD own tower, walking, centre in range, no safe side, starts in range, knight<250    7    16    3  916284412:179 916284412:182 916284412:184 916284412:186
+BUILD free site, walking, centre outside, a safe side, starts in range, no knight, alternating, target on the enemy half, path through range    6    10    6  916284412:189 916718880:89 916719390:145 916719967:172
+BUILD free site, walking, centre outside, a safe side, starts in range, knight<250, target on the enemy half, path through range    8     8    2  916289381:200 916289381:201 916289381:202 916295245:140
+BUILD free site, touching, centre outside, a safe side, starts in range, no knight, target on our half, path clear    7     7    6  916287473:137 916718880:82 916719967:165 916720459:173
+BUILD own tower, touching, centre in range, a safe side, starts in range, knight<250    7     7    3  916297455:169 916297455:170 916720032:146 916720032:147
+BUILD own tower, walking, centre outside, a safe side, starts in range, knight<250, alternating    4     7    4  916290317:85 916718880:90 916719390:144 916719967:179
+BUILD free site, walking, centre outside, a safe side, starts in range, knight<250, target on our half, path through range    4     5    2  916297455:117 916297455:132 916297455:158 916723404:191
+BUILD own mine, touching, centre outside, a safe side, starts in range, no knight    4     4    2  916287473:138 916287473:139 916297857:181 916297857:182
+BUILD own tower, touching, centre in range, no safe side, starts in range, no knight    4     4    1  916297455:105 916297455:106 916297455:107 916297455:108
+BUILD own tower, touching, centre in range, a safe side, starts in range, no knight    3     3    1  916297455:109 916297455:110 916297455:111
+BUILD free site, walking, centre outside, a safe side, starts outside, no knight, target on our half, path through range    2     2    2  916285734:157 916287473:127
+BUILD own tower, touching, centre outside, a safe side, starts in range, no knight, alternating    2     2    2  916286113:105 916720210:100
+BUILD free site, touching, centre outside, a safe side, starts in range, knight<250, target on the enemy half, path clear    1     1    1  916295245:145
+BUILD free site, touching, centre outside, a safe side, starts in range, no knight, target on our half, path through range    1     1    1  916297857:180
+BUILD free site, touching, centre outside, a safe side, starts in range, no knight, target on the enemy half, path clear    1     1    1  916295862:122
+BUILD free site, walking, centre outside, a safe side, starts in range, no knight, alternating, target on our half, path through range    1     1    1  916720210:104
+BUILD free site, walking, centre outside, a safe side, starts outside, knight<250, alternating, target on our half, path through range    1     1    1  916723404:190
+BUILD free site, walking, centre outside, a safe side, starts outside, knight<250, target on our half, path through range    1     1    1  916296237:236
+BUILD own tower, touching, centre outside, a safe side, starts in range, knight<250, alternating    1     1    1  916718397:146
+BUILD own tower, walking, centre in range, a safe side, starts in range, knight<250, alternating    1     1    1  916297455:116
+BUILD own tower, walking, centre in range, a safe side, starts outside, no knight    1     1    1  916720459:145
+BUILD own tower, walking, centre in range, no safe side, starts in range, no knight    1     1    1  916297455:104
+BUILD own tower, walking, centre in range, no safe side, starts outside, knight<250    1     1    1  916719390:50
+BUILD own tower, walking, centre outside, a safe side, starts in range, no knight, alternating    1     1    1  916288174:158
+BUILD own tower, walking, centre outside, a safe side, starts outside, no knight, alternating    1     1    1  916720459:187

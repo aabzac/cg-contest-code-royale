@@ -141,7 +141,7 @@ public final class MainBot implements Bot {
             if (g >= 0) cmd = walkTo(s, Command.build(g, "BARRACKS-GIANT"), false, hx, hy, barracks, ladderIncome, towers);
         }
         if (cmd == null) {
-            int target = hold ? -1 : nextSite(s, (qx + hx) / 2, (qy + hy) / 2, hx, hy, p, mines, barracks, ladderIncome, towers, -1);
+            int target = hold ? -1 : nextSite(s, qx, qy, hx, hy, p, mines, barracks, ladderIncome, towers, -1);
             if (target >= 0) {
                 String what = !free(s, target) || mines < p.MINES_FIRST && s.sGold[target] > 0 ? "MINE"
                     : wantsBarracks(p, barracks, towers) ? "BARRACKS-KNIGHT" : ladderIncome < p.INCOME_TARGET ? "MINE" : "TOWER";
@@ -388,17 +388,20 @@ public final class MainBot implements Bot {
     }
 
     /**
-     * The ladder's next site to take, the nearest to (cx, cy) (the midpoint of the queen and home),
-     * or -1 when the ladder is complete; site skip is left out. Counts are the bot's own structures.
-     * (hx, hy) is the home corner, for the forward second barracks (BARRACKS_FORWARD).
+     * The ladder's next site to take for the walker at (wx, wy) (the queen, or ROUTE's landing point), the nearest to
+     * the midpoint of the walker and home, or -1 when the ladder is complete; site skip is left out. Counts are the
+     * bot's own structures. (hx, hy) is the home corner, for the forward second barracks (BARRACKS_FORWARD).
      * A free gold site while fewer than MINES_FIRST mines stand; otherwise, until the barracks, the
      * income target and the tower cap are met, a free site, which needs gold in the mine phase (the
      * barracks built, the income below its target), where with UPGRADE=1 an own mine below its
-     * maximum is a target too. Sites under an enemy tower are never targets.
+     * maximum is a target too. Sites under an enemy tower are never targets, nor, with SAFE_LADDER, sites on the enemy
+     * half that the straight walk reaches only through an enemy tower's range (1) or at all (2).
      */
-    static int nextSite(GameState s, double cx, double cy, double hx, double hy, Params p, int mines, int barracks, int income, int towers, int skip) {
+    static int nextSite(GameState s, double wx, double wy, double hx, double hy, Params p, int mines, int barracks, int income, int towers, int skip) {
+        double cx = (wx + hx) / 2, cy = (wy + hy) / 2;
+        java.util.function.IntPredicate ok = i -> i != skip && !underEnemyTower(s, i) && safeLadder(s, p, wx, wy, hx, hy, i);
         if (mines < p.MINES_FIRST) {
-            int t = nearest(s, cx, cy, i -> i != skip && free(s, i) && !underEnemyTower(s, i) && s.sGold[i] > 0);
+            int t = nearest(s, cx, cy, i -> ok.test(i) && free(s, i) && s.sGold[i] > 0);
             if (t >= 0) return t;
         }
         boolean wantBarracks = wantsBarracks(p, barracks, towers);
@@ -406,13 +409,34 @@ public final class MainBot implements Bot {
         if (wantBarracks && barracks >= 1 && p.BARRACKS_FORWARD > 0) {
             // The second barracks forward: the free site nearest to the point BARRACKS_FORWARD % of the way from home to the enemy's corner.
             double f = p.BARRACKS_FORWARD / 100.0, fx = hx + f * (Const.WIDTH - 2 * hx), fy = hy + f * (Const.HEIGHT - 2 * hy);
-            int t = nearest(s, fx, fy, i -> i != skip && free(s, i) && !underEnemyTower(s, i));
+            int t = nearest(s, fx, fy, i -> ok.test(i) && free(s, i));
             if (t >= 0) return t;
         }
         boolean minePhase = !wantBarracks && income < p.INCOME_TARGET;
-        return nearest(s, cx, cy, i -> i != skip && !underEnemyTower(s, i)
+        return nearest(s, cx, cy, i -> ok.test(i)
             && (free(s, i) ? !minePhase || s.sGold[i] > 0
                 : p.UPGRADE == 1 && minePhase && s.stType[i] == Const.MINE && s.stOwner[i] == 0 && s.mineRate[i] < s.sMaxMine[i]));
+    }
+
+    /**
+     * SAFE_LADDER: whether site i may be the ladder's target for the walker at (wx, wy). A site on our half (not nearer
+     * the enemy's corner than ours) always may; one on the enemy half with SAFE_LADDER=1 only while the straight walk to
+     * it stays out of every enemy tower's range, with 2 never.
+     */
+    static boolean safeLadder(GameState s, Params p, double wx, double wy, double hx, double hy, int i) {
+        if (p.SAFE_LADDER == 0) return true;
+        if (Physics.distSq(s.sx[i], s.sy[i], hx, hy) <= Physics.distSq(s.sx[i], s.sy[i], Const.WIDTH - hx, Const.HEIGHT - hy)) return true;
+        return p.SAFE_LADDER == 1 && !walkUnderEnemyTower(s, wx, wy, i);
+    }
+
+    /** Whether the straight walk from (x, y) to site i, until she touches it, passes through an enemy tower's range (checked every 20). */
+    static boolean walkUnderEnemyTower(GameState s, double x, double y, int i) {
+        double d = Math.sqrt(Physics.distSq(x, y, s.sx[i], s.sy[i])), stop = s.sr[i] + Const.QUEEN_RADIUS + Const.TOUCHING_DELTA;
+        for (double w = 0; w <= d - stop; w += 20) {
+            double f = w / d;
+            if (underEnemyTowerAt(s, x + f * (s.sx[i] - x), y + f * (s.sy[i] - y))) return true;
+        }
+        return false;
     }
 
     /**

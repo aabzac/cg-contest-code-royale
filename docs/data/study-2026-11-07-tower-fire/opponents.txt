@@ -1,0 +1,66 @@
+v08 against opponents rated 0-19 at fetch:
+  won 92 games (medians; us / them)
+    inc_50          4.0 / 5.0   
+    inc_100         3.0 / 5.0   
+    inc_150         3.0 / 5.0   
+    mines_100       2.0 / 3.0   
+    towers_100      4.0 / 4.0   
+    towers_150      5.0 / 5.0   
+    thp_100      2544.0 / 2030.0
+    thp_150      2688.0 / 2224.0
+    bk_100          2.0 / 1.0   
+    knights_100     0.0 / 2.0   
+    hp_100         54.5 / 33.0  
+    hp_150         55.0 / 33.0  
+    our queen died in 1 (median turn 146.0); went to turn 250: 49
+    the opponent trained giants in 7, archers in 2; knight trainings 8.0 / 11.0
+    the opponent's mean income 4.5, mines built 7.0, towers built 7.0, top-ups 58.5 (ours 3.2, 4.0, 6.0, 64.0)
+  lost 28 games (medians; us / them)
+    inc_50          4.0 / 5.0   
+    inc_100         3.0 / 4.5   
+    inc_150         2.0 / 5.0   
+    mines_100       2.0 / 3.0   
+    towers_100      4.0 / 4.0   
+    towers_150      5.0 / 5.0   
+    thp_100      2398.0 / 2154.0
+    thp_150      2780.0 / 2436.0
+    bk_100          1.0 / 1.0   
+    knights_100     0.0 / 0.5   
+    hp_100         41.0 / 37.0  
+    hp_150         28.0 / 34.0  
+    our queen died in 16 (median turn 154.5); went to turn 250: 12
+    the opponent trained giants in 2, archers in 0; knight trainings 8.0 / 11.5
+    the opponent's mean income 4.9, mines built 5.5, towers built 7.0, top-ups 43.0 (ours 3.2, 4.0, 5.0, 56.0)
+v10 against opponents rated 0-19 at fetch:
+  won 78 games (medians; us / them)
+    inc_50          4.0 / 5.0   
+    inc_100         3.0 / 4.0   
+    inc_150         4.0 / 3.5   
+    mines_100       2.0 / 2.0   
+    towers_100      4.0 / 4.0   
+    towers_150      5.0 / 4.0   
+    thp_100      2606.0 / 2342.0
+    thp_150      2758.0 / 2308.0
+    bk_100          2.0 / 1.0   
+    knights_100     0.0 / 0.0   
+    hp_100         57.0 / 36.0  
+    hp_150         60.5 / 37.5  
+    our queen died in 0 (median turn -); went to turn 250: 43
+    the opponent trained giants in 8, archers in 0; knight trainings 8.5 / 9.0
+    the opponent's mean income 4.3, mines built 6.0, towers built 6.0, top-ups 61.0 (ours 3.4, 4.0, 6.0, 91.0)
+  lost 31 games (medians; us / them)
+    inc_50          4.0 / 5.0   
+    inc_100         3.0 / 6.0   
+    inc_150         3.0 / 5.0   
+    mines_100       2.0 / 3.0   
+    towers_100      4.0 / 5.0   
+    towers_150      5.0 / 5.0   
+    thp_100      2448.0 / 2336.0
+    thp_150      2300.0 / 2320.0
+    bk_100          1.0 / 1.0   
+    knights_100     0.0 / 3.0   
+    hp_100         53.0 / 48.0  
+    hp_150         43.0 / 49.0  
+    our queen died in 24 (median turn 142.5); went to turn 250: 7
+    the opponent trained giants in 1, archers in 0; knight trainings 6.0 / 9.0
+    the opponent's mean income 4.6, mines built 4.0, towers built 4.0, top-ups 53.0 (ours 3.1, 3.0, 5.0, 48.0)

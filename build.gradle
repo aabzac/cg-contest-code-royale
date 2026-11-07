@@ -72,6 +72,14 @@ tasks.register('cgStudy', JavaExec) {
     args([prop('out', 'build/study.csv')] + prop('replays', 'replays/cg2').split(' ').toList())
 }
 
+// Our queen's turns under enemy tower fire in recorded CG games, by what she was doing (cr.tools.TowerFire):
+// -Pagents=<agentId,agentId...> [-Plines=1] -Preplays=<dirs or files, space-separated>
+tasks.register('towerFire', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.tools.TowerFire'
+    args([prop('agents', '')] + (prop('lines', '0') == '1' ? ['lines'] : []) + prop('replays', '').split(' ').toList())
+}
+
 // Queen traces of recorded CG games (cr.tools.DeathTrace), printed to stdout (run with -q and redirect):
 // -Pagent=<agentId> [-Pall=1] [-Pfoe=1] -Preplays=<dirs or files, space-separated>
 tasks.register('deathTrace', JavaExec) {

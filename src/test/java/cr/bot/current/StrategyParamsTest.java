@@ -498,4 +498,30 @@ class StrategyParamsTest {
         s.turn = 22;
         assertArrayEquals(new int[]{1}, bot.train(s), "the enemy queen 400 from B: release");
     }
+
+    /**
+     * SAFE_LADDER (2026-11-07, docs/data/study-2026-11-07-tower-fire): the ladder wants a third tower and its only free
+     * site is D (1500,700) on the enemy half. The straight walk from the queen (600,350) to D passes 44 from an enemy
+     * tower E (1100,500, range 300) whose range misses D's centre, so v10 walks through it. SAFE_LADDER=1 drops D and
+     * pumps the home tower; with E off the walk (1100,900) it takes D, SAFE_LADDER=2 never does.
+     */
+    @Test
+    void safeLadderKeepsTheQueenOutOfTheEnemyBase() {
+        GameState s = ladderComplete();
+        s.stType[2] = Const.TOWER; s.stOwner[2] = 0; s.towerHp[2] = 700; s.towerRange[2] = 400;
+        site(s, 4, 1500, 700, 300, 3);
+        site(s, 5, 1100, 500, 0, 0);
+        s.stType[5] = Const.TOWER; s.stOwner[5] = 1; s.towerHp[5] = 500; s.towerRange[5] = 300;
+        String p = "MINES_FIRST=0,INCOME_TARGET=2,MAX_TOWERS=3,BARRACKS=1,ROUTE=0,UNSTICK=0,THREAT_TOWERS_NEAR=0,KITE=0";
+        assertEquals("BUILD 4 TOWER", queen(s, p + ",SAFE_LADDER=0"), "v10: D through E's range");
+        assertEquals("BUILD 3 TOWER", queen(s, p + ",SAFE_LADDER=1"), "the walk to D crosses E's range: pump");
+        assertEquals("BUILD 3 TOWER", queen(s, p + ",SAFE_LADDER=2"));
+        s.sy[5] = 900;
+        assertEquals("BUILD 4 TOWER", queen(s, p + ",SAFE_LADDER=1"), "E off the walk: D");
+        assertEquals("BUILD 3 TOWER", queen(s, p + ",SAFE_LADDER=2"), "never a site on the enemy half");
+        s.qx[0] = 900; s.qy[0] = 800;
+        assertEquals("BUILD 3 TOWER", queen(s, p + ",SAFE_LADDER=1"), "the queen inside E's range: every walk starts in it");
+        s.clearStructure(2);
+        assertEquals("BUILD 2 TOWER", queen(s, p + ",SAFE_LADDER=1"), "C on our half stays a target from inside the range");
+    }
 }

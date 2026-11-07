@@ -1,7 +1,12 @@
 package cr.tools;
 
 import cr.bot.BotFactory;
+import cr.core.Command;
 import cr.core.Const;
+import cr.core.GameState;
+import cr.core.MapGen;
+import cr.core.Physics;
+import cr.core.Rules;
 import cr.referee.Referee;
 
 import java.util.ArrayList;
@@ -32,7 +37,7 @@ public final class LocalProfile {
         BUILT = WAVES + 12, UPGRADES = WAVES + 13, TORN_DOWN = WAVES + 14, DEPLETED = WAVES + 15, MINED = WAVES + 16,
         GIANTS_IN = WAVES + 17, LOST_TO_GIANTS = WAVES + 18, LOST_OTHER = WAVES + 19, FIRST_BUST = WAVES + 20,
         ARCHER_WAVES = WAVES + 21, EXPOSED = WAVES + 22, EXPOSED_AT_RELEASE = WAVES + 23, TO_BARRACKS = WAVES + 24,
-        HIT_PER_TRAINING = WAVES + 25, COLUMNS = WAVES + 26;
+        HIT_PER_TRAINING = WAVES + 25, TOWER_FIRE = WAVES + 26, FAR_WALK = WAVES + 27, COLUMNS = WAVES + 28;
 
     public static void main(String[] args) {
         String a = args[0], b = args[1];
@@ -160,6 +165,7 @@ public final class LocalProfile {
                 if (theirs) killed++;
                 row[DEATH] = death;
                 row[TURNS] = r.turns;
+                towerFire(r, seat, row);
                 rows.add(row);
             }
         }
@@ -187,6 +193,8 @@ public final class LocalProfile {
             fmt(median(rows, MINED, 0)), fmt1(meanNum(rows, MINED)));
         System.out.printf(Locale.ROOT, "our waves (means over games, from turn 30): the enemy queen outside her towers' ranges on %s %% of the turns and at %s %% of our knight trainings, %s from our nearest knight barracks; she loses %s HP with our knights within 250 per knight training (whole game)%n",
             fmt1(meanNum(rows, EXPOSED)), fmt1(meanNum(rows, EXPOSED_AT_RELEASE)), fmt(meanNum(rows, TO_BARRACKS)), fmt1(meanNum(rows, HIT_PER_TRAINING)));
+        System.out.printf(Locale.ROOT, "tower fire: our queen loses %s HP a game to enemy towers (mean; in %d of %d games), walks %s turns a game to a free site on the enemy half through an enemy tower's range (mean)%n",
+            fmt1(meanNum(rows, TOWER_FIRE)), rows.stream().filter(r -> r[TOWER_FIRE] > 0).count(), rows.size(), fmt1(meanNum(rows, FAR_WALK)));
         List<double[]> withGiants = rows.stream().filter(r -> r[GIANTS_IN] > 0).toList();
         System.out.printf(Locale.ROOT, "enemy giants: in %d of %d games (mean %s a game); in those games own towers lost to giants %s, to other causes %s (means), first giant at an own tower turn %s (median)%n",
             withGiants.size(), rows.size(), fmt1(rows.stream().mapToDouble(r -> r[GIANTS_IN]).average().orElse(Double.NaN)),
@@ -239,6 +247,42 @@ public final class LocalProfile {
         row[EXPOSED_AT_RELEASE] = releases == 0 ? Double.NaN : 100.0 * outAtRelease / releases;
         row[TO_BARRACKS] = distN == 0 ? Double.NaN : dist / distN;
         row[HIT_PER_TRAINING] = trainings == 0 ? Double.NaN : (double) lost / trainings;
+    }
+
+    /**
+     * The game replayed through {@link Rules} with the recorded commands (frame k holds the commands of the turn that
+     * made it): the HP our queen loses to enemy towers, from a probe of each turn without the enemy knights (as
+     * {@link DeathTrace}'s {@code td}), and the turns her BUILD target is a free site on the enemy half (nearer the
+     * enemy's corner) with the straight walk to it through an enemy tower's range ({@link TowerFire}).
+     */
+    static void towerFire(Referee.Result r, int seat, double[] row) {
+        GameState s = MapGen.generate(r.seed, 4);
+        Rules rules = new Rules();
+        int foe = 1 - seat, hp = 0, far = 0;
+        double hx = s.qx[seat] < Const.WIDTH / 2.0 ? 0 : Const.WIDTH, hy = hx == 0 ? 0 : Const.HEIGHT;
+        for (int k = 1; k < r.frames.size() && !s.over; k++) {
+            String[] raw = r.frames.get(k).cmds;
+            Command[] cmd = {parse(raw[0], s.nSites), parse(raw[1], s.nSites)};
+            Command c = cmd[seat];
+            if (c.queen == Command.BUILD && c.site >= 0 && s.stType[c.site] == Const.NONE
+                && Physics.distSq(s.sx[c.site], s.sy[c.site], hx, hy) > Physics.distSq(s.sx[c.site], s.sy[c.site], Const.WIDTH - hx, Const.HEIGHT - hy)
+                && TowerFire.pathThroughRange(s, foe, s.qx[seat], s.qy[seat], c.site)) far++;
+            GameState probe = s.copy();
+            for (int i = 0; i < probe.nCreeps; i++)
+                if (probe.cOwner[i] == foe && probe.cType[i] == Const.KNIGHT) probe.cHp[i] = 0;
+            probe.removeDeadCreeps();
+            new Rules().resolve(probe, cmd[0], cmd[1]);
+            hp += Math.max(0, s.hp[seat] - probe.hp[seat]);
+            rules.resolve(s, cmd[0], cmd[1]);
+        }
+        row[TOWER_FIRE] = hp;
+        row[FAR_WALK] = far;
+    }
+
+    /** A recorded command pair "queen line | train line" (or "<none>"), as the referee parsed it. */
+    static Command parse(String raw, int sites) {
+        int bar = raw.indexOf(" | ");
+        return bar < 0 ? Command.parse(null, null, sites) : Command.parse(raw.substring(0, bar), raw.substring(bar + 3), sites);
     }
 
     static int giantCount(Referee.Frame f, int seat) {

@@ -180,6 +180,16 @@ public final class Params {
      */
     public int RELEASE_NEAR = 0;
     public int RELEASE_HOLD = 0;
+    /**
+     * SAFE_LADDER: the ladder's sites on the enemy half (nearer the enemy's corner than ours). 1: such a site is a target
+     * only while the straight walk from the queen to it stays out of every enemy tower's range; 2: never a target; 0: as
+     * v01-v10. From the study of 2026-11-07 (docs/data/study-2026-11-07-tower-fire): with the free sites of our half
+     * taken or under enemy towers, v10's ladder walked the queen to free sites deep in the enemy's base, through their
+     * towers' ranges; those walks took 436 of the 810 HP enemy towers cost her in 160 Silver games. 1 by default since
+     * v11 (2026-11-07: a P2 targeted fix, docs/data/exp-2026-11-07-safe-ladder, 148 of 2000 maps changed against v10's
+     * mirror, S 0.5030; the user's decision).
+     */
+    public int SAFE_LADDER = 1;
     public long SEED = 1;
     public int DEBUG = 0;
 
