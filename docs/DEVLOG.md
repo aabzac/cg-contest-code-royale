@@ -3694,3 +3694,39 @@ Command: `bash docs/data/exp-2026-11-07-meet-back/eval.sh`. Raw reports: `replay
 **Next.** On the user's decision: the commit and the merge into master, then from the main checkout
 `python -B -I tools/arena.py follow v12 --selected v11` before the paste. v11 stays the selected version until P1 judges
 two Gold placements of v12. Not committed.
+
+## 2026-11-07 — v12's two Gold uploads: v12 selected under P1
+
+The user's "Сделал 2 загрузки". Both ran with `python -B -I tools/arena.py follow v12 --selected v11` in the main checkout.
+- Upload 1 is agent 6860036: placement 19.64, rank 88 of 348.
+- Upload 2 is agent 6860166: placement 21.07, rank 34 of 348.
+- `cgAttribute`: SAME 90/90 in each, against `artifacts/3208b011/Player.java`. The marker `58d513ae` is in all 180 games.
+- The follow tool's data files were copied from the main checkout: the registry, the four new manifests and the
+  re-fetched manifest of v11 upload 4.
+
+**P1** (upload 2's `checks/arena-compare.json`):
+- Mean: 20.36 against v11's Gold 17.08, +3.28 against −M = −2.46.
+- Performance: 20.38 ± 0.48 against 16.89 ± 0.49 at Gold's refitted scale 3.04, +3.48 ± 0.69.
+- v12 is not clearly worse, and in fact clearly better: **v12 is the selected version**. Its artifact `3208b011` is the
+  rollback artifact.
+- Gold's own M is now 2.54 on 2 df. The verdicts keep Bronze's 2.46, by the user's decision.
+
+**The rule on the arena.**
+- `./gradlew waveTrace -Pagents=6860036,6860166 -Pout=replays/study/gold-v12-2026-11-07/waves
+  -Preplays="../../../replays/arena/v12/gold/upload-01/games ../../../replays/arena/v12/gold/upload-02/games"`: 176 games
+  with a contact.
+- `gold_reference.py` gives the first wave met at 287 from the back edge (median; v11 411), 37 contacts beyond 406
+  (v11 88), a loss of 6.9 HP (v11 11.4) and 45 merged waves (v11 69).
+- `wave_mechanisms.py` gives the HP races:
+  - the distance no longer separates lost from won (322 against 324);
+  - lost races still lose 10.2 HP to the first wave against 3.4, in the back half too;
+  - merged waves mark 12 of 42 lost races.
+
+**Equal scores.** 918143672 (75:75) and 918166983 (51:51) are the fifteenth and sixteenth equal-score games. Both rank
+player 0, which was us, first, and the battle lists give a draw.
+
+**Local against arena.** P2's S 0.5716 turned into +3.3 points. The panel undervalues this kind of change, as it
+undervalued v08's.
+
+Records: `docs/arena-uploads.md` (the section and the table), BOTS (Uploads, Artifacts, versions), STATUS, SUMMARY,
+`docs/local-screen.md` (v12's row), `docs/rules/inferred.md` and the architecture page (now v12's). Not committed.

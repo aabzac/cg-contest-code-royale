@@ -1152,3 +1152,60 @@ until they decide otherwise.
 - **The next candidate in Gold** is judged against v11's Gold mean 17.08 and rating 16.92 ± 0.50 (scale 3.10):
   - rollback: the candidate's mean is below by more than 2.46 and its rating below by more than 2 SE of the difference;
   - early rollback: its first placement is below 12.15 (17.08 − 2M, 2M = 4.93).
+
+## Tenth candidate: v12 (meeting the first wave back), two Gold uploads and the P1 verdict (2026-11-07): v12 selected
+
+The user pasted the kept copy `artifacts/3208b011/Player.java` twice ("Сделал 2 загрузки"), each time with
+`python -B -I tools/arena.py follow v12 --selected v11` running in the main checkout.
+- **Upload 1.**
+  - The command saved v11 upload 4 at 19:03:05. Its battle list was already empty: the paste had arrived.
+  - It saw the new agent 6860036 at 19:03:33 (created 19:02:47, submission 41661436, 10 % played) and registered it at
+    19:03:38, once game 918143669 showed build `58d513ae`.
+  - The placement completed at 19:25:46.
+- **Upload 2.**
+  - The command saved upload 1 at 19:37:46 and named the file to paste at 19:37:51.
+  - It saw agent 6860166 at 19:38:35 (created 19:37:59, submission 41661731, 6 %) and registered it at 19:38:41.
+  - The placement completed at 20:02:41.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v12/upload-1 (Gold) | 6860036 | 19.64, rank 88/348 | 90 | 54.4 ± 5.2 | 29 of 46 | 20 of 44 | 19.72 | 19.93 ± 0.66 |
+| v12/upload-2 (Gold) | 6860166 | 21.07, rank 34/348 | 90 | 66.7 ± 5.0 | 25 of 35 | 35 of 55 | 19.51 | 20.90 ± 0.72 |
+| v12 in Gold, both | | mean 20.36, SD 1.01 | 180 | | | | | 20.38 ± 0.48 |
+| v11 in Gold, uploads 3 and 4 | | mean 17.08, SD 1.48 | 180 | | | | 15.03-16.78 | 16.89 ± 0.49 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it (upload 2's `checks/arena-compare.json`). Gold's
+logistic scale is 3.04, refitted on the four Gold uploads; v11's rating moves from 16.92 to 16.89 with it.
+- **Same code:** `cgAttribute` finds every game identical to `3208b011`: SAME 90/90 in each upload, 18,948 and 19,304
+  turns. The marker `58d513ae` is in all 180.
+- **The referee removed the opponent** in two games of upload 1, 918143680 and 918144045, ordinary wins.
+- **Equal scores:** one game in each upload, both at turn 250 with us as player 0, so both rank as wins:
+  - 918143672 against Snef, 75:75;
+  - 918166983 against Dje54, 51:51.
+  - Their saved battle lists (33 and 12) give both players position 0. They are the fifteenth and sixteenth such games
+    (`docs/rules/inferred.md`).
+- **P1 verdict against v11.** M is 2.46, borrowed from Bronze. Gold's own M is now 2.54 on 2 df (pooled SD 1.27),
+  printed as context.
+  - Mean: 20.36 against 17.08, +3.28 against −M = −2.46.
+  - Performance: 20.38 ± 0.48 against 16.89 ± 0.49, +3.48 ± 0.69 against −2 SE = −1.38.
+  - Neither rollback condition holds: **v12 is the selected version** (2026-11-07). Its artifact `3208b011` is the
+    rollback artifact for the next candidate.
+  - The difference is larger than M and about 5 SE of the rating difference. On the arena v12 is better than v11, not
+    just "not clearly worse".
+- **The arena's view of the rule.** WaveTrace over v12's 180 games against v11's, the games with a first contact
+  (`gold_reference.py`, `wave_mechanisms.py`; traces in `replays/study/gold-v12-2026-11-07/waves/`, gitignored,
+  `summary.csv` sha256 3842893b…):
+
+  | | v11 (171 games) | v12 (176 games) |
+  | --- | --- | --- |
+  | distance from the back edge at the contact (median) | 411 | 287 |
+  | contacts beyond 406 | 88 | 37 |
+  | first-wave loss to knights (mean) | 11.4 HP | 6.9 HP |
+  | merged waves | 69 | 45 |
+
+  In the HP races the distance no longer separates lost from won (322 against 324; v11 444 against 380). Merged waves
+  mark 12 of 42 lost races (v11 19 of 44). The first wave still costs more in lost races, 10.2 HP against 3.4, in the
+  back half too.
+- **Local against arena:** P2's final evaluation gave S 0.5716 against v11, below the 0.60 recommendation, and the
+  arena moved +3.3 points. The local panel undervalued this change, like v08's.
+- **Placement speed:** 22 and 24 minutes from the agent's creation.

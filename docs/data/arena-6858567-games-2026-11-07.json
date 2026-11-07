@@ -1,5 +1,5 @@
 {
- "fetched": "2026-11-07T12:18:46+0200",
+ "fetched": "2026-11-07T19:03:08+0200",
  "agentId": 6858567,
  "offline": false,
  "services": [
@@ -10,7 +10,7 @@
  "rawDirectory": "replays/arena/v11/gold/upload-04/games",
  "snapshotDirectory": "replays/arena/v11/gold/upload-04/snapshots",
  "battleRows": {
-  "live": 90,
+  "live": 0,
   "merged": 90,
   "savedLists": [
    "replays/arena/v11/gold/upload-04/snapshots/battles-20261107-115838-134293800.json",
@@ -40,7 +40,9 @@
    "replays/arena/v11/gold/upload-04/snapshots/battles-20261107-121658-573702500.json",
    "replays/arena/v11/gold/upload-04/snapshots/battles-20261107-121743-464987900.json",
    "replays/arena/v11/gold/upload-04/snapshots/battles-20261107-121807-343885000.json",
-   "replays/arena/v11/gold/upload-04/snapshots/battles-20261107-121843-465883200.json"
+   "replays/arena/v11/gold/upload-04/snapshots/battles-20261107-121843-465883200.json",
+   "replays/arena/v11/gold/upload-04/snapshots/battles-20261107-121846-425140100.json",
+   "replays/arena/v11/gold/upload-04/snapshots/battles-20261107-190305-750701500.json"
   ],
   "notDone": 0
  },

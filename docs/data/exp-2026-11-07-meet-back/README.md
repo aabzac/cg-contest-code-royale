@@ -295,3 +295,22 @@ i < 2000, both seats. boss plays the first 500 maps (3 threads, 200 ms). Raw rep
 A second build and a clean export of the working tree gave the same bytes. The export went through a temporary index
 (tree 355b8617), so the real index was left alone. procCheck vs v01 100 maps @5000: 200/200 identical to current, 200 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 264.8 ms, later 6.7 ms; vs boss 100 maps @6000: 200/200 identical to current, 200 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 298.1 ms, later 7.7 ms. The kept copy is `artifacts/3208b011/Player.java`
 (gitignored).
+
+## On the arena (Gold)
+
+Two uploads, 19.64 and 21.07, mean 20.36, against v11's 17.08. P1 selected v12; the section and the table are in
+`docs/arena-uploads.md`.
+- **The arena's view of the rule.** WaveTrace over v12's 180 games against v11's, the games with a first contact
+  (`gold_reference.py`, `wave_mechanisms.py`; traces in `replays/study/gold-v12-2026-11-07/waves/`, gitignored,
+  `summary.csv` sha256 3842893b…):
+
+  | | v11 (171 games) | v12 (176 games) |
+  | --- | --- | --- |
+  | distance from the back edge at the contact (median) | 411 | 287 |
+  | contacts beyond 406 | 88 | 37 |
+  | first-wave loss to knights (mean) | 11.4 HP | 6.9 HP |
+  | merged waves | 69 | 45 |
+
+  In the HP races the distance no longer separates lost from won (322 against 324; v11 444 against 380). Merged waves
+  mark 12 of 42 lost races (v11 19 of 44). The first wave still costs more in lost races, 10.2 HP against 3.4, in the
+  back half too.

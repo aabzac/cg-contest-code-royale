@@ -27,9 +27,9 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   rival +0.0135, no candidate failure, G3 skipped (`docs/data/exp-2026-11-07-meet-back/`). Final evaluation against
   v11 on PV3 evaluation block 1: S 0.5716 (CI 0.5587..0.5845), boss 0.0000, field −0.0123, rival +0.0163, no failure;
   below the 0.60 recommendation. Artifact `3208b011…` (88,517 chars, build `58d513ae`, config `7b8e0525`; kept copy
-  `artifacts/3208b011/Player.java` in this worktree), procCheck 200/200 against v01 and against `boss`, later turns at
-  most 7.7 ms (`docs/BOTS.md`, Artifacts). Not committed, not uploaded. The next P2 candidates are screened against
-  v12.
+  `artifacts/3208b011/Player.java`), procCheck 200/200 against v01 and against `boss`, later turns at most 7.7 ms
+  (`docs/BOTS.md`, Artifacts); commit 08fbc49, merged into master. Also the selected version since 2026-11-07 (below).
+  The next P2 candidates are screened against v12.
 - Previous local champion: v11 (2026-11-07) = v10 with the ladder's sites on the enemy half only while the
   straight walk to them stays out of every enemy tower's range (SAFE_LADDER=1), frozen 2026-11-07 by the user's decision
   ("the default"; `cr.bot.v11.GreedyBot`, `versions/v11.properties`; `MainBotTest.withV11ParamsCurrentPlaysAsV11`). P2 as
@@ -44,13 +44,19 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   upload"; `cr.bot.v09.GreedyBot`, `versions/v09.properties`; `MainBotTest.withV09ParamsCurrentPlaysAsV09`). P2
   screen on PV3 block 0: S 0.5269 against v08, +1.46 pp against `field` (`docs/data/exp-2026-11-05-late-hold/`).
   Not uploaded, no final evaluation, no artifact checked.
-- Selected version (the arena's): **v11** since 2026-11-07, by P1 on two Silver placements, 20.80 and 21.74 (mean
+- Selected version (the arena's): **v12** since 2026-11-07, by P1 on two Gold placements, 19.64 and 21.07 (mean 20.36,
+  SD 1.01), against v11's Gold 18.13 and 16.03 (mean 17.08): "not clearly worse" (+3.28 against −M −2.46; performance
+  20.38 ± 0.48 against 16.89 ± 0.49 at Gold's scale 3.04, +3.48 against −2 SE −1.38; `docs/arena-uploads.md`). Uploaded
+  as an exception (S 0.5716 against v11 on the evaluation block). Artifact `3208b011…` (88,517 chars, build `58d513ae`,
+  config `7b8e0525`; commit 08fbc49; kept copy `artifacts/3208b011/Player.java`). The rollback artifact. On the arena the
+  first wave is met 287 from the back edge (v11 411) and costs 6.9 HP (v11 11.4).
+- Previous selected version: v11 (2026-11-07), by P1 on two Silver placements, 20.80 and 21.74 (mean
   21.27, SD 0.66), against v10's 19.38 and 21.33 (mean 20.35): "not clearly worse" (+0.92 against −M −2.46;
   performance 22.02 ± 0.77 against 21.04 ± 0.77 at Silver's scale 4.41, +0.98 against −2 SE −2.17;
   `docs/arena-uploads.md`). Uploaded as an exception (a targeted fix, S 0.5030 against v10). Artifact `cf71d566…`
   (86,973 chars, build `cf3b2e46`, config `bc23e79d`; commit 1dd24ba; kept copy `artifacts/cf71d566/Player.java`),
-  procCheck 200/200 against v01 and against `boss` (`docs/BOTS.md`, Artifacts). The rollback artifact. Upload 2
-  was promoted to Gold, where v11's baseline is still to build: two Gold placements of `cf71d566`.
+  procCheck 200/200 against v01 and against `boss` (`docs/BOTS.md`, Artifacts); kept. Upload 2 was promoted to Gold;
+  v11's Gold baseline: 18.13 and 16.03, mean 17.08.
 - Previous selected version: v10 (2026-11-07), by P1 on two Silver placements, 19.38 and 21.33 (mean
   20.35, SD 1.38), against v08's 20.70, 20.74 and 20.21 (mean 20.55): "not clearly worse" (−0.20 against −M −2.46;
   performance 20.56 ± 0.65 against 20.64 ± 0.50, −0.08 against −2 SE −1.63; `docs/arena-uploads.md`). Uploaded as an
@@ -88,13 +94,12 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
   `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
   `route` configuration, artifact `da914c4c…`), selected 2026-11-02 to 2026-11-03; v03, 2026-10-30 to 2026-11-02.
-- Arena entry: `aabzac`, agent 6858567 = v11 upload 4, **Gold**, pasted 2026-11-07 11:58 local and followed by
-  `tools/arena.py follow v11`.
-  - The placement completed at 12:18: score 16.03, local rank 256/351 (global 367), `eligibleForPromotion` false.
-  - 90 games, 55 wins (5 of them by the referee's removal of the opponent); opponents' median 15.03; no game against
-    the Gold boss. Every game is identical to the artifact (`docs/BOTS.md`, Uploads;
-    `docs/data/arena-6858567-placement-2026-11-07.json`).
-  - It replaced agent 6857463 = v11 upload 3 (CG's promotion, 18.13, rank 119/351).
+- Arena entry: `aabzac`, agent 6860166 = v12 upload 2, **Gold**, pasted 2026-11-07 19:37 local and followed by
+  `tools/arena.py follow v12 --selected v11`.
+  - The placement completed at 20:02: score 21.07, local rank 34/348 (global 148), `eligibleForPromotion` false.
+  - 90 games, 60 wins; opponents' median 19.51. Every game is identical to the artifact (`docs/BOTS.md`, Uploads;
+    `docs/data/arena-6860166-placement-2026-11-07.json`).
+  - It replaced agent 6860036 = v12 upload 1 (19.64, rank 88/348), which replaced v11 upload 4 (16.03).
 - v11 in Gold (the study of 2026-11-07, `docs/data/study-2026-11-07-gold/`; its README has the numbers):
   - 44 of the 69 losses in 180 games are HP races at turn 250, 25 are deaths (towers 0.4 HP of a death's last 30
     turns);
@@ -289,10 +294,8 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `WAVE_TOWERS=2` and `TOPUP_FROM=2` score 0.45 against v11 on the development seeds and lose 2.5-7 pp against
   `field` and `rival`. Rejected before a screen; the flags stay off.
 - Waiting on the user:
-  - whether v12 goes to the arena, as an exception (S 0.5716 against v11 on the evaluation block, below 0.60). Its
-    artifact and checks are ready. Before the paste: the commit and the merge into master (the follow tool runs from
-    the main checkout), then `python -B -I tools/arena.py follow v12 --selected v11` there. `DEFENCE_FWD` and
-    `STAND_REACH` were rejected on the development seeds and stay off;
+  - the next candidate, screened against v12. On the arena v12's first wave still costs 10.2 HP in lost races
+    against 3.4 in won ones, in the back half too (`docs/arena-uploads.md`, v12's section);
   - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).
 - Policies: P2 locally with gates G0-G5 (`docs/local-screen.md`; PV4 since 2026-11-06), then `submit` and both `procCheck`, then P1 on the arena
   (`docs/arena-uploads.md`, `tools/arena_compare.py`, registry `docs/data/arena-uploads.json`).

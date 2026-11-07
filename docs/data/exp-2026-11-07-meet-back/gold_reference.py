@@ -1,5 +1,6 @@
 """The Gold reference row of the local first-wave check (2026-11-07): LocalProfile's first-wave measures over the WaveTrace files
-of v11's two Gold placements (all games with a contact, not only the HP races).
+of a Gold upload pair (all games with a contact, not only the HP races): v11's two placements by default, v12's in
+replays/study/gold-v12-2026-11-07/waves (the arena check).
 
 Usage (from the repository root): python -B -I docs/data/exp-2026-11-07-meet-back/gold_reference.py [<waves dir>]
 The waves directory (default replays/study/gold-2026-11-07/waves, gitignored) is written by the study's waveTrace command
@@ -41,10 +42,10 @@ def main(waves):
     beyond = [g for g in games if g["fx"] > 406]
     within = [g for g in games if g["fx"] <= 406]
     merged = [g for g in games if g["merged"]]
-    print("Gold, v11's two placements: %d games with a contact; contact turn %s (median); our queen %s from her back edge then"
+    print("Gold, %s: %d games with a contact; contact turn %s (median); our queen %s from her back edge then"
           " (median; mean %.0f; %d beyond 406); loss to knights in the 20 turns from it %.1f (mean); merged waves in %d (loss %.1f"
           " against %.1f unmerged); beyond 406 the loss is %.1f (%d games), within 406 %.1f (%d games)" % (
-              len(games), statistics.median(g["contact"] for g in games), statistics.median(g["fx"] for g in games),
+              waves, len(games), statistics.median(g["contact"] for g in games), statistics.median(g["fx"] for g in games),
               mean([g["fx"] for g in games]), len(beyond), mean([g["loss"] for g in games]), len(merged),
               mean([g["loss"] for g in merged]), mean([g["loss"] for g in games if not g["merged"]]),
               mean([g["loss"] for g in beyond]), len(beyond), mean([g["loss"] for g in within]), len(within)))
