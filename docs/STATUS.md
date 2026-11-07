@@ -7,16 +7,18 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 
 - Date: 2026-11-07. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: **Gold** since 2026-11-07 (CG promoted v11 upload 2 after its Silver placement, 21.74, rank
-  1/200; the leaderboard still listed it in Silver at 03:21). P2's proxy validation (PV3, PV4) lapses with this
-  league change: local candidates are developed only, not promoted, until it is renewed for Gold. Gold has no P1
-  baseline and no noise margin yet. Before: Silver from 2026-11-03 23:46 (CG promoted v08 upload 2); the Bronze
+  1/200; CG's Gold agent 6857463 was made at 03:48). PV3 and PV4 lapsed with this league change; **PV5**
+  (2026-11-07, the user's decision on `docs/data/study-2026-11-07-gold/`) renews the proxy for Gold with the panel and
+  gates unchanged, so P2 candidates can be promoted again. v11's Gold baseline:
+  18.13 and 16.03 (ranks 119 and 256 of 351), mean 17.08, performance 16.92 ± 0.50 (Gold's scale 3.10). Gold's
+  verdicts use Bronze's M 2.46 (the user's decision of 2026-11-07); its own, 2.97 on 1 df, is context. Before: Silver from 2026-11-03 23:46 (CG promoted v08 upload 2); the Bronze
   and Silver scores stay in their leagues. PV1/PV2 lapsed with the change to Silver; **PV3** (2026-11-05, the user's decision on the Silver
   study's proposal, `docs/data/study-2026-11-05-silver/`) renews the proxy for Silver. P2's blocks are now
   strided (`screen-pv3` and `evaluation-pv3` in `docs/data/seed-ledger.json`, which holds the next blocks), so every
   block plays all 16 starting HPs. Giants and the late game of strong economies are recorded as
   unrepresented, and candidates that depend on them are judged by the arena (`docs/local-screen.md`, PV3).
   **PV4** (2026-11-06, the user's decision) adds the rival R0 as gate G5 (spec `rival`). P2's gates are
-  G0-G5; in Silver its candidates could be promoted, in Gold only after a new validation.
+  G0-G5, kept for Gold by PV5 (2026-11-07).
 - Local champion and `current` defaults: **v11** = v10 with the ladder's sites on the enemy half only while the
   straight walk to them stays out of every enemy tower's range (SAFE_LADDER=1), frozen 2026-11-07 by the user's decision
   ("the default"; `cr.bot.v11.GreedyBot`, `versions/v11.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV11`). P2 as
@@ -75,19 +77,26 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
   `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
   `route` configuration, artifact `da914c4c…`), selected 2026-11-02 to 2026-11-03; v03, 2026-10-30 to 2026-11-02.
-- Arena entry: `aabzac`, agent 6857388 = v11 upload 2, **Silver**, promoted to **Gold**.
-  - The artifact is `cf71d566…`, the same as upload 1, pasted 2026-11-07 03:03 local and followed by
-    `tools/arena.py follow v11 --selected v10`.
-  - The placement completed at 03:20: score 21.74, local rank 1/200 (global 461), `eligibleForPromotion` true.
-  - 80 games, 56 wins, 2 against the Silver boss (1 won); opponents' median 18.64. Every game is identical to the
-    artifact (`docs/BOTS.md`, Uploads; `docs/data/arena-6857388-placement-2026-11-07.json`).
-  - The user reports the promotion to Gold. CG's Gold agent (the same submission) is not registered yet: once it plays
-    there, `python -B -I tools/arena.py follow v11` registers it as v11's first Gold upload and follows its placement.
-  - It replaced agent 6857351 = v11 upload 1 (20.80, rank 2), whose games were saved before the paste.
-- Silver noise margin: **M = 2.46, borrowed from Bronze** (11 df) by the user's decision of 2026-11-04, until
-  they decide otherwise. Silver's own M, 1.59 on 4 df (the Silver placements of v08, v10 and v11, pooled SD 0.79), is
-  printed as context (`noiseMargins` in the registry; `docs/arena-uploads.md`, Silver noise margin). Gold has no M
-  yet: borrowing Bronze's, as Silver does, would be the user's decision.
+- Arena entry: `aabzac`, agent 6858567 = v11 upload 4, **Gold**, pasted 2026-11-07 11:58 local and followed by
+  `tools/arena.py follow v11`.
+  - The placement completed at 12:18: score 16.03, local rank 256/351 (global 367), `eligibleForPromotion` false.
+  - 90 games, 55 wins (5 of them by the referee's removal of the opponent); opponents' median 15.03; no game against
+    the Gold boss. Every game is identical to the artifact (`docs/BOTS.md`, Uploads;
+    `docs/data/arena-6858567-placement-2026-11-07.json`).
+  - It replaced agent 6857463 = v11 upload 3 (CG's promotion, 18.13, rank 119/351).
+- v11 in Gold (the study of 2026-11-07, `docs/data/study-2026-11-07-gold/`; its README has the numbers):
+  - 44 of the 69 losses in 180 games are HP races at turn 250, 25 are deaths (towers 0.4 HP of a death's last 30
+    turns);
+  - the races are decided at the first wave, turn 24-25: in those we lose it meets one tower and costs 12.5 HP against
+    the enemy's 5.1; in those we win, two towers, 5.9 against 8.7;
+  - giants come in 17 % of the games and do not mark our losses; v11 scores its expectation by opponent group;
+  - the local panel against the field: the mirror meets the first wave as in Gold (turn 24, one tower) and goes to the
+    limit in 91 % (Gold 59 %); `field` 60 %; `rival`'s giants 85 % of its games.
+- Noise margins: **M = 2.46, borrowed from Bronze** (11 df) in Silver (the user's decision of 2026-11-04) and in
+  **Gold** (2026-11-07), until they decide otherwise. The leagues' own M are printed as context: Silver 1.59 on 4 df
+  (v08's, v10's and v11's Silver placements), Gold 2.97 on 1 df (v11's two). See `noiseMargins` in the registry and
+  `docs/arena-uploads.md` (Silver and Gold noise margins). A Gold candidate rolls back early below 12.15 (v11's Gold
+  mean 17.08 less 2M = 4.93).
 - Silver boss: agent 1876720 (no pseudo), rating **21.87-21.99** during the fetches of 2026-11-04 00:05-23:24
   (the games manifests of v08 uploads 3-5), 21.84 falling to 21.54 during v10's second placement (2026-11-07
   01:05-01:22), 21.96 when the user looked on 2026-11-07. v08 won 6 of its 16 games against it, v10 all 4 (and
@@ -266,9 +275,6 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   2026-11-07; the kept copy is `artifacts/cf71d566/Player.java` in the main checkout. Uploaded 2026-11-07 as v11
   uploads 1 and 2 (upload 2 is the arena entry above).
 - Waiting on the user:
-  - in Gold, `python -B -I tools/arena.py follow v11` from the main checkout once the promoted agent plays there
-    (v11's first Gold placement, no paste), then a second upload of `cf71d566` for the Gold baseline;
-  - a proxy validation for Gold (PV3 and PV4 lapsed with the promotion) and Gold's noise margin;
   - the next candidate (screened against v11, promoted only after the Gold validation); the study of 2026-11-07
     leaves the own-tower top-ups under enemy fire and the late economy gap;
   - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).

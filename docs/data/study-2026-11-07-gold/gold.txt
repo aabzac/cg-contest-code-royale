@@ -1,0 +1,71 @@
+1. Outcomes of the 180 games:
+   lost at turn 250                         43
+   lost at turn 250 (equal scores)           1
+   lost our queen died                      25
+   won  at turn 250                         60
+   won  at turn 250 (equal scores)           2
+   won  the enemy queen died                44
+   won  the referee removed a player         5
+
+2. HP races at turn 250 (106 games): our HP minus the enemy's, by turn (medians; means in brackets)
+   lost   44: t25 +0 (-0.9), t50 -5 (-5.8), t100 -6 (-7.4), t150 -6 (-8.7), t200 -8 (-9.2), t250 -12 (-13.5); ahead at turn 200 in 3
+   won    62: t25 +0 (+0.4), t50 +4 (+7.3), t100 +6 (+9.3), t150 +9 (+11.8), t200 +11 (+16.5), t250 +14 (+20.5); ahead at turn 200 in 55
+   lost races, turns   0- 50: we lose 12.6 HP to knights and  0.0 to towers; the enemy loses  6.9 to our knights and  0.0 to our towers (means)
+   lost races, turns  50-100: we lose  3.8 HP to knights and  0.0 to towers; the enemy loses  2.2 to our knights and  0.0 to our towers (means)
+   lost races, turns 100-150: we lose  2.7 HP to knights and  0.0 to towers; the enemy loses  1.1 to our knights and  0.2 to our towers (means)
+   lost races, turns 150-200: we lose  3.0 HP to knights and  0.2 to towers; the enemy loses  2.0 to our knights and  0.5 to our towers (means)
+   lost races, turns 200-250: we lose  6.5 HP to knights and  0.3 to towers; the enemy loses  2.8 to our knights and  0.0 to our towers (means)
+   lost races, the first contact (an enemy knight within 250): turn 24, own towers then 1 (medians); in the next 20 turns we lose 12.5 HP to knights and the enemy 5.1 to ours (means); 44 of 44 games
+   won races, the first contact (an enemy knight within 250): turn 25, own towers then 2 (medians); in the next 20 turns we lose 5.9 HP to knights and the enemy 8.7 to ours (means); 62 of 62 games
+   lost races, the final margin: median 12, within 10 HP in 21 of 44; [0.0, 1.0, 1.0, 2.0, 2.0, 2.0, 3.0, 3.0, 4.0, 5.0, 5.0, 7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 8.0, 9.0, 9.0, 10.0, 12.0, 12.0, 13.0, 13.0, 13.0, 13.0, 13.0, 13.0, 14.0, 15.0, 17.0, 17.0, 24.0, 24.0, 26.0, 27.0, 28.0, 29.0, 29.0, 29.0, 31.0, 36.0, 40.0]
+
+3. Our queen's deaths (25): median turn 134; in their last 30 turns she loses 21.9 HP to knights and 0.4 to towers (means)
+   enemy queens killed: 44, median turn 150
+
+4. The games by result (medians; us / them)
+   lost 69 games
+     inc_50          4.0 / 4.5   
+     inc_100         3.0 / 4.0   
+     inc_150         3.0 / 4.0   
+     inc_200         3.0 / 3.0   
+     mines_150       2.0 / 2.0   
+     towers_100      4.0 / 4.0   
+     towers_200      6.0 / 5.0   
+     thp_200      2400.0 / 2556.0
+     knights_150     0.0 / 0.0   
+     hp_100         43.5 / 43.5  
+     hp_200         37.0 / 46.0  
+     meanIncome      3.0 / 3.9   
+     minesBuilt      4.0 / 5.0   
+     towersBuilt     6.0 / 7.0   
+     towerTopUps    79.0 / 58.0  
+     trainK          9.0 / 9.0   
+     the opponent trained giants in 13, archers in 1
+   won 111 games
+     inc_50          4.0 / 5.0   
+     inc_100         3.0 / 4.0   
+     inc_150         3.0 / 4.0   
+     inc_200         3.0 / 3.0   
+     mines_150       2.0 / 2.0   
+     towers_100      4.0 / 4.0   
+     towers_200      6.0 / 5.0   
+     thp_200      2712.0 / 2272.0
+     knights_150     0.0 / 0.0   
+     hp_100         58.0 / 42.0  
+     hp_200         58.0 / 35.0  
+     meanIncome      3.1 / 4.0   
+     minesBuilt      4.0 / 5.0   
+     towersBuilt     6.0 / 6.0   
+     towerTopUps    90.0 / 51.0  
+     trainK          9.0 / 9.0   
+     the opponent trained giants in 17, archers in 0
+   all opponents: giants in 30 of 180 games, archers in 1
+
+5. Results by the opponent's score (Gold scale 3.10; v11's performance 16.92; points, ties 1/2)
+   below 14       44 games   34.0 points   77 %  expected  82 %
+   14-17          88 games   56.0 points   64 %  expected  63 %
+   17-20          44 games   21.0 points   48 %  expected  44 %
+   20 and above    4 games    0.0 points    0 %  expected  19 %
+
+6. The Gold field against v11: 106 of 180 games reach turn 250 (59 %); game length median 250; opponents' median income at turn 100 4.0; giants in 17 % of the games
+   starting HP spread (our queen after turn 0): 16 distinct values

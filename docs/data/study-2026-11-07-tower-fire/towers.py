@@ -130,6 +130,8 @@ def main(traces):
         by_rating(name, games, silver["labels"][name]["performance"], silver["scale"])
     for name, agents in VERSIONS.items():
         fire(name, agents, traces)
+    # Gold, after the promotion: no comparison by rating (another league, its own scale), the tower fire only.
+    fire("v11 in Gold", [("6857463", "arena-6857463-games-2026-11-07.json")], traces)
 
 
 if __name__ == "__main__":

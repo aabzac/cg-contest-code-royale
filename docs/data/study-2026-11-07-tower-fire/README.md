@@ -168,7 +168,10 @@ games (agents 6857351 and 6857388):
 - she died in 32 games (v10: 43), none of them with 10+ HP from towers (v10: 12);
 - 20 games were lost on HP at turn 250 (v10: 9).
 
-v11 was selected under P1 and promoted to Gold (`docs/arena-uploads.md`).
+v11 was selected under P1 and promoted to Gold (`docs/arena-uploads.md`). Its first Gold placement (agent 6857463, 90
+games; the Gold section of `towers.txt`, `classes-v11-gold.txt`):
+- the queen lost 0.2 HP a game to enemy towers;
+- 20 of the 34 losses are HP races at turn 250, 14 deaths.
 
 ## Proposed candidates
 

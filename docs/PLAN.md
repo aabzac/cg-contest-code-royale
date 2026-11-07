@@ -173,6 +173,13 @@
 - [x] The ladder's walks into the enemy base through enemy tower ranges (2026-11-07): `SAFE_LADDER=1` passed P2 as a
   targeted fix (`docs/data/exp-2026-11-07-safe-ladder/`)
 - [x] Adopt SAFE_LADDER into the local champion: default 1, v11 frozen (2026-11-07, the user's call)
+- [x] v11 on the arena under P1: selected, promoted to Gold (2026-11-07, `docs/arena-uploads.md`)
+- [x] v11's second Gold placement: the Gold baseline (2026-11-07, `docs/arena-uploads.md`)
+- [x] Study of v11's Gold games: the HP races, the first wave, the local panel (`docs/data/study-2026-11-07-gold/`)
+- [x] PV5 for Gold: the panel and the gates kept (2026-11-07, the user's decision; `docs/local-screen.md`)
+- [x] Gold's noise margin for P1: Bronze's 2.46 (2026-11-07, the user's decision; `docs/arena-uploads.md`)
+- [ ] The second tower before the first wave, retried from v11 (`docs/data/study-2026-11-07-gold/`)
+- [ ] The last 50 turns of a race we trail (same study)
 - [ ] The queen's top-ups and flights to own towers under enemy tower fire (same study)
 - [ ] Deaths around turn 140 against opponents with twice our income and a standing knight army (same study)
 - [x] Organize our arena replays by version, league and upload; downloaders use the registry (`docs/arena-uploads.md`, Replay storage)

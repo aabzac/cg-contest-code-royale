@@ -5,7 +5,8 @@ the opponent panel and the boss's exact rating left for later. P2 is the local p
 policy. The arena step stays P1 (`docs/arena-uploads.md`). A candidate first passes P2, then the artifact
 checks (`submit`, both `procCheck` runs), then P1 on the arena. Proxy validation: PV1 (2026-10-30), PV2
 (2026-11-03, `field`), **PV3 (2026-11-05, Silver; the user's decision)**: strided seed blocks and a record of
-what the panel represents; **PV4 (2026-11-06; the user's decision)**: the rival R0 as gate G5 (below).
+what the panel represents; **PV4 (2026-11-06; the user's decision)**: the rival R0 as gate G5; **PV5 (2026-11-07,
+Gold; the user's decision)**: the panel and the gates kept for Gold (below).
 
 ## Why
 
@@ -29,7 +30,7 @@ what the panel represents; **PV4 (2026-11-06; the user's decision)**: the rival 
   and the next candidates are screened against it.
 - **Selected version**: the arena's (P1; `docs/STATUS.md`).
 
-## Opponents and proxy validation PV1, PV2, PV3, PV4
+## Opponents and proxy validation PV1-PV5
 
 | Spec | Role | What it is |
 | --- | --- | --- |
@@ -115,6 +116,27 @@ joins the panel as gate G5.
   - their low kiting: 14 % MOVE under knights against R0's 66 %;
   - the share of games decided before the limit: R0 goes to the limit in 74 % of the games, they in 44 %.
 - PV4 lapses as PV1 does.
+
+**PV5** (2026-11-07, Gold, the user's decision on the proposal of `docs/data/study-2026-11-07-gold/`).
+- **Why it was needed.** CG promoted v11 to Gold on 2026-11-07, and PV3 and PV4 lapsed with the league change.
+- **The evidence.** The study compares v11's 180 Gold placement games with local profiles of v11 against each opponent
+  (seeds 1 + 397 k):
+  - 44 of the 69 losses are HP races at turn 250, decided mostly at the enemy's first wave (turn 24-25);
+  - 59 % of the games reach the limit, giants come in 17 %, and v11 scores its logistic expectation in every opponent
+    group.
+- **The panel and the gates stay as they are** (G0-G5, the seed pools of PV3). What each opponent stands for in Gold:
+  - the mirror: the first wave as Gold meets it (turn 24, one own tower) and the HP races, Gold's main loss mode, which
+    it over-weights (91 % of games at the limit against 59 %);
+  - `field`: Gold's game length (60 % at the limit) with a stronger economy than Gold's and no kiting;
+  - `rival`: giants, in 85 % of its games against Gold's 17 %; the late pressure of the strongest players;
+  - `boss`: a floor; its games end early.
+- **Not represented:**
+  - the share of HP races decided by a few HP: half the lost Gold races end within 10 HP, while the mirror's are closer
+    still;
+  - Gold's mix of opponents of very different strength, from 11.88 to 24.99.
+- **Not decided by PV5:** Gold's noise margin for P1. The user chose Bronze's 2.46 on 2026-11-07 (Gold's own M is
+  2.97 on 1 df; `docs/arena-uploads.md`, Gold noise margin).
+- PV5 lapses as PV1 does.
 
 ## Seeds
 
@@ -236,4 +258,4 @@ Each uploaded candidate is listed here: its local S against the selected version
 | v07 (`KITE=1`, kiting under knights) | 0.6803 (CI 0.6641-0.6964) against v06, evaluation block 6 (412000-413999), +3.5 pp against `field` (G4); the 0.60 recommendation met (`docs/data/exp-2026-11-03-kite/`) | uploads 1 and 2 (2026-11-03): 26.42 and 24.64, mean 25.53 against v06's 26.24 (−0.71, M 2.58); pooled rating 25.34 ± 0.43 against 25.76 ± 0.46 (−0.41 ± 0.63). P1: not clearly worse, selected 2026-11-03. **The arena does not show the local gain**: the first disagreement of this size between P2 and P1 |
 | v08 (`KITE=2,KITE_PULL=100`, kiting bound to the towers) | 0.6670 (CI 0.6522-0.6818) against v07, evaluation block 7 (414000-415999), +14.8 pp against `field` (G4); the 0.60 recommendation met (`docs/data/exp-2026-11-03-kite2/`) | uploads 1 and 2 (2026-11-03): 27.85 and 28.13, mean 27.99 against v07's 25.53 (+2.46, M 2.46); pooled rating 27.59 ± 0.50 against 25.42 ± 0.46 (+2.17 ± 0.68). P1: not clearly worse, selected 2026-11-03; 4 of 8 against the boss, `eligibleForPromotion` true. The arena confirms the local direction and size |
 | v10 (`BARRACKS_FORWARD=50`, the second knight barracks at the centre, over v09's late hold) | 0.5764 (CI 0.5626-0.5902) against v08, PV3 evaluation block 0 (2000000000 + 397 i), +8.43 pp against `rival`, +1.49 pp against `field`; below the 0.60 recommendation, uploaded as an exception by the user's decision | uploads 1 and 2 (2026-11-07): 19.38 and 21.33, mean 20.35 against v08's Silver mean 20.55 (−0.20, M 2.46); performance 20.56 ± 0.65 against 20.64 ± 0.50 (−0.08 ± 0.82). P1: not clearly worse, selected 2026-11-07; 4 of 4 against the boss, `eligibleForPromotion` false. The arena neither confirms nor refutes the local +1.0, which is inside its noise |
-| v11 (`SAFE_LADDER=1`, no ladder walks into the enemy base; a targeted fix over v10) | 0.5030 (CI 0.5000-0.5060) against v10, PV3 screen block 4 (1004000000 + 397 i), 148 of 2000 maps changed against the mirror; a targeted fix has no final evaluation; uploaded as an exception by the user's decision | uploads 1 and 2 (2026-11-07): 20.80 and 21.74, mean 21.27 against v10's Silver mean 20.35 (+0.92, M 2.46); performance 22.02 ± 0.77 against 21.04 ± 0.77 (+0.98 ± 1.09). P1: not clearly worse, selected 2026-11-07; upload 2 ranked 1/200 and was promoted to Gold. Its queen lost 0.6 HP a game to enemy towers, against v10's 5.1: the fix acts on the arena, where the local panel barely shows it |
+| v11 (`SAFE_LADDER=1`, no ladder walks into the enemy base; a targeted fix over v10) | 0.5030 (CI 0.5000-0.5060) against v10, PV3 screen block 4 (1004000000 + 397 i), 148 of 2000 maps changed against the mirror; a targeted fix has no final evaluation; uploaded as an exception by the user's decision | uploads 1 and 2 (2026-11-07): 20.80 and 21.74, mean 21.27 against v10's Silver mean 20.35 (+0.92, M 2.46); performance 22.02 ± 0.77 against 21.04 ± 0.77 (+0.98 ± 1.09). P1: not clearly worse, selected 2026-11-07; upload 2 ranked 1/200 and was promoted to Gold. Its queen lost 0.6 HP a game to enemy towers, against v10's 5.1: the fix acts on the arena, where the local panel barely shows it. In Gold: uploads 3 (CG's promotion) and 4, 18.13 and 16.03 (ranks 119 and 256 of 351), mean 17.08, v11's Gold baseline |

@@ -1,0 +1,7 @@
+games 90, with tower fire 4; turns 20, HP 20
+class | turns | HP | games | examples (game:turn)
+BUILD own tower, touching, centre outside, a safe side, starts in range, no knight   13    13    2  917847913:196 917847913:197 917847913:198 917847913:199
+BUILD own tower, walking, centre outside, a safe side, starts in range, knight<250    3     3    2  917846063:241 917846063:242 917849110:114
+BUILD own tower, touching, centre outside, a safe side, starts in range, knight<250    2     2    2  917846063:240 917849110:115
+BUILD own tower, touching, centre outside, a safe side, starts in range, no knight, alternating    1     1    1  917847913:202
+BUILD own tower, walking, centre outside, a safe side, starts in range, no knight    1     1    1  917847913:201

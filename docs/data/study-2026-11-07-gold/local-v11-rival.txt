@@ -1,0 +1,13 @@
+v11 vs rival: 400 games, v11 wins 316 (79.0 %), queen deaths 30, enemy queens killed 67
+maps 200 from seed 1, stride 397: starting HP median 65, 16 distinct values; decided at the limit 299, by <= 10 HP 91
+turn 50: income 4 mines 2 towers 3 towerHp 1648 queenHp 58
+turn 100: income 3 mines 2 towers 4 towerHp 2504 queenHp 57
+turn 150: income 4 mines 2 towers 5 towerHp 2464 queenHp 56
+turn 200: income 3 mines 2 towers 5 towerHp 2120 queenHp 53
+waves: knight 10, giant 0 (medians), archer 0.0 (mean); death turn median 190 over the deaths; game length median 250, mean 227.8; at the 250-turn limit 303 (76 %)
+under knights (medians over games with contact): contact turns 47, % near an own tower 84.4, HP lost per contact turn 0.2, % MOVE 64.3
+first contact (medians over games with contact): turn 25, own towers then 1, HP lost in the next 20 turns 4 (mean 7.3); HP lost on turns 25-50 3 (mean 6.7, games reaching turn 50)
+economy over the game (medians; means): own mines built 4; 4.5, upgrades 5; 6.0, torn down 1; 1.2, depleted 3; 2.4, gold mined 767; 748.5
+our waves (means over games, from turn 30): the enemy queen outside her towers' ranges on 1.0 % of the turns and at 0.7 % of our knight trainings, 858 from our nearest knight barracks; she loses 2.9 HP with our knights within 250 per knight training (whole game)
+tower fire: our queen loses 0.2 HP a game to enemy towers (mean; in 9 of 400 games), walks 0.0 turns a game to a free site on the enemy half through an enemy tower's range (mean)
+enemy giants: in 341 of 400 games (mean 1.6 a game); in those games own towers lost to giants 3.2, to other causes 1.0 (means), first giant at an own tower turn 153 (median)

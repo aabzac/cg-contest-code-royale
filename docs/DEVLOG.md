@@ -3380,3 +3380,120 @@ The four tracked files it wrote into the main checkout (the registry and the man
 Committed with the records of v11's first upload and merged into master by fast-forward on the user's request
 ("Да, влей в master"). The main checkout's uncommitted copies of the follow tool's files, byte-identical to the
 branch's, were dropped first. The study's new traces were copied to its `replays/study/` (gitignored).
+
+## 2026-11-07 — v11 in Gold: the promoted agent's placement, 18.13, rank 119/351
+
+CG promoted v11 upload 2 to Gold. The promotion made agent 6857463 at 03:48:10 (the same submission 41656217), whose
+Gold placement played unwatched. The user ran `python -B -I tools/arena.py follow v11` in the main checkout at 11:27
+("сохранил"). The tool:
+- saved what was left of upload 2;
+- registered the Gold agent as v11 upload 3 ("CG's promotion of v11 upload 2"), when its first game showed build
+  `cf3b2e46`;
+- took its first snapshot at 100 %, and fetched the 90 games: `cgAttribute` SAME 90/90, 18,587 turns.
+
+The leaderboard last updated the score at 04:08:53, after the placement's 90 games, so 18.13 is the placement's own
+score; the entry is marked unwatched. The four tracked files it wrote into the main checkout (the registry, the
+re-fetched upload 2 manifest, the new manifests) were copied into this worktree.
+
+**The placement:**
+- score 18.13, local rank 119/351 (global 230), `eligibleForPromotion` false;
+- 56 wins in 90 (seat 0: 30 of 48, seat 1: 26 of 42); opponents' median 16.78 (from 11.88 to 24.99); no game against
+  the Gold boss;
+- Gold's scale 3.83 from this one upload; performance 18.28 ± 0.86.
+- 917850788 (95:95, turn 250, we were player 0) is the twelfth equal-score game: CG's result ranks us first, and its
+  three saved battle lists give both players position 0.
+
+**How v11 loses in Gold** (`DeathTrace`, `TowerFire`; the study's `towers.py` now prints a Gold section):
+- 20 of the 34 losses are HP races at turn 250 and 14 are deaths;
+- enemy towers cost the queen 20 HP in 4 games (0.2 a game), all at own towers, none in a death;
+- in Silver v11 lost 20 of 160 games at the limit; in Gold the HP race is its main loss mode.
+
+**P1 in Gold:**
+- the first of the two placements v11's Gold baseline needs;
+- the second is a new upload of the kept copy `artifacts/cf71d566/Player.java`;
+- Gold has no noise margin (0 df). Whether Gold borrows Bronze's M, as Silver does, is the user's decision.
+
+**Records:**
+- BOTS (Uploads, the artifact's uploads), STATUS (arena entry, waiting list), SUMMARY;
+- `docs/arena-uploads.md`, `docs/rules/inferred.md` (twelve ties), `docs/local-screen.md`, the study (Gold section,
+  `classes-v11-gold.txt`), PLAN.
+
+Not committed.
+
+## 2026-11-07 — v11 upload 4 in Gold: 16.03, rank 256/351; the Gold baseline; the study of the Gold games
+
+The user pasted the kept copy again with `python -B -I tools/arena.py follow v11` running ("загрузил ещё одну серию.
+можно разобрать игры с учётом двух"). The tool:
+- saved upload 3 and named the file at 11:56:03, then saw the old agent's battle list empty at 11:58:16;
+- registered agent 6858567 (created 11:58:02, submission 41658370) as v11 upload 4 at 11:58:43;
+- followed the placement from 1 % to 12:18:43;
+- ran `cgAttribute`: SAME 90/90, 17,378 turns.
+
+The tracked files it wrote into the main checkout were copied into this worktree.
+
+**The placement:**
+- score 16.03, local rank 256/351 (global 367), `eligibleForPromotion` false;
+- 55 wins in 90 (seat 0: 29 of 46, seat 1: 26 of 44), 5 of them by the referee's removal of the opponent;
+- opponents' median 15.03; no game against the Gold boss;
+- 917985146 (35:35, we were player 1, a loss) and 917987888 (68:68, player 0, a win) are the thirteenth and fourteenth
+  equal-score games; their saved battle lists (19 and 10) give both players position 0.
+
+**v11's Gold baseline:**
+- placements 18.13 and 16.03, mean 17.08; performance 16.92 ± 0.50 over 180 games at Gold's scale 3.10;
+- the two differ by 2.10 with the same code;
+- Gold's own M is 2.97 on 1 df. Which M Gold uses (its own, or Bronze's 2.46 as Silver borrows) is the user's decision.
+
+**The study of the 180 Gold games** (`docs/data/study-2026-11-07-gold/`: README, `gold.py`, `gold.txt`, the local
+profiles):
+- **Losses:** 44 of the 69 are HP races at turn 250 and 25 are deaths. In the deaths, towers take 0.4 HP of the last 30
+  turns.
+- **The first wave decides the races:**
+  - in the races we lose, the first enemy knight comes within 250 at turn 24 against one tower, and the next 20 turns
+    cost us 12.5 HP and the enemy 5.1;
+  - in those we win, the first wave meets two towers (5.9 against 8.7);
+  - after turn 50 the gap barely moves, and the last 50 turns widen a lost race (6.5 against 2.8, while behind at turn
+    200 in 41 of 44).
+- **The opponents:** giants in 17 % of the games, not more often in our losses. v11 scores its logistic expectation in
+  every opponent group.
+- **The local panel** (seeds 1 + 397 k, k < 200):
+  - the mirror meets the first wave as in Gold (turn 24, one tower) and goes to the limit in 91 % of games (Gold 59 %);
+  - `field` 60 %; `rival` builds giants in 85 % of its games; `boss` ends early.
+- **The proposal (PV5, the user's decision):** keep the panel and the gates and record what each opponent stands for in
+  Gold. The main candidate is the second tower before the first wave, retried from v11.
+
+Records:
+- BOTS (Uploads, the artifact's uploads), STATUS (the Gold baseline, the arena entry, the study, the waiting list);
+- SUMMARY, `docs/arena-uploads.md`, `docs/rules/inferred.md` (fourteen ties), `docs/local-screen.md`, PLAN;
+- the architecture page.
+
+Not committed.
+
+## 2026-11-07 — PV5: the local panel for Gold
+
+The user adopted the Gold study's proposal ("Да, принять PV5"):
+- `docs/local-screen.md` gains the PV5 section: the panel and the gates G0-G5 and PV3's seed pools are kept, with the
+  record of what each opponent stands for in Gold and what none of them does;
+- `.ai/project.md` names PV5 in the P2 section and the proxy row; `AGENTS.md` is resynced;
+- STATUS, SUMMARY, PLAN, the study's README and the architecture page follow.
+
+P2 candidates can be promoted again. Gold's noise margin for P1 stays the user's decision: its own M 2.97 on 1 df, or
+Bronze's 2.46 as Silver borrows.
+
+Not committed.
+
+## 2026-11-07 — Gold's noise margin: Bronze's 2.46
+
+The user's decision ("Bronze 2.46"): Gold's P1 verdicts borrow Bronze's M, as Silver's do.
+- The registry gains `noiseMargins.gold` (from bronze, M 2.46, decided 2026-11-07).
+- `python -B -I tools/arena_compare.py` prints for Gold: "verdicts use M = 2.46 from bronze (the user's decision of
+  2026-11-07; this league's own M is context)". Gold's own M is 2.97 on 1 df; the run exits 0.
+- The next Gold candidate rolls back if its mean is below v11's 17.08 by more than 2.46 and its rating below 16.92 by
+  more than 2 SE; early below 12.15.
+
+Records: `docs/arena-uploads.md` (Gold noise margin), STATUS, SUMMARY, PLAN, `docs/local-screen.md` (PV5's open
+point), the Gold study's README, `.ai/project.md` (the noise row; `AGENTS.md` resynced), the architecture page.
+
+Committed together with the records of v11's two Gold placements, the Gold study and PV5, and merged into master
+by fast-forward on the user's request ("Сначала влей в master"). The main checkout's uncommitted copies of the
+follow tool's files, byte-identical to the branch's, were dropped first; the Gold study's inputs and the new traces
+were copied to its `replays/study/` (gitignored).

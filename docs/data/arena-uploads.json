@@ -6,6 +6,12 @@
    "M": 2.46,
    "decided": "2026-11-04",
    "why": "v08's two Silver placements (20.70, 20.74) give Silver's own M 0.06 on 1 df, which would roll back any candidate not better; the user chose Bronze's M (2.46, 11 df) until they decide otherwise. Silver's own M is printed as context."
+  },
+  "gold": {
+   "from": "bronze",
+   "M": 2.46,
+   "decided": "2026-11-07",
+   "why": "v11's two Gold placements (18.13, 16.03) give Gold's own M 2.97 on 1 df; the user chose Bronze's M (2.46, 11 df), as Silver does, until they decide otherwise. Gold's own M is printed as context."
   }
  },
  "uploads": [
@@ -749,7 +755,69 @@
    "snapshots": "docs/data/arena-6857388-placement-2026-11-07.json",
    "games": "docs/data/arena-6857388-games-2026-11-07.json",
    "submittedBy": "the user in the IDE (registered by tools/arena.py follow)",
-   "attribution": "cgAttribute against the kept copy artifacts/cf71d566/Player.java: SAME in 80 of 80 games, 14,820 turns; markers {cf3b2e46=80} (tools/arena.py, 2026-11-07)"
+   "attribution": "cgAttribute against the kept copy artifacts/cf71d566/Player.java: SAME in 80 of 80 games, 14,820 turns; markers {cf3b2e46=80} (tools/arena.py, 2026-11-07)",
+   "replaced": "2026-11-07T03:48:10+02:00 by v11 upload 3 in Gold"
+  },
+  {
+   "label": "v11",
+   "upload": 3,
+   "agent": 6857463,
+   "submission": 41656217,
+   "league": "gold",
+   "artifact": {
+    "sha256": "cf71d566d41f77394502c11174496c39e2f94d4b2c4a0c27071f3283b450dff9",
+    "build": "cf3b2e46",
+    "config": "bc23e79d",
+    "source": "the same bytes as v11 upload 1; kept copy artifacts/cf71d566/Player.java"
+   },
+   "created": "2026-11-07T03:48:10+02:00",
+   "placement": {
+    "score": 18.13,
+    "rank": 119,
+    "agents": 351,
+    "games": 90,
+    "firstCompleteSnapshot": "2026-11-07T11:27:44+02:00",
+    "watched": false,
+    "lastUpdate": "2026-11-07T04:08:53+02:00 (leaderboard updateTime)",
+    "globalRank": 230,
+    "eligibleForPromotion": false,
+    "note": "followed by tools/arena.py from 2026-11-07T11:27:44+02:00 at 100 %; every snapshot in checks/arena.log"
+   },
+   "snapshots": "docs/data/arena-6857463-placement-2026-11-07.json",
+   "games": "docs/data/arena-6857463-games-2026-11-07.json",
+   "submittedBy": "CG's promotion of v11 upload 2 (the same submission 41656217)",
+   "attribution": "cgAttribute against the kept copy artifacts/cf71d566/Player.java: SAME in 90 of 90 games, 18,587 turns; markers {cf3b2e46=90} (tools/arena.py, 2026-11-07)",
+   "replaced": "2026-11-07T11:58:02+02:00 by v11 upload 4"
+  },
+  {
+   "label": "v11",
+   "upload": 4,
+   "agent": 6858567,
+   "submission": 41658370,
+   "league": "gold",
+   "artifact": {
+    "sha256": "cf71d566d41f77394502c11174496c39e2f94d4b2c4a0c27071f3283b450dff9",
+    "build": "cf3b2e46",
+    "config": "bc23e79d",
+    "source": "the same bytes as v11 upload 1; kept copy artifacts/cf71d566/Player.java"
+   },
+   "created": "2026-11-07T11:58:02+02:00",
+   "placement": {
+    "score": 16.03,
+    "rank": 256,
+    "agents": 351,
+    "games": 90,
+    "firstCompleteSnapshot": "2026-11-07T12:18:43+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-07T12:17:29+02:00 (leaderboard updateTime)",
+    "globalRank": 367,
+    "eligibleForPromotion": false,
+    "note": "followed by tools/arena.py from 2026-11-07T11:58:43+02:00 at 1 %; every snapshot in checks/arena.log"
+   },
+   "snapshots": "docs/data/arena-6858567-placement-2026-11-07.json",
+   "games": "docs/data/arena-6858567-games-2026-11-07.json",
+   "submittedBy": "the user in the IDE (registered by tools/arena.py follow)",
+   "attribution": "cgAttribute against the kept copy artifacts/cf71d566/Player.java: SAME in 90 of 90 games, 17,378 turns; markers {cf3b2e46=90} (tools/arena.py, 2026-11-07)"
   }
  ],
  "legacyUploads": [

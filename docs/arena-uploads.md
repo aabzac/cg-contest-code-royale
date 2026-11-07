@@ -1070,3 +1070,85 @@ logistic scale is 4.41, fitted on the seven uploads.
   - P2's proxy validation (PV3, PV4) lapses with the league change. Local candidates are developed only, not promoted,
     until it is renewed for Gold.
 - **Placement speed:** 17 minutes.
+
+## v11 in Gold: upload 3, the first Gold placement (2026-11-07)
+
+CG promoted v11 upload 2 to Gold. The promotion made agent 6857463 at 03:48:10, with the same submission 41656217 and
+no paste, and it played its Gold placement unwatched. The user ran `python -B -I tools/arena.py follow v11` from the
+main checkout at 11:27 ("сохранил"), which:
+- saved what was left of v11 upload 2 in Silver (its live battle list was empty, the 80 games were already kept);
+- registered the Gold agent as v11 upload 3 at 11:27:44 ("CG's promotion of v11 upload 2"), once its first game showed
+  build `cf3b2e46`;
+- took the first snapshot at 100 %. The leaderboard last updated the score at 04:08:53, after the 90 placement games and
+  with no game since, so the recorded score is the placement's. The entry has `watched` false;
+- fetched the 90 games and ran `cgAttribute`.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v11/upload-3 (Gold) | 6857463 | 18.13, rank 119/351 | 90 | 62.2 ± 5.1 | 30 of 48 | 26 of 42 | 16.78 | 18.28 ± 0.86 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it (upload 3's `checks/arena-compare.json`). Gold's
+logistic scale is 3.83, fitted on this one upload; Gold scores do not compare with Silver's.
+- **Same code:** SAME 90/90 (18,587 turns), marker `cf3b2e46` in all 90.
+- **Equal scores:** 917850788 against Snef ends at turn 250 at 95:95.
+  - We were player 0, and CG's game result ranks us first.
+  - All three saved battle lists give both players position 0.
+  - It is the twelfth such game (`docs/rules/inferred.md`).
+- **No game against the Gold boss.** The opponents ranged from 11.88 to 24.99.
+- **How the games are lost** (the study's `towers.txt`, Gold section):
+  - 34 of the 90 games are losses: 20 on HP at turn 250 and 14 by the queen's death;
+  - enemy towers cost the queen 0.2 HP a game, none in the deaths.
+  - In Silver, v11 lost 20 of 160 on HP at the limit; in Gold the HP race is the larger loss mode.
+- **P1 in Gold:**
+  - This is the first of the two Gold placements v11's baseline needs; the second is a new upload of `cf71d566`.
+  - Gold has no noise margin: with one placement, Gold's own M has no degrees of freedom. Borrowing Bronze's 2.46, as
+    Silver does, is the user's decision.
+
+## v11 in Gold, upload 4: the Gold baseline (2026-11-07)
+
+The user pasted the kept copy `artifacts/cf71d566/Player.java` again ("загрузил ещё одну серию"), with
+`python -B -I tools/arena.py follow v11` running in the main checkout. The command:
+- saved v11 upload 3;
+- named the file to paste at 11:56:03, and found the old agent's battle list empty at 11:58:16, which shows the paste
+  had arrived;
+- saw the new agent 6858567 at 11:58:38 (created 11:58:02, submission 41658370) and registered it as v11 upload 4 at
+  11:58:43, once its first game showed build `cf3b2e46`;
+- followed the placement from 1 % to its end at 12:18:43, and ran `cgAttribute`.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v11/upload-3 (Gold) | 6857463 | 18.13, rank 119/351 | 90 | 62.2 ± 5.1 | 30 of 48 | 26 of 42 | 16.78 | 17.94 ± 0.70 |
+| v11/upload-4 (Gold) | 6858567 | 16.03, rank 256/351 | 90 | 61.1 ± 5.1 | 29 of 46 | 26 of 44 | 15.03 | 15.81 ± 0.71 |
+| v11 in Gold, both | | mean 17.08, SD 1.49 | 180 | | | | | 16.92 ± 0.50 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it (upload 4's `checks/arena-compare.json`). Gold's
+logistic scale is 3.10, fitted on the two Gold uploads.
+- **Same code:** SAME 90/90 (17,378 turns), marker `cf3b2e46` in all 90.
+- **The referee removed the opponent in five games**, all wins for us: 917982549 and 917984118 (BeeGee), 917982652
+  (Zenoscave), 917985878 and 917986565 (jfaixo). CG and these numbers count them as ordinary wins.
+- **Equal scores:** two games end at turn 250 with equal scores.
+  - 917985146 against rush123321, 35:35. We were player 1, so it counts as a loss.
+  - 917987888 against TheMonsterGBA, 68:68. We were player 0, so it counts as a win.
+  - Their saved battle lists (19 and 10) give both players position 0. They are the thirteenth and fourteenth such
+    games (`docs/rules/inferred.md`).
+- **The spread:** the two placements of the same code differ by 2.10 points and their performance ratings by 2.13
+  (about 2.1 SE of the difference). It is the same over-dispersion as v01's three Bronze uploads.
+- **v11's Gold baseline:** mean 17.08, performance 16.92 ± 0.50 over 180 games.
+- **Gold's noise margin:** Gold's own M is 2.97 on 1 df, from this pair; `arena_compare.py` uses it, as Gold has no
+  borrowed margin. Silver borrowed Bronze's 2.46 by the user's decision. Which M Gold uses is the user's decision.
+- **The study of these 180 games:** `docs/data/study-2026-11-07-gold/`. 44 of the 69 losses are HP races at turn 250,
+  decided mostly at the first wave.
+- **Placement speed:** 21 minutes from the paste.
+
+## Gold noise margin: Bronze's M (2026-11-07)
+
+The user's decision ("Bronze 2.46"): P1 verdicts in Gold use Bronze's pooled M, 2.46 (SD 1.23 on 11 df), as Silver's do,
+until they decide otherwise.
+- Gold's own M is 2.97 on 1 df, from v11's two Gold placements (18.13, 16.03). It is printed beside the verdict as
+  context.
+- The registry records it as `noiseMargins.gold` (from bronze, M 2.46, decided 2026-11-07). `tools/arena_compare.py`
+  then prints "verdicts use M = 2.46 from bronze" for Gold. Like Silver's, the rule refuses (exit code 2) if Bronze's M
+  moves more than 0.005 from 2.46.
+- **The next candidate in Gold** is judged against v11's Gold mean 17.08 and rating 16.92 ± 0.50 (scale 3.10):
+  - rollback: the candidate's mean is below by more than 2.46 and its rating below by more than 2 SE of the difference;
+  - early rollback: its first placement is below 12.15 (17.08 − 2M, 2M = 4.93).
