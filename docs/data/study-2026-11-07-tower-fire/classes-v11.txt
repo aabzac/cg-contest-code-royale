@@ -1,0 +1,12 @@
+games 160, with tower fire 9; turns 69, HP 98
+class | turns | HP | games | examples (game:turn)
+BUILD free site, walking, centre outside, a safe side, starts in range, no knight, target on our half, path through range   20    43    6  917833106:72 917833106:73 917833106:74 917833106:75
+BUILD own tower, walking, centre outside, a safe side, starts in range, no knight   10    16    2  917836722:165 917836722:166 917836722:167 917836722:168
+BUILD own tower, touching, centre in range, a safe side, starts in range, no knight   12    12    2  917833106:126 917833106:127 917833106:128 917833106:129
+BUILD own tower, touching, centre in range, a safe side, starts in range, knight<250   10    10    2  917836722:159 917837872:100 917837872:101 917837872:102
+BUILD own tower, touching, centre outside, a safe side, starts in range, knight<250   10    10    4  917833106:90 917833106:91 917837490:49 917837490:50
+BUILD free site, walking, centre outside, a safe side, starts in range, no knight, alternating, target on our half, path through range    2     2    2  917837872:106 917838655:198
+BUILD free site, walking, centre outside, a safe side, starts outside, no knight, target on our half, path through range    2     2    2  917833106:71 917834212:139
+BUILD own tower, touching, centre outside, a safe side, starts in range, no knight    1     1    1  917833841:82
+BUILD own tower, walking, centre in range, a safe side, starts in range, no knight    1     1    1  917833106:125
+BUILD own tower, walking, centre outside, a safe side, starts outside, no knight    1     1    1  917833106:152

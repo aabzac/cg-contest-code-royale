@@ -1,4 +1,5 @@
-"""Study 2026-11-07: v10's Silver results by the opponent's rating, and our queen under enemy tower fire (v10 against v08).
+"""Study 2026-11-07: v10's Silver results by the opponent's rating, and our queen under enemy tower fire (v10 against v08;
+v11, with SAFE_LADDER=1, added after its two Silver uploads).
 
 Usage, from the repository root: python -B -I docs/data/study-2026-11-07-tower-fire/towers.py <trace directory>
 The traces are `cr.tools.DeathTrace` outputs named trace-<agentId>.txt (README.md has the commands); the game
@@ -23,6 +24,7 @@ VERSIONS = {
     "v08": [("6843976", "arena-6843976-games-2026-11-04.json"), ("6844095", "arena-6844095-games-2026-11-04.json"),
             ("6847999", "arena-6847999-games-2026-11-04.json")],
     "v10": [("6857063", "arena-6857063-games-2026-11-07.json"), ("6857144", "arena-6857144-games-2026-11-07.json")],
+    "v11": [("6857351", "arena-6857351-games-2026-11-07.json"), ("6857388", "arena-6857388-games-2026-11-07.json")],
 }
 BOSS = 1876720  # the Silver boss's agent id (its games carry no pseudo)
 BRACKETS = [("below 17", None, 17), ("17-19", 17, 19), ("19-21", 19, 21), ("21 and above", 21, None)]

@@ -979,3 +979,94 @@ from the previous section's.
   The rating is the same because most games come against the weaker part of the field.
 - **Promotion:** `eligibleForPromotion` false after both placements. Upload 2 ranks 2 of 201, below the boss.
 - **Placement speed:** 18 minutes.
+
+## Ninth candidate: v11 (no ladder walks into the enemy base), first upload in Silver (2026-11-07)
+
+v11 is v10 with SAFE_LADDER=1, a P2 targeted fix (`docs/data/exp-2026-11-07-safe-ladder/`). Its local effect is far
+below the 0.60 upload recommendation (S 0.5030 against v10), and only the arena can show it; the user chose to upload it
+as an exception ("Да, готовь"). The user ran `python -B -I tools/arena.py follow v11 --selected v10` in the main checkout
+and pasted `cf71d566`, which is `build/submit/Player.java` there, rebuilt from master 1dd24ba. The command:
+- saved v10 upload 2;
+- saw the new agent 6857351 at 02:42:56 (created 02:42:05, submission 41656151; 12 % of the placement played);
+- registered it as v11 upload 1 at 02:43:02, once its first game showed build `cf3b2e46`;
+- followed the placement to its end at 02:59:08, 17 minutes after the paste;
+- fetched the games, ran `cgAttribute` and the P1 comparison.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v11/upload-1 | 6857351 | 20.80, rank 2/200 | 80 | 65.0 ± 5.3 | 26 of 40 | 26 of 40 | 19.53 | 21.58 ± 1.04 |
+| v10, two Silver uploads | | mean 20.35, SD 1.38 | 160 | | | | 17.21-18.97 | 20.94 ± 0.74 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it (upload 1's `checks/arena-compare.json`). Silver's
+logistic scale is 4.25, fitted on the six uploads (3.68 on five), so the performance ratings differ from the previous
+sections'.
+- **Same code:** `cgAttribute` finds every game identical to `cf71d566` (SAME 80/80, 15,831 turns), marker `cf3b2e46`
+  in all 80.
+- **The referee removed one opponent:** in 917832868 (knacky) the opponent's score is −1, a win for us, counted as an
+  ordinary win.
+- **Equal scores:** two games end at turn 250 with equal scores.
+  - 917833240 against MartinQc, 77:77; we were player 1, so CG's game result makes it a loss.
+  - 917834882 against the Silver boss, 23:23; we were player 0, so it is a win.
+  - All their saved battle lists (20 and 9) give both players position 0. They are the tenth and eleventh such games
+    (`docs/rules/inferred.md`).
+- **Opponents:** median 19.53, against v10's 17.21 and 18.97. Ten games came against the Silver boss, 5 won; its score
+  was 21.38-21.74 at the fetches.
+- **Enemy tower fire** (the study of 2026-11-07: `towers.txt` and `classes-v11.txt` in `docs/data/study-2026-11-07-tower-fire/`):
+  - 41 HP in 3 of the 80 games, 0.5 ± 0.5 a game, against v10's 5.1 ± 1.2;
+  - no walk to a site on the enemy half;
+  - none of the 15 deaths took 10+ HP from towers (v10: 12 of 43);
+  - 13 games lost on HP at turn 250 (v10: 9 of 160).
+- **Against v10's baseline:** +0.45 on the mean (20.80 against 20.35) with 2M = 4.93, so no early rollback (below
+  15.43). The second upload of the same artifact decides. The performance rating, 21.58 ± 1.04 against 20.94 ± 0.74,
+  is context until then.
+- **Placement speed:** 17 minutes.
+
+## The v11 candidate, second upload and the P1 verdict (2026-11-07): v11 selected, promoted to Gold
+
+The user pasted the kept copy `artifacts/cf71d566/Player.java` again ("закончилась вторая. Прошли серебро"), with
+`python -B -I tools/arena.py follow v11 --selected v10` running in the main checkout. The command:
+- saved v11 upload 1 (80 games, none after its placement) and named the file to paste at 03:03:07;
+- saw the new agent 6857388 at 03:04:14 (created 03:03:39, submission 41656217; 12 % played);
+- registered it as v11 upload 2 at 03:04:19, once its first game showed build `cf3b2e46`;
+- followed the placement to its end at 03:20:26, 17 minutes after the paste;
+- fetched the games, ran `cgAttribute` and gave P1's verdict.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v11/upload-1 | 6857351 | 20.80, rank 2/200 | 80 | 65.0 ± 5.3 | 26 of 40 | 26 of 40 | 19.53 | 21.67 ± 1.07 |
+| v11/upload-2 | 6857388 | 21.74, rank 1/200 | 80 | 70.0 ± 5.1 | 33 of 46 | 23 of 34 | 18.64 | 22.38 ± 1.10 |
+| v11, both | | mean 21.27, SD 0.66 | 160 | | | | | 22.02 ± 0.77 |
+| v10, two Silver uploads | | mean 20.35, SD 1.38 | 160 | | | | 17.21-18.97 | 21.04 ± 0.77 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it (upload 2's `checks/arena-compare.json`). Silver's
+logistic scale is 4.41, fitted on the seven uploads.
+- **Same code:** `cgAttribute` finds every game identical to `cf71d566` (SAME 80/80, 14,820 turns), marker `cf3b2e46`
+  in all 80.
+- **The referee removed one opponent:** in 917836644 (Swedgy) the opponent's score is −1, an ordinary win.
+- **No equal-score game.** Two games came against the Silver boss, 1 won.
+- **P1 verdict against v10:**
+  - M is 2.46, borrowed from Bronze. Silver's own M is 1.59 on 4 df (pooled SD 0.79), printed as context.
+  - Mean: 21.27 against 20.35, +0.92 against −M = −2.46.
+  - Performance: 22.02 ± 0.77 against 21.04 ± 0.77, +0.98 against −2 SE = −2.17.
+  - Neither rollback condition holds: **v11 is the selected version** (2026-11-07). Its artifact `cf71d566` is the
+    rollback artifact.
+- **The arena's view of the fix** (the study's `towers.txt` over v11's 160 games):
+  - the queen lost 0.6 ± 0.3 HP a game to enemy towers, against v10's 5.1 ± 1.2;
+  - 32 deaths, none with 10+ HP from towers (v10: 43, 12 of them);
+  - 20 games lost on HP at turn 250 (v10: 9).
+  P2 measured the fix as a targeted fix with S 0.5030 against v10. On the arena v11's mean is +0.92 over v10's and its
+  rating +0.98, both inside the arena's noise, so the size of its gain is not established.
+- **Promotion:**
+  - Upload 2 ranked 1 of 200, above the Silver boss, with `eligibleForPromotion` true; the user reports the promotion to
+    Gold.
+  - The leaderboard still listed the agent in Silver at 03:21. CG's promotion creates a new agent in Gold (the same
+    submission), whose placement is v11's first Gold upload. `python -B -I tools/arena.py follow v11` registers it once
+    it plays there.
+  - Upload 2's Silver placement was complete, so it keeps its score; no `promotedTo` is needed for the verdict.
+- **Gold:**
+  - Scores compare within a league, so v11's Gold baseline needs two placements there: the promoted agent's and one more
+    upload of `cf71d566`.
+  - Gold has no noise margin yet. Whether it borrows Bronze's 2.46, as Silver does, is the user's decision.
+  - P2's proxy validation (PV3, PV4) lapses with the league change. Local candidates are developed only, not promoted,
+    until it is renewed for Gold.
+- **Placement speed:** 17 minutes.

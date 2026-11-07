@@ -61,22 +61,25 @@ python -B -I docs/data/study-2026-11-07-tower-fire/opponents.py replays/study/to
 ### 1. Results by the opponent's rating (`towers.txt`)
 
 The expectation comes from the logistic model of `arena_compare.py`: the version's performance rating against the
-opponent's score at fetch. The scale is 3.68, Silver's fit on its five uploads.
+opponent's score at fetch. The scale is Silver's fit on its uploads: 3.68 on five when the study was written, 4.41
+on seven since v11's two uploads were added (`towers.txt` holds the current figures; the expectations shifted by up to
+4 pp).
 
-| Opponents | v08 games | v08 scored | v08 expected | v10 games | v10 scored | v10 expected |
-| --- | --- | --- | --- | --- | --- | --- |
-| below 19 | 121 | 77 % | 72 % | 111 | 72 % | 75 % |
-| 19-21 | 88 | 56 % | 56 % | 34 | 53 % | 55 % |
-| 21 and up, and the boss | 41 | 12 of 41 (29 %) | 44 % | 15 | 10 of 15 (67 %) | 43 % |
-| of which the boss | 16 | 6 of 16 | 42 % | 4 | 4 of 4 | 42 % |
+| Opponents | v08 games | scored | expected | v10 games | scored | expected | v11 games | scored | expected |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| below 19 | 121 | 77 % | 70 % | 111 | 72 % | 73 % | 77 | 75 % | 77 % |
+| 19-21 | 88 | 56 % | 57 % | 34 | 53 % | 57 % | 65 | 63 % | 60 % |
+| 21 and up, and the boss | 41 | 12 of 41 (29 %) | 46 % | 15 | 10 of 15 (67 %) | 47 % | 18 | 9 of 18 (50 %) | 53 % |
+| of which the boss | 16 | 6 of 16 | 45 % | 4 | 4 of 4 | 46 % | 12 | 6 of 12 | 53 % |
 
 - **v10 shifted from the weak opponents to the strong.**
-  - Against the strongest opponents and the boss, v10 wins far more than its rating predicts: +3.6 points on 15 games.
+  - Against the strongest opponents and the boss, v10 wins far more than its rating predicts: +3.0 points on 15 games.
     This group is small and its opponents differ from v08's. The user's IDE games against the boss (about 9 of 10, not
     saved) point the same way.
-  - v08 did the opposite: +6.4 points over its expectation against opponents below 19, −5.8 against the top.
+  - v08 did the opposite: +8.1 points over its expectation against opponents below 19, −7.0 against the top.
 - **The rating does not move.** Most games come against the weaker part of the field (111 of v10's 160 below 19),
-  where v10 is slightly below its expectation (−2.8 points, within chance).
+  where v10 is slightly below its expectation (−1.6 points, within chance).
+- v11's two uploads (added after the study) score about their expectation in every group, at a higher rating.
 - **The user's observation fits.** A version that beats the top but not the bulk of the field more often scores about
   the same. It stays below the boss even though it beats it.
 
@@ -155,6 +158,17 @@ In 917798608 (v10 upload 1, lost to OhMaley), the whole sequence shows on one bo
 - The queen walks there through three enemy ranges. When enemy knights come, she flees to her own tower 15, which
   stands in enemy tower 19's range, and tops it up there under fire. When they leave, she walks to 9 again.
 - She has 97 HP at turn 160 and dies on turn 202.
+
+### 5. v11 on the arena (added after its two Silver uploads)
+
+v11 is v10 with SAFE_LADDER=1, the first candidate below (`docs/data/exp-2026-11-07-safe-ladder/`). In its 160 Silver
+games (agents 6857351 and 6857388):
+- the queen lost 98 HP to enemy towers in 9 games: 0.6 ± 0.3 a game, against v10's 5.1 ± 1.2, about 3.6 SE apart;
+- she made no walk to a site on the enemy half (`classes-v11.txt`);
+- she died in 32 games (v10: 43), none of them with 10+ HP from towers (v10: 12);
+- 20 games were lost on HP at turn 250 (v10: 9).
+
+v11 was selected under P1 and promoted to Gold (`docs/arena-uploads.md`).
 
 ## Proposed candidates
 

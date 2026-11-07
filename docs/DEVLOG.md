@@ -3278,3 +3278,105 @@ upload of its own and S 0.5030 against v10 is far below the 0.60 recommendation.
   - `./gradlew submit` in the main checkout builds the same bytes into `build/submit/Player.java`.
 - Next: from the main checkout, `python -B -I tools/arena.py follow v11 --selected v10` before the paste.
 - The selected version stays v10 until P1 judges two placements of v11.
+
+## 2026-11-07 — v11 upload 1 in Silver: 20.80, rank 2/200; the tower fire nearly gone; P1 asks for the second upload
+
+The user ran `python -B -I tools/arena.py follow v11 --selected v10` in the main checkout and pasted `cf71d566`
+("закончилась серия"). The tool:
+- saved v10 upload 2;
+- saw the new agent 6857351 at 02:42:56 (created 02:42:05, submission 41656151, 12 % played);
+- registered it as v11 upload 1 at 02:43:02, when its first game showed build `cf3b2e46`;
+- followed the placement to its end at 02:59:08, 17 minutes after the paste;
+- fetched the 80 games and ran `cgAttribute`: SAME 80/80, 15,831 turns, marker `cf3b2e46` in all 80;
+- gave P1's verdict: "upload the candidate again".
+
+Its files are in the main checkout: `replays/arena/v11/silver/upload-01/` (games, snapshots, `checks/`), the manifests
+`docs/data/arena-6857351-games-2026-11-07.json` and `docs/data/arena-6857351-placement-2026-11-07.json`, the registry
+entry, and a re-fetched `docs/data/arena-6857144-games-2026-11-07.json`. The four tracked files were copied into this
+worktree, where the records are written (the main checkout keeps the same changes uncommitted until the next merge).
+
+**The placement:**
+- score 20.80, local rank 2/200 (global 462), `eligibleForPromotion` false;
+- 52 wins in 80 (seat 0: 26 of 40, seat 1: 26 of 40); opponents' median 19.53; 10 games against the Silver boss,
+  5 won;
+- performance 21.58 ± 1.04 with Silver's scale 4.25, now fitted on six uploads.
+
+Notes:
+- the referee removed the opponent in 917832868 (score −1);
+- 917833240 (77:77, we were player 1, a loss) and 917834882 (23:23 against the boss, we were player 0, a win) end at
+  turn 250. All their saved battle lists (20 and 9) give both players position 0. They are the tenth and eleventh
+  equal-score games (`docs/rules/inferred.md`).
+
+**The fix on the arena** (`cr.tools.DeathTrace` and `cr.tools.TowerFire` on the 80 games; the study's `towers.py`
+now includes v11):
+- the queen lost 41 HP to enemy towers in 3 games, 0.5 ± 0.5 a game, against v10's 5.1 ± 1.2 and v08's 3.2 ± 0.7;
+- she made no walk to a free site on the enemy half;
+- 15 deaths (v10: 43 in 160), none with 10+ HP from towers (v10: 12);
+- 13 games lost on HP at turn 250 (v10: 9 in 160).
+- By the opponent's score, v11 scores about its expectation in every group: below 19, 81 % against 80 %; 19-21, 56 %
+  against 58 %; 21 and up with the boss, 7 of 13 against 51 %.
+
+**Against v10 (P1):**
+- +0.45 on the mean (20.80 against 20.35), with 2M = 4.93, so no early rollback (below 15.43).
+- The second upload of the same artifact decides.
+- The performance rating, 21.58 ± 1.04 against 20.94 ± 0.74, is context until then.
+
+Records:
+- BOTS (Uploads; the artifact's uploads), STATUS, `docs/arena-uploads.md` (the ninth candidate), `docs/local-screen.md`
+  (the v11 row) and `docs/rules/inferred.md` (eleven ties);
+- SUMMARY, the study's section 5 (its results table now at the scale 4.25) and the experiment's arena section.
+
+Not committed.
+
+## 2026-11-07 — v11 upload 2 in Silver: 21.74, rank 1/200; P1 selects v11; promoted to Gold
+
+The user pasted the kept copy again ("закончилась вторая. Прошли серебро") with
+`python -B -I tools/arena.py follow v11 --selected v10` running in the main checkout. The tool:
+- saved v11 upload 1 (80 games);
+- named `artifacts/cf71d566/Player.java` to paste at 03:03:07;
+- saw the new agent 6857388 at 03:04:14 (created 03:03:39, submission 41656217, 12 % played);
+- registered it at 03:04:19 when its first game showed build `cf3b2e46`;
+- followed the placement to 03:20:26;
+- fetched the 80 games and ran `cgAttribute`: SAME 80/80, 14,820 turns;
+- gave P1's verdict: "not clearly worse".
+
+The four tracked files it wrote into the main checkout (the registry and the manifests) were copied into this worktree.
+
+**The placement:**
+- score 21.74, local rank 1/200 (global 461), `eligibleForPromotion` true;
+- 56 wins in 80 (seat 0: 33 of 46, seat 1: 23 of 34); opponents' median 18.64; 2 games against the Silver boss, 1 won;
+- no equal-score game; the referee removed one opponent (917836644).
+
+**P1:** v11's placements are 20.80 and 21.74 (mean 21.27) against v10's 19.38 and 21.33 (mean 20.35).
+- Mean: +0.92 against −M = −2.46 (M borrowed from Bronze; Silver's own M is 1.59 on 4 df).
+- Performance: 22.02 ± 0.77 against 21.04 ± 0.77 at Silver's scale 4.41, now fitted on seven uploads; +0.98 against
+  −2 SE = −2.17.
+- **v11 is the selected version**; `cf71d566` is the rollback artifact.
+
+**The fix over both uploads** (the study's `towers.py` with v11's 160 games; `cr.tools.TowerFire`):
+- the queen lost 98 HP to enemy towers in 9 games, 0.6 ± 0.3 a game (v10: 5.1 ± 1.2; about 3.6 SE apart);
+- she made no walk to the enemy half;
+- 32 deaths, none with 10+ HP from towers (v10: 43, 12 of them); 20 games lost on HP at turn 250 (v10: 9).
+- By the opponent's score, v11 plays to its expectation in every group: below 19, 75 % against 77 %; 19-21, 63 % against
+  60 %; 21 and up with the boss, 9 of 18 against 53 %.
+
+**The promotion:**
+- Upload 2 ranked first, above the Silver boss. The user reports the promotion to Gold, while the leaderboard still
+  listed the agent in Silver at 03:21.
+- CG's promotion makes a new agent in Gold, with the same submission, as with v08 in Silver. Its placement is v11's first
+  Gold upload; `python -B -I tools/arena.py follow v11` registers it once it plays.
+- Per P1, scores compare within a league and v11's Gold baseline needs two placements there.
+- PV3 and PV4 lapse with the league change, so local candidates are developed only, not promoted, until a validation for
+  Gold.
+- Gold has no noise margin; borrowing Bronze's, as Silver did, is the user's call.
+
+**Records:**
+- BOTS: Uploads, the versions table, the artifact's uploads.
+- STATUS (league, selected version, arena entry), SUMMARY, `docs/arena-uploads.md`, `docs/local-screen.md`.
+- The study and the experiment READMEs.
+- `.ai/project.md`: the current league, with `AGENTS.md` resynced.
+- The architecture page now describes v11, the selected version.
+
+Committed with the records of v11's first upload and merged into master by fast-forward on the user's request
+("Да, влей в master"). The main checkout's uncommitted copies of the follow tool's files, byte-identical to the
+branch's, were dropped first. The study's new traces were copied to its `replays/study/` (gitignored).

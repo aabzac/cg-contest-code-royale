@@ -78,6 +78,16 @@ SAFE_LADDER=1 passes P2 as a targeted fix. Its S also clears G1's strategy bar, 
 targeted fix joins the local champion and needs no upload of its own. The user adopted it ("Да, по умолчанию"): the
 default since v11, frozen 2026-11-07 (`cr.bot.v11.GreedyBot`, `versions/v11.properties`).
 
+## On the arena
+
+v11 was uploaded as an exception (`docs/arena-uploads.md`, ninth candidate):
+- the two Silver placements were 20.80 (rank 2 of 200) and 21.74 (rank 1 of 200);
+- P1 found it not clearly worse than v10 (mean +0.92, rating +0.98), so it is the selected version;
+- upload 2 was promoted to Gold.
+
+Over its 160 games the queen lost 0.6 ± 0.3 HP a game to enemy towers, against v10's 5.1 ± 1.2, with no walk to the
+enemy half (the study's `towers.txt`).
+
 ## The arena games it would change (`arena_diff.py`, `arena_diff.txt`)
 
 `cgAttribute` with the flag on replays v10's 160 Silver games and compares its answers with v10's recorded ones turn by

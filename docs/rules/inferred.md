@@ -35,7 +35,7 @@ Result in strict mode (no corrections): **97/98 and 137/138 games match on every
 
 ## Not explained
 
-1. **Tie-break.** Nine games end with equal scores:
+1. **Tie-break.** Eleven games end with equal scores:
    - 911493205 (turn 250, 11:11);
    - 908057307 (both queens die on turn 72, 0:0);
    - 913398184 (v02 upload 1, 2026-10-30, both queens die on turn 38, 0:0);
@@ -44,15 +44,18 @@ Result in strict mode (no corrections): **97/98 and 137/138 games match on every
    - 916297591 (v08 upload 4, Silver, 2026-11-04, turn 250, 28:28; player 0 was the opponent);
    - 916719390 (v08 upload 5, Silver, 2026-11-04, both queens die on turn 146, 0:0; player 0 was us);
    - 917804072 (v10 upload 1, Silver, 2026-11-07, turn 250, 7:7; player 0 was us);
-   - 917810075 (v10 upload 2, Silver, 2026-11-07, turn 250, 7:7; player 0 was us).
+   - 917810075 (v10 upload 2, Silver, 2026-11-07, turn 250, 7:7; player 0 was us);
+   - 917833240 (v11 upload 1, Silver, 2026-11-07, turn 250, 77:77; player 0 was the opponent);
+   - 917834882 (v11 upload 1, Silver, 2026-11-07, turn 250, 23:23, against the Silver boss; player 0 was us).
 
-   The game result (`gameResult/findByGameId`) ranks player 0 first in all nine, while the simulator
-   calls a draw (`winner 0 vs -1`). A tie-break by seat would fit all nine; it is not adopted on nine
+   The game result (`gameResult/findByGameId`) ranks player 0 first in all eleven, while the simulator
+   calls a draw (`winner 0 vs -1`). A tie-break by seat would fit all eleven; it is not adopted on eleven
    samples. No game of v01's 180 placement games had equal scores.
 
    The battle list (`findLastBattlesByAgentId`) says otherwise: it gives both players position 0, a draw,
-   in each of our seven such games with saved lists. That is every saved list that holds the finished game:
-   80, 48, 24, 16, 27, 4 and 15 lists for 913398184, 913453290, 913522461, 916297591, 916719390, 917804072 and 917810075. Which of the
+   in each of our nine such games with saved lists. That is every saved list that holds the finished game:
+   80, 48, 24, 16, 27, 4, 15, 20 and 9 lists for 913398184, 913453290, 913522461, 916297591, 916719390, 917804072,
+   917810075, 917833240 and 917834882. Which of the
    two CG's rating uses is not known. The manifests and `arena_compare.py` count by the game result's
    ranks, so such a game is a win for player 0. The battle-list summaries of `arena_snapshot.py` count it as
    neither: 47 wins against the manifest's 48 in v08 upload 5.

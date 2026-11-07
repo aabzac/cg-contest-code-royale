@@ -1,20 +1,28 @@
-Silver logistic scale 3.68
-v08: performance 20.64; results by the opponent's score at fetch (points, ties 1/2; expected from the rating)
-  below 17        49 games   38.0 points   78 %  expected  82 % (40.0 points)
-  17-19           72 games   55.0 points   76 %  expected  65 % (46.6 points)
-  19-21           88 games   49.0 points   56 %  expected  56 % (49.5 points)
-  21 and above    25 games    6.0 points   24 %  expected  45 % (11.2 points)
-  the boss        16 games    6.0 points   38 %  expected  42 % ( 6.6 points)
-  below 19       121 games   93.0 points   77 %  expected  72 % (86.6 points)
-  21 up, boss     41 games   12.0 points   29 %  expected  44 % (17.8 points)
-v10: performance 20.56; results by the opponent's score at fetch (points, ties 1/2; expected from the rating)
-  below 17        59 games   44.0 points   75 %  expected  81 % (48.0 points)
-  17-19           52 games   36.0 points   69 %  expected  67 % (34.7 points)
-  19-21           34 games   18.0 points   53 %  expected  55 % (18.8 points)
-  21 and above    11 games    6.0 points   55 %  expected  43 % ( 4.7 points)
-  the boss         4 games    4.0 points  100 %  expected  42 % ( 1.7 points)
-  below 19       111 games   80.0 points   72 %  expected  75 % (82.8 points)
-  21 up, boss     15 games   10.0 points   67 %  expected  43 % ( 6.4 points)
+Silver logistic scale 4.41
+v08: performance 20.95; results by the opponent's score at fetch (points, ties 1/2; expected from the rating)
+  below 17        49 games   38.0 points   78 %  expected  79 % (38.8 points)
+  17-19           72 games   55.0 points   76 %  expected  64 % (46.1 points)
+  19-21           88 games   49.0 points   56 %  expected  57 % (50.1 points)
+  21 and above    25 games    6.0 points   24 %  expected  47 % (11.8 points)
+  the boss        16 games    6.0 points   38 %  expected  45 % ( 7.1 points)
+  below 19       121 games   93.0 points   77 %  expected  70 % (84.9 points)
+  21 up, boss     41 games   12.0 points   29 %  expected  46 % (19.0 points)
+v10: performance 21.04; results by the opponent's score at fetch (points, ties 1/2; expected from the rating)
+  below 17        59 games   44.0 points   75 %  expected  80 % (46.9 points)
+  17-19           52 games   36.0 points   69 %  expected  67 % (34.6 points)
+  19-21           34 games   18.0 points   53 %  expected  57 % (19.4 points)
+  21 and above    11 games    6.0 points   55 %  expected  47 % ( 5.2 points)
+  the boss         4 games    4.0 points  100 %  expected  46 % ( 1.9 points)
+  below 19       111 games   80.0 points   72 %  expected  73 % (81.6 points)
+  21 up, boss     15 games   10.0 points   67 %  expected  47 % ( 7.0 points)
+v11: performance 22.02; results by the opponent's score at fetch (points, ties 1/2; expected from the rating)
+  below 17        43 games   33.0 points   77 %  expected  82 % (35.4 points)
+  17-19           34 games   25.0 points   74 %  expected  71 % (24.2 points)
+  19-21           65 games   41.0 points   63 %  expected  60 % (38.7 points)
+  21 and above     6 games    3.0 points   50 %  expected  55 % ( 3.3 points)
+  the boss        12 games    6.0 points   50 %  expected  53 % ( 6.3 points)
+  below 19        77 games   58.0 points   75 %  expected  77 % (59.7 points)
+  21 up, boss     18 games    9.0 points   50 %  expected  53 % ( 9.6 points)
 v08: 250 games
   lost on HP at turn 250: 35; in 1 of them the HP lost to towers is at least the margin
   turns under enemy tower fire 494, HP 805, 3.2 +- 0.7 HP a game (SE); {'no knight within 250': 366, 'a knight within 250': 128}
@@ -27,3 +35,9 @@ v10: 160 games
   HP a game to enemy towers by the opponent's score: below 17 3.7 +- 1.4 (59), 17-19 7.8 +- 2.6 (52), 19-21 4.3 +- 2.5 (34), 21 and above 3.2 +- 3.2 (11), the boss 0.0 +- 0.0 (4)
   commands on those turns: [('BUILD TOWER', 257), ('BUILD MINE', 188), ('BUILD BARRACKS-KNIGHT', 22)]
   deaths 43: in their last 30 turns 1790 HP lost, 558 to towers (31 %); deaths with 10+ HP from towers: 12
+v11: 160 games
+  lost on HP at turn 250: 20; in 2 of them the HP lost to towers is at least the margin
+  turns under enemy tower fire 69, HP 98, 0.6 +- 0.3 HP a game (SE); {'no knight within 250': 49, 'a knight within 250': 20}
+  HP a game to enemy towers by the opponent's score: below 17 0.9 +- 0.9 (43), 17-19 1.4 +- 0.8 (34), 19-21 0.2 +- 0.1 (65), 21 and above 0.0 +- 0.0 (6), the boss 0.0 +- 0.0 (12)
+  commands on those turns: [('BUILD TOWER', 48), ('BUILD BARRACKS-KNIGHT', 15), ('BUILD MINE', 6)]
+  deaths 32: in their last 30 turns 990 HP lost, 7 to towers (1 %); deaths with 10+ HP from towers: 0
