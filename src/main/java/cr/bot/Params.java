@@ -190,6 +190,35 @@ public final class Params {
      * mirror, S 0.5030; the user's decision).
      */
     public int SAFE_LADDER = 1;
+    /**
+     * Meeting the enemy's first knight wave nearer the back edge (0: off, as v01-v11; the anchor since v12). From the replay study of 2026-11-07
+     * (docs/data/study-2026-11-07-gold, section 6): in the Gold HP races v11 lost, the queen met the first wave 444 from her
+     * back edge against 380 in those it won, and beyond 406 it cost 15.8 HP against 5.6; a second enemy group joining the
+     * first (19 of 44 lost races, 7 of 62 won) carried the whole gap. Experiment docs/data/exp-2026-11-07-meet-back.
+     * WAVE_ANCHOR=A &gt; 0: while the first-wave window is open (an enemy knight barracks stands or an enemy knight is on
+     * the board, and the turn is below WAVE_UNTIL; 0: no end), once an own tower stands or is planned, the ladder's
+     * tower-phase target is the free site nearest the point at the walker's height A % of the way from her to the back
+     * edge, instead of the midpoint of her and the home corner (the mines, the first barracks, the forward barracks and
+     * the first tower are as before). WAVE_ANCHOR=50 with WAVE_UNTIL=30 by default since v12 (2026-11-07: P2 on PV3 screen
+     * block 5, S 0.5654 against v11, field -1.49 pp, rival +1.35 pp; the user's decision); longer windows cost the midgame
+     * against field and the rival on the development seeds.
+     */
+    public int WAVE_ANCHOR = 50;
+    public int WAVE_UNTIL = 30;
+    /**
+     * DEFENCE_FWD=F &gt; 0: the defence rule (THREAT_TOWERS_NEAR) builds only on a free site less than F ahead of the queen
+     * toward the enemy's side (along x), or on the site she touches; with none, it builds nothing (0: any site within
+     * THREAT_RADIUS, as v06-v11). Same study: in the costliest Gold first wave the defence rule walked her 230 toward the
+     * enemy through five knights. DEFENCE_UNTIL=T &gt; 0 keeps the limit to the turns before T (0: the whole game).
+     */
+    public int DEFENCE_FWD = 0;
+    public int DEFENCE_UNTIL = 0;
+    /**
+     * STAND_REACH=R &gt; 0: when kiting finds no step that gains and the nearest enemy knight is within R, the queen still
+     * takes the best-scoring kite step that moves her at least 40, rather than standing (0: she stands, as v07-v11). Same
+     * study: standing at an own tower with a knight within 155 cost 2.6 HP a turn against 1.25 for a kite step.
+     */
+    public int STAND_REACH = 0;
     public long SEED = 1;
     public int DEBUG = 0;
 

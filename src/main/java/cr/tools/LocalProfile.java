@@ -6,6 +6,7 @@ import cr.core.Const;
 import cr.core.GameState;
 import cr.core.MapGen;
 import cr.core.Physics;
+import cr.core.Protocol;
 import cr.core.Rules;
 import cr.referee.Referee;
 
@@ -37,7 +38,9 @@ public final class LocalProfile {
         BUILT = WAVES + 12, UPGRADES = WAVES + 13, TORN_DOWN = WAVES + 14, DEPLETED = WAVES + 15, MINED = WAVES + 16,
         GIANTS_IN = WAVES + 17, LOST_TO_GIANTS = WAVES + 18, LOST_OTHER = WAVES + 19, FIRST_BUST = WAVES + 20,
         ARCHER_WAVES = WAVES + 21, EXPOSED = WAVES + 22, EXPOSED_AT_RELEASE = WAVES + 23, TO_BARRACKS = WAVES + 24,
-        HIT_PER_TRAINING = WAVES + 25, TOWER_FIRE = WAVES + 26, FAR_WALK = WAVES + 27, COLUMNS = WAVES + 28;
+        HIT_PER_TRAINING = WAVES + 25, TOWER_FIRE = WAVES + 26, FAR_WALK = WAVES + 27, FW_CONTACT = WAVES + 28,
+        FW_FORWARD = WAVES + 29, FW_LOSS = WAVES + 30, FW_MERGED = WAVES + 31, FW_STAND = WAVES + 32, FW_HELD = WAVES + 33,
+        FW_DEF_AHEAD = WAVES + 34, FW_DEF_LOSS = WAVES + 35, FLOW = WAVES + 36, PHASES = 5, COLUMNS = FLOW + 4 * PHASES;
 
     public static void main(String[] args) {
         String a = args[0], b = args[1];
@@ -166,6 +169,8 @@ public final class LocalProfile {
                 row[DEATH] = death;
                 row[TURNS] = r.turns;
                 towerFire(r, seat, row);
+                firstWave(r, seat, row);
+                hpFlow(r, seat, row);
                 rows.add(row);
             }
         }
@@ -195,6 +200,27 @@ public final class LocalProfile {
             fmt1(meanNum(rows, EXPOSED)), fmt1(meanNum(rows, EXPOSED_AT_RELEASE)), fmt(meanNum(rows, TO_BARRACKS)), fmt1(meanNum(rows, HIT_PER_TRAINING)));
         System.out.printf(Locale.ROOT, "tower fire: our queen loses %s HP a game to enemy towers (mean; in %d of %d games), walks %s turns a game to a free site on the enemy half through an enemy tower's range (mean)%n",
             fmt1(meanNum(rows, TOWER_FIRE)), rows.stream().filter(r -> r[TOWER_FIRE] > 0).count(), rows.size(), fmt1(meanNum(rows, FAR_WALK)));
+        List<double[]> contacts = rows.stream().filter(r -> r[FW_CONTACT] >= 0).toList();
+        System.out.printf(Locale.ROOT, "first wave (the Gold study's measures, %d games with a contact): contact turn %s (median), our queen %s from her back edge then (median; mean %s; %d beyond 406), loss to knights in the 20 turns from it %s (mean), merged waves in %d (loss %s against %s unmerged), standing at an own tower with a knight within 155 %s turns a game (mean)%n",
+            contacts.size(), fmt(medianNum(contacts, FW_CONTACT)), fmt(medianNum(contacts, FW_FORWARD)), fmt(meanNum(contacts, FW_FORWARD)),
+            contacts.stream().filter(r -> r[FW_FORWARD] > 406).count(), fmt1(meanNum(contacts, FW_LOSS)), contacts.stream().filter(r -> r[FW_MERGED] > 0).count(),
+            fmt1(meanNum(contacts.stream().filter(r -> r[FW_MERGED] > 0).toList(), FW_LOSS)), fmt1(meanNum(contacts.stream().filter(r -> r[FW_MERGED] == 0).toList(), FW_LOSS)),
+            fmt1(meanNum(contacts, FW_STAND)));
+        System.out.printf(Locale.ROOT, "first wave by where it meets her: beyond 406 from her back edge the loss is %s (mean, %d games), within 406 %s (%d games)%n",
+            fmt1(meanNum(contacts.stream().filter(r -> r[FW_FORWARD] > 406).toList(), FW_LOSS)), contacts.stream().filter(r -> r[FW_FORWARD] > 406).count(),
+            fmt1(meanNum(contacts.stream().filter(r -> r[FW_FORWARD] <= 406).toList(), FW_LOSS)), contacts.stream().filter(r -> r[FW_FORWARD] <= 406).count());
+        List<double[]> held = contacts.stream().filter(r -> r[FW_HELD] >= 0).toList();
+        List<double[]> ahead = contacts.stream().filter(r -> r[FW_DEF_AHEAD] > 0).toList();
+        System.out.printf(Locale.ROOT, "first wave, mechanisms: the new tower she was sent to last before the contact %s from her back edge (median; mean %s; %d games, %d beyond 500); in the 20 turns from the contact, BUILDs of a free site she does not touch, more than 50 ahead of her, under a knight within 250 (the defence rule), %s a game (mean; in %d games), losing %s HP on those turns (mean over those games)%n",
+            fmt(medianNum(held, FW_HELD)), fmt(meanNum(held, FW_HELD)), held.size(), held.stream().filter(r -> r[FW_HELD] > 500).count(),
+            fmt1(meanNum(contacts, FW_DEF_AHEAD)), ahead.size(), fmt1(meanNum(ahead, FW_DEF_LOSS)));
+        String[] flow = {"our queen to the enemy knights", "our queen to the enemy towers", "the enemy queen to our knights", "the enemy queen to our towers"};
+        StringBuilder fl = new StringBuilder("HP flow (means a game, turns 0-49, 50-99, 100-149, 150-199, 200-249):");
+        for (int k = 0; k < 4; k++) {
+            fl.append(k == 0 ? " " : "; ").append(flow[k]);
+            for (int ph = 0; ph < PHASES; ph++) fl.append(' ').append(fmt1(meanNum(rows, FLOW + k * PHASES + ph)));
+        }
+        System.out.println(fl);
         List<double[]> withGiants = rows.stream().filter(r -> r[GIANTS_IN] > 0).toList();
         System.out.printf(Locale.ROOT, "enemy giants: in %d of %d games (mean %s a game); in those games own towers lost to giants %s, to other causes %s (means), first giant at an own tower turn %s (median)%n",
             withGiants.size(), rows.size(), fmt1(rows.stream().mapToDouble(r -> r[GIANTS_IN]).average().orElse(Double.NaN)),
@@ -277,6 +303,113 @@ public final class LocalProfile {
         }
         row[TOWER_FIRE] = hp;
         row[FAR_WALK] = far;
+    }
+
+    /**
+     * The enemy's first knight wave, in the Gold replay study's terms (docs/data/study-2026-11-07-gold, cr.tools.WaveTrace):
+     * the first contact is the first turn an enemy knight stands within 250 of our queen at the turn's start. Records its
+     * turn, the queen's distance from her back edge then (x for a home on the left, 1920 - x otherwise), the HP she loses
+     * to knights (a probe with the enemy towers' ranges zeroed) in the 20 turns from it, whether the wave merged (a turn
+     * with a knight within 250 followed by 2 or more new enemy knights within 500), and the turns she stood at an own tower
+     * (a BUILD of it, moving under 20) with a knight within 155. -1 in every column without a contact.
+     * Two mechanism measures of the meet-back experiment (docs/data/exp-2026-11-07-meet-back): the distance from her back
+     * edge of the free site of the last BUILD ... TOWER she issued before the contact turn (-1 without one; the contact turn's
+     * own command is left out, since the defence rule may already act on it), and, in the 20
+     * turns from the contact, the turns with a BUILD of a free site she does not touch, more than 50 ahead of her (toward
+     * the enemy's side, along x), with an enemy knight within 250 (the defence rule's walks forward), with her loss to
+     * knights on those turns.
+     */
+    static void firstWave(Referee.Result r, int seat, double[] row) {
+        GameState s = MapGen.generate(r.seed, 4);
+        Rules rules = new Rules();
+        int foe = 1 - seat;
+        boolean left = s.qx[seat] < Const.WIDTH / 2.0;
+        int contact = -1, loss = 0, stand = 0, prevK500 = -1, prevK250 = 0, defAhead = 0, defLoss = 0;
+        boolean merged = false;
+        double forward = -1, held = -1;
+        for (int k = 1; k < r.frames.size() && !s.over; k++) {
+            int t = s.turn;
+            if (contact >= 0 && t >= contact + 20) break;
+            String[] raw = r.frames.get(k).cmds;
+            Command[] cmd = {parse(raw[0], s.nSites), parse(raw[1], s.nSites)};
+            double qx = s.qx[seat], qy = s.qy[seat], nearK = Double.MAX_VALUE;
+            int k250 = 0, k500 = 0;
+            for (int i = 0; i < s.nCreeps; i++) {
+                if (s.cOwner[i] != foe || s.cType[i] != Const.KNIGHT || s.cHp[i] <= 0) continue;
+                double d = Math.sqrt(Physics.distSq(s.cx[i], s.cy[i], qx, qy));
+                if (d < 250) k250++;
+                if (d < 500) k500++;
+                nearK = Math.min(nearK, d);
+            }
+            if (contact < 0 && k250 > 0) {
+                contact = t;
+                forward = left ? qx : Const.WIDTH - qx;
+            }
+            boolean inWindow = contact >= 0;
+            if (inWindow && prevK500 >= 0 && prevK250 >= 1 && k500 - prevK500 >= 2) merged = true;
+            Command c = cmd[seat];
+            boolean ownTower = c.queen == Command.BUILD && c.site >= 0 && s.stType[c.site] == Const.TOWER && s.stOwner[c.site] == seat;
+            boolean buildsFree = c.queen == Command.BUILD && c.site >= 0 && c.site < s.nSites && s.stType[c.site] == Const.NONE;
+            if (contact < 0 && buildsFree && "TOWER".equals(c.structure)) held = left ? s.sx[c.site] : Const.WIDTH - s.sx[c.site];
+            boolean defenceAhead = inWindow && buildsFree && k250 >= 1 && c.site != Protocol.touchedSite(s, seat)
+                && (left ? s.sx[c.site] - qx : qx - s.sx[c.site]) > 50;
+            GameState knightsOnly = null;
+            if (inWindow) {
+                knightsOnly = s.copy();
+                for (int j = 0; j < knightsOnly.nSites; j++)
+                    if (knightsOnly.stType[j] == Const.TOWER && knightsOnly.stOwner[j] == foe) knightsOnly.towerRange[j] = 0;
+                new Rules().resolve(knightsOnly, cmd[0], cmd[1]);
+            }
+            int hpBefore = s.hp[seat];
+            rules.resolve(s, cmd[0], cmd[1]);
+            if (inWindow) {
+                loss += Math.max(0, hpBefore - knightsOnly.hp[seat]);
+                if (defenceAhead) { defAhead++; defLoss += Math.max(0, hpBefore - knightsOnly.hp[seat]); }
+                double moved = Math.sqrt(Physics.distSq(qx, qy, s.qx[seat], s.qy[seat]));
+                if (ownTower && k250 >= 1 && moved < 20 && nearK < 155) stand++;
+                prevK500 = k500;
+                prevK250 = k250;
+            }
+        }
+        row[FW_CONTACT] = contact;
+        row[FW_FORWARD] = contact < 0 ? -1 : forward;
+        row[FW_LOSS] = contact < 0 ? -1 : loss;
+        row[FW_MERGED] = contact < 0 ? -1 : merged ? 1 : 0;
+        row[FW_STAND] = contact < 0 ? -1 : stand;
+        row[FW_HELD] = contact < 0 ? -1 : held;
+        row[FW_DEF_AHEAD] = contact < 0 ? -1 : defAhead;
+        row[FW_DEF_LOSS] = contact < 0 ? -1 : defLoss;
+    }
+
+    /**
+     * The HP flow of a game by phase of 50 turns (the meet-back experiment, docs/data/exp-2026-11-07-meet-back): what our
+     * queen loses to the enemy knights (a probe with the enemy towers' ranges zeroed) and to the enemy towers (a probe with
+     * the enemy knights removed), and what the enemy queen loses to our knights and our towers, the same way.
+     */
+    static void hpFlow(Referee.Result r, int seat, double[] row) {
+        GameState s = MapGen.generate(r.seed, 4);
+        Rules rules = new Rules();
+        int foe = 1 - seat;
+        for (int k = 1; k < r.frames.size() && !s.over; k++) {
+            int ph = Math.min(PHASES - 1, s.turn / 50);
+            String[] raw = r.frames.get(k).cmds;
+            Command[] cmd = {parse(raw[0], s.nSites), parse(raw[1], s.nSites)};
+            int[] side = {seat, foe};
+            for (int q = 0; q < 2; q++) {
+                int victim = side[q], attacker = 1 - victim;
+                GameState knights = s.copy(), towers = s.copy();
+                for (int j = 0; j < s.nSites; j++)
+                    if (knights.stType[j] == Const.TOWER && knights.stOwner[j] == attacker) knights.towerRange[j] = 0;
+                for (int i = 0; i < towers.nCreeps; i++)
+                    if (towers.cOwner[i] == attacker && towers.cType[i] == Const.KNIGHT) towers.cHp[i] = 0;
+                towers.removeDeadCreeps();
+                new Rules().resolve(knights, cmd[0], cmd[1]);
+                new Rules().resolve(towers, cmd[0], cmd[1]);
+                row[FLOW + (2 * q) * PHASES + ph] += Math.max(0, s.hp[victim] - knights.hp[victim]);
+                row[FLOW + (2 * q + 1) * PHASES + ph] += Math.max(0, s.hp[victim] - towers.hp[victim]);
+            }
+            rules.resolve(s, cmd[0], cmd[1]);
+        }
     }
 
     /** A recorded command pair "queen line | train line" (or "<none>"), as the referee parsed it. */

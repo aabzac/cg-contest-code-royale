@@ -49,7 +49,8 @@ final class LocalGames {
     private static final DateTimeFormatter FILE_TIME = DateTimeFormatter.ofPattern("uuuuMMdd'T'HHmmssSSS'Z'").withZone(ZoneOffset.UTC);
     private static final List<Choice> CHOICES = List.of(
         new Choice("current", "current", "Текущий бот с выбираемыми флагами движения", "current"),
-        new Choice("v11", "v11", "Обход вражеской базы лестницей: замороженный локальный чемпион", "v11"),
+        new Choice("v12", "v12", "Встреча первой волны ближе к своему краю: замороженный локальный чемпион", "v12"),
+        new Choice("v11", "v11", "Обход вражеской базы лестницей: выбранная на арене версия", "v11"),
         new Choice("v10", "v10", "Второй барак рыцарей в центре поля: выбранная на арене версия", "v10"),
         new Choice("v09", "v09", "Удержание перевеса по HP после 200-го хода: прежняя замороженная версия", "v09"),
         new Choice("v08", "v08", "Кайтинг у башен: выбранная на арене версия", "v08"),
@@ -125,7 +126,7 @@ final class LocalGames {
         return Map.of("bots", CHOICES.stream().map(c -> Map.of("id", c.id, "label", c.label, "description", c.description,
                 "flags", c.id.equals("current") ? FLAGS.stream().map(f -> Map.of("id", f.id, "label", f.label,
                     "description", f.description, "default", f.defaultValue)).toList() : List.of())).toList(),
-            "defaults", Map.of("bot0", "current", "bot1", "v11"));
+            "defaults", Map.of("bot0", "current", "bot1", "v12"));
     }
 
     Map<String, Object> run(JsonObject request) throws IOException {
@@ -385,7 +386,7 @@ final class LocalGames {
                         result.put("classes/" + code.relativize(file).toString().replace('\\', '/'), sha256(Files.readAllBytes(file)));
                 }
             } else result.put("codeJar", sha256(Files.readAllBytes(code)));
-            for (String version : List.of("v01", "v02", "v03", "v04", "v05", "v06", "v07", "v08", "v09", "v10", "v11")) {
+            for (String version : List.of("v01", "v02", "v03", "v04", "v05", "v06", "v07", "v08", "v09", "v10", "v11", "v12")) {
                 String resource = "/cr/bot/versions/" + version + ".properties";
                 try (InputStream in = BotFactory.class.getResourceAsStream(resource)) {
                     if (in == null) throw new IOException("Missing parameter resource " + resource);

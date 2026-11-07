@@ -19,11 +19,22 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   unrepresented, and candidates that depend on them are judged by the arena (`docs/local-screen.md`, PV3).
   **PV4** (2026-11-06, the user's decision) adds the rival R0 as gate G5 (spec `rival`). P2's gates are
   G0-G5, kept for Gold by PV5 (2026-11-07).
-- Local champion and `current` defaults: **v11** = v10 with the ladder's sites on the enemy half only while the
+- Local champion and `current` defaults: **v12** = v11 with the ladder's tower targets kept back in the first wave
+  (WAVE_ANCHOR=50, WAVE_UNTIL=30: until turn 30, while an enemy knight barracks or knight is out, from the second tower
+  on, the free site nearest the point at the queen's height halfway back to her edge), frozen 2026-11-07 by the user's
+  decision ("Да, v12"; `cr.bot.v12.GreedyBot`, `versions/v12.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV12`).
+  P2 strategy screen on PV3 screen block 5: S 0.5654 (CI 0.5523..0.5784) against v11, boss delta 0.0000, field −0.0149,
+  rival +0.0135, no candidate failure, G3 skipped (`docs/data/exp-2026-11-07-meet-back/`). Final evaluation against
+  v11 on PV3 evaluation block 1: S 0.5716 (CI 0.5587..0.5845), boss 0.0000, field −0.0123, rival +0.0163, no failure;
+  below the 0.60 recommendation. Artifact `3208b011…` (88,517 chars, build `58d513ae`, config `7b8e0525`; kept copy
+  `artifacts/3208b011/Player.java` in this worktree), procCheck 200/200 against v01 and against `boss`, later turns at
+  most 7.7 ms (`docs/BOTS.md`, Artifacts). Not committed, not uploaded. The next P2 candidates are screened against
+  v12.
+- Previous local champion: v11 (2026-11-07) = v10 with the ladder's sites on the enemy half only while the
   straight walk to them stays out of every enemy tower's range (SAFE_LADDER=1), frozen 2026-11-07 by the user's decision
-  ("the default"; `cr.bot.v11.GreedyBot`, `versions/v11.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV11`). P2 as
+  ("the default"; `cr.bot.v11.GreedyBot`, `versions/v11.properties`; `MainBotTest.withV11ParamsCurrentPlaysAsV11`). P2 as
   a targeted fix on PV3 screen block 4 (`docs/data/exp-2026-11-07-safe-ladder/`). Also the selected version since
-  2026-11-07 (below); the next P2 candidates are screened against v11.
+  2026-11-07 (below).
 - Previous local champion: v10 (2026-11-06 to 2026-11-07) = v09 with the second knight barracks at the centre of the board
   (BARRACKS_FORWARD=50), frozen 2026-11-06 by the user's decision ("the default"; `cr.bot.v10.GreedyBot`,
   `versions/v10.properties`; `MainBotTest.withV10ParamsCurrentPlaysAsV10`). P2 screen on PV3 block 3: S 0.5426 against
@@ -87,8 +98,8 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 - v11 in Gold (the study of 2026-11-07, `docs/data/study-2026-11-07-gold/`; its README has the numbers):
   - 44 of the 69 losses in 180 games are HP races at turn 250, 25 are deaths (towers 0.4 HP of a death's last 30
     turns);
-  - the races are decided at the first wave, turn 24-25: in those we lose it meets one tower and costs 12.5 HP against
-    the enemy's 5.1; in those we win, two towers, 5.9 against 8.7;
+  - the races are decided at the first wave, turn 24-25: in those we lose it costs 12.5 HP against the enemy's 5.1,
+    in those we win 5.9 against 8.7, with the same towers (1.6 and 1.7 on average), wave and queen behaviour;
   - giants come in 17 % of the games and do not mark our losses; v11 scores its expectation by opponent group;
   - the local panel against the field: the mirror meets the first wave as in Gold (turn 24, one tower) and goes to the
     limit in 91 % (Gold 59 %); `field` 60 %; `rival`'s giants 85 % of its games.
@@ -274,9 +285,14 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   A second build and a clean export of the working tree rebuilt the same bytes. Committed and merged into master on
   2026-11-07; the kept copy is `artifacts/cf71d566/Player.java` in the main checkout. Uploaded 2026-11-07 as v11
   uploads 1 and 2 (upload 2 is the arena entry above).
+- The second tower before the first wave, retried over v11 (2026-11-07, `docs/data/exp-2026-11-07-first-wave-gold/`):
+  `WAVE_TOWERS=2` and `TOPUP_FROM=2` score 0.45 against v11 on the development seeds and lose 2.5-7 pp against
+  `field` and `rival`. Rejected before a screen; the flags stay off.
 - Waiting on the user:
-  - the next candidate (screened against v11, promoted only after the Gold validation); the study of 2026-11-07
-    leaves the own-tower top-ups under enemy fire and the late economy gap;
+  - whether v12 goes to the arena, as an exception (S 0.5716 against v11 on the evaluation block, below 0.60). Its
+    artifact and checks are ready. Before the paste: the commit and the merge into master (the follow tool runs from
+    the main checkout), then `python -B -I tools/arena.py follow v12 --selected v11` there. `DEFENCE_FWD` and
+    `STAND_REACH` were rejected on the development seeds and stay off;
   - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).
 - Policies: P2 locally with gates G0-G5 (`docs/local-screen.md`; PV4 since 2026-11-06), then `submit` and both `procCheck`, then P1 on the arena
   (`docs/arena-uploads.md`, `tools/arena_compare.py`, registry `docs/data/arena-uploads.json`).

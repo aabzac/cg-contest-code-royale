@@ -96,7 +96,7 @@ class StrategyParamsTest {
 
     @Test
     void waveTowersBuildTheSecondTowerBeforeTopUpsAndMines() {
-        String plain = "ROUTE=0,UNSTICK=0";   // the plain BUILD towards the target, so that the target shows
+        String plain = "ROUTE=0,UNSTICK=0,WAVE_ANCHOR=0";   // the plain BUILD towards the target, so that the target shows; the ladder of v11
         GameState quiet = firstWave(false);
         assertEquals(0, Protocol.touchedSite(quiet, 0));
         assertEquals("BUILD 0 TOWER", queen(quiet, plain), "v08: top up the fresh tower");
@@ -523,5 +523,172 @@ class StrategyParamsTest {
         assertEquals("BUILD 3 TOWER", queen(s, p + ",SAFE_LADDER=1"), "the queen inside E's range: every walk starts in it");
         s.clearStructure(2);
         assertEquals("BUILD 2 TOWER", queen(s, p + ",SAFE_LADDER=1"), "C on our half stays a target from inside the range");
+    }
+
+    /** The position mirrored through the board's centre (x -> 1920 - x, y -> 1000 - y): our home becomes the bottom-right corner. */
+    private static GameState mirror(GameState s) {
+        GameState m = s.copy();
+        for (int i = 0; i < m.nSites; i++) { m.sx[i] = Const.WIDTH - s.sx[i]; m.sy[i] = Const.HEIGHT - s.sy[i]; }
+        for (int p = 0; p < 2; p++) { m.qx[p] = Const.WIDTH - s.qx[p]; m.qy[p] = Const.HEIGHT - s.qy[p]; }
+        for (int i = 0; i < m.nCreeps; i++) { m.cx[i] = Const.WIDTH - s.cx[i]; m.cy[i] = Const.HEIGHT - s.cy[i]; }
+        return m;
+    }
+
+    /**
+     * WAVE_ANCHOR's position: the tower phase (income 3, a knight barracks at (150,450)) with one own tower at (100,100),
+     * the queen at (500,350), an enemy knight barracks standing, turn 20. v11's target is B (680,160), nearest the midpoint
+     * (250,175) of the queen and the home corner; the anchor at her height, (250,350) for 50 and (0,350) for 100, takes C
+     * (300,700) instead.
+     */
+    private static GameState anchorPosition() {
+        GameState s = position();
+        s.stType[0] = Const.MINE; s.stOwner[0] = 0; s.mineRate[0] = 3;   // income 3: the tower phase
+        site(s, 3, 150, 450, 0, 0); s.stType[3] = Const.BARRACKS; s.stOwner[3] = 0; s.barrType[3] = Const.KNIGHT;
+        site(s, 4, 1600, 800, 0, 0); s.stType[4] = Const.BARRACKS; s.stOwner[4] = 1; s.barrType[4] = Const.KNIGHT;
+        site(s, 5, 100, 100, 0, 0); s.stType[5] = Const.TOWER; s.stOwner[5] = 0; s.towerHp[5] = 700; s.towerRange[5] = 400;
+        s.turn = 20;
+        return s;
+    }
+
+    private static final String ANCHOR_PLAIN = "MINES_FIRST=1,ROUTE=0,UNSTICK=0,WAVE_ANCHOR=0", ANCHOR_ON = ANCHOR_PLAIN + ",WAVE_UNTIL=50,WAVE_ANCHOR=";
+
+    /**
+     * WAVE_ANCHOR (2026-11-07, docs/data/exp-2026-11-07-meet-back) on {@link #anchorPosition()}, on both sides of the board.
+     * Outside the window (past WAVE_UNTIL, no enemy knight barracks or knight), for the first tower, in the mine phase and for
+     * the first barracks the target is v11's.
+     */
+    @Test
+    void waveAnchorKeepsTheTowerTargetsBack() {
+        String p = ANCHOR_PLAIN, on = ANCHOR_ON;
+        GameState s = anchorPosition();
+        for (GameState x : new GameState[]{s, mirror(s)}) {
+            assertEquals("BUILD 1 TOWER", queen(x, p), "v11: B, nearest the midpoint toward the home corner");
+            assertEquals("BUILD 1 TOWER", queen(x, p + ",WAVE_ANCHOR=0"), "0 is v11");
+            assertEquals("BUILD 2 TOWER", queen(x, on + 50), "the anchor halfway back at her height: C");
+            assertEquals("BUILD 2 TOWER", queen(x, on + 100), "the anchor on the back edge: C");
+            assertEquals("BUILD 1 TOWER", queen(x, p + ",WAVE_UNTIL=20,WAVE_ANCHOR=50"), "turn 20 is past a window to 20");
+            assertEquals("BUILD 2 TOWER", queen(x, p + ",WAVE_UNTIL=21,WAVE_ANCHOR=50"), "turn 20 is inside a window to 21");
+            assertEquals("BUILD 2 TOWER", queen(x, p + ",WAVE_UNTIL=0,WAVE_ANCHOR=50"), "WAVE_UNTIL=0: no end");
+            assertEquals("BUILD 2 TOWER", queen(x, "MINES_FIRST=1,ROUTE=0,UNSTICK=0"), "the defaults since v12: the anchor at 50 to turn 30");
+        }
+        // A free site G (100,780) near the back edge: v11 keeps B, the anchor at 50 takes C, at 100 G.
+        GameState g = anchorPosition();
+        site(g, 6, 100, 780, 0, 0);
+        for (GameState x : new GameState[]{g, mirror(g)}) {
+            assertEquals("BUILD 1 TOWER", queen(x, p), "v11 still B");
+            assertEquals("BUILD 2 TOWER", queen(x, on + 50), "C, 354 from (250,350)");
+            assertEquals("BUILD 6 TOWER", queen(x, on + 100), "G, 442 from (0,350)");
+        }
+        // The window opens on an enemy knight barracks or an enemy knight only.
+        s.barrType[4] = Const.GIANT;
+        assertEquals("BUILD 1 TOWER", queen(s, on + 50), "no enemy knight barracks or knight: the window is closed");
+        s.nCreeps = 1; s.cOwner[0] = 0; s.cType[0] = Const.KNIGHT; s.cHp[0] = 25; s.cx[0] = 1500; s.cy[0] = 700;
+        assertEquals("BUILD 1 TOWER", queen(s, on + 50), "our own knight does not open it");
+        s.cOwner[0] = 1; s.cType[0] = Const.GIANT;
+        assertEquals("BUILD 1 TOWER", queen(s, on + 50), "an enemy giant does not open it");
+        s.cType[0] = Const.KNIGHT;
+        assertEquals("BUILD 2 TOWER", queen(s, on + 50), "an enemy knight on the board opens it");
+        s.nSites = 5;   // no own tower: the first tower keeps v11's choice
+        assertEquals("BUILD 1 TOWER", queen(s, on + 50), "the first tower is v11's");
+        assertEquals("BUILD 1 TOWER", queen(s, p), "v11 without a tower");
+        // The mine phase and the first barracks keep v11's choice: a free site D (600,100) nearest the midpoint.
+        GameState mine = anchorPosition();
+        mine.mineRate[0] = 2;   // income 2: the mine phase
+        site(mine, 6, 600, 100, 300, 3);
+        assertEquals("BUILD 6 MINE", queen(mine, p), "v11: the gold site D");
+        assertEquals("BUILD 6 MINE", queen(mine, on + 50), "the mine phase is v11's");
+        GameState bar = anchorPosition();
+        bar.stOwner[3] = 1;     // no own barracks
+        site(bar, 6, 600, 100, 0, 0);
+        assertEquals("BUILD 6 BARRACKS-KNIGHT", queen(bar, p), "v11: the first barracks at D");
+        assertEquals("BUILD 6 BARRACKS-KNIGHT", queen(bar, on + 50), "the first barracks is v11's");
+    }
+
+    /**
+     * DEFENCE_FWD (2026-11-07): knights on the queen at her only tower A, as in {@link #threatBuildsASecondTowerNearby}.
+     * The defence rule of v11 builds at B (680,160), 228 ahead of her (452,350); DEFENCE_FWD=50 takes C (300,700), 152
+     * behind, and with C taken builds nothing; the site she touches stays allowed however far ahead it lies. Both sides of
+     * the board. DEFENCE_UNTIL ends the limit at a turn.
+     */
+    @Test
+    void defenceForwardLimitKeepsTheDefenceTowerBack() {
+        GameState s = position();
+        s.stType[0] = Const.TOWER; s.stOwner[0] = 0; s.towerHp[0] = 400; s.towerRange[0] = 300;
+        s.qx[0] = 350 + 70 + Const.QUEEN_RADIUS + 2; s.qy[0] = 350; // touching A
+        s.nCreeps = 3;
+        for (int i = 0; i < 3; i++) { s.cOwner[i] = 1; s.cType[i] = Const.KNIGHT; s.cHp[i] = 25; s.cx[i] = s.qx[0] + 60 + 20 * i; s.cy[i] = 350; }
+        for (GameState x : new GameState[]{s, mirror(s)}) {
+            assertEquals("BUILD 1 TOWER", queen(x, ""), "v11: B, 228 ahead");
+            assertEquals("BUILD 2 TOWER", queen(x, "DEFENCE_FWD=50"), "C, 152 behind");
+            assertEquals("BUILD 1 TOWER", queen(x, "DEFENCE_FWD=300"), "B is less than 300 ahead");
+        }
+        s.turn = 70;
+        assertEquals("BUILD 2 TOWER", queen(s, "DEFENCE_FWD=50"), "DEFENCE_UNTIL=0: the whole game");
+        assertEquals("BUILD 2 TOWER", queen(s, "DEFENCE_FWD=50,DEFENCE_UNTIL=71"), "turn 70 is inside a limit to 71");
+        assertEquals("BUILD 1 TOWER", queen(s, "DEFENCE_FWD=50,DEFENCE_UNTIL=70"), "turn 70 is past a limit to 70: v11's B");
+        s.turn = 0;
+        s.stType[2] = Const.MINE; s.stOwner[2] = 0; s.mineRate[2] = 1;
+        for (GameState x : new GameState[]{s, mirror(s)}) {
+            assertEquals("BUILD 1 TOWER", queen(x, ""), "v11 still B");
+            assertTrue(queen(x, "DEFENCE_FWD=50").startsWith("MOVE"), "no site behind: no defence tower, she kites");
+        }
+        // the touched site is allowed: the queen at (610,230) touches B, 70 ahead
+        GameState t = position();
+        t.stType[0] = Const.TOWER; t.stOwner[0] = 0; t.towerHp[0] = 400; t.towerRange[0] = 300;
+        t.qx[0] = 610; t.qy[0] = 230;
+        t.nCreeps = 1; t.cOwner[0] = 1; t.cType[0] = Const.KNIGHT; t.cHp[0] = 25; t.cx[0] = 700; t.cy[0] = 300;
+        for (GameState x : new GameState[]{t, mirror(t)}) {
+            assertEquals(1, Protocol.touchedSite(x, 0));
+            assertEquals("BUILD 1 TOWER", queen(x, "DEFENCE_FWD=50"), "the touched site B");
+        }
+        t.qx[0] = 560; t.qy[0] = 260;   // 120 behind B, not touching it; C is beyond THREAT_RADIUS
+        for (GameState x : new GameState[]{t, mirror(t)}) {
+            assertEquals(-1, Protocol.touchedSite(x, 0));
+            assertEquals("BUILD 1 TOWER", queen(x, ""), "v11: B");
+            assertNotEquals("BUILD 1 TOWER", queen(x, "DEFENCE_FWD=50"), "B is 120 ahead and not touched");
+        }
+    }
+
+    /**
+     * STAND_REACH (2026-11-07): the queen touches her tower A, a second tower B is near, two knights stand 60 above and
+     * below her. No kite step gains, so v11 stands and tops A up; STAND_REACH=155 takes the best-scoring step that moves
+     * her 40 or more and ends under a tower: east between the knights, or, with the ranges cut so that the east step ends
+     * uncovered, the best covered one. With the knights 200 away it changes nothing.
+     */
+    @Test
+    void standReachStepsAwayInsteadOfStanding() {
+        GameState s = position();
+        s.stType[0] = Const.TOWER; s.stOwner[0] = 0; s.towerHp[0] = 400; s.towerRange[0] = 300;
+        s.stType[1] = Const.TOWER; s.stOwner[1] = 0; s.towerHp[1] = 400; s.towerRange[1] = 300;
+        s.qx[0] = 350 + 70 + Const.QUEEN_RADIUS + 2; s.qy[0] = 350; // touching A
+        s.nCreeps = 2;
+        for (int i = 0; i < 2; i++) { s.cOwner[i] = 1; s.cType[i] = Const.KNIGHT; s.cHp[i] = 25; s.cx[i] = s.qx[0]; s.cy[i] = i == 0 ? 410 : 290; }
+        assertEquals("BUILD 0 TOWER", queen(s, ""), "v11: no step gains, she tops A up");
+        assertEquals("MOVE 652 355", queen(s, "STAND_REACH=155"), "the best-scoring step: east, 84 from the knights");
+        assertForcedStep(s, queen(s, "STAND_REACH=155"));
+        GameState m = mirror(s);
+        assertEquals("BUILD 0 TOWER", queen(m, ""), "v11 on the right side");
+        assertForcedStep(m, queen(m, "STAND_REACH=155"));
+        GameState cut = s.copy();
+        cut.towerRange[0] = 150; cut.towerRange[1] = 200;   // the east step ends outside both ranges
+        assertEquals("BUILD 0 TOWER", queen(cut, ""), "v11 with the ranges cut");
+        assertEquals("MOVE 307 488", queen(cut, "STAND_REACH=155"), "the best covered step");
+        assertForcedStep(cut, queen(cut, "STAND_REACH=155"));
+        s.cy[0] = 550; s.cy[1] = 150;
+        assertEquals("BUILD 0 TOWER", queen(s, "STAND_REACH=155"), "the knights 200 away: she tops A up");
+    }
+
+    /** The forced step's MOVE moves the queen 40 or more and ends within an own tower's range. */
+    private static void assertForcedStep(GameState s, String line) {
+        assertTrue(line.startsWith("MOVE "), line);
+        String[] m = line.split(" ");
+        cr.core.Physics ph = new cr.core.Physics();
+        ph.queenStep(s, s.qx[0], s.qy[0], Integer.parseInt(m[1]), Integer.parseInt(m[2]), 5);
+        double moved = Math.hypot(ph.rx - s.qx[0], ph.ry - s.qy[0]);
+        assertTrue(moved >= 40, "the forced step moves her " + moved);
+        boolean covered = false;
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && Math.hypot(ph.rx - s.sx[i], ph.ry - s.sy[i]) < s.towerRange[i]) covered = true;
+        assertTrue(covered, "and ends under an own tower");
     }
 }

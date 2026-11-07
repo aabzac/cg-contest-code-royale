@@ -1,0 +1,60 @@
+DEFENCE_FWD-50 against field (rows: v11's outcome; columns: the arm's)
+                  kill  limit-win limit-draw       both limit-loss       dead   total
+kill               290         77          0          0          0         15     382
+limit-win           50        457          0          0         40         13     560
+limit-draw           0          0          0          0          0          0       0
+both                 0          0          0          0          0          0       0
+limit-loss           3         23          0          0          8          3      37
+dead                 6          4          1          0          4          6      21
+total              349        561          1          0         52         37
+
+DEFENCE_FWD-50 against rival (rows: v11's outcome; columns: the arm's)
+                  kill  limit-win limit-draw       both limit-loss       dead   total
+kill               115         24          0          0          7         10     156
+limit-win           27        510          5          0         43         13     598
+limit-draw           0          0          5          0          1          0       6
+both                 0          0          0          0          0          0       0
+limit-loss           3         55          2          0         77         10     147
+dead                14         29          1          0         13         36      93
+total              159        618         13          0        141         69
+
+WAVE_ANCHOR-50_WAVE_UNTIL-50 against field (rows: v11's outcome; columns: the arm's)
+                  kill  limit-win limit-draw       both limit-loss       dead   total
+kill               277         81          1          0          6         17     382
+limit-win           61        435          1          0         39         24     560
+limit-draw           0          0          0          0          0          0       0
+both                 0          0          0          0          0          0       0
+limit-loss           1         21          0          0         11          4      37
+dead                 6          3          0          0          1         11      21
+total              345        540          2          0         57         56
+
+WAVE_ANCHOR-50_WAVE_UNTIL-50 against rival (rows: v11's outcome; columns: the arm's)
+                  kill  limit-win limit-draw       both limit-loss       dead   total
+kill                90         43          1          0          3         19     156
+limit-win           46        425          5          0         85         37     598
+limit-draw           1          2          2          0          0          1       6
+both                 0          0          0          0          0          0       0
+limit-loss           7         60          0          0         65         15     147
+dead                22         25          1          0          8         37      93
+total              166        555          9          0        161        109
+
+WAVE_ANCHOR-50_WAVE_UNTIL-50_DEFENCE_FWD-50 against field (rows: v11's outcome; columns: the arm's)
+                  kill  limit-win limit-draw       both limit-loss       dead   total
+kill               255        109          0          0          2         16     382
+limit-win           63        431          4          0         45         17     560
+limit-draw           0          0          0          0          0          0       0
+both                 0          0          0          0          0          0       0
+limit-loss           6         22          0          0          7          2      37
+dead                 6          7          0          0          2          6      21
+total              330        569          4          0         56         41
+
+WAVE_ANCHOR-50_WAVE_UNTIL-50_DEFENCE_FWD-50 against rival (rows: v11's outcome; columns: the arm's)
+                  kill  limit-win limit-draw       both limit-loss       dead   total
+kill                91         49          1          1          4         10     156
+limit-win           48        425          5          0         98         22     598
+limit-draw           1          2          1          0          1          1       6
+both                 0          0          0          0          0          0       0
+limit-loss           4         82          0          0         48         13     147
+dead                24         35          1          0         10         23      93
+total              168        593          8          1        161         69
+

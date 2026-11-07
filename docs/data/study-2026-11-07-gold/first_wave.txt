@@ -1,0 +1,26 @@
+The first contact in v11's Gold games (an enemy knight within 250 of our queen); 171 games, 106 races at turn 250
+1. Races, by result:
+   lost races                              44 games: contact t24, own towers 1.6 (mean), enemy knights within 500 3.7, enemy knights alive at t25 4.2 / t50 1.9, our first tower t14; loss in the next 20 turns 12.5 (mean), 0 % won
+   won races                               62 games: contact t25, own towers 1.7 (mean), enemy knights within 500 3.5, enemy knights alive at t25 4.2 / t50 2.4, our first tower t14; loss in the next 20 turns 5.9 (mean), 100 % won
+2. All games, by our towers at the first contact:
+   0 own towers                             1 games: contact t20, own towers 0.0 (mean), enemy knights within 500 4.0, enemy knights alive at t25 4.0 / t50 0.0, our first tower t21; loss in the next 20 turns 18.0 (mean), 100 % won
+   1 own towers                            81 games: contact t23, own towers 1.0 (mean), enemy knights within 500 3.8, enemy knights alive at t25 4.8 / t50 1.9, our first tower t15; loss in the next 20 turns 13.3 (mean), 53 % won
+   2 own towers                            71 games: contact t27, own towers 2.0 (mean), enemy knights within 500 3.5, enemy knights alive at t25 5.1 / t50 2.8, our first tower t13; loss in the next 20 turns 10.8 (mean), 65 % won
+   3 own towers                             9 games: contact t41, own towers 3.0 (mean), enemy knights within 500 3.2, enemy knights alive at t25 0.4 / t50 4.6, our first tower t15; loss in the next 20 turns 4.1 (mean), 100 % won
+   4+ own towers                            9 games: contact t58, own towers 4.3 (mean), enemy knights within 500 3.7, enemy knights alive at t25 0.0 / t50 2.1, our first tower t13; loss in the next 20 turns 5.7 (mean), 33 % won
+3. All games, by the first contact's turn:
+   contact at turns 0-21                   28 games: contact t20, own towers 1.0 (mean), enemy knights within 500 3.6, enemy knights alive at t25 2.8 / t50 1.0, our first tower t14; loss in the next 20 turns 7.2 (mean), 50 % won
+   contact at turns 22-24                  46 games: contact t23, own towers 1.2 (mean), enemy knights within 500 3.8, enemy knights alive at t25 5.3 / t50 2.3, our first tower t14; loss in the next 20 turns 12.8 (mean), 65 % won
+   contact at turns 25-27                  45 games: contact t26, own towers 1.6 (mean), enemy knights within 500 3.6, enemy knights alive at t25 6.4 / t50 2.3, our first tower t14; loss in the next 20 turns 15.2 (mean), 51 % won
+   contact at turns 28-34                  36 games: contact t31, own towers 2.0 (mean), enemy knights within 500 3.6, enemy knights alive at t25 4.1 / t50 3.6, our first tower t14; loss in the next 20 turns 11.2 (mean), 69 % won
+   contact at turns 35-999                 16 games: contact t54, own towers 3.8 (mean), enemy knights within 500 3.4, enemy knights alive at t25 0.0 / t50 3.2, our first tower t14; loss in the next 20 turns 4.9 (mean), 62 % won
+4. One own tower against two, at the same contact timing (turns 22-27):
+   1 own towers, contact t22-27            53 games: contact t24, own towers 1.0 (mean), enemy knights within 500 3.9, enemy knights alive at t25 5.7 / t50 2.4, our first tower t15; loss in the next 20 turns 16.8 (mean), 57 % won
+   2 own towers, contact t22-27            38 games: contact t26, own towers 2.0 (mean), enemy knights within 500 3.4, enemy knights alive at t25 5.9 / t50 2.2, our first tower t13; loss in the next 20 turns 10.0 (mean), 61 % won
+5. By the enemy's knights within 500 at the contact:
+   0-2 enemy knights within 500            13 games: contact t27, own towers 2.1 (mean), enemy knights within 500 2.0, enemy knights alive at t25 3.5 / t50 3.0, our first tower t14; loss in the next 20 turns 2.3 (mean), 46 % won
+   3-4 enemy knights within 500           153 games: contact t25, own towers 1.6 (mean), enemy knights within 500 3.7, enemy knights alive at t25 4.5 / t50 2.4, our first tower t14; loss in the next 20 turns 12.1 (mean), 61 % won
+   5-99 enemy knights within 500            5 games: contact t31, own towers 2.8 (mean), enemy knights within 500 5.4, enemy knights alive at t25 4.0 / t50 0.0, our first tower t13; loss in the next 20 turns 14.4 (mean), 40 % won
+6. The 20 turns from the contact in the races (means over the games):
+   lost races  queen's turns: BUILD TOWER 10.0, MOVE 9.6, BUILD BARRACKS-KNIGHT 0.4; nearest own tower 120 away; enemy knights within 250 on 13.0 turns; our knights alive at t25 6.2 / t50 2.3, the enemy's 4.2 / 1.9; starting HP 66
+   won races   queen's turns: BUILD TOWER 10.5, MOVE 9.3, BUILD BARRACKS-KNIGHT 0.1, BUILD MINE 0.1; nearest own tower 119 away; enemy knights within 250 on 10.7 turns; our knights alive at t25 6.4 / t50 2.3, the enemy's 4.2 / 2.4; starting HP 72

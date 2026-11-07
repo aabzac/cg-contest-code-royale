@@ -1,0 +1,12 @@
+106 races: 44 lost, 62 won
+  first-wave loss to knights (20 turns)            lost  12.52  won   5.87  difference  +6.65 (95 % CI +2.73..+11.29)
+  loss from the first merge on                     lost   7.52  won   0.61  difference  +6.91 (95 % CI +3.14..+11.62)
+  loss while standing at an own tower within reach lost   3.61  won   0.81  difference  +2.81 (95 % CI +0.87..+5.17)
+  standing turns with a knight under 155           lost   1.25  won   0.32  difference  +0.93 (95 % CI +0.32..+1.62)
+  forward distance at the contact                  lost 444.05  won 379.65  difference +64.40 (95 % CI +14.97..+121.26)
+  merged waves: lost 19 of 44, won 7 of 62
+  standing within reach in: lost 17 of 44, won 11 of 62
+Split at the median forward distance at the contact (406):
+  forward half  53 races (29 lost): first-wave loss lost 15.79 won  5.62; merged waves 20
+  back half     53 races (15 lost): first-wave loss lost  6.20 won  6.03; merged waves 6
+Unmerged races only: first-wave loss lost 6.68 won 5.73

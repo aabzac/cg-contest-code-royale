@@ -1,0 +1,26 @@
+Seeds 1 + 397 k, k < 200, both seats (400 games). fwd: our queen's distance from her back edge at the first contact (median/mean, games beyond 406); loss: the first-wave loss to knights in the 20 turns from the contact (mean; merged/unmerged waves; beyond/within 406); stand: turns at an own tower with a knight within 155; 25-50: HP lost on turns 25-50 (mean); hp/tw: the queen's HP and own towers at turns 50 and 100 (medians); gold: gold mined (mean); held: the new tower she was sent to last by the contact, its distance from her back edge (median, games beyond 500); def>50: the defence rule's builds more than 50 ahead of her in the 20 turns (mean a game, games).
+arm vs opponent                     win %  dead turn           fwd merge   loss    merged/unm beyond/within stand  25-50 hp 50/100 tw 50/100   gold      held    def>50
+v11-v11                              47.8    18   24   409/412 201    95    7.8      16.9/5.0      10.7/5.0   0.3    6.8     57/55       3/4  796.8   496 199   1.2 174
+v11-rival                            79.0    30   25   423/417 206    97    7.3      15.7/4.6       9.7/4.8   0.3    6.7     58/57       3/4  748.5   503 201   1.1 159
+v11-field                            93.5    10   21   360/377 160     4    7.4      15.0/7.3       8.4/6.7   0.1    3.3     57/60       3/4  582.0   504 200   1.8 285
+WAVE_ANCHOR-50_WAVE_UNTIL-50-v11     50.5    15   25    305/328 92    48    4.2      14.0/2.9       9.2/2.7   0.1    3.6     60/59       3/4  796.2    343 75   0.7 114
+WAVE_ANCHOR-50_WAVE_UNTIL-50-rival   73.0    41   26    301/320 77    48    3.9      12.4/2.7       8.4/2.8   0.1    3.5     61/60       3/4  731.1    332 63   0.7 115
+WAVE_ANCHOR-50_WAVE_UNTIL-50-field   90.8    21   21   309/335 109     2    5.7      13.0/5.7       8.7/4.6   0.0    2.4     60/59       3/4  574.4   402 112   1.3 204
+WAVE_ANCHOR-100_WAVE_UNTIL-50-v11    46.0    18   25    274/304 58    53    4.4      13.3/3.0      12.3/3.1   0.1    3.8     60/60       3/4  794.9    300 62   0.8 143
+WAVE_ANCHOR-100_WAVE_UNTIL-50-rival   70.0    53   26    269/295 47    51    4.1      12.0/3.0      10.0/3.4   0.1    3.7     62/60       3/4  726.8    274 52   0.8 133
+WAVE_ANCHOR-100_WAVE_UNTIL-50-field   90.3    19   22    296/328 99     2    5.7      13.0/5.7       9.2/4.5   0.1    2.5     60/60       3/4  572.5   402 104   1.3 220
+DEFENCE_FWD-50-v11                   53.8    17   24   409/412 201    71    6.1      13.2/4.6       8.5/3.6   0.2    5.5     59/56       3/4  805.4   409 115     0.0 0
+DEFENCE_FWD-50-rival                 79.8    23   25   423/417 206    81    5.7      11.4/4.2       7.9/3.4   0.3    5.3     59/58       3/4  739.3   414 135     0.0 0
+DEFENCE_FWD-50-field                 90.3    16   21   360/377 160     1    5.9      10.0/5.9       7.8/4.7   0.0    3.4     60/60       3/4  576.9    317 50     0.0 0
+DEFENCE_FWD-150-v11                  49.3    19   24   409/412 201    84    7.4      16.6/4.9      10.3/4.4   0.3    6.5     57/55       3/4  794.9   439 162   0.8 142
+DEFENCE_FWD-150-rival                77.5    28   25   423/417 206    90    6.8      14.9/4.4       9.3/4.1   0.4    6.4     58/56       3/4  741.9   451 172   0.7 124
+DEFENCE_FWD-150-field                92.5    16   21   360/377 160     3    6.5      15.7/6.4       8.1/5.5   0.1    3.2     58/60       3/4  587.5   394 102   1.1 203
+STAND_REACH-155-v11                  47.5    22   24   409/412 201    99    7.9      17.1/4.8      10.7/5.0   0.0    6.9     57/55       3/4  788.9   496 199   1.2 174
+STAND_REACH-155-rival                78.0    28   25   423/417 206    94    7.2      15.5/4.7       9.6/4.8   0.0    6.8     57/56       3/4  743.8   503 201   1.1 160
+STAND_REACH-155-field                93.8    11   21   360/377 160     4    7.3      15.0/7.3       8.3/6.7   0.0    3.2     57/60       3/4  582.4   504 200   1.8 285
+WAVE_ANCHOR-50_WAVE_UNTIL-50_DEFENCE_FWD-50-v11   57.0    11   25    305/328 92    31    3.2      10.4/2.6       7.8/1.9   0.1    2.8     61/60       3/4  794.2    284 25     0.0 0
+WAVE_ANCHOR-50_WAVE_UNTIL-50_DEFENCE_FWD-50-rival   75.5    22   26    301/320 77    43    2.8       7.0/2.3       7.0/1.8   0.1    2.5     64/63       3/4  733.5    273 22     0.0 0
+WAVE_ANCHOR-50_WAVE_UNTIL-50_DEFENCE_FWD-50-field   92.0    12   21   309/335 109     1    4.8      10.0/4.8       8.0/3.6   0.0    2.5     60/60       3/4  568.0    258 20     0.0 0
+WAVE_ANCHOR-50_WAVE_UNTIL-50_DEFENCE_FWD-50_STAND_REACH-155-v11   56.0    16   25    305/328 92    31    3.3      10.5/2.6       7.7/1.9   0.0    2.8     61/60       3/4  789.3    284 25     0.0 0
+WAVE_ANCHOR-50_WAVE_UNTIL-50_DEFENCE_FWD-50_STAND_REACH-155-rival   74.0    21   26    301/320 77    42    2.8       6.9/2.3       6.9/1.8   0.0    2.6     64/63       3/4  734.7    273 22     0.0 0
+WAVE_ANCHOR-50_WAVE_UNTIL-50_DEFENCE_FWD-50_STAND_REACH-155-field   92.0    11   21   309/335 109     1    4.8      10.0/4.7       7.9/3.6   0.0    2.5     60/60       3/4  564.1    258 20     0.0 0

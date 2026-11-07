@@ -21,6 +21,8 @@ public final class MainBot implements Bot {
     private static final double MIN_STEP = 2;
     /** UNSTICK's plans: up to this many detour moves, and this many turns until the queen touches the site. */
     private static final int MAX_DETOUR = 6, HORIZON = 25;
+    /** STAND_REACH's forced kite step moves the queen at least this far (a full step is 60). */
+    private static final double FORCED_STEP = 40;
 
     private final Params p;
     private final Physics ph = new Physics();
@@ -99,7 +101,10 @@ public final class MainBot implements Bot {
             for (int i = 0; i < s.nSites; i++)
                 if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && Physics.distSq(s.sx[i], s.sy[i], qx, qy) < r2) near++;
             if (near < p.THREAT_TOWERS_NEAR) {
-                int d = nearest(s, qx, qy, i -> free(s, i) && !underEnemyTower(s, i) && Physics.distSq(s.sx[i], s.sy[i], qx, qy) < r2);
+                // DEFENCE_FWD: no site F or more ahead of her toward the enemy, except the one she touches (before DEFENCE_UNTIL).
+                boolean limit = p.DEFENCE_FWD > 0 && (p.DEFENCE_UNTIL <= 0 || s.turn < p.DEFENCE_UNTIL);
+                int d = nearest(s, qx, qy, i -> free(s, i) && !underEnemyTower(s, i) && Physics.distSq(s.sx[i], s.sy[i], qx, qy) < r2
+                    && (!limit || i == touched || (left ? s.sx[i] - qx : qx - s.sx[i]) < p.DEFENCE_FWD));
                 if (d >= 0 && (!hold || d == touched)) cmd = Command.build(d, "TOWER");
             }
         }
@@ -231,7 +236,8 @@ public final class MainBot implements Bot {
      * whose predicted step leaves the queen farthest from the nearest of them, at least 5 farther than
      * she stands now; the step must move her, end outside enemy tower range and, when an own tower
      * covers her now and KITE_COVER=1, under an own tower's cover. Ties: the step ending nearer to her
-     * nearest own tower. Null when no knight is within range or no step gains.
+     * nearest own tower. Null when no knight is within range or no step gains; with STAND_REACH and the nearest knight
+     * within it, the best-scoring step that moves her at least {@link #FORCED_STEP} replaces that null.
      */
     private Command kite(GameState s, double qx, double qy) {
         double r2 = (double) p.KITE_RANGE * p.KITE_RANGE, d0 = Double.MAX_VALUE;
@@ -250,6 +256,11 @@ public final class MainBot implements Bot {
         double a0 = Math.atan2(qy - Const.HEIGHT / 2.0, qx - Const.WIDTH / 2.0);
         Command best = null;
         double bestScore = Math.sqrt(d0) - pull * Math.sqrt(nearestOwnTowerSq(s, qx, qy)) + 5, bestTower = Double.MAX_VALUE;
+        // STAND_REACH: with the nearest knight within reach, the best-scoring step that moves her FORCED_STEP or more,
+        // taken when no step gains.
+        boolean reach = p.STAND_REACH > 0 && d0 < (double) p.STAND_REACH * p.STAND_REACH;
+        Command forced = null;
+        double forcedScore = -Double.MAX_VALUE, forcedTower = Double.MAX_VALUE;
         for (int k = 0; k < 24; k++) {
             double a = a0 + k * Math.PI / 12;
             Command m = heading(qx, qy, a);
@@ -264,7 +275,10 @@ public final class MainBot implements Bot {
             double tower = nearestOwnTowerSq(s, x, y);
             double score = Math.sqrt(near) - pull * Math.sqrt(tower);
             if (score > bestScore || score == bestScore && tower < bestTower) { bestScore = score; bestTower = tower; best = m; }
+            if (reach && Physics.distSq(x, y, qx, qy) >= FORCED_STEP * FORCED_STEP
+                && (score > forcedScore || score == forcedScore && tower < forcedTower)) { forcedScore = score; forcedTower = tower; forced = m; }
         }
+        if (best == null) best = forced;
         kiteRun = best == null ? 0 : kiteRun + 1;
         return best;
     }
@@ -395,7 +409,9 @@ public final class MainBot implements Bot {
      * income target and the tower cap are met, a free site, which needs gold in the mine phase (the
      * barracks built, the income below its target), where with UPGRADE=1 an own mine below its
      * maximum is a target too. Sites under an enemy tower are never targets, nor, with SAFE_LADDER, sites on the enemy
-     * half that the straight walk reaches only through an enemy tower's range (1) or at all (2).
+     * half that the straight walk reaches only through an enemy tower's range (1) or at all (2). With WAVE_ANCHOR, in the
+     * first-wave window the tower-phase target, once a tower stands or is planned, is the nearest to the point at the
+     * walker's height WAVE_ANCHOR % of the way to the back edge instead.
      */
     static int nextSite(GameState s, double wx, double wy, double hx, double hy, Params p, int mines, int barracks, int income, int towers, int skip) {
         double cx = (wx + hx) / 2, cy = (wy + hy) / 2;
@@ -413,9 +429,26 @@ public final class MainBot implements Bot {
             if (t >= 0) return t;
         }
         boolean minePhase = !wantBarracks && income < p.INCOME_TARGET;
-        return nearest(s, cx, cy, i -> ok.test(i)
+        // WAVE_ANCHOR: in the first-wave window, once a tower stands or is planned, the tower target is the free site nearest
+        // the point at the walker's height WAVE_ANCHOR % of the way to the back edge, not the midpoint toward the home corner.
+        boolean anchor = p.WAVE_ANCHOR > 0 && !wantBarracks && !minePhase && towers >= 1 && firstWaveWindow(s, p);
+        double ax = anchor ? wx + (hx - wx) * (p.WAVE_ANCHOR / 100.0) : cx, ay = anchor ? wy : cy;
+        return nearest(s, ax, ay, i -> ok.test(i)
             && (free(s, i) ? !minePhase || s.sGold[i] > 0
                 : p.UPGRADE == 1 && minePhase && s.stType[i] == Const.MINE && s.stOwner[i] == 0 && s.mineRate[i] < s.sMaxMine[i]));
+    }
+
+    /**
+     * WAVE_ANCHOR's first-wave window: an enemy knight barracks stands (training or not) or an enemy knight is on the
+     * board, and the turn is below WAVE_UNTIL (0: no end).
+     */
+    static boolean firstWaveWindow(GameState s, Params p) {
+        if (p.WAVE_UNTIL > 0 && s.turn >= p.WAVE_UNTIL) return false;
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stOwner[i] == 1 && s.stType[i] == Const.BARRACKS && s.barrType[i] == Const.KNIGHT) return true;
+        for (int i = 0; i < s.nCreeps; i++)
+            if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT) return true;
+        return false;
     }
 
     /**

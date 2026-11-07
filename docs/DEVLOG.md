@@ -3497,3 +3497,200 @@ Committed together with the records of v11's two Gold placements, the Gold study
 by fast-forward on the user's request ("Сначала влей в master"). The main checkout's uncommitted copies of the
 follow tool's files, byte-identical to the branch's, were dropped first; the Gold study's inputs and the new traces
 were copied to its `replays/study/` (gitignored).
+
+## 2026-11-07 — The second tower before the first wave, retried over v11: rejected; a correction to the Gold study
+
+The user's "Да, начинай" for the Gold study's first candidate. The first wave was looked at again before any code
+(`docs/data/study-2026-11-07-gold/first_wave.py`, `first_wave.txt`), and the study's premise did not hold.
+- **The medians had misled.** The study had our towers at the first contact as one in lost races and two in won ones.
+  The means are 1.6 and 1.7.
+- **The rest is the same too:**
+  - the contact turn (24 and 25), the enemy knights within 500 (3.7 and 3.5) and alive at turn 25 (4.2 and 4.2);
+  - the queen's 20 turns (about 10 top-ups and 9.5 kiting moves, about 120 from her tower);
+  - our tower HP at turn 25 (849 and 890), our income and barracks timing.
+- **What differs:**
+  - the enemy knights stay within 250 of her on 13.0 of the 20 turns against 10.7, and the loss is 12.5 against 5.9;
+  - the opponents score 15.8 against 15.1, and the starting HP is 66 against 72.
+- At the same contact timing (turns 22-27), two towers cut the first-contact loss from 16.8 to 10.0 HP. The share of
+  games won only moves from 57 % to 61 %.
+
+**The local test** of the 2026-11-05 flags over v11 (`docs/data/exp-2026-11-07-first-wave-gold/`, seeds 1 + 397 k,
+k < 500):
+- `WAVE_TOWERS=2`: S 0.4515 (CI 0.4185..0.4845) against v11, rival −5.9 pp, field −3.0 pp;
+- `TOPUP_FROM=2`: S 0.4470, rival −7.3 pp, field −2.5 pp.
+- Both fail the development bar. The candidate is rejected before a screen, and no PV3 block is used.
+
+**Corrections** in the Gold study's README (finding 2, candidate 1), STATUS, SUMMARY and the architecture page. The
+earlier DEVLOG entry and the commit message of ecac692 keep the median reading, and this entry corrects them.
+
+Not committed.
+
+## 2026-11-07 — The first wave in the Gold replays: forward contacts and merged waves
+
+The user's "Да, разбирай": look at the replays for what decides the first wave in the Gold HP races v11 loses. Study
+section 6 of `docs/data/study-2026-11-07-gold/README.md`.
+
+**Tool:** `cr.tools.WaveTrace`, the gradle task `waveTrace`.
+- It replays each game with the recorded commands and writes the first wave turn by turn, from 3 turns before the first
+  contact to 29 after.
+- Per turn: our queen's position, HP, loss by source, command and step; the own towers covering her, each with HP,
+  range and distance; the enemy knights within 250 and 500, with their HP and how many stand inside our tower ranges;
+  our towers' damage and kills (from a probe without our towers); the enemy queen's distance and the spawns.
+- It also writes a summary of window metrics per game.
+- 171 Gold games have a contact. The output is gitignored in `replays/study/gold-2026-11-07/waves/`, with sha256 of
+  `summary.csv` 65f5c722…
+
+**Method:** a workflow of 18 agents (the session runs under the user's standing ultracode setting).
+- Six readers took about 18 races each and wrote a narrative per game with patterns and hypotheses.
+- A consolidator kept nine measurable hypotheses.
+- Nine verifiers computed them over all 106 races, with bootstrap CIs, rank tests, strata of contact turn and towers,
+  and refutation attempts.
+- A synthesizer ranked the survivors, and a skeptic recomputed the claims and challenged them.
+- The whole result is `wave_workflow.json` in the study folder. `wave_mechanisms.py` recomputes the headline numbers
+  independently (`wave_mechanisms.txt`).
+
+**Findings** (lost against won races; the first-wave loss to knights is 12.5 against 5.9 HP):
+- **Where the queen meets the wave.** She is 444 from our back edge in lost races against 380 (CI +15..+121). In the
+  forward half the loss is 15.8 against 5.6; in the back half 6.2 against 6.0.
+- **Merged waves.** 19 of 44 lost races against 7 of 62 won (odds ratio about 7 in every stratum), 20 of the 26 in the
+  forward half.
+  - The loss from the merge on is 7.5 against 0.6, the whole gap. Unmerged races lose 6.7 against 5.7.
+  - On the merge turn the queen moved toward the enemy in 10 of 19 lost merges (skeptic, p 0.016).
+- **Standing at an own tower with a knight in reach**, when `kite()` finds no step: 3.6 against 0.8 HP. At the same
+  crowd it costs 2.6 HP a turn against 1.25 for a kite step. It is fragile: three races hold 45 %.
+- **Refuted or weak:** the defence walk as such, the kite step re-firing the defence rule, pinned BUILDs, kiting bound
+  to one tower, site shields, the board edge.
+
+**Candidates:**
+- A. Meet the first wave back: while an enemy wave is coming or on her, no forward defence sites, ladder targets or kite
+  steps.
+- B. Never stand with a knight within 155.
+- C. Hysteresis on the defence radius.
+
+Before any of them, local games must be checked for forward contacts and merges, since the panel may not produce them.
+
+Records: the study README (section 6), STATUS, SUMMARY, PLAN. Not committed.
+
+## 2026-11-07 — Meet the first wave back: the ladder's anchor to turn 30 passes P2
+
+The user's "Да, начинай" to candidate A of the first-wave study. The record is
+`docs/data/exp-2026-11-07-meet-back/README.md`, which has the hypothesis and bar written before the comparisons, the
+probes, the design, both sweeps, the screen and the verdict.
+
+**Local check first.** `LocalProfile` measures the first wave as the Gold study did: the contact, the queen's distance
+from her back edge, the 20-turn loss to knights and merged waves.
+- The mirror and the rival reproduce Gold's pattern.
+  - The contact is at 409 and 423 (median), against 411 in Gold.
+  - Merged waves come in 24 % of the games.
+  - The loss is 10.7 against 5.0 beyond and within 406.
+- `gold_reference.py` applies the same measures to the study's WaveTrace files.
+
+**Probes.** `THREAT_RADIUS=350` loses badly (S 0.39) and `KITE_PULL=200` changes nothing. Neither moves the contact.
+
+**Design.** A workflow of four agents: three designers (the ladder, the defence rule and kiting, the build order) and a
+judge. It is saved as `design_workflow.json`.
+- The place of the contact is set by the ladder's pull toward the home corner before any threat rule acts.
+- Three flags, all off by default:
+  - `WAVE_ANCHOR` with `WAVE_UNTIL`: the tower target nearest the point at the walker's height, A % of the way back to
+    her edge, in the first-wave window, from the second tower on.
+  - `DEFENCE_FWD`, with `DEFENCE_UNTIL` added after sweep 1: the defence tower not ahead of the queen.
+  - `STAND_REACH`: a forced kite step instead of standing with a knight in reach.
+
+**Implementation.**
+- `MainBot.nextSite` and `firstWaveWindow`, the defence rule and `kite()`.
+- Three tests in `StrategyParamsTest`, mirrored to the right-side home.
+- The four new keys entered every version snapshot with their off values.
+- A review workflow (four lenses, refuters per finding) found no defect in the bot. Its findings were acted on:
+  - test cases that did not discriminate (the scope, A=50 against A=100, the window's owner and type checks, the exact
+    forced step, the mirrored side);
+  - the profile's held-target measure, which counted the contact turn.
+- `LocalProfile` also gained the HP flow by phase (both queens, knights and towers) and the mechanism measures.
+- A new tool, `cr.tools.LocalTrace` (`./gradlew localTrace`), prints local games turn by turn in DeathTrace's columns.
+- Full suite: 169 tests pass, 3 skipped.
+
+**Sweeps** on the development seeds 1 + 397 k, k < 500, with `sweep.sh` and `profile.sh`.
+- Sweep 1: the anchor halves the first-wave loss.
+  - Every arm except `STAND_REACH` still loses 2-6 pp to field. `DEFENCE_FWD=150` loses exactly 2.0 pp, on the bar's
+    edge, with a small first-wave effect.
+  - In the mirror the anchor at 50 meets the wave at 305 instead of 409, with 48 merged waves instead of 95 and a
+    first-wave loss of 4.2 instead of 7.8.
+  - With the defence limit the loss falls to 3.2 and the merged waves to 31.
+  - The anchor at 50 also loses 3 pp to the rival.
+  - The HP flow shows the cost after turn 50. Against field our queen loses 7.3-9.7 HP to knights over turns 50-249,
+    against v11's 5.3.
+- Sweep 2: the anchor's window decides it.
+  - Windows to 25-35 score 0.552-0.559 against v11 and −1.35 to +0.3 pp against field. The window to 40 loses 2.3 pp
+    and the window for the whole game scores 0.489.
+  - The defence limit costs field 3-3.5 pp even when it ends at turn 60.
+  - The window to 30 is chosen, the middle of the plateau.
+
+**P2 screen** of `current?WAVE_ANCHOR=50,WAVE_UNTIL=30` against v11 on PV3 screen block 5, seeds 1005000000 + 397 i:
+`C="current?WAVE_ANCHOR=50,WAVE_UNTIL=30" bash docs/data/exp-2026-11-07-meet-back/screen.sh`.
+- S 0.5654 (CI 0.5523..0.5784), 1320 of 2000 maps changed.
+- boss delta 0.0000, field −0.0149 (CI −0.0227..−0.0071), rival +0.0135 (CI −0.0013..+0.0283).
+- The candidate had no failure in its 13000 games. G3 is skipped.
+- G0-G2, G4 and G5 pass.
+
+The block is recorded in `docs/data/seed-ledger.json`; the next screen block is 6. The candidate is the new local
+champion by P2. Whether it becomes the default (v12) and whether it is uploaded are the user's decisions. S is below
+0.60, and a final evaluation against v11 would come first.
+
+Records: the experiment README, STATUS, SUMMARY, PLAN, the seed ledger. Not committed.
+
+## 2026-11-07 — v12: the first-wave anchor becomes the default
+
+The user's "Да, v12" after the meet-back screen.
+- `Params`: WAVE_ANCHOR=50 and WAVE_UNTIL=30 are the defaults.
+- `cr.bot.v12` is a frozen copy of current (GreedyBot, RoutePlanner, ApproachPlanner, made as v11 was).
+- `versions/v12.properties` is v11's snapshot with the anchor.
+- BotFactory, LocalGames (v12 the default opponent; v11 relabelled the selected version) and `visualizer/local.js` know
+  v12.
+- `.ai/project.md` and `docs/visualizer.md` name v00-v12; AGENTS.md is resynced.
+
+Tests:
+- `MainBotTest.withDefaultsCurrentPlaysAsV12` covers the fixture seeds and block 5's maps, and
+  `withV11ParamsCurrentPlaysAsV11` covers block 4's. The V02/V05-V10 strings name WAVE_ANCHOR=0.
+- `BotFactoryTest` checks the v11 → v12 chain and the live defaults equal to v12.
+- `LocalGamesTest` checks 15 choices with v12 the default.
+- `StrategyParamsTest` has a default case in `waveAnchorKeepsTheTowerTargetsBack`. `waveTowersBuildTheSecondTowerBeforeTopUpsAndMines`
+  names WAVE_ANCHOR=0, since it tests the old WAVE_TOWERS rule on v11's ladder.
+
+Checks:
+- Java: 170 tests, 3 corpus tests skipped.
+- Tools: 59 OK. Visualizer: 18 of 18.
+- `./gradlew bench -Pbot1=v12 -Pbot2=v11 -Pmaps=500 -PseedBase=1 -PseedStride=397`: 0.559, as the candidate in the sweep
+  (0.5590).
+
+v11 stays the selected version and the arena's; v12 is not uploaded. Not committed.
+
+## 2026-11-07 — v12 prepared for the arena: the final evaluation and the artifact
+
+The user's "Да, готовь".
+
+**Final evaluation** of v12 against the selected version v11 on PV3 evaluation block 1, seeds 2001000000 + 397 i.
+Command: `bash docs/data/exp-2026-11-07-meet-back/eval.sh`. Raw reports: `replays/bench/exp-2026-11-07-meet-back/eval/`.
+- S 0.5716 (CI 0.5587..0.5845); 1299 of 2000 maps changed.
+- boss delta 0.0000; field −0.0123 (CI −0.0196..−0.0049); rival +0.0163 (CI +0.0022..+0.0303).
+- v12 had no failure. G0-G2, G4 and G5 pass; G3 is skipped.
+- S is below the 0.60 recommendation, so an upload would be an exception.
+- The block is recorded in the seed ledger; the next evaluation block is 2.
+
+**Artifact**, `./gradlew submit` with empty PARAMS:
+- `3208b011415504ac2776a72159e9d79fc92d7d3101bd7070b8eb282ec4b30271`, 88,517 characters;
+- build `58d513ae` (turn 0: `TRAIN 5 8 13 5 1 3 10 14`), config `7b8e0525`.
+
+**Reproducibility, before any commit.**
+- A second build gave the same bytes.
+- A temporary index took the working tree as it stands (`GIT_INDEX_FILE`, `git read-tree HEAD`, `git add -A`,
+  `git write-tree`: tree 355b8617). `git archive` of that tree, built with `./gradlew -p <export> submit`, gave the same
+  bytes.
+
+**procCheck:** procCheck vs v01 100 maps @5000: 200/200 identical to current, 200 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 264.8 ms, later 6.7 ms; vs boss 100 maps @6000: 200/200 identical to current, 200 wins, 0 timeouts, 0 kills, no extra, late or stderr lines, max first turn 298.1 ms, later 7.7 ms.
+- v12's 121 ms turn in the boss bench (3 threads, 200 ms budget) did not recur: at CG's 50 ms its later turns stay at
+  most 7.7 ms.
+
+**Kept copy:** `artifacts/3208b011/Player.java` in this worktree, gitignored. It goes to the main checkout with the merge.
+
+**Next.** On the user's decision: the commit and the merge into master, then from the main checkout
+`python -B -I tools/arena.py follow v12 --selected v11` before the paste. v11 stays the selected version until P1 judges
+two Gold placements of v12. Not committed.

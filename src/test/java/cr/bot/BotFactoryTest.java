@@ -33,9 +33,11 @@ class BotFactoryTest {
         assertEquals(v09.toString().replace("BARRACKS_FORWARD=0", "BARRACKS_FORWARD=50"), v10.toString());
         Params v11 = BotFactory.snapshot("v11");
         assertEquals(v10.toString().replace("SAFE_LADDER=0", "SAFE_LADDER=1"), v11.toString());
-        assertEquals(new Params().toString(), v11.toString(), "the live defaults are v11's until the next champion");
+        Params v12 = BotFactory.snapshot("v12");
+        assertEquals(v11.toString().replace("WAVE_ANCHOR=0", "WAVE_ANCHOR=50").replace("WAVE_UNTIL=50", "WAVE_UNTIL=30"), v12.toString());
+        assertEquals(new Params().toString(), v12.toString(), "the live defaults are v12's until the next champion");
         // every Params field must be present in each snapshot, so new live defaults cannot leak in silently
-        for (String version : new String[]{"v01", "v02", "v03", "v04", "v05", "v06", "v07", "v08", "v09", "v10", "v11"}) {
+        for (String version : new String[]{"v01", "v02", "v03", "v04", "v05", "v06", "v07", "v08", "v09", "v10", "v11", "v12"}) {
             String spec = new java.util.Properties() {{
                 try (java.io.InputStream in = BotFactory.class.getResourceAsStream("versions/" + version + ".properties")) { load(in); }
                 catch (java.io.IOException e) { throw new IllegalStateException(e); }
@@ -101,6 +103,7 @@ class BotFactoryTest {
         assertEquals("v09 " + BotFactory.snapshot("v09"), BotFactory.describe("v09"));
         assertEquals("v10 " + BotFactory.snapshot("v10"), BotFactory.describe("v10"));
         assertEquals("v11 " + BotFactory.snapshot("v11"), BotFactory.describe("v11"));
+        assertEquals("v12 " + BotFactory.snapshot("v12"), BotFactory.describe("v12"));
         assertEquals("proc:java -cp x Player", BotFactory.describe("proc:java -cp x Player"));
         assertTrue(BotFactory.describe("boss").matches("boss sha256=([0-9a-f]{64}|missing)"));
         assertTrue(BotFactory.describe("old").matches("old sha256=([0-9a-f]{64}|missing)"));

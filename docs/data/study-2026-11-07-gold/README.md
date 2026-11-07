@@ -56,10 +56,15 @@ Our HP minus the enemy's, by turn (medians; means in brackets):
 
 - **The first wave decides most of the race.**
   - The first enemy knight comes within 250 of our queen at turn 24-25 in both groups.
-  - In the races we lose, she has one tower then (median), and in the next 20 turns she loses 12.5 HP to knights while
-    the enemy loses 5.1 to ours.
-  - In the races we win, she has two towers, and the exchange turns: 5.9 against 8.7.
+  - In the races we lose, the next 20 turns cost her 12.5 HP to knights while the enemy loses 5.1 to ours. In those we
+    win, the exchange turns: 5.9 against 8.7.
   - After turn 50 the gap barely moves until turn 200.
+  - **A correction (the same day, `first_wave.py`, `first_wave.txt`).** The towers at the contact were first reported
+    by their medians: one in lost races, two in won ones. The means are 1.6 and 1.7, and the two kinds also meet the
+    same wave at the same turn. The queen behaves the same during it, and our tower HP, income and barracks timing
+    match. What differs is that the enemy knights stay within 250 of her on 13.0 of the 20 turns in lost races,
+    against 10.7. At the same contact timing (turns 22-27), a second tower cuts the first-contact loss from 16.8 to 10.0
+    HP, but the share of games won only moves from 57 % to 61 %. The tower count does not separate the races.
 - **The last 50 turns widen a lost race.** In lost races we lose 6.5 HP to knights on turns 200-250 against the enemy's
   2.8. We are behind at turn 200 in 41 of the 44, where the late hold (from turn 200, only when ahead) does nothing.
 - **The margins are small.** The median lost race ends 12 HP down, and 21 of the 44 within 10 HP.
@@ -112,6 +117,79 @@ v11 scores about what its rating predicts in each group: no sign of Silver's pat
   pressure, which Gold's field shows little of.
 - **`boss`** stays a floor: its games end early (median turn 50), and v11 wins all 200.
 
+### 6. The first wave in the replays (added 2026-11-07, the user's "Да, разбирай")
+
+**Tool.** `cr.tools.WaveTrace` (`./gradlew waveTrace -Pagents=6857463,6858567 -Pout=replays/study/gold-2026-11-07/waves
+-Preplays="<the two Gold games dirs>"`) replays each game with the recorded commands. From three turns before the first
+contact to 29 after, it writes per turn:
+- our queen: position, HP, the loss to knights and to towers, the command, the distance moved;
+- the own towers covering her, and every own tower with its HP, range and distance;
+- the enemy knights within 250 and 500, their HP, the nearest, and how many stand inside our tower ranges;
+- our towers' damage and kills against them, from a probe without our towers; the enemy queen's distance, our knights,
+  and the enemy spawns.
+It writes one file per game and a `summary.csv` of the window metrics: 171 games with a contact, sha256
+`65f5c722206f489d…` for the summary. The output is gitignored, in the main checkout's `replays/study/gold-2026-11-07/waves/`.
+
+**Method.** A workflow of 18 agents over the 106 races (`wave_workflow.json` holds its whole result):
+- six readers took about 18 races each, lost and won mixed, and wrote a narrative per game with patterns and
+  hypotheses;
+- a consolidator merged them into nine measurable hypotheses;
+- one verifier per hypothesis computed it over all 106 races, with bootstrap CIs, Mann-Whitney tests and strata of
+  the contact turn and of the towers at contact, and tried to refute it;
+- a synthesizer ranked the survivors, and a skeptic recomputed the claims and challenged them.
+
+The headline numbers are recomputed by `wave_mechanisms.py` (`wave_mechanisms.txt`).
+
+**What decides the first wave:**
+1. **Where the queen meets it.**
+   - Lost races meet it further forward: our queen is 444 from our own back edge, against 380 (difference +64, CI
+     +15..+121).
+   - Split at the median, 406:
+     - forward half: lost races lose 15.8 HP, won ones 5.6;
+     - back half: 6.2 against 6.0, no gap.
+   - Forward contacts come with forward own towers, the ladder's layout. They also come with the queen moving toward
+     the enemy: a defence walk to a forward free site, or a kite step.
+2. **Merged waves.** The enemy's next group arrives while the first is still on her (a turn with a knight within 250
+   followed by 2 or more new knights within 500).
+   - Incidence: 19 of 44 lost races against 7 of 62 won, an odds ratio about 7 and significant in every stratum.
+   - Location: 20 of the 26 merges are in the forward half.
+   - The loss from the first merge on is 7.5 HP against 0.6, the whole gap. Without merges, lost and won races lose the
+     same: 6.7 against 5.7.
+   - On the merge turn our queen moved toward the enemy in 10 of the 19 lost merges, against 27 % of other threatened
+     turns (the skeptic, p 0.016). So the merge is partly ours, not only the opponent's timing.
+3. **Standing within reach** (an amplifier). When `kite()` finds no step that gains 5, she tops up her tower or the
+   flee rule BUILDs it with knights in reach.
+   - HP lost: 3.6 against 0.8 (difference +2.8, CI +0.9..+5.2). Such turns occur in 17 of 44 lost races and 11 of 62
+     won.
+   - At the same crowd, a standing turn costs 2.6 HP against 1.25 for a kite step, in 18 of 19 games.
+   - Mostly it is pumping a tower the defence rule built during the wave.
+   - Fragile: the three costliest lost races hold 45 % of it. The forgone top-ups have a later value (917982299:
+     pumping from 196 to 580 HP made the later kiting possible).
+
+**Not the cause** (refuted or weak):
+- the walk-and-build of the defence tower as such (+1.4 HP, CI through 0);
+- a kite step leaving the 500 circle and re-firing the defence rule (equally frequent in won races; decisive only in two
+  forward walks);
+- a BUILD that cannot land;
+- kiting covered by one tower;
+- knights held behind a site;
+- the board edge.
+
+**Candidate rules, in the order the evidence supports:**
+- **A. Meet the first wave back.** While an enemy knight wave is on its way or on her, do not move the queen forward:
+  - the defence rule skips free sites toward the enemy and the knights;
+  - the ladder defers forward targets;
+  - a kite step does not move toward the enemy.
+  It acts on the forward half, where the whole gap sits, and on the merges it brings.
+- **B. Never stand with a knight in reach** (`kite()` forced to a covered step with a knight within 155). It is
+  supported per turn, but small (about 1.3 HP of the gap) and fragile. It also fires in won races, and the top-ups it
+  gives up have a later value.
+- **C. Hysteresis on the defence rule's 500 radius.** Narrow: six races each way.
+
+**Local check first.** Whether the local opponents produce forward contacts and merged waves is unknown. `LocalProfile`
+(or `WaveTrace` adapted to local games) should record the forward distance at the contact, merges and standing turns
+within reach before a candidate is screened.
+
 ## What follows
 
 **A proposal for the Gold validation (PV5).** The user adopted it as proposed on 2026-11-07; the policy text is in
@@ -129,10 +207,11 @@ v11 scores about what its rating predicts in each group: no sign of Silver's pat
   - The user chose Bronze's 2.46 on 2026-11-07 (`docs/arena-uploads.md`, Gold noise margin).
 
 **Candidates, in the order the evidence supports:**
-1. **A second tower before the first wave.** In the HP races we lose, the first wave meets one tower and costs 12.5 HP;
-   in those we win, it meets two and costs 5.9. The 2026-11-05 version (`WAVE_TOWERS`, `TOPUP_FROM`, off) lost on
-   the development seeds against v08, with the queen dying twice as often. A retry would start from v11, with the mirror
-   as the measure of the first wave, and has to answer why the second tower cost HP before.
+1. **A second tower before the first wave.** The premise came from the medians corrected above. The 2026-11-05 flags
+   (`WAVE_TOWERS`, `TOPUP_FROM`), retried over v11 the same day, lose again on the development seeds: S about 0.45
+   against v11, and 2.5-7 pp against `field` and `rival` (`docs/data/exp-2026-11-07-first-wave-gold/`). Rejected.
+   What decides the first wave in lost races (the knights staying on the queen longer) is still to be seen in the
+   replays.
 2. **The last 50 turns of a race we trail.** We lose 6.5 HP to knights on turns 200-250 while behind in 41 of the 44
    lost races. The late hold acts only when ahead; a rule for the trailing side is open (more knights, or no
    exposure).

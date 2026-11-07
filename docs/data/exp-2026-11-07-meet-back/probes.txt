@@ -1,0 +1,4 @@
+Seeds 1 + 397 k, k < 500; each map on both seats. S against v11 with its 95 % CI and the maps whose games differ from v11's mirror; rival and field: the arm's map score minus v11's on the same maps (v11 scores 0.7570 against rival, 0.9420 against field) and the maps whose games differ.
+arm                                  S vs v11                   changed   delta vs rival               changed   delta vs field               changed   candidate failures
+THREAT_RADIUS=350                    0.3925 (0.3652..0.4198)    446       -0.1025 (-0.1339..-0.0711)   479       -0.0325 (-0.0543..-0.0107)   438       0
+KITE_PULL=200                        0.5035 (0.4779..0.5291)    469       -0.0080 (-0.0366..+0.0206)   490       -0.0025 (-0.0187..+0.0137)   472       {'slow': 11}

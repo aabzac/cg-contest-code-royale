@@ -72,6 +72,22 @@ tasks.register('cgStudy', JavaExec) {
     args([prop('out', 'build/study.csv')] + prop('replays', 'replays/cg2').split(' ').toList())
 }
 
+// The enemy's first knight wave against our queen, turn by turn, in recorded CG games (cr.tools.WaveTrace):
+// -Pagents=<agentId,agentId...> -Pout=<directory> -Preplays=<dirs or files, space-separated>
+tasks.register('waveTrace', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.tools.WaveTrace'
+    args([prop('agents', ''), prop('out', 'build/waves')] + prop('replays', '').split(' ').toList())
+}
+
+// Local games turn by turn for one side, in DeathTrace's columns (cr.tools.LocalTrace): -PbotA=<spec> -PbotB=<spec>
+// [-Pmode=all|last=N|-] -Pgames="<seed:seat[:from-to]> ..." (botA plays on the given seat)
+tasks.register('localTrace', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.tools.LocalTrace'
+    args([prop('botA', 'current'), prop('botB', 'v11'), prop('mode', '-')] + prop('games', '1:0').split(' ').toList())
+}
+
 // Our queen's turns under enemy tower fire in recorded CG games, by what she was doing (cr.tools.TowerFire):
 // -Pagents=<agentId,agentId...> [-Plines=1] -Preplays=<dirs or files, space-separated>
 tasks.register('towerFire', JavaExec) {

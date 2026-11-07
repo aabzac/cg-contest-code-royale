@@ -1,0 +1,4 @@
+Seeds 1 + 397 k, k < 500; each map on both seats. S against v11 with its 95 % CI and the maps whose games differ from v11's mirror; rival and field: the arm's map score minus v11's on the same maps (v11 scores 0.7570 against rival, 0.9420 against field) and the maps whose games differ.
+arm              S vs v11                   changed   delta vs rival               changed   delta vs field               changed   candidate failures
+WAVE_TOWERS=2    0.4515 (0.4185..0.4845)    498       -0.0590 (-0.0972..-0.0208)   500       -0.0295 (-0.0518..-0.0072)   499       {'slow': 11}
+TOPUP_FROM=2     0.4470 (0.4142..0.4798)    493       -0.0725 (-0.1098..-0.0352)   496       -0.0250 (-0.0461..-0.0039)   478       0

@@ -178,7 +178,16 @@
 - [x] Study of v11's Gold games: the HP races, the first wave, the local panel (`docs/data/study-2026-11-07-gold/`)
 - [x] PV5 for Gold: the panel and the gates kept (2026-11-07, the user's decision; `docs/local-screen.md`)
 - [x] Gold's noise margin for P1: Bronze's 2.46 (2026-11-07, the user's decision; `docs/arena-uploads.md`)
-- [ ] The second tower before the first wave, retried from v11 (`docs/data/study-2026-11-07-gold/`)
+- [x] The second tower before the first wave, retried from v11: rejected on the development seeds
+  (`docs/data/exp-2026-11-07-first-wave-gold/`)
+- [x] What decides the first wave in the Gold races we lose: the replays, `cr.tools.WaveTrace` and an agent study
+  (`docs/data/study-2026-11-07-gold/`, section 6)
+- [x] Meet the first wave back: no forward defence sites, ladder targets or kite steps while an enemy wave is coming
+  (`docs/data/exp-2026-11-07-meet-back/`: the ladder's anchor to turn 30 passed P2 and is v12; the defence limit rejected)
+- [ ] v12 on the arena, if the user decides: two Gold placements and P1 against v11 (the final evaluation, the artifact
+  and both procCheck are done, `docs/data/exp-2026-11-07-meet-back/`)
+- [x] Never stand at a tower with a knight within 155 (same study; `STAND_REACH`, rejected in
+  `docs/data/exp-2026-11-07-meet-back/`)
 - [ ] The last 50 turns of a race we trail (same study)
 - [ ] The queen's top-ups and flights to own towers under enemy tower fire (same study)
 - [ ] Deaths around turn 140 against opponents with twice our income and a standing knight army (same study)
