@@ -219,6 +219,31 @@ public final class Params {
      * study: standing at an own tower with a knight within 155 cost 2.6 HP a turn against 1.25 for a kite step.
      */
     public int STAND_REACH = 0;
+    /**
+     * WAVE_TOWER_HP=H &gt; 0: while fewer than 2 own towers stand and an enemy knight wave is coming (an enemy knight barracks
+     * trains, or enemy knights are on the board), the queen tops up the own tower she touches only while its HP is below H
+     * instead of TOWER_HP, so she leaves for the second tower earlier (0: off, as v01-v12). From the study of 2026-11-08
+     * (docs/data/study-2026-11-08-next-step): in v12's Gold HP races the first wave is lost when the second tower stands
+     * after the contact (the contact at turn 24.5, the tower at 25.2; the tower 3 or more turns before the contact: 25 % of
+     * the races lost and 1.4 HP to the wave, 3 or more after: 63 % and 11.6 HP), and the first tower got 6 top-ups before
+     * the walk to the second. Unlike WAVE_TOWERS and TOPUP_FROM (rejected twice: the first tower stayed at 200 HP and
+     * melted), the first tower keeps a partial pump. Experiment docs/data/exp-2026-11-09-meet-waves.
+     */
+    public int WAVE_TOWER_HP = 0;
+    /**
+     * LADDER_CLEAR=R &gt; 0: after the first-wave window (WAVE_ANCHOR's: an enemy knight barracks or knight out, before
+     * WAVE_UNTIL) and once 2 own towers stand, while an enemy knight is within R of the queen and none within THREAT_RANGE,
+     * the walk to the ladder's next site (and INCOME_LATE's site, and the idle walk to the home tower) is replaced by a walk to
+     * her nearest own tower not under an enemy tower, a top-up when she touches it, for at most LADDER_CLEAR_MAX consecutive
+     * turns a spell (0: no cap); 0: off, as v01-v12. The defence rule, kiting, the flight and the touch rule are unchanged.
+     * Same study: in the lost Gold races 200 of 360 contact episodes on turns 50-249 began while she walked to a site, at
+     * 2.04 HP each against 0.97 for those met at an own tower, and a knight was within 500 before 197 of the 199.
+     * 500 by default since v13 (2026-11-09: P2 docs/data/exp-2026-11-09-meet-waves, PV3 screen block 6, S 0.5960 against
+     * v12, field +5.1 pp, rival +7.5 pp; the plateau 400-600 on the development seeds, the spell cap does nothing; the
+     * user's decision); 0 in v01-v12.
+     */
+    public int LADDER_CLEAR = 500;
+    public int LADDER_CLEAR_MAX = 0;
     public long SEED = 1;
     public int DEBUG = 0;
 

@@ -51,16 +51,18 @@ Result in strict mode (no corrections): **97/98 and 137/138 games match on every
    - 917985146 (v11 upload 4, Gold, 2026-11-07, turn 250, 35:35; player 0 was the opponent);
    - 917987888 (v11 upload 4, Gold, 2026-11-07, turn 250, 68:68; player 0 was us);
    - 918143672 (v12 upload 1, Gold, 2026-11-07, turn 250, 75:75; player 0 was us);
-   - 918166983 (v12 upload 2, Gold, 2026-11-07, turn 250, 51:51; player 0 was us).
+   - 918166983 (v12 upload 2, Gold, 2026-11-07, turn 250, 51:51; player 0 was us);
+   - 919175620 (v13 upload 1, Gold, 2026-11-09, turn 250, 70:70; player 0 was us).
 
-   The game result (`gameResult/findByGameId`) ranks player 0 first in all sixteen, while the simulator
-   calls a draw (`winner 0 vs -1`). A tie-break by seat would fit all sixteen; it is not adopted on sixteen
+   The game result (`gameResult/findByGameId`) ranks player 0 first in all seventeen, while the simulator
+   calls a draw (`winner 0 vs -1`). A tie-break by seat would fit all seventeen; it is not adopted on seventeen
    samples. No game of v01's 180 placement games had equal scores.
 
    The battle list (`findLastBattlesByAgentId`) says otherwise: it gives both players position 0, a draw,
-   in each of our fourteen such games with saved lists. That is every saved list that holds the finished game:
-   80, 48, 24, 16, 27, 4, 15, 20, 9, 3, 19, 10, 33 and 12 lists for 913398184, 913453290, 913522461, 916297591,
-   916719390, 917804072, 917810075, 917833240, 917834882, 917850788, 917985146, 917987888, 918143672 and 918166983. Which of the
+   in each of our fifteen such games with saved lists. That is every saved list that holds the finished game:
+   80, 48, 24, 16, 27, 4, 15, 20, 9, 3, 19, 10, 33, 12 and 12 lists for 913398184, 913453290, 913522461, 916297591,
+   916719390, 917804072, 917810075, 917833240, 917834882, 917850788, 917985146, 917987888, 918143672, 918166983 and
+   919175620. Which of the
    two CG's rating uses is not known. The manifests and `arena_compare.py` count by the game result's
    ranks, so such a game is a win for player 0. The battle-list summaries of `arena_snapshot.py` count it as
    neither: 47 wins against the manifest's 48 in v08 upload 5.

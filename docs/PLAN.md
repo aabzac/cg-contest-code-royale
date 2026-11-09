@@ -191,6 +191,28 @@
 - [ ] The last 50 turns of a race we trail (same study)
 - [ ] The queen's top-ups and flights to own towers under enemy tower fire (same study)
 - [ ] Deaths around turn 140 against opponents with twice our income and a standing knight army (same study)
+- [x] Study of v12's 180 Gold games and the next step (2026-11-08, `docs/data/study-2026-11-08-next-step/`): the races
+  are a steady bleed (their waves reach our queen twice as often), the first wave is lost when the second tower stands
+  after the contact, the midgame HP goes on walks into visible waves, the deaths are economic collapses; the seat
+  asymmetry is the engine's; the Legend corpus and the Gold ladder (top 26.54, boss above) recorded
+- [x] Next step from that study (2026-11-09, `docs/data/exp-2026-11-09-meet-waves/`): `WAVE_TOWER_HP` moves its mechanism
+  (the second tower 2 turns earlier relative to the contact) without a score, off; `LADDER_CLEAR=500` (no ladder walk
+  while an enemy knight is within 500 after the first-wave window; the nearest covered own tower instead) passes the P2
+  screen on screen-pv3 block 6: S 0.5960 against v12, field +5.1 pp, rival +7.5 pp; the local champion by P2
+- [x] `LADDER_CLEAR=500` the `current` default and frozen as v13 (2026-11-09, the user's decision), the architecture page
+  rewritten; the final evaluation against v12 on evaluation-pv3 block 2 passed (S 0.5958, field +4.3 pp, rival +6.6 pp,
+  G0 by a quiet repeat); artifact `85897d90` checked by both `procCheck` (`docs/data/exp-2026-11-09-meet-waves/`)
+- [x] v13 upload 1 in Gold (2026-11-09, an exception, S 0.596 below 0.60): agent 6868408, placement 21.95, rank 18/348,
+  SAME 90/90; +1.59 against v12's mean, inside M (`docs/arena-uploads.md`)
+- [x] v13 upload 2 in Gold (2026-11-09): agent 6868474, placement 21.65, rank 22/348, SAME 90/90; P1 against v12: mean 21.80
+  against 20.36, not clearly worse, **v13 selected** (`docs/arena-uploads.md`)
+- [ ] Commit the v13 freeze and the records (the artifact's rollback store is the commit); merge into master
+- [ ] Next strength step over v13: the study's second lever is the economy (mines far from the home corner, no idle
+  pumping after the ladder) now that the walks are safe; the first-wave cap is parked (`docs/data/exp-2026-11-09-meet-waves/`)
+- [ ] Companion flags for the same artifact: the TRAIN_SYNC release at the end of the game and at a kill shot; the
+  enemy-range guard on the flight and the idle pump (a targeted fix); per-seat scores in `tools/bench_pair.py` (same study)
+- [ ] After the walks are safe: the economy step (mines far from the home corner, no idle pumping after the ladder; the
+  opponents reader of the same study)
 - [x] Organize our arena replays by version, league and upload; downloaders use the registry (`docs/arena-uploads.md`, Replay storage)
 - [ ] Find the gap (older item): the 77 lost placement games of v01's three uploads (`replays/arena/v01/bronze/upload-<NN>/games`,
   manifests `docs/data/arena-<agent>-games-2026-10-29.json` for 6823071, 6823455 and 6824680)

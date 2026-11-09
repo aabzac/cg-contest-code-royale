@@ -1209,3 +1209,65 @@ logistic scale is 3.04, refitted on the four Gold uploads; v11's rating moves fr
 - **Local against arena:** P2's final evaluation gave S 0.5716 against v11, below the 0.60 recommendation, and the
   arena moved +3.3 points. The local panel undervalued this change, like v08's.
 - **Placement speed:** 22 and 24 minutes from the agent's creation.
+
+## Eleventh candidate: v13 (no ladder walk into a visible wave), upload 1 (2026-11-09)
+
+v13 = v12 with `LADDER_CLEAR=500` (`docs/data/exp-2026-11-09-meet-waves/`: P2 screen S 0.5960 on block 6, final
+evaluation S 0.5958 on evaluation block 2, below the 0.60 recommendation by 0.004; uploaded as an exception by the user's
+decision). The user pasted the kept copy `artifacts/85897d90/Player.java` after one IDE game against the boss.
+- **The follow stopped once.** `python -B -I tools/arena.py follow v13 --selected v12` without `--artifact` saved v12
+  upload 2 (21:03:38) and, for a new label, expected the main checkout's `build/submit/Player.java`, which still held
+  v12's `3208b011` (v13 was built in a worktree). It saw agent 6868408 at 21:06:35 and stopped at 21:06:41 because the
+  agent played build `a19a87ca`, not `58d513ae`. The paste was right; the default was wrong. The rerun with
+  `--artifact artifacts/85897d90/Player.java` (21:09:40) found the agent, checked game 919171235 (build `a19a87ca`),
+  registered it at 21:09:45 and followed the placement to its end at 21:29:49. Lesson in `.ai/project.md`'s arena row
+  and the tool's own message: a label's first upload from a worktree needs `--artifact`.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v13/upload-1 (Gold) | 6868408 | 21.95, rank 18/348 | 90 | 57.8 ± 5.2 | 27 of 41 | 25 of 49 | 21.81 | 22.20 ± 0.67 |
+| v12 in Gold, uploads 1 and 2 | | mean 20.36, SD 1.01 | 180 | | | | 19.51-19.72 | 20.38 ± 0.48 at scale 3.04 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it (upload 1's `checks/arena-compare.json`); Gold's
+logistic scale is refitted at 2.99 on the five Gold uploads.
+- **Same code:** `cgAttribute` finds every game identical to `85897d90`: SAME 90/90, 19,341 turns. The marker `a19a87ca`
+  is in all 90.
+- **The referee removed the opponent** in 919171244 (Aa123456, a timeout on turn 2), an ordinary win.
+- **Equal scores:** 919175620 against the opponent at 70:70 on turn 250 with us as player 0, ranked a win: the
+  seventeenth such game (`docs/rules/inferred.md`).
+- **The field was strong:** the opponents' median 21.81 against 19.5-19.7 in v12's placements; 11 games against
+  players rated 23 or more (5 of 11), 53 against 20-23 (0.53), 25 against players below 20 (0.72).
+- **P1 against v12 after upload 1:** 21.95 against the mean 20.36 (+1.59; M 2.46): no early rollback (that would need a
+  score below 20.36 − 4.93), the second upload decides.
+
+### Upload 2 and the P1 verdict (2026-11-09): v13 selected
+
+`tools/arena.py follow v13 --selected v12` (started 21:31:08; the kept copy is the default for a known label) saved upload
+1, named the file, saw agent 6868474 at 21:35:15 (10 % played), checked game 919179259 (build `a19a87ca`) and registered
+it at 21:35:20; the placement completed at 21:54:29.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v13/upload-1 (Gold) | 6868408 | 21.95, rank 18/348 | 90 | 57.8 ± 5.2 | 27 of 41 | 25 of 49 | 21.81 | 22.14 ± 0.61 |
+| v13/upload-2 (Gold) | 6868474 | 21.65, rank 22/348 | 90 | 61.1 ± 5.1 | 25 of 39 | 30 of 51 | 20.44 | 21.36 ± 0.61 |
+| v13 in Gold, both | | mean 21.80, SD 0.21 | 180 | | | | | 21.75 ± 0.43 |
+| v12 in Gold, uploads 1 and 2 | | mean 20.36, SD 1.01 | 180 | | | | 19.51-19.72 | 20.27 ± 0.45 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it (upload 2's `checks/arena-compare.json`); Gold's
+logistic scale is refitted at 2.71 on the six Gold uploads, which moves v12's rating from 20.38 to 20.27 and upload 1's
+from 22.20 to 22.14.
+- **Same code:** `cgAttribute` finds every game identical to `85897d90`: SAME 90/90 in upload 2 (18,930 turns), as in
+  upload 1 (19,341). The marker `a19a87ca` is in all 180.
+- **No referee removal and no equal score** in upload 2; 58 of 90 games reached turn 250.
+- **The field:** upload 2's opponents' median 20.44 (upload 1: 21.81); 58 games against players rated 20-23 (30 points),
+  24 against 17-20 (17), 8 below 17 (8).
+- **P1 verdict against v12.** M is 2.46, borrowed from Bronze. Gold's own M is now 2.09 on 3 df (pooled SD from the
+  pairs (19.64, 21.07), (18.13, 16.03) and (21.95, 21.65)), printed as context.
+  - Mean: 21.80 against 20.36, +1.44 against −M = −2.46.
+  - Performance: 21.75 ± 0.43 against 20.27 ± 0.45, +1.48 against −2 SE = −1.23.
+  - Neither rollback condition holds: **v13 is the selected version** (2026-11-09). Its artifact `85897d90` is the
+    rollback artifact for the next candidate.
+  - The difference is inside M: "not clearly worse", not a proven gain; the two placements of v13 are 0.30 apart, the
+    tightest pair so far.
+- **Local against arena:** P2's final evaluation gave S 0.5958 against v12 and the arena moved +1.44 points (v12's
+  0.5716 had moved +3.28). The local S of a change the arena rewards is not a predictor of its size.

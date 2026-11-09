@@ -9,8 +9,8 @@
   "evaluation": "closed 2026-11-05 by PV3 (as the screen pool); was block k = seeds 400000 + 2000 k .. + 1999; its verdicts stand"
  },
  "next": {
-  "screen-pv3": 6,
-  "evaluation-pv3": 2,
+  "screen-pv3": 7,
+  "evaluation-pv3": 3,
   "screen": null,
   "evaluation": null
  },
@@ -300,6 +300,28 @@
    "control": "v11 (the selected version)",
    "series": "direct and mirror on 2000 maps; v12 and v11 against field and rival on 2000 maps (G4, G5); v12 and v11 against boss on the first 500 maps (3 threads, 200 ms)",
    "verdict": "S 0.5716 (CI 0.5587-0.5845) against v11, 1299 of 2000 maps changed; G2 boss delta 0.0000; G4 field delta -0.0123 (CI -0.0196..-0.0049); G5 rival delta +0.0163 (CI +0.0022..+0.0303); G0: no candidate failure in 13000 games; G3 skipped (no old). G0-G2, G4 and G5 pass; S < 0.60: no upload recommendation; any upload is the user's decision"
+  },
+  {
+   "pool": "screen-pv3",
+   "k": 6,
+   "seeds": "1006000000 + 397 i, i < 2000",
+   "date": "2026-11-09",
+   "experiment": "docs/data/exp-2026-11-09-meet-waves",
+   "candidate": "current?LADDER_CLEAR=500 (no ladder walk while an enemy knight is within 500, after the first-wave window and with two towers up; the nearest covered own tower instead)",
+   "control": "v12 (the local champion and the selected version)",
+   "series": "direct and mirror on 2000 maps; candidate and v12 against field and rival on 2000 maps (G4, G5); candidate and v12 against boss on the first 500 maps (3 threads, 200 ms); the field series repeated at 2 threads for G0 (the same 4000 games, no slow turn)",
+   "verdict": "pass: S 0.5960 (CI 0.5817-0.6103) against v12, 1931 of 2000 maps changed; G2 boss delta 0.0000; G4 field delta +0.0510 (CI +0.0414..+0.0606); G5 rival delta +0.0747 (CI +0.0588..+0.0907); G0 by the quiet repeat (one slow turn in the first field run at 8 threads); G3 skipped (no old). The local champion by P2; the default and a freeze await the user's decision"
+  },
+  {
+   "pool": "evaluation-pv3",
+   "k": 2,
+   "seeds": "2002000000 + 397 i, i < 2000",
+   "date": "2026-11-09",
+   "experiment": "docs/data/exp-2026-11-09-meet-waves",
+   "candidate": "v13 (the local champion: v12 with no ladder walk into a visible wave, LADDER_CLEAR=500)",
+   "control": "v12 (the selected version)",
+   "series": "direct and mirror on 2000 maps; v13 and v12 against field and rival on 2000 maps (G4, G5); v13 and v12 against boss on the first 500 maps (3 threads, 200 ms); the field series repeated at 2 threads for G0 (the same 4000 games, no slow turn)",
+   "verdict": "S 0.5958 (CI 0.5819-0.6096) against v12, 1942 of 2000 maps changed; G2 boss delta 0.0000; G4 field delta +0.0434 (CI +0.0342..+0.0526); G5 rival delta +0.0661 (CI +0.0505..+0.0817); G0 by the quiet repeat (5 slow turns in the first field run at 8 threads; v12's own series had 2 and 1); G3 skipped. Below the 0.60 upload recommendation by 0.004: an upload is the user's decision"
   }
  ]
 }

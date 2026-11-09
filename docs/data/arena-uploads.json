@@ -879,7 +879,69 @@
    "snapshots": "docs/data/arena-6860166-placement-2026-11-07.json",
    "games": "docs/data/arena-6860166-games-2026-11-07.json",
    "submittedBy": "the user in the IDE (registered by tools/arena.py follow)",
-   "attribution": "cgAttribute against the kept copy artifacts/3208b011/Player.java: SAME in 90 of 90 games, 19,304 turns; markers {58d513ae=90} (tools/arena.py, 2026-11-07)"
+   "attribution": "cgAttribute against the kept copy artifacts/3208b011/Player.java: SAME in 90 of 90 games, 19,304 turns; markers {58d513ae=90} (tools/arena.py, 2026-11-07)",
+   "replaced": "2026-11-09T21:05:53+02:00 by v13 upload 1"
+  },
+  {
+   "label": "v13",
+   "upload": 1,
+   "agent": 6868408,
+   "submission": 41678241,
+   "league": "gold",
+   "artifact": {
+    "sha256": "85897d90c377ada9354eb5238081aa16c3bfb6c6de3bca4a88ae089d6bc9cddd",
+    "build": "a19a87ca",
+    "config": "0c433665",
+    "source": "artifacts/85897d90/Player.java, 89252 chars, PARAMS \"\"; kept copy artifacts/85897d90/Player.java"
+   },
+   "created": "2026-11-09T21:05:53+02:00",
+   "placement": {
+    "score": 21.95,
+    "rank": 18,
+    "agents": 348,
+    "games": 90,
+    "firstCompleteSnapshot": "2026-11-09T21:29:45+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-09T21:29:05+02:00 (leaderboard updateTime)",
+    "globalRank": 132,
+    "eligibleForPromotion": false,
+    "note": "followed by tools/arena.py from 2026-11-09T21:09:45+02:00 at 21 %; every snapshot in checks/arena.log"
+   },
+   "snapshots": "docs/data/arena-6868408-placement-2026-11-09.json",
+   "games": "docs/data/arena-6868408-games-2026-11-09.json",
+   "submittedBy": "the user in the IDE (registered by tools/arena.py follow)",
+   "attribution": "cgAttribute against the kept copy artifacts/85897d90/Player.java: SAME in 90 of 90 games, 19,341 turns; markers {a19a87ca=90} (tools/arena.py, 2026-11-09)",
+   "replaced": "2026-11-09T21:34:32+02:00 by v13 upload 2"
+  },
+  {
+   "label": "v13",
+   "upload": 2,
+   "agent": 6868474,
+   "submission": 41678427,
+   "league": "gold",
+   "artifact": {
+    "sha256": "85897d90c377ada9354eb5238081aa16c3bfb6c6de3bca4a88ae089d6bc9cddd",
+    "build": "a19a87ca",
+    "config": "0c433665",
+    "source": "the same bytes as v13 upload 1; kept copy artifacts/85897d90/Player.java"
+   },
+   "created": "2026-11-09T21:34:32+02:00",
+   "placement": {
+    "score": 21.65,
+    "rank": 22,
+    "agents": 348,
+    "games": 90,
+    "firstCompleteSnapshot": "2026-11-09T21:54:25+02:00",
+    "watched": true,
+    "lastUpdate": "2026-11-09T21:54:10+02:00 (leaderboard updateTime)",
+    "globalRank": 136,
+    "eligibleForPromotion": false,
+    "note": "followed by tools/arena.py from 2026-11-09T21:35:20+02:00 at 10 %; every snapshot in checks/arena.log"
+   },
+   "snapshots": "docs/data/arena-6868474-placement-2026-11-09.json",
+   "games": "docs/data/arena-6868474-games-2026-11-09.json",
+   "submittedBy": "the user in the IDE (registered by tools/arena.py follow)",
+   "attribution": "cgAttribute against the kept copy artifacts/85897d90/Player.java: SAME in 90 of 90 games, 18,930 turns; markers {a19a87ca=90} (tools/arena.py, 2026-11-09)"
   }
  ],
  "legacyUploads": [

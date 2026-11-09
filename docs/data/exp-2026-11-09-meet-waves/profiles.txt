@@ -1,0 +1,29 @@
+Seeds 1 + 397 k, k < 200, both seats (400 games). contact: the first contact's turn and our towers then (medians); loss20: the first-wave loss to knights in the 20 turns from it (mean); t2-c: the second tower's turn minus the contact turn (median / mean over games with both); walk, tower: the midgame contact episodes (turns 50-249) begun on a walk to a site / at an own tower, as episodes a game, HP a game and HP per episode (means); hp, tw: the queen's HP and own towers at turns 50 and 100 (medians); thp50: summed tower HP at turn 50 (median); gold: gold mined (mean).
+arm vs opponent                           win %  dead  contact loss20       t2-c   walk ep/HP/per  tower ep/HP/per hp 50/100      tw  thp50   gold
+v12-v12                                    47.0    21   25 / 2    4.4   0 / -0.1      3.3/4.9/1.5      3.0/2.2/0.7     60/58     3/4   1660  812.2
+v12-rival                                  76.0    39   26 / 2    4.0  -1 / -1.0      4.5/5.9/1.3      4.1/4.1/1.0     60/59     3/4   1652  729.7
+v12-field                                  94.3    13   21 / 1    5.7    3 / 2.3      8.0/4.6/0.6      3.9/1.3/0.3     60/60     3/4   1992  579.7
+LADDER_CLEAR-500-v12                       57.8    18   25 / 2    4.2   0 / -0.3      0.6/1.9/3.0      6.2/3.1/0.5     60/60     3/4   1548  807.1
+LADDER_CLEAR-500-rival                     81.3    30   26 / 2    3.8  -1 / -1.2      0.8/1.6/2.0      8.9/6.2/0.7     61/63     3/4   1624  725.4
+LADDER_CLEAR-500-field                     97.8     3   21 / 1    5.7    3 / 2.3      1.0/0.3/0.3     11.9/1.3/0.1     60/61     3/4   1908  572.5
+LADDER_CLEAR-400-v12                       54.5    19   25 / 2    4.2   0 / -0.3      1.1/2.4/2.2      5.3/3.2/0.6     60/60     3/4   1616  807.8
+LADDER_CLEAR-400-rival                     83.8    19   26 / 2    3.8  -1 / -1.2      1.7/1.9/1.1      7.6/4.8/0.6     61/62     3/4   1676  731.7
+LADDER_CLEAR-400-field                     96.0     7   21 / 1    5.7    3 / 2.3      2.5/1.1/0.5      9.8/1.2/0.1     60/60     3/4   1980  585.7
+WAVE_TOWER_HP-500-v12                      49.5     9   25 / 2    3.3  -2 / -1.9      3.3/4.7/1.4      3.3/2.6/0.8     60/60     3/4   1596  812.8
+WAVE_TOWER_HP-500-rival                    78.3    38   26 / 2    3.0  -2 / -2.6      4.8/6.2/1.3      4.1/4.4/1.1     62/60     3/4   1620  740.3
+WAVE_TOWER_HP-500-field                    92.5    15   22 / 1    4.2    1 / 0.8      8.1/5.2/0.6      4.0/1.8/0.4     60/60     3/4   1848  574.6
+
+HP flow by phase (means a game over the 400 games; turns 0-49 | 50-99 | 100-149 | 150-199 | 200-249, then the sum of turns 50-249): what our queen loses to the enemy knights, and what the enemy queen loses to our knights.
+arm vs opponent                          our queen to enemy knights       50-249   enemy queen to our knights       50-249
+v12-v12                                    4.6   2.7   2.0   2.7   1.3       8.7     4.6   2.7   2.0   2.7   1.3       8.7
+v12-rival                                  4.2   3.1   2.0   4.3   3.4      12.8    12.7   3.5   3.3   5.3   4.2      16.3
+v12-field                                  5.9   2.4   1.9   1.8   0.7       6.8    17.9   8.5   4.6   6.8   4.4      24.3
+LADDER_CLEAR-500-v12                       4.3   1.0   1.6   2.1   1.0       5.7     4.6   2.7   1.8   2.0   1.7       8.2
+LADDER_CLEAR-500-rival                     3.9   0.9   1.3   3.6   3.5       9.3    12.6   3.7   2.5   4.5   4.5      15.2
+LADDER_CLEAR-500-field                     5.8   0.4   0.4   0.7   0.3       1.8    18.0   8.6   3.5   5.6   3.9      21.6
+LADDER_CLEAR-400-v12                       4.4   1.3   1.5   2.2   1.7       6.7     4.6   2.6   2.1   2.3   1.5       8.5
+LADDER_CLEAR-400-rival                     3.9   1.5   1.3   2.8   2.8       8.4    12.6   3.5   3.0   4.8   4.5      15.8
+LADDER_CLEAR-400-field                     5.7   0.9   0.5   1.0   0.4       2.8    17.9   8.7   4.1   6.3   4.6      23.7
+WAVE_TOWER_HP-500-v12                      3.4   2.7   2.1   2.9   1.2       8.9     4.6   2.8   1.9   2.6   1.3       8.6
+WAVE_TOWER_HP-500-rival                    3.1   3.3   2.3   4.0   3.7      13.3    12.9   3.5   2.7   5.2   4.3      15.7
+WAVE_TOWER_HP-500-field                    4.4   2.6   2.5   2.4   0.8       8.3    17.9   8.5   4.6   5.9   4.2      23.2

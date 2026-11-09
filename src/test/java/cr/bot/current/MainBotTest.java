@@ -16,21 +16,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MainBotTest {
     /** v01's and v02's parameters besides UNSTICK (ROUTE=0: the planner would replace UNSTICK; MINES_FIRST=0: the barracks first): the captured positions and the audit's games were played with them. */
-    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0," + "BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,";
+    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0," + "BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,";
     /** v05's values of the fields v06 changed: one barracks, 8 towers, the flight to the nearest tower. */
-    static final String V05 = "MAX_TOWERS=8,BARRACKS=1,BARRACKS_AFTER_TOWERS=0,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,THREAT_RADIUS=400,KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,";
+    static final String V05 = "MAX_TOWERS=8,BARRACKS=1,BARRACKS_AFTER_TOWERS=0,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,THREAT_RADIUS=400,KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,";
     /** v06's values of the fields v07 and v09-v12 changed: no kiting, no late hold, the usual barracks site, any ladder site, no anchor. */
-    static final String V06 = "KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,";
+    static final String V06 = "KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,";
     /** v07's values of the fields v08-v12 changed: its own kiting rule, no late hold, the usual barracks site, any ladder site, no anchor. */
-    static final String V07 = "KITE=1,KITE_PULL=50,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,";
+    static final String V07 = "KITE=1,KITE_PULL=50,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,";
     /** v08's values of the fields v09-v12 changed: no late hold, the usual barracks site, any ladder site, no anchor. */
-    static final String V08 = "LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,";
+    static final String V08 = "LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,";
     /** v09's values of the fields v10-v12 changed: the second barracks at the ladder's usual site, any ladder site, no anchor. */
-    static final String V09 = "BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,";
+    static final String V09 = "BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,";
     /** v10's values of the fields v11 and v12 changed: a ladder site on the enemy half whatever the walk to it, no anchor. */
-    static final String V10 = "SAFE_LADDER=0,WAVE_ANCHOR=0,";
-    /** v11's values of the fields v12 changed: the ladder's tower targets toward the home corner in the first wave too. */
-    static final String V11 = "WAVE_ANCHOR=0,WAVE_UNTIL=50,";
+    static final String V10 = "SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,";
+    /** v11's values of the fields v12 and v13 changed: the ladder's tower targets toward the home corner in the first wave too. */
+    static final String V11 = "WAVE_ANCHOR=0,WAVE_UNTIL=50,LADDER_CLEAR=0,";
+    /** v12's value of the field v13 changed: the ladder walks whatever knights are within 500. */
+    static final String V12 = "LADDER_CLEAR=0,";
 
     /**
      * A captured position: the init and turn input that seat 1 of v01 against current read on one
@@ -199,8 +201,14 @@ class MainBotTest {
 
     /** With its defaults (the first-wave anchor since v12), current plays the frozen v12's games command for command (fixture seeds and PV3 screen block 5's maps). */
     @Test
-    void withDefaultsCurrentPlaysAsV12() {
-        assertSamePlay("current", "v12", new long[]{100000, 110135, 10394, 10477, 1005000000, 1005000397, 1005000794});
+    void withV12ParamsCurrentPlaysAsV12() {
+        assertSamePlay("current?" + V12, "v12", new long[]{100000, 110135, 10394, 10477, 1005000000, 1005000397, 1005000794});
+    }
+
+    /** With its defaults (LADDER_CLEAR=500 since v13), current plays the frozen v13's games command for command (fixture seeds and PV3 screen block 6's maps). */
+    @Test
+    void withDefaultsCurrentPlaysAsV13() {
+        assertSamePlay("current", "v13", new long[]{100000, 110135, 10394, 10477, 1006000000, 1006000397, 1006000794});
     }
 
     /** bot and frozen play the same commands on both seats against v01 and v02. */

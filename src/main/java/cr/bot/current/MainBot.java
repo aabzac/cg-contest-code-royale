@@ -91,6 +91,9 @@ public final class MainBot implements Bot {
         final boolean wave = p.WAVE_TOWERS > 0 && towers < p.WAVE_TOWERS && knightWaveComing(s);
         final int ladderIncome = wave ? Math.max(income, p.INCOME_TARGET) : income;
         final boolean topUp = !wave && towers >= p.TOPUP_FROM;
+        // WAVE_TOWER_HP: with one tower and the enemy's first wave coming, the touched tower is pumped only to this, so that
+        // the second tower stands before the contact.
+        final int topUpHp = p.WAVE_TOWER_HP > 0 && towers < 2 && knightWaveComing(s) ? p.WAVE_TOWER_HP : p.TOWER_HP;
         // LATE_HOLD: late in the game and ahead on HP (the limit's score), the queen stops walking out to build.
         final boolean hold = p.LATE_HOLD > 0 && s.turn >= p.LATE_HOLD && s.hp[0] > s.hp[1];
 
@@ -118,7 +121,7 @@ public final class MainBot implements Bot {
             int t = touched;
             if (s.stType[t] == Const.MINE && s.stOwner[t] == 0 && s.mineRate[t] < s.sMaxMine[t] && threat == 0 && !wave)
                 cmd = Command.build(t, "MINE");
-            else if (s.stType[t] == Const.TOWER && s.stOwner[t] == 0 && s.towerHp[t] < p.TOWER_HP && topUp)
+            else if (s.stType[t] == Const.TOWER && s.stOwner[t] == 0 && s.towerHp[t] < topUpHp && topUp)
                 cmd = Command.build(t, "TOWER");
             else if (free(s, t)) {
                 if (mines < p.MINES_FIRST && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
@@ -144,6 +147,16 @@ public final class MainBot implements Bot {
             // The giant barracks before the ladder's next site (a knight barracks the ladder wants comes first).
             int g = nearest(s, (qx + hx) / 2, (qy + hy) / 2, i -> free(s, i) && !underEnemyTower(s, i));
             if (g >= 0) cmd = walkTo(s, Command.build(g, "BARRACKS-GIANT"), false, hx, hy, barracks, ladderIncome, towers);
+        }
+        // LADDER_CLEAR: an enemy knight within reach but not yet a threat, after the first wave and with two towers up: no
+        // walk to a new site; her nearest own tower outside the enemy towers' ranges instead (a top-up when she touches it).
+        // A spell lasts while a knight stays within LADDER_CLEAR; after LADDER_CLEAR_MAX holds it ends until they are clear.
+        if (p.LADDER_CLEAR > 0) {
+            if (clearOfKnights(s, qx, qy, p.LADDER_CLEAR)) clearRun = 0;
+            else if (cmd == null && threat == 0 && towers >= 2 && !firstWaveWindow(s, p) && (p.LADDER_CLEAR_MAX == 0 || clearRun < p.LADDER_CLEAR_MAX)) {
+                int tw = nearest(s, qx, qy, i -> s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && !underEnemyTower(s, i));
+                if (tw >= 0) { cmd = Command.build(tw, "TOWER"); clearRun++; }
+            }
         }
         if (cmd == null) {
             int target = hold ? -1 : nextSite(s, qx, qy, hx, hy, p, mines, barracks, ladderIncome, towers, -1);
@@ -285,6 +298,9 @@ public final class MainBot implements Bot {
 
     /** Consecutive turns of kiting so far (KITE_MAX). */
     private int kiteRun;
+
+    /** Consecutive turns LADDER_CLEAR has held the queen at her tower (LADDER_CLEAR_MAX). */
+    private int clearRun;
 
     /** Giant trainings started so far (GIANTS_MAX). */
     private int giantsTrained;

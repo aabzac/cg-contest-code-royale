@@ -1,0 +1,162 @@
+{
+ "findings": [
+  {
+   "claim": "Local-vs-arena table for all ten uploaded versions (local S at the final evaluation against the then-selected version; arena gain = candidate placement mean minus selected mean, within the league). The implied arena head-to-head logit (gain/scale) divided by the local logit ranges from -0.5 to 3.7: the panel's S does not predict the size of the arena step.",
+   "numbers": "v02 UNSTICK S 0.5032 -> +0.05 (Bronze, M 3.01); v03 early towers 0.8146 -> +4.15 (M 2.92); v04 ROUTE 0.5856 -> +0.07 (M 2.61); v05 MINES_FIRST=2 0.7556 -> +2.70 (M 2.77); v06 defence tower+army 0.6519 -> +0.85 (M 2.59); v07 KITE=1 0.6803 -> -0.71 (M 2.58); v08 KITE=2 0.6670 -> +2.46 (M 2.46); v10 BARRACKS_FORWARD=50 0.5764 -> -0.20 (Silver, M 2.46 borrowed); v11 SAFE_LADDER 0.5030 -> +0.92 (Silver); v12 WAVE_ANCHOR 0.5716 -> +3.28 (Gold). Predicted gain if head-to-head = field (scale x logit S): v07 +1.49 vs observed -0.71 (residual -2.20 = -0.85 M); v12 +0.88 vs +3.28 (+2.40 = +0.98 M); v08 +1.48 vs +2.46 (+0.98 = +0.40 M); v10 +1.13 vs -0.20 (-1.33 = -0.54 M); v03 +2.03 vs +4.15; v05 +1.82 vs +2.70; v06 +1.22 vs +0.85; v04 +0.52 vs +0.07.",
+   "evidence": "docs/local-screen.md, table 'Local results against the arena'; scales per verdict from docs/arena-uploads.md; computed in scratchpad/history/local_vs_arena.py",
+   "confidence": "high"
+  },
+  {
+   "claim": "Across the ten uploads the local logit correlates with the arena logit, but the correlation is carried by the Bronze build-order steps; the recent queen-behaviour steps are the outliers in both directions.",
+   "numbers": "Pearson(logit S, gain/scale) 0.77 and Spearman 0.47 over 10 versions; Pearson 0.87 over the 6 Bronze strategy candidates (v03-v08); the largest residuals are v07 (-0.85 M), v12 (+0.98 M), v10 (-0.54 M), v08 (+0.40 M).",
+   "evidence": "scratchpad/history/local_vs_arena.py over the local-screen.md table",
+   "confidence": "medium"
+  },
+  {
+   "claim": "Only two arena steps exceeded the noise margin on the placement means; two equalled it; six verdicts of 'not clearly worse' carry no information about a gain. The arena has therefore confirmed the direction of at most 4 of 10 steps.",
+   "numbers": "gain > M: v03 (+4.15 vs 2.92), v12 (+3.28 vs 2.46); gain = M: v08 (+2.46 vs 2.46), v05 (+2.70 vs 2.77); inside M: v02, v04, v06, v07, v10, v11. Pooled-rating z: v03 9.0, v05 5.6, v12 5.0, v08 3.2, v06 1.2, v11 0.9, v02 -0.7, v07 -0.7, v04 -0.9, v10 -0.1 (the SE understates placement spread, below).",
+   "evidence": "docs/arena-uploads.md per-version sections; local_vs_arena.py",
+   "confidence": "high"
+  },
+  {
+   "claim": "Kinds the panel undervalued: rules that change where the queen meets the enemy's first knights (v08 bound kiting, v12 first-wave anchor) and defect fixes that act only on the arena (v11). Mechanism: the local opponents' first waves are weaker and merge less than Gold's, and the mirror turns everything into a close HP race, so the local effect of a first-wave rule is compressed; the local opponents rarely cover our half with towers, so SAFE_LADDER barely fires locally.",
+   "numbers": "First-wave loss to knights (mean, 20 turns from the contact): mirror 7.8, rival 7.3, field 7.4 HP (v11, 400 games each) vs Gold 11.4 (v11, 171 games with contact; lost races 12.5, won 5.9). Merged waves: mirror 95/400 and rival 97/400 (24 %) vs Gold 69/171 (40 %); field 4/400. Games to turn 250: mirror 91 %, field 60 %, rival 76 % vs Gold 59 % (v11) and 115/180 = 64 % (v12). v12 local S 0.5716 (+0.88 pts predicted at scale 3.04) -> +3.28 on the arena; v08 local +1.4 predicted -> +2.46. SAFE_LADDER: enemy-tower HP per game 0.3-0.9 locally (v10 vs rival/field/mirror, 200 maps) vs 5.1 on the arena; on the arena v11 lost 0.6 +- 0.3 HP/game (160 games) vs v10's 5.1 +- 1.2; local S 0.5030 -> arena +0.92.",
+   "evidence": "docs/data/exp-2026-11-07-meet-back/README.md (local check table, sweeps); docs/data/study-2026-11-07-gold/README.md sections 5-6; docs/data/exp-2026-11-07-safe-ladder/README.md; docs/arena-uploads.md v12 section",
+   "confidence": "medium"
+  },
+  {
+   "claim": "Kinds the panel overvalued: free kiting (v07), movement efficiency (v04 ROUTE) and army timing/placement judged against R0 (v10). Mechanism: v06 and field stand still under knights (0 % MOVE), so running away was rewarded locally while the arena's winners kite 42 % and the running queen left her cover (34 % of contact turns near a tower vs 90 %), lost top-ups (36 vs 73/game) and kills (56 vs 68 of 120); saved walking turns (0.014 S per turn) win against our own ladder but not against the field; v10's gain was largest against R0 (+8.4 pp), which kites 66 % of its contact turns where Gold's strong players kite 14 %.",
+   "numbers": "v07: local S 0.6803 (+1.5 pts predicted), +3.5 pp vs field, arena -0.71; v04: 0.5856 (+0.5 predicted), arena +0.07, 6 walking turns saved per game; v10: 0.5764 (+1.1 predicted), rival +8.4 pp, field +1.5 pp, arena -0.20 (Silver).",
+   "evidence": "docs/data/study-2026-11-03-v07-arena/README.md; docs/data/exp-2026-11-01-route/README.md; docs/data/exp-2026-11-06-waves/README.md; docs/data/exp-2026-11-06-rival/README.md (R0 profile)",
+   "confidence": "medium"
+  },
+  {
+   "claim": "The 0.60 upload recommendation has not been met by any candidate since the move to Silver, every Silver/Gold upload was the user's exception, and the recommendation has not separated arena-visible gains from invisible ones.",
+   "numbers": "S of every post-v08 candidate: LATE_HOLD 0.5269, BARRACKS_FORWARD 0.5426 (eval vs v08 0.5764), SAFE_LADDER 0.5030, WAVE_ANCHOR 0.5654/0.5716, income 0.5016 (failed G1), archers 0.5000. Met 0.60 (5 uploads, all Bronze): v03, v05, v06, v08 gained +4.15/+2.70/+0.85/+2.46, v07 lost -0.71. Exceptions (5 uploads): v02 +0.05, v04 +0.07, v10 -0.20, v11 +0.92, v12 +3.28. In rating points S 0.60 is +0.54 at Bronze's scale 1.33 and +1.23 at Gold's 3.04, both below M 2.46.",
+   "evidence": "docs/local-screen.md (gates, table); docs/data/seed-ledger.json verdicts; local_vs_arena.py",
+   "confidence": "high"
+  },
+  {
+   "claim": "How large a next step must be to be visible on the arena: with two placements per side a gain must exceed about 2.5 points on the means; smaller true gains are undetectable, and the rollback test is one-sided (a candidate up to about 2.5 worse passes). More placements per side shrink the threshold slowly.",
+   "numbers": "M 2.46 (Bronze pooled SD 1.23, 11 df, borrowed by Gold); Gold's own pooled SD 1.27 from pairs (19.64, 21.07) and (18.13, 16.03), M 2.54 on 2 df. Threshold 2 SD of a difference of means with k uploads per side: k=2 2.46; k=3 2.01; k=4 1.74; k=6 1.42; k=8 1.23; k=12 1.00 points. A Gold placement is 90 games and took 22-24 min (v12), Silver 17-19, Bronze 11-16. Head-to-head S for +2.46 at scale 3.04 if head-to-head translated 1:1: 0.692; at v12's empirical ratio 3.7 only 0.554.",
+   "evidence": "docs/arena-uploads.md (M, Gold noise margin, placement times); local_vs_arena.py",
+   "confidence": "high"
+  },
+  {
+   "claim": "The performance rating's standard error understates the spread between placements of identical code, so P1's second rollback condition is weak and the placement mean decides in practice; the overdispersion persists in Gold.",
+   "numbers": "v01: three Bronze ratings 18.16/16.78/18.93, SD 1.09 vs SE 0.37-0.41, LR 11.1 on 2 df (p 0.004); v03: 23.24/20.19/23.22, Cochran's Q 40.3 on 2 df; v11 Gold pair: ratings 17.94 and 15.81, 2.13 apart (about 2.1 SE of the difference); v12 pair 19.93 and 20.90.",
+   "evidence": "docs/arena-uploads.md (noise sections, v11 upload 4, v12 section); docs/data/noise-2026-10-30/",
+   "confidence": "high"
+  },
+  {
+   "claim": "What the panel cannot represent in Gold, from v12's 180 Gold games: opponents with two or more knight barracks and a double first wave (FieldBot has exactly one knight barracks and no wave sync), Gold's giant frequency (R0 plays giants five times as often), the strongest players' combination of economy and queen play, and Gold's mix of opponent strength.",
+   "numbers": "Opponents built >= 2 knight barracks in 80/180 games (2: 59, 3: 12, 4: 7, 5: 2); bk_200 >= 2 in 53/130 games alive at t200; enemy knights alive at t25: 7-8 in 68/179 (38 %), 4 in 59, 3 in 24, 0-2 in 28. Giants: 35/180 games trained (42/180 built a giant barracks) vs rival 85 % of its games; archers 3/180 (6/180 built an archer barracks). Opponent medians: income t100 4 (ours 3), maxIncome 8 (ours 5), knight trainings 11 (ours 9), mine upgrades 7.5, towers t200 5 (ours 5; 6 in 63/130), top-ups 59; openings M M BK 103/180, M M M 24, M M T 18; first tower turn 15, first barracks 12. Against opponents rated >= 20 v12 scored 0.39 over 58 games vs 0.68-0.86 below 20; R0 scores 29 % against v09 while Silver's strongest four scored 70 % against v08, and 15 knob settings of the FieldBot ladder plateau at 0.70-0.88 for v09.",
+   "evidence": "scratchpad/history/gold_opponents.py over replays/study/gold-v12-2026-11-08/features-v12-gold.csv; brief (ratings by group); docs/data/exp-2026-11-06-rival/README.md calibration table; src/main/java/cr/bot/field/FieldBot.java (kBarracks < 1 rule, train())",
+   "confidence": "high"
+  },
+  {
+   "claim": "Consequence for screening: first-wave/HP-race rules can be screened locally for mechanism direction and no regression (the mirror and rival reproduce Gold's contact turn 24-25 and the forward-contact pattern) but not for size; rules that exploit standing-still or predictable opponents (kiting away, walking efficiency, wave timing against R0) need the arena; late trailing-race rules would be over-rewarded by the mirror (91 % races) and giant answers over-rewarded by G5; nothing on the panel stands for the >= 20 opponents.",
+   "numbers": "Mirror contact turn 24 (one tower), rival 25, field 21, boss 19 vs Gold 24-25 (v11 study table); mirror and rival forward contacts 201/400 and 206/400 beyond 406 vs Gold 88/171; PV3/PV5 record the mirror's over-weighting of HP races and R0's giants.",
+   "evidence": "docs/local-screen.md PV3-PV5; docs/data/exp-2026-11-07-meet-back/README.md local check; docs/data/study-2026-11-07-gold/README.md section 5",
+   "confidence": "medium"
+  },
+  {
+   "claim": "P2's wall time per candidate is small in machine time; the calendar cost is the design and analysis loop.",
+   "numbers": "From in-place report mtimes: a 2000-map in-process series (4000 games, 8 threads) 18-34 s; a 500-map boss series (1000 process games, 3 threads, 200 ms) 132-246 s; full G1-G5 screen 6.8 min (waves), 7.7 (giants), 9.7 (income); final evaluation 9.5 min (v10) ; G0 quiet repeats at 2 threads 2.4 min (61+39+44 s); development sweep 9-12 s per 1000-game series, 20 series in 200 s (income), 23 in 223 s (waves); ROUTE evaluation log 7.9 min including two legScans. Upload step: two placements of 22-24 min plus fetch and cgAttribute. Calendar: 3 full experiments on 2026-11-06 and 4 on 2026-11-07 (DEVLOG headers).",
+   "evidence": "replays/bench/exp-2026-11-06-{waves,waves-eval,income,giants}/*.json mtimes; replays/bench/dev-{income,waves}-2026-11-06/ mtimes; replays/bench/exp-2026-11-01-route/eval-run.log; docs/DEVLOG.md section headers",
+   "confidence": "high"
+  },
+  {
+   "claim": "Next free seed blocks and the development pool.",
+   "numbers": "screen-pv3 next k=6 (seeds 1006000000 + 397 i, i < 2000; blocks 0-5 used by late-hold, income, giants, waves, safe-ladder, meet-back); evaluation-pv3 next k=2 (2002000000 + 397 i; blocks 0-1 used by v10 and v12); development seeds 1 + 397 k (k < 500) and everything below 200000 free for reuse; the consecutive pools are closed.",
+   "evidence": "docs/data/seed-ledger.json ('next' and 'used')",
+   "confidence": "high"
+  },
+  {
+   "claim": "Development-sweep picks shrink on the fresh block (winner's curse), and the targeted-fix rule has a loophole; both are recorded policy gaps that affect how a next candidate should be read.",
+   "numbers": "Income pick: +3.35 pp vs R0 on development (22 arms) -> +1.79 on the screen; archers: +3.05 (7 arms, tie-break set after the tie) -> +0.36 (CI -0.88..+1.60); forward barracks: +5.35 -> +3.09; the anchor's window plateau 0.552-0.559 held (0.5654 screen). Archers changed 0/2000 maps vs the mirror but 1740/2000 vs R0 and still counted as a targeted fix by the letter. G0 host noise (efficiency cores) forced 2-thread reruns in 5 of the last 7 screens.",
+   "evidence": "docs/data/exp-2026-11-06-income/README.md, exp-2026-11-06-giants/README.md, exp-2026-11-06-waves/README.md, exp-2026-11-07-meet-back/README.md; docs/local-screen.md (targeted fix note)",
+   "confidence": "high"
+  },
+  {
+   "claim": "Gate G3 (the external reference `old`, 3315948 at 19.64 Bronze) has never run; the one calibration of the panel against a program that is not our own code is outstanding since 2026-10-30.",
+   "numbers": "G3 skipped in all 13 screens/evaluations in the ledger; expected S(v01 vs old) about 0.22, review threshold a 0.10 deviation.",
+   "evidence": "docs/data/seed-ledger.json; docs/local-screen.md (PV1 calibration); docs/PLAN.md",
+   "confidence": "high"
+  },
+  {
+   "claim": "Seat composition adds unmeasured noise to placements and is averaged out locally, so local S and arena means are not on the same footing.",
+   "numbers": "v12: 0.667 on seat 0 (81 games) vs 0.556 on seat 1 (99); upload 2 had 35 seat-0 and 55 seat-1 games, upload 1 46/44. v01's three Bronze uploads: seat 1 cost about 1.1 rating points (z -2.3). Every local series plays each map on both seats.",
+   "evidence": "brief; docs/arena-uploads.md v12 table and noise section; docs/local-screen.md Metric",
+   "confidence": "medium"
+  }
+ ],
+ "levers": [
+  {
+   "lever": "A Gold-like opponent variant of FieldBot with a double first wave: a BARRACKS=2 knob (second knight barracks early, as 80/180 Gold opponents built) and a sync knob (both barracks released together), as a `FieldParams.GOLD` preset (MINES_FIRST=2, TOWERS=5, INCOME=6-8, GIANTS off or capped at 1); validated the PV4 way by replaying the version ladder v08-v12 against it and checking that v11->v12 comes out as the arena's largest step and v07 as a non-step.",
+   "lossMode": "HP race first wave (and the screening of every first-wave/queen-under-knights candidate)",
+   "mechanism": "FieldBot.play takes a knight barracks only while kBarracks < 1 and train() releases each barracks as soon as 80 gold is there; Gold opponents had 7-8 knights alive at turn 25 in 68/179 games, and the local first-wave loss is 7.3-7.8 HP against Gold's 11.4 with merged waves 24 % against 40 %. Reproducing the merged double wave would stop compressing the local effect of first-wave rules (v12: local +0.88 points predicted, arena +3.28).",
+   "estimatedGain": "Not a strength gain by itself; it should raise the local size of first-wave candidates by the factor the arena showed (1.7x for v08, 3.7x for v12 in logits) and give the next first-wave candidate a readable size. Low confidence until the ladder check runs.",
+   "measurability": "LocalProfile's first-wave loss, merged-wave share and contact distance against the variant (targets 11-12 HP, about 40 %, 410 from the back edge for v11); the version ladder v08-v12 on 500 maps each (5 series, about 2 min); then a sixth gate or a replacement of `field` by the user's decision (PV6).",
+   "effort": "new rule in FieldBot (about 40-60 lines: the second barracks step, a sync in train(), two FieldParams fields, one FieldBotTest), plus 5 ladder series and the policy text"
+  },
+  {
+   "lever": "An arena-relevance pre-screen before any P2 block: replay v12's 180 Gold games with the candidate flag through cgAttribute (`-Pbot=current?FLAG=...`) and count the games and turns where the rule would change a decision, split by lost HP race / death / won, plus WaveTrace or DeathTrace mechanism metrics on the same games.",
+   "lossMode": "all (it tells which loss mode a rule touches on the live field before local games are spent)",
+   "mechanism": "Done once for SAFE_LADDER (31 of 160 v10 games changed, 20 of them losses with 17 deaths) and it predicted an arena-only effect the panel could not show; the same tooling exists for every flag.",
+   "estimatedGain": "Saves screens on rules that touch few lost Gold games and ranks candidates by the share of the 71 lost games (42 races, 29 deaths) they act in; no strength gain by itself.",
+   "measurability": "Number of lost games touched of 71 and of won games of 109; the first changed turn's phase.",
+   "effort": "existing tools (cgAttribute, arena_diff.py, WaveTrace); about 10 min of replay per 180 games, one Gradle call"
+  },
+  {
+   "lever": "Restate the upload recommendation for Gold: G0-G5 pass with the lower CI of S above 0.50, plus arena-trace evidence that the mechanism acts on the live field (lever 2), instead of S >= 0.60.",
+   "lossMode": "process (which candidates reach the arena)",
+   "mechanism": "S >= 0.60 is +1.23 points at Gold's scale, below M, and has not been met since Silver; the five uploads that met it gained +4.15/+2.70/+0.85/+2.46/-0.71 and the five exceptions +0.05/+0.07/-0.20/+0.92/+3.28, so the threshold did not separate arena-visible gains. The user already overrides it every time.",
+   "estimatedGain": "No strength gain; removes a rule that is formally violated at each upload and makes the exception the written policy. User decision.",
+   "measurability": "Record kept as now (local-screen.md table); re-check after the next 3-4 uploads whether the mechanism criterion separates > M gains better than 0.60 did.",
+   "effort": "policy text in docs/local-screen.md and .ai/project.md"
+  },
+  {
+   "lever": "More placements per decision when a candidate's expected gain is 1-2 points: three or four uploads per side (threshold 2.01 / 1.74 instead of 2.46), and re-upload v12 now to deepen its Gold baseline and Gold's own M (2 df today).",
+   "lossMode": "process (arena visibility)",
+   "mechanism": "The threshold scales as 2 SD sqrt(2/k); the overdispersion between placements (identical code 2.1 points apart in Gold) averages out only over placements, not within one.",
+   "estimatedGain": "Visibility of +1.7-2.0-point steps instead of +2.5; each Gold placement costs 22-24 min and 90 games.",
+   "measurability": "arena_compare.py prints M and the means; the registry records each placement.",
+   "effort": "user's uploads only (23 min each); no code"
+  },
+  {
+   "lever": "Context runs against `rival?GIANTS=0` next to G5 (and a 0.8/0.2 weighting of the two deltas) so that giant-dependent effects are read at Gold's giant frequency (19 %) rather than R0's 85 %.",
+   "lossMode": "vs strong opponents / queen death to giants",
+   "mechanism": "G5's R0 trains giants in 85 % of its games; a candidate that trades knights for giant defence is over-penalised or over-rewarded there (archers: -0.99 pp vs field?GIANTS=1 but +0.36 vs R0).",
+   "estimatedGain": "No strength gain; a fairer reading of giant-sensitive candidates. v09 scored 0.748 vs rival?GIANTS=0 against 0.699 vs R0 (exp-2026-11-06-giants), so the variant is weaker and only context.",
+   "measurability": "bench_pair common on the same block; zero code (the spec already exists).",
+   "effort": "one extra 2000-map series per candidate (about 25 s)"
+  },
+  {
+   "lever": "Put the `old` opponent in place (the user's copy of 3315948) and run the PV1 calibration (expected S(v01 vs old) about 0.22) and G3 for the next candidate.",
+   "lossMode": "process (external calibration of the panel)",
+   "mechanism": "Every panel opponent is our own code or the referee's Default AI; the only external program with a known arena rating has never been played.",
+   "estimatedGain": "Tells whether the panel's logit scale matches the arena's for a known pair; no strength gain.",
+   "measurability": "S(v01 vs old) within 0.10 of 0.22; then G3 deltas per candidate.",
+   "effort": "the user places one file; 500-map process series about 3-4 min each"
+  },
+  {
+   "lever": "Close two recorded policy gaps: count a targeted fix's changed maps against every panel opponent (not only the mirror), and record the number of arms tried on the development seeds with each pick so its fresh-block shrinkage (3 of 3 picks shrank 40-90 %) is expected and read against the stated criteria.",
+   "lossMode": "process (false positives from sweeps)",
+   "mechanism": "Archers changed 0/2000 maps vs the mirror and 1740/2000 vs R0 yet qualified as targeted by the letter; the income and archers picks were the best of 22 and 7 arms.",
+   "estimatedGain": "Fewer screens on selection noise; no strength gain.",
+   "measurability": "bench_pair direct --max-changed applied to all cand/ctrl pairs; the arm count in each README (already there) read into the decision.",
+   "effort": "a few lines in tools/bench_pair.py and the policy text"
+  },
+  {
+   "lever": "Judge strong-opponent candidates by the arena's per-rating-group table (scored vs expected by arena_compare's model) rather than by any local opponent, since no FieldBot setting reaches the >= 20 players' strength.",
+   "lossMode": "vs strong opponents",
+   "mechanism": "v12 scored 0.39 over 58 games against >= 20 (24 lost races, 15 won, 12 deaths, 7 kills) while R0's ladder plateaus at 0.70-0.88 for v09 over 15 knob settings; the tower-fire study already used the per-group table for v08/v10/v11.",
+   "estimatedGain": "A gain against the top 58/180 of the field from 0.39 to 0.50 would be about +6 points of 180 games' score, i.e. about 1 rating point: inside M unless placements are multiplied (lever 4).",
+   "measurability": "towers.py-style per-group expected-vs-scored table over each placement's manifest (ratings at fetch); needs >= 2 placements for 100+ games against >= 20.",
+   "effort": "existing script pattern (docs/data/study-2026-11-07-tower-fire/towers.py); no bot code"
+  }
+ ],
+ "caveats": "Do-not-repeat list (candidate: flags; local result; arena; recorded reason). Sources: docs/data/exp-*/README.md, docs/BOTS.md flags table, docs/DEVLOG.md 2026-10-30..11-07, docs/data/seed-ledger.json.\n1. UNSTICK=1 (v02): targeted fix S 0.5046/0.5032 vs v01, 146/2000 maps changed, stalls 739->53 turns; arena +0.05 (played as v01 in 114/120 games). Dev variants rejected: step<1 trigger (0.498), unchanged-position trigger (0.500, wedge stays), planner on every BUILD with steps<5 as standing (0.501, 65 % maps), touching-counts-as-progress (0.507).\n2. Early towers INCOME_TARGET=3,MAX_TOWERS=8 (v03): S 0.797/0.815 vs v02, boss +7.7/+4.8 pp; arena +4.15. Dev: INCOME_TARGET 8 -> 0.525, 4 -> 0.670, 2 with MAX_TOWERS 6 -> 0.797.\n3. APPROACH=1 (same-site landing): S 0.5245 vs v03 on screen k=2, boss -0.1 pp, 2.05 walking turns saved; never adopted, superseded by ROUTE.\n4. ROUTE=1 (v04): S 0.5813/0.5856 vs v03, boss ~0, 6 walking turns saved per game (0.014 S per turn); arena +0.07 (rating -0.38 +- 0.43): movement efficiency does not reach the field. Branch iteration 2 (S 0.5179) superseded. Route steps 2-4 parked (1-2 walking turns left).\n5. MINES_FIRST=2 (v05): S 0.7645/0.7556 vs v04; arena +2.70. Dev rejected: MINES_FIRST=1 0.684, =3 0.673 (+3 pp vs field but short games); INCOME_TARGET=5 0.290 (0.541 with MF1; -3 pp vs field); INCOME_TARGET=2 0.768 (not better than 3); TOWER_HP 400/600/800 -> 0.293/0.616/0.474 vs 0.684 at 700 (500: -7 pp vs field); MAX_TOWERS 4/6 -> 0.399/0.517 (4: -6 pp vs field); MAX_TOWERS=12 within +-0.02; UPGRADE=1 no effect (+-0.005).\n6. Army BARRACKS=2,BARRACKS_AFTER_TOWERS=4,TRAIN_SYNC=1,MAX_TOWERS=6: S 0.5473/0.5480 vs v05, boss 0; deferred, folded into v06. Dev rejected: second barracks right after the first 0.315-0.357; after 2 towers 0.40-0.49; after 6-8 towers 0.47-0.49; BARRACKS=3 0.455; INCOME_TARGET=4 with it 0.539/0.510; BARRACKS_FORWARD 30/50/70 -> 0.531/0.541 (0.486 on the 2nd block)/0.517 against v05.\n7. Defence tower THREAT_TOWERS_NEAR=2,THREAT_RADIUS=500 (+army flags) (v06): S 0.6420/0.6519 vs v05; arena +0.85. Dev rejected: N=3 (0.57-0.59), N=1 (no effect), radius 300-600 all equal; THREAT_RANGE 350/450 alone 0.471/0.409, with N=2 within noise; THREAT_TOWERS_NEAR=0 -9 pp vs field; THREAT_RADIUS=350 over v11: 0.3925, rival -10.3 pp.\n8. INCOME_LATE 4-8 over v06: 0.485-0.513 (neutral), with TOWER_HP 500/600 0.36-0.43; vs field -9/-12 pp. Over v09 vs R0 (2026-11-06): 0.478-0.485 vs v09, +1.3..+1.9 pp vs R0; UPGRADE=1 19/500 maps, -0.3 pp; LATE_COVER/LATE_HALF/LATE_CLEAR 600/1000 -> 0.483/0.491/0.491/0.498 vs v09. Screened pick MAX_TOWERS=5,INCOME_LATE=6,LATE_CLEAR=1000: G1 fail S 0.5016, R0 +1.79 pp (dev +3.35). Also MAX_TOWERS=5 alone 0.471 (-4.0 pp R0); MAX_TOWERS=4 variant 0.4665; INCOME_TARGET 4/5 with late income 0.481/0.402. Mechanism: our half's sites are towers when the ladder ends; far mine trips kill the queen (+16 deaths/1000 in the mirror).\n9. Own giants GIANTS=1,GIANT_TURN=80,GIANTS_MAX=2: 0.379 vs v09, -21.6 pp R0, -9.5 pp field (280 gold of ~750 and the knights wait).\n10. KITE=1 free kiting (v07): S 0.6946/0.6803 vs v06, field +3.1/+3.5; arena -0.71: the queen left cover (34 % near a tower vs 90 %), chases 50-130 turns, top-ups 36 vs 73, kills 56 vs 68. Dev: KITE_RANGE 400 (0.68-0.75, field 0..+4.4), 500 (0.72-0.74, field -12 pp: leaves the ladder); KITE_COVER 0 = 1.\n11. KITE=2,KITE_PULL=100 bound kiting (v08): S 0.6663/0.6670 vs v07, field +13.7/+14.8; arena +2.46. Dev: pull 30/50/200 -> 0.739/0.737/0.790 vs v06 (100: 0.785); KITE_MAX cap adds nothing; KITE_PULL=200 over v11: 0.5035, no change in first-wave loss.\n12. Second tower before the first wave WAVE_TOWERS=2/3, TOPUP_FROM=2: over v08 0.4675/0.3135/0.4620, field -3.7/-9.4/-3.4 pp, queen deaths 36 vs 18 of 400; over v11 0.4515/0.4470, rival -5.9/-7.3, field -3.0/-2.5. Rejected twice: two towers meet the wave but the first tower melts and the line is weaker at t50; the arena correlation stood in for the opponent's timing.\n13. LATE_HOLD=200 (v09): S 0.5269 vs v08, field +1.46 pp; dev T=100 0.483, 150 0.531, 225 0.511; the mirror over-weights it (PV3); never uploaded alone.\n14. Hold waves RELEASE_NEAR/RELEASE_HOLD 800/15, 800/30, 1000/15, 1000/30, 600/30: 0.332/0.296/0.377/0.346/0.254 vs v09, -7..-20 pp vs R0; the enemy queen is outside her towers' ranges on 0.2-0.9 % of turns, a hold costs a wave and halves damage per training.\n15. BARRACKS_FORWARD=50 (v10): dev 0.5425 vs v09 (+5.35 pp R0), screen 0.5426 (+3.09 R0, +0.81 field), eval vs v08 0.5764 (+8.4 R0, +1.5 field); arena -0.20 in Silver. BARRACKS_FORWARD=35: 0.503.\n16. GIANT_GUARD 150/300/500: -1.8/-3.3/-2.5 pp vs R0 (not traced further). ARCHERS=1 with ARCHER_RANGE 0/600/1000: dev +3.05/+1.75/+3.05 pp vs R0; screen (R 1000) +0.36 pp (CI -0.88..+1.60), -0.99 vs field?GIANTS=1, 0/2000 maps vs the mirror; not adopted (user, against the letter).\n17. SAFE_LADDER=1 (v11): targeted fix S 0.5030, 148/2000 maps; arena +0.92 inside noise, mechanism confirmed (0.6 vs 5.1 HP/game to towers, 0 walks to the enemy half). SAFE_LADDER=2: 0.5075, 219/500 maps, not screened.\n18. Meet-back family over v11: WAVE_ANCHOR=50/100 with WAVE_UNTIL=50 0.5115/0.5050, field -5.6/-5.2, rival -3.2/-5.8; WAVE_ANCHOR=25 0.5285 (field -5.1); WAVE_UNTIL=0 0.489; WAVE_UNTIL 35/40 0.552/0.544 (field -1.35/-2.3), 25 0.5575 (+0.3); WAVE_ANCHOR=75,WAVE_UNTIL=35 0.5515. DEFENCE_FWD=50 0.548 (field -3.2), =150 0.515 (field -2.0, small effect), with DEFENCE_UNTIL 60/100 0.5385/0.5430 (field -3.5/-3.2); anchor+defence combos 0.5635-0.5845 but field -2.8..-4.1. STAND_REACH=155 0.4895 (removes standing turns, loss unchanged 7.9). Design ideas rejected without code: WAVE_FRONT/WAVE_BACK, WAVE_STAY, WAVE_AWAY, KITE_FWD. Adopted: WAVE_ANCHOR=50,WAVE_UNTIL=30 (v12) 0.5654/0.5716, field -1.5/-1.2, rival +1.4/+1.6; arena +3.28.\n19. Field-balance flags vs field (2026-11-03): INCOME_TARGET=5 -3 pp, TOWER_HP=500 -7, MAX_TOWERS=4 -6, THREAT_TOWERS_NEAR=0 -9, army flags off -1: every trade of early strength for income loses against the field's economy.\nLimits of this analysis: arena gains carry +-M noise (2.46-3.0 points), so the under/over-valuation of single versions beyond v07, v08, v12 and the Bronze steps is inside noise; the predicted-gain column assumes a head-to-head S maps 1:1 onto the field, which it does not; the v12 Gold csv has 163 opponent rows alive at t100 and 130 at t200, so t100/t200 medians exclude early finishes; no games were run, and the FieldBot double-wave hypothesis (lever 1) is unverified until LocalProfile is run against a prototype.",
+ "scratchFiles": "C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/history/local_vs_arena.py (local S vs arena gain table, correlations, P1 visibility thresholds, P2 wall-time sums; run: python -I local_vs_arena.py); C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/history/gold_opponents.py (what v12's Gold opponents build, from replays/study/gold-v12-2026-11-08/features-v12-gold.csv; run: python -I gold_opponents.py <csv>)"
+}

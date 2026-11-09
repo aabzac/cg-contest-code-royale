@@ -1,0 +1,146 @@
+{
+ "findings": [
+  {
+   "claim": "Economy volume is the structural gap: strong Gold (>=20) and Legend both build ~1.7x more mines and upgrades than v12, and Legend winners are separated from Legend losers mainly by economy.",
+   "numbers": "Mines+upgrades per 100 turns (median/mean): ours 4.2/5.4 (n180 games), strong Gold 7.4/8.5 (n58), Legend 9.9/10.2 (n144 traced queens), NotVerySmart 11.1, Legend winners 11.9 vs losers 7.7 (n72 each). minesBuilt: ours 4/4.1, strong 6/6.7, Legend 6/6.6 (features). mineUpgrades: 5/5.3 vs 8.5/9.8 vs 8/8.6. maxIncome: 5/4.9 vs 8.5/9.5 vs 10/10.1. Income at t50/75/100/150: ours 4/3.5/3/3; strong 5/4.5/4/4; Legend 7/8/6/4.5. Paired in the same 58 games vs strong: maxIncome ours 5 vs theirs 8.5 (median diff -3.0), upgrades 5 vs 8.5 (-3.0), minesBuilt 4 vs 6 (-2.0). Legend winner minus loser (88 games): maxIncome +4.5 (winner higher in 60/88), meanIncome +3.3 (65/88), mineUpgrades +4 (63/88), trainK +5 (66/88), knightTurns +239 (69/88).",
+   "evidence": "features-v12-gold.csv, features-legend.csv via features.py sections 1, 7, 8, 12; traces via legend_traces.py L1. Strong = opponent ratingAtFetch >= 20 from arena-6860036/6860166 manifests.",
+   "confidence": "high"
+  },
+  {
+   "claim": "v12's queen spends her time topping up towers: 35 top-ups per 100 turns vs 23 (strong Gold) and 19 (Legend); 79% of our top-ups happen with no enemy knight within 500, i.e. ~63 idle pumping turns per game. Towers melt 4 HP/turn each, so holding 6 towers at 700 costs a top-up every ~4 turns forever.",
+   "numbers": "Top-ups per 100 turns (trace, executed BUILD on own tower): ours 34.6/35.5 (n180), strong 22.9/23.7 (n58), Legend 18.7/19.6 (n144); per game ours 81.5/79.6 vs strong 53/52.7 vs Legend 27/30.8. TOPUP share of all turns 0.35 vs 0.23 vs 0.19. Pooled top-ups with K500==0: ours 0.79 of 14326 (=11318/180 = 63 per game), strong 0.79 of 3057 (42 per game), NotVerySmart 0.46 of 2143 (14 per game). HP per tower at t50/t75/t100: ours 643/622/605, strong 509/565/543, Legend 506/516/526. Phase t200-250 (games >200 turns): ours 36.5 top-ups of 50 turns, MOVE share 0.08 (n130); strong 14 top-ups, MOVE 0.62 (n43); Legend 7 top-ups, MOVE 0.70 (n32). Const: TOWER_MELT_RATE=4, TOWER_HP_INCREMENT=100, max 800.",
+   "evidence": "trace_report.txt 5a/5c/5d/5g (traces.py over ours-/opp-upload-0{1,2}.txt), legend_report.txt L1/L2/L3, features section 2b/12, src/main/java/cr/core/Const.java. Validation: trace executed top-ups 23636 vs cgStudy towerTopUps 26853 over 360 rows (cgStudy counts every BUILD TOWER command naming an own tower, including approach turns; the trace count requires the queen to touch the site).",
+   "confidence": "high"
+  },
+  {
+   "claim": "Strong players never stop building; v12 stops when the ladder completes (median turn 168) and pumps the home tower for the remaining ~53 turns.",
+   "numbers": "Last new structure (median/mean turn): ours 168/161 (n180), strong 215/191 (n58), Legend 126/135 (n144, shorter games). Turns from last new structure to game end: ours 53/51, strong 13/25, Legend 17.5/22. Games with a new structure after t200, of games >200 turns: ours 41/130, strong 36/43, Legend 25/32. Games with no new structure after t150 (of games >150): ours 35/148, strong 7/49, Legend 21/68. Per phase t200-250 new towers: ours 0/0.29, strong 1/1.02, Legend 1/0.94; upgrades 0/0.66 vs 0/1.63 vs 0/0.75.",
+   "evidence": "trace_report.txt 5a and 5d, legend_report.txt L1/L2.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Tower count is NOT the structural difference: everyone has 4 towers at t100 and 5 at t150-200. Strong Gold add a late 7th tower in 38% of games AND out-mine us; Legend keep 4-5 towers (winners fewer than losers). The 7th tower is a Gold habit, not a Legend one.",
+   "numbers": "towers_100 median: ours 4, strong 4, Legend 4; towers_150: 5/5/4; towers_200: 5/5/5. maxTowers median/mean: ours 5.5/5.0 (0/180 games ever reach 7 simultaneous, MAX_TOWERS=6), strong 6/6.1 with 7+ simultaneous towers in 22/58 games (7th tower at median turn 161.5, mean 152), Legend 5/4.9 with 7+ in 19/144 (NotVerySmart 4/4.3, 3/72). Legend winners maxTowers 4.5 vs losers 5 (winner lower in 52/88, higher in 24/88); towers_100 winner 3 vs loser 4 (lower in 42/88). towersBuilt: ours 6/5.6, strong 7/7.3, Legend 7/6.9 (rebuilds). thp_200: ours 2394 vs strong 2788 vs Legend 2136; in the 42 lost races opp maxTowers 6.76 mean vs ours 5.48, thp_200 3047 vs 2422.",
+   "evidence": "features sections 2/7/8/9, trace_report.txt 'games with 7 simultaneous towers' and maxT distribution, legend_report.txt L1.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Queen movement and kiting are NOT structural: strong Gold queens MOVE 58% of turns and kite 77% of knight-contact turns, Legend's best (NotVerySmart) MOVEs 37% and kites only 36%, accepting 3x our HP loss per contact. v12's kiting is already the most damage-efficient of the three groups; our problem is 1.8x more contact turns than the strong in the same games.",
+   "numbers": "MOVE share: ours 0.30/0.31, strong 0.58/0.48, Legend 0.40/0.43, NotVerySmart 0.37/0.38. MOVE share under K250>0: ours 0.86, strong 0.77/0.68, NotVerySmart 0.36/0.34, Legend winners 0.36 vs losers 0.59. HP lost to knights per contact turn: ours 0.38/0.45, strong 0.54/0.66, Legend 1.15/1.19. Turns under K250: ours 43.5/47.9 per game (52.5/54.8 in the 58 games vs strong), strong 30.5/29.7, Legend 41/43. HP lost to knights per game: ours 16/22.4 (27/28.5 vs strong), strong 14/20.9, Legend 45/48.5. Time at own tower (nearT<130): ours 0.73, strong 0.60, Legend 0.45. moveBack share under K250: ours 0.43, strong 0.28, NotVerySmart 0.13.",
+   "evidence": "trace_report.txt 5b/5c, legend_report.txt L1/L2 (deathTrace of NotVerySmart's 72 games, both seats, run with gradlew deathTrace -Pall=1 [-Pfoe=1] on M/replays/cg/legend-top).",
+   "confidence": "high"
+  },
+  {
+   "claim": "Strong players mine far from the home corner, where sites are richer; half of v12's mines are corner sites that deplete and sit on the knights' path. Mines die to any touching enemy creep and to depletion, so effective mines matter more than mines built.",
+   "numbers": "New-mine distance from the home corner: ours 50% <500, 9% >900 (n743 mines); strong 29% <500, 23% >900 (n394); Legend 30% <500, 12% >900 (n952); Legend winners 17% >900 vs losers 6%. Median mine-build turn: ours 11, strong 82, Legend 45. MapGen: site gold 200-250, mine rate 1-3; within 500 of the centre +1 rate and +50 gold, within 200 another +1 and +50. Live statement: a mine 'slowly runs out of gold until destroyed' and 'is also destroyed if touched by an enemy creep or the enemy Queen'. Mines alive at t50/100/150 (mean): ours 2.1/1.7/1.6, strong 2.3/2.4/2.7, Legend 3.1/3.3/2.8; mines lost per game (M decrements): ours 3.07, strong 4.36, Legend 4.08. Our mines_150 median 2 but mean 1.6 with minesBuilt 4.1.",
+   "evidence": "trace_report.txt 5g, legend_report.txt L3, src/main/java/cr/core/MapGen.java lines 24-55, docs/rules/bronze.live.html, features section 1. The site facts are certain; that site choice drives the income gap is an inference.",
+   "confidence": "medium"
+  },
+  {
+   "claim": "Knight output: the strong train 30-70% more waves per 100 turns from the extra income; the number of barracks is not structural (strong Gold mostly one, Legend three) but Legend banks gold for burst waves.",
+   "numbers": "trainK per 100 turns: ours 4.0/4.3, strong 5.2/5.9, Legend 6.8/7.2; trainK per game 9 vs 12 vs 10 (Legend games median 153 turns). knightTurns per 100 turns: 190 vs 199/244 vs 283/312. barracksBuiltK: ours 2 (126/180 have >=2), strong 1 (36/58 have exactly 1, 22/58 >=2), Legend 1 in 73/176, 2 in 30, 3 in 42, 4 in 26, up to 7. Gold banked median t50-99: ours 47, strong 46.5, NotVerySmart 139 (Legend winners 138.5 vs losers 69); t150-250: ours 74-76 vs strong 47-49. Legend winners trainK 13 vs losers 7.5, knightTurns 562 vs 314.",
+   "evidence": "features sections 3/3b/3c/8, trace_report.txt 5c, legend_report.txt L1.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Openings: the strong place the barracks 2-4 turns and the first tower 1-3 turns later than v12 and vary the opening; Legend builds 3-4 mines with 4-5 upgrades in the first 50 turns and accepts first-wave damage instead of kiting it.",
+   "numbers": "firstBarracks median: ours 9, strong 11 (mean 12.3), Legend 13 (11.8); firstTower 14 vs 15 (16.5) vs 17 (16.6). Opening 'M M BK': ours 179/180, strong 32/58 (M M T 7, M M M 6, BK M M 6, M BK T 4), Legend 83/176 (M M M 33, M BK T 25, BK M M 13, M BK M 10). Mines+upgrades in t0-49 per game: ours 4.0/4.3, strong 5/5.5, Legend 7/7.7, NotVerySmart 8/8.5. inc_25/inc_50: ours 4/4, strong 4/5, Legend 5/7. HP lost to knights in t0-49: ours 3.5/6.9, strong 6/11.0, Legend 20/21.9; Legend MOVE share under K250 in t0-49 0.28/0.36 (NotVerySmart 0.19). hp_50: ours 55, strong 53, Legend 40.",
+   "evidence": "features sections 4/4b/5, trace_report.txt 5d t0-49, legend_report.txt L2 t0-49 and L3 'NEWMINE by phase'.",
+   "confidence": "high"
+  },
+  {
+   "claim": "How they win differs by league: Legend decides by kills in short games; Gold decides by HP races. Strong Gold beat v12 mostly on HP, and v12 beats them mostly on HP too.",
+   "numbers": "Legend 88 games: 64 kills, 24 HP decisions, median 153 turns, 24/88 games reach 250 (48/176 rows). cg2 Gold (2026-10-28, 42 games): 23 kills, 19 HP, 18/42 reach 250. v12's 180 games: 115 reach 250; wins 109 = 34 kills + 75 HP; losses 71 = 29 deaths + 42 HP races. Strong (>=20) vs us: they won 36/58 (12 kills, 24 HP), lost 22 (7 deaths, 15 HP); 39/58 reach 250; our score vs them 22/58 = 0.38. Our wins by opponent profile: turtle 27/47 (0.57), economy 57/95 (0.60), neither 25/37 (0.68).",
+   "evidence": "features section 6, losses_report.txt A.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Attribution of v12's 71 losses: 38 come against economy-profile opponents (more income or 3+ more waves), 20 against turtles (more towers, fewer knights), 12 against neither. The win rate collapses when the opponent's mean income exceeds ours by 3 or more.",
+   "numbers": "Profiles (turtle = opp trainK <= ours-2, or opp maxTowers > ours with trainK <= ours; economy = opp meanIncome > ours+1 or trainK >= ours+3): economy 95 games, 16 lost races + 22 deaths; turtle 47 games, 19 lost races + 1 death; neither 37 games, 6 + 6; both 1 (race). By their meanIncome minus ours: <0: 26/50 wins (21 lost races); [0,1): 32/46; [1,2): 22/31; [2,3): 15/19; [3,4): 9/18; >=4: 5/16 (9 deaths) -> gap>=3: 14/34 = 0.41. By their trainK minus ours: <= -2: 14/31 (17 lost races, 0 deaths); >= 6: 23/44 (14 deaths). By their towerTopUps minus ours: <= -40: 47/58 (0.81); >= 0: 21/51 (0.41). Deaths (29): 22 economy-profile, opp maxIncome 12/12.8 vs ours 5/4.6, opp trainK 15/14.1 vs 7/6.9, death turn 177, our maxTowers 4/4.2, 74 contact turns, 0.86 HP per contact.",
+   "evidence": "features sections 13/14, losses_report.txt A/C. Heuristic profile definitions; correlational: the opponent's economy is partly the result of our failure to pressure them.",
+   "confidence": "medium"
+  },
+  {
+   "claim": "Anatomy of the 42 lost HP races: turtle races are decided in the first 100 turns, economy races are a slow late bleed in which our knights never reach their queen while theirs keep arriving.",
+   "numbers": "Turtle races (19): margin t50 -3/-7.0, t100 -13/-12.3, final -9/-14.3; our HP lost to knights by phase 221/119/16/48/5 (sum 409; 340 of them before t100) vs theirs 88/19/13/25/15 (160); opp maxTowers 7/7.95 vs ours 6/5.84; opp thp_200 3200/3512 vs ours 2628/2464; our trainK 12/11.7 vs theirs 6/6.5, our knightTurns 499 vs 300 -> 11.7 waves (~936 gold) produced 8.4 HP of damage per game; our top-ups in t150-250: 1121 vs 643. Economy races (16): margin t50 0/-1.4, t100 -6/-4.3, t200 -10.5/-12.6, final -16.5/-21.5; our kd by phase 140/70/56/116/109 (491) vs theirs 117/27/35/6/3 (188); their mines+upgrades 337 vs our 183 (83/57/101/41/55 vs 68/9/35/34/37); opp trainK 14.5/16.4 vs 8.5/8.4, knightTurns 726 vs 417, opp maxIncome 10/11.3 vs 5/4.9. All 42: our kd in t200-250 141 vs theirs 26; margin -9.5 at t200 -> -13 final.",
+   "evidence": "losses_report.txt B (features joined with trace_games.csv per-phase kd/contact/top-up counts). Phase sums are over the games in the profile, not medians.",
+   "confidence": "medium"
+  },
+  {
+   "claim": "The queen's position: v12 ends games parked at the home tower; strong queens stay forward working sites.",
+   "numbers": "Forward distance from the home corner, median per phase (ours vs strong vs Legend): t0-49 620/647/676; t50-99 733/760/817; t100-149 685/726/698; t150-199 648/739/733; t200-250 514/742/610. Max forward distance t200-250: ours 700 vs strong 965. Share of turns at an own tower (nearT<130) in t200-250: ours 0.96/0.87, strong 0.70/0.68, Legend 0.52. Our t150-199 MOVE share 0.24 vs strong 0.56.",
+   "evidence": "trace_report.txt 5c/5d, legend_report.txt L1/L2.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Giants and archers are not what the strong do: giants are a style of two Legend players and of mid-Gold, archers are absent; enemy giants do not drive our losses.",
+   "numbers": "trainG>0: strong 6/58, Legend 18/176 (RoboStac 8/11 rows, viewlagoon 10/11; the other 8 Legend players 0/154), mid Gold (17-20) 24/85, weak <17 5/37. First giants seen at fixed turn 75 in 18 of the 21 Legend rows with giants. trainA>0: strong 3/58 (one player), Legend 0/176. Opponent giants in 12/71 of our losses vs 23/109 of our wins. Turns with an enemy giant within 300 of our queen: mean 3.1 per game (0 median).",
+   "evidence": "features section 3 and 14, trace_report.txt 5c.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Even Legend's best only split games with Legend turtles: against tachan (7 towers, 100+ top-ups, income 2) and Agade (7 towers, income 5), opponents with income 13-27 and 18-37 waves still lose 9 of 21 games on HP; the wins come by killing with sustained mass waves, not by out-towering.",
+   "numbers": "tachan 5 wins / 11 (all 5 on HP at turn 250; losses: 3 killed, 2 HP); his opponents: maxIncome 9-27, trainK 12-37, barracksK up to 7 (NotVerySmart), 0-8 giants. Agade 4/10 (all 4 on HP; 5 of 6 losses by being killed, turns 116-195) vs NotVerySmart with maxIncome 12-17, trainK 11-34, 3-5 barracks. Our turtle games: 47, we score 0.57; typical turtle (Magus, 5 games, 0.40): maxTowers 12, 100 top-ups, trainK 6, income 5.",
+   "evidence": "losses_report.txt E/F (features-legend.csv, features-v12-gold.csv). Small samples (11 and 10 games).",
+   "confidence": "medium"
+  },
+  {
+   "claim": "What was tried locally (INCOME_LATE) differs from what the strong do: it walks to the nearest site toward home with towers still held at 700, whereas the strong fund their economy from top-up turns, pick far/rich sites, and keep adding towers too (towersBuilt 7.3 vs our 5.6).",
+   "numbers": "MainBot.lateSite picks the nearest free gold site or upgradable own mine to the queen-home midpoint (options LATE_COVER/LATE_HALF/LATE_CLEAR default 0); TOWER_HP=700, INCOME_TARGET=3, MAX_TOWERS=6; the idle branch builds TOWER on the tower nearest home. Strong: towersBuilt 7/7.3, towers_200 5.7 mean, mines 6.8, upgrades 9.9, top-ups 52.7 — all three higher or equal while using fewer queen turns on top-ups (23.7 vs 35.5 per 100).",
+   "evidence": "src/main/java/cr/bot/current/MainBot.java lines 121-176, 366-385; src/main/java/cr/bot/Params.java lines 14-16, 60-64, 113, 138-148; features sections 2/7; trace 5a. The code reading is certain; the causal link to the arena result is an inference.",
+   "confidence": "medium"
+  }
+ ],
+ "levers": [
+  {
+   "lever": "RICH_SAFE_ECONOMY: re-spec INCOME_LATE as the idle policy — after the ladder (and before it when income < 5), with no enemy knight within 500 and the target covered by an own tower (LATE_COVER=1, LATE_CLEAR=500), walk to the highest-value site (remaining gold x maxMineSize, i.e. the central +1/+2 sites) to build or upgrade a mine; top up a touched tower only below ~550 while idle (TOWER_HP_IDLE), keep 700 under threat; return to cover when K500>0.",
+   "lossMode": "queen death and HP race midgame/late against economy opponents (38/71 losses: 22 deaths + 16 races); secondary: more waves late in all races",
+   "mechanism": "Converts the ~63 idle top-up turns per game (79% of 79.6 top-ups with K500==0) into the 3-5 extra mines/upgrades per game that strong Gold (6.8+9.9) and Legend (6.6+8.6) have over us (4.1+5.3); value ranking replaces lateSite's nearest-to-home choice (50% of our mines are corner sites with rate 1-3 and 200-250 gold; strong 23% of mines >900 from the corner vs our 9%); cover+clear conditions address the mirror failure where the walking queen died more.",
+   "estimatedGain": "Plausibly touches 38/71 losses; realistic flips 5-10 games of 180 (3-5 pp) if income rises from 3 to 5-6 (each +1 income over 150 turns = ~2 extra waves). Not a match for the deaths' opponents (income 12.8 vs 4.6).",
+   "measurability": "Partly: rival (income 8, kiting) rewarded INCOME_LATE +1.8 pp before; field penalised it; the mirror failed G1 because the queen died — the new safety/value conditions are testable there (intermediate metrics: meanIncome, deaths, top-ups per game from cgStudy on bench replays). The panel is known to undervalue economy (v12 S 0.57 -> +3.3 arena), so a G1 near 0.50 with G4/G5 non-negative may still be arena-positive; needs an arena pair to confirm.",
+   "effort": "flag on existing rule (INCOME_LATE, LATE_COVER, LATE_CLEAR exist) + new site scoring in lateSite/nextSite + one new threshold (TOWER_HP_IDLE)"
+  },
+  {
+   "lever": "NO_LADDER_END: remove the 'ladder complete -> pump home tower' terminal state. From t150 on, while not LATE_HOLD-ahead and K500==0, keep adding one structure at a time: rebuild lost towers, add a covered tower or a covered mine, as the strong do (+1 tower and +1.6 upgrades in t200-250, new structures after t200 in 36/43 games vs our 41/130).",
+   "lossMode": "HP race last 50 turns while trailing (42 lost races: margin -9.5 at t200 -> -13 final; we lose 141 HP to knights in t200-250 vs their 26; 10 of 42 lost within 5 HP, 18 within 10)",
+   "mechanism": "The late bleed comes from the opponent's late waves reaching a queen parked at one tower with 5 towers melting; extra late towers (cover + range) and extra income reduce the late kd; also the trailing side has nothing to lose by building.",
+   "estimatedGain": "3-6 of the 42 lost races (those within 5-10 HP) are the plausible targets; 2-3 pp. Low certainty: in lost races the opponent already has 6.8 towers and 3047 tower HP.",
+   "measurability": "Yes: the mirror and field over-represent HP races (91% of mirror games reach 250), so late-game changes are measurable there; G1 on the mirror directly.",
+   "effort": "flag on existing rule (idle branch of MainBot.play, line ~175) with a turn and HP-lead condition"
+  },
+  {
+   "lever": "TURTLE_MODE: detect a turtle (enemy >= 6 towers and <= 1 knight barracks, or enemy summed tower HP > ours + 800) and stop feeding 8-knight waves into it: bank gold for 12-16-knight bursts (train from both barracks only above 240-320 gold, a third barracks when income allows) and spend the queen on towers to parity (MAX_TOWERS 8 vs turtles) and mines; alternatively keep the gold entirely for towers and win the HP race.",
+   "lossMode": "HP race vs turtles (20/71 losses: 19 races + 1 death; 47 games at 0.57)",
+   "mechanism": "In the 19 turtle races our 11.7 waves (~936 gold) inflicted 8.4 HP per game against 7-8 towers (3512 tower HP) while we lost 340 of 409 HP before t100; the gold is better spent on towers (each 100 gold = +100 tower HP) or on bursts that can cross 7 towers (Legend beats tachan only with 20-37 trainings and multi-barracks bursts).",
+   "estimatedGain": "Plausibly 3-5 of 19 turtle races (the margin is set by t100 by waves 1-2, which this lever does not touch); 2-3 pp. Low confidence.",
+   "measurability": "No: no local opponent is a turtle (field has 4 towers at 600, rival kites with giants). Needs a new reference opponent (FieldBot variant: 7-8 towers, ~100 top-ups, 1 barracks, income 5) before the rule can be screened.",
+   "effort": "new rule + new local opponent"
+  },
+  {
+   "lever": "MINE_SITE_VALUE for the ladder itself: choose mine sites (and rebuilds of depleted/destroyed mines) by remaining gold x maxMineSize and distance from the knight corridor, not by nearness to the home corner; prefer the central-bonus sites when covered.",
+   "lossMode": "economy losses (38/71) indirectly through income; mines destroyed on the knight path (our mines alive fall from 2.1 at t50 to 1.6 at t150 with 4.1 built)",
+   "mechanism": "Corner sites have rate 1-3 and 200-250 gold and lie between the enemy's knights and our home-tower queen (mines die to any touching enemy creep); central sites have +1/+2 rate and +50/+100 gold; the strong build 23% of mines >900 from the corner, Legend winners 17% vs losers 6%, ours 9%.",
+   "estimatedGain": "+1-2 income from t50-100 if the sites are reachable safely; alone probably 1-2 pp; mostly an enabler of RICH_SAFE_ECONOMY.",
+   "measurability": "Yes via intermediate metrics (cgStudy on bench replays: meanIncome, mines_t, minesBuilt) and the usual gates; the mirror will not reward it much (HP races).",
+   "effort": "new scoring inside nextSite/lateSite (existing walk machinery, ROUTE unchanged)"
+  },
+  {
+   "lever": "OPENING_THIRD_MINE (Legend-style opening): a third mine and two upgrades before the second tower, barracks at turn 11-13 instead of 9, first tower at 15-17 instead of 14; target income 5-7 by turn 50.",
+   "lossMode": "all modes through economy from turn 15; risk to HP race first wave",
+   "mechanism": "Legend: 7.7 mines+upgrades in t0-49 (inc_50 7) with the same 3 towers and 1 barracks as us (4.3, inc_50 4); strong Gold 5.5 (inc_50 5). Legend accept 22 HP from the first wave (ours 6.9) and still win 64/88 by kills — a different balance, not a rule tweak.",
+   "estimatedGain": "Unknown; the Gold-strong version of this (+1.2 economy actions in t0-49) is small; the Legend version trades ~10 first-wave HP for +3 income, which in Gold's HP-race regime (115/180 games to turn 250) is likely negative unless combined with the first-wave handling.",
+   "measurability": "Yes (mirror/field/rival), but 'mines before towers' and 'income target 5' were already rejected locally; new evidence would have to come from a different first-wave treatment.",
+   "effort": "flag (INCOME_TARGET, ladder order) — low priority from this lens"
+  },
+  {
+   "lever": "BURST_WAVES: raise the TRAIN_SYNC threshold to 240-320 gold (3 barracks, train all at once) once income >= 5, and hold waves when the enemy has >= 6 towers until a 12-knight burst is affordable.",
+   "lossMode": "HP race vs turtles (19 races) and late economy races where our knights never reach the queen (their kd 9 in 16 games after t150)",
+   "mechanism": "Legend top players run 3 barracks (3+ in 73/176 rows) and bank 139 gold median at t50-99 for 12-16-knight waves; 8-knight waves die to 6-8 towers. Not structural (strong Gold use 1 barracks) and useless at income 3 ('third barracks no help' was at income 3).",
+   "estimatedGain": "Depends on income first; alone ~0; with income 5-6 plausibly 2-4 of the turtle/late races.",
+   "measurability": "Partly: rival/field have 4 towers; a turtle opponent is needed to see the effect.",
+   "effort": "parameter on existing TRAIN_SYNC plus barracks count — only after an economy lever"
+  }
+ ],
+ "caveats": "1) Everything here is observational: an opponent's higher income is partly the consequence of our failure to pressure them, and Legend's 'economy wins' may reflect their opponents' styles (both seats are Legend). 2) 'Strong' means ratingAtFetch >= 20 (58 rows, 38 distinct players, 1-4 games each); 'weak' < 17 (37 rows). 3) The Legend corpus is the 2026-10-28 top-10 (88 games, no ratings in the manifest); the Legend queen traces cover only the 72 games of NotVerySmart, so his style (3 barracks, little kiting, 11 economy actions per 100 turns) is half of every Legend trace number; the other seat is zasmu/viewlagoon/N3l/Agade/Pduhard- (10 each), Shand/RoboStac (9), aCat (4). Legend features (176 rows) are unaffected. 4) Legend games are short (median 153 turns), so per-game counts are not comparable without the per-100-turn rates given. 5) Loss profiles (turtle/economy) are my heuristic definitions on the features; one game is 'both'. 6) Top-up counts: cgStudy's towerTopUps (26853 over 360 rows) counts every BUILD TOWER command naming an own tower including approach turns; the trace counts only executed ones (23636); per-game medians differ accordingly (91 vs 81.5 for us). 'New towers' from the trace include rebuilds. 7) The deathTrace run for Legend was one Gradle invocation with two sequential tasks in the worktree (no games played; recorded replays replayed through Rules). 8) The local panel's known bias against economy variants (and INCOME_LATE's earlier G1 failure) means the economy lever cannot be validated locally with confidence; the arena pair under P1 is the real test. 9) Numbers from the brief (e.g. 73 HP wins) differ by 2 from mine (75) because I classify a win as 'kill' only when the opponent's deathTurn >= 0; the 2 referee-removal wins fall into the HP bucket here.",
+ "scratchFiles": "C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/features.py (group comparison over the feature CSVs; output features_report.txt sections 1-16 in the same folder); C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/features_report.txt; C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/traces.py (Gold queen traces: command mix, under-knights, phases, build context; outputs trace_report.txt and trace_games.csv); C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/trace_report.txt; C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/trace_games.csv (one row per game and side with per-phase counts); C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/tracelib.py (shared DeathTrace parser; note 3-digit turns are written 't100' without a space); C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/legend-nvs.txt and C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/legend-nvs-foe.txt (deathTrace -Pagent=6812269 -Pall=1 [-Pfoe=1] over M/replays/cg/legend-top: 72 games each, NotVerySmart's queen and his opponents' queens); C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/legend_traces.py and C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/legend_report.txt (Legend vs ours vs strong queen comparison, L1-L3); C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/losses.py and C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/opponents/losses_report.txt (loss attribution by opponent profile, lost-race anatomy by phase, Legend turtles, turtle opponents list)."
+}

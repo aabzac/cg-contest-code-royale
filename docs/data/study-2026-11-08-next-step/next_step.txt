@@ -1,0 +1,191 @@
+1. Outcomes of the 180 games (v12, Gold uploads 1 and 2):
+   lost  died      29
+   lost  limit     42
+   won   killed    34
+   won   limit     73
+   won   referee    2
+   games reaching turn 250: 115
+
+2. Score by the opponent's rating at fetch and by seat (points, ties 1/2):
+   opponents  0-14:   7 games,   6.0 points,  86 %
+   opponents 14-17:  30 games,  23.0 points,  77 %
+   opponents 17-20:  85 games,  58.0 points,  68 %
+   opponents 20-23:  57 games,  22.0 points,  39 %
+   opponents 23-99:   1 games,   0.0 points,   0 %
+   seat 0: 81 games, 67 %
+   seat 1: 99 games, 56 %
+   against 20 and above (58 games): {('lost', 'died'): 12, ('won', 'killed'): 7, ('won', 'limit'): 15, ('lost', 'limit'): 24}
+
+3. HP races at turn 250: our HP minus the enemy's at the checkpoints (medians; means in brackets)
+   lost  42: t25 +0 (-1.9), t50 -3 (-4.6), t75 -5 (-6.0), t100 -8 (-8.5), t150 -8 (-8.8), t200 -10 (-12.7); final -13 (-16.3); within 5 HP 10, within 10 HP 18
+   won   73: t25 +0 (+1.0), t50 +6 (+10.7), t75 +7 (+11.8), t100 +7 (+11.8), t150 +7 (+11.6), t200 +11 (+14.7); final +14 (+18.4); within 5 HP 17, within 10 HP 30
+   HP lost by source per phase in the races (means per game): ours to knights / to towers, theirs to our knights / to our towers
+   lost races, turns   0- 50: ours 10.6 / 0.0, theirs  6.0 / 0.0
+   lost races, turns  50-100: ours  4.8 / 0.2, theirs  1.1 / 0.0
+   lost races, turns 100-150: ours  1.9 / 0.0, theirs  1.5 / 0.2
+   lost races, turns 150-200: ours  4.2 / 0.7, theirs  1.0 / 0.0
+   lost races, turns 200-250: ours  3.4 / 1.0, theirs  0.6 / 0.1
+   won  races, turns   0- 50: ours  3.5 / 0.0, theirs 14.2 / 0.0
+   won  races, turns  50-100: ours  2.8 / 0.0, theirs  3.9 / 0.1
+   won  races, turns 100-150: ours  3.6 / 0.0, theirs  3.1 / 0.3
+   won  races, turns 150-200: ours  2.1 / 0.1, theirs  5.2 / 0.1
+   won  races, turns 200-250: ours  0.8 / 0.0, theirs  4.4 / 0.1
+   What our queen was doing on the turns she lost HP to knights (sum of kd by command class, per game, means):
+   lost races: kite 16.5, flee/defence walk 5.3, top-up under knights 1.8, build on touch 1.2
+   won  races: kite 9.4, flee/defence walk 1.8, top-up under knights 1.0, build on touch 0.7
+
+4. Our queen's deaths: turns, and the last 30 turns
+   29 deaths at turns [62, 84, 84, 86, 93, 106, 130, 130, 130, 151, 156, 156, 160, 164, 172, 175, 179, 181, 184, 188, 200, 204, 216, 218, 220, 222, 224, 232, 246]
+   HP lost in the last 30 turns: 30.3 to knights, 0.3 to towers (means)
+   by command class (per death, means): kite 18.0, flee/defence walk 5.7, top-up under knights 5.4, build on touch 1.1
+   opponent income at turn 100 / 150 (medians): 5.5 / 8.0; ours 3.0 / 1.5
+   enemy knights alive at turn 100 / 150 (medians): 4.0 / 4.0; giants trained by the opponent in 4 of 29
+
+5. Medians by result, us / them:
+   lost (71 games)
+     inc_50             4.0 /     4.0
+     inc_100            3.0 /     4.0
+     inc_150            2.5 /     5.0
+     inc_200            3.0 /     3.0
+     towers_100         4.0 /     4.0
+     towers_200         5.5 /     5.0
+     thp_100         2398.0 /  2072.0
+     thp_200         2276.0 /  2774.0
+     hp_50             50.0 /    47.0
+     hp_100            45.0 /    46.5
+     hp_200            32.5 /    46.0
+     meanIncome         3.1 /     4.2
+     maxIncome          5.0 /     7.0
+     minesBuilt         4.0 /     6.0
+     mineUpgrades       5.0 /     7.0
+     towersBuilt        6.0 /     7.0
+     maxTowers          5.0 /     5.0
+     towerTopUps       67.0 /    60.0
+     trainK             9.0 /    11.0
+     trainG             0.0 /     0.0
+     firstBarracks      9.0 /    11.0
+     firstTower        14.0 /    15.0
+     barracksBuiltK     2.0 /     1.0
+     structuresLost     5.0 /     4.0
+   won (109 games)
+     inc_50             4.0 /     4.0
+     inc_100            3.0 /     5.0
+     inc_150            3.0 /     4.0
+     inc_200            3.0 /     4.0
+     towers_100         4.0 /     4.0
+     towers_200         5.0 /     5.0
+     thp_100         2524.0 /  1976.0
+     thp_200         2468.0 /  2402.0
+     hp_50             55.5 /    45.0
+     hp_100            55.0 /    42.0
+     hp_200            56.0 /    32.0
+     meanIncome         3.1 /     4.2
+     maxIncome          5.0 /     8.0
+     minesBuilt         4.0 /     6.0
+     mineUpgrades       5.0 /     8.0
+     towersBuilt        6.0 /     7.0
+     maxTowers          6.0 /     5.0
+     towerTopUps       97.0 /    57.0
+     trainK             9.0 /    11.0
+     trainG             0.0 /     0.0
+     firstBarracks      9.0 /    12.0
+     firstTower        14.0 /    16.0
+     barracksBuiltK     2.0 /     1.0
+     structuresLost     5.0 /     5.0
+   against 20 and above (58 games)
+     inc_100            3.0 /     4.0
+     maxIncome          5.0 /     8.5
+     mineUpgrades       5.0 /     8.5
+     minesBuilt         4.0 /     6.0
+     towers_200         6.0 /     5.0
+     thp_200         2380.0 /  2788.0
+     towerTopUps       83.5 /    57.5
+     trainK             9.0 /    12.0
+     trainG             0.0 /     0.0
+   opponents' openings: [('M M BK', 103), ('M M M', 24), ('M M T', 18), ('M BK T', 11), ('BK M M', 9), ('M BK M', 7)]
+   opponents trained giants in 35 games, archers in 3
+
+6. The queens' turns (all 180 games): MOVE share, turns under knights, top-ups
+   ours   MOVE on 31 % of turns; 48 contact turns a game; 0.47 HP to knights per contact turn; 1.1 turns a game inside an enemy tower range
+   theirs MOVE on 45 % of turns; 32 contact turns a game; 0.84 HP to knights per contact turn; 3.1 turns a game inside an enemy tower range
+
+6b. Contact turns (an enemy knight within 250) per phase in the races, ours / theirs (means per game)
+   lost races: 0-50: 13.3 / 9.9; 50-100: 13.3 / 4.7; 100-150: 8.9 / 3.4; 150-200: 9.7 / 3.1; 200-250: 7.2 / 2.7
+   won  races: 0-50: 9.8 / 12.8; 50-100: 13.0 / 8.7; 100-150: 10.3 / 4.6; 150-200: 7.5 / 6.7; 200-250: 4.9 / 4.8
+
+6c. Towers: count @ HP per tower at the checkpoints (medians), us / them
+   lost   t25 2@562 / 2@424; t50 3@626 / 3@508; t100 4@594 / 4@532; t150 4@539 / 5@525; t200 6@453 / 5@513
+   won    t25 2@658 / 1@464; t50 3@661 / 3@493; t100 4@609 / 4@542; t150 5@547 / 5@505; t200 5@483 / 5@486
+   vs 20+ t25 2@542 / 2@375; t50 3@643 / 3@509; t100 4@588 / 4@543; t150 5@550 / 5@505; t200 6@460 / 5@525
+   legend t25 2@428; t50 3@506; t100 4@526; t150 4@487; t200 5@469
+   legend (176 rows of 88 games, 2026-10-28) medians: income at t100 6, max income 10, mines built 6, upgrades 8, top-ups 29, knight trainings 10, game length 153; giants in 18 rows, archers in 0; openings [('M M BK', 83), ('M M M', 33), ('M BK T', 25), ('BK M M', 13)]
+
+6d. The queens' turns by command class, share of all turns (means over games): v12 in Gold, its opponents, Legend players
+   v12                      turns/game 213; top-up 27 %, walk to build 23 %, kite 19 %, move 11 %, idle pump 9 %, build on touch 8 %, flee/defence walk 1 %, top-up under knights 1 %; contact turns 22.5 % of turns, 0.47 HP to knights per contact turn
+   opponents 20+            turns/game 216; move 40 %, top-up 21 %, build on touch 12 %, walk to build 11 %, kite 9 %, top-up under knights 2 %, wait 1 %, flee/defence walk 1 %, idle pump 1 %; contact turns 13.7 % of turns, 0.70 HP to knights per contact turn
+   opponents <17            turns/game 201; move 35 %, top-up 17 %, walk to build 15 %, build on touch 13 %, kite 10 %, wait 4 %, top-up under knights 4 %, flee/defence walk 2 %, idle pump 1 %; contact turns 17.6 % of turns, 1.01 HP to knights per contact turn
+   legend (168 queen-games) turns/game 165; move 30 %, top-up 16 %, walk to build 16 %, build on touch 15 %, kite 15 %, top-up under knights 5 %, flee/defence walk 1 %, wait 1 %, idle pump 0 %; contact turns 25.6 % of turns, 1.06 HP to knights per contact turn
+   (top-up = BUILD TOWER on the touched own tower; idle pump = the same with 6 towers, 2 barracks and 2 mines standing, our ladder's end)
+
+6e. Contact episodes of our queen on turns 50-249 (runs of turns with an enemy knight within 250), by what she was doing on the last turn before the contact: walking to a site she did not touch, at an own tower (within 130 of its centre), or other; HP lost to knights per episode and per game (means)
+   lost races (42 games, 360 episodes): walking to a site 200 episodes, 2.04 HP each, 9.7 HP a game; at an own tower 130 episodes, 0.97 HP each, 3.0 HP a game; other 20 episodes, 2.25 HP each, 1.1 HP a game; walking (MOVE) 10 episodes, 1.80 HP each, 0.4 HP a game
+   won  races (73 games, 641 episodes): walking to a site 305 episodes, 1.30 HP each, 5.4 HP a game; at an own tower 282 episodes, 0.61 HP each, 2.4 HP a game; other 36 episodes, 2.58 HP each, 1.3 HP a game; walking (MOVE) 18 episodes, 0.94 HP each, 0.2 HP a game
+   lost races, walking episodes: turns of warning (a knight within 500, none within 250) before the contact: median 2, mean 2.2, none in 2 of 199
+
+8. Checks of the designers' two main proposals on the 42 lost races (the rest of the game held fixed; a tie counts as a win on seat 0 only)
+   won races' first-wave loss (20 turns from the contact), mean: 3.4 HP
+   lost races flipped if ALL walking-caught HP (turns 50-249) were saved: 9 of 42; if HALF: 3
+   lost races flipped if the first-wave loss fell to the won races' mean: 8 of 42; to zero: 13
+   both (all walking-caught HP and the first-wave excess): 19 of 42
+   lost races within 5 HP: 10; of them with first-wave excess >= 5 HP: 5, with walking-caught HP >= 5: 4
+   per lost race: gid seat margin walkKd k20 fwExcess contact t2 rating
+     918158655 1    1     5    29  25.6   18   22 25.2
+     918165015 1    1     1    10   6.6   22   25 20.5
+     918165136 1    1     0     5   1.6   21   23 20.1
+     918169416 1    1     1     5   1.6   18   23 21.6
+     918143671 0    2     0     0   0.0   25   22 19.7
+     918148351 1    2     6    12   8.6   27   26 19.8
+     918145702 1    3    15    13   9.6   26   26 20.3
+     918146673 1    3     0    24  20.6   16   21 20.0
+     918163378 1    3     0     0   0.0   27   24 19.7
+     918149783 0    5     9     0   0.0   35   23 20.1
+     918150190 0    7     0     7   3.6   27   27 19.8
+     918148960 1    8     0     3   0.0   25   25 19.8
+     918158656 0    8     1     9   5.6   22   25 20.5
+     918143673 0    9     7     8   4.6   20   24 17.6
+     918148232 0    9     8     6   2.6   24   25 20.0
+     918152187 1    9     0    15  11.6   21   29 20.4
+     918167057 1    9     0     6   2.6   25   25 20.9
+     918145824 1   10     0    28  24.6   24   31 19.7
+     918147605 0   12    14     3   0.0   31   23 21.0
+     918166008 0   12     4     5   1.6   26   29 20.5
+     918150876 1   13    14    47  43.6   30   31 19.6
+     918161882 1   13    13     0   0.0   42   28 18.0
+     918146820 1   14    12     3   0.0   28   27 19.4
+     918153099 0   14     2    14  10.6   20   24 20.2
+     918148010 1   16    10     3   0.0   26   25 20.2
+     918159678 1   16    16     0   0.0   21   22 16.4
+     918167158 0   17    16     0   0.0   27   27 21.0
+     918162812 1   19    18     8   4.6   20   25 19.5
+     918153187 0   20    21    10   6.6   21   25 19.9
+     918148692 0   21    11    14  10.6   24   28 19.8
+     918152709 1   22     0    21  17.6   20   23 20.2
+     918146139 1   23     0    18  14.6   19   24 19.2
+     918147825 0   25     9     1   0.0   28   28 20.2
+     918168125 1   28    28     7   3.6   25   25 20.9
+     918149903 1   30     0    29  25.6   24   26 20.1
+     918167366 0   30    12    18  14.6   22   24 20.6
+     918158658 0   34    13    23  19.6   24   29 18.5
+     918145371 0   35    41     0   0.0   28   25 20.4
+     918150666 0   37    23     0   0.0   27   22 19.6
+     918152514 1   37    46     3   0.0   30   23 20.3
+     918149054 1   39     3    17  13.6   25   26 19.7
+     918168604 0   68    30     6   2.6   20   23 20.8
+   second tower turn minus contact turn (all races with a contact): first-wave loss and lost share by bin
+     t2-contact <=-3   n  32 lost  8 (25 %) first-wave loss mean 1.4; vs 20+: 10 games, 4 lost
+     t2-contact -2..-1 n  17 lost  3 (18 %) first-wave loss mean 3.2; vs 20+: 3 games, 1 lost
+     t2-contact 0..2   n  39 lost 14 (36 %) first-wave loss mean 6.9; vs 20+: 13 games, 9 lost
+     t2-contact >=3    n  27 lost 17 (63 %) first-wave loss mean 11.6; vs 20+: 13 games, 10 lost
+   first tower: top-ups before the second tower stands, median 6 (mean 5.6); turns from the first to the second tower median 11 (179 games)
+
+7. The Gold ladder (2026-11-08T18:49:20+02:00): 347 rows, 0 eligible for promotion; scores at local ranks {'1': 26.54, '2': 25.54, '3': 25.24, '5': 24.6, '10': 22.87, '20': 21.83, '25': 21.51, '34': 21.07, '50': 20.51, '100': 19.0, '150': 17.48, '200': 16.92, '250': 16.13, '300': 13.99, '347': -10.06}; aabzac [(34, 21.07)]

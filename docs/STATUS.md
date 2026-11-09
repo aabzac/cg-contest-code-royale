@@ -5,7 +5,7 @@ artifacts `docs/BOTS.md`, P1 comparisons and the noise margin `docs/arena-upload
 evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary for the user
 `docs/SUMMARY.md`. The history this page held until 2026-10-30: `git show 60f0b59:docs/STATUS.md`.
 
-- Date: 2026-11-07. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
+- Date: 2026-11-09. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: **Gold** since 2026-11-07 (CG promoted v11 upload 2 after its Silver placement, 21.74, rank
   1/200; CG's Gold agent 6857463 was made at 03:48). PV3 and PV4 lapsed with this league change; **PV5**
   (2026-11-07, the user's decision on `docs/data/study-2026-11-07-gold/`) renews the proxy for Gold with the panel and
@@ -19,17 +19,30 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   unrepresented, and candidates that depend on them are judged by the arena (`docs/local-screen.md`, PV3).
   **PV4** (2026-11-06, the user's decision) adds the rival R0 as gate G5 (spec `rival`). P2's gates are
   G0-G5, kept for Gold by PV5 (2026-11-07).
-- Local champion and `current` defaults: **v12** = v11 with the ladder's tower targets kept back in the first wave
+- Local champion and `current` defaults: **v13** = v12 with no ladder walk into a visible wave (LADDER_CLEAR=500: after
+  the first-wave window and with two own towers, while an enemy knight is within 500 of the queen and none within 250,
+  the walk to the ladder's next site becomes a walk to her nearest own tower outside the enemy towers' ranges, a top-up
+  when touched), frozen 2026-11-09 by the user's decision ("Заморозим v13"; `cr.bot.v13.GreedyBot`,
+  `versions/v13.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV13`). P2 strategy screen on PV3 screen block 6:
+  S 0.5960 (CI 0.5817..0.6103) against v12, boss delta 0.0000, field +0.0510, rival +0.0747, G0 by a quiet repeat, G3
+  skipped (`docs/data/exp-2026-11-09-meet-waves/`). Final evaluation against v12 on PV3 evaluation block 2: S 0.5958
+  (CI 0.5819..0.6096), boss 0.0000, field +0.0434, rival +0.0661, G0 by a quiet repeat; below the 0.60 recommendation by
+  0.004, so an upload is an exception. Artifact `85897d90…` (89,252 chars, build `a19a87ca`, config `0c433665`; a second
+  build gave the same bytes; kept copy `artifacts/85897d90/Player.java`), procCheck 200/200 against v01 and against
+  `boss`, later turns at most 8.0 ms (`docs/BOTS.md`, Artifacts). Not committed. Uploaded twice as an exception
+  (2026-11-09: agents 6868408 and 6868474, placements 21.95 and 21.65; `docs/arena-uploads.md`). Also the selected
+  version since 2026-11-09 (below).
+- Previous local champion: v12 (2026-11-07 to 2026-11-09) = v11 with the ladder's tower targets kept back in the first wave
   (WAVE_ANCHOR=50, WAVE_UNTIL=30: until turn 30, while an enemy knight barracks or knight is out, from the second tower
   on, the free site nearest the point at the queen's height halfway back to her edge), frozen 2026-11-07 by the user's
-  decision ("Да, v12"; `cr.bot.v12.GreedyBot`, `versions/v12.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV12`).
+  decision ("Да, v12"; `cr.bot.v12.GreedyBot`, `versions/v12.properties`; `MainBotTest.withV12ParamsCurrentPlaysAsV12`).
   P2 strategy screen on PV3 screen block 5: S 0.5654 (CI 0.5523..0.5784) against v11, boss delta 0.0000, field −0.0149,
   rival +0.0135, no candidate failure, G3 skipped (`docs/data/exp-2026-11-07-meet-back/`). Final evaluation against
   v11 on PV3 evaluation block 1: S 0.5716 (CI 0.5587..0.5845), boss 0.0000, field −0.0123, rival +0.0163, no failure;
   below the 0.60 recommendation. Artifact `3208b011…` (88,517 chars, build `58d513ae`, config `7b8e0525`; kept copy
   `artifacts/3208b011/Player.java`), procCheck 200/200 against v01 and against `boss`, later turns at most 7.7 ms
-  (`docs/BOTS.md`, Artifacts); commit 08fbc49, merged into master. Also the selected version since 2026-11-07 (below).
-  The next P2 candidates are screened against v12.
+  (`docs/BOTS.md`, Artifacts); commit 08fbc49, merged into master. Also the selected version 2026-11-07 to 2026-11-09 (below).
+  The next P2 candidates are screened against v13, the local champion since 2026-11-09 (below).
 - Previous local champion: v11 (2026-11-07) = v10 with the ladder's sites on the enemy half only while the
   straight walk to them stays out of every enemy tower's range (SAFE_LADDER=1), frozen 2026-11-07 by the user's decision
   ("the default"; `cr.bot.v11.GreedyBot`, `versions/v11.properties`; `MainBotTest.withV11ParamsCurrentPlaysAsV11`). P2 as
@@ -44,11 +57,17 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   upload"; `cr.bot.v09.GreedyBot`, `versions/v09.properties`; `MainBotTest.withV09ParamsCurrentPlaysAsV09`). P2
   screen on PV3 block 0: S 0.5269 against v08, +1.46 pp against `field` (`docs/data/exp-2026-11-05-late-hold/`).
   Not uploaded, no final evaluation, no artifact checked.
-- Selected version (the arena's): **v12** since 2026-11-07, by P1 on two Gold placements, 19.64 and 21.07 (mean 20.36,
+- Selected version (the arena's): **v13** since 2026-11-09, by P1 on two Gold placements, 21.95 and 21.65 (mean 21.80,
+  SD 0.21), against v12's Gold 19.64 and 21.07 (mean 20.36): "not clearly worse" (+1.44 against −M −2.46; performance
+  21.75 ± 0.43 against 20.27 ± 0.45 at Gold's refitted scale 2.71, +1.48 against −2 SE −1.23; `docs/arena-uploads.md`).
+  Uploaded as an exception (S 0.5958 against v12 on the evaluation block). Artifact `85897d90…` (89,252 chars, build
+  `a19a87ca`, config `0c433665`; not committed yet; kept copy `artifacts/85897d90/Player.java`). The rollback artifact.
+  The live agent is 6868474 (upload 2). Gold's own M is 2.09 on 3 df; the verdicts keep Bronze's 2.46.
+- Previous selected version: v12 (2026-11-07 to 2026-11-09), by P1 on two Gold placements, 19.64 and 21.07 (mean 20.36,
   SD 1.01), against v11's Gold 18.13 and 16.03 (mean 17.08): "not clearly worse" (+3.28 against −M −2.46; performance
   20.38 ± 0.48 against 16.89 ± 0.49 at Gold's scale 3.04, +3.48 against −2 SE −1.38; `docs/arena-uploads.md`). Uploaded
   as an exception (S 0.5716 against v11 on the evaluation block). Artifact `3208b011…` (88,517 chars, build `58d513ae`,
-  config `7b8e0525`; commit 08fbc49; kept copy `artifacts/3208b011/Player.java`). The rollback artifact. On the arena the
+  config `7b8e0525`; commit 08fbc49; kept copy `artifacts/3208b011/Player.java`). On the arena the
   first wave is met 287 from the back edge (v11 411) and costs 6.9 HP (v11 11.4).
 - Previous selected version: v11 (2026-11-07), by P1 on two Silver placements, 20.80 and 21.74 (mean
   21.27, SD 0.66), against v10's 19.38 and 21.33 (mean 20.35): "not clearly worse" (+0.92 against −M −2.46;
@@ -294,8 +313,19 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `WAVE_TOWERS=2` and `TOPUP_FROM=2` score 0.45 against v11 on the development seeds and lose 2.5-7 pp against
   `field` and `rival`. Rejected before a screen; the flags stay off.
 - Waiting on the user:
-  - the next candidate, screened against v12. On the arena v12's first wave still costs 10.2 HP in lost races
-    against 3.4 in won ones, in the back half too (`docs/arena-uploads.md`, v12's section);
+  - **the P2 candidate `current?LADDER_CLEAR=500` passed the screen on PV3 block 6 (2026-11-09,
+    `docs/data/exp-2026-11-09-meet-waves/`): S 0.5960 (CI 0.5817..0.6103) against v12, field +5.1 pp, rival +7.5 pp,
+    boss unchanged, G0 by a quiet repeat; the local champion by P2.** The rule: after the first-wave window and with two
+    towers up, no ladder walk while an enemy knight is within 500; the nearest covered own tower instead. From the study
+    of v12's 180 Gold games (2026-11-08, `docs/data/study-2026-11-08-next-step/`: 200 of 360 midgame contact episodes in
+    lost races began on a walk, at 2.04 HP each against 0.97 at a tower). Frozen as v13 by the user's decision
+    (2026-11-09), the final evaluation passed (S 0.5958 against v12 on evaluation block 2), the artifact `85897d90` is
+    checked (above). **On the arena as an exception (S 0.596 below the 0.60 recommendation): two Gold placements on
+    2026-11-09, 21.95 (rank 18/348) and 21.65 (rank 22/348), SAME 180/180; against v12's mean 20.36 that is +1.44, inside
+    M 2.46: not clearly worse, v13 selected** (`docs/arena-uploads.md`). Awaiting the user: a commit of the freeze and
+    the records (the artifact's rollback store is the commit) and the merge into master. The first-wave cap
+    `WAVE_TOWER_HP` moved its mechanism but not the score and stays off. The Gold ladder: 347 agents, none eligible,
+    top 26.54, aabzac 34th with 21.07 (`docs/data/leaderboard-gold-2026-11-08.json`);
   - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).
 - Policies: P2 locally with gates G0-G5 (`docs/local-screen.md`; PV4 since 2026-11-06), then `submit` and both `procCheck`, then P1 on the arena
   (`docs/arena-uploads.md`, `tools/arena_compare.py`, registry `docs/data/arena-uploads.json`).

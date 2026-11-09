@@ -3730,3 +3730,167 @@ undervalued v08's.
 
 Records: `docs/arena-uploads.md` (the section and the table), BOTS (Uploads, Artifacts, versions), STATUS, SUMMARY,
 `docs/local-screen.md` (v12's row), `docs/rules/inferred.md` and the architecture page (now v12's). Not committed.
+
+## 2026-11-08 — Study of v12's 180 Gold games: the loss anatomy and the next step
+
+The user's "Можешь сделать анализ и предложить следующий наиболее перспективный шаг по улучшению бота?". Study
+`docs/data/study-2026-11-08-next-step/` (README, `next_step.py` → `next_step.txt`, `readers/`, `designs/`,
+`workflow-result.json`); the Gold ladder `docs/data/leaderboard-gold-2026-11-08.json`.
+
+**Data.** cgStudy over v12's two Gold uploads, v11's two, the Legend corpus (88 games) and cg2's Gold games; DeathTrace of
+both queens in v12's 180 games and of ten Legend players; the meet-back WaveTrace summaries; all manifests and bench
+reports for the seat. Inputs in the main checkout's `replays/study/gold-v12-2026-11-08/` (sha256 in the README). The
+public Gold leaderboard (347 agents, none eligible, top 26.54; aabzac 34th with 21.07) fetched with the corpus tools'
+`explore_lb.py`; raw `replays/cg/leaderboard/gold-20261108-1849.json`.
+
+**Method.** A workflow (`wf_7ae430be-6dc`, 29 agents planned): seven readers (losses, midgame, seat, first wave,
+opponents, code, history) and four designers returned; the two refuters per proposal, the synthesizer and the critic
+failed on the user's 5-hour usage limit, twice. Section 8 of `next_step.py` recomputes the two main proposals' claims on
+the 42 lost races instead; the readers' other numbers are theirs and marked so.
+
+**Findings.** 42 lost races and 29 deaths of 71 losses; 39 % against the 58 opponents rated 20+. The races: a steady
+bleed (their knights on our queen 52 turns a game against 24; ours take 1 HP a phase off their queen after turn 50).
+First wave: lost races meet it before the second tower stands (contact 24.5, tower 25.2); second tower 3+ turns before
+the contact: 25 % lost and 1.4 HP, 3+ after: 63 % and 11.6 HP. Midgame: 200 of 360 contact episodes on turns 50-249
+begin while the queen walks to a site (2.04 HP each against 0.97 at a tower; 197 of 199 with a knight already within
+500). Deaths: economic collapses (opponent income 8 at turn 150 against our 1.5). Our queen pumps towers 36 % of her
+turns (Legend 16 %) but loses the least per contact turn (0.47 against 0.70-1.06). Seat: the engine's collision order
+(player 0's creeps, queen 0, player 1's creeps, queen 1) costs seat 1 about 1 Gold point for everyone; our bot is
+point-symmetric.
+
+**Recommendation.** "Meet every wave at a standing tower": `WAVE_TOWER_HP` (the first tower pumped to 400-500 while the
+first wave comes) and `LADDER_CLEAR` (no ladder walk while an enemy knight is within ~500 after the first-wave window);
+each flips 8-9 of the 42 lost races at full effect, both 19. One development sweep with the deaths tripwire, then the P2
+screen on screen-pv3 block 6. Not the step: economy flags, a trailing-side hold, a rollout controller, the seat.
+
+Records: the study README, SUMMARY (Сейчас and a decision entry), PLAN (phase 3), STATUS (the next step). Not committed.
+
+## 2026-11-09 — Meet every wave at a tower: LADDER_CLEAR=500 passes P2; the first-wave cap does not
+
+The user's "Да, делай" on the study's recommendation. Experiment `docs/data/exp-2026-11-09-meet-waves/` (README with the
+hypothesis and the bar written first, `sweep.sh`/`sweep_table.py` → `sweep.txt`, `profile.sh`/`profile_table.py` →
+`profiles.txt`, `screen.sh` → `g1.json`, `g2.json`, `g4.json`, `g4-rerun.json`, `g5.json`, `eval.sh` prepared). Raw reports
+in the main checkout's `replays/bench/exp-2026-11-09-meet-waves/` (`dev/`, `profiles/`, `screen/`, the logs).
+
+**Code** (`current`, off by default; `current` plays as v12, `MainBotTest.withDefaultsCurrentPlaysAsV12`):
+- `WAVE_TOWER_HP=H`: with fewer than 2 own towers and an enemy knight wave coming, the touched tower is topped up only
+  while its HP is below H (the touch rule's threshold, `MainBot.play`).
+- `LADDER_CLEAR=R`, `LADDER_CLEAR_MAX=N`: after the first-wave window and with 2 own towers, while an enemy knight is within
+  R and none within THREAT_RANGE, the ladder's walk to a new site (and INCOME_LATE's, and the idle walk home) becomes a
+  walk to the nearest own tower outside the enemy towers' ranges (a top-up when touched); a spell lasts while a knight
+  stays within R and ends after N holds (0: no cap). A gate before the ladder branch; `clearRun` like `kiteRun`.
+- `cr.tools.LocalProfile`: two new lines, the second tower's turn minus the first contact, and the midgame contact
+  episodes (turns 50-249) begun on a walk / at an own tower / otherwise with their HP to knights (`midgame`).
+- Tests: `StrategyParamsTest.waveTowerHpCapsTheFirstTowersPumpWhileAWaveComes`,
+  `ladderClearHoldsTheQueenAtHerTowerWhileAKnightIsNear`; the snapshots `versions/v01-v12.properties` list the three new
+  parameters at 0 (`BotFactoryTest.frozenSnapshotIsIndependentOfLiveDefaults`). Full suite green in the worktree (27 s).
+  The worktree got a copy of `refs/referee-csj/config/level4/Boss.java` for the boss series.
+
+**Development sweeps** (seeds 1 + 397 k, k < 500, both seats; v12 controls 0.7610 against rival, 0.9390 against field):
+- `WAVE_TOWER_HP` 400 / 500 / 600: S 0.474 / 0.5025 / 0.499 against v12, rival −3.1 / −1.3 / −0.9 pp, field −2.6 / −1.8 /
+  −0.1 pp. The profile at 500: the second tower stands 2 turns earlier relative to the contact, the first-wave loss falls
+  4.4 → 3.3 HP, the mirror's deaths halve (21 → 9), the summed tower HP at turn 50 is 4-7 % lower; no score. Off.
+- `LADDER_CLEAR` 400 / 500 / 600 / 700: S 0.580 / 0.6025 / 0.605 / 0.572; rival +5.7 / +6.65 / +4.95 / +4.55 pp; field +2.4 /
+  +3.3 / +3.6 / +2.6 pp; `LADDER_CLEAR_MAX=15` changes nothing. The candidate: 500, the middle of the plateau.
+- Profiles (200 maps): the episodes begun on a walk fall 3.3 → 0.6 (mirror), 4.5 → 0.8 (rival), 8.0 → 1.0 (field) a game;
+  our queen's knight damage on turns 50-249 8.7 → 5.7, 12.8 → 9.3, 6.8 → 1.8; deaths 21 → 18, 39 → 30, 13 → 3 per 400
+  games; towers, income and gold mined unchanged; the enemy queen loses 0.5-2.7 HP less to our knights.
+
+**P2 screen** of `current?LADDER_CLEAR=500` against v12 on PV3 screen block 6 (seeds 1006000000 + 397 i; the ledger's
+next block is 7): G1 S 0.5960 (CI 0.5817..0.6103), W/D/L 2202/364/1434, 1931 of 2000 maps changed; G2 boss 0.9990 against
+0.9990; G4 field 0.9690 against 0.9180, +0.0510 (CI +0.0414..+0.0606); G5 rival 0.8140 against 0.7392, +0.0747
+(CI +0.0588..+0.0907); G3 skipped. G0: one slow turn in the first field run at 8 threads (52.7 ms; v12's own mirror had a
+64.1 ms turn); the series repeated at 2 threads held the same 4000 games (`same_games.py`) with no slow turn, so G0 passes
+by the quiet repeat as in the waves experiment. **Verdict: pass; the local champion by P2.** The default, a freeze as v13,
+the final evaluation on evaluation block 2 and an upload are the user's decisions.
+
+Records: the experiment README, the seed ledger (block 6 used, next 7), BOTS (flags), STATUS, SUMMARY, PLAN. Not
+committed.
+
+## 2026-11-09 — Freeze v13: no ladder walk into a visible wave (LADDER_CLEAR=500); the final evaluation and the artifact
+
+The user's "Заморозим v13".
+- `Params.LADDER_CLEAR` defaults to 500. `cr.bot.v13.GreedyBot`, `RoutePlanner` and `ApproachPlanner` are copies of
+  `current` at the freeze (package, class names, the frozen header, `name()`; no `queenSteps()`); `versions/v13.properties`
+  is v12's snapshot with LADDER_CLEAR=500. `BotFactory`, `LocalGames` (v13 the default opponent, 16 bots),
+  `visualizer/local.js`, `docs/visualizer.md` and `.ai/project.md` (v00-v13; AGENTS.md resynced) know v13.
+- Tests: `MainBotTest.withDefaultsCurrentPlaysAsV13` (fixture seeds and PV3 screen block 6's first maps) and
+  `withV12ParamsCurrentPlaysAsV12`; the V02-V11 constants add `LADDER_CLEAR=0`; `BotFactoryTest`'s chain v12 → v13 and the
+  live defaults = v13; `LocalGamesTest`'s bot count 16; `StrategyParamsTest.ladderClearHolds…` sets `LADDER_CLEAR=0` for its
+  v12 baseline. Full suite green: 173 tests, 3 corpus tests skipped (no arena replays in the worktree).
+- `docs/bot-architecture.html` rewritten for v13: the header, the decision flow (a step 2b node), the pseudocode, the
+  target-choice list, the versions table and paragraph, the files map, the gaps and the directions row.
+
+**Final evaluation** (`eval.sh`, PV3 evaluation block 2, seeds 2002000000 + 397 i; the ledger's next evaluation block is 3):
+G1 S 0.5958 (CI 0.5819..0.6096) against v12, W/D/L 2190/386/1424, 1942 of 2000 maps changed; G2 boss 1.0000 against
+1.0000; G4 field 0.9673 against 0.9239, +0.0434 (CI +0.0342..+0.0526); G5 rival 0.8170 against 0.7509, +0.0661
+(CI +0.0505..+0.0817); G3 skipped. G0: 5 slow turns in the first field run at 8 threads (93.3 ms; v12's own field control
+had 2 with 100.1 ms, its mirror 1); the series repeated at 2 threads held the same 4000 games (`same_games.py`) without a
+slow turn (5.7 ms), so G0 passes by the quiet repeat (`eval-g4-rerun.json`). The screen replicates (0.5960 → 0.5958,
+field +5.1 → +4.3 pp, rival +7.5 → +6.6 pp). S is 0.004 below the 0.60 upload recommendation: an upload is an exception.
+
+**Artifact.** `./gradlew submit` with empty PARAMS: `85897d90c377ada9354eb5238081aa16c3bfb6c6de3bca4a88ae089d6bc9cddd`,
+89,252 chars, build `a19a87ca` (turn 0: `TRAIN 10 1 9 10 8 7 12 10`), config `0c433665`; a second build gave the same
+bytes; the kept copy `artifacts/85897d90/Player.java` in the main checkout. procCheck vs v01 100 maps @5000: 200/200
+identical to current, 200 wins, 0 timeouts, no extra, late or stderr lines, max first turn 199.7 ms, later 8.0 ms; vs boss
+100 maps @6000: 200/200, 200 wins, 0 timeouts, max first 148.0 ms, later 6.1 ms. Raw reports and logs in the main
+checkout's `replays/bench/exp-2026-11-09-meet-waves/` (`eval/`, `submit.log`, `proccheck-*.log`).
+
+Records: the experiment README (v13, Final evaluation, Artifact), BOTS (versions, Artifacts, flags), STATUS, SUMMARY,
+PLAN, the seed ledger (evaluation block 2 used, next 3), `docs/local-screen.md` (v13's row), the architecture page. Not
+committed; not uploaded (the user's decision: `tools/arena.py follow v13 --selected v12`, then the paste, twice).
+
+## 2026-11-09 — v13 upload 1 in Gold: 21.95, rank 18/348; the follow's stop and its fix
+
+The user's "Можешь запустить загрузку?" while away from the computer: neither browser had a CodinGame session (the
+built-in pane showed the guest IDE, Claude in Chrome was not connected), so the paste stayed the user's. Back at the
+computer the user played one IDE game against the boss, pasted the kept copy `artifacts/85897d90/Player.java` and ran
+`python -B -I tools/arena.py follow v13 --selected v12` from the main checkout.
+- **The stop.** For a new label the command defaults to the main checkout's `build/submit/Player.java`; v13 had been
+  built in the worktree, so that file still held v12's `3208b011`. The command saved v12 upload 2 (21:03:38, 90 games,
+  marker `58d513ae`), saw agent 6868408 at 21:06:35 and stopped at 21:06:41: "plays build a19a87ca, not build 58d513ae
+  of the artifact 3208b011". The agent's build was v13's: the paste was right, the default wrong.
+- **The fix.** `follow v13 --selected v12 --artifact artifacts/85897d90/Player.java` at 21:09:40 resumed from step 4:
+  game 919171235 carried build `a19a87ca`, the agent was registered as v13 upload 1 at 21:09:45 and followed (snapshots
+  at 21, 33, 44, 57, 68, 81, 92, 95 and 100 %; the games fetched every minute).
+- **Placement** complete at 21:29:49: local rank 18/348 (global 132), score 21.95, `eligibleForPromotion` false;
+  90 games, 52 wins (seat 0: 27 of 41, seat 1: 25 of 49); the referee removed the opponent in 919171244 (Aa123456, a
+  turn-2 timeout); 919175620 ended 70:70 at turn 250 with us as player 0, ranked a win (the seventeenth equal-score
+  game); 59 of 90 games reached turn 250. Opponents' median 21.81 (v12's placements 19.5-19.7): 11 games against players
+  rated 23 or more (5 won), 53 against 20-23 (28), 21 against 17-20 (14), 4 below 17 (4).
+- **Code:** `cgAttribute` against the kept copy: SAME 90/90, 19,341 turns; marker `a19a87ca` in all 90.
+- **P1:** performance 22.20 ± 0.67 (Gold scale 2.99 on five uploads); 21.95 against v12's mean 20.36 is +1.59, inside
+  M 2.46: no early rollback (that needs a score below 15.43); the second upload decides. The follow for it was started
+  at 21:31:08 and names the kept copy to paste.
+- Files: `replays/arena/v13/gold/upload-01/{games,snapshots,checks}` in the main checkout;
+  `docs/data/arena-6868408-placement-2026-11-09.json`, `docs/data/arena-6868408-games-2026-11-09.json`, the registry entry
+  and the re-fetched manifest of v12 upload 2, copied into the worktree.
+
+Records: BOTS (Uploads), `docs/arena-uploads.md` (the v13 section), STATUS, SUMMARY, PLAN, `docs/local-screen.md`. The
+memory note on `tools/arena.py` gained the `--artifact` lesson. Not committed.
+
+## 2026-11-09 — v13 upload 2 in Gold: 21.65, rank 22/348; P1 verdict: v13 selected
+
+The user's "Вставил" (the second paste of the kept copy). `python -B -I tools/arena.py follow v13 --selected v12`, started
+at 21:31:08 (the kept copy is the default for a known label), saved upload 1 at 21:31:13, saw agent 6868474 at 21:35:15
+(10 % played), checked game 919179259 (build `a19a87ca`) and registered it as v13 upload 2 at 21:35:20.
+- **Placement** (snapshots at 10, 22, 34, 50, 64, 81, 92 and 100 %): complete at 21:54:29, local rank 22/348 (global
+  136), score 21.65, `eligibleForPromotion` false; 90 games, 55 wins (seat 0: 25 of 39, seat 1: 30 of 51); no referee
+  removal, no equal score; 58 of 90 games reached turn 250; opponents' median 20.44 (58 games against 20-23, 30 points;
+  24 against 17-20, 17; 8 below 17, 8).
+- **Code:** `cgAttribute` against the kept copy: SAME 90/90, 18,930 turns; marker `a19a87ca` in all 90.
+- **P1 against v12** (upload 2's `checks/arena-compare.json`; Gold's scale refitted at 2.71 on six uploads):
+  - mean 21.80 (21.95, 21.65; SD 0.21) against 20.36, +1.44 against −M = −2.46;
+  - performance 21.75 ± 0.43 against 20.27 ± 0.45, +1.48 against −2 SE = −1.23;
+  - neither rollback condition holds: **v13 is the selected version**; `85897d90` is the rollback artifact for the next
+    candidate. Gold's own M is 2.09 on 3 df; the verdicts keep Bronze's 2.46 (the user's decision of 2026-11-07).
+- **Local against arena:** S 0.5958 → +1.44 points (v12: 0.5716 → +3.28).
+- Files: `replays/arena/v13/gold/upload-02/{games,snapshots,checks}` in the main checkout;
+  `docs/data/arena-6868474-placement-2026-11-09.json`, `docs/data/arena-6868474-games-2026-11-09.json`, the registry and
+  the re-fetched manifest of upload 1, copied into the worktree. The equal-score game 919175620 of upload 1 is the
+  seventeenth in `docs/rules/inferred.md`.
+
+Records: BOTS (versions, Uploads, Artifacts), `docs/arena-uploads.md` (upload 2 and the verdict), STATUS (the selected
+version), SUMMARY, PLAN, `docs/local-screen.md`, `docs/rules/inferred.md`, the architecture page (v13 selected), the
+experiment README (On the arena). Not committed: the commit of the freeze and the records, then the merge into master,
+are the user's.

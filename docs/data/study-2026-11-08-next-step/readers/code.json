@@ -1,0 +1,164 @@
+{
+ "findings": [
+  {
+   "claim": "Seat asymmetry is in the rules engine, not in the bot. The bot is exactly point-symmetric: homeLeft (MainBot.java:558-563) mirrors the home corner; the kite fan (kite(), a0 at line 256, headings k*15 deg at 264-266) is a full circle whose order is also mirrored under the 180-degree rotation, so even exact-tie breaks are mirrored; nextSite's anchor and BARRACKS_FORWARD point (416-439) mirror; the only non-mirrored bot tie-break is nearest() picking the lower site id (51-60), which is unbiased across maps because the even-id site of each mirrored pair is drawn uniformly (MapGen.java:23-33). Yet identical deterministic bots favour seat 0.",
+   "numbers": "v11 vs v11 mirror (eval bench, 2000 maps, 4000 games, draws=0.5 locally): seat 0 won 1050 maps, seat 1 won 813, 137 draws of 2000 -> S(seat 0)=0.559, S(seat 1)=0.441; applying CG's observed tie rule (player 0 wins equal HP) gives 0.5935 vs 0.4065. Seat 0 is favoured in every other pairing too: v12 vs v11 S 0.5998 on seat 0 vs 0.5435 on seat 1 (2000+2000 games); v12 vs field 0.9367 vs 0.9120; v12 vs rival 0.7718 vs 0.7315. Arena v12: 54/81 on seat 0 (0.667) vs 55/99 on seat 1 (0.556); 2 of v12's 115 limit games ended at equal HP, both on seat 0, both counted as wins (features csv). Earlier self-play (DEVLOG 2026-10): 187 vs 110 of 300.",
+   "evidence": "M/replays/bench/exp-2026-11-07-meet-back/eval/mirror.json, direct.json, field-cand.json, rival-cand.json (script seat_bench.py); W/replays/study/gold-v12-2026-11-08/features-v12-gold.csv; docs/rules/inferred.md (tie rule, 16 games). Candidate mechanisms in the validated engine: the single collision pass per creep sub-step visits player 0's creeps, queen 0, player 1's creeps, queen 1, then sites (Physics.java:121-128 load order, collisionCheck 76-109, called once per sub-step at Rules.java:240-243), so residual overlaps differ by seat; SPAWN_CORNER offsets are the same absolute offsets for both players, not mirrored (Rules.java:383-390); the build-conflict parity (Rules.java:61-64: player 1 builds on even 0-based turns); CG's equal-HP tie to player 0. Which one carries the 12 pp is not derivable by reading (confidence low on the mechanism); it needs a controlled engine experiment (swap the collision order or mirror the offsets in a local copy and rerun the mirror). Confidence high that it is rules-level: identical bots on a validated engine.",
+   "confidence": "high"
+  },
+  {
+   "claim": "The bot can know its global seat today without new input: player 0 always starts top-left (MapGen.java:65-66 fixes queen 0 at (200,200); cgValidate reproduces all 236 CG replays from MapGen), so homeLeft(s) (MainBot.java:558-563) == 'I am player 0'. The PLAN item 'keep the global seat in InputReader for the build-conflict parity' is a one-line derivation (InputReader.java:64-101 maps me to index 0 and never stores the seat). A rollout with Rules on the bot's state would otherwise apply the parity (Rules.java:63-64, global indices) as if we were player 0.",
+   "numbers": "Build conflicts: 5 in 2 games of 236 replays (docs/rules/inferred.md row 'Build conflict'); irrelevant inside a kiting rollout, relevant only when both queens BUILD the same site the same turn.",
+   "evidence": "src/main/java/cr/core/MapGen.java:65-66; src/main/java/cr/core/InputReader.java; src/main/java/cr/core/Rules.java:61-64; docs/rules/inferred.md.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Knight damage under contact, by the queen's command, is the HP pool code-level changes can touch: two thirds is taken DURING kite steps, a fifth while walking under knights (flight to the nearest own tower or the defence rule's walk to a free site), a sixth while standing (top-up/build on the touched site). Walking under knights is the most expensive per turn and the flight (MainBot.java:133-137, straight BUILD at the nearest own tower, no knight avoidance, no enemy-range check) is the worst context.",
+   "numbers": "180 Gold games, 38,252 traced turns, 8,615 turns with an enemy knight within 250. Knight damage total 4,038 HP: kite MOVE 2,679 HP in 7,325 turns (0.37/turn, 66 %); BUILD walking 730 HP in 571 turns (1.28/turn, 18 %); BUILD standing 629 HP in 719 turns (0.87/turn, 16 %). Walk episodes: flight to an own tower 194 episodes, 292 turns, 455 HP (1.56/turn); defence rule (a new tower appears) 125 episodes, 278 turns, 273 HP (0.98/turn). Per game class (means): won races (73) kd 12.8 = move 9.4 (40.2 turns) + stand 1.7 + walk 1.8; lost races (42) kd 24.9 = move 16.5 (44.5 turns) + stand 3.0 + walk 5.3, td 1.9; deaths (29) kd 54.8 = move 33.8 (52.7 turns) + stand 11.1 + walk 9.9; 20 of 29 deaths had a walk under knights in their last 30 turns. Median standing share of contact turns 0.06 (171 games with >= 10 contact turns). Lost-race margins (opp HP - ours): 10 of 42 within 6 HP, 18 within 10, median 13. What-if bounds: halving the walking damage flips 3 of 42 lost races, removing it 5 of 42; halving the standing damage 2 of 42.",
+   "evidence": "W/replays/study/gold-v12-2026-11-08/ours-upload-01.txt, ours-upload-02.txt (DeathTrace, kd/td columns), scripts trace_quirks.py and trace_levers.py. Standing turns are confounded with crowding (kiting returns null when no step gains). Counts are high confidence; the what-if bounds hold the opponent's HP fixed and are medium confidence.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Kiting (MainBot.kite, lines 242-284) scores one step against knights frozen at their current positions (273-274) although knights move 100/turn toward the queen after her 60 step (Rules.java:277-310: target the enemy queen, stop within 50, damage within 55 at 316); it requires the step to END inside an own tower's range (271) and outside enemy ranges (270), never plans a second step, never credits a second covering tower (the pull is to the nearest tower only, 258/276), and when no reachable point is covered it returns null and the straight flight (133-137) takes over. The first-wave data show single cover costs HP.",
+   "numbers": "WaveTrace window (176 v12 games, 20 turns from contact): games with >= 50 % of covered turns under two own towers: 141, lossK20 median 3 (mean 6.0), 6.0 knights killed, towers at contact 1.74; games below 50 %: 35, lossK20 median 8 (mean 10.6), 5.3 killed, towers at contact 1.46 (confounded by the tower count). Median k250Turns20 11, moves20 11, stuckMoves20 0, topups20 6; the wave is cleared within the window in 170 of 176.",
+   "evidence": "M/replays/study/gold-v12-2026-11-07/waves/summary.csv (script waves_cover.py); src/main/java/cr/bot/current/MainBot.java:242-284; src/main/java/cr/core/Rules.java:277-334. The cover association is confounded by the number of towers at contact.",
+   "confidence": "medium"
+  },
+  {
+   "claim": "Quirk: flight, idle pumping and the touch rule treat 'under an enemy tower' inconsistently. The touch rule skips a touched site whose CENTRE is in an enemy range (MainBot.java:117, underEnemyTower 43-49), but the flight picks the nearest own tower with no check (134), the idle rule picks the home-nearest tower with no check (175-176), and the referee damages the QUEEN where she stands (Rules.java:356-358), not the site centre: the touch point is 90-125 from the centre, so both false positives and false negatives occur. Cost is small in Gold.",
+   "numbers": "Enemy-tower damage to our queen: 114 HP of 4,152 total over 180 games (2.7 %); 15 of 180 games have any; topping up a touched own tower under enemy fire: 71 HP in 68 turns, 11 games (30 HP of it in 27 turns with knights within 250 = the flight); 112 standing turns inside an enemy range in all. Walking into ranges without knights (ROUTE's straight fallback, RoutePlanner.java:128 when no clean plan exists, and safeSegment failing from inside a range): TOWER 18 + MINE 9 + BARRACKS 3 = 30 HP in 29 turns (0.17 HP/game). Games with td >= 5: 9 (lost races 918146139 td 18 margin 23, 918168604 td 40 margin 68, 918150190 td 7 margin 7, 918158658 td 5 margin 34, 918167057 td 6 margin 9; deaths 918150491 td 5, 918160015 td 10, 918167279 td 7; won 918158657 td 5). No lost race has margin < td.",
+   "evidence": "trace_quirks.py [A], trace_levers.py; MainBot.java:117,133-137,175-176,43-49,360-364; RoutePlanner.java:128,259-261; ApproachPlanner.java:140-150; Rules.java:347-363.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Quirks that the data show are negligible in Gold: ladder target oscillation (nextSite recomputed every turn, MainBot.java:149,416-439) and ROUTE's straight fallback through enemy ranges (since SAFE_LADDER, 459-473, which samples the straight walk every 20 units).",
+   "numbers": "Oscillation A,B,A while walking without knights: 3 episodes, 9 turns, 3 of 180 games; target changed between consecutive walking turns 170 of 8,804 walking turns (1.9 %, mostly legitimate: site taken, structure lost, the WAVE_UNTIL=30 window closing). Straight fallback through ranges: 30 HP in 29 turns over 180 games (see above).",
+   "evidence": "trace_quirks.py [C], [A].",
+   "confidence": "high"
+  },
+  {
+   "claim": "The threat definition (enemy knights within 250, MainBot.java:87-88) is right about archers and giants: in the referee archers damage only creeps (Rules.java:318-323) and giants only towers (324-332), so neither threatens the queen. The gap is the approaching wave: knights 250-500 away do not stop mine upgrades or ladder mines (119-120,124,128), and ROUTE only drops its landing search near knights (ApproachPlanner.quietStep 117-131, 420). The cost is small.",
+   "numbers": "5,341 turns with knights within 500 but none within 250; 868 of them BUILD ... MINE; knight damage in the following 3 turns 175 HP (about 1 HP/game).",
+   "evidence": "trace_quirks.py [G]; Rules.java:312-334.",
+   "confidence": "high"
+  },
+  {
+   "claim": "The queen's time goes to tower maintenance: top-ups are 37 % of all turns, almost all without knights near; the ladder (6 towers, 2 barracks, 2 mines) completes in fewer than half the games, so most top-ups come from the touch rule on the way (MainBot.java:121-122, any touched own tower below TOWER_HP=700), not from the idle rule (175-176). Tower melt makes a floor: 4 HP/turn/tower (Const.TOWER_MELT_RATE), so 6 towers at 700 need 0.24 top-ups per turn = about 60 per 250 turns.",
+   "numbers": "Top-up turns (BUILD TOWER on a touched site, tower count unchanged next turn): 14,100 of 38,252 (36.9 %), 550 of them with a knight within 250; towerTopUps per game median 91, mean 86.4 (csv). Ladder complete (T>=6, M>=2, B>=2) in 85 of 180 games, median turn 125; post-ladder top-up turns 3,573 (9.3 % of turns, median 0 per game, mean 19.9), 3,153 of them with no knight within 500. Own towers at the last traced turn: 6 in 32 games, 5 in 48, 4 in 45, 3 in 34, 2 in 19, 0-1 in 2.",
+   "evidence": "trace_quirks.py [D], trace_levers.py [ladder]; features-v12-gold.csv; Const.java:18.",
+   "confidence": "high"
+  },
+  {
+   "claim": "TRAIN_SYNC (MainBot.java:211-216) holds gold half the time with two barracks; one code quirk: idle = Integer.MIN_VALUE when any knight barracks trains, so the other barracks never starts while one trains even with gold for both. The design (one wave of 8) was adopted with evidence in v06, so this is capacity, not a defect.",
+   "numbers": "16,928 turns with 2 own barracks: gold in [80,160) in 8,137 (48 %), gold >= 160 in 265 (1.6 %), mean gold 81; meanGold per game median 65.1 (csv).",
+   "evidence": "trace_quirks.py [E]; MainBot.java:190-232.",
+   "confidence": "high"
+  },
+  {
+   "claim": "The defence rule (MainBot.java:97-110) walks to the nearest free site within 500 (site-centre range check, no knight avoidance) and the new tower starts at 200 HP with range about 262 (Rules.java:361, Const TOWER_HP_INITIAL 200, COVERAGE 1000); the walk costs about 1 HP per turn under knights. The second-barracks centre rule (425-430, nearest to (960,500)) has an exact tie between the two mirrored centre sites and picks the lower id, which may lie on the enemy half; SAFE_LADDER filters most cases.",
+   "numbers": "Defence walks: 125 episodes, 278 turns, 273 HP (0.98/turn), 58 games with T<2 at the time (142 turns, 138 HP) and 103 games with T>=2 (429 turns, 592 HP, includes flights). Second barracks built on the enemy half in 11 of the 132 games where it was built (won 6/11 vs 77/121 on our half); never built in 48 of 180; median build turn 114.",
+   "evidence": "trace_quirks.py [F], trace_levers.py [walk episodes], barracks_half.py. Counts are high confidence; the enemy-half outcome effect rests on 11 games (low).",
+   "confidence": "high"
+  },
+  {
+   "claim": "Feasibility of a short rollout with cr.core.Rules for the queen's command under knights: the model is almost fully determined by the input. Enemy knights walk to our queen deterministically (Rules.java:277-310; speed 100 in 5 sub-steps of 20, stop at 50, hit within 55 for 1 HP, Const.CREEP_SPEED/KNIGHT_DAMAGE); towers shoot the closest enemy creep in range else the queen (347-363, damage 1+(range-dist)/200 to the queen, 3+diff/200 to creeps, melt 4, range from HP); enemy barracks in training are known exactly (InputReader.java:83-84 sets barrProgress from param1) and spawn deterministically (383-395); the enemy's new TRAIN orders need 5 turns to spawn (CREEP_BUILD_TIME) plus travel, so a horizon <= 5 is exact in that respect; the hidden enemy gold affects only their TRAIN (InputReader reads only our gold, line 66); the enemy queen's move only matters through collisions and her builds (unknown; assume she stands or repeats her last step). The queen's own move resolves against sites only through the 5 collision passes (Rules.java:136-139 sets the position; 240-243 the passes), the same thing Physics.queenStep models.",
+   "numbers": "Cost per Rules.resolve, counted from the code: processCreeps runs 5 sub-steps, each moving C creeps (about 2 sqrt each) and one collisionCheck pass over E = C + 2 + 24 entities with E*(E-1) pair checks, one sqrt each; then damage O(C), mine teardown C*24, towers T*C, removeDead, rounding. Board creeps in v12's Gold games (both sides, 963 fixed-turn samples): median 4, p90 12, max 20 (enemy knights median 3, p90 7, max 12) -> E = 30 / 38 / 46 -> 4,350 / 7,030 / 10,350 pair checks per resolve, about 30-110 us at 7-10 ns per pair on a desktop core, estimate 0.05-0.25 ms on CG's core; spawn turns add fixCollisions(s, 999) until stable (Rules.java:394), several more passes. Budget: measured max later turn 7.7 ms (procCheck), effective limit 40 ms (CGRunner TURN_MS 50 - MARGIN_MS 10), so about 30 ms free = 120-600 full resolves: 24 headings x 5 turns + stand + up to 3 BUILD candidates = about 135 resolves = 7-34 ms, tight at the p90 creep count. A local reduced state (queen, knights and sites within 400 + 60*h, towers whose range can reach that area): E about 12-15 -> about 1,000 pair checks (10-15 us) per turn -> 24 x 6 = 150 turn-sims in about 2 ms, leaving room for a 2-ply over the best 6 first moves (6 x 24 x 4 = 576 turn-sims, about 8 ms). GameState.copy is a few arraycopies (about 1-2 us). The deadline is already passed to play() (MainBot.java:63) and unused, so an anytime loop needs no new plumbing.",
+   "evidence": "src/main/java/cr/core/Rules.java, Physics.java:76-109,121-147,156-168, Const.java, InputReader.java, GameState.java:102-141, CGRunner.java:13,47; features-v12-gold.csv (creep counts); docs/data/exp-2026-11-07-meet-back/README.md line 296 (7.7 ms). No microbenchmark was run; costs are counted from the loops; CG's hardware is unknown.",
+   "confidence": "medium"
+  },
+  {
+   "claim": "Two runner risks for any search: JIT cold start and the warm-up's coverage. CGRunner.warmUp (CGRunner.java:92-127) never reaches kite() or the flight (copy k==2 adds a knight with no own towers, so the defence rule answers), so a rollout's hot loops (Rules.resolve, collisionCheck) would first run interpreted in a 50 ms turn unless the warm-up calls them; the DEVLOG recorded cold first MOVEs of 12-33 ms p50 (max 39.5 ms) on a slow core before the warm-up existed. The first turn has 1000 ms, the warm-up uses up to 300 ms (WARM_UP_MS), measured first turns 265-298 ms.",
+   "numbers": "procCheck: max first turn 264.8 / 298.1 ms, max later turn 6.7 / 7.7 ms (100 maps each vs v01 and boss).",
+   "evidence": "src/main/java/cr/submit/CGRunner.java:13-15,92-127; docs/DEVLOG.md lines 100-102; docs/data/exp-2026-11-07-meet-back/README.md line 296.",
+   "confidence": "high"
+  },
+  {
+   "claim": "The late game of a trailing race is where code does nothing: LATE_HOLD (MainBot.java:95,149) acts only when ahead (hp[0] > hp[1]); when behind, the ladder keeps walking and kiting runs as in the midgame. In the lost races the last 50 turns cost little walking damage; most late loss is during kite steps and from enemy towers.",
+   "numbers": "Lost races (42): trailing at turn 200 in 40 of 42; knight damage in turns 200-249 by context: move 95, stand 25, walk 21 HP; enemy towers 43 HP (one game, 918168604, took 40 of it). 2 of 115 limit games ended at equal HP (both seat 0, both won): on seat 0 a tie is a CG win, so hold could use >= there (the seat is homeLeft).",
+   "evidence": "trace_levers.py [lost races, turns 200-249]; features-v12-gold.csv; docs/rules/inferred.md tie games.",
+   "confidence": "high"
+  },
+  {
+   "claim": "The bot ignores a rule it could use: a queen tears down an enemy mine or barracks she touches (Rules.java:258-264), and so does the enemy queen to ours; nextSite targets only free sites (MainBot.java:420,428,436-438), the enemy queen's position is read only by RoutePlanner.contested (246-249), quietStep (ApproachPlanner.java:124) and the off RELEASE_NEAR (MainBot.java:296-301).",
+   "numbers": "structuresLost (ours) median 5, mean 4.63 per game, >= 1 in 165 of 180 games; this count includes exhausted mines and melted towers (CgStudy.java:117-119), so the teardown share is unknown.",
+   "evidence": "features-v12-gold.csv; src/main/java/cr/tools/CgStudy.java:105-125.",
+   "confidence": "medium"
+  }
+ ],
+ "levers": [
+  {
+   "lever": "Rollout-evaluated queen command under knights with cr.core.Rules (replace kite() first, then the flight at MainBot.java:133-137, then the defence rule at 97-110 as a BUILD candidate; the touch-rule top-up under threat becomes the 'stand' candidate). Candidates: 24 headings (reuse heading()), stand (BUILD touched tower), BUILD TOWER on the 1-3 nearest free sites, BUILD at the nearest own tower; horizon 4-6 turns on a copied state (local reduction: entities within 400 + 60*h); enemy knights by the referee's movement, towers by the referee's targeting, known barracks spawns, enemy queen standing; our later turns by the current greedy rules or the same first move repeated. Evaluation: our HP lost over the horizon, minus enemy knights' HP removed by our towers (scaled), penalty for ending outside own cover or inside an enemy range, small term for distance to the current ladder target. Anytime loop on deadlineNanos; warm-up must call Rules.resolve about 50-100 times on altered copies in turn 0.",
+   "lossMode": "HP race first wave, HP race midgame, queen death (and vs strong opponents, whose bigger merged waves are where single-step kiting fails)",
+   "mechanism": "Replaces the static-knight one-step score (kite, lines 242-284) and the straight flight through knights (133-137) with simulated outcomes: it sees dead ends against sites, edges and enemy ranges, credits a second covering tower, and turns the flight into a path that keeps knights strung out.",
+   "estimatedGain": "Pool: 4,038 HP of knight damage in 180 games, 24.9 per lost race against a median margin of 13; the two directly replaced contexts (walk + stand) hold 1,359 HP (34 %), kite steps 2,679 (66 %). If the search cut the knight damage of lost races by a quarter (about 6 HP), up to 10 of 42 lost races (margins <= 6) could flip = up to 5.6 pp of 180 games (upper bound, inference); some of the 29 deaths (54.8 HP each, 52.7 kite turns) would also move. Realistic: 2-5 pp, i.e. about 0.3-0.6 Gold rating points at logistic scale 3.04.",
+   "measurability": "Yes: mirror (over-weights races), field (no kiting, big waves), rival (kiting, giants); waveTrace metrics (lossK20, cover2QTurns20, killK20) and DeathTrace kd-by-context are ready as diagnostics. Panel bias: it undervalued the two kiting-related versions (v08, v12).",
+   "effort": "new subsystem (3-5 days): seat into the state or parity swap for the rare build conflict, a reduced-state builder, the evaluation, G0 timing tests at 30 creeps on the slowest core (-Pthreads=2), warm-up coverage, then P2 as a strategy change"
+  },
+  {
+   "lever": "Flight and defence walks under knights without the full search: pick the flight tower by exposure, not distance (prefer the own tower whose straight path's closest approach to any knight is largest, or the one covered by most own towers), and let the flight target a point on the tower's range edge instead of the site centre; optionally refuse the defence walk when the free site lies through the knights (closest approach < 100).",
+   "lossMode": "queen death, HP race midgame",
+   "mechanism": "MainBot.java:133-137 (nearest own tower, straight BUILD) and 106-108 (nearest free site within 500); both walk at 1.3-1.6 HP/turn under knights versus 0.37 for kite steps.",
+   "estimatedGain": "Pool 728 HP in 570 turns (18 % of knight damage); lost races average 5.3 HP of it; halving flips 3 of 42 lost races, removing it 5 of 42 (<= 2.8 pp); 20 of 29 deaths had such walks in their last 30 turns. Realistic 1-2 pp.",
+   "measurability": "Yes, vs field and rival (both send waves while our towers stand); DeathTrace walk-episode counts as the diagnostic.",
+   "effort": "flag on existing rule (half a day) + P2 strategy screen (changes many maps)"
+  },
+  {
+   "lever": "Kite score with double cover: add the number of own towers covering the end point (or the sum of their damage-in-range on the nearest knight) to the kite score, and relax the +5 gain threshold when the current position is under one tower only.",
+   "lossMode": "HP race first wave, HP race midgame",
+   "mechanism": "kite() line 258/276 pulls only toward the nearest tower; Rules towers each shoot one creep per turn (347-363), so two covering towers double the kill rate on the wave.",
+   "estimatedGain": "First-wave window: games with < 50 % double-cover turns lose a median 8 HP vs 3 (35 vs 141 games), confounded by towers at contact (1.46 vs 1.74); if half the confounded gap were causal, about 2.5 HP in a fifth of games = about 0.5 HP/game; could flip 1-3 of 42 lost races (<= 1.7 pp).",
+   "measurability": "Yes: waveTrace cover2QTurns20/lossK20 and the panel; the mirror's first wave is at turn 24 with one tower, so field and rival weigh more.",
+   "effort": "flag on existing rule (hours) + P2 strategy screen"
+  },
+  {
+   "lever": "P2 targeted fix: enemy-range checks by the queen's position. Use underEnemyTowerAt(queen) for the touch rule (MainBot.java:117) and exclude own towers whose touch point is inside an enemy range from the flight (134) and the idle rule (175); when the touched own tower is such a tower, prefer kiting out of the range (the kite step already refuses enemy ranges at 270).",
+   "lossMode": "HP race midgame (rare), queen death (3 deaths had 5-10 HP of tower damage)",
+   "mechanism": "The touch rule skips the site but the flight/idle rules pick the same tower and she stands under fire: 71 HP in 68 turns, 11 games; 112 standing turns inside an enemy range.",
+   "estimatedGain": "<= 0.4 HP/game; no lost race had margin < td, so about 0-1 game of 180 (<= 0.6 pp); mainly removes a death path.",
+   "measurability": "Yes as a targeted fix: 15 of 180 arena games have any enemy-tower damage (8 %), so it should change < 10 % of maps against the mirror; check the changed-map share, S >= 0.500, boss delta >= -1 pp, plus a regression test on a captured position.",
+   "effort": "flag on existing rule (hours)"
+  },
+  {
+   "lever": "Seat-aware details using homeLeft as the seat: LATE_HOLD holds at hp >= on seat 0 (a tie is a CG win) and > on seat 1; RoutePlanner.contested (246-249) could time the landing to the build-conflict parity (player 1 builds on even 0-based turns) instead of giving up the landing.",
+   "lossMode": "HP race last 50 turns (ties), build conflicts (rare)",
+   "mechanism": "MainBot.java:95 uses hp[0] > hp[1] regardless of seat; the simulator scores ties as draws while CG ranks player 0 first (16 of 16 known games).",
+   "estimatedGain": "Tiny: 2 of 115 limit games ended equal (both already on seat 0); conflicts 5 in 236 replays. Well under 1 game of 180.",
+   "measurability": "Locally only with the tie rule added to the referee's scoring (Rules/Referee treat equal HP as a draw); otherwise arena only.",
+   "effort": "flag on existing rule (an hour); a targeted fix"
+  },
+  {
+   "lever": "Measurement, not play: record each placement's seat split and estimate the seat effect in P1 comparisons; optionally make the local referee rank player 0 first at equal HP (a scoring flag) so S matches CG's rule.",
+   "lossMode": "vs strong opponents (evaluation noise, not HP)",
+   "mechanism": "Identical bots score 0.559 on seat 0 vs 0.441 on seat 1 locally (0.5935 vs 0.4065 with CG's tie rule); an arena placement's seat split (v12: 81 vs 99) shifts S by about (99-81)/2/180 x 0.12-0.19 = 0.6-1.0 pp, about 0.2-0.3 rating points, part of the noise margin M = 2.46.",
+   "estimatedGain": "No rating gain; sharper P1 verdicts. A controlled engine experiment (swap the collision order or mirror SPAWN_CORNER in a local copy, rerun the mirror) would name the mechanism.",
+   "measurability": "Yes, from existing manifests (seat per game) and bench reports (aSeat, winner).",
+   "effort": "tooling (half a day)"
+  },
+  {
+   "lever": "Use the idle queen's turns after the ladder for something safer than pumping the home tower: e.g. stand at the own tower with the most overlapping cover near the barracks, or tear down an enemy mine within own cover when no knight is within 500 (the queen destroys enemy mines/barracks by touch, Rules.java:258-264).",
+   "lossMode": "vs strong opponents (their income 8.5 vs our 5), HP race midgame",
+   "mechanism": "Idle rule MainBot.java:175-176 pumps the home-nearest tower to 800 with no HP check; nextSite never targets occupied sites.",
+   "estimatedGain": "Capacity 3,573 idle top-up turns (9.3 % of turns; 3,153 with no knight within 500) but only in the 85 of 180 games where the ladder completes (median turn 125). INCOME_LATE, the previous use of these turns, failed G1 because far walks got the queen killed; a teardown walk has the same exposure. Unquantified; low expectation.",
+   "measurability": "vs field (3 mines, income 8) and rival; the mirror barely (its mines are near home).",
+   "effort": "new rule (1 day) + P2 strategy screen"
+  },
+  {
+   "lever": "Second-barracks centre tie toward our half: in nextSite (MainBot.java:428) break the exact tie between the two mirrored centre sites by preferring the one nearer our home corner (or skip enemy-half sites for the barracks).",
+   "lossMode": "queen death, HP race midgame (small)",
+   "mechanism": "nearest(s, 960, 500) ties exactly between a mirrored pair and picks the lower id, which is on the enemy half in about half the maps; SAFE_LADDER already filters most.",
+   "estimatedGain": "11 of 132 second barracks were built on the enemy half (won 6/11 vs 77/121); at most about 1 game of 180.",
+   "measurability": "Mirror and rival; changes a minority of maps (the enemy-half cases), possibly a targeted fix.",
+   "effort": "flag on existing rule (an hour)"
+  },
+  {
+   "lever": "Not worth a change (negative findings): ladder oscillation (3 episodes in 180 games), ROUTE's straight fallback through enemy ranges (30 HP per 180 games since SAFE_LADDER), the threat definition excluding archers/giants (they cannot damage the queen in the referee), TRAIN_SYNC's hold (a validated design; the one-trains-other-idle quirk touches 1.6 % of two-barracks turns), and the top-up threshold 700 (tower melt makes about 60 top-ups per game a floor; thinner/fewer towers lost locally).",
+   "lossMode": "none material",
+   "mechanism": "See findings 6, 7, 9, 10.",
+   "estimatedGain": "< 1 HP per game each.",
+   "measurability": "n/a",
+   "effort": "none"
+  }
+ ],
+ "caveats": "All counts come from v12's 180 Gold games (two uploads) traced by DeathTrace and from cgStudy's csv; the DeathTrace command contexts are inferred from the recorded command and the touched site (a BUILD on a non-touched site under knights is either the defence rule or the flight; the two were separated by whether a new tower appeared within two turns). What-if flips hold the opponent's HP fixed and are upper bounds, not predictions. The rollout costs are counted from the loops in Rules/Physics with an assumed 7-10 ns per pair check on a desktop core and an unknown factor on CG's machine; no microbenchmark or game was run. The seat finding rests on the local engine, which is validated bit-exact against 236 CG replays, so the asymmetry exists live, but which rule (collision pass order, spawn offsets, build parity, tie rule) carries it is not established; the mirror.json used for it is v11 vs v11 (the eval control), not v12. The first-wave double-cover association is confounded by the number of towers at contact. Local frequencies of the targeted-fix situations (towers under enemy ranges) were not measured on the panel, only on the arena games. The seat-split cost estimate for P1 assumes the arena's seat effect equals the local mirror's.",
+ "scratchFiles": "C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/code/trace_quirks.py (DeathTrace parser; contexts of tower/knight damage, oscillation, idle top-ups, gold held, defence walks, csv seat/tie checks) with output trace_quirks.out; trace_levers.py (per-game kd decomposition by game class, what-if flips, walk episodes defence vs flight, ladder completion, creep counts, tower-fire games, last-50-turn losses) with trace_levers.out; seat_bench.py (seat split and draws in the eval bench reports mirror/direct/field/rival/boss) with seat_bench.out; barracks_half.py (second barracks on our/enemy half) with barracks_half.out; waves_cover.py (first-wave double cover vs lossK20; share of games with enemy-tower damage) with waves_cover.out. All under C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/code/. Inputs: W/replays/study/gold-v12-2026-11-08/ours-upload-01.txt, ours-upload-02.txt, features-v12-gold.csv; M/replays/study/gold-v12-2026-11-07/waves/summary.csv; M/replays/bench/exp-2026-11-07-meet-back/eval/*.json."
+}

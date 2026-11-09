@@ -1,0 +1,114 @@
+{
+ "findings": [
+  {
+   "claim": "Phase decomposition of the lost races' HP gap: the first wave sets 28% of it, turns 50-249 the other 72%, with P2, P4 and P5 each costing about 4 HP and P3 nothing.",
+   "numbers": "Lost races (n=42): mean gap change per phase (their loss minus our loss) P1 t0-49 -4.64, P2 t50-99 -3.88, P3 -0.26, P4 t150-199 -3.90, P5 t200-249 -3.64; final gap mean -16.33, median -13. Our loss per game P1..P5 10.64/5.02/1.90/4.88/4.36 (kd 10.64/4.83/1.88/4.17/3.36; td 0/0.17/0.02/0.69/1.02); their loss 6.00/1.14/1.64/0.98/0.71. Won races (n=73): ours 3.52/2.85/3.58/2.16/0.84, theirs 14.22/3.99/3.36/5.27/4.47, gap change +10.70/+1.14/-0.22/+3.11/+3.63.",
+   "evidence": "Sums of the DeathTrace kd/td/loss columns over 50-turn windows of ours-upload-0{1,2}.txt and opp-upload-0{1,2}.txt (scratchpad/midgame/analyze.out, section 1); the cumulative gaps -4.64/-8.52/-8.79/-12.69 reproduce the brief's t50/t100/t150/t200 means.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Over turns 50-249 the swing between lost and won races is two thirds 'their queen stops bleeding' and one third 'ours bleeds more'; the extra -4 in P2 and in P4 is each about +2 HP more lost by our queen and 2.8-4.2 HP less taken by theirs.",
+   "numbers": "Turns 50-249 per game, lost races: our loss 16.17 (kd 14.24, td 1.90), their loss 4.48 (kd 4.21, td 0.26); won races: ours 9.42 (kd 9.30, td 0.12), theirs 17.08 (kd 16.53, td 0.55). Lost minus won: ours +6.75, theirs -12.60. By phase (lost minus won): P2 our kd +2.00, their kd -2.75; P4 our kd +2.08, our td +0.61, their kd -4.20; P5 our kd +2.55, our td +1.00, their kd -3.79.",
+   "evidence": "scratchpad/midgame/deep.out section 'P2-P5 sums' and analyze.out section 7 (decomposition).",
+   "confidence": "high"
+  },
+  {
+   "claim": "The opponents who win HP races against v12 are not the economy players but the queen-safe ones: our knights reach their queen about as often but do almost no damage because she stays within 150 of a tower.",
+   "numbers": "Lost-race opponents vs won-race opponents: maxIncome mean 7.7 vs 8.3, mean income 3.53 vs 4.19, knight trainings 11.0 vs 12.9, giants trained in 8 of 42 vs 19 of 73 games, towers at t200 5.9 vs 5.8, summed tower HP at t200 median 2800 vs 2608. Our knights' contact episodes on their queen (turns 50-249): 163 (3.88/game) vs 337 (4.62/game); kd per episode 1.09 (73% with 0) vs 3.58 (43% with 0); their queen within 150 of an own tower for the whole episode in 76% vs 55%; episodes starting >150 from a tower 11% vs 22%; kd per contact turn by phase P2..P5 0.24/0.43/0.31/0.23 vs 0.45/0.67/0.77/0.92. Knight lifetime (knightTurns/(4*trainK)) equal: ours 11.4 vs 11.3 turns, theirs 11.1 vs 10.9.",
+   "evidence": "deep.out (contact episodes, waves), deep2.out ('their queen under our knights'), features-v12-gold.csv columns maxIncome/meanIncome/trainK/trainG/towers_200/thp_200 joined in games.json. The observations are direct; the explanation (tower cover and position) is inferred and only medium confidence.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Our extra midgame HP loss comes from enemy waves that catch our queen while she walks the ladder (mostly to rebuild mines); a wave met at her tower costs a third as much.",
+   "numbers": "Lost races, turns 50-249: 258 contact episodes (K250>0 runs), 153 (59%) began while she walked: walk_mine 79 episodes/266 kd, walk_tower 38/93, walk_barracks 22/80, route_move 13/17, walk_home_tower 1/0; these cost 456 of 598 kd (76%; 10.86 HP/game; 2.98/episode) vs at-tower episodes 79/69 kd (0.87/episode) and building-touch 19/48. Won races: walking 248 of 473 episodes, 420 of 679 kd (62%; 5.75/game; 1.69/episode); at tower 180/141 (0.78/episode). By phase: P2 lost walking 56 eps/140 kd (3.33/game) vs won 108/131 (1.79/game); P4 lost 35/136 (3.24/game) vs won 57/80 (1.10/game) = the whole P2/P4 excess of our kd (+2.00/+2.08). At equal wave size (max K250 in the episode) walking costs more: maxK3 3.45 kd vs 1.22 at tower (lost), 1.96 vs 1.41 (won); maxK4 7.24 vs 6.00, 6.80 vs 1.91; maxK2 0.41 vs 0.07, 0.31 vs 0.14. Per lost race the walking-episode kd: median 7.5, mean 10.86; 24 of 42 games >= 5 HP, 12 with 0. In the 29 queen deaths, 849 of 1306 kd in turns 50-249 came in walking-caught episodes.",
+   "evidence": "deep2.out (pre-contact activity = the class of the last turn before contact with no knight within 250), deep3.out (kd by max K250), flip.py output; classes from parse.py's own-tower tracking (validated: own-tower BUILD counts match CgStudy's towerTopUps in 315 of 360 game-sides, 213 of 76,504 turn lines differ). Heuristic pre-contact class, 3% of episodes 'unknown': medium-high rather than fully high.",
+   "confidence": "medium"
+  },
+  {
+   "claim": "The wave is visible before it reaches the walking queen and her nearest tower is reachable in time, so the exposure is avoidable with the information the bot already reads.",
+   "numbers": "Walking-caught episodes, lost races (153): turns with a knight within 500 but none within 250 right before contact: median 2, mean 2.6 (distribution 0:2, 1:24, 2:61, 3:42, 4:12, 5:5, 6+:7); nearest own tower on the pre-contact turn median 136; walking 60/turn from the first warning turn reaches touching distance (<=110 from the tower centre) before contact in 141 of 153 episodes (92%) carrying 329 of 456 kd (won races 237 of 248, 335 of 420 kd; deaths 86 of 95, 641 of 849 kd). Yellow-zone turns (knight within 500, none within 250) per game in turns 50-249: 23.5 (lost), 30.8 (won), in 6.9 spells of median 8 turns (11 spells >= 20 turns in 42 lost races); on them she walks 58% (walk_mine 25%, route 12%, walk_tower 11%, walk_barracks 6%, walk_home 4%) or tops up 36%. Wave size at contact is similar for walking and at-tower episodes (K500 at start 3.64 vs 3.28; max K250 2.69 vs 2.23).",
+   "evidence": "deep3.out (warning time, reachability, yellow zone). Geometric estimate: knights assumed to head straight at her, no simulation.",
+   "confidence": "medium"
+  },
+  {
+   "claim": "The mine treadmill drives the walks: enemy waves destroy our mines on their way, the ladder reopens (income < 3), the queen walks out to a site away from her towers, the mine dies again.",
+   "numbers": "Lost races after t50: 157 mine losses in 42 games (3.74/game; 55% within 5 turns of an enemy contact episode), 124 rebuilt (2.95/game); median turns from a mine build to the next mine loss 18 (won races 47); walk_mine 20.8 turns/game in 7.5 walks (won 13.8 in 4.8); 104 of 124 rebuilt mines were built with the nearest own tower 151-400 away, 17 within 150; walk_mine-caught episodes cost 266 kd = 6.3 HP per lost race (44% of its P2-P5 kd) vs 104 kd = 1.4 per won race. Median own mines at t249: 1 (lost), 0 (won). Our queen's turn budget 50-249 in lost races: pump_idle 39.3, kite 34.7, topup_pass 32.9, route_move 22.9, walk_mine 20.8, walk_tower 16.6, walk_home_tower 8.7, walk_barracks 7.6 (walking 76.6 of 200 turns vs 60.8 in won races). Reference: Legend top-10 (88 games) build 6 mines, 8 upgrades, maxIncome 10 median; v12 4/5/5.",
+   "evidence": "deep2.out (mine treadmill), deep.out (time budget), analyze.out 4b, features-legend.csv. Mine losses are M-count drops in the trace (any cause: creeps, exhaustion, enemy queen).",
+   "confidence": "medium"
+  },
+  {
+   "claim": "Enemy-tower damage to our queen in lost races comes almost entirely from standing at an own tower that lies inside an enemy tower's range (idle pump, top-up, flight), a known quirk whose cost is now quantified.",
+   "numbers": "td after t50: 80 HP in 8 of 42 lost races (1.9/game), 9 HP in 3 of 73 won, 25 HP in 4 of 29 deaths. Cases: 918146139 18 td on 18 pump_idle/walk_home turns t159-223 at tower 0 with eTow 1 (1 HP/turn, final -23); 918168604 40 td + 23 kd on t197-234 at tower 22 under eTow 1-2 (topup_threat 20 turns, flee_tower 8, walk_mine 6; HP 63 -> 2; gap -9 at t200 -> -68); 918150190 7 td t179-185 (pump_idle 4, walk_home 2, mine_touch 1) under eTow 1, lost by 7 on seat 0; 918167057 6 td topup_pass; 918158658 5 td (pump_idle 3, topup_threat 2). Rules involved: rule 6 idle pump nearest(hx,hy, own tower) and rule 4 flight nearest(qx,qy, own tower) have no enemy-range check, while the touch rule skips a touched site under an enemy tower and falls through to them.",
+   "evidence": "deep.out ('Enemy tower damage' section and trace excerpts for 918168604 and 918146139); MainBot.java lines 133-136 and 175-176.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Turns 200-249 do not decide the lost races and a LATE_HOLD for the trailing side would save almost nothing: when trailing, the HP goes at her towers, not on walks; comebacks come only from waves catching their queen.",
+   "numbers": "115 games at the limit: 44 trailing at t200 (40 stayed lost, 4 flipped), 68 leading (67 won), 3 even. Trailing games: gap at t200 median -9.5, final -12.5; our loss 200-249 mean 3.55 (kd 2.59, td 0.98; median 0; 10 of 44 games lost any HP), of which 7 HP on 598 walking-out turns (0.16/game) and 149 HP at/near her towers (kite 78, topup_threat 42 = 21 kd + 21 td, flee_tower 18); 59 of these in 918168604 alone. Their queen lost 2.68/game (median 0; 11 of 44 games); the 4 comebacks took 38, 33, 16, 8 kd (918166775, 918147437, 918160264, 918161614), 3 of 4 with their queen caught walking (route_move). Our commands when trailing: pump_idle 32%, topup_pass 15%, walk_mine 13%, kite 10%, route_move 8%; our gold held 79 mean (TRAIN_SYNC waits for 160; income ~3 -> one release per ~50 turns); our knights within 250 of their queen 3.3 turns/game (28 of 44 games). Leading side (LATE_HOLD active): our loss 1.15/game, theirs 3.40.",
+   "evidence": "analyze.out section 5 (per-game table included); deep2.out comebacks list.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Contact frequency is the same in lost and won races; what differs is the cost per episode (ours) and per contact turn (theirs). Our queen kites on 9 of 10 contact turns and still loses 90% of her HP within 150 of a tower.",
+   "numbers": "Our contact turns per game by phase P1..P5: lost 13.3/13.3/8.9/9.7/7.2 (games with contact 42/41/31/29/22 of 42), won 9.8/13.0/10.3/7.5/4.9; their queen's: lost 9.9/4.7/3.4/3.1/2.7 (42/31/28/29/26), won 12.8/8.7/4.6/6.7/4.8. Episodes per game turns 50-249: ours 6.14 (lost) / 6.48 (won), theirs 3.88 / 4.62. Our kd per contact turn P1..P5 lost 0.80/0.36/0.21/0.43/0.47, won 0.36/0.22/0.35/0.28/0.16; theirs lost 0.61/0.24/0.43/0.31/0.23, won 1.11/0.45/0.67/0.77/0.92. Our loss turns in lost races (538, 12.8/game): 485 within 150 of an own tower (598 of 679 HP), K250 on them 0:47/1:97/2:156/3-4:215/5-8:23 turns; kd per contact turn near a tower K1 0.15 vs 0.09, K2 0.32 vs 0.22, K3 0.59 vs 0.44 (lost vs won). We MOVE on 89-90% of contact turns (mean step 62), they on 67-70% (step 52-56) and stand (<10) on 22-25%; nearest knight touching (<60) on 19% of our contact turns in lost races (13% won) vs 14% (lost) / 31% (won) of theirs.",
+   "evidence": "analyze.out sections 2b, 3, 6, 6b; deep.out kiting section. The numbers are direct; why we take more per knight in lost races is unexplained.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Opponents' queens walk twice as much as ours and top up about as often; their HP per contact turn is what separates lost from won races on their side.",
+   "numbers": "Their MOVE share by phase P1..P5, lost races 46.7/50.9/49.9/47.2/48.3% (ours 32.4/39.2/30.5/25.6/19.8%), won 42.6/52.0/45.7/49.3/47.6% (ours 29.5/38.9/31.0/21.3/8.4%); their top-ups per game per phase lost 11.7/14.1/13.0/15.1/15.7 (ours 13.4/12.7/16.5/23.0/22.0), won 12.6/12.8/13.0/12.4/13.0 (ours 14.7/13.3/16.1/24.9/42.4); their walks per game per phase 23-30 (ours 16-23); route_move 88.9 of 200 turns in lost races, 80.1 in won; WAIT 0-5%. On contact turns they kite 67-70%, top up 16-18%, flee 5-9%.",
+   "evidence": "analyze.out sections 6 and 6b; deep.out time budget.",
+   "confidence": "high"
+  },
+  {
+   "claim": "Margins are thin and seat 1 needs a strict lead: a few HP would flip a quarter of the lost races, and four were lost by exactly 1 HP on seat 1.",
+   "numbers": "Lost races within 5 HP: 10 of 42; within 10: 18. Lost by exactly 1 HP: 918158655, 918165015, 918165136, 918169416 (all seat 1). Equal-HP finals: 918143672 and 918166983, both seat 0, both won. +2/+4/+6/+10 HP to our final HP flips 4/9/10/17 of the 42 lost races (strict lead). Saving all walking-caught kd flips 11, half of it 2. Won races within 5 HP: 17 of 73 (within 10: 30). Lost races by seat: 24 on seat 1, 18 on seat 0; won: 39/34. Lost races by opponent rating >= 20: 24 of 42 (won: 15 of 73).",
+   "evidence": "flip.py output; deep2.out equal-HP section; manifests arena-6860036/6860166-games-2026-11-07.json for ratings.",
+   "confidence": "high"
+  }
+ ],
+ "levers": [
+  {
+   "lever": "LADDER_CLEAR: pause the ladder walk and return to the nearest own tower while an enemy knight is within ~500 (after the first-wave window or once >= 2 towers stand), with a spell cap",
+   "lossMode": "HP race midgame (P2 and P4 excess) and queen deaths; also protects the 17 won races within 5 HP",
+   "mechanism": "MainBot.play rule 5 (the ladder: nextSite + RoutePlanner.plan, and the INCOME_LATE branch) gated by the existing clearOfKnights(s, qx, qy, R) (today used only by LATE_CLEAR); when not clear and an own tower exists, take rule 4's flight (BUILD nearest own tower, a top-up on arrival) instead of the walk. Kiting (rule 2), the defence rule (rule 1) and the touch rule stay at 250. Exempt while firstWaveWindow (WAVE_ANCHOR's tower must be built with the wave visible) or towers < 2; cap the pause per spell like KITE_MAX (11 spells >= 20 turns in 42 lost races). Optional refinement: prefer the own tower away from the knights' centroid over the nearest.",
+   "estimatedGain": "Walking-caught episodes cost 10.86 HP per lost race (456 of 598 kd in turns 50-249) and 5.75 per won race. Re-costed at the at-tower rate per max-K250 they would have cost ~192 HP less over the 42 lost races (~4.6 HP/game) and ~171 less over 73 won races (~2.3); +4..+6 HP flips 9-10 of 42 lost races (~5-6 of 180 games, ~3 pp) before any effect on the 29 deaths, where 849 of 1306 P2-P5 kd came in walking-caught episodes (641 with the tower reachable). Cost side: 23.5 yellow-zone turns/game (12% of turns 50-249) of ladder delay in ~7 spells of ~8 turns.",
+   "measurability": "Yes: the mirror (G1; 91% of mirror games are HP races and v12 sends 8-knight waves across the ladder), field (G4; income 8 means more waves) and rival (G5) all produce 'caught walking' episodes. Watch G4: fewer towers/mines from the delay would show there first.",
+   "effort": "Flag on existing rules (~15 lines: a parameter, a gate before the ladder branch, a cap counter)"
+  },
+  {
+   "lever": "Enemy-tower-aware flight and idle pump: never stand at an own tower inside an enemy tower's range when another own tower exists",
+   "lossMode": "HP race midgame/endgame (enemy-tower drip), a few queen deaths",
+   "mechanism": "MainBot.play rule 4 (threat flight: nearest(qx,qy, own tower)) and rule 6 (idle pump: nearest(hx,hy, own tower)) exclude own towers for which underEnemyTower(s, site) holds when an alternative exists; when the touched own tower is under an enemy tower (the touch rule already skips it) walk to the nearest own tower outside the range instead of falling through to the same tower.",
+   "estimatedGain": "78-80 of the 80 td HP after t50 in 8 of 42 lost races (1.9 HP per lost race; 18 HP in 918146139 at 1/turn while idle-pumping, 40 td + 23 kd in 918168604), 25 HP in 4 of 29 deaths; by itself decides at most 1 game of 180 (918150190, lost by 7 with td 7 on seat 0). Pure waste removal, no strategic cost.",
+   "measurability": "Weak locally: boss/field/rival rarely place a tower covering our home tower. Treat as a P2 targeted fix (< 10% of maps change) with a regression test on the 918146139 pattern.",
+   "effort": "Flag on existing rule (small)"
+  },
+  {
+   "lever": "Mine rebuilds only under tower cover or until a turn limit (MINE_REBUILD_COVER=R / MINE_REBUILD_UNTIL=T on the mine phase of nextSite)",
+   "lossMode": "HP race midgame",
+   "mechanism": "MainBot.nextSite mine phase (income < INCOME_TARGET -> nearest free gold site to the midpoint) restricted to sites within R of an own tower (coveredByOwnTower exists, used by LATE_COVER) or skipped after turn T once the ladder was complete once; the touch rule's MINE branch unchanged.",
+   "estimatedGain": "walk_mine-caught episodes cost 266 kd = 6.3 HP per lost race (44% of its P2-P5 kd) vs 1.4 per won race; walk_mine 20.8 turns/game; rebuilt mines live a median 18 turns in lost races; 104 of 124 rebuilt mines were built 151-400 from the nearest tower. Trades exposure for income, which Legend has more of (6 mines, 8 upgrades, maxIncome 10 vs ours 4/5/5), so the gain is uncertain and largely subsumed by LADDER_CLEAR.",
+   "measurability": "Yes: knights destroy mines in all local matchups (mirror, field, rival).",
+   "effort": "Flag on existing rule"
+  },
+  {
+   "lever": "Make waves land on a queen-safe opponent: release timing by the enemy queen's exposure (distance to her nearest tower, whether she walks) or larger merged releases",
+   "lossMode": "HP race vs the queen-safe opponents who decide the lost races (65% of the P2-P5 swing is their queen not bleeding)",
+   "mechanism": "MainBot.train release condition (TRAIN_SYNC) extended with the enemy queen's state: she MOVEs on 44-51% of turns and 64% of our contact episodes catch her walking, but within 150 of a tower (nearT median 119); RELEASE_NEAR (proximity to our barracks) already lost, so this needs a new predicate on her tower cover, or holding gold for a 16-knight release. Giants were tried (-21 pp vs rival).",
+   "estimatedGain": "Ceiling: their queen loses 4.48 HP in turns 50-249 of lost races vs 17.08 in won; each extra 1 kd per episode x 3.88 episodes ~ +4 HP per game. Realistic effect unknown; low confidence.",
+   "measurability": "Low: field never kites, rival kites but plays giants in 85% of games; neither reproduces Gold's queen-safe tower play, so the arena would have to judge it.",
+   "effort": "New rule or subsystem"
+  },
+  {
+   "lever": "NOT a lever: LATE_HOLD for the trailing side (turns 200-249)",
+   "lossMode": "HP race last 50 turns",
+   "mechanism": "Would gate the ladder walk after turn 200 when behind on HP (the mirror of the existing LATE_HOLD).",
+   "estimatedGain": "None measurable: in the 44 games trailing at t200 our queen lost 7 HP on 598 walking-out turns (0.16/game); the 149 other HP went at her towers (kite 78, topup_threat 42, flee 18), 59 of them in one game; 40 of 44 trailing games were already lost at t200 (median gap -9.5).",
+   "measurability": "n/a",
+   "effort": "n/a (do not build)"
+  }
+ ],
+ "caveats": "1) Command classes come from a heuristic reconstruction of our own-tower set (built sites, HP melt model) over the DeathTrace lines, not from Rules; its own-tower BUILD count matches CgStudy's towerTopUps in 315 of 360 game-sides and 213 of 76,504 turn lines differ, so class shares can be off by well under 1 pp; 'pre-contact activity' is the class on the last turn before contact with no knight within 250 (3% 'unknown'). 2) kd/td are DeathTrace probe splits; kd+td can differ from the turn's loss by a point when removing one source moves the other (lost races P2-P5: loss 16.17 vs kd+td 16.14 per game). 3) The 'met at the tower instead' saving (192 HP over 42 lost races) re-costs walking-caught episodes at the at-tower episodes' kd per max-K250; at-tower waves are not a random sample (they passed the tower's fire first, max K250 2.23 vs 2.69), the reachability check assumes knights head straight at her and ignores sites and collisions, and no game was simulated or played, so it is an estimate of the stake, not a measured effect. 4) Phases use the trace turn index (the loss on line t is turn t's); the csv's hp_t is the HP before turn t, so the phase sums line up with the brief's t50/t100/t150/t200 checkpoints. 5) 42 lost and 73 won races give wide per-phase uncertainty; the walking-episode kd per lost race is skewed (median 7.5, mean 10.9; 7 episodes starting >350 from a tower carry 112 of 456 kd). 6) The opponents' queen classes are the same mechanical labels applied to bots with different rules; 'top-up' for them means BUILD TOWER on a touched own tower, 'walking' any MOVE or BUILD toward a site not touched. 7) The ladder-pause lever's delay cost (towers/mines built later) is not quantified here and must come from the local panel; the first-wave window exemption matters because WAVE_ANCHOR's value depends on building the anchor tower while the wave is visible. 8) The equal-HP tiebreak (player 0 first) is the observed CG behaviour, not an established rule; flip counts use a strict lead except where stated. 9) Confidence labels are constrained to high/medium/low; findings 4-6 are medium-high in substance (see their evidence text).",
+ "scratchFiles": "All under C:/Users/garus/AppData/Local/Temp/claude/bb685f0a5e96cb91/cdd060ad-818d-46d6-8fa6-5d79a4fb541f/scratchpad/midgame/ : parse.py (parses the four DeathTrace files, classifies every queen command, joins features-v12-gold.csv and the two manifests, validates against CgStudy counts, writes games.json); validate.py (class counts vs csv); analyze.py -> analyze.out (sections 1-8: HP by source/phase, loss-turn classes, contact per phase, structure losses, turns 200-249 by HP standing with a per-game table, queen behaviour per phase, gap decomposition, one line per lost race); deep.py -> deep.out (P2-P5 sums, contact episodes, waves and knight lifetime, kiting quality, kd by K250 x tower distance, enemy-tower damage cases with trace excerpts for 918168604 and 918146139, close lost races, time budgets); deep2.py -> deep2.out (pre-contact activity of every episode, walking episodes by walk type, queen depth, mine treadmill, late episodes on their queen, equal-HP finals, episode-level cover for both queens, P2/P4 pre-contact split); deep3.py -> deep3.out (warning time and tower reachability, yellow-zone turns, kd by distance at contact, kd by max K250 for walking vs at-tower episodes, ladder state when caught); flip.py (per lost race: gap, walking-episode kd, P1 kd, seat; flip counts for +X HP; deaths' walking share); games.json (per-turn records with classes for 180 games, both queens)."
+}

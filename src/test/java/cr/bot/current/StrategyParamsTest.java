@@ -122,6 +122,75 @@ class StrategyParamsTest {
     }
 
     /**
+     * WAVE_TOWER_HP (2026-11-09, docs/data/exp-2026-11-09-meet-waves) on the first-wave position with the touched tower A at
+     * 550 HP: v12 tops it up to 700; with the cap 500 and the enemy's wave coming she leaves it (the ladder's mine at C),
+     * keeps pumping below the cap, and pumps as v12 with no wave coming or with a second tower standing.
+     */
+    @Test
+    void waveTowerHpCapsTheFirstTowersPumpWhileAWaveComes() {
+        String plain = "ROUTE=0,UNSTICK=0,WAVE_ANCHOR=0";
+        GameState quiet = firstWave(false);
+        quiet.towerHp[0] = 550;
+        assertEquals("BUILD 0 TOWER", queen(quiet, plain), "v12: pump to 700");
+        assertEquals("BUILD 0 TOWER", queen(quiet, plain + ",WAVE_TOWER_HP=500"), "no wave coming: the cap does not apply");
+        GameState trains = firstWave(true);
+        trains.towerHp[0] = 550;
+        assertEquals("BUILD 0 TOWER", queen(trains, plain), "v12 pumps on");
+        assertEquals("BUILD 2 MINE", queen(trains, plain + ",WAVE_TOWER_HP=500"), "the enemy trains knights and A is above the cap: the ladder's next site");
+        trains.towerHp[0] = 450;
+        assertEquals("BUILD 0 TOWER", queen(trains, plain + ",WAVE_TOWER_HP=500"), "below the cap: pump");
+        // enemy knights out, the barracks idle: the wave is still coming
+        GameState out = firstWave(false);
+        out.towerHp[0] = 550;
+        out.nCreeps = 1; out.cOwner[0] = 1; out.cType[0] = Const.KNIGHT; out.cHp[0] = 25; out.cx[0] = 1500; out.cy[0] = 700;
+        assertEquals("BUILD 2 MINE", queen(out, plain + ",WAVE_TOWER_HP=500"));
+        // a second own tower stands: the cap is off, pump to 700
+        GameState two = firstWave(true);
+        two.towerHp[0] = 550;
+        site(two, 7, 150, 150, 300, 3); two.stType[7] = Const.TOWER; two.stOwner[7] = 0; two.towerHp[7] = 300; two.towerRange[7] = 300;
+        assertEquals("BUILD 0 TOWER", queen(two, plain + ",WAVE_TOWER_HP=500"));
+    }
+
+    /**
+     * LADDER_CLEAR (2026-11-09, docs/data/exp-2026-11-09-meet-waves): own towers at A and B at 700 HP, the queen 150 from A
+     * with no mine, so the ladder walks her to C for a mine (turn 60, no enemy barracks). An enemy knight 400 away is no
+     * threat, so v12 walks; LADDER_CLEAR=500 sends her to A, her nearest tower, 300 does not see the knight, the spell cap
+     * ends the hold until the knights are clear, a knight within 250 is the kiting's, one tower or the first-wave window
+     * keep the ladder.
+     */
+    @Test
+    void ladderClearHoldsTheQueenAtHerTowerWhileAKnightIsNear() {
+        String plain = "ROUTE=0,UNSTICK=0,LADDER_CLEAR=0";   // v12: no ladder gate (500 by default since v13)
+        GameState s = position();
+        s.turn = 60;
+        for (int i : new int[]{0, 1}) { s.stType[i] = Const.TOWER; s.stOwner[i] = 0; s.towerHp[i] = 700; s.towerRange[i] = 400; }
+        s.nCreeps = 1; s.cOwner[0] = 1; s.cType[0] = Const.KNIGHT; s.cHp[0] = 25; s.cx[0] = 900; s.cy[0] = 350;
+        assertEquals(-1, Protocol.touchedSite(s, 0));
+        assertEquals("BUILD 2 MINE", queen(s, plain), "v12: the ladder's mine at C with a knight 400 away");
+        assertEquals("BUILD 0 TOWER", queen(s, plain + ",LADDER_CLEAR=500"), "a knight within 500: her nearest tower A");
+        assertEquals("BUILD 2 MINE", queen(s, plain + ",LADDER_CLEAR=300"), "the knight is beyond 300");
+        MainBot capped = new MainBot(new Params().apply(plain + ",LADDER_CLEAR=500,LADDER_CLEAR_MAX=1"));
+        assertEquals("BUILD 0 TOWER", capped.play(s, -1, Long.MAX_VALUE).queenLine(), "the first hold of the spell");
+        assertEquals("BUILD 2 MINE", capped.play(s, -1, Long.MAX_VALUE).queenLine(), "the cap: the ladder again");
+        assertEquals("BUILD 2 MINE", capped.play(s, -1, Long.MAX_VALUE).queenLine(), "and still, while the knight stays");
+        s.cx[0] = 1400;
+        assertEquals("BUILD 2 MINE", capped.play(s, -1, Long.MAX_VALUE).queenLine(), "the knight 900 away: clear");
+        s.cx[0] = 900;
+        assertEquals("BUILD 0 TOWER", capped.play(s, -1, Long.MAX_VALUE).queenLine(), "a new spell");
+        s.cx[0] = 700;
+        assertTrue(queen(s, plain + ",LADDER_CLEAR=500").startsWith("MOVE"), "a knight within 250 is the kiting's");
+        s.cx[0] = 900;
+        s.stType[1] = Const.NONE; s.stOwner[1] = -1;
+        assertEquals("BUILD 2 MINE", queen(s, plain + ",LADDER_CLEAR=500"), "one tower: the ladder");
+        s.stType[1] = Const.TOWER; s.stOwner[1] = 0;
+        s.turn = 20;
+        site(s, 3, 1600, 800, 300, 3); s.stType[3] = Const.BARRACKS; s.stOwner[3] = 1; s.barrType[3] = Const.KNIGHT;
+        assertEquals("BUILD 2 MINE", queen(s, plain + ",LADDER_CLEAR=500"), "the first-wave window: the ladder (the anchor's business)");
+        s.turn = 60;
+        assertEquals("BUILD 0 TOWER", queen(s, plain + ",LADDER_CLEAR=500"), "past the window: the hold");
+    }
+
+    /**
      * LATE_HOLD: an own tower at A (the one nearest home), the queen 150 from it with no mine, so the ladder
      * walks her to C for a mine. Late and ahead on HP she stays with the home tower instead; under threat
      * the defence would walk her to B for a second tower, which the hold leaves to the flight.

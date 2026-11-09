@@ -40,7 +40,9 @@ public final class LocalProfile {
         ARCHER_WAVES = WAVES + 21, EXPOSED = WAVES + 22, EXPOSED_AT_RELEASE = WAVES + 23, TO_BARRACKS = WAVES + 24,
         HIT_PER_TRAINING = WAVES + 25, TOWER_FIRE = WAVES + 26, FAR_WALK = WAVES + 27, FW_CONTACT = WAVES + 28,
         FW_FORWARD = WAVES + 29, FW_LOSS = WAVES + 30, FW_MERGED = WAVES + 31, FW_STAND = WAVES + 32, FW_HELD = WAVES + 33,
-        FW_DEF_AHEAD = WAVES + 34, FW_DEF_LOSS = WAVES + 35, FLOW = WAVES + 36, PHASES = 5, COLUMNS = FLOW + 4 * PHASES;
+        FW_DEF_AHEAD = WAVES + 34, FW_DEF_LOSS = WAVES + 35, FLOW = WAVES + 36, PHASES = 5, T2_REL = FLOW + 4 * PHASES,
+        MG_WALK_EP = T2_REL + 1, MG_WALK_LOSS = T2_REL + 2, MG_TOWER_EP = T2_REL + 3, MG_TOWER_LOSS = T2_REL + 4,
+        MG_OTHER_EP = T2_REL + 5, MG_OTHER_LOSS = T2_REL + 6, COLUMNS = T2_REL + 7;
 
     public static void main(String[] args) {
         String a = args[0], b = args[1];
@@ -130,7 +132,7 @@ public final class LocalProfile {
                 // Under knights: contact turns (an enemy knight within 250 of our queen), the HP lost on them, the turns
                 // near an own tower (within 130 of its centre) and the MOVE commands among them.
                 int contact = 0, nearTower = 0, moves = 0, lostHp = 0, prevHp = -1;
-                int firstContact = -1, towersAtContact = 0;
+                int firstContact = -1, towersAtContact = 0, secondTower = -1;
                 for (Referee.Frame f : r.frames) {
                     int qx = f.queens[seat][0], qy = f.queens[seat][1];
                     boolean knightNear = false;
@@ -138,6 +140,11 @@ public final class LocalProfile {
                     if (knightNear && firstContact < 0) {
                         firstContact = f.turn;
                         for (int[] st : f.structures) if (st[0] == Const.TOWER && st[1] == seat) towersAtContact++;
+                    }
+                    if (secondTower < 0) {
+                        int own = 0;
+                        for (int[] st : f.structures) if (st[0] == Const.TOWER && st[1] == seat) own++;
+                        if (own >= 2) secondTower = f.turn;
                     }
                     if (knightNear) {
                         contact++;
@@ -160,6 +167,7 @@ public final class LocalProfile {
                 row[TOWERS_AT_CONTACT] = firstContact < 0 ? Double.NaN : towersAtContact;
                 row[LOST_AFTER_CONTACT] = firstContact < 0 ? Double.NaN : hpAt(r, seat, firstContact) - hpAt(r, seat, firstContact + 20);
                 row[LOST_25_50] = r.turns < 50 ? Double.NaN : hpAt(r, seat, 25) - hpAt(r, seat, 50);
+                row[T2_REL] = firstContact < 0 || secondTower < 0 ? Double.NaN : secondTower - firstContact;
                 int death = -1;
                 for (Referee.Frame f : r.frames) if (f.hp[seat] <= 0) { death = f.turn; break; }
                 if (death >= 0) deaths++;
@@ -171,6 +179,7 @@ public final class LocalProfile {
                 towerFire(r, seat, row);
                 firstWave(r, seat, row);
                 hpFlow(r, seat, row);
+                midgame(r, seat, row);
                 rows.add(row);
             }
         }
@@ -221,6 +230,13 @@ public final class LocalProfile {
             for (int ph = 0; ph < PHASES; ph++) fl.append(' ').append(fmt1(meanNum(rows, FLOW + k * PHASES + ph)));
         }
         System.out.println(fl);
+        System.out.printf(Locale.ROOT, "second tower: stands %s turns after the first contact (median over games with both; mean %s)%n",
+            fmt(medianNum(rows, T2_REL)), fmt1(meanNum(rows, T2_REL)));
+        System.out.printf(Locale.ROOT, "midgame contacts (turns 50-249, means a game; the study of 2026-11-08): episodes begun on a walk to a site %s losing %s HP"
+                + " (%s per episode), begun at an own tower %s losing %s HP (%s per episode), other %s losing %s HP%n",
+            fmt1(meanNum(rows, MG_WALK_EP)), fmt1(meanNum(rows, MG_WALK_LOSS)), fmt1(sum(rows, MG_WALK_LOSS) / Math.max(1, sum(rows, MG_WALK_EP))),
+            fmt1(meanNum(rows, MG_TOWER_EP)), fmt1(meanNum(rows, MG_TOWER_LOSS)), fmt1(sum(rows, MG_TOWER_LOSS) / Math.max(1, sum(rows, MG_TOWER_EP))),
+            fmt1(meanNum(rows, MG_OTHER_EP)), fmt1(meanNum(rows, MG_OTHER_LOSS)));
         List<double[]> withGiants = rows.stream().filter(r -> r[GIANTS_IN] > 0).toList();
         System.out.printf(Locale.ROOT, "enemy giants: in %d of %d games (mean %s a game); in those games own towers lost to giants %s, to other causes %s (means), first giant at an own tower turn %s (median)%n",
             withGiants.size(), rows.size(), fmt1(rows.stream().mapToDouble(r -> r[GIANTS_IN]).average().orElse(Double.NaN)),
@@ -410,6 +426,60 @@ public final class LocalProfile {
             }
             rules.resolve(s, cmd[0], cmd[1]);
         }
+    }
+
+    /**
+     * The midgame contact episodes of the study of 2026-11-08 (docs/data/study-2026-11-08-next-step): on turns 50-249, a run
+     * of turns with an enemy knight within 250 of our queen at the turn's start is one episode; it is classed by what she did
+     * on the turn before it began: a BUILD of a site she did not touch (a walk to a site), standing within 130 of an own
+     * tower's centre (at an own tower), or anything else. Records the episodes of each class and the HP they cost her to
+     * knights (a probe with the enemy towers' ranges zeroed).
+     */
+    static void midgame(Referee.Result r, int seat, double[] row) {
+        GameState s = MapGen.generate(r.seed, 4);
+        Rules rules = new Rules();
+        int foe = 1 - seat;
+        boolean inEpisode = false, prevWalk = false, prevAtTower = false;
+        int epClass = 0, epLoss = 0;
+        int[] episodes = new int[3], losses = new int[3];
+        for (int k = 1; k < r.frames.size() && !s.over; k++) {
+            int t = s.turn;
+            if (t >= 250) break;
+            String[] raw = r.frames.get(k).cmds;
+            Command[] cmd = {parse(raw[0], s.nSites), parse(raw[1], s.nSites)};
+            double qx = s.qx[seat], qy = s.qy[seat];
+            int k250 = 0;
+            for (int i = 0; i < s.nCreeps; i++)
+                if (s.cOwner[i] == foe && s.cType[i] == Const.KNIGHT && s.cHp[i] > 0 && Physics.distSq(s.cx[i], s.cy[i], qx, qy) < 250.0 * 250.0) k250++;
+            if (t >= 50) {
+                if (k250 > 0 && !inEpisode) { inEpisode = true; epLoss = 0; epClass = prevWalk ? 0 : prevAtTower ? 1 : 2; }
+                else if (k250 == 0 && inEpisode) { inEpisode = false; episodes[epClass]++; losses[epClass] += epLoss; }
+            }
+            Command c = cmd[seat];
+            int touched = Protocol.touchedSite(s, seat);
+            prevWalk = c.queen == Command.BUILD && c.site >= 0 && c.site < s.nSites && c.site != touched;
+            prevAtTower = false;
+            for (int j = 0; j < s.nSites; j++)
+                if (s.stType[j] == Const.TOWER && s.stOwner[j] == seat && Physics.distSq(s.sx[j], s.sy[j], qx, qy) <= 130.0 * 130.0) { prevAtTower = true; break; }
+            int hpBefore = s.hp[seat];
+            if (inEpisode) {
+                GameState knights = s.copy();
+                for (int j = 0; j < knights.nSites; j++)
+                    if (knights.stType[j] == Const.TOWER && knights.stOwner[j] == foe) knights.towerRange[j] = 0;
+                new Rules().resolve(knights, cmd[0], cmd[1]);
+                epLoss += Math.max(0, hpBefore - knights.hp[seat]);
+            }
+            rules.resolve(s, cmd[0], cmd[1]);
+        }
+        if (inEpisode) { episodes[epClass]++; losses[epClass] += epLoss; }
+        row[MG_WALK_EP] = episodes[0]; row[MG_WALK_LOSS] = losses[0];
+        row[MG_TOWER_EP] = episodes[1]; row[MG_TOWER_LOSS] = losses[1];
+        row[MG_OTHER_EP] = episodes[2]; row[MG_OTHER_LOSS] = losses[2];
+    }
+
+    /** The sum of column c over the games where it is a number. */
+    static double sum(List<double[]> rows, int c) {
+        return rows.stream().mapToDouble(r -> r[c]).filter(x -> !Double.isNaN(x)).sum();
     }
 
     /** A recorded command pair "queen line | train line" (or "<none>"), as the referee parsed it. */
