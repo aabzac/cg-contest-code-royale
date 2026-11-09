@@ -3892,5 +3892,5 @@ at 21:31:08 (the kept copy is the default for a known label), saved upload 1 at 
 
 Records: BOTS (versions, Uploads, Artifacts), `docs/arena-uploads.md` (upload 2 and the verdict), STATUS (the selected
 version), SUMMARY, PLAN, `docs/local-screen.md`, `docs/rules/inferred.md`, the architecture page (v13 selected), the
-experiment README (On the arena). Not committed: the commit of the freeze and the records, then the merge into master,
-are the user's.
+experiment README (On the arena). Committed as 75f4bf9 on the user's request (the freeze, the study, the experiment,
+both placements and the records, 81 files); the merge into master is the user's.

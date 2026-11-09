@@ -206,7 +206,8 @@
   SAME 90/90; +1.59 against v12's mean, inside M (`docs/arena-uploads.md`)
 - [x] v13 upload 2 in Gold (2026-11-09): agent 6868474, placement 21.65, rank 22/348, SAME 90/90; P1 against v12: mean 21.80
   against 20.36, not clearly worse, **v13 selected** (`docs/arena-uploads.md`)
-- [ ] Commit the v13 freeze and the records (the artifact's rollback store is the commit); merge into master
+- [x] Commit the v13 freeze and the records (75f4bf9, the user's request)
+- [ ] Merge the branch `claude/bot-analysis-next-step-203390` into master
 - [ ] Next strength step over v13: the study's second lever is the economy (mines far from the home corner, no idle
   pumping after the ladder) now that the walks are safe; the first-wave cap is parked (`docs/data/exp-2026-11-09-meet-waves/`)
 - [ ] Companion flags for the same artifact: the TRAIN_SYNC release at the end of the game and at a kill shot; the

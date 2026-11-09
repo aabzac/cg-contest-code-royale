@@ -29,7 +29,7 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   (CI 0.5819..0.6096), boss 0.0000, field +0.0434, rival +0.0661, G0 by a quiet repeat; below the 0.60 recommendation by
   0.004, so an upload is an exception. Artifact `85897d90…` (89,252 chars, build `a19a87ca`, config `0c433665`; a second
   build gave the same bytes; kept copy `artifacts/85897d90/Player.java`), procCheck 200/200 against v01 and against
-  `boss`, later turns at most 8.0 ms (`docs/BOTS.md`, Artifacts). Not committed. Uploaded twice as an exception
+  `boss`, later turns at most 8.0 ms (`docs/BOTS.md`, Artifacts). Commit 75f4bf9 on the branch `claude/bot-analysis-next-step-203390`, not yet merged into master. Uploaded twice as an exception
   (2026-11-09: agents 6868408 and 6868474, placements 21.95 and 21.65; `docs/arena-uploads.md`). Also the selected
   version since 2026-11-09 (below).
 - Previous local champion: v12 (2026-11-07 to 2026-11-09) = v11 with the ladder's tower targets kept back in the first wave
@@ -61,7 +61,7 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   SD 0.21), against v12's Gold 19.64 and 21.07 (mean 20.36): "not clearly worse" (+1.44 against −M −2.46; performance
   21.75 ± 0.43 against 20.27 ± 0.45 at Gold's refitted scale 2.71, +1.48 against −2 SE −1.23; `docs/arena-uploads.md`).
   Uploaded as an exception (S 0.5958 against v12 on the evaluation block). Artifact `85897d90…` (89,252 chars, build
-  `a19a87ca`, config `0c433665`; not committed yet; kept copy `artifacts/85897d90/Player.java`). The rollback artifact.
+  `a19a87ca`, config `0c433665`; commit 75f4bf9; kept copy `artifacts/85897d90/Player.java`). The rollback artifact.
   The live agent is 6868474 (upload 2). Gold's own M is 2.09 on 3 df; the verdicts keep Bronze's 2.46.
 - Previous selected version: v12 (2026-11-07 to 2026-11-09), by P1 on two Gold placements, 19.64 and 21.07 (mean 20.36,
   SD 1.01), against v11's Gold 18.13 and 16.03 (mean 17.08): "not clearly worse" (+3.28 against −M −2.46; performance
@@ -322,8 +322,7 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     (2026-11-09), the final evaluation passed (S 0.5958 against v12 on evaluation block 2), the artifact `85897d90` is
     checked (above). **On the arena as an exception (S 0.596 below the 0.60 recommendation): two Gold placements on
     2026-11-09, 21.95 (rank 18/348) and 21.65 (rank 22/348), SAME 180/180; against v12's mean 20.36 that is +1.44, inside
-    M 2.46: not clearly worse, v13 selected** (`docs/arena-uploads.md`). Awaiting the user: a commit of the freeze and
-    the records (the artifact's rollback store is the commit) and the merge into master. The first-wave cap
+    M 2.46: not clearly worse, v13 selected** (`docs/arena-uploads.md`). Committed as 75f4bf9 (the user's request); awaiting the user: the merge of the branch into master. The first-wave cap
     `WAVE_TOWER_HP` moved its mechanism but not the score and stays off. The Gold ladder: 347 agents, none eligible,
     top 26.54, aabzac 34th with 21.07 (`docs/data/leaderboard-gold-2026-11-08.json`);
   - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).
