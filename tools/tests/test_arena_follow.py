@@ -20,9 +20,10 @@ import arena_games  # noqa: E402
 import arena_snapshot  # noqa: E402
 
 REGISTRY = Path("docs/data/arena-uploads.json")
-OLD_BUILD, NEW_BUILD = "0000aaaa", "0123abcd"
+OLD_BUILD, NEW_BUILD, STALE_BUILD = "0000aaaa", "0123abcd", "0000ffff"
 NEW_ARTIFACT = b"class Player {}\n// the candidate\n"
 NEW_SHA = hashlib.sha256(NEW_ARTIFACT).hexdigest()
+STALE_ARTIFACT = b"class Player {}\n// the previous version, built here before the candidate\n"
 T0 = 1000.0
 CREATED = 1793744082737
 
@@ -85,8 +86,10 @@ class Gradle:
     def __call__(self, args):
         self.calls.append(args)
         if "artifactInfo" in args:
+            data = Path(next(a for a in args if a.startswith("-Pfile="))[7:]).read_bytes()
+            build = NEW_BUILD if data == NEW_ARTIFACT else STALE_BUILD
             return 0, "> Task :artifactInfo\n" + json.dumps(
-                {"sha256": NEW_SHA, "chars": len(NEW_ARTIFACT), "params": "", "build": NEW_BUILD, "config": self.config}) + "\n"
+                {"sha256": hashlib.sha256(data).hexdigest(), "chars": len(data), "params": "", "build": build, "config": self.config}) + "\n"
         agent = next(a for a in args if a.startswith("-Pagent="))[8:]
         games = Path(next(a for a in args if a.startswith("-Preplays="))[10:])
         n = len(list(games.glob("*.json")))
@@ -268,6 +271,50 @@ class FollowTest(unittest.TestCase):
                       str(e.exception))
         self.assertEqual(before, REGISTRY.read_bytes(), "nothing registered, nothing replaced")
         self.assertTrue(Path("replays/arena/unknown/bronze/agent-200/games/21.json").is_file(), "the evidence stays")
+
+    def test_a_stale_default_is_warned_about_and_the_kept_copy_the_agent_plays_is_registered(self):
+        # The candidate was built in another checkout: build/submit/Player.java here still holds the previous version,
+        # while the kept copy of the candidate exists and is what the user pastes (v13 upload 1, 2026-11-09).
+        Path("build/submit/Player.java").write_bytes(STALE_ARTIFACT)
+        os.utime("build/submit/Player.java", (1_700_000_000, 1_700_000_000))  # a day before the kept copy
+        kept = Path("artifacts/%s/Player.java" % NEW_SHA[:8])
+        kept.parent.mkdir(parents=True)
+        kept.write_bytes(NEW_ARTIFACT)
+        os.utime(kept, (1_700_086_400, 1_700_086_400))
+        self.arena.rows = [(0, row(100)), (T0 + 100, row(200, pct=40, busy=True)), (T0 + 700, row(200, pct=100, score=21.5))]
+        code, out = self.follow()
+        self.assertEqual(0, code, out)
+        self.assertIn("WARNING: build/submit/Player.java (", out)
+        self.assertIn("is older than the newest kept copy artifacts/%s/Player.java" % NEW_SHA[:8], out)
+        self.assertIn("paste build/submit/Player.java in the IDE now (sha256 %s..., build %s)"
+                      % (hashlib.sha256(STALE_ARTIFACT).hexdigest()[:8], STALE_BUILD), out)
+        self.assertIn("WARNING: the expected file build/submit/Player.java prints build %s, but agent 200 plays build %s (game 21), "
+                      "the build of the kept copy artifacts/%s/Player.java: that copy is registered" % (STALE_BUILD, NEW_BUILD, NEW_SHA[:8]), out)
+        new = self.entries()[("v02", 1)]
+        self.assertEqual((NEW_SHA, NEW_BUILD, "cfg2"), (new["artifact"]["sha256"], new["artifact"]["build"], new["artifact"]["config"]))
+        self.assertIn("kept copy artifacts/%s/Player.java" % NEW_SHA[:8], new["artifact"]["source"])
+        self.assertEqual(NEW_ARTIFACT, kept.read_bytes(), "the kept copy is untouched")
+        self.assertEqual(2, sum("artifactInfo" in c for c in self.gradle.calls), "the default and the kept copy were identified")
+        self.assertEqual(21.5, new["placement"]["score"])
+
+    def test_another_labels_build_stops_even_when_its_kept_copy_exists(self):
+        self.keep_live_artifact()
+        self.arena.rows = [(0, row(200, pct=40, busy=True))]
+        self.arena.replays[21] = replay(21, 200, OLD_BUILD)
+        before = REGISTRY.read_bytes()
+        with self.assertRaises(arena.Stopped) as e:
+            self.follow()
+        self.assertIn("agent 200 plays build %s (game 21), the artifact of v01 upload 1, not build %s" % (OLD_BUILD, NEW_BUILD),
+                      str(e.exception))
+        self.assertEqual(before, REGISTRY.read_bytes(), "another label's artifact is never registered under this one")
+
+    def test_a_build_no_kept_copy_prints_stops_before_the_registration(self):
+        self.arena.rows = [(0, row(200, pct=40, busy=True))]
+        self.arena.replays[21] = replay(21, 200, "ffffffff")
+        with self.assertRaises(arena.Stopped) as e:
+            self.follow()
+        self.assertIn("agent 200 plays build ffffffff (game 21), not build %s of the artifact" % NEW_BUILD, str(e.exception))
+        self.assertNotIn(("v02", 1), self.entries())
 
     def pending(self):
         """v02 upload 1 (agent 200) registered with its placement still open."""

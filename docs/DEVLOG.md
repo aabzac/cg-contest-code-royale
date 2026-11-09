@@ -3895,3 +3895,23 @@ version), SUMMARY, PLAN, `docs/local-screen.md`, `docs/rules/inferred.md`, the a
 experiment README (On the arena). Committed as 75f4bf9 on the user's request (the freeze, the study, the experiment,
 both placements and the records, 81 files), then merged into master by fast-forward on the user's request (2026-11-09); the
 main checkout's working copies of the registry and manifests were identical to the committed ones and were replaced by them.
+
+## 2026-11-09 — tools/arena.py: a stale default file no longer stops a correct paste
+
+The user asked why `follow v13` stopped and what is better than remembering `--artifact` ("сделай"). The cause: for a new
+label the command expects `build/submit/Player.java` of the checkout it runs in; v13 was built in a worktree, so the main
+checkout's file still held v12's artifact, and the marker check stopped a correct paste.
+- `check_build` now returns the artifact to register. The expected file's marker confirms the paste as before. When the
+  agent prints another build, the kept copies `artifacts/*/Player.java` are searched for that build (known bytes by the
+  registry, new bytes by one `artifactInfo` call each): a copy that no other label owns is registered instead, with a
+  warning naming both files. Another label's artifact, or a build no kept copy prints, still stops the command with
+  nothing registered. `same_configuration` is checked again on the adopted record.
+- `stale_default`: for a new label with the default file, a warning before the paste when `build/submit/Player.java` is
+  older than the newest kept copy ("if the file to paste is another build, stop now and pass --artifact").
+- Tests (`tools/tests/test_arena_follow.py`): the fake Gradle identifies files by their bytes; three cases added — the
+  stale default with the kept copy the agent plays (both warnings, the copy registered, two `artifactInfo` calls), another
+  label's build with its kept copy present (stopped), a build no copy prints (stopped). `python -B -I -m unittest discover
+  -s tools/tests -p "test_*.py"`: 62 OK. The first run of the new test failed on Windows only because the fixture's
+  epoch-1000 clock gave a file time before 1970; `file_time` now falls back to the raw seconds and the test uses 2023 times.
+- Records: the module docstring, `docs/arena-uploads.md` (Tools, steps 1 and 4), `.ai/project.md` (the arena row,
+  AGENTS.md resynced), the memory note on the tool.

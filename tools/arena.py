@@ -10,13 +10,17 @@ Run from the repository root:
       after the paste, it goes on from step 4.
       1. Chooses the artifact and checks it: the label's kept copy artifacts/<sha256[:8]>/Player.java when
          the label was uploaded before, else build/submit/Player.java (--artifact names another file). Its
-         sha256, build id and config id; another configuration under the label is refused here.
+         sha256, build id and config id; another configuration under the label is refused here. A default
+         older than the newest kept copy gets a warning: a candidate built in another checkout leaves
+         this file at the previous version.
       2. Saves the live entry: a snapshot and its games (a replacement empties the old agent's battle list).
       3. Names the file to paste and waits for the new agent on the leaderboard (30 minutes by default). CG
          may list it minutes late: an empty battle list of the old agent shows that the paste has arrived,
          and the command says so instead of asking for another paste.
       4. Checks the new agent's first finished game: it must print the artifact's build marker on turn 0.
-         Another build stops the command with nothing registered (the replay stays under unknown/).
+         When it prints the build of a kept copy in artifacts/ that no other label owns, that copy is the
+         artifact registered, with a warning (the expected file was a stale default). Any other build
+         stops the command with nothing registered (the replay stays under unknown/).
       5. Registers the agent in docs/data/arena-uploads.json as the label's next upload, in the league it
          plays; the previous entry gets "replaced"; the artifact is kept in artifacts/.
       6. Follows the placement as P1 says: a snapshot every 3 minutes, every minute from 85 %, and the
@@ -273,6 +277,47 @@ def other_bytes(path, record, uploads):
         sha[:8], ", %s's artifact" % known["label"] if known else "")
 
 
+def kept_copies():
+    """The kept copies artifacts/*/Player.java, the newest first."""
+    return sorted(Path("artifacts").glob("*/Player.java"), key=lambda p: p.stat().st_mtime, reverse=True)
+
+
+def file_time(path):
+    mtime = path.stat().st_mtime
+    try:
+        return datetime.datetime.fromtimestamp(mtime).astimezone().isoformat(timespec="minutes")
+    except (OSError, OverflowError, ValueError):  # a time the platform cannot render (Windows: before 1970)
+        return "%.0f s" % mtime
+
+
+def stale_default(path, log):
+    """A warning when the default build/submit/Player.java is older than the newest kept copy: a build in another
+    checkout (a worktree) leaves this checkout's file at the previous version (v13 upload 1, 2026-11-09)."""
+    kept = kept_copies()
+    if not kept or not path.is_file():
+        return
+    newest = kept[0]
+    if path.stat().st_mtime < newest.stat().st_mtime:
+        log.say("WARNING: %s (%s) is older than the newest kept copy %s (%s); if the file to paste is another build, stop "
+                "now and pass --artifact" % (path.as_posix(), file_time(path), newest.as_posix(), file_time(newest)))
+
+
+def kept_with_build(build, label, uploads, run_gradle):
+    """(record, bytes) of the kept copy that prints this build marker and belongs to no other label, or None.
+    Known bytes take their record from the registry; new bytes are identified by Gradle, one call per unknown copy."""
+    for path in kept_copies():
+        sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        known = next((u for u in uploads if (u.get("artifact") or {}).get("sha256") == sha), None)
+        if known is not None:
+            if known["artifact"].get("build") == build and known["label"] == label:
+                return identify(path, uploads, run_gradle)
+            continue
+        record, data = identify(path, uploads, run_gradle)
+        if record["build"] == build:
+            return record, data
+    return None
+
+
 # ---- the steps
 
 def register(reg_path, label, agent, league, created_ms, log, artifact, previous=None, submission=None, promoted=False):
@@ -397,16 +442,19 @@ def wait_for_agent(old, deadline, log, clock, sleep, pasted=False, wait=30):
         sleep(WAIT_POLL_S)
 
 
-def check_build(agent, league, record, uploads, log, clock, sleep):
-    """Stops unless the agent's first finished games print the artifact's build marker.
+def check_build(agent, league, expected, record, data, label, uploads, log, clock, sleep, run_gradle):
+    """The (record, bytes) to register: the expected artifact when the agent's first finished games print its build
+    marker; the kept copy in artifacts/ that prints the agent's build when the expected file was another one (a
+    stale default: the candidate built in another checkout), with a warning; otherwise the command stops.
 
-    Their replays stay under replays/arena/unknown/<league>/agent-<id>/games: arena_games takes them from
-    there after the registration, and after a stop they are the evidence. At most MARKER_GAMES games are
-    read (a game without a turn-0 answer has no marker); the first finished game is waited for.
+    Another label's artifact is never adopted: that marker means CG got another version's file. The replays stay under
+    replays/arena/unknown/<league>/agent-<id>/games: arena_games takes them from there after the registration, and
+    after a stop they are the evidence. At most MARKER_GAMES games are read (a game without a turn-0 answer has no
+    marker); the first finished game is waited for.
     """
     if record["build"] is None:
         log.say("the artifact prints no build marker: the games cannot show its build")
-        return
+        return record, data
     deadline, seen = clock() + MARKER_WAIT_S, []
     while True:
         rows = decode_battles(arena_games.call_raw("gamesPlayersRanking/findLastBattlesByAgentId", [agent, None]), agent)
@@ -421,9 +469,15 @@ def check_build(agent, league, record, uploads, log, clock, sleep):
             seen.append(gid)
             if marker == record["build"]:
                 log.say("the new agent plays build %s (game %d), the artifact's" % (marker, gid))
-                return
+                return record, data
             if marker is not None:
                 other = next((u for u in uploads if (u.get("artifact") or {}).get("build") == marker), None)
+                found = None if other is not None and other["label"] != label else kept_with_build(marker, label, uploads, run_gradle)
+                if found is not None:
+                    log.say("WARNING: the expected file %s prints build %s, but agent %d plays build %s (game %d), the build of the "
+                            "kept copy %s: that copy is registered (the expected file was not the one pasted; a stale default?)"
+                            % (expected.as_posix(), record["build"], agent, marker, gid, kept_copy(found[0]["sha256"]).as_posix()))
+                    return found
                 raise Stopped("agent %d plays build %s (game %d)%s, not build %s of the artifact %s: CG got another file. "
                               "Nothing is registered; the replay stays in %s" % (
                                   agent, marker, gid, ", the artifact of %s upload %d" % (other["label"], other["upload"])
@@ -596,6 +650,8 @@ def follow(label, log, artifact=None, selected=None, wait=30, reg_path=DEFAULT_R
         raise Stopped("the leaderboard shows %s, which the registry does not list as live" % name(entry))
     # A new upload: the file and the label are checked before anything is saved or pasted.
     path = artifact_for(label, uploads, artifact)
+    if artifact is None and not any(u["label"] == label for u in uploads):
+        stale_default(path, log)
     record, data = identify(path, uploads, run_gradle)
     same_configuration(label, uploads, record)
     saved = False
@@ -621,7 +677,8 @@ def follow(label, log, artifact=None, selected=None, wait=30, reg_path=DEFAULT_R
         log.say("the leaderboard shows the new agent %d in %s; saving what is left of %s" % (row["agentId"], league, name(live)))
         fetch(live, log, reg_path)
     out, _, _ = captured(log, arena_snapshot.take, row["agentId"], PSEUDO, league, check_registry(read_registry(reg_path)))
-    check_build(row["agentId"], league, record, uploads, log, clock, sleep)
+    record, data = check_build(row["agentId"], league, path, record, data, label, uploads, log, clock, sleep, run_gradle)
+    same_configuration(label, uploads, record)
     record["source"] += "; kept copy " + keep(data, record["sha256"]).as_posix()
     entry = register(reg_path, label, row["agentId"], league, row["creationTime"], log, record, previous=live,
                      submission=own_submission(out))
