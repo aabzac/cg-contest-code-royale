@@ -29,7 +29,7 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   (CI 0.5819..0.6096), boss 0.0000, field +0.0434, rival +0.0661, G0 by a quiet repeat; below the 0.60 recommendation by
   0.004, so an upload is an exception. Artifact `85897d90…` (89,252 chars, build `a19a87ca`, config `0c433665`; a second
   build gave the same bytes; kept copy `artifacts/85897d90/Player.java`), procCheck 200/200 against v01 and against
-  `boss`, later turns at most 8.0 ms (`docs/BOTS.md`, Artifacts). Commit 75f4bf9 on the branch `claude/bot-analysis-next-step-203390`, not yet merged into master. Uploaded twice as an exception
+  `boss`, later turns at most 8.0 ms (`docs/BOTS.md`, Artifacts). Commit 75f4bf9, merged into master on 2026-11-09. Uploaded twice as an exception
   (2026-11-09: agents 6868408 and 6868474, placements 21.95 and 21.65; `docs/arena-uploads.md`). Also the selected
   version since 2026-11-09 (below).
 - Previous local champion: v12 (2026-11-07 to 2026-11-09) = v11 with the ladder's tower targets kept back in the first wave
@@ -322,7 +322,7 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     (2026-11-09), the final evaluation passed (S 0.5958 against v12 on evaluation block 2), the artifact `85897d90` is
     checked (above). **On the arena as an exception (S 0.596 below the 0.60 recommendation): two Gold placements on
     2026-11-09, 21.95 (rank 18/348) and 21.65 (rank 22/348), SAME 180/180; against v12's mean 20.36 that is +1.44, inside
-    M 2.46: not clearly worse, v13 selected** (`docs/arena-uploads.md`). Committed as 75f4bf9 (the user's request); awaiting the user: the merge of the branch into master. The first-wave cap
+    M 2.46: not clearly worse, v13 selected** (`docs/arena-uploads.md`). Committed as 75f4bf9 and merged into master (the user's requests, 2026-11-09). The first-wave cap
     `WAVE_TOWER_HP` moved its mechanism but not the score and stays off. The Gold ladder: 347 agents, none eligible,
     top 26.54, aabzac 34th with 21.07 (`docs/data/leaderboard-gold-2026-11-08.json`);
   - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).

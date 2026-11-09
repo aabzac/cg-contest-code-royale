@@ -3893,4 +3893,5 @@ at 21:31:08 (the kept copy is the default for a known label), saved upload 1 at 
 Records: BOTS (versions, Uploads, Artifacts), `docs/arena-uploads.md` (upload 2 and the verdict), STATUS (the selected
 version), SUMMARY, PLAN, `docs/local-screen.md`, `docs/rules/inferred.md`, the architecture page (v13 selected), the
 experiment README (On the arena). Committed as 75f4bf9 on the user's request (the freeze, the study, the experiment,
-both placements and the records, 81 files); the merge into master is the user's.
+both placements and the records, 81 files), then merged into master by fast-forward on the user's request (2026-11-09); the
+main checkout's working copies of the registry and manifests were identical to the committed ones and were replaced by them.
