@@ -230,7 +230,7 @@
 - [ ] v14 in Gold, two uploads (an exception, S 0.553 below 0.60): `follow v14 --selected v13`, which names
   `artifacts/e4c8eeec/Player.java` itself once the main checkout has v14, then P1 against
   v13 (`docs/arena-uploads.md`)
-- [ ] Merge the branch `claude/bot-analysis-next-step-17e972` into master (on the user's word)
+- [x] Merge the branch `claude/bot-analysis-next-step-17e972` into master (2026-11-10, the user's "Да, подготовь"; fast-forward) and move the upload's directory (`relabel.py move`)
 - [ ] After it: the towers' sites chosen for overlap (same experiment, Not tried); the economy with the queen's dead
   turns (mines and upgrades under cover, a staged income target), and a rival whose barracks stand forward as the local
   model of the Gold midgame (the study's sections 7 and 8; the first-wave cap stays parked,

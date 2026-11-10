@@ -4177,3 +4177,31 @@ Records: the registry, the three manifests, `docs/data/arena-layout-2026-11-10/`
 `docs/arena-uploads.md` (the upload's section, Replay storage), `docs/rules/inferred.md`, `docs/local-screen.md` (v12's
 row), STATUS, SUMMARY, PLAN. Still to do in the main checkout: drop the tool's uncommitted copies of these files, merge
 the branch, move the directory (`relabel.py move`).
+
+## 2026-11-10 — The branch merged into master; the main checkout ready for v14's upload
+
+The rest of the user's "Да, подготовь".
+- **The tool's uncommitted copies left the main checkout.** Its registry, the last save of v13 upload 2 and the two
+  manifests of 6868868 there were what the branch was made from (compared once more: the same bytes, the 34 path strings
+  and the line endings aside); `git checkout --` for the two tracked files, the two untracked ones removed.
+- **Merge.** `git merge --ff-only claude/bot-analysis-next-step-17e972` in the main checkout: master 639c33e → c65a3a4
+  (the v14 freeze 931975a, the tool change 3a0a44e, v12 upload 3 c65a3a4). Not pushed.
+- **The directory.** `relabel.py move --record docs/data/arena-layout-2026-11-10/record.json` from the main checkout:
+  `replays/arena/v14/gold/upload-01` → `replays/arena/v12/gold/upload-03`, 135 files, the digest `b2f5b6d4…` the same
+  before and after; `replays/arena/v14` is gone.
+- **Checks in the main checkout.**
+  - The 90 games stand at the manifest's `rawDirectory` with its sha256; the 30 saved lists and the placement's raw
+    directory exist.
+  - `tools/arena_compare.py --candidate v13 --selected v12` prints the branch's numbers.
+  - `./gradlew cgAttribute -Preplays=replays/arena/v12/gold/upload-03/games -Pagent=6868868
+    -Pbot=file:artifacts/3208b011/Player.java`: SAME 90 of 90, 19,005 turns, markers {58d513ae=90}.
+  - `./gradlew test`: 184 tests, none skipped (the corpus tests run there), 1 m 54 s.
+  - What `follow v14 --selected v13` does before the paste, run without the network (the registry's checks,
+    `find_artifact`, `identify`, `one_label`, `same_configuration`): the live entry is v12 upload 3;
+    `build/submit/Player.java` "is v12's artifact: not v14's file"; `artifacts/e4c8eeec/Player.java` "plays as v14 in 6
+    of 6 games, on maps that tell v14 from each of the 14 other versions" (7.2 s); the line names it: "paste
+    artifacts/e4c8eeec/Player.java in the IDE now (sha256 e4c8eeec..., build 62ad918b); not build/submit/Player.java,
+    which holds other bytes (3208b011, v12's artifact)". The leaderboard and the wait for the agent were not run.
+
+Open: v14's two uploads, the user's: `python -B -I tools/arena.py follow v14 --selected v13` from the main checkout,
+then the paste of the file it names. Records: STATUS, SUMMARY, PLAN, BOTS (the commit of v14's artifact).

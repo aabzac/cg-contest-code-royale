@@ -32,9 +32,8 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `337e3891`; a second build and a clean export of the working tree through a temporary index (tree d2e1a1b0) rebuilt the same bytes;
   kept copy `artifacts/e4c8eeec/Player.java`), procCheck 200/200 against `boss` and, on the repeat, against v01, later
   turns at most 8.1 ms; the first run against v01 lost one game to the laptop's Modern Standby (a 63.7 s turn;
-  `docs/BOTS.md`, Artifacts). Committed 2026-11-10 on the branch `claude/bot-analysis-next-step-17e972` (the freeze
-  commit, `git log`; a clean export of its staged tree rebuilt the bytes before the commit); not merged into master, not
-  uploaded. The next P2 candidates are screened against v14.
+  `docs/BOTS.md`, Artifacts). Commit 931975a, merged into master on 2026-11-10 (a clean export of its staged tree rebuilt
+  the bytes before the commit); not uploaded. The next P2 candidates are screened against v14.
 - Previous local champion: v13 (2026-11-09 to 2026-11-10) = v12 with no ladder walk into a visible wave (LADDER_CLEAR=500: after
   the first-wave window and with two own towers, while an enemy knight is within 500 of the queen and none within 250,
   the walk to the ladder's next site becomes a walk to her nearest own tower outside the enemy towers' ranges, a top-up
@@ -348,12 +347,10 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   - **the upload of v14** (frozen 2026-11-10, above). S 0.5533 against v13 on the evaluation block is below
     the 0.60 recommendation, so the upload is an exception and the user's decision, as v10's, v12's and v13's were (the
     user started it on 2026-11-10). Since 2026-11-10 `python -B -I tools/arena.py follow v14 --selected v13` finds the
-    file itself, by its play (`./gradlew playsAs`; `docs/arena-uploads.md`, the tool's steps): it names
-    `artifacts/e4c8eeec/Player.java` (build `62ad918b`) once the main checkout has v14 (the merge, next item). Two
-    placements; a first placement below 16.87 rolls back early;
-  - the merge of the branch `claude/bot-analysis-next-step-17e972` into master: the main checkout needs v14 and the
-    tool's play check before `follow v14` (the freeze, the tool change and the
-    record of v12 upload 3 are committed on the branch);
+    file itself, by its play (`./gradlew playsAs`; `docs/arena-uploads.md`, the tool's steps): in the main
+    checkout (master since the merge of 2026-11-10) it passes over `build/submit/Player.java`, v12's, and names
+    `artifacts/e4c8eeec/Player.java` (build `62ad918b`): checked there without the network, 7 s. Two placements; a
+    first placement below 16.87 rolls back early;
   - after it: the towers' sites chosen for overlap, the economy with the dead turns, a rival whose barracks stand
     forward (`docs/data/exp-2026-11-10-overlap/`, Not tried; the study's sections 7 and 8). The Gold ladder on
     2026-11-08: 347 agents, none eligible, top 26.54 (`docs/data/leaderboard-gold-2026-11-08.json`);
