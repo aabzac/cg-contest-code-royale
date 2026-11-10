@@ -4146,3 +4146,34 @@ tool), then `follow v14 --selected v13`.
 
 Records: `.ai/project.md` (the follow row and a row for `playsAs`; AGENTS.md resynced), `docs/arena-uploads.md` (the
 tool's steps 1 and 4), STATUS, SUMMARY, PLAN. Committed on the branch at the user's "Да, подготовь" (`git log`).
+
+## 2026-11-10 — v12 upload 3 in Gold: the paste by mistake gets its own label; 20.88, rank 38/348
+
+The user's "Да, подготовь" after their question whether a third upload of v12 is needed. As a measurement it is not: no
+verdict depends on it. As a record it is: agent 6868868 is the arena entry, `follow` looks the leaderboard's agent up in
+the registry before a paste (an unregistered one is taken for the paste itself), and under the label v14 it blocks
+v14's own upload (one artifact, one label).
+
+- **The records come into the branch.** `docs/data/arena-layout-2026-11-10/relabel.py records --source <main checkout>`:
+  the main checkout's registry is the branch's plus what the tool wrote (the entry of 6868868 and "replaced" on v13
+  upload 2); the entry becomes v12 upload 3 with `formerLabel`, "replaced" names it, the two manifests of 6868868 point
+  to `replays/arena/v12/gold/upload-03` (33 and 1 paths), and the last save of v13 upload 2 comes as the tool wrote it.
+  The step was first run from a scratch copy; the committed script, run again on the restored files, gave the same
+  bytes (the `formerLabel` text aside, which now names the record).
+- **The record.** `relabel.py plan`: `record.json` with the 135 files of `replays/arena/v14/gold/upload-01` (46,034,153
+  bytes; the 90 games each with the manifest's sha256), their sha256 and the moves; `relabel.py move` applies it in
+  the checkout that holds the replays, after the merge.
+- **The numbers** (`tools/arena_compare.py --candidate v13 --selected v12` on the relabelled registry): v12/upload-3
+  20.88, rank 38/348, 90 games, 63.3 % won (seat 0: 34 of 48, seat 1: 23 of 42), opponents' median 19.49, performance
+  20.59 ± 0.60; v12 in Gold 19.64, 21.07 and 20.88, mean 20.53, SD 0.78, performance 20.36 ± 0.35 over 270 games; v13
+  against it +1.27 (−M −2.46) and +1.37 (−2 SE −1.09): not clearly worse, v13 stays selected; Gold's scale 2.64; Gold's
+  own M 1.86 on 4 df (2.09 on 3), the verdicts keep 2.46.
+- **One equal score**, 919249780 (31:31 at turn 250, player 0 was us): ranked a win by the game result, a draw in each
+  of the 21 saved battle lists that hold it; the eighteenth such game (`docs/rules/inferred.md`, whose count said
+  sixteen for seventeen).
+- `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: 71 tests.
+
+Records: the registry, the three manifests, `docs/data/arena-layout-2026-11-10/`, BOTS (Uploads, Artifacts),
+`docs/arena-uploads.md` (the upload's section, Replay storage), `docs/rules/inferred.md`, `docs/local-screen.md` (v12's
+row), STATUS, SUMMARY, PLAN. Still to do in the main checkout: drop the tool's uncommitted copies of these files, merge
+the branch, move the directory (`relabel.py move`).

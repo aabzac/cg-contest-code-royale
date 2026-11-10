@@ -1,5 +1,5 @@
 {
- "fetched": "2026-11-09T21:54:29+0200",
+ "fetched": "2026-11-10T02:09:22+0200",
  "agentId": 6868474,
  "offline": false,
  "services": [
@@ -38,7 +38,9 @@
    "replays/arena/v13/gold/upload-02/snapshots/battles-20261109-215232-141475900.json",
    "replays/arena/v13/gold/upload-02/snapshots/battles-20261109-215325-957620900.json",
    "replays/arena/v13/gold/upload-02/snapshots/battles-20261109-215339-334650200.json",
-   "replays/arena/v13/gold/upload-02/snapshots/battles-20261109-215425-958289200.json"
+   "replays/arena/v13/gold/upload-02/snapshots/battles-20261109-215425-958289200.json",
+   "replays/arena/v13/gold/upload-02/snapshots/battles-20261109-215429-351911600.json",
+   "replays/arena/v13/gold/upload-02/snapshots/battles-20261110-020919-822549600.json"
   ],
   "notDone": 0
  },

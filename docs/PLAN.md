@@ -225,10 +225,10 @@
 - [x] Commit the v14 freeze and the records (2026-11-10, the user's request; the freeze commit, `git log`)
 - [x] `tools/arena.py follow` finds a new label's file by its play (`./gradlew playsAs`) and never takes bytes another
   label registered (2026-11-10, the user's "Да, сделай"; `docs/arena-uploads.md`, the tool's steps)
-- [ ] The mistaken paste of 2026-11-10 02:23 (agent 6868868 played v12's `3208b011`, placement 20.88, registered as "v14
-  upload 1" in the main checkout): relabel it as v12's third Gold upload and record it
+- [x] The mistaken paste of 2026-11-10 02:23 recorded as v12 upload 3 in Gold (agent 6868868, 20.88; v12's mean of three
+  20.53, v13 stays selected; `docs/arena-uploads.md`, `docs/data/arena-layout-2026-11-10/`)
 - [ ] v14 in Gold, two uploads (an exception, S 0.553 below 0.60): `follow v14 --selected v13`, which names
-  `artifacts/e4c8eeec/Player.java` itself once the main checkout has v14 and the label is corrected, then P1 against
+  `artifacts/e4c8eeec/Player.java` itself once the main checkout has v14, then P1 against
   v13 (`docs/arena-uploads.md`)
 - [ ] Merge the branch `claude/bot-analysis-next-step-17e972` into master (on the user's word)
 - [ ] After it: the towers' sites chosen for overlap (same experiment, Not tried); the economy with the queen's dead

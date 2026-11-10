@@ -78,13 +78,14 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   Uploaded as an exception (S 0.5958 against v12 on the evaluation block). Artifact `85897d90…` (89,252 chars, build
   `a19a87ca`, config `0c433665`; commit 75f4bf9; kept copy `artifacts/85897d90/Player.java`). The rollback artifact.
   The live agent was 6868474 (upload 2) until the mistaken paste of 2026-11-10 (the arena entry, below). Gold's own M is
-  2.09 on 3 df; the verdicts keep Bronze's 2.46.
+  1.86 on 4 df since v12's third upload; the verdicts keep Bronze's 2.46.
 - Previous selected version: v12 (2026-11-07 to 2026-11-09), by P1 on two Gold placements, 19.64 and 21.07 (mean 20.36,
   SD 1.01), against v11's Gold 18.13 and 16.03 (mean 17.08): "not clearly worse" (+3.28 against −M −2.46; performance
   20.38 ± 0.48 against 16.89 ± 0.49 at Gold's scale 3.04, +3.48 against −2 SE −1.38; `docs/arena-uploads.md`). Uploaded
   as an exception (S 0.5716 against v11 on the evaluation block). Artifact `3208b011…` (88,517 chars, build `58d513ae`,
   config `7b8e0525`; commit 08fbc49; kept copy `artifacts/3208b011/Player.java`). On the arena the
-  first wave is met 287 from the back edge (v11 411) and costs 6.9 HP (v11 11.4).
+  first wave is met 287 from the back edge (v11 411) and costs 6.9 HP (v11 11.4). A third Gold placement, the paste by
+  mistake of 2026-11-10: 20.88 (the mean of three 20.53; the arena entry, below).
 - Previous selected version: v11 (2026-11-07), by P1 on two Silver placements, 20.80 and 21.74 (mean
   21.27, SD 0.66), against v10's 19.38 and 21.33 (mean 20.35): "not clearly worse" (+0.92 against −M −2.46;
   performance 22.02 ± 0.77 against 21.04 ± 0.77 at Silver's scale 4.41, +0.98 against −2 SE −2.17;
@@ -129,18 +130,15 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
   `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
   `route` configuration, artifact `da914c4c…`), selected 2026-11-02 to 2026-11-03; v03, 2026-10-30 to 2026-11-02.
-- Arena entry: `aabzac`, agent 6868868, **Gold**, pasted 2026-11-10 02:23 local: **v12's artifact `3208b011`** (build
-  `58d513ae`), pasted by mistake in place of v14's. The user ran `tools/arena.py follow v14 --selected v13` without
-  `--artifact` (the command as the session gave it); for the new label the tool named the main checkout's
-  `build/submit/Player.java`, still v12's build, and registered the paste in the main checkout's registry as "v14
-  upload 1" (artifact `3208b011`, config `7b8e0525`: v12's bytes under v14's label, submission 41679871).
-  - Its placement completed at 02:44: score 20.88, local rank 38/348 (global 152), 90 games, 57 wins; cgAttribute SAME
-    90 of 90 against `artifacts/3208b011/Player.java`: v12's code in every game. The entry is to be relabelled as v12's
-    third Gold upload (v12's Gold placements: 19.64, 21.07 and this 20.88); the P1 line the tool printed for the label
-    v14 is about v12's code. The tool's writes (the registry entry, the manifests of 6868868,
-    `replays/arena/v14/gold/upload-01/`) are uncommitted in the main checkout and not in this branch.
-  - It replaced agent 6868474 = v13 upload 2 (pasted 2026-11-09 21:35; placement 21.65, local rank 22/348, 90 games, 55
-    wins, every game identical to the artifact; `docs/BOTS.md`, Uploads), which replaced v13 upload 1 (21.95).
+- Arena entry: `aabzac`, agent 6868868 = **v12 upload 3**, **Gold**, pasted 2026-11-10 02:23 local by mistake in place of
+  v14's file: `tools/arena.py follow v14 --selected v13`, run without `--artifact` as the session gave it, named the main
+  checkout's `build/submit/Player.java`, still v12's `3208b011` (build `58d513ae`), and registered the paste as v14
+  upload 1; relabelled the same day (`formerLabel` in the registry; `docs/data/arena-layout-2026-11-10/`).
+  - The placement completed at 02:44: score 20.88, local rank 38/348 (global 152), `eligibleForPromotion` false.
+  - 90 games, 57 wins; opponents' median 19.49. Every game is identical to v12's artifact (`docs/BOTS.md`, Uploads;
+    `docs/data/arena-6868868-placement-2026-11-10.json`). v12's Gold placements: 19.64, 21.07 and 20.88, mean 20.53.
+  - It replaced agent 6868474 = v13 upload 2 (21.65, rank 22/348), which replaced v13 upload 1 (21.95). The selected
+    version stays v13: until v14's paste the arena entry is not the selected version.
 - v11 in Gold (the study of 2026-11-07, `docs/data/study-2026-11-07-gold/`; its README has the numbers):
   - 44 of the 69 losses in 180 games are HP races at turn 250, 25 are deaths (towers 0.4 HP of a death's last 30
     turns);
@@ -151,7 +149,7 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     limit in 91 % (Gold 59 %); `field` 60 %; `rival`'s giants 85 % of its games.
 - Noise margins: **M = 2.46, borrowed from Bronze** (11 df) in Silver (the user's decision of 2026-11-04) and in
   **Gold** (2026-11-07), until they decide otherwise. The leagues' own M are printed as context: Silver 1.59 on 4 df
-  (v08's, v10's and v11's Silver placements), Gold 2.09 on 3 df (v11's, v12's and v13's pairs). See `noiseMargins` in the registry and
+  (v08's, v10's and v11's Silver placements), Gold 1.86 on 4 df (v11's pair, v12's three and v13's pair). See `noiseMargins` in the registry and
   `docs/arena-uploads.md` (Silver and Gold noise margins). A Gold candidate rolls back early below 16.87 (v13's Gold
   mean 21.80 less 2M = 4.93).
 - Silver boss: agent 1876720 (no pseudo), rating **21.87-21.99** during the fetches of 2026-11-04 00:05-23:24
@@ -347,20 +345,15 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   - the local opponents release their midgame waves from 1,230-1,260 away, the Gold field from 990, and the field's
     waves hurt two to seven times more.
 - Waiting on the user:
-  - **the mistaken paste of 2026-11-10 02:23** (the arena entry, above): agent 6868868 plays v12's code under the label
-    v14 in the main checkout's registry. To decide: let its placement finish (a third Gold placement of v12's bytes,
-    usable for v12's baseline and the noise margin) and relabel it as v12 upload 3 (the registry entry, the manifests
-    and `replays/arena/v14/gold/upload-01` in the main checkout); its placement is complete (20.88). Until the label
-    is corrected, `follow v14` refuses: the bytes registered under v14 are v12's (one artifact, one label);
-  - **the upload of v14** after that (frozen 2026-11-10, above). S 0.5533 against v13 on the evaluation block is below
+  - **the upload of v14** (frozen 2026-11-10, above). S 0.5533 against v13 on the evaluation block is below
     the 0.60 recommendation, so the upload is an exception and the user's decision, as v10's, v12's and v13's were (the
     user started it on 2026-11-10). Since 2026-11-10 `python -B -I tools/arena.py follow v14 --selected v13` finds the
     file itself, by its play (`./gradlew playsAs`; `docs/arena-uploads.md`, the tool's steps): it names
-    `artifacts/e4c8eeec/Player.java` (build `62ad918b`) once the main checkout has v14 and the label is corrected. Two
+    `artifacts/e4c8eeec/Player.java` (build `62ad918b`) once the main checkout has v14 (the merge, next item). Two
     placements; a first placement below 16.87 rolls back early;
   - the merge of the branch `claude/bot-analysis-next-step-17e972` into master: the main checkout needs v14 and the
-    tool's play check before `follow v14` (the freeze and the tool change of 2026-11-10 are
-    committed on the branch);
+    tool's play check before `follow v14` (the freeze, the tool change and the
+    record of v12 upload 3 are committed on the branch);
   - after it: the towers' sites chosen for overlap, the economy with the dead turns, a rival whose barracks stand
     forward (`docs/data/exp-2026-11-10-overlap/`, Not tried; the study's sections 7 and 8). The Gold ladder on
     2026-11-08: 347 agents, none eligible, top 26.54 (`docs/data/leaderboard-gold-2026-11-08.json`);

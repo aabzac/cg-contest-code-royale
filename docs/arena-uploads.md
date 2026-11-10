@@ -136,6 +136,12 @@ every move and its sha256) restored that layout:
 Older text here and in `docs/DEVLOG.md` keeps the name `route` and the old file locations; the record
 maps them.
 
+The 2026-11-10 relabel (`docs/data/arena-layout-2026-11-10/`: `relabel.py` and `record.json` with every move and its
+sha256): the upload of agent 6868868, registered as v14 upload 1 after a paste of v12's artifact by mistake, is **v12
+upload 3**. The registry keeps the old name as `formerLabel`, the two manifests point to
+`replays/arena/v12/gold/upload-03`, and the upload's `checks/arena.log`, `cgAttribute.log` and `arena-compare.json`,
+written under the label v14, keep their bytes.
+
 ## Tools
 
 - `tools/arena.py`: one command for an upload, from the repository root.
@@ -1284,3 +1290,43 @@ from 22.20 to 22.14.
     tightest pair so far.
 - **Local against arena:** P2's final evaluation gave S 0.5958 against v12 and the arena moved +1.44 points (v12's
   0.5716 had moved +3.28). The local S of a change the arena rewards is not a predictor of its size.
+
+## v12 in Gold, upload 3: a paste by mistake (2026-11-10)
+
+Not a candidate's upload under P1. The user started `tools/arena.py follow v14 --selected v13` in the main checkout at
+02:09:17 without `--artifact`, as the session had told them. For a label never uploaded the tool then took
+`build/submit/Player.java`; in the main checkout that file was still v12's artifact `3208b011` (v14 was built in a
+worktree and its copy waited in `artifacts/e4c8eeec/`). The tool warned that the file was older than the newest kept
+copy, saved v13 upload 2 (90 games, 55 wins) and named v12's file for the paste. The paste came at 02:23:11; the new
+agent 6868868 printed build `58d513ae` in game 919248394, "the artifact's", and was registered as v14 upload 1.
+`tools/arena.py` has looked for a new label's file by its play since that day (Tools, step 1), and the upload has its
+own label: **v12 upload 3** (`docs/data/arena-layout-2026-11-10/`; the registry keeps `formerLabel`).
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v12/upload-1 (Gold) | 6860036 | 19.64, rank 88/348 | 90 | 54.4 ± 5.2 | 29 of 46 | 20 of 44 | 19.72 | 19.87 ± 0.57 |
+| v12/upload-2 (Gold) | 6860166 | 21.07, rank 34/348 | 90 | 66.7 ± 5.0 | 25 of 35 | 35 of 55 | 19.51 | 20.68 ± 0.64 |
+| v12/upload-3 (Gold) | 6868868 | 20.88, rank 38/348 | 90 | 63.3 ± 5.1 | 34 of 48 | 23 of 42 | 19.49 | 20.59 ± 0.60 |
+| v12 in Gold, three uploads | | mean 20.53, SD 0.78 | 270 | | | | | 20.36 ± 0.35 |
+| v13 in Gold, both | | mean 21.80, SD 0.21 | 180 | | | | | 21.73 ± 0.42 |
+
+The figures come from `python -B -I tools/arena_compare.py --candidate v13 --selected v12` on the relabelled registry;
+Gold's logistic scale is refitted at 2.64 on the seven Gold uploads (2.71 on six).
+- **The placement:** complete at 02:44:58, 20.88, local rank 38/348 (global 152), `eligibleForPromotion` false; followed
+  from 8 %.
+- **Same code:** `cgAttribute` against `artifacts/3208b011/Player.java`: SAME 90/90 (19,005 turns); the marker
+  `58d513ae` is in all 90. The agent played v12's code in every game.
+- **No referee removal; one equal score**, 919249780 (31:31 at turn 250, we were player 0): the game result ranks us
+  first and the manifest counts a win (57), the battle lists a draw (56 wins in the placement snapshot;
+  `docs/rules/inferred.md`).
+- **The field:** opponents' median 19.49, as in v12's uploads 1 and 2 (19.72 and 19.51).
+- **What it changes.** Nothing in a verdict:
+  - v12's Gold baseline is three placements, mean 20.53 (20.36 on two). v13 against it: mean +1.27 against −M = −2.46,
+    performance +1.37 against −2 SE = −1.09: "not clearly worse", v13 stays the selected version.
+  - Gold's own M is 1.86 on 4 df (pooled SD 0.93 from v11's pair, v12's three and v13's pair; 2.09 on 3 df before);
+    the verdicts keep Bronze's 2.46.
+  - As a sample of the placement noise it is an honest one: the paste was a mistake, made without regard to a score.
+- **Not a verdict on v14.** The tool printed "P1 verdict against v13: upload the candidate again (upload score 20.88 vs
+  the selected mean 21.80, 2M = 4.93)" for the label v14: that line compares v12's code with v13. v14 has no upload; its
+  first placement rolls back early below 16.87 (21.80 − 2M).
+- **The arena entry** is agent 6868868 until the next paste; the selected version stays v13.
