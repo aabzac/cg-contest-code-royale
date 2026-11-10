@@ -178,7 +178,10 @@ No decision is taken here; these are the measured openings.
 - The rule did what it was built for, and its size on the arena is that of the local profiles. Its ceiling is the tower
   line: the games still lost by death are those with 2.8 towers and an opponent with twice the income. That is the
   economy and the ladder of the v13 study's sections 5, 7 and 8 (the dead turns, a rival whose barracks stand forward),
-  and the towers' sites chosen for overlap (`docs/data/exp-2026-11-10-overlap/`, Not tried).
+  and the towers' sites chosen for overlap (`docs/data/exp-2026-11-10-overlap/`, Not tried). The sites were tested
+  the same day (`docs/data/exp-2026-11-10-tower-sites/`): a ladder that puts each new tower beside the two nearest
+  ones passes the P2 screen (S 0.5425 against v14) and raises the cover on contact turns by 8-13 points locally; it
+  is the default since v15 (2026-11-11).
 - A narrow follow-up inside the rule: open ground. A flag that keeps the hold to the touch points of own towers, or
   takes open ground only when it adds two towers, is a development sweep on the seeds of the overlap experiment.
   Done 2026-11-10 (`docs/data/exp-2026-11-10-open-ground/`): neither gains (S 0.491 and 0.499 against v14 on 2000

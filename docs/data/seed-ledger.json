@@ -9,8 +9,8 @@
   "evaluation": "closed 2026-11-05 by PV3 (as the screen pool); was block k = seeds 400000 + 2000 k .. + 1999; its verdicts stand"
  },
  "next": {
-  "screen-pv3": 8,
-  "evaluation-pv3": 4,
+  "screen-pv3": 9,
+  "evaluation-pv3": 5,
   "screen": null,
   "evaluation": null
  },
@@ -344,6 +344,28 @@
    "control": "v13 (the selected version)",
    "series": "direct and mirror on 2000 maps; v14 and v13 against field and rival on 2000 maps (G4, G5); v14 and v13 against boss on the first 500 maps (3 threads, 200 ms)",
    "verdict": "S 0.5533 (CI 0.5404-0.5661) against v13, 1800 of 2000 maps changed; G2 boss delta 0.0000 on 499 maps (one map dropped: the boss timed out in the candidate's series); G4 field delta +0.0151 (CI +0.0092..+0.0210); G5 rival delta +0.0245 (CI +0.0122..+0.0368); G0: no candidate failure in 13000 games; G3 skipped (no old). G0-G2, G4 and G5 pass; S < 0.60: no upload recommendation; any upload is the user's decision"
+  },
+  {
+   "pool": "screen-pv3",
+   "k": 8,
+   "seeds": "1008000000 + 397 i, i < 2000",
+   "date": "2026-11-10",
+   "experiment": "docs/data/exp-2026-11-10-tower-sites",
+   "candidate": "current?SITE_NEAR=50 (the ladder's tower target, from the second tower on, by its distance to the ladder's point plus half its distance to the second-nearest own tower)",
+   "control": "v14 (the local champion and the selected version)",
+   "series": "direct and mirror on 2000 maps; candidate and v14 against field and rival on 2000 maps (G4, G5); candidate and v14 against boss on the first 500 maps (3 threads, 200 ms)",
+   "verdict": "pass: S 0.5425 (CI 0.5292-0.5558) against v14, 1731 of 2000 maps changed; G2 boss delta 0.0000 (0.9985 against 0.9985); G4 field delta +0.0081 (CI +0.0040..+0.0122); G5 rival delta +0.0324 (CI +0.0195..+0.0453); G0: no candidate failure in 13000 games (its longest turn 28.2 ms at 8 threads); G3 skipped (no old). The block was reserved before the run. The local champion by P2; the default by the user's decision of 2026-11-10 and frozen as v15"
+  },
+  {
+   "pool": "evaluation-pv3",
+   "k": 4,
+   "seeds": "2004000000 + 397 i, i < 2000",
+   "date": "2026-11-11",
+   "experiment": "docs/data/exp-2026-11-10-tower-sites",
+   "candidate": "v15 (the local champion: v14 with the towers' sites chosen beside the towers that stand, SITE_NEAR=50)",
+   "control": "v14 (the selected version)",
+   "series": "direct and mirror on 2000 maps; v15 and v14 against field and rival on 2000 maps (G4, G5); v15 and v14 against boss on the first 500 maps (3 threads, 200 ms); the direct and the field series of v15 repeated at 2 threads for G0 (the same 4000 games each, no slow turn)",
+   "verdict": "S 0.5510 (CI 0.5377-0.5643) against v14, 1723 of 2000 maps changed; G2 boss delta 0.0000 (1.000 against 1.000); G4 field delta +0.0039 (CI -0.0004..+0.0081); G5 rival delta +0.0251 (CI +0.0119..+0.0383); G0 by the quiet repeats (2 slow turns of v15 in the first direct run and 9 in its first field run at 8 threads; v14 had 9 as the opponent and 13 in its own rival series); G3 skipped (no old). The block was reserved before the run. G0-G2, G4 and G5 pass; S < 0.60: no upload recommendation; any upload is the user's decision"
   }
  ]
 }

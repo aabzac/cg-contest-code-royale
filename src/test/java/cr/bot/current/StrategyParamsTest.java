@@ -619,7 +619,8 @@ class StrategyParamsTest {
         return s;
     }
 
-    private static final String ANCHOR_PLAIN = "MINES_FIRST=1,ROUTE=0,UNSTICK=0,WAVE_ANCHOR=0", ANCHOR_ON = ANCHOR_PLAIN + ",WAVE_UNTIL=50,WAVE_ANCHOR=";
+    /** The ladder's tower target nearest its point, as v12-v14 (SITE_NEAR=50 by default since v15 also counts the towers that stand). */
+    private static final String ANCHOR_PLAIN = "MINES_FIRST=1,ROUTE=0,UNSTICK=0,SITE_NEAR=0,WAVE_ANCHOR=0", ANCHOR_ON = ANCHOR_PLAIN + ",WAVE_UNTIL=50,WAVE_ANCHOR=";
 
     /**
      * WAVE_ANCHOR (2026-11-07, docs/data/exp-2026-11-07-meet-back) on {@link #anchorPosition()}, on both sides of the board.
@@ -930,6 +931,133 @@ class StrategyParamsTest {
         assertEquals(2, MainBot.cover(open, open.qx[0], open.qy[0]));
         assertEquals("BUILD 4 MINE", queen(open, "ROUTE=0,UNSTICK=0,CLEAR_TOUCH=1"), "the hold stands where she is: the upgrade stands");
         assertEquals("BUILD 0 TOWER", queen(open, v13 + ",CLEAR_TOUCH=1"), "v13's hold walks her to A");
+    }
+
+    /**
+     * The tower phase with two own towers: an own mine at (150,150) with rate 3 (the income target met), an own knight
+     * barracks at (450,900), own towers T1 (900,300) and T2 (1100,550) with a range of 300, the queen at (600,700). Free
+     * sites: X (300,300), 50 from the ladder's midpoint (300,350) and under no tower; Z (700,250), 412 from it and under
+     * T1; Y (850,550), 585 from it and under both.
+     */
+    private static GameState towerSites() {
+        GameState s = new GameState();
+        site(s, 0, 150, 150, 300, 3); s.stType[0] = Const.MINE; s.stOwner[0] = 0; s.mineRate[0] = 3;
+        site(s, 1, 450, 900, 0, 0); s.stType[1] = Const.BARRACKS; s.stOwner[1] = 0; s.barrType[1] = Const.KNIGHT;
+        site(s, 2, 300, 300, 300, 3);
+        site(s, 3, 850, 550, 300, 3);
+        site(s, 4, 700, 250, 0, 0);
+        for (int i : new int[]{5, 6}) {
+            site(s, i, i == 5 ? 900 : 1100, i == 5 ? 300 : 550, 0, 0);
+            s.stType[i] = Const.TOWER; s.stOwner[i] = 0; s.towerHp[i] = 300; s.towerRange[i] = 300;
+        }
+        s.qx[0] = 600; s.qy[0] = 700;
+        s.qx[1] = 1800; s.qy[1] = 900;
+        for (int p = 0; p < 2; p++) { s.active[p] = true; s.hp[p] = s.score[p] = 100; }
+        s.gold[0] = 100; s.gold[1] = 100;
+        return s;
+    }
+
+    /**
+     * SITE_COVER and SITE_NEAR (2026-11-10, docs/data/exp-2026-11-10-tower-sites) on {@link #towerSites()}, on both sides
+     * of the board. v14's ladder takes X, nearest its midpoint. SITE_COVER=W takes W off a site's distance for each own
+     * tower over its centre, up to two: Y from 300 on, and with Y taken Z from 400 on. SITE_NEAR=P adds P % of the
+     * distance to the second-nearest own tower (the nearest while one stands). The first tower, the mine phase and the
+     * first barracks keep v14's choice; in the first-wave window the distance is taken to the anchor; the planner's
+     * next target counts the tower being built. SITE_NEAR=50 is the default since v15.
+     */
+    @Test
+    void siteCoverAndSiteNearChooseTheTowersSites() {
+        String p = "MINES_FIRST=1,BARRACKS=1,ROUTE=0,UNSTICK=0,SITE_NEAR=0";   // v14's ladder (SITE_NEAR=50 by default since v15)
+        GameState s = towerSites();
+        assertEquals(-1, Protocol.touchedSite(s, 0));
+        assertEquals(0, MainBot.cover(s, 300, 300));
+        assertEquals(1, MainBot.cover(s, 700, 250));
+        assertEquals(2, MainBot.cover(s, 850, 550));
+        for (GameState x : new GameState[]{s, mirror(s)}) {
+            assertEquals("BUILD 2 TOWER", queen(x, p), "v14: X, nearest the midpoint");
+            assertEquals("BUILD 2 TOWER", queen(x, p + ",SITE_COVER=0,SITE_NEAR=0"), "0 is v14");
+            assertEquals("BUILD 2 TOWER", queen(x, p + ",SITE_COVER=100"), "X 50, Z 312, Y 385");
+            assertEquals("BUILD 2 TOWER", queen(x, p + ",SITE_COVER=250"), "X 50, Y 85");
+            assertEquals("BUILD 3 TOWER", queen(x, p + ",SITE_COVER=300"), "Y -15 under two towers");
+            assertEquals("BUILD 3 TOWER", queen(x, p + ",SITE_COVER=1000"), "the most covering towers first");
+            assertEquals("BUILD 2 TOWER", queen(x, p + ",SITE_NEAR=50"), "X 50 + 419, Z 412 + 250, Y 585 + 127");
+            assertEquals("BUILD 3 TOWER", queen(x, p + ",SITE_NEAR=100"), "X 50 + 838, Z 412 + 500, Y 585 + 255");
+            assertEquals("BUILD 3 TOWER", queen(x, p + ",SITE_NEAR=200"));
+        }
+        // The default since v15, SITE_NEAR=50. With the queen at (900,800) the midpoint is (450,400): v14 takes X, 180 from it;
+        // v15 takes Z (292 + 250) before Y (427 + 127) and X (180 + 419).
+        GameState far = s.copy();
+        far.qx[0] = 900; far.qy[0] = 800;
+        for (GameState x : new GameState[]{far, mirror(far)}) {
+            assertEquals(-1, Protocol.touchedSite(x, 0));
+            assertEquals("BUILD 2 TOWER", queen(x, p), "v14: X");
+            assertEquals("BUILD 4 TOWER", queen(x, "MINES_FIRST=1,BARRACKS=1,ROUTE=0,UNSTICK=0"), "the default since v15: Z");
+            assertEquals("BUILD 4 TOWER", queen(x, p + ",SITE_NEAR=50"));
+        }
+        // Y taken (an own mine): Z, under T1 alone, from W = 400 on.
+        GameState taken = s.copy();
+        taken.stType[3] = Const.MINE; taken.stOwner[3] = 0; taken.mineRate[3] = 1;
+        for (GameState x : new GameState[]{taken, mirror(taken)}) {
+            assertEquals("BUILD 2 TOWER", queen(x, p + ",SITE_COVER=300"), "X 50, Z 112");
+            assertEquals("BUILD 4 TOWER", queen(x, p + ",SITE_COVER=400"), "Z 12");
+        }
+        // One own tower (T2 is a mine): the distance to the nearest own tower counts.
+        GameState one = s.copy();
+        one.stType[6] = Const.MINE; one.mineRate[6] = 1;
+        for (GameState x : new GameState[]{one, mirror(one)}) {
+            assertEquals("BUILD 2 TOWER", queen(x, p), "v14 with one tower");
+            assertEquals("BUILD 2 TOWER", queen(x, p + ",SITE_NEAR=50"), "X 50 + 300, Z 412 + 103");
+            assertEquals("BUILD 4 TOWER", queen(x, p + ",SITE_NEAR=100"), "X 50 + 600, Z 412 + 206, Y 585 + 255");
+            assertEquals("BUILD 2 TOWER", queen(x, p + ",SITE_COVER=300"), "X 50, Z 112, Y 285");
+            assertEquals("BUILD 4 TOWER", queen(x, p + ",SITE_COVER=400"), "Z 12");
+        }
+        // No own tower: the first tower is v14's.
+        GameState none = one.copy();
+        none.stType[5] = Const.MINE; none.mineRate[5] = 1;
+        assertEquals("BUILD 2 TOWER", queen(none, p + ",SITE_COVER=1000,SITE_NEAR=200"), "the first tower is v14's");
+        // A third covering tower adds nothing: T3 (850,800) covers Y too, T4 (600,50) covers Z; both count two and Z is nearer.
+        GameState four = s.copy();
+        for (int i : new int[]{7, 8}) {
+            site(four, i, i == 7 ? 850 : 600, i == 7 ? 800 : 50, 0, 0);
+            four.stType[i] = Const.TOWER; four.stOwner[i] = 0; four.towerHp[i] = 300; four.towerRange[i] = 300;
+        }
+        assertEquals(3, MainBot.cover(four, 850, 550));
+        assertEquals(2, MainBot.cover(four, 700, 250));
+        for (GameState x : new GameState[]{four, mirror(four)}) {
+            assertEquals("BUILD 2 TOWER", queen(x, p), "v14 with four towers");
+            assertEquals("BUILD 4 TOWER", queen(x, p + ",SITE_COVER=1000"), "Z and Y both count two towers: Z, nearer the midpoint");
+        }
+        // The mine phase and the first barracks keep v14's choice.
+        GameState mine = s.copy();
+        mine.mineRate[0] = 2;
+        assertEquals("BUILD 2 MINE", queen(mine, p), "v14: the gold site X");
+        assertEquals("BUILD 2 MINE", queen(mine, p + ",SITE_COVER=1000,SITE_NEAR=200"), "the mine phase is v14's");
+        GameState bar = s.copy();
+        bar.clearStructure(1);
+        assertEquals("BUILD 2 BARRACKS-KNIGHT", queen(bar, p), "v14: the first barracks at X");
+        assertEquals("BUILD 2 BARRACKS-KNIGHT", queen(bar, p + ",SITE_COVER=1000,SITE_NEAR=200"), "the first barracks is v14's");
+        // The first-wave window (turn 20, an enemy knight barracks): the distance is taken to the anchor (300,700).
+        GameState wave = s.copy();
+        wave.turn = 20;
+        site(wave, 7, 1600, 800, 0, 0); wave.stType[7] = Const.BARRACKS; wave.stOwner[7] = 1; wave.barrType[7] = Const.KNIGHT;
+        for (GameState x : new GameState[]{wave, mirror(wave)}) {
+            assertEquals("BUILD 2 TOWER", queen(x, p), "v14 in the window: X, 400 from the anchor");
+            assertEquals("BUILD 3 TOWER", queen(x, p + ",SITE_COVER=100"), "X 400, Y 570 - 200, Z 602 - 100");
+        }
+        // The planner's next target after a tower at Z, from her landing (620,320): no tower stands, the free sites are Y and
+        // Q (150,450). v14 takes Q, 331 from the midpoint (310,160); Z's range at TOWER_HP (477) covers Y (335 away) and not Q (585).
+        GameState plan = none.copy();
+        plan.stType[2] = Const.MINE; plan.stOwner[2] = 0; plan.mineRate[2] = 1;
+        site(plan, 7, 150, 450, 0, 0);
+        GameState planM = mirror(plan);
+        assertEquals(7, ApproachPlanner.nextTarget(plan, 4, "TOWER", 620, 320, 0, 0, new Params().apply(p)), "v14: Q");
+        assertEquals(3, ApproachPlanner.nextTarget(plan, 4, "TOWER", 620, 320, 0, 0, new Params().apply(p + ",SITE_COVER=400")), "Q 331, Y 666 - 400");
+        assertEquals(7, ApproachPlanner.nextTarget(plan, 4, "TOWER", 620, 320, 0, 0, new Params().apply(p + ",SITE_NEAR=100")), "Q 331 + 585, Y 666 + 335");
+        assertEquals(3, ApproachPlanner.nextTarget(plan, 4, "TOWER", 620, 320, 0, 0, new Params().apply(p + ",SITE_NEAR=200")), "Q 331 + 1170, Y 666 + 671");
+        assertEquals(3, ApproachPlanner.nextTarget(planM, 4, "TOWER", Const.WIDTH - 620, Const.HEIGHT - 320, Const.WIDTH, Const.HEIGHT,
+            new Params().apply(p + ",SITE_COVER=400")), "the same on the right side");
+        assertEquals(7, ApproachPlanner.nextTarget(plan, 4, "BARRACKS-KNIGHT", 620, 320, 0, 0, new Params().apply(p + ",SITE_COVER=400")),
+            "a barracks at Z is no tower: v14's Q");
     }
 
     /**

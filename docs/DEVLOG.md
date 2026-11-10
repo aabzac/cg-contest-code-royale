@@ -4425,3 +4425,141 @@ architecture page (the two lists of the flags that are off), `Params`' comment.
 Committed on the user's request ("Сделай коммит изменений рабочего дерева с осмысленным сообщением."), in one commit with the
 measurement of v14's Gold games and the open-ground experiment (`git log`). The branch is not merged into master and
 nothing is pushed; the main checkout still holds the tool's uncommitted copies of the six data files of v14's uploads.
+
+## 2026-11-10 — The towers' sites chosen for overlap: SITE_NEAR=50 passes P2
+
+The task of the session that keeps the plan (2026-11-10, after the merge of 3d4d4d3): test locally, over v14, the
+first direction the overlap experiment left untried. Worktree `happy-northcutt-76f8b5`, branch
+`claude/happy-northcutt-76f8b5`. Experiment `docs/data/exp-2026-11-10-tower-sites/`; its README has the hypothesis and
+the bar, written before the series, and the tables.
+
+- **Before the flags were designed:** v14's own profiles (`OUT=<R>/profiles bash
+  docs/data/exp-2026-11-10-open-ground/profile.sh`, 22:37-22:38; `<R>` is `replays/bench/exp-2026-11-10-tower-sites`)
+  read by the new `sites.py`. The midpoint rule already clusters the towers: the second stands within 400 of the first
+  in 84 / 81 / 89 % of the games against v14 / `rival` / `field`, the third has 1.15 / 1.13 / 1.11 own towers within
+  400 when it is built, and a spot under three or more own towers lies within 300 of the queen on 83-94 % of the turns
+  from 50. The README's alternative was written from this.
+- **The flags:** `Params.SITE_COVER=W` and `SITE_NEAR=P`, 0 by default. `MainBot.nextSite` takes one more argument,
+  the site of a tower being built (`ApproachPlanner.nextTarget` passes it), and in the tower phase, once an own tower
+  stands or is planned, takes the free site with the smallest distance to the ladder's point less W for each own
+  tower covering the site's centre (up to two; the planned tower with its range at `TOWER_HP`) plus P % of the
+  distance to the second-nearest own tower (the nearest while one stands). The frozen snapshots v01-v14 list both
+  parameters at 0.
+- **Tests:** `StrategyParamsTest.siteCoverAndSiteNearChooseTheTowersSites` (new). `./gradlew test`: 187 tests, 3
+  skipped (the corpus tests), no failure, before the screen and again after the last comment change.
+- **Identity:** `current` against v14 on 500 maps (1 + 397 k) repeats v14's mirror game for game (`bench_pair.py
+  direct <R>/identity-current-v14.json --mirror <R>/dev-1/ctrl-v14.json`: 0 maps changed, no failure; 22:46-22:48,
+  with v14's control series of the four sets).
+- **The sweeps** (commit 3d4d4d3 with the uncommitted flags): `bash docs/data/exp-2026-11-10-tower-sites/sweep.sh
+  SITE_COVER=100 SITE_COVER=200 SITE_COVER=400 SITE_COVER=1000 SITE_NEAR=50 SITE_NEAR=100 SITE_NEAR=200` (22:48-23:02),
+  then `... sweep.sh SITE_COVER=100,SITE_NEAR=50 SITE_COVER=50 SITE_NEAR=25` (23:03-23:09: the two best together, as
+  the README planned, and half the weight of each family, added because the best mirror scores stood at the grid's
+  lower edge), then `python -B -I docs/data/exp-2026-11-10-open-ground/sweep_table.py <R>` → `sweep.txt`. 2000 maps
+  pooled, S against v14, deltas against `rival` and `field`:
+  - SITE_COVER 50 / 100 / 200 / 400 / 1000: 0.5371 / 0.5484 / 0.5433 / 0.5410 / 0.5460; +0.0149 / +0.0344 / +0.0369 /
+    +0.0418 / +0.0441; +0.0010 / +0.0024 / +0.0022 / +0.0025 / +0.0037;
+  - SITE_NEAR 25 / 50 / 100 / 200: 0.5427 / **0.5561 (0.5426..0.5697)** / 0.5441 / 0.5387; +0.0205 / +0.0345 / +0.0466 /
+    +0.0560; +0.0003 / +0.0011 / +0.0010 / +0.0015;
+  - SITE_COVER=100,SITE_NEAR=50: 0.5504 (0.5363..0.5645), +0.0488, +0.0008;
+  - every lower bound against v14 is above 0.52; 1200-1888 of the 2000 maps change against the mirror.
+- **The profiles** (23:09-23:28, all ten arms; `OUT=<R>/profiles bash docs/data/exp-2026-11-10-open-ground/profile.sh
+  <arms>`, then `sites.py` → `sites.txt`; the script takes several minutes to read the 33 profiles). For
+  SITE_NEAR=50 against v14 / `rival` / `field`, the arm minus v14 on the same maps:
+  - the share of the contact turns from turn 50 under three or more own towers +13.2 (+9.1..+17.3) / +7.8
+    (+3.5..+12.1) / +12.1 (+7.7..+16.3) points; the HP to knights from turn 50 −2.33 (−3.37..−1.29) / −1.65
+    (−3.22..−0.13) / −0.69 (−1.31..−0.20); queen deaths per 400 games 10 → 5, 20 → 9, 2 → 0;
+  - own towers at turn 100 +0.10 / +0.18 / +0.19 and at 150 +0.14 / +0.16 / +0.19 (every interval above zero), the
+    second barracks 4.8 / 4.3 / 3.9 turns earlier and in more games, the income at turn 150 +0.05 / +0.14 / +0.10 (not
+    established), the HP before turn 50 unchanged.
+  The bar is met by SITE_NEAR=50, the arm with the highest pooled S against v14.
+- **The screen** (23:36-23:44; block 8 reserved in the ledger at 23:37 before the run): `C="current?SITE_NEAR=50" bash
+  docs/data/exp-2026-11-10-tower-sites/screen.sh`, PV3 screen block 8 (1008000000 + 397 i), control v14:
+  - G1: S 0.5425 (0.5292..0.5558), W/D/L 1828/684/1488, 1731 of 2000 maps changed;
+  - G2: boss 0.9985 against 0.9985, delta 0.0000 on 500 maps (3 threads, 200 ms; no boss timeout);
+  - G4: field +0.0081 (+0.0040..+0.0122); G5: rival +0.0324 (+0.0195..+0.0453);
+  - G0: no error, timeout, slow turn or extra line of the candidate in 13,000 games (longest turn 28.2 ms); G3 skipped.
+- **Verdict:** the bar is met and the screen passed: `current?SITE_NEAR=50` is the local champion by P2. The default
+  and a freeze await the user's decision; both flags stay 0 and `current` plays as v14. `SITE_COVER` meets the
+  development bar too and was not screened.
+- **The artifact of `current`:** `./gradlew submit` gives 97,863 characters of the 100,000, build `ea82a82e`, config
+  `f0b039e0`, sha256 `d5a5b911f865dca8d1e340c806ebc99031deabe9da521aeab767ff8e4983b09b`; the two flags take 1,377 of
+  them. It plays as v14 and is not a candidate. With `-Pparams=SITE_NEAR=50`: 97,875 characters, build `da542ebb`,
+  config `7b16e76c` (not checked by `procCheck`, not a release artifact).
+- Files: `refs/referee-csj/config/level4/Boss.java` copied into the worktree from the main checkout (sha256
+  `a1a3f043…`, gitignored). The raw reports in `<R>` (gitignored) in the worktree, copied to the main checkout
+  without the profiles' csv files (140 reports and the logs, 53 MB; `profile.sh` rebuilds the 935 MB of profiles).
+
+Records: the experiment directory, the seed ledger (screen-pv3 block 8; the next is 9), PLAN, STATUS (the candidate's
+block, the experiment's block, the waiting list), SUMMARY, BOTS (the flags' row), the overlap experiment's README and
+the measurement's README (pointers), the architecture page (the lists of the flags that are off, the directions),
+`Params`' comment.
+
+Nothing is committed: the working tree of the branch holds the flags, the test, the snapshots and the records.
+
+## 2026-11-11 — Freeze v15: the towers stand beside the towers (SITE_NEAR=50); the final evaluation and the artifact
+
+The user's decision ("Да, v15", 2026-11-10 23:57, to the question whether to make `SITE_NEAR=50` the default and
+freeze it as v15). The freeze follows v14's (commit 931975a) step for step; the experiment's README has the sections
+v15, Final evaluation and Artifact.
+
+- **The default and the copy:** `Params.SITE_NEAR = 50`. `cr.bot.v15.GreedyBot`, `RoutePlanner` and `ApproachPlanner`
+  are copies of `current` (package, class name, the frozen header, `name()`; `queenSteps()` left out), written by a
+  script that asserts every replacement; their diff against `current` is the diff v14's copies had.
+  `versions/v15.properties` is v14's snapshot with `SITE_NEAR=50`. `BotFactory` (create, describe), `LocalGames` (the
+  choice, the default opponent, the snapshot list), `visualizer/local.js` (the fallback opponent), `docs/visualizer.md`
+  and `.ai/project.md` (the three version ranges) know v15; `python -B -I .ai/sync.py sync . --source <cg-agent-kit>`
+  regenerated `AGENTS.md` and the lock, `check` passes (kit f4a5bd6, unchanged).
+- **Tests:** `MainBotTest.withDefaultsCurrentPlaysAsV15` (new: fixture seeds and screen block 8's first maps),
+  `withV14ParamsCurrentPlaysAsV14` (renamed, `SITE_NEAR=0`), `SITE_NEAR=0` appended to the ten older parameter strings;
+  the chain v14 → v15, the snapshot list and `describe` in `BotFactoryTest`; `LocalGamesTest` (18 bots, v15 the default
+  opponent). With the new default one older test failed, `StrategyParamsTest.waveAnchorKeepsTheTowerTargetsBack` (the
+  anchor at 100 % expects the site on the back edge; with `SITE_NEAR=50` the site beside the tower wins): its base
+  string now pins v14's ladder, as v14's freeze pinned v13's flags in the overlap tests. The tower-sites test pins
+  `SITE_NEAR=0` where it asserts v14's choice and asserts the default on a position where v15 differs. `./gradlew
+  test`: 188 tests, 3 skipped (the corpus tests), no failure; the visualizer's node tests 18 of 18; the tools' tests
+  71, OK.
+- **In the browser:** `preview_start` with the committed `visualizer` configuration fails in this session (`cmd /c
+  gradlew.bat serve`: "'gradlew.bat' is not recognized"; the current directory is not searched). A temporary
+  configuration with the absolute path of the worktree's `gradlew.bat` started the server (the file was restored with
+  `git checkout` afterwards). `?view=local`: 18 bots in the three lists, v15 with its description, side 2 defaults to
+  v15, `/api/local/bots` says the same, no console error. The server was stopped before the series.
+- **Identity** (`eval.sh identity`, 00:05-00:06): `current` against v15 on 500 maps (1 + 397 k) repeats v15's mirror
+  game for game (0 maps changed, no failure), and v15 against v14 repeats the 1000 games of the screened arm
+  (`dev-1/SITE_NEAR-50-v14.json`; `same_games.py`: 0 differ).
+- **The final evaluation** (`eval.sh eval`, 00:06-00:15; evaluation-pv3 block 4, 2004000000 + 397 i, reserved in the
+  ledger before the run), v15 against the selected version v14:
+  - G1: S 0.5510 (0.5377..0.5643), W/D/L 1872/664/1464, 1723 of 2000 maps changed;
+  - G2: boss 1.0000 against 1.0000 on 500 maps; G4: field +0.0039 (−0.0004..+0.0081); G5: rival +0.0251
+    (+0.0119..+0.0383); G3 skipped;
+  - G0 failed in the first run: 2 slow turns of v15 in the direct series (173.8 ms the longest; v14 9 as the
+    opponent) and 9 in its field series (222.1 ms); v14 had 13 in its own rival series and 1 in the mirror. The series
+    of 00:06-00:09 ran while this session read files of the repository (two Python commands over the architecture
+    page), against the practice of running nothing beside a series. `rerun.sh` (00:16-00:18) repeated the two series
+    at 2 threads with nothing beside them: the same 4000 games each (0 differ), no slow turn (19.7 and 16.5 ms the
+    longest), G1 and G4 pass with the same numbers (`eval-g1-rerun.json`, `eval-g4-rerun.json`).
+  S is below the 0.60 upload recommendation.
+- **The artifact** (00:18-00:23): `./gradlew submit` → 97,864 characters, build `72a6959d` (turn 0: `TRAIN 7 2 10 6 9 5
+  9 13`), config `ce9faaa7`, sha256 `7a5b28c45a5cf13074219cd33ea55858251f5d2925588a7ec5375a1044fc7a8b`; a second build
+  and a clean export of the working tree through a temporary index (`git read-tree HEAD`, `git add -A`, `git
+  write-tree`, `git archive`) rebuilt the same bytes. `procCheck -Popp=v01 -Pgames=100 -PseedBase=5000`: 200/200
+  identical to `current`, 200 wins, no timeout, max first turn 241.9 ms, later 8.6 ms; `-Popp=boss -Pgames=100
+  -PseedBase=6000`: 200/200, 200 wins, no timeout, 203.7 ms and 5.3 ms. `playsAs -Pas=v15`: 6 of 6 games the same,
+  told from each of the 15 other versions. The kept copy: `artifacts/7a5b28c4/Player.java` in the main checkout.
+- **The architecture page** is v15's: the overview and the facts (1210 lines in the three files, 904 without comments
+  and blanks; 54 strategy parameters, 23 acting), the ladder node of the decision flow, a new item of "what is easy
+  to miss", the pseudocode of the target, the v15 item of the target choice, the versions table and the two flags
+  lists, the files map, the directions. Its markup still balances (`html.parser`), and the page was opened in the
+  browser after the edits.
+- Files: the raw reports of the freeze, of the final evaluation with its repeats and the logs in
+  `replays/bench/exp-2026-11-10-tower-sites/` (gitignored), copied to the main checkout.
+
+Records: the experiment's README (the decision, v15, Final evaluation, Artifact), the seed ledger (evaluation-pv3 block
+4; the next is 5), BOTS (v15's row, the artifact's row, the flags' row, v14's row), STATUS (the champion's block, the
+experiment's block, the waiting list), SUMMARY, PLAN, `docs/local-screen.md` (v15's row), the architecture page,
+`docs/visualizer.md`, `.ai/project.md` with `AGENTS.md` and the lock, `Params`' comment.
+
+Committed on the user's request ("Сделай коммит изменений рабочего дерева с осмысленным сообщением."), in one commit
+with the tower-sites experiment of the entry above (`git log`); before the commit a clean export of the staged tree
+rebuilt the artifact's bytes. The branch `claude/happy-northcutt-76f8b5` is not merged into master, and nothing is
+pushed or uploaded: `tools/arena.py follow v15 --selected v14` needs v15 in the main checkout, so the upload waits for
+the merge, on the user's request.

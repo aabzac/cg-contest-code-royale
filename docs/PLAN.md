@@ -246,10 +246,28 @@
   0.5034 against v14 (the queen keeps 0.4-0.7 HP a game, 0.5-0.8 upgrades a game are lost and our knights do as much
   less damage), 2 is level, 4 loses (0.4904). Not adopted, the flag stays off
 - [x] Merge the branch `claude/bot-analysis-next-step-17e972` into master (2026-11-10, the user's "Да, подготовь"; fast-forward) and move the upload's directory (`relabel.py move`)
-- [ ] After it: the towers' sites chosen for overlap (same experiment, Not tried); the economy with the queen's dead
+- [x] The towers' sites chosen for overlap (2026-11-10, the overlap experiment's first untried direction;
+  `docs/data/exp-2026-11-10-tower-sites/`): from the second tower on the ladder's target counts the towers that stand
+  (`SITE_NEAR`: the distance to the second-nearest own tower; `SITE_COVER`: the own towers covering the site). All ten
+  arms beat v14 on 2000 development maps; `SITE_NEAR=50` passes the P2 screen on screen-pv3 block 8: S 0.5425 against
+  v14, field +0.8 pp, rival +3.2 pp, the cover on contact turns up 8-13 points and the ladder no slower; the local
+  champion by P2
+- [x] `SITE_NEAR=50` the `current` default and frozen as v15 (2026-11-11, the user's "Да, v15" of 2026-11-10), the
+  architecture page rewritten; the final evaluation against v14 on evaluation-pv3 block 4 passed (S 0.5510, field
+  +0.4 pp, rival +2.5 pp, G0 by quiet repeats of two series); artifact `7a5b28c4` checked by both `procCheck` series
+  (`docs/data/exp-2026-11-10-tower-sites/`)
+- [x] Commit the v15 freeze, the tower-sites experiment and the records (2026-11-11, the user's request; the freeze
+  commit, `git log`)
+- [ ] Merge the branch `claude/happy-northcutt-76f8b5` into master (on the user's request; `tools/arena.py follow v15`
+  needs v15 in the main checkout)
+- [ ] v15 in Gold, two uploads under P1 against v14 (an exception, S 0.551 below 0.60: the user's decision)
+- [ ] After it: the economy with the queen's dead
   turns (mines and upgrades under cover, a staged income target), and a rival whose barracks stand forward as the local
   model of the Gold midgame (the study's sections 7 and 8; the first-wave cap stays parked,
-  `docs/data/exp-2026-11-09-meet-waves/`)
+  `docs/data/exp-2026-11-09-meet-waves/`); from the tower-sites experiment: a heavier weight or both measures on a
+  fresh block, the same measure for the defence rule's and the touch rule's towers
+- [ ] Housekeeping before the artifact runs out of room (v15's has 97,864 of 100,000 characters with every flag that is off):
+  retire the rejected flags with their tests, by a decision (the common rules, "Retire rejected/parked code")
 - [ ] Companion flags for the same artifact: the TRAIN_SYNC release at the end of the game and at a kill shot; the
   enemy-range guard on the flight and the idle pump (a targeted fix); per-seat scores in `tools/bench_pair.py` (same study)
 - [ ] After the walks are safe: the economy step (mines far from the home corner, no idle pumping after the ladder; the

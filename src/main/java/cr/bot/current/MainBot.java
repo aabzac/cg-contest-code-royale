@@ -195,7 +195,7 @@ public final class MainBot implements Bot {
         // CLEAR_TOUCH: no hold after all (no own tower outside the enemy towers' ranges): the touch rule's build.
         if (cmd == null && deferred != null) cmd = deferred;
         if (cmd == null) {
-            int target = hold ? -1 : nextSite(s, qx, qy, hx, hy, p, mines, barracks, ladderIncome, towers, -1);
+            int target = hold ? -1 : nextSite(s, qx, qy, hx, hy, p, mines, barracks, ladderIncome, towers, -1, -1);
             if (target >= 0) {
                 String what = !free(s, target) || mines < p.MINES_FIRST && s.sGold[target] > 0 ? "MINE"
                     : wantsBarracks(p, barracks, towers) ? "BARRACKS-KNIGHT" : ladderIncome < p.INCOME_TARGET ? "MINE" : "TOWER";
@@ -607,9 +607,13 @@ public final class MainBot implements Bot {
      * maximum is a target too. Sites under an enemy tower are never targets, nor, with SAFE_LADDER, sites on the enemy
      * half that the straight walk reaches only through an enemy tower's range (1) or at all (2). With WAVE_ANCHOR, in the
      * first-wave window the tower-phase target, once a tower stands or is planned, is the nearest to the point at the
-     * walker's height WAVE_ANCHOR % of the way to the back edge instead.
+     * walker's height WAVE_ANCHOR % of the way to the back edge instead. With SITE_COVER or SITE_NEAR the tower-phase
+     * target, once a tower stands or is planned, is the free site with the smallest distance to that point less
+     * SITE_COVER for each own tower whose range covers its centre (up to two) plus SITE_NEAR % of the distance to the
+     * second-nearest own tower (the nearest while one stands); planned is the site of a tower being built, counted as an
+     * own tower with its range at TOWER_HP, or -1.
      */
-    static int nextSite(GameState s, double wx, double wy, double hx, double hy, Params p, int mines, int barracks, int income, int towers, int skip) {
+    static int nextSite(GameState s, double wx, double wy, double hx, double hy, Params p, int mines, int barracks, int income, int towers, int skip, int planned) {
         double cx = (wx + hx) / 2, cy = (wy + hy) / 2;
         java.util.function.IntPredicate ok = i -> i != skip && !underEnemyTower(s, i) && safeLadder(s, p, wx, wy, hx, hy, i);
         if (mines < p.MINES_FIRST) {
@@ -629,6 +633,29 @@ public final class MainBot implements Bot {
         // the point at the walker's height WAVE_ANCHOR % of the way to the back edge, not the midpoint toward the home corner.
         boolean anchor = p.WAVE_ANCHOR > 0 && !wantBarracks && !minePhase && towers >= 1 && firstWaveWindow(s, p);
         double ax = anchor ? wx + (hx - wx) * (p.WAVE_ANCHOR / 100.0) : cx, ay = anchor ? wy : cy;
+        if ((p.SITE_COVER > 0 || p.SITE_NEAR > 0) && !wantBarracks && !minePhase && towers >= 1) {
+            // SITE_COVER, SITE_NEAR: the free site by its distance to the ladder's point, the own towers covering it and its
+            // distance to the second-nearest own tower.
+            int best = -1;
+            double bs = Double.MAX_VALUE;
+            for (int i = 0; i < s.nSites; i++) {
+                if (!ok.test(i) || !free(s, i)) continue;
+                int c = 0;
+                double d1 = Double.MAX_VALUE, d2 = Double.MAX_VALUE;
+                for (int j = 0; j < s.nSites; j++) {
+                    boolean own = s.stType[j] == Const.TOWER && s.stOwner[j] == 0;
+                    if (!own && j != planned) continue;
+                    double d = Physics.distSq(s.sx[j], s.sy[j], s.sx[i], s.sy[i]);
+                    double r = own ? s.towerRange[j] : Math.sqrt((p.TOWER_HP * (double) Const.TOWER_COVERAGE_PER_HP + s.sArea[j]) / Math.PI);
+                    if (d < r * r && c < 2) c++;
+                    if (d < d1) { d2 = d1; d1 = d; } else if (d < d2) d2 = d;
+                }
+                if (d2 == Double.MAX_VALUE) d2 = d1 == Double.MAX_VALUE ? 0 : d1;
+                double score = Math.sqrt(Physics.distSq(s.sx[i], s.sy[i], ax, ay)) - p.SITE_COVER * c + p.SITE_NEAR / 100.0 * Math.sqrt(d2);
+                if (score < bs) { bs = score; best = i; }
+            }
+            return best;
+        }
         return nearest(s, ax, ay, i -> ok.test(i)
             && (free(s, i) ? !minePhase || s.sGold[i] > 0
                 : p.UPGRADE == 1 && minePhase && s.stType[i] == Const.MINE && s.stOwner[i] == 0 && s.mineRate[i] < s.sMaxMine[i]));

@@ -39,9 +39,11 @@ class BotFactoryTest {
         assertEquals(v12.toString().replace("LADDER_CLEAR=0", "LADDER_CLEAR=500"), v13.toString());
         Params v14 = BotFactory.snapshot("v14");
         assertEquals(v13.toString().replace("HOLD_OVERLAP=0", "HOLD_OVERLAP=300").replace("IDLE_OVERLAP=0", "IDLE_OVERLAP=1"), v14.toString());
-        assertEquals(new Params().toString(), v14.toString(), "the live defaults are v14's until the next champion");
+        Params v15 = BotFactory.snapshot("v15");
+        assertEquals(v14.toString().replace("SITE_NEAR=0", "SITE_NEAR=50"), v15.toString());
+        assertEquals(new Params().toString(), v15.toString(), "the live defaults are v15's until the next champion");
         // every Params field must be present in each snapshot, so new live defaults cannot leak in silently
-        for (String version : new String[]{"v01", "v02", "v03", "v04", "v05", "v06", "v07", "v08", "v09", "v10", "v11", "v12", "v13", "v14"}) {
+        for (String version : new String[]{"v01", "v02", "v03", "v04", "v05", "v06", "v07", "v08", "v09", "v10", "v11", "v12", "v13", "v14", "v15"}) {
             String spec = new java.util.Properties() {{
                 try (java.io.InputStream in = BotFactory.class.getResourceAsStream("versions/" + version + ".properties")) { load(in); }
                 catch (java.io.IOException e) { throw new IllegalStateException(e); }
@@ -110,6 +112,7 @@ class BotFactoryTest {
         assertEquals("v12 " + BotFactory.snapshot("v12"), BotFactory.describe("v12"));
         assertEquals("v13 " + BotFactory.snapshot("v13"), BotFactory.describe("v13"));
         assertEquals("v14 " + BotFactory.snapshot("v14"), BotFactory.describe("v14"));
+        assertEquals("v15 " + BotFactory.snapshot("v15"), BotFactory.describe("v15"));
         assertEquals("proc:java -cp x Player", BotFactory.describe("proc:java -cp x Player"));
         assertTrue(BotFactory.describe("boss").matches("boss sha256=([0-9a-f]{64}|missing)"));
         assertTrue(BotFactory.describe("old").matches("old sha256=([0-9a-f]{64}|missing)"));

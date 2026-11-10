@@ -16,25 +16,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MainBotTest {
     /** v01's and v02's parameters besides UNSTICK (ROUTE=0: the planner would replace UNSTICK; MINES_FIRST=0: the barracks first): the captured positions and the audit's games were played with them. */
-    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0," + "BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,";
+    private static final String V02 = "INCOME_TARGET=10,MAX_TOWERS=4,ROUTE=0,MINES_FIRST=0," + "BARRACKS=1,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,SITE_NEAR=0,";
     /** v05's values of the fields v06 changed: one barracks, 8 towers, the flight to the nearest tower. */
-    static final String V05 = "MAX_TOWERS=8,BARRACKS=1,BARRACKS_AFTER_TOWERS=0,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,THREAT_RADIUS=400,KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,";
+    static final String V05 = "MAX_TOWERS=8,BARRACKS=1,BARRACKS_AFTER_TOWERS=0,TRAIN_SYNC=0,THREAT_TOWERS_NEAR=0,THREAT_RADIUS=400,KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,SITE_NEAR=0,";
     /** v06's values of the fields v07 and v09-v12 changed: no kiting, no late hold, the usual barracks site, any ladder site, no anchor. */
-    static final String V06 = "KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,";
+    static final String V06 = "KITE=0,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,SITE_NEAR=0,";
     /** v07's values of the fields v08-v12 changed: its own kiting rule, no late hold, the usual barracks site, any ladder site, no anchor. */
-    static final String V07 = "KITE=1,KITE_PULL=50,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,";
+    static final String V07 = "KITE=1,KITE_PULL=50,LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,SITE_NEAR=0,";
     /** v08's values of the fields v09-v12 changed: no late hold, the usual barracks site, any ladder site, no anchor. */
-    static final String V08 = "LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,";
+    static final String V08 = "LATE_HOLD=0,BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,SITE_NEAR=0,";
     /** v09's values of the fields v10-v12 changed: the second barracks at the ladder's usual site, any ladder site, no anchor. */
-    static final String V09 = "BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,";
+    static final String V09 = "BARRACKS_FORWARD=0,SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,SITE_NEAR=0,";
     /** v10's values of the fields v11 and v12 changed: a ladder site on the enemy half whatever the walk to it, no anchor. */
-    static final String V10 = "SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,";
+    static final String V10 = "SAFE_LADDER=0,WAVE_ANCHOR=0,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,SITE_NEAR=0,";
     /** v11's values of the fields v12 and v13 changed: the ladder's tower targets toward the home corner in the first wave too. */
-    static final String V11 = "WAVE_ANCHOR=0,WAVE_UNTIL=50,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,";
+    static final String V11 = "WAVE_ANCHOR=0,WAVE_UNTIL=50,LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,SITE_NEAR=0,";
     /** v12's values of the fields v13 and v14 changed: the ladder walks whatever knights are within 500. */
-    static final String V12 = "LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,";
-    /** v13's values of the fields v14 changed: the hold at her nearest own tower, the idle queen at the tower nearest home. */
-    static final String V13 = "HOLD_OVERLAP=0,IDLE_OVERLAP=0,";
+    static final String V12 = "LADDER_CLEAR=0,HOLD_OVERLAP=0,IDLE_OVERLAP=0,SITE_NEAR=0,";
+    /** v13's values of the fields v14 and v15 changed: the hold at her nearest own tower, the idle queen at the tower nearest home. */
+    static final String V13 = "HOLD_OVERLAP=0,IDLE_OVERLAP=0,SITE_NEAR=0,";
+    /** v14's value of the field v15 changed: the ladder's tower target nearest its point, whatever towers stand. */
+    static final String V14 = "SITE_NEAR=0,";
 
     /**
      * A captured position: the init and turn input that seat 1 of v01 against current read on one
@@ -213,10 +215,16 @@ class MainBotTest {
         assertSamePlay("current?" + V13, "v13", new long[]{100000, 110135, 10394, 10477, 1006000000, 1006000397, 1006000794});
     }
 
-    /** With its defaults (HOLD_OVERLAP=300, IDLE_OVERLAP=1 since v14), current plays the frozen v14's games command for command (fixture seeds and PV3 screen block 7's maps). */
+    /** With v14's parameters (the ladder's tower target nearest its point), current plays the frozen v14's games command for command (fixture seeds and PV3 screen block 7's maps). */
     @Test
-    void withDefaultsCurrentPlaysAsV14() {
-        assertSamePlay("current", "v14", new long[]{100000, 110135, 10394, 10477, 1007000000, 1007000397, 1007000794});
+    void withV14ParamsCurrentPlaysAsV14() {
+        assertSamePlay("current?" + V14, "v14", new long[]{100000, 110135, 10394, 10477, 1007000000, 1007000397, 1007000794});
+    }
+
+    /** With its defaults (SITE_NEAR=50 since v15), current plays the frozen v15's games command for command (fixture seeds and PV3 screen block 8's maps). */
+    @Test
+    void withDefaultsCurrentPlaysAsV15() {
+        assertSamePlay("current", "v15", new long[]{100000, 110135, 10394, 10477, 1008000000, 1008000397, 1008000794});
     }
 
     /** bot and frozen play the same commands on both seats against v01 and v02. */

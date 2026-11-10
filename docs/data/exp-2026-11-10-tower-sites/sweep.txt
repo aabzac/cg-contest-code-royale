@@ -1,0 +1,201 @@
+Development sets BASE + 397 k, k < 500, each map on both seats. S against v14 with its 95 % CI and the maps whose games differ from v14's mirror; rival and field: the arm's map score minus v14's on the same maps, and the maps whose games differ.
+set dev-1: v14 scores 0.8485 against rival and 0.9805 against field
+set dev-3: v14 scores 0.8260 against rival and 0.9860 against field
+set dev-5: v14 scores 0.8610 against rival and 0.9905 against field
+set dev-7: v14 scores 0.8375 against rival and 0.9880 against field
+arm, set                            maps  S vs v14                   changed  delta vs rival               changed  delta vs field               changed  candidate failures
+SITE_COVER=100, dev-1                500  0.5480 (0.5213..0.5747)    396      +0.0420 (+0.0179..+0.0661)   445      +0.0025 (-0.0054..+0.0104)   384      {'slow': 6}
+SITE_COVER=100, dev-3                500  0.5545 (0.5299..0.5791)    383      +0.0470 (+0.0224..+0.0716)   438      +0.0000 (-0.0089..+0.0089)   404      0
+SITE_COVER=100, dev-5                500  0.5455 (0.5215..0.5695)    375      +0.0275 (+0.0042..+0.0508)   441      +0.0020 (-0.0028..+0.0068)   384      0
+SITE_COVER=100, dev-7                500  0.5455 (0.5206..0.5704)    382      +0.0210 (-0.0017..+0.0437)   419      +0.0050 (-0.0040..+0.0140)   392      0
+SITE_COVER=100, pooled              2000  0.5484 (0.5358..0.5609)    1536     +0.0344 (+0.0225..+0.0462)   1743     +0.0024 (-0.0015..+0.0063)   1564     {'slow': 6}
+
+SITE_COVER=200, dev-1                500  0.5600 (0.5324..0.5876)    448      +0.0465 (+0.0212..+0.0718)   484      +0.0040 (-0.0057..+0.0137)   450      0
+SITE_COVER=200, dev-3                500  0.5455 (0.5189..0.5721)    449      +0.0515 (+0.0250..+0.0780)   482      +0.0015 (-0.0070..+0.0100)   454      0
+SITE_COVER=200, dev-5                500  0.5345 (0.5074..0.5616)    432      +0.0250 (-0.0008..+0.0508)   475      +0.0015 (-0.0051..+0.0081)   454      0
+SITE_COVER=200, dev-7                500  0.5330 (0.5058..0.5602)    431      +0.0245 (-0.0018..+0.0508)   482      +0.0020 (-0.0075..+0.0115)   448      {'slow': 1}
+SITE_COVER=200, pooled              2000  0.5433 (0.5297..0.5568)    1760     +0.0369 (+0.0239..+0.0499)   1923     +0.0022 (-0.0021..+0.0066)   1806     {'slow': 1}
+
+SITE_COVER=400, dev-1                500  0.5540 (0.5250..0.5830)    455      +0.0440 (+0.0168..+0.0712)   493      +0.0040 (-0.0061..+0.0141)   460      {'slow': 1}
+SITE_COVER=400, dev-3                500  0.5495 (0.5219..0.5771)    461      +0.0590 (+0.0316..+0.0864)   488      +0.0020 (-0.0069..+0.0109)   467      0
+SITE_COVER=400, dev-5                500  0.5260 (0.4980..0.5540)    442      +0.0285 (+0.0023..+0.0547)   481      +0.0025 (-0.0044..+0.0094)   463      0
+SITE_COVER=400, dev-7                500  0.5345 (0.5070..0.5620)    444      +0.0355 (+0.0097..+0.0613)   486      +0.0015 (-0.0078..+0.0108)   457      0
+SITE_COVER=400, pooled              2000  0.5410 (0.5270..0.5550)    1802     +0.0418 (+0.0284..+0.0551)   1948     +0.0025 (-0.0019..+0.0069)   1847     {'slow': 1}
+
+SITE_COVER=1000, dev-1               500  0.5530 (0.5239..0.5821)    459      +0.0490 (+0.0220..+0.0760)   494      +0.0070 (-0.0025..+0.0165)   463      {'slow': 3}
+SITE_COVER=1000, dev-3               500  0.5610 (0.5330..0.5890)    460      +0.0610 (+0.0331..+0.0889)   492      +0.0040 (-0.0044..+0.0124)   471      0
+SITE_COVER=1000, dev-5               500  0.5345 (0.5063..0.5627)    448      +0.0265 (+0.0001..+0.0529)   488      +0.0035 (-0.0031..+0.0101)   465      0
+SITE_COVER=1000, dev-7               500  0.5355 (0.5086..0.5624)    446      +0.0400 (+0.0142..+0.0658)   489      +0.0005 (-0.0090..+0.0100)   465      0
+SITE_COVER=1000, pooled             2000  0.5460 (0.5320..0.5600)    1813     +0.0441 (+0.0307..+0.0575)   1963     +0.0037 (-0.0005..+0.0080)   1864     {'slow': 3}
+
+SITE_NEAR=50, dev-1                  500  0.5565 (0.5283..0.5847)    429      +0.0245 (-0.0013..+0.0503)   463      +0.0045 (-0.0047..+0.0137)   429      0
+SITE_NEAR=50, dev-3                  500  0.5710 (0.5447..0.5973)    440      +0.0630 (+0.0380..+0.0880)   479      -0.0020 (-0.0109..+0.0069)   440      0
+SITE_NEAR=50, dev-5                  500  0.5630 (0.5363..0.5897)    431      +0.0240 (-0.0016..+0.0496)   475      +0.0010 (-0.0049..+0.0069)   428      {'slow': 1}
+SITE_NEAR=50, dev-7                  500  0.5340 (0.5067..0.5613)    425      +0.0265 (+0.0006..+0.0524)   463      +0.0010 (-0.0074..+0.0094)   432      0
+SITE_NEAR=50, pooled                2000  0.5561 (0.5426..0.5697)    1725     +0.0345 (+0.0217..+0.0473)   1880     +0.0011 (-0.0030..+0.0052)   1729     {'slow': 1}
+
+SITE_NEAR=100, dev-1                 500  0.5540 (0.5237..0.5843)    468      +0.0485 (+0.0227..+0.0743)   489      +0.0040 (-0.0059..+0.0139)   465      0
+SITE_NEAR=100, dev-3                 500  0.5595 (0.5317..0.5873)    461      +0.0610 (+0.0345..+0.0875)   493      -0.0010 (-0.0097..+0.0077)   469      0
+SITE_NEAR=100, dev-5                 500  0.5440 (0.5158..0.5722)    462      +0.0350 (+0.0093..+0.0607)   489      +0.0005 (-0.0058..+0.0068)   479      {'slow': 1}
+SITE_NEAR=100, dev-7                 500  0.5190 (0.4890..0.5490)    466      +0.0420 (+0.0152..+0.0688)   486      +0.0005 (-0.0081..+0.0091)   473      {'slow': 1}
+SITE_NEAR=100, pooled               2000  0.5441 (0.5296..0.5587)    1857     +0.0466 (+0.0335..+0.0597)   1957     +0.0010 (-0.0032..+0.0052)   1886     {'slow': 2}
+
+SITE_NEAR=200, dev-1                 500  0.5355 (0.5054..0.5656)    479      +0.0565 (+0.0294..+0.0836)   495      +0.0040 (-0.0065..+0.0145)   480      0
+SITE_NEAR=200, dev-3                 500  0.5700 (0.5409..0.5991)    471      +0.0740 (+0.0467..+0.1013)   495      +0.0020 (-0.0064..+0.0104)   480      0
+SITE_NEAR=200, dev-5                 500  0.5345 (0.5032..0.5658)    470      +0.0375 (+0.0111..+0.0639)   494      -0.0015 (-0.0089..+0.0059)   488      {'slow': 1}
+SITE_NEAR=200, dev-7                 500  0.5150 (0.4852..0.5448)    468      +0.0560 (+0.0291..+0.0829)   489      +0.0015 (-0.0073..+0.0103)   480      {'slow': 1}
+SITE_NEAR=200, pooled               2000  0.5387 (0.5237..0.5538)    1888     +0.0560 (+0.0426..+0.0694)   1973     +0.0015 (-0.0029..+0.0059)   1928     {'slow': 2}
+
+SITE_COVER=100,SITE_NEAR=50, dev-1   500  0.5565 (0.5277..0.5853)    458      +0.0520 (+0.0256..+0.0784)   483      +0.0020 (-0.0073..+0.0113)   462      {'slow': 3}
+SITE_COVER=100,SITE_NEAR=50, dev-3   500  0.5710 (0.5431..0.5989)    458      +0.0730 (+0.0461..+0.0999)   491      -0.0010 (-0.0101..+0.0081)   469      {'slow': 1}
+SITE_COVER=100,SITE_NEAR=50, dev-5   500  0.5500 (0.5219..0.5781)    452      +0.0350 (+0.0083..+0.0617)   489      +0.0005 (-0.0058..+0.0068)   468      0
+SITE_COVER=100,SITE_NEAR=50, dev-7   500  0.5240 (0.4959..0.5521)    455      +0.0350 (+0.0073..+0.0627)   490      +0.0015 (-0.0078..+0.0108)   458      {'slow': 7}
+SITE_COVER=100,SITE_NEAR=50, pooled  2000  0.5504 (0.5363..0.5645)    1823     +0.0488 (+0.0353..+0.0622)   1953     +0.0008 (-0.0035..+0.0050)   1857     {'slow': 11}
+
+SITE_COVER=50, dev-1                 500  0.5410 (0.5193..0.5627)    299      +0.0145 (-0.0069..+0.0359)   354      +0.0040 (-0.0040..+0.0120)   303      {'slow': 1}
+SITE_COVER=50, dev-3                 500  0.5425 (0.5198..0.5652)    302      +0.0315 (+0.0094..+0.0536)   365      -0.0030 (-0.0105..+0.0045)   309      {'slow': 2}
+SITE_COVER=50, dev-5                 500  0.5375 (0.5172..0.5578)    297      +0.0145 (-0.0076..+0.0366)   372      +0.0010 (-0.0049..+0.0069)   302      {'slow': 3}
+SITE_COVER=50, dev-7                 500  0.5275 (0.5072..0.5478)    302      -0.0010 (-0.0209..+0.0189)   347      +0.0020 (-0.0048..+0.0088)   305      {'slow': 7}
+SITE_COVER=50, pooled               2000  0.5371 (0.5265..0.5478)    1200     +0.0149 (+0.0042..+0.0256)   1438     +0.0010 (-0.0025..+0.0045)   1219     {'slow': 13}
+
+SITE_NEAR=25, dev-1                  500  0.5565 (0.5323..0.5807)    372      +0.0205 (-0.0026..+0.0436)   399      +0.0065 (-0.0009..+0.0139)   352      {'slow': 1}
+SITE_NEAR=25, dev-3                  500  0.5490 (0.5240..0.5740)    382      +0.0330 (+0.0083..+0.0577)   415      -0.0045 (-0.0129..+0.0039)   363      {'slow': 2}
+SITE_NEAR=25, dev-5                  500  0.5325 (0.5095..0.5555)    362      +0.0145 (-0.0090..+0.0380)   413      +0.0010 (-0.0049..+0.0069)   348      0
+SITE_NEAR=25, dev-7                  500  0.5330 (0.5097..0.5563)    367      +0.0140 (-0.0087..+0.0367)   416      -0.0020 (-0.0095..+0.0055)   357      {'slow': 7}
+SITE_NEAR=25, pooled                2000  0.5427 (0.5308..0.5547)    1483     +0.0205 (+0.0087..+0.0323)   1643     +0.0003 (-0.0034..+0.0039)   1420     {'slow': 10}
+
+SITE_COVER=200 minus SITE_COVER=100 against v14, the sets pooled: -0.0051 (-0.0172..+0.0070) on 2000 maps (their map scores differ on 654)
+SITE_COVER=200 minus SITE_COVER=100 against rival, the sets pooled: +0.0025 (-0.0068..+0.0118) on 2000 maps (their map scores differ on 320)
+SITE_COVER=200 minus SITE_COVER=100 against field, the sets pooled: -0.0001 (-0.0025..+0.0023) on 2000 maps (their map scores differ on 28)
+SITE_COVER=400 minus SITE_COVER=100 against v14, the sets pooled: -0.0074 (-0.0211..+0.0063) on 2000 maps (their map scores differ on 814)
+SITE_COVER=400 minus SITE_COVER=100 against rival, the sets pooled: +0.0074 (-0.0030..+0.0178) on 2000 maps (their map scores differ on 402)
+SITE_COVER=400 minus SITE_COVER=100 against field, the sets pooled: +0.0001 (-0.0030..+0.0033) on 2000 maps (their map scores differ on 38)
+SITE_COVER=1000 minus SITE_COVER=100 against v14, the sets pooled: -0.0024 (-0.0166..+0.0119) on 2000 maps (their map scores differ on 903)
+SITE_COVER=1000 minus SITE_COVER=100 against rival, the sets pooled: +0.0097 (-0.0009..+0.0204) on 2000 maps (their map scores differ on 434)
+SITE_COVER=1000 minus SITE_COVER=100 against field, the sets pooled: +0.0014 (-0.0019..+0.0047) on 2000 maps (their map scores differ on 41)
+SITE_NEAR=50 minus SITE_COVER=100 against v14, the sets pooled: +0.0077 (-0.0064..+0.0219) on 2000 maps (their map scores differ on 840)
+SITE_NEAR=50 minus SITE_COVER=100 against rival, the sets pooled: +0.0001 (-0.0106..+0.0109) on 2000 maps (their map scores differ on 425)
+SITE_NEAR=50 minus SITE_COVER=100 against field, the sets pooled: -0.0013 (-0.0042..+0.0017) on 2000 maps (their map scores differ on 35)
+SITE_NEAR=100 minus SITE_COVER=100 against v14, the sets pooled: -0.0043 (-0.0200..+0.0115) on 2000 maps (their map scores differ on 1042)
+SITE_NEAR=100 minus SITE_COVER=100 against rival, the sets pooled: +0.0123 (+0.0009..+0.0236) on 2000 maps (their map scores differ on 489)
+SITE_NEAR=100 minus SITE_COVER=100 against field, the sets pooled: -0.0014 (-0.0043..+0.0015) on 2000 maps (their map scores differ on 37)
+SITE_NEAR=200 minus SITE_COVER=100 against v14, the sets pooled: -0.0096 (-0.0265..+0.0073) on 2000 maps (their map scores differ on 1117)
+SITE_NEAR=200 minus SITE_COVER=100 against rival, the sets pooled: +0.0216 (+0.0095..+0.0338) on 2000 maps (their map scores differ on 542)
+SITE_NEAR=200 minus SITE_COVER=100 against field, the sets pooled: -0.0009 (-0.0045..+0.0027) on 2000 maps (their map scores differ on 50)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=100 against v14, the sets pooled: +0.0020 (-0.0129..+0.0169) on 2000 maps (their map scores differ on 924)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=100 against rival, the sets pooled: +0.0144 (+0.0033..+0.0255) on 2000 maps (their map scores differ on 437)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=100 against field, the sets pooled: -0.0016 (-0.0043..+0.0010) on 2000 maps (their map scores differ on 31)
+SITE_COVER=50 minus SITE_COVER=100 against v14, the sets pooled: -0.0112 (-0.0225..+0.0000) on 2000 maps (their map scores differ on 606)
+SITE_COVER=50 minus SITE_COVER=100 against rival, the sets pooled: -0.0195 (-0.0293..-0.0097) on 2000 maps (their map scores differ on 357)
+SITE_COVER=50 minus SITE_COVER=100 against field, the sets pooled: -0.0014 (-0.0043..+0.0015) on 2000 maps (their map scores differ on 34)
+SITE_NEAR=25 minus SITE_COVER=100 against v14, the sets pooled: -0.0056 (-0.0193..+0.0080) on 2000 maps (their map scores differ on 826)
+SITE_NEAR=25 minus SITE_COVER=100 against rival, the sets pooled: -0.0139 (-0.0249..-0.0029) on 2000 maps (their map scores differ on 436)
+SITE_NEAR=25 minus SITE_COVER=100 against field, the sets pooled: -0.0021 (-0.0057..+0.0014) on 2000 maps (their map scores differ on 46)
+SITE_COVER=400 minus SITE_COVER=200 against v14, the sets pooled: -0.0022 (-0.0114..+0.0069) on 2000 maps (their map scores differ on 412)
+SITE_COVER=400 minus SITE_COVER=200 against rival, the sets pooled: +0.0049 (-0.0024..+0.0122) on 2000 maps (their map scores differ on 218)
+SITE_COVER=400 minus SITE_COVER=200 against field, the sets pooled: +0.0003 (-0.0020..+0.0025) on 2000 maps (their map scores differ on 19)
+SITE_COVER=1000 minus SITE_COVER=200 against v14, the sets pooled: +0.0027 (-0.0081..+0.0136) on 2000 maps (their map scores differ on 579)
+SITE_COVER=1000 minus SITE_COVER=200 against rival, the sets pooled: +0.0073 (-0.0011..+0.0156) on 2000 maps (their map scores differ on 288)
+SITE_COVER=1000 minus SITE_COVER=200 against field, the sets pooled: +0.0015 (-0.0012..+0.0042) on 2000 maps (their map scores differ on 27)
+SITE_NEAR=50 minus SITE_COVER=200 against v14, the sets pooled: +0.0129 (-0.0019..+0.0277) on 2000 maps (their map scores differ on 960)
+SITE_NEAR=50 minus SITE_COVER=200 against rival, the sets pooled: -0.0024 (-0.0138..+0.0090) on 2000 maps (their map scores differ on 468)
+SITE_NEAR=50 minus SITE_COVER=200 against field, the sets pooled: -0.0011 (-0.0045..+0.0023) on 2000 maps (their map scores differ on 46)
+SITE_NEAR=100 minus SITE_COVER=200 against v14, the sets pooled: +0.0009 (-0.0138..+0.0155) on 2000 maps (their map scores differ on 967)
+SITE_NEAR=100 minus SITE_COVER=200 against rival, the sets pooled: +0.0097 (-0.0016..+0.0211) on 2000 maps (their map scores differ on 478)
+SITE_NEAR=100 minus SITE_COVER=200 against field, the sets pooled: -0.0013 (-0.0043..+0.0018) on 2000 maps (their map scores differ on 41)
+SITE_NEAR=200 minus SITE_COVER=200 against v14, the sets pooled: -0.0045 (-0.0206..+0.0116) on 2000 maps (their map scores differ on 1067)
+SITE_NEAR=200 minus SITE_COVER=200 against rival, the sets pooled: +0.0191 (+0.0073..+0.0309) on 2000 maps (their map scores differ on 510)
+SITE_NEAR=200 minus SITE_COVER=200 against field, the sets pooled: -0.0008 (-0.0043..+0.0028) on 2000 maps (their map scores differ on 50)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=200 against v14, the sets pooled: +0.0071 (-0.0057..+0.0200) on 2000 maps (their map scores differ on 753)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=200 against rival, the sets pooled: +0.0119 (+0.0021..+0.0217) on 2000 maps (their map scores differ on 342)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=200 against field, the sets pooled: -0.0015 (-0.0044..+0.0014) on 2000 maps (their map scores differ on 34)
+SITE_COVER=50 minus SITE_COVER=200 against v14, the sets pooled: -0.0061 (-0.0202..+0.0079) on 2000 maps (their map scores differ on 889)
+SITE_COVER=50 minus SITE_COVER=200 against rival, the sets pooled: -0.0220 (-0.0337..-0.0103) on 2000 maps (their map scores differ on 497)
+SITE_COVER=50 minus SITE_COVER=200 against field, the sets pooled: -0.0013 (-0.0046..+0.0021) on 2000 maps (their map scores differ on 48)
+SITE_NEAR=25 minus SITE_COVER=200 against v14, the sets pooled: -0.0005 (-0.0158..+0.0148) on 2000 maps (their map scores differ on 1026)
+SITE_NEAR=25 minus SITE_COVER=200 against rival, the sets pooled: -0.0164 (-0.0288..-0.0040) on 2000 maps (their map scores differ on 545)
+SITE_NEAR=25 minus SITE_COVER=200 against field, the sets pooled: -0.0020 (-0.0058..+0.0018) on 2000 maps (their map scores differ on 54)
+SITE_COVER=1000 minus SITE_COVER=400 against v14, the sets pooled: +0.0050 (-0.0024..+0.0124) on 2000 maps (their map scores differ on 295)
+SITE_COVER=1000 minus SITE_COVER=400 against rival, the sets pooled: +0.0024 (-0.0030..+0.0077) on 2000 maps (their map scores differ on 130)
+SITE_COVER=1000 minus SITE_COVER=400 against field, the sets pooled: +0.0013 (-0.0004..+0.0029) on 2000 maps (their map scores differ on 11)
+SITE_NEAR=50 minus SITE_COVER=400 against v14, the sets pooled: +0.0151 (-0.0005..+0.0308) on 2000 maps (their map scores differ on 1037)
+SITE_NEAR=50 minus SITE_COVER=400 against rival, the sets pooled: -0.0073 (-0.0193..+0.0048) on 2000 maps (their map scores differ on 501)
+SITE_NEAR=50 minus SITE_COVER=400 against field, the sets pooled: -0.0014 (-0.0052..+0.0024) on 2000 maps (their map scores differ on 52)
+SITE_NEAR=100 minus SITE_COVER=400 against v14, the sets pooled: +0.0031 (-0.0122..+0.0185) on 2000 maps (their map scores differ on 1032)
+SITE_NEAR=100 minus SITE_COVER=400 against rival, the sets pooled: +0.0049 (-0.0067..+0.0165) on 2000 maps (their map scores differ on 496)
+SITE_NEAR=100 minus SITE_COVER=400 against field, the sets pooled: -0.0015 (-0.0050..+0.0020) on 2000 maps (their map scores differ on 48)
+SITE_NEAR=200 minus SITE_COVER=400 against v14, the sets pooled: -0.0022 (-0.0184..+0.0139) on 2000 maps (their map scores differ on 1069)
+SITE_NEAR=200 minus SITE_COVER=400 against rival, the sets pooled: +0.0143 (+0.0025..+0.0260) on 2000 maps (their map scores differ on 493)
+SITE_NEAR=200 minus SITE_COVER=400 against field, the sets pooled: -0.0010 (-0.0045..+0.0025) on 2000 maps (their map scores differ on 51)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=400 against v14, the sets pooled: +0.0094 (-0.0050..+0.0238) on 2000 maps (their map scores differ on 881)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=400 against rival, the sets pooled: +0.0070 (-0.0033..+0.0173) on 2000 maps (their map scores differ on 399)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=400 against field, the sets pooled: -0.0018 (-0.0051..+0.0016) on 2000 maps (their map scores differ on 43)
+SITE_COVER=50 minus SITE_COVER=400 against v14, the sets pooled: -0.0039 (-0.0188..+0.0111) on 2000 maps (their map scores differ on 992)
+SITE_COVER=50 minus SITE_COVER=400 against rival, the sets pooled: -0.0269 (-0.0388..-0.0149) on 2000 maps (their map scores differ on 523)
+SITE_COVER=50 minus SITE_COVER=400 against field, the sets pooled: -0.0015 (-0.0053..+0.0023) on 2000 maps (their map scores differ on 54)
+SITE_NEAR=25 minus SITE_COVER=400 against v14, the sets pooled: +0.0018 (-0.0143..+0.0178) on 2000 maps (their map scores differ on 1095)
+SITE_NEAR=25 minus SITE_COVER=400 against rival, the sets pooled: -0.0213 (-0.0340..-0.0085) on 2000 maps (their map scores differ on 561)
+SITE_NEAR=25 minus SITE_COVER=400 against field, the sets pooled: -0.0022 (-0.0066..+0.0021) on 2000 maps (their map scores differ on 64)
+SITE_NEAR=50 minus SITE_COVER=1000 against v14, the sets pooled: +0.0101 (-0.0057..+0.0260) on 2000 maps (their map scores differ on 1077)
+SITE_NEAR=50 minus SITE_COVER=1000 against rival, the sets pooled: -0.0096 (-0.0217..+0.0025) on 2000 maps (their map scores differ on 506)
+SITE_NEAR=50 minus SITE_COVER=1000 against field, the sets pooled: -0.0026 (-0.0065..+0.0012) on 2000 maps (their map scores differ on 53)
+SITE_NEAR=100 minus SITE_COVER=1000 against v14, the sets pooled: -0.0019 (-0.0177..+0.0140) on 2000 maps (their map scores differ on 1079)
+SITE_NEAR=100 minus SITE_COVER=1000 against rival, the sets pooled: +0.0025 (-0.0092..+0.0142) on 2000 maps (their map scores differ on 512)
+SITE_NEAR=100 minus SITE_COVER=1000 against field, the sets pooled: -0.0027 (-0.0064..+0.0009) on 2000 maps (their map scores differ on 53)
+SITE_NEAR=200 minus SITE_COVER=1000 against v14, the sets pooled: -0.0073 (-0.0236..+0.0091) on 2000 maps (their map scores differ on 1095)
+SITE_NEAR=200 minus SITE_COVER=1000 against rival, the sets pooled: +0.0119 (-0.0000..+0.0238) on 2000 maps (their map scores differ on 505)
+SITE_NEAR=200 minus SITE_COVER=1000 against field, the sets pooled: -0.0022 (-0.0057..+0.0012) on 2000 maps (their map scores differ on 50)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=1000 against v14, the sets pooled: +0.0044 (-0.0105..+0.0192) on 2000 maps (their map scores differ on 950)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=1000 against rival, the sets pooled: +0.0046 (-0.0061..+0.0154) on 2000 maps (their map scores differ on 428)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_COVER=1000 against field, the sets pooled: -0.0030 (-0.0065..+0.0005) on 2000 maps (their map scores differ on 48)
+SITE_COVER=50 minus SITE_COVER=1000 against v14, the sets pooled: -0.0089 (-0.0239..+0.0062) on 2000 maps (their map scores differ on 1026)
+SITE_COVER=50 minus SITE_COVER=1000 against rival, the sets pooled: -0.0293 (-0.0412..-0.0173) on 2000 maps (their map scores differ on 536)
+SITE_COVER=50 minus SITE_COVER=1000 against field, the sets pooled: -0.0027 (-0.0066..+0.0011) on 2000 maps (their map scores differ on 52)
+SITE_NEAR=25 minus SITE_COVER=1000 against v14, the sets pooled: -0.0032 (-0.0193..+0.0128) on 2000 maps (their map scores differ on 1119)
+SITE_NEAR=25 minus SITE_COVER=1000 against rival, the sets pooled: -0.0236 (-0.0364..-0.0109) on 2000 maps (their map scores differ on 567)
+SITE_NEAR=25 minus SITE_COVER=1000 against field, the sets pooled: -0.0035 (-0.0077..+0.0007) on 2000 maps (their map scores differ on 59)
+SITE_NEAR=100 minus SITE_NEAR=50 against v14, the sets pooled: -0.0120 (-0.0254..+0.0014) on 2000 maps (their map scores differ on 808)
+SITE_NEAR=100 minus SITE_NEAR=50 against rival, the sets pooled: +0.0121 (+0.0018..+0.0225) on 2000 maps (their map scores differ on 390)
+SITE_NEAR=100 minus SITE_NEAR=50 against field, the sets pooled: -0.0001 (-0.0030..+0.0028) on 2000 maps (their map scores differ on 37)
+SITE_NEAR=200 minus SITE_NEAR=50 against v14, the sets pooled: -0.0174 (-0.0332..-0.0015) on 2000 maps (their map scores differ on 1025)
+SITE_NEAR=200 minus SITE_NEAR=50 against rival, the sets pooled: +0.0215 (+0.0099..+0.0331) on 2000 maps (their map scores differ on 469)
+SITE_NEAR=200 minus SITE_NEAR=50 against field, the sets pooled: +0.0004 (-0.0031..+0.0038) on 2000 maps (their map scores differ on 49)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_NEAR=50 against v14, the sets pooled: -0.0057 (-0.0173..+0.0058) on 2000 maps (their map scores differ on 624)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_NEAR=50 against rival, the sets pooled: +0.0143 (+0.0051..+0.0234) on 2000 maps (their map scores differ on 298)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_NEAR=50 against field, the sets pooled: -0.0004 (-0.0028..+0.0021) on 2000 maps (their map scores differ on 27)
+SITE_COVER=50 minus SITE_NEAR=50 against v14, the sets pooled: -0.0190 (-0.0333..-0.0047) on 2000 maps (their map scores differ on 908)
+SITE_COVER=50 minus SITE_NEAR=50 against rival, the sets pooled: -0.0196 (-0.0311..-0.0081) on 2000 maps (their map scores differ on 505)
+SITE_COVER=50 minus SITE_NEAR=50 against field, the sets pooled: -0.0001 (-0.0034..+0.0031) on 2000 maps (their map scores differ on 39)
+SITE_NEAR=25 minus SITE_NEAR=50 against v14, the sets pooled: -0.0134 (-0.0263..-0.0004) on 2000 maps (their map scores differ on 775)
+SITE_NEAR=25 minus SITE_NEAR=50 against rival, the sets pooled: -0.0140 (-0.0241..-0.0039) on 2000 maps (their map scores differ on 392)
+SITE_NEAR=25 minus SITE_NEAR=50 against field, the sets pooled: -0.0009 (-0.0040..+0.0023) on 2000 maps (their map scores differ on 38)
+SITE_NEAR=200 minus SITE_NEAR=100 against v14, the sets pooled: -0.0054 (-0.0182..+0.0075) on 2000 maps (their map scores differ on 740)
+SITE_NEAR=200 minus SITE_NEAR=100 against rival, the sets pooled: +0.0094 (+0.0005..+0.0182) on 2000 maps (their map scores differ on 312)
+SITE_NEAR=200 minus SITE_NEAR=100 against field, the sets pooled: +0.0005 (-0.0024..+0.0034) on 2000 maps (their map scores differ on 33)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_NEAR=100 against v14, the sets pooled: +0.0063 (-0.0061..+0.0186) on 2000 maps (their map scores differ on 679)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_NEAR=100 against rival, the sets pooled: +0.0021 (-0.0067..+0.0109) on 2000 maps (their map scores differ on 293)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_NEAR=100 against field, the sets pooled: -0.0003 (-0.0026..+0.0021) on 2000 maps (their map scores differ on 25)
+SITE_COVER=50 minus SITE_NEAR=100 against v14, the sets pooled: -0.0070 (-0.0229..+0.0089) on 2000 maps (their map scores differ on 1099)
+SITE_COVER=50 minus SITE_NEAR=100 against rival, the sets pooled: -0.0318 (-0.0440..-0.0195) on 2000 maps (their map scores differ on 562)
+SITE_COVER=50 minus SITE_NEAR=100 against field, the sets pooled: +0.0000 (-0.0034..+0.0034) on 2000 maps (their map scores differ on 54)
+SITE_NEAR=25 minus SITE_NEAR=100 against v14, the sets pooled: -0.0014 (-0.0170..+0.0142) on 2000 maps (their map scores differ on 1054)
+SITE_NEAR=25 minus SITE_NEAR=100 against rival, the sets pooled: -0.0261 (-0.0379..-0.0144) on 2000 maps (their map scores differ on 507)
+SITE_NEAR=25 minus SITE_NEAR=100 against field, the sets pooled: -0.0008 (-0.0044..+0.0029) on 2000 maps (their map scores differ on 56)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_NEAR=200 against v14, the sets pooled: +0.0116 (-0.0032..+0.0264) on 2000 maps (their map scores differ on 938)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_NEAR=200 against rival, the sets pooled: -0.0073 (-0.0177..+0.0032) on 2000 maps (their map scores differ on 397)
+SITE_COVER=100,SITE_NEAR=50 minus SITE_NEAR=200 against field, the sets pooled: -0.0008 (-0.0038..+0.0023) on 2000 maps (their map scores differ on 38)
+SITE_COVER=50 minus SITE_NEAR=200 against v14, the sets pooled: -0.0016 (-0.0186..+0.0153) on 2000 maps (their map scores differ on 1162)
+SITE_COVER=50 minus SITE_NEAR=200 against rival, the sets pooled: -0.0411 (-0.0540..-0.0282) on 2000 maps (their map scores differ on 607)
+SITE_COVER=50 minus SITE_NEAR=200 against field, the sets pooled: -0.0005 (-0.0044..+0.0034) on 2000 maps (their map scores differ on 63)
+SITE_NEAR=25 minus SITE_NEAR=200 against v14, the sets pooled: +0.0040 (-0.0128..+0.0208) on 2000 maps (their map scores differ on 1172)
+SITE_NEAR=25 minus SITE_NEAR=200 against rival, the sets pooled: -0.0355 (-0.0482..-0.0228) on 2000 maps (their map scores differ on 569)
+SITE_NEAR=25 minus SITE_NEAR=200 against field, the sets pooled: -0.0013 (-0.0053..+0.0028) on 2000 maps (their map scores differ on 64)
+SITE_COVER=50 minus SITE_COVER=100,SITE_NEAR=50 against v14, the sets pooled: -0.0132 (-0.0287..+0.0022) on 2000 maps (their map scores differ on 1049)
+SITE_COVER=50 minus SITE_COVER=100,SITE_NEAR=50 against rival, the sets pooled: -0.0339 (-0.0463..-0.0215) on 2000 maps (their map scores differ on 553)
+SITE_COVER=50 minus SITE_COVER=100,SITE_NEAR=50 against field, the sets pooled: +0.0003 (-0.0032..+0.0037) on 2000 maps (their map scores differ on 51)
+SITE_NEAR=25 minus SITE_COVER=100,SITE_NEAR=50 against v14, the sets pooled: -0.0076 (-0.0224..+0.0072) on 2000 maps (their map scores differ on 972)
+SITE_NEAR=25 minus SITE_COVER=100,SITE_NEAR=50 against rival, the sets pooled: -0.0283 (-0.0401..-0.0164) on 2000 maps (their map scores differ on 498)
+SITE_NEAR=25 minus SITE_COVER=100,SITE_NEAR=50 against field, the sets pooled: -0.0005 (-0.0042..+0.0032) on 2000 maps (their map scores differ on 53)
+SITE_NEAR=25 minus SITE_COVER=50 against v14, the sets pooled: +0.0056 (-0.0063..+0.0176) on 2000 maps (their map scores differ on 681)
+SITE_NEAR=25 minus SITE_COVER=50 against rival, the sets pooled: +0.0056 (-0.0041..+0.0153) on 2000 maps (their map scores differ on 369)
+SITE_NEAR=25 minus SITE_COVER=50 against field, the sets pooled: -0.0008 (-0.0036..+0.0021) on 2000 maps (their map scores differ on 28)

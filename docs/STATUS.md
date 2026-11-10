@@ -5,7 +5,7 @@ artifacts `docs/BOTS.md`, P1 comparisons and the noise margin `docs/arena-upload
 evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary for the user
 `docs/SUMMARY.md`. The history this page held until 2026-10-30: `git show 60f0b59:docs/STATUS.md`.
 
-- Date: 2026-11-10. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
+- Date: 2026-11-11. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: **Gold** since 2026-11-07 (CG promoted v11 upload 2 after its Silver placement, 21.74, rank
   1/200; CG's Gold agent 6857463 was made at 03:48). PV3 and PV4 lapsed with this league change; **PV5**
   (2026-11-07, the user's decision on `docs/data/study-2026-11-07-gold/`) renews the proxy for Gold with the panel and
@@ -19,12 +19,29 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   unrepresented, and candidates that depend on them are judged by the arena (`docs/local-screen.md`, PV3).
   **PV4** (2026-11-06, the user's decision) adds the rival R0 as gate G5 (spec `rival`). P2's gates are
   G0-G5, kept for Gold by PV5 (2026-11-07).
-- Local champion and `current` defaults: **v14** = v13 with the queen standing where her towers overlap
+- Local champion and `current` defaults: **v15** = v14 with the ladder's tower sites chosen beside the towers that
+  stand (SITE_NEAR=50: from the second tower on, the free site with the smallest distance to the ladder's point plus
+  half its distance to the second-nearest own tower, the nearest while one stands; the first tower, the mines, the
+  barracks, the touch rule and the defence rule's towers as in v14), frozen 2026-11-11 by the user's decision of
+  2026-11-10 ("Да, v15"; `cr.bot.v15.GreedyBot`, `versions/v15.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV15`).
+  P2 strategy screen on PV3 screen block 8: S 0.5425 (CI 0.5292..0.5558) against v14, boss delta 0.0000, field +0.0081,
+  rival +0.0324, no candidate failure, G3 skipped (`docs/data/exp-2026-11-10-tower-sites/`). Final evaluation against
+  v14 on PV3 evaluation block 4: S 0.5510 (CI 0.5377..0.5643), boss 0.0000, field +0.0039, rival +0.0251, G0 by quiet
+  repeats of the direct and the field series (2 and 9 slow turns at 8 threads, none at 2 threads, the same games);
+  below the 0.60 recommendation, so an upload is an exception. Artifact `7a5b28c4…` (97,864 chars, build `72a6959d`,
+  config `ce9faaa7`; a second build and a clean export of the working tree through a temporary index rebuilt the same
+  bytes; kept copy `artifacts/7a5b28c4/Player.java`), procCheck 200/200 against v01 and against `boss`, later turns at
+  most 8.6 ms; it plays as v15 and is told from each of the other 15 versions (`docs/BOTS.md`, Artifacts). Committed
+  on the branch `claude/happy-northcutt-76f8b5` on 2026-11-11 (the freeze commit, `git log`; a clean export of its
+  staged tree rebuilt the bytes before the commit); **not merged into master and not uploaded**. The next P2
+  candidates are screened against v15. The artifact holds the
+  flags that are off; 2,136 characters of the 100,000 are left.
+- Previous local champion: v14 (2026-11-10 to 2026-11-11) = v13 with the queen standing where her towers overlap
   (HOLD_OVERLAP=300: in v13's hold, an enemy knight within 500 and none within 250, and in the flight she takes the spot
   within five steps that the most own towers cover instead of her nearest own tower, a tower's touch point before open
   ground on a tie, v13's command when nothing is better covered; IDLE_OVERLAP=1: idle, she waits at the own tower with
   the most own towers over its centre), frozen 2026-11-10 by the user's decision ("Да, v14"; `cr.bot.v14.GreedyBot`,
-  `versions/v14.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV14`). P2 strategy screen on PV3 screen block 7:
+  `versions/v14.properties`; `MainBotTest.withV14ParamsCurrentPlaysAsV14`). P2 strategy screen on PV3 screen block 7:
   S 0.5473 (CI 0.5347..0.5598) against v13, boss delta 0.0000, field +0.0161, rival +0.0275, G0 by a quiet repeat, G3
   skipped (`docs/data/exp-2026-11-10-overlap/`). Final evaluation against v13 on PV3 evaluation block 3: S 0.5533
   (CI 0.5404..0.5661), boss 0.0000 on 499 maps, field +0.0151, rival +0.0245, no failure of v14 in 13,000 games; below
@@ -34,10 +51,7 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   turns at most 8.1 ms; the first run against v01 lost one game to the laptop's Modern Standby (a 63.7 s turn;
   `docs/BOTS.md`, Artifacts). Commit 931975a, merged into master on 2026-11-10 (a clean export of its staged tree rebuilt
   the bytes before the commit). Uploaded twice as an exception (2026-11-10: agents 6868933 and 6869279, placements 23.11
-  and 22.10; `docs/arena-uploads.md`). Also the selected version since 2026-11-10 (below). The next P2 candidates are
-  screened against v14. `current` has since gained two flags, `OVERLAP_TOUCH` and `CLEAR_TOUCH` (off: it plays as v14 game for game;
-  the two experiments below), so a `submit` of `current` now builds other bytes than `e4c8eeec…` with the same play:
-  96,486 characters of the 100,000.
+  and 22.10; `docs/arena-uploads.md`). Also the selected version since 2026-11-10 (below).
 - Previous local champion: v13 (2026-11-09 to 2026-11-10) = v12 with no ladder walk into a visible wave (LADDER_CLEAR=500: after
   the first-wave window and with two own towers, while an enemy knight is within 500 of the queen and none within 250,
   the walk to the ladder's next site becomes a walk to her nearest own tower outside the enemy towers' ranges, a top-up
@@ -370,16 +384,16 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     three deaths turn for turn; in six the opponent out-earned us at turn 100); v12's and v11's uploads had such runs
     too.
 - The open-ground experiment (2026-11-10, the user's "Да, проверь"; `docs/data/exp-2026-11-10-open-ground/`): not
-  adopted, no candidate is pending.
+  adopted.
   - `OVERLAP_TOUCH=9` (the hold and the flight at the towers' touch points only) scores 0.4909 (0.4802..0.5016)
     against v14 on 2000 development maps, −0.7 pp against `rival`, −0.4 pp against `field`; `OVERLAP_TOUCH=1` (a spot
     off the towers only for two more towers) 0.4994 (0.4889..0.5098), −0.0 and −0.3 pp;
   - without the spots off the towers the contact turns under three or more own towers fall by 3-5 points and the HP
     lost to knights from turn 50 does not fall; a spot that adds two towers is worth taking (+0.85 pp against v14,
     the interval above zero), one that adds a single tower changes nothing measurable;
-  - the flag is in `current`, off; screen-pv3 block 8 is unused.
+  - the flag is in `current`, off; no screen was run.
 - The gate-touch experiment (2026-11-10, the user's "Да, проверь"; `docs/data/exp-2026-11-10-gate-touch/`): not
-  adopted, no candidate is pending.
+  adopted.
   - `CLEAR_TOUCH` puts the gate's hold before the touch rule's upgrade of a touched mine (1), new mine or barracks
     on a touched free site (2) and new tower there (4). On 2000 development maps against v14: 1 scores 0.5034
     (0.4977..0.5090), 3 scores 0.5066 (0.4991..0.5142), 2 is level (0.5000), 4 loses (0.4904, −1.6 pp against
@@ -389,12 +403,37 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     loses 0.35-0.8 HP a game less to our knights;
   - a new tower on the touched site is worth building with the knights within 500: set aside, 0.1-0.2 fewer own
     towers stand at turn 150;
-  - the flag is in `current`, off; screen-pv3 block 8 is unused.
+  - the flag is in `current`, off; no screen was run.
+- The tower-sites experiment (2026-11-10, the task of the session that keeps the plan;
+  `docs/data/exp-2026-11-10-tower-sites/`): the bar is met and the P2 screen passed; **by the user's decision
+  `SITE_NEAR=50` is the default, frozen as v15** (the champion's block at the top of this page).
+  - v14's ladder already clusters the towers (the second stands within 400 of the first in five games of six), which
+    left the third and the fourth tower to the choice of the site;
+  - two flags on the ladder's tower-phase target, from the second tower on: `SITE_NEAR=P` adds P % of the distance to
+    the second-nearest own tower, `SITE_COVER=W` takes W off for each own tower covering the site, up to two. On 2000
+    development maps all ten arms score 0.537-0.556 against v14 and +1.5 to +5.6 pp against `rival`; the heavier the
+    weight, the lower against v14 and the higher against `rival`; the two measures act alike;
+  - `SITE_NEAR=50`, the highest against v14 (0.5561), in the profiles: three or more own towers over the queen on
+    78 / 55 / 77 % of her contact turns from turn 50 against v14 / `rival` / `field` (v14 65 / 48 / 65 %), 2.3 / 1.7 /
+    0.7 HP a game less to knights from turn 50, fewer deaths (5 / 9 / 0 per 400 games against 10 / 20 / 2), and the
+    ladder no slower (0.1-0.2 more towers at turns 100 and 150, the second barracks four to five turns earlier);
+  - the screen on screen-pv3 block 8: S 0.5425 (0.5292..0.5558) against v14, rival +3.2 pp, field +0.8 pp, boss
+    unchanged, no failure. `SITE_COVER` and the heavier arms were not screened (`SITE_NEAR=100` and both flags
+    together score 0.544 and 0.550 against v14 and +4.7 and +4.9 pp against `rival` on the development maps);
+  - the final evaluation of v15 against v14 on evaluation-pv3 block 4: S 0.5510 (0.5377..0.5643), rival +2.5 pp,
+    field +0.4 pp, boss unchanged;
+  - `SITE_COVER` is in `current`, off. The next screen block is 9, the next evaluation block 5.
 - Waiting on the user:
-  - the next step. Candidates on record: the towers' sites chosen for overlap, the economy with the dead turns, a
-    rival whose barracks stand forward (`docs/data/exp-2026-11-10-overlap/`, Not tried; the study's sections 7 and 8).
-    The two narrow follow-ups of the measurement of v14's games are tested and not adopted (the open-ground and
-    gate-touch experiments above). The Gold ladder on
+  - **the merge of the branch `claude/happy-northcutt-76f8b5` into master, then the upload** (an exception: S 0.5510,
+    below 0.60). `tools/arena.py follow v15 --selected v14` runs from the main checkout, which has no v15 until the merge, and
+    names `artifacts/7a5b28c4/Player.java` for the paste; two uploads under P1 against v14's Gold mean 22.61 (a first
+    placement below 17.68 is an early rollback);
+  - the next step after it. Candidates on record: the economy with the dead turns, a rival whose barracks stand
+    forward (`docs/data/exp-2026-11-10-overlap/`, Not tried; the study's sections 7 and 8), and what the tower-sites
+    experiment left untried (a heavier weight on a fresh block, the same measure for the defence rule's and the touch
+    rule's towers). The two narrow follow-ups of the measurement of v14's games are tested and not adopted (the
+    open-ground and gate-touch experiments above). The artifact has 2,136 characters left of its 100,000: the flags
+    that are off take room a later candidate may need. The Gold ladder on
     2026-11-08: 347 agents, none eligible, top 26.54 (`docs/data/leaderboard-gold-2026-11-08.json`); v14's mean is 3.9
     below it;
   - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).

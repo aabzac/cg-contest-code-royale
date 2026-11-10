@@ -318,6 +318,8 @@ Logs: `replays/bench/exp-2026-11-10-overlap/submit.log`, `proccheck-v01.log` (th
 ## Not tried, for a later step
 
 - The towers' sites chosen for overlap (the ladder takes the free site nearest the midpoint of the queen and home; a
-  cluster whose towers cover each other would raise the cover everywhere).
+  cluster whose towers cover each other would raise the cover everywhere). Tested 2026-11-10
+  (`docs/data/exp-2026-11-10-tower-sites/`): `SITE_NEAR=50` passes the P2 screen on block 8, S 0.5425 against v14,
+  with the cover on contact turns up 8-13 points and the ladder no slower; the default since v15 (2026-11-11).
 - The first wave: half the contact HP of the mirror, and no spot to move to with two towers.
 - The economy with the dead turns, and a rival whose barracks stand forward (the study's sections 7 and 8).

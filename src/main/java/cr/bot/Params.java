@@ -307,6 +307,24 @@ public final class Params {
      * bar: off.
      */
     public int CLEAR_TOUCH = 0;
+    /**
+     * The towers' sites chosen for overlap (0: off, as v01-v14). v14 stands where her towers overlap; the ladder that
+     * builds them took the free site nearest its point (the midpoint of the walker and home, or WAVE_ANCHOR's point)
+     * whatever towers stood. Both flags act on the ladder's tower-phase target only, once an own tower stands or is
+     * planned; the first tower, the mines, the barracks, the touch rule and the defence rule's towers are unchanged.
+     * SITE_COVER=W &gt; 0: the target is the free site with the smallest distance to the ladder's point less W for each
+     * own tower whose range covers the site's centre, up to two (a tower being built counts with its range at TOWER_HP).
+     * SITE_NEAR=P &gt; 0: the smallest distance to the ladder's point plus P % of the distance to the second-nearest own
+     * tower (the nearest while one stands). Experiment docs/data/exp-2026-11-10-tower-sites: on 2000 development maps
+     * every value scores 0.537-0.556 against v14 and +1.5 to +5.6 pp against the rival R0 (the heavier the weight, the
+     * lower against v14 and the higher against R0); the queen stands under three or more own towers on 8-13 points more
+     * of her contact turns and loses 0.7-2.3 HP a game less to knights from turn 50, and the towers stand no later.
+     * SITE_NEAR=50 by default since v15 (2026-11-10: P2 on PV3 screen block 8, S 0.5425 against v14, field +0.8 pp,
+     * rival +3.2 pp; the user's decision); 0 in v01-v14. SITE_COVER is the same effect by another measure and was not
+     * screened: off.
+     */
+    public int SITE_COVER = 0;
+    public int SITE_NEAR = 50;
     public long SEED = 1;
     public int DEBUG = 0;
 
