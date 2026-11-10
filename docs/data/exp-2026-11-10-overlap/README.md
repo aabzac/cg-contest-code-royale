@@ -266,6 +266,16 @@ it. v14's boss series ran 01:33:25-01:35:43 and Windows entered Modern Standby a
 timed out on map 2003145302 (the 367th of the 500, three threads); P2 drops such a map from both arms (1 of 500). v13's
 boss series ran 01:35:43-01:37:50 inside the standby's first minutes, when the processes still ran, and has no failure.
 
+## On the arena (Gold, 2026-11-10)
+
+Two uploads of the kept copy by the user, each followed by `tools/arena.py follow v14 --selected v13` (on the first run
+it found the file by its play and passed over the main checkout's `build/submit/Player.java`, v12's): 23.11 (rank
+9/348) and 22.10 (rank 18/349), mean 22.61 against v13's 21.80; performance 22.34 ± 0.51 against 21.84 ± 0.48 at Gold's
+refitted scale 3.00. cgAttribute SAME 180/180. P1: not clearly worse (+0.81 against −M −2.46), **v14 selected**; the
+section and the tables are in `docs/arena-uploads.md`. What the rule did on the arena (the own towers covering the queen
+on contact turns and the HP those turns cost, the profile's terms) is not yet measured on these 180 games; the study's
+probe in its arena mode can do it (`docs/data/study-2026-11-09-v13-gold/probes/ArenaProbe.java`, `checks.py` section 10).
+
 ## Artifact
 
 `./gradlew submit` with no parameters (the defaults are v14): `build/submit/Player.java`, 95,590 characters (limit

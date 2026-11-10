@@ -4205,3 +4205,58 @@ The rest of the user's "Да, подготовь".
 
 Open: v14's two uploads, the user's: `python -B -I tools/arena.py follow v14 --selected v13` from the main checkout,
 then the paste of the file it names. Records: STATUS, SUMMARY, PLAN, BOTS (the commit of v14's artifact).
+
+## 2026-11-10 — v14's two Gold uploads: 23.11 and 22.10; P1 verdict: v14 selected
+
+The user's "запущена вторая сейчас": upload 1 had finished in the night and the second paste had just gone in. Both
+pastes were the kept copy `artifacts/e4c8eeec/Player.java`, each with `python -B -I tools/arena.py follow v14 --selected
+v13` running in the main checkout.
+- **Upload 1, the first real run of the play check.**
+  - 03:28:50 "build/submit/Player.java is v12's artifact: not v14's file"; 03:28:54 "artifacts/e4c8eeec/Player.java
+    plays as v14 in 6 of 6 games, on maps that tell v14 from each of the 14 other versions: the file of v14".
+  - v12 upload 3 saved (90 games, 57 wins); the paste line at 03:29:00.
+  - Agent 6868933 (created 03:29:51, submission 41680089) seen at 03:30:06 at 0 %, build `62ad918b` in game 919260816,
+    registered at 03:30:11. Snapshots at 0, 18, 32, 41, 54, 66, 80, 92, 94, 98 and 100 %.
+- **Placement 1** complete at 03:54:19: local rank 9/348 (global 123), score 23.11, `eligibleForPromotion` false.
+  - 90 games, 57 wins (seat 0: 26 of 39, seat 1: 31 of 51); 64 of 90 games reached turn 250.
+  - The referee removed the opponent in 919260825 (Maurhess, a turn-0 timeout).
+  - Two equal scores at turn 250 with the opponent as player 0, both ranked losses: 919263364 against 40R15T3, 38:38,
+    and 919264164 against Aiwa, 55:55.
+  - Opponents' median 21.18: 15 games against players rated 23 or more (3 won), 44 against 20-23 (28), 27 against 17-20
+    (22), 4 below 17 (4).
+  - `cgAttribute`: SAME 90/90, 19,231 turns; marker `62ad918b` in all 90.
+  - After it: performance 22.59 ± 0.60 (Gold scale 2.57 on eight uploads), +1.31 over v13's mean, no early rollback
+    (below 16.87): "upload the candidate again".
+- **Upload 2.** 08:26:45 upload 1 saved (90 games, 57 wins); the paste line at 08:26:51; agent 6869279 (created
+  08:27:18, submission 41680872) seen at 08:27:35 at 0 %, build `62ad918b` in game 919310701, registered at 08:27:41.
+  Snapshots at 0, 21, 35, 46, 60, 68, 77, 90, 95, 98 and 100 %. The session waited for the log's "done" line with one
+  background loop.
+- **Placement 2** complete at 08:51:44: local rank 18/349 (global 132), score 22.10, `eligibleForPromotion` false.
+  - 90 games, 63 wins by the game results (seat 0: 29 of 43, seat 1: 34 of 47), 62 in the battle lists; 63 of 90 games
+    reached turn 250.
+  - The referee removed the opponent in 919311051 (jfaixo, a turn-0 timeout).
+  - One equal score: 919316915 against Poviliukas, 79:79 at turn 250 with us as player 0, ranked a win.
+  - Opponents' median 19.79: 3 games against 23 or more (0 won), 41 against 20-23 (27), 18 against 17-20 (15), 28 below
+    17 (21).
+  - `cgAttribute`: SAME 90/90, 19,334 turns; marker `62ad918b` in all 90.
+- **P1 against v13** (upload 2's `checks/arena-compare.json`; `python -B -I tools/arena_compare.py --candidate v14
+  --selected v13` on the branch prints the same; Gold's scale refitted at 3.00 on nine uploads):
+  - mean 22.61 (23.11, 22.10; SD 0.71) against 21.80, +0.81 against −M = −2.46;
+  - performance 22.34 ± 0.51 against 21.84 ± 0.48, +0.50 ± 0.69 against −2 SE = −1.39;
+  - neither rollback condition holds: **v14 is the selected version**; `e4c8eeec` is the rollback artifact for the next
+    candidate, whose first placement rolls back early below 17.68. Gold's own M is 1.78 on 5 df; the verdicts keep
+    Bronze's 2.46 (the user's decision of 2026-11-07).
+- **Local against arena:** S 0.5533 → +0.81 points (v13: 0.5958 → +1.44; v12: 0.5716 → +3.28). What the rule did on the
+  arena is not measured.
+- **Equal scores:** the nineteenth to twenty-first games of `docs/rules/inferred.md`. Player 0 is ranked first in all
+  twenty-one; the battle lists give a draw in every saved list that holds the game (15, 6 and 10 lists for the new
+  three; 919249780 of v12 upload 3 is now in 23, with the two lists saved before v14's paste).
+- Files: `replays/arena/v14/gold/upload-01` and `upload-02` (`games`, `snapshots`, `checks`) in the main checkout. The
+  registry, the two placements, the two manifests and the re-fetched manifest of v12 upload 3 are copied into the
+  worktree, byte for byte.
+
+Records: BOTS (versions, Uploads, Artifacts), `docs/arena-uploads.md` (the v14 section), STATUS (the selected version,
+the arena entry, the margins, the waiting list), SUMMARY, PLAN, `docs/local-screen.md`, `docs/rules/inferred.md`, the
+architecture page (v14 selected; v12's Gold mean of three, 20.53, which the table had as 20.36 of two), the experiment
+README (On the arena). Committed on the user's request ("Закоммить и измерь"; the commit of v14's uploads, `git log`);
+until the merge the main checkout holds the tool's uncommitted copies of the six data files, the same bytes.

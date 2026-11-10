@@ -227,9 +227,12 @@
   label registered (2026-11-10, the user's "Да, сделай"; `docs/arena-uploads.md`, the tool's steps)
 - [x] The mistaken paste of 2026-11-10 02:23 recorded as v12 upload 3 in Gold (agent 6868868, 20.88; v12's mean of three
   20.53, v13 stays selected; `docs/arena-uploads.md`, `docs/data/arena-layout-2026-11-10/`)
-- [ ] v14 in Gold, two uploads (an exception, S 0.553 below 0.60): `follow v14 --selected v13`, which names
-  `artifacts/e4c8eeec/Player.java` itself once the main checkout has v14, then P1 against
-  v13 (`docs/arena-uploads.md`)
+- [x] v14 in Gold, two uploads (2026-11-10, an exception, S 0.553 below 0.60): agents 6868933 and 6869279, placements
+  23.11 (rank 9/348) and 22.10 (rank 18/349), SAME 180/180; `follow v14 --selected v13` named
+  `artifacts/e4c8eeec/Player.java` itself both times. P1 against v13: mean 22.61 against 21.80, not clearly worse,
+  **v14 selected** (`docs/arena-uploads.md`)
+- [ ] What v14's rule did on the arena, on its 180 Gold games (the cover on contact turns; the study's probe,
+  `docs/data/study-2026-11-09-v13-gold/probes/`), and upload 2's losses to players rated below 17
 - [x] Merge the branch `claude/bot-analysis-next-step-17e972` into master (2026-11-10, the user's "Да, подготовь"; fast-forward) and move the upload's directory (`relabel.py move`)
 - [ ] After it: the towers' sites chosen for overlap (same experiment, Not tried); the economy with the queen's dead
   turns (mines and upgrades under cover, a staged income target), and a rival whose barracks stand forward as the local

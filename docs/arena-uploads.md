@@ -1330,3 +1330,68 @@ Gold's logistic scale is refitted at 2.64 on the seven Gold uploads (2.71 on six
   the selected mean 21.80, 2M = 4.93)" for the label v14: that line compares v12's code with v13. v14 has no upload; its
   first placement rolls back early below 16.87 (21.80 − 2M).
 - **The arena entry** is agent 6868868 until the next paste; the selected version stays v13.
+
+## Twelfth candidate: v14 (the queen stands where her towers overlap), two Gold uploads and the P1 verdict (2026-11-10): v14 selected
+
+v14 = v13 with `HOLD_OVERLAP=300` and `IDLE_OVERLAP=1` (`docs/data/exp-2026-11-10-overlap/`: P2 screen S 0.5473 on block
+7, final evaluation S 0.5533 on evaluation block 3, below the 0.60 recommendation; uploaded as an exception by the user's
+decision). The user pasted the kept copy `artifacts/e4c8eeec/Player.java` twice, each time with
+`python -B -I tools/arena.py follow v14 --selected v13` running in the main checkout, and reported once the second
+placement was under way ("запущена вторая сейчас").
+- **Upload 1**, the first real run of the play check (Tools, step 1).
+  - At 03:28:50 the command passed over `build/submit/Player.java` ("is v12's artifact: not v14's file") and at 03:28:54
+    took the kept copy ("plays as v14 in 6 of 6 games, on maps that tell v14 from each of the 14 other versions").
+  - It saved v12 upload 3 (90 games, 57 wins) and named the kept copy for the paste at 03:29:00.
+  - It saw the new agent 6868933 at 03:30:06 (created 03:29:51, submission 41680089, 0 % played) and registered it at
+    03:30:11, once game 919260816 showed build `62ad918b`.
+  - The placement completed at 03:54:19.
+- **Upload 2.**
+  - The command saved upload 1 at 08:26:45 and named the file to paste at 08:26:51.
+  - It saw agent 6869279 at 08:27:35 (created 08:27:18, submission 41680872, 0 %) and registered it at 08:27:41, once
+    game 919310701 showed the build.
+  - The placement completed at 08:51:44.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v14/upload-1 (Gold) | 6868933 | 23.11, rank 9/348 | 90 | 63.3 ± 5.1 | 26 of 39 | 31 of 51 | 21.18 | 22.79 ± 0.69 |
+| v14/upload-2 (Gold) | 6869279 | 22.10, rank 18/349 | 90 | 70.0 ± 4.8 | 29 of 43 | 34 of 47 | 19.79 | 21.81 ± 0.73 |
+| v14 in Gold, both | | mean 22.61, SD 0.71 | 180 | | | | | 22.34 ± 0.51 |
+| v13 in Gold, both | | mean 21.80, SD 0.21 | 180 | | | | 20.44-21.81 | 21.84 ± 0.48 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it (upload 2's `checks/arena-compare.json`);
+`python -B -I tools/arena_compare.py --candidate v14 --selected v13` on the branch prints the same. Gold's logistic scale
+is refitted at 3.00 on the nine Gold uploads (2.57 on eight, after upload 1), which moves v13's rating from 21.71 to
+21.84 and upload 1's from 22.59 to 22.79.
+- **Same code:** `cgAttribute` finds every game identical to `e4c8eeec`: SAME 90/90 in each upload, 19,231 and 19,334
+  turns. The marker `62ad918b` is in all 180.
+- **The referee removed the opponent** in one game of each upload, 919260825 (Maurhess) and 919311051 (jfaixo), both
+  timeouts on turn 0, ordinary wins.
+- **Equal scores:** three games, all at turn 250 (the nineteenth to twenty-first in `docs/rules/inferred.md`):
+  - upload 1: 919263364 against 40R15T3, 38:38, and 919264164 against Aiwa, 55:55. The opponent was player 0 in both,
+    so both rank as losses;
+  - upload 2: 919316915 against Poviliukas, 79:79, with us as player 0, a win.
+  - Their saved battle lists (15, 6 and 10) give both players position 0. The lists' summary of upload 2 counts 62
+    wins where the manifest has 63.
+- **The fields differ.** 64 and 63 of the 90 games reached turn 250.
+  - Upload 1's opponents have the median 21.18, second only to v13 upload 1's 21.81: 15 games against players rated
+    23 or more (3 won), 44 against 20-23 (28), 27 against 17-20 (22), 4 below 17 (4).
+  - Upload 2's median is 19.79: 3 games against 23 or more (0 won), 41 against 20-23 (27), 18 against 17-20 (15) and
+    28 below 17, of which 7 were lost.
+- **P1 after upload 1:** 23.11 against v13's mean 21.80 (+1.31; M 2.46): no early rollback (that would need a score
+  below 16.87). 23.11 and rank 9 are the best placement in Gold so far.
+- **P1 verdict against v13.** M is 2.46, borrowed from Bronze. Gold's own M is now 1.78 on 5 df (pooled SD 0.89 from
+  v11's pair, v12's three, v13's pair and v14's pair), printed as context.
+  - Mean: 22.61 against 21.80, +0.81 against −M = −2.46.
+  - Performance: 22.34 ± 0.51 against 21.84 ± 0.48, +0.50 ± 0.69 against −2 SE = −1.39.
+  - Neither rollback condition holds: **v14 is the selected version** (2026-11-10). Its artifact `e4c8eeec` is the
+    rollback artifact for the next candidate, whose first placement rolls back early below 17.68 (22.61 − 2M).
+  - The difference is inside M and about 0.7 SE of the rating difference: "not clearly worse", not a proven gain.
+- **Shared opponents (context):** against the players both versions met, v14 won more in each of the four pairs of
+  uploads (v13 less v14, stratified: −10.0 ± 9.9, −7.9 ± 15.2, −13.9 ± 12.5 and −15.1 ± 13.3 pp). The pairs share
+  uploads, so they are not four independent samples.
+- **Local against arena:** P2's final evaluation gave S 0.5533 against v13 and the arena moved +0.81 points (v13's
+  0.5958 had moved +1.44, v12's 0.5716 +3.28). What the rule did on the arena (the own towers covering the queen on
+  contact turns and the HP those turns cost) is not yet measured on these 180 games; the study's probe can do it
+  (`docs/data/study-2026-11-09-v13-gold/probes/ArenaProbe.java`, `checks.py` section 10).
+- **Placement speed:** 24 minutes each from the agent's creation.
+- **The arena entry** is agent 6869279, v14 upload 2: the selected version.
