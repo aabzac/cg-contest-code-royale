@@ -310,10 +310,10 @@ Both series ran with the machine kept awake by the session and nothing beside th
 `replays/bench/exp-2026-11-10-tower-sites/submit.log`, `proccheck-v01.log` and `proccheck-boss.log`, in the worktree
 and copied to the main checkout.
 
-The artifact is not uploaded. The freeze is committed on the branch `claude/happy-northcutt-76f8b5` (2026-11-11, on
-the user's request; a clean export of the staged tree rebuilt the artifact's bytes before the commit).
-`tools/arena.py follow v15 --selected v14` runs from the main checkout and needs v15 there: the branch has to be
-merged into master first.
+The artifact is not uploaded. The freeze is commit 03a16bc (2026-11-11, on the user's request; a clean export of
+the staged tree rebuilt the artifact's bytes before the commit), merged into master the same day. In the main checkout
+`./gradlew submit` rebuilds the same bytes from master, and what `tools/arena.py follow v15 --selected v14` does before
+the paste, run there without the network, names that file (`docs/DEVLOG.md`, 2026-11-11).
 
 ## Limits
 

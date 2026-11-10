@@ -4563,3 +4563,33 @@ with the tower-sites experiment of the entry above (`git log`); before the commi
 rebuilt the artifact's bytes. The branch `claude/happy-northcutt-76f8b5` is not merged into master, and nothing is
 pushed or uploaded: `tools/arena.py follow v15 --selected v14` needs v15 in the main checkout, so the upload waits for
 the merge, on the user's request.
+
+## 2026-11-11 — The v15 freeze merged into master; the main checkout ready for v15's upload
+
+The user's "Да, влей" (to the question whether to merge the branch into master so that v15 can be uploaded).
+
+- **Before:** the main checkout on master at 3d4d4d3, clean, no stash entry; the branch one commit ahead (03a16bc, the
+  v15 freeze with the tower-sites experiment) and master with nothing the branch lacks.
+- **Merge.** `git merge --ff-only claude/happy-northcutt-76f8b5` in the main checkout (run as `git -C <main checkout>`
+  from the worktree): master 3d4d4d3 → 03a16bc, tree 7e85898a, the tree whose clean export rebuilt the artifact before
+  the commit. Not pushed (master is 21 commits ahead of origin).
+- **Checks in the main checkout** (00:44-00:48):
+  - `./gradlew test`: 188 tests, none skipped (the corpus tests run there), no failure, 2 m 41 s.
+  - What `follow v15 --selected v14` does before the paste, run without the network (the registry's checks,
+    `live_entry`, `find_artifact`, `identify`, `one_label`, `same_configuration`, `other_bytes`; the log never attached
+    to an upload, so nothing is written): 35 uploads in the registry, the live entry is v14 upload 2 (agent 6869279,
+    22.10); `build/submit/Player.java` "is v12's artifact: not v15's file"; `artifacts/7a5b28c4/Player.java` "plays
+    as v15 in 6 of 6 games, on maps that tell v15 from each of the 15 other versions" (8 s); the line names it:
+    "paste artifacts/7a5b28c4/Player.java in the IDE now (sha256 7a5b28c4..., build 72a6959d); not
+    build/submit/Player.java, which holds other bytes (3208b011, v12's artifact)". The leaderboard and the wait for
+    the agent were not run.
+  - `./gradlew submit` there: 97,864 characters, build `72a6959d`, config `ce9faaa7`, sha256 `7a5b28c4…`, byte for byte
+    the kept copy: master rebuilds the artifact. The main checkout's `build/submit/Player.java`, v12's stale build
+    until then, now holds v15's artifact, and the same steps name it: "paste build/submit/Player.java in the IDE now
+    (sha256 7a5b28c4..., build 72a6959d)".
+  - `git status` there is clean after the checks (build outputs and the kept copy are gitignored).
+
+Open: v15's two uploads, the user's: `python -B -I tools/arena.py follow v15 --selected v14` from the main checkout,
+then the paste of the file it names. Records: STATUS, SUMMARY, PLAN, BOTS (the commit of v15's artifact), the
+experiment's README. Committed on the user's request ("Да, доведи") in a records commit of its own, and master
+fast-forwarded to it (`git log`); not pushed.

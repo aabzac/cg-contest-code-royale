@@ -31,10 +31,10 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   below the 0.60 recommendation, so an upload is an exception. Artifact `7a5b28c4…` (97,864 chars, build `72a6959d`,
   config `ce9faaa7`; a second build and a clean export of the working tree through a temporary index rebuilt the same
   bytes; kept copy `artifacts/7a5b28c4/Player.java`), procCheck 200/200 against v01 and against `boss`, later turns at
-  most 8.6 ms; it plays as v15 and is told from each of the other 15 versions (`docs/BOTS.md`, Artifacts). Committed
-  on the branch `claude/happy-northcutt-76f8b5` on 2026-11-11 (the freeze commit, `git log`; a clean export of its
-  staged tree rebuilt the bytes before the commit); **not merged into master and not uploaded**. The next P2
-  candidates are screened against v15. The artifact holds the
+  most 8.6 ms; it plays as v15 and is told from each of the other 15 versions (`docs/BOTS.md`, Artifacts). Commit
+  03a16bc, merged into master on 2026-11-11 (a clean export of its staged tree rebuilt the bytes before the commit, and
+  `./gradlew submit` in the main checkout rebuilds them from master); **not uploaded**. The next P2 candidates are
+  screened against v15. The artifact holds the
   flags that are off; 2,136 characters of the 100,000 are left.
 - Previous local champion: v14 (2026-11-10 to 2026-11-11) = v13 with the queen standing where her towers overlap
   (HOLD_OVERLAP=300: in v13's hold, an enemy knight within 500 and none within 250, and in the flight she takes the spot
@@ -424,10 +424,11 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     field +0.4 pp, boss unchanged;
   - `SITE_COVER` is in `current`, off. The next screen block is 9, the next evaluation block 5.
 - Waiting on the user:
-  - **the merge of the branch `claude/happy-northcutt-76f8b5` into master, then the upload** (an exception: S 0.5510,
-    below 0.60). `tools/arena.py follow v15 --selected v14` runs from the main checkout, which has no v15 until the merge, and
-    names `artifacts/7a5b28c4/Player.java` for the paste; two uploads under P1 against v14's Gold mean 22.61 (a first
-    placement below 17.68 is an early rollback);
+  - **the upload of v15** (an exception: S 0.5510, below 0.60): `python -B -I tools/arena.py follow v15 --selected
+    v14` from the main checkout before the paste. The main checkout has v15 since the merge; run without the network,
+    the tool's steps before the paste name `build/submit/Player.java` there, the same bytes as the kept copy
+    `artifacts/7a5b28c4/Player.java`. Two uploads under P1 against v14's Gold mean 22.61 (a first placement below
+    17.68 is an early rollback);
   - the next step after it. Candidates on record: the economy with the dead turns, a rival whose barracks stand
     forward (`docs/data/exp-2026-11-10-overlap/`, Not tried; the study's sections 7 and 8), and what the tower-sites
     experiment left untried (a heavier weight on a fresh block, the same measure for the defence rule's and the touch

@@ -258,8 +258,9 @@
   (`docs/data/exp-2026-11-10-tower-sites/`)
 - [x] Commit the v15 freeze, the tower-sites experiment and the records (2026-11-11, the user's request; the freeze
   commit, `git log`)
-- [ ] Merge the branch `claude/happy-northcutt-76f8b5` into master (on the user's request; `tools/arena.py follow v15`
-  needs v15 in the main checkout)
+- [x] Merge the branch `claude/happy-northcutt-76f8b5` into master (2026-11-11, the user's "Да, влей"; fast-forward
+  to 03a16bc) and check the main checkout for v15's upload (the tests, the artifact rebuilt from master, the tool's
+  steps before the paste)
 - [ ] v15 in Gold, two uploads under P1 against v14 (an exception, S 0.551 below 0.60: the user's decision)
 - [ ] After it: the economy with the queen's dead
   turns (mines and upgrades under cover, a staged income target), and a rival whose barracks stand forward as the local
