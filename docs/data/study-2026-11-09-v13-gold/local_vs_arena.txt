@@ -1,0 +1,40 @@
+v13 on the arena (Gold, 180 games): 180 games, we end ahead on HP in 58 %, our queen dead in 34, mean length 213
+   turns with an enemy knight within 250 / within 500 only (the gate's state from turn 30): ours 46.7 / 30.1 a game; theirs 31.9 / 25.1
+   HP lost to knights by 50 turns: ours 7.2 | 3.3 | 4.6 | 5.9 | 2.0; theirs 14.3 | 3.7 | 2.9 | 2.2 | 1.9
+   knight releases a game: ours 7.3 (from turn 50 4.1), theirs 11.2 (from turn 50 8.5); enemy knights alive, mean over our turns from turn 50: 2.4
+   our top-ups of a tower at 700 or more: 49.9 a game (23.5 % of our turns): a knight within 250 3.1, within 500 only 18.5, none within 500 28.3; their queen's: 5.7 a game
+   towers @ HP each, ours / theirs: t50 2.7 @ 630 / 3.0 @ 457; t100 3.8 @ 617 / 3.7 @ 531; t150 4.4 @ 562 / 4.6 @ 521; t200 4.8 @ 495 / 5.3 @ 515
+   income, ours / theirs: t50 4.1 / 4.4; t100 3.1 / 5.0; t150 2.9 / 5.6; t200 2.8 / 5.0; mines built a game: ours 3.8, theirs 6.6; our mines lost to creeps 0.8
+   at those top-ups: an own tower below 600 stands in 89 % (nearest 315 away, mean; within 200 in 14 %, within 300 in 44 %), one inside another own tower's range in 88 %; the lowest own tower has 301 HP (mean)
+v12 on the arena (Gold, 180 games): 180 games, we end ahead on HP in 58 %, our queen dead in 29, mean length 213
+   turns with an enemy knight within 250 / within 500 only (the gate's state from turn 30): ours 47.9 / 26.5 a game; theirs 32.3 / 25.4
+   HP lost to knights by 50 turns: ours 6.9 | 4.5 | 4.5 | 4.2 | 2.3; theirs 14.2 | 3.4 | 3.2 | 4.1 | 2.4
+   knight releases a game: ours 7.3 (from turn 50 4.1), theirs 10.7 (from turn 50 7.8); enemy knights alive, mean over our turns from turn 50: 2.2
+   our top-ups of a tower at 700 or more: 38.5 a game (18.1 % of our turns): a knight within 250 1.9, within 500 only 5.1, none within 500 31.5; their queen's: 5.5 a game
+   towers @ HP each, ours / theirs: t50 2.8 @ 603 / 3.0 @ 474; t100 4.2 @ 590 / 4.0 @ 521; t150 4.7 @ 536 / 4.9 @ 494; t200 5.1 @ 470 / 5.7 @ 486
+   income, ours / theirs: t50 4.2 / 4.5; t100 3.0 / 4.5; t150 3.0 / 5.2; t200 2.9 / 4.2; mines built a game: ours 4.1, theirs 6.4; our mines lost to creeps 0.9
+   at those top-ups: an own tower below 600 stands in 99 % (nearest 298 away, mean; within 200 in 19 %, within 300 in 55 %), one inside another own tower's range in 98 %; the lowest own tower has 216 HP (mean)
+v13 against v13 (local, seeds 1 + 397 k, k < 100, both seats): 200 games, we end ahead on HP in 42 %, our queen dead in 5, mean length 245
+   turns with an enemy knight within 250 / within 500 only (the gate's state from turn 30): ours 35.7 / 32.8 a game; theirs 35.7 / 32.8
+   HP lost to knights by 50 turns: ours 5.0 | 0.9 | 1.1 | 1.7 | 1.8; theirs 5.0 | 0.9 | 1.1 | 1.7 | 1.8
+   knight releases a game: ours 8.4 (from turn 50 5.2), theirs 8.4 (from turn 50 5.2); enemy knights alive, mean over our turns from turn 50: 1.7
+   our top-ups of a tower at 700 or more: 60.5 a game (24.7 % of our turns): a knight within 250 1.6, within 500 only 19.1, none within 500 39.7; their queen's: 60.5 a game
+   towers @ HP each, ours / theirs: t50 2.7 @ 614 / 2.7 @ 614; t100 4.0 @ 626 / 4.0 @ 626; t150 5.1 @ 566 / 5.1 @ 566; t200 5.6 @ 478 / 5.6 @ 478
+   income, ours / theirs: t50 4.2 / 4.2; t100 3.0 / 3.0; t150 3.5 / 3.5; t200 3.3 / 3.3; mines built a game: ours 5.1, theirs 5.1; our mines lost to creeps 1.4
+   at those top-ups: an own tower below 600 stands in 92 % (nearest 304 away, mean; within 200 in 18 %, within 300 in 51 %), one inside another own tower's range in 92 %; the lowest own tower has 261 HP (mean)
+v13 against rival (local, seeds 1 + 397 k, k < 100, both seats): 200 games, we end ahead on HP in 81 %, our queen dead in 14, mean length 229
+   turns with an enemy knight within 250 / within 500 only (the gate's state from turn 30): ours 46.1 / 40.5 a game; theirs 47.0 / 22.5
+   HP lost to knights by 50 turns: ours 4.6 | 0.7 | 0.9 | 4.0 | 4.2; theirs 13.5 | 2.7 | 2.5 | 4.7 | 3.8
+   knight releases a game: ours 8.0 (from turn 50 4.7), theirs 12.6 (from turn 50 9.4); enemy knights alive, mean over our turns from turn 50: 2.7
+   our top-ups of a tower at 700 or more: 44.1 a game (19.2 % of our turns): a knight within 250 2.2, within 500 only 23.0, none within 500 18.9; their queen's: 18.3 a game
+   towers @ HP each, ours / theirs: t50 2.7 @ 624 / 2.3 @ 570; t100 3.8 @ 630 / 3.6 @ 600; t150 4.3 @ 545 / 3.9 @ 566; t200 4.0 @ 481 / 4.0 @ 524
+   income, ours / theirs: t50 4.2 / 5.0; t100 2.8 / 5.1; t150 3.4 / 6.2; t200 2.9 / 5.5; mines built a game: ours 4.4, theirs 8.2; our mines lost to creeps 1.4
+   at those top-ups: an own tower below 600 stands in 81 % (nearest 337 away, mean; within 200 in 12 %, within 300 in 36 %), one inside another own tower's range in 78 %; the lowest own tower has 335 HP (mean)
+v13 against field (local, seeds 1 + 397 k, k < 100, both seats): 200 games, we end ahead on HP in 98 %, our queen dead in 2, mean length 214
+   turns with an enemy knight within 250 / within 500 only (the gate's state from turn 30): ours 44.4 / 61.6 a game; theirs 35.6 / 17.7
+   HP lost to knights by 50 turns: ours 6.0 | 0.2 | 0.3 | 0.8 | 0.4; theirs 17.8 | 8.4 | 3.6 | 6.0 | 3.5
+   knight releases a game: ours 7.0 (from turn 50 3.8), theirs 16.6 (from turn 50 13.8); enemy knights alive, mean over our turns from turn 50: 4.1
+   our top-ups of a tower at 700 or more: 66.4 a game (31.0 % of our turns): a knight within 250 4.4, within 500 only 42.9, none within 500 19.1; their queen's: 51.5 a game
+   towers @ HP each, ours / theirs: t50 3.0 @ 635 / 2.5 @ 598; t100 3.9 @ 633 / 3.9 @ 596; t150 4.1 @ 558 / 4.0 @ 532; t200 4.3 @ 488 / 4.0 @ 475
+   income, ours / theirs: t50 4.2 / 5.6; t100 2.7 / 6.8; t150 2.2 / 7.3; t200 2.0 / 6.6; mines built a game: ours 3.5, theirs 8.3; our mines lost to creeps 0.8
+   at those top-ups: an own tower below 600 stands in 88 % (nearest 331 away, mean; within 200 in 11 %, within 300 in 35 %), one inside another own tower's range in 88 %; the lowest own tower has 319 HP (mean)

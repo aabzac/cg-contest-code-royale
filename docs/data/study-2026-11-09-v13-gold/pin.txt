@@ -1,0 +1,88 @@
+A. The ladder's progress, all games and the opponents rated 20-22 (means; games that reached the turn)
+   all      v12 (180 games, score 61 %, deaths 29): t50: T 2.76 M 2.09 B 1.00 (T<=2 in 59 of 173); t75: T 3.71 M 1.86 B 1.22 (T<=2 in 11 of 170); t100: T 4.22 M 1.75 B 1.42 (T<=2 in 6 of 163); t150: T 4.70 M 1.63 B 1.71 (T<=2 in 3 of 148); t200: T 5.09 M 1.66 B 1.82 (T<=2 in 2 of 130)
+            structures stood by t100 8.3, by t150 10.4; second barracks by t100 in 68, by t150 in 106; knight trainings 8.8; turns with no mine from turn 30: 15.5; longest run without a new structure, turns 30-150: median 40
+   all      v13 (179 games, score 59 %, deaths 34): t50: T 2.65 M 2.09 B 1.00 (T<=2 in 69 of 170); t75: T 3.43 M 1.88 B 1.11 (T<=2 in 19 of 168); t100: T 3.80 M 1.80 B 1.34 (T<=2 in 16 of 165); t150: T 4.43 M 1.54 B 1.66 (T<=2 in 15 of 150); t200: T 4.80 M 1.58 B 1.75 (T<=2 in 9 of 132)
+            structures stood by t100 7.7, by t150 9.9; second barracks by t100 in 56, by t150 in 100; knight trainings 8.6; turns with no mine from turn 30: 18.5; longest run without a new structure, turns 30-150: median 42
+   20-22    v12 ( 56 games, score 39 %, deaths 11): t50: T 2.69 M 2.09 B 1.00 (T<=2 in 23 of 55); t75: T 3.76 M 1.89 B 1.19 (T<=2 in 3 of 54); t100: T 4.15 M 1.81 B 1.38 (T<=2 in 3 of 52); t150: T 4.83 M 1.64 B 1.64 (T<=2 in 1 of 47); t200: T 5.32 M 1.66 B 1.80 (T<=2 in 0 of 41)
+            structures stood by t100 8.1, by t150 10.2; second barracks by t100 in 20, by t150 in 31; knight trainings 8.7; turns with no mine from turn 30: 9.7; longest run without a new structure, turns 30-150: median 37
+   20-22    v13 ( 77 games, score 58 %, deaths 17): t50: T 2.67 M 2.12 B 1.00 (T<=2 in 29 of 73); t75: T 3.42 M 2.03 B 1.13 (T<=2 in 7 of 71); t100: T 3.93 M 1.86 B 1.35 (T<=2 in 6 of 71); t150: T 4.32 M 1.56 B 1.60 (T<=2 in 8 of 63); t200: T 4.80 M 1.60 B 1.78 (T<=2 in 4 of 50)
+            structures stood by t100 7.9, by t150 9.9; second barracks by t100 in 25, by t150 in 39; knight trainings 8.2; turns with no mine from turn 30: 18.5; longest run without a new structure, turns 30-150: median 42
+   below 20 v12 (122 games, score 71 %, deaths 17): t50: T 2.80 M 2.09 B 1.00 (T<=2 in 34 of 116); t75: T 3.70 M 1.86 B 1.24 (T<=2 in 8 of 114); t100: T 4.27 M 1.72 B 1.44 (T<=2 in 3 of 109); t150: T 4.67 M 1.64 B 1.76 (T<=2 in 2 of 99); t200: T 5.02 M 1.68 B 1.84 (T<=2 in 2 of 87)
+            structures stood by t100 8.4, by t150 10.4; second barracks by t100 in 48, by t150 in 75; knight trainings 8.8; turns with no mine from turn 30: 17.6; longest run without a new structure, turns 30-150: median 40
+   below 20 v13 ( 57 games, score 75 %, deaths 3): t50: T 2.71 M 2.07 B 1.00 (T<=2 in 21 of 56); t75: T 3.46 M 1.77 B 1.07 (T<=2 in 6 of 56); t100: T 3.69 M 1.78 B 1.27 (T<=2 in 6 of 55); t150: T 4.53 M 1.58 B 1.66 (T<=2 in 2 of 53); t200: T 4.82 M 1.53 B 1.71 (T<=2 in 1 of 51)
+            structures stood by t100 7.5, by t150 9.7; second barracks by t100 in 15, by t150 in 35; knight trainings 9.4; turns with no mine from turn 30: 18.4; longest run without a new structure, turns 30-150: median 42
+
+B. Turns 30-150 with an enemy knight within 500 of our queen (share of those turns), and the result
+   v12 share 0.00-0.25:  20 games, score  60 %, deaths  1, lost races  7; towers at t100 5.2, mines at t100 2.0, income at t100 3.2 / theirs 3.1, at t150 2.7 / 2.7; knight trainings 9.2 / 7.3; mean rating 19.1
+   v12 share 0.25-0.40:  49 games, score  63 %, deaths  2, lost races 16; towers at t100 4.7, mines at t100 1.9, income at t100 3.2 / theirs 3.8, at t150 3.5 / 4.5; knight trainings 9.9 / 10.4; mean rating 18.6
+   v12 share 0.40-0.55:  57 games, score  65 %, deaths  8, lost races 12; towers at t100 4.0, mines at t100 1.7, income at t100 2.8 / theirs 4.3, at t150 3.3 / 5.1; knight trainings 9.3 / 11.9; mean rating 18.9
+   v12 share 0.55-0.70:  30 games, score  47 %, deaths 10, lost races  6; towers at t100 3.8, mines at t100 1.7, income at t100 3.0 / theirs 5.9, at t150 2.1 / 8.2; knight trainings 8.1 / 17.1; mean rating 19.0
+   v12 share 0.70-1.00:  16 games, score  44 %, deaths  8, lost races  1; towers at t100 3.0, mines at t100 1.2, income at t100 2.2 / theirs 7.5, at t150 1.4 / 5.6; knight trainings 7.2 / 11.0; mean rating 19.3
+   v13 share 0.00-0.25:  23 games, score  78 %, deaths  0, lost races  5; towers at t100 4.7, mines at t100 2.0, income at t100 3.8 / theirs 2.4, at t150 3.8 / 2.6; knight trainings 10.3 / 7.7; mean rating 20.4
+   v13 share 0.25-0.40:  46 games, score  72 %, deaths  2, lost races 11; towers at t100 4.0, mines at t100 2.0, income at t100 3.4 / theirs 3.4, at t150 3.9 / 4.2; knight trainings 9.8 / 10.7; mean rating 20.2
+   v13 share 0.40-0.55:  48 games, score  54 %, deaths 11, lost races 11; towers at t100 3.8, mines at t100 1.7, income at t100 2.7 / theirs 5.4, at t150 2.8 / 6.3; knight trainings 9.0 / 13.9; mean rating 20.6
+   v13 share 0.55-0.70:  39 games, score  44 %, deaths 11, lost races 11; towers at t100 3.4, mines at t100 1.8, income at t100 2.9 / theirs 6.8, at t150 1.8 / 6.5; knight trainings 7.8 / 14.1; mean rating 20.6
+   v13 share 0.70-1.00:  13 games, score  31 %, deaths  8, lost races  1; towers at t100 2.8, mines at t100 1.3, income at t100 2.3 / theirs 8.2, at t150 0.3 / 11.7; knight trainings 6.7 / 17.8; mean rating 20.9
+
+C. v13: the games where the ladder stalls (no new structure for 60 turns or more inside turns 30-150), one line each
+   gid seat rating opp result | longest run | T M B at t50, t100, t150 | income us/them t100, t150 | trainings us/them | hold turns (gate state) 30-150 | no-mine turns | their giants
+   919172597 1 20.6 nidup          lost died   | 120 | 2/2/1 2/1/1 2/0/1 | 2/8 0/22 | 6/31 |  40 | 100 | G0
+   919175832 0 21.9 _proton        lost limit  | 120 | 2/2/1 2/2/1 2/0/1 | 4/12 0/6 | 7/27 |  44 | 126 | G0
+   919179470 1 15.1 rush123321     won  limit  | 120 | 2/2/1 2/2/1 2/1/1 | 4/10 1/3 | 11/13 |  39 |  30 | G0
+   919179741 1 17.1 Pavlo_Mykhayle won  limit  | 120 | 2/2/1 2/1/1 2/0/1 | 2/8 0/3 | 8/16 |  58 |  57 | G0
+   919172560 1 20.1 yoannk         won  limit  | 119 | 3/2/1 3/2/1 3/1/1 | 3/8 1/10 | 6/26 |  47 |  34 | G0
+   919176823 0 22.8 Konstanta      lost limit  | 119 | 2/2/1 2/2/1 2/1/1 | 3/6 1/5 | 9/14 |  25 |   5 | G0
+   919179260 0 20.7 nidup          lost died   | 117 | 3/2/1 3/2/1 3/1/1 | 3/8 1/19 | 5/19 |  27 |   0 | G0
+   919180844 1 19.8 iwashi31       lost limit  | 104 | 3/2/1 3/2/1 3/1/1 | 4/12 1/3 | 10/17 |  41 |  26 | G0
+   919181057 1 19.2 Moez           won  limit  | 102 | 4/2/1 4/2/1 4/2/1 | 3/8 2/4 | 10/13 |  37 |  24 | G1
+   919172315 0 19.8 skotz          lost limit  | 101 | 2/2/1 2/1/1 3/2/1 | 2/4 4/4 | 11/18 |  32 |   7 | G0
+   919181151 1 19.6 PACO_CrocsDeBa won  limit  | 101 | 3/2/1 3/2/1 3/1/1 | 3/11 1/3 | 7/15 |  59 |  32 | G0
+   919175977 0 23.6 PRO_G_r_A_m_ME lost limit  |  97 | 3/2/1 3/1/1 3/2/1 | 1/4 3/1 | 7/16 |  29 |  28 | G0
+   919187045 0 22.3 Cadmiom        lost died   |  96 | 2/2/1 2/0/1 -/-/- | 0/5 -/- | 7/12 |  14 |  46 | G0
+   919179265 1 16.9 Maryan         won  limit  |  95 | 2/3/1 3/3/1 3/2/1 | 4/2 2/15 | 9/28 |  19 |  12 | G0
+   919175408 1 22.8 Aiwa           lost limit  |  89 | 3/2/1 4/2/1 4/1/1 | 3/7 1/7 | 8/15 |  38 |   2 | G0
+   919184556 1 20.9 nidup          lost died   |  89 | 2/2/1 2/0/1 2/0/1 | 0/3 0/20 | 7/22 |  41 |  92 | G0
+   919173480 1 23.0 Donrico79      lost died   |  87 | 3/2/1 3/1/1 3/0/1 | 2/10 0/20 | 6/18 |  18 |  41 | G0
+   919179536 1 15.7 FIT_genius     won  limit  |  86 | 2/2/1 2/2/1 3/1/1 | 3/7 1/9 | 7/19 |  25 |  16 | G0
+   919184198 1 20.0 Icebox         won  limit  |  86 | 2/2/1 2/3/1 4/3/1 | 3/5 3/7 | 8/20 |  26 |  37 | G1
+   919171242 1 16.2 DGynn          won  limit  |  80 | 3/2/1 4/2/1 4/1/1 | 3/7 1/5 | 7/14 |  20 |   0 | G0
+   919179262 1 19.3 Tanorion       lost limit  |  78 | 3/2/1 4/2/1 4/0/1 | 4/7 0/13 | 6/28 |  37 | 100 | G0
+   919184045 1 20.4 yoannk         lost died   |  77 | 3/2/1 4/2/1 4/1/1 | 4/5 2/14 | 8/18 |  27 |  29 | G1
+   919171580 1 17.1 Zanbez         won  killed |  76 | 2/2/1 2/1/1 -/-/- | 2/5 -/- | 6/7 |  27 |   0 | G0
+   919174617 1 22.8 40R15T3        lost limit  |  74 | 2/2/1 2/0/1 4/2/2 | 0/0 6/1 | 16/13 |   7 |  22 | G0
+   919182610 1 20.6 OscarKK        won  killed |  74 | 2/2/1 3/2/1 -/-/- | 3/9 -/- | 5/11 |  17 |   0 | G0
+   919183923 1 20.8 nidup          lost limit  |  74 | 3/2/1 4/1/1 3/1/1 | 1/6 1/13 | 6/26 |  28 |  33 | G0
+   919180110 0 18.6 Ethaniel       lost died   |  72 | 3/2/1 3/0/1 4/1/1 | 0/1 4/7 | 11/14 |  17 |  52 | G0
+   919180506 1 19.3 ArturBieniek   won  limit  |  71 | 3/2/1 3/2/1 4/1/1 | 3/3 1/4 | 7/18 |  29 |  10 | G0
+   919184435 1 20.8 D0SD3          lost limit  |  70 | 2/3/1 4/2/1 4/2/1 | 2/4 2/8 | 9/18 |  21 |   7 | G0
+   919172711 0 20.0 Bulgot         lost died   |  69 | 3/2/1 4/2/1 1/1/1 | 3/7 1/6 | 6/11 |  24 |   0 | G1
+   919172843 1 19.7 iwashi31       won  limit  |  69 | 3/2/1 3/1/1 3/0/1 | 2/12 0/4 | 10/17 |  27 |  74 | G0
+   919174912 0 23.4 cdurbin        lost died   |  69 | 3/2/1 3/1/1 6/2/2 | 1/2 3/5 | 10/10 |  16 |   0 | G2
+   919173728 1 22.5 yoyo_305       lost died   |  67 | 3/2/1 3/1/1 2/1/1 | 1/7 1/8 | 7/17 |  27 |   0 | G2
+   919175707 1 23.5 PRO_G_r_A_m_ME won  limit  |  67 | 2/2/1 2/1/1 3/1/1 | 2/2 2/6 | 12/13 |  43 |  13 | G0
+   919185105 1 21.2 Eeeval         won  limit  |  66 | 3/2/1 3/1/1 4/1/1 | 2/3 3/1 | 8/14 |  18 |  24 | G0
+   919179664 1 16.5 Bleash         won  limit  |  65 | 4/2/1 4/2/1 5/2/2 | 3/6 3/7 | 9/14 |  35 |   0 | G0
+   919182511 0 21.3 invi2k         lost died   |  65 | 3/2/1 3/1/1 3/1/1 | 1/5 1/4 | 6/10 |  19 |   2 | G0
+   919181731 1 19.5 PACO_CrocsDeBa won  killed |  64 | 3/2/1 4/1/1 5/2/2 | 1/6 4/4 | 10/11 |  28 |   0 | G0
+   919184790 0 21.0 SeebOmega      won  limit  |  64 | 3/2/1 5/2/2 5/2/2 | 3/15 5/5 | 9/13 |  29 |  43 | G0
+   919175394 0 22.3 Cadmiom        won  killed |  63 | 2/2/1 -/-/- -/-/- | -/- -/- | 4/4 |   7 |   0 | G0
+   919175668 0 21.7 Goujon         won  killed |  63 | 2/2/1 3/1/1 4/2/2 | 3/0 6/0 | 13/7 |   6 |   0 | G0
+   919174510 1 21.7 TODO_Slytherin won  limit  |  62 | 2/2/1 2/2/1 2/3/1 | 2/8 3/3 | 8/12 |  38 |   0 | G0
+   919186387 0 21.0 Dje54          won  limit  |  62 | 3/2/1 4/2/1 4/1/1 | 4/5 3/3 | 10/13 |  12 |  53 | G0
+   919180934 0 19.2 Moez           lost limit  |  61 | 2/2/1 3/1/1 4/2/1 | 2/3 7/4 | 15/15 |  31 |  11 | G0
+   919175012 1 22.7 Aiwa           lost limit  |  60 | 2/2/1 3/1/1 4/1/1 | 1/2 1/4 | 8/13 |  39 |   0 | G0
+   919176183 0 21.8 Neumann        lost limit  |  60 | 3/2/1 4/1/1 6/2/2 | 1/1 5/4 | 10/17 |  28 |   0 | G0
+   v12: stalled 32 games, score 66 % (deaths 6, lost races 5, mean rating 19.0); the rest 134 games, score 58 % (deaths 19, mean rating 18.9)
+   v13: stalled 46 games, score 48 % (deaths 11, lost races 13, mean rating 20.4); the rest 121 games, score 61 % (deaths 21, mean rating 20.6)
+
+D. Turns with no own mine (from turn 30), and the result
+   v12 no-mine turns   0-  0:  87 games, score  59 %, deaths 20, lost races 16, mean rating 18.8; gold mined ours / theirs 593 / 813
+   v12 no-mine turns   1- 19:  44 games, score  59 %, deaths  4, lost races 14, mean rating 18.7; gold mined ours / theirs 755 / 847
+   v12 no-mine turns  20- 49:  35 games, score  69 %, deaths  3, lost races  8, mean rating 18.8; gold mined ours / theirs 764 / 1125
+   v12 no-mine turns  50- 99:  10 games, score  50 %, deaths  2, lost races  3, mean rating 18.6; gold mined ours / theirs 677 / 1276
+   v12 no-mine turns 100-998:   4 games, score  75 %, deaths  0, lost races  1, mean rating 18.8; gold mined ours / theirs 492 / 1066
+   v13 no-mine turns   0-  0:  78 games, score  59 %, deaths 18, lost races 14, mean rating 20.5; gold mined ours / theirs 573 / 780
+   v13 no-mine turns   1- 19:  42 games, score  62 %, deaths  5, lost races 11, mean rating 19.9; gold mined ours / theirs 787 / 961
+   v13 no-mine turns  20- 49:  39 games, score  69 %, deaths  3, lost races  9, mean rating 20.3; gold mined ours / theirs 684 / 1100
+   v13 no-mine turns  50- 99:  14 games, score  43 %, deaths  6, lost races  2, mean rating 21.0; gold mined ours / theirs 605 / 1230
+   v13 no-mine turns 100-998:   7 games, score  29 %, deaths  2, lost races  3, mean rating 21.2; gold mined ours / theirs 467 / 1728

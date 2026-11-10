@@ -69,6 +69,7 @@ public final class BotFactory {
             case "v11": return new cr.bot.v11.GreedyBot(snapshot("v11").apply(overrides));
             case "v12": return new cr.bot.v12.GreedyBot(snapshot("v12").apply(overrides));
             case "v13": return new cr.bot.v13.GreedyBot(snapshot("v13").apply(overrides));
+            case "v14": return new cr.bot.v14.GreedyBot(snapshot("v14").apply(overrides));
             case "current": return new MainBot(new Params().apply(overrides));
             case "field": return new cr.bot.field.FieldBot(new cr.bot.field.FieldParams().apply(overrides));
             case "rival": return new cr.bot.field.FieldBot(new cr.bot.field.FieldParams().apply(cr.bot.field.FieldParams.RIVAL).apply(overrides));
@@ -107,6 +108,7 @@ public final class BotFactory {
             case "v11": return "v11 " + snapshot("v11").apply(overrides);
             case "v12": return "v12 " + snapshot("v12").apply(overrides);
             case "v13": return "v13 " + snapshot("v13").apply(overrides);
+            case "v14": return "v14 " + snapshot("v14").apply(overrides);
             case "current": return "current " + new Params().apply(overrides);
             case "field": return "field " + new cr.bot.field.FieldParams().apply(overrides);
             case "rival": return "rival " + new cr.bot.field.FieldParams().apply(cr.bot.field.FieldParams.RIVAL).apply(overrides);

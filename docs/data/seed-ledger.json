@@ -9,8 +9,8 @@
   "evaluation": "closed 2026-11-05 by PV3 (as the screen pool); was block k = seeds 400000 + 2000 k .. + 1999; its verdicts stand"
  },
  "next": {
-  "screen-pv3": 7,
-  "evaluation-pv3": 3,
+  "screen-pv3": 8,
+  "evaluation-pv3": 4,
   "screen": null,
   "evaluation": null
  },
@@ -322,6 +322,28 @@
    "control": "v12 (the selected version)",
    "series": "direct and mirror on 2000 maps; v13 and v12 against field and rival on 2000 maps (G4, G5); v13 and v12 against boss on the first 500 maps (3 threads, 200 ms); the field series repeated at 2 threads for G0 (the same 4000 games, no slow turn)",
    "verdict": "S 0.5958 (CI 0.5819-0.6096) against v12, 1942 of 2000 maps changed; G2 boss delta 0.0000; G4 field delta +0.0434 (CI +0.0342..+0.0526); G5 rival delta +0.0661 (CI +0.0505..+0.0817); G0 by the quiet repeat (5 slow turns in the first field run at 8 threads; v12's own series had 2 and 1); G3 skipped. Below the 0.60 upload recommendation by 0.004: an upload is the user's decision"
+  },
+  {
+   "pool": "screen-pv3",
+   "k": 7,
+   "seeds": "1007000000 + 397 i, i < 2000",
+   "date": "2026-11-10",
+   "experiment": "docs/data/exp-2026-11-10-overlap",
+   "candidate": "current?HOLD_OVERLAP=300,IDLE_OVERLAP=1 (the gate's hold and the flight stand on the best-covered spot within five steps; the idle queen at the best-covered own tower)",
+   "control": "v13 (the local champion and the selected version)",
+   "series": "direct and mirror on 2000 maps; candidate and v13 against field and rival on 2000 maps (G4, G5); candidate and v13 against boss on the first 500 maps (3 threads, 200 ms); the field series repeated at 2 threads for G0 (the same 4000 games, no slow turn)",
+   "verdict": "pass: S 0.5473 (CI 0.5347-0.5598) against v13, 1802 of 2000 maps changed; G2 boss delta 0.0000; G4 field delta +0.0161 (CI +0.0107..+0.0216); G5 rival delta +0.0275 (CI +0.0149..+0.0401); G0 by the quiet repeat (one slow turn in the first field run at 8 threads); G3 skipped (no old). The local champion by P2; the default and a freeze await the user's decision"
+  },
+  {
+   "pool": "evaluation-pv3",
+   "k": 3,
+   "seeds": "2003000000 + 397 i, i < 2000",
+   "date": "2026-11-10",
+   "experiment": "docs/data/exp-2026-11-10-overlap",
+   "candidate": "v14 (the local champion: v13 with the queen standing where her towers overlap, HOLD_OVERLAP=300, IDLE_OVERLAP=1)",
+   "control": "v13 (the selected version)",
+   "series": "direct and mirror on 2000 maps; v14 and v13 against field and rival on 2000 maps (G4, G5); v14 and v13 against boss on the first 500 maps (3 threads, 200 ms)",
+   "verdict": "S 0.5533 (CI 0.5404-0.5661) against v13, 1800 of 2000 maps changed; G2 boss delta 0.0000 on 499 maps (one map dropped: the boss timed out in the candidate's series); G4 field delta +0.0151 (CI +0.0092..+0.0210); G5 rival delta +0.0245 (CI +0.0122..+0.0368); G0: no candidate failure in 13000 games; G3 skipped (no old). G0-G2, G4 and G5 pass; S < 0.60: no upload recommendation; any upload is the user's decision"
   }
  ]
 }

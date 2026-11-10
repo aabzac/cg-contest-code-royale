@@ -1,0 +1,134 @@
+
+1. Outcomes (Gold, two placements each)
+   v12: 180 games, won 109 (limit 73, killed 34, referee 2), lost 71 (limit 42, died 29, referee 0), draws 0; to turn 250: 115
+   v13: 180 games, won 107 (limit 78, killed 28, referee 1), lost 73 (limit 39, died 34, referee 0), draws 0; to turn 250: 117
+
+2. Score by the opponent's rating at fetch and by seat (points, ties 1/2)
+   v12: 0-17: 37 games 78 %; 17-20: 85 games 68 %; 20-22: 56 games 39 %; 22-24: 1 games 0 %; 24-99: 1 games 0 %
+      seat 0: 81 games, 67 %, our queen died in 9
+      seat 1: 99 games, 56 %, our queen died in 20
+      against 20 and above: 58 games, 38 %: won races 15, kills 7, lost races 24, deaths 12; opponents' median rating 19.69 (all games)
+   v13: 0-17: 12 games 100 %; 17-20: 45 games 69 %; 20-22: 77 games 58 %; 22-24: 45 games 40 %
+      seat 0: 80 games, 65 %, our queen died in 15
+      seat 1: 100 games, 55 %, our queen died in 19
+      against 20 and above: 122 games, 52 %: won races 42, kills 21, lost races 28, deaths 31; opponents' median rating 20.90 (all games)
+
+3. HP races at turn 250: our HP minus the enemy's (medians; means in brackets), and the HP lost to knights per phase
+   v12 lost  42: t50 -3 (-4.6), t100 -8 (-8.5), t150 -8 (-8.8), t200 -10 (-12.7); final -13 (-16.3); within 5 HP 10, within 10 HP 18
+   v12 won   73: t50 +6 (+10.7), t100 +7 (+11.8), t150 +7 (+11.6), t200 +11 (+14.7); final +14 (+18.4); within 5 HP 17, within 10 HP 30
+      v12 lost races, per 50 turns: our HP to knights 10.6 | 4.8 | 1.9 | 4.2 | 3.4; theirs to ours 6.0 | 1.1 | 1.5 | 1.0 | 0.6; contact turns ours 13.3 | 13.3 | 8.9 | 9.7 | 7.2; theirs 9.9 | 4.7 | 3.4 | 3.1 | 2.7
+      v12 won  races, per 50 turns: our HP to knights 3.5 | 2.8 | 3.6 | 2.1 | 0.8; theirs to ours 14.2 | 3.9 | 3.1 | 5.2 | 4.4; contact turns ours 9.8 | 13.0 | 10.3 | 7.5 | 4.9; theirs 12.8 | 8.7 | 4.6 | 6.7 | 4.8
+   v13 lost  39: t50 +0 (-4.1), t100 -4 (-5.7), t150 -5 (-7.5), t200 -10 (-12.9); final -11 (-15.4); within 5 HP 11, within 10 HP 18
+   v13 won   78: t50 +6 (+9.0), t100 +9 (+11.7), t150 +11 (+15.5), t200 +14 (+18.0); final +14 (+20.3); within 5 HP 16, within 10 HP 32
+      v13 lost races, per 50 turns: our HP to knights 11.3 | 4.4 | 2.1 | 6.1 | 2.8; theirs to ours 7.3 | 2.8 | 0.3 | 0.8 | 0.6; contact turns ours 12.6 | 12.9 | 10.2 | 11.8 | 9.0; theirs 10.6 | 8.0 | 2.2 | 2.9 | 2.3
+      v13 won  races, per 50 turns: our HP to knights 4.3 | 1.1 | 1.3 | 0.8 | 0.6; theirs to ours 13.3 | 3.3 | 4.7 | 3.1 | 2.9; contact turns ours 10.1 | 10.9 | 7.8 | 6.9 | 4.0; theirs 12.7 | 7.9 | 6.2 | 5.5 | 4.7
+   all games (means per game): HP our queen lost to knights / to towers, the enemy queen to our knights / our towers, by phase
+      v12 turns   0- 50 (180 games): ours  6.9 / 0.0; theirs 14.2 / 0.1
+      v12 turns  50-100 (173 games): ours  4.6 / 0.1; theirs  3.5 / 0.3
+      v12 turns 100-150 (163 games): ours  5.0 / 0.1; theirs  3.5 / 0.5
+      v12 turns 150-200 (148 games): ours  5.1 / 0.2; theirs  4.9 / 0.2
+      v12 turns 200-250 (130 games): ours  3.2 / 0.4; theirs  3.3 / 0.1
+      v13 turns   0- 50 (180 games): ours  7.2 / 0.0; theirs 14.3 / 0.0
+      v13 turns  50-100 (170 games): ours  3.5 / 0.0; theirs  4.0 / 0.3
+      v13 turns 100-150 (165 games): ours  5.0 / 0.2; theirs  3.1 / 0.2
+      v13 turns 150-200 (150 games): ours  7.0 / 0.3; theirs  2.6 / 0.3
+      v13 turns 200-250 (132 games): ours  2.7 / 0.2; theirs  2.6 / 0.1
+
+4. The gate on the arena: contact episodes of our queen on turns 50-249 by what she did on the turn before the contact
+   v12 all games  (180 games): walking to a site 3.9 a game, 2.42 HP each, 9.5 HP a game; at an own tower 3.2 a game, 1.36 HP each, 4.3 HP a game; other 0.5 a game, 2.89 HP each, 1.5 HP a game; walking (MOVE) 0.2 a game, 1.10 HP each, 0.2 HP a game
+   v12 lost races ( 42 games): walking to a site 4.8 a game, 2.04 HP each, 9.7 HP a game; at an own tower 3.1 a game, 0.97 HP each, 3.0 HP a game; other 0.5 a game, 2.25 HP each, 1.1 HP a game; walking (MOVE) 0.2 a game, 1.80 HP each, 0.4 HP a game
+   v12 won races  ( 73 games): walking to a site 4.2 a game, 1.30 HP each, 5.4 HP a game; at an own tower 3.9 a game, 0.61 HP each, 2.4 HP a game; other 0.5 a game, 2.58 HP each, 1.3 HP a game; walking (MOVE) 0.2 a game, 0.94 HP each, 0.2 HP a game
+   v12 deaths     ( 29 games): walking to a site 4.0 a game, 6.77 HP each, 27.3 HP a game; at an own tower 2.6 a game, 5.63 HP each, 14.8 HP a game; other 0.7 a game, 4.30 HP each, 3.0 HP a game; walking (MOVE) 0.2 a game, 0.00 HP each, 0.0 HP a game
+   v13 all games  (180 games): at an own tower 6.8 a game, 1.65 HP each, 11.1 HP a game; walking to a site 0.7 a game, 5.32 HP each, 3.9 HP a game; other 0.2 a game, 4.45 HP each, 0.7 HP a game; walking (MOVE) 0.0 a game, 2.00 HP each, 0.0 HP a game
+   v13 lost races ( 39 games): at an own tower 8.7 a game, 1.18 HP each, 10.3 HP a game; walking to a site 1.0 a game, 4.05 HP each, 3.9 HP a game; other 0.3 a game, 3.82 HP each, 1.1 HP a game
+   v13 won races  ( 78 games): at an own tower 7.8 a game, 0.36 HP each, 2.8 HP a game; walking to a site 0.7 a game, 0.89 HP each, 0.6 HP a game; other 0.2 a game, 2.58 HP each, 0.4 HP a game
+   v13 deaths     ( 34 games): at an own tower 5.6 a game, 6.44 HP each, 36.0 HP a game; walking to a site 0.8 a game, 16.67 HP each, 13.2 HP a game; other 0.1 a game, 9.00 HP each, 1.1 HP a game; walking (MOVE) 0.0 a game, 0.00 HP each, 0.0 HP a game
+   the gate's state (turn 30 on, two own towers or more, an enemy knight within 500 and none within 250): turns a game, and the queen's command there
+      v12: 26.5 turns a game; BUILD TOWER on the touched site 12.7, walk with BUILD TOWER 4.5, walk to MINE 3.9, MOVE 3.0, walk to BARRACKS-KNIGHT 1.4, touch MINE 0.9, touch BARRACKS-KNIGHT 0.1
+      v13: 30.1 turns a game; BUILD TOWER on the touched site 24.7, walk with BUILD TOWER 4.7, touch MINE 0.6, touch BARRACKS-KNIGHT 0.1
+
+5. Our queen's deaths
+   v12: 29 deaths, turns [62, 84, 84, 86, 93, 106, 130, 130, 130, 151, 156, 156, 160, 164, 172, 175, 179, 181, 184, 188, 200, 204, 216, 218, 220, 222, 224, 232, 246] (median 172)
+      last 30 turns: 30.3 HP to knights, 0.3 to towers; opponent income at t100 / t150 5.5 / 8.0, ours 3.0 / 1.5; enemy knights alive t100 / t150 4.0 / 4.0; giants by the opponent in 4
+      by the opponent's rating: 13.5, 15.0, 15.1, 15.4, 15.5, 15.8, 16.4, 19.5, 19.6, 19.7, 19.8, 19.8, 19.8, 19.8, 19.9, 20.0, 20.0, 20.1, 20.2, 20.2, 20.5, 20.5, 20.6, 20.7, 20.8, 20.9, 21.1, 21.2, 22.9
+   v13: 34 deaths, turns [38, 45, 100, 101, 113, 118, 119, 119, 126, 128, 138, 145, 148, 151, 155, 156, 157, 170, 175, 176, 188, 192, 196, 199, 204, 205, 208, 209, 209, 214, 217, 218, 224, 246] (median 164)
+      last 30 turns: 36.1 HP to knights, 0.7 to towers; opponent income at t100 / t150 6.0 / 8.0, ours 3.0 / 1.0; enemy knights alive t100 / t150 3.0 / 8.0; giants by the opponent in 12
+      by the opponent's rating: 17.7, 18.6, 19.9, 20.0, 20.3, 20.4, 20.6, 20.6, 20.6, 20.7, 20.7, 20.9, 20.9, 20.9, 21.2, 21.3, 21.3, 21.6, 21.8, 21.9, 22.1, 22.3, 22.5, 22.5, 22.5, 22.6, 22.7, 22.7, 23.0, 23.0, 23.1, 23.1, 23.4, 23.6
+
+6. Medians, us / them
+   v12: all (180) | lost (71) | won (109) | vs 20+ (58)
+      inc_50           4.0 /   4.0 |   4.0 /   4.0 |   4.0 /   4.0 |   4.0 /   5.0
+      inc_100          3.0 /   4.0 |   3.0 /   4.0 |   3.0 /   5.0 |   3.0 /   4.0
+      inc_150          3.0 /   4.5 |   2.5 /   5.0 |   3.0 /   4.0 |   3.0 /   4.0
+      inc_200          3.0 /   4.0 |   3.0 /   3.0 |   3.0 /   4.0 |   3.0 /   3.0
+      maxIncome        5.0 /   8.0 |   5.0 /   7.0 |   5.0 /   8.0 |   5.0 /   8.5
+      meanIncome       3.1 /   4.2 |   3.1 /   4.2 |   3.1 /   4.2 |   3.1 /   4.1
+      minesBuilt       4.0 /   6.0 |   4.0 /   6.0 |   4.0 /   6.0 |   4.0 /   6.0
+      mineUpgrades     5.0 /   7.5 |   5.0 /   7.0 |   5.0 /   8.0 |   5.0 /   8.5
+      towersBuilt      6.0 /   7.0 |   6.0 /   7.0 |   6.0 /   7.0 |   6.0 /   7.0
+      towers_100       4.0 /   4.0 |   4.0 /   4.0 |   4.0 /   4.0 |   4.0 /   4.0
+      towers_200       5.0 /   5.0 |   5.5 /   5.0 |   5.0 /   5.0 |   6.0 /   5.0
+      thp_100        2460.0 / 2028.0 | 2398.0 / 2072.0 | 2524.0 / 1976.0 | 2406.0 / 2110.0
+      thp_200        2394.0 / 2598.0 | 2276.0 / 2774.0 | 2468.0 / 2402.0 | 2380.0 / 2788.0
+      towerTopUps     91.0 /  59.0 |  67.0 /  60.0 |  97.0 /  57.0 |  83.5 /  57.5
+      trainK           9.0 /  11.0 |   9.0 /  11.0 |   9.0 /  11.0 |   9.0 /  12.0
+      trainG           0.0 /   0.0 |   0.0 /   0.0 |   0.0 /   0.0 |   0.0 /   0.0
+      barracksBuiltK   2.0 /   1.0 |   2.0 /   1.0 |   2.0 /   1.0 |   2.0 /   1.0
+      structuresLost   5.0 /   5.0 |   5.0 /   4.0 |   5.0 /   5.0 |   4.0 /   5.0
+      meanGold        65.1 /  58.8 |  63.1 /  58.4 |  66.7 /  58.9 |  65.0 /  54.2
+      gold_100        63.0 /  49.0 |  48.0 /  39.5 |  65.0 /  59.0 |  64.0 /  48.0
+      gold_150        68.0 /  59.5 |  67.5 /  56.5 |  68.0 /  62.0 |  68.0 /  49.0
+      gold_200        76.0 /  56.0 |  65.0 /  56.0 |  81.0 /  56.0 |  69.0 /  55.0
+   v13: all (180) | lost (73) | won (107) | vs 20+ (122)
+      inc_50           4.0 /   4.0 |   4.0 /   5.0 |   4.0 /   4.0 |   4.0 /   4.0
+      inc_100          3.0 /   4.0 |   3.0 /   5.0 |   3.0 /   4.0 |   3.0 /   4.5
+      inc_150          3.0 /   4.0 |   2.0 /   5.0 |   3.0 /   4.0 |   3.0 /   5.0
+      inc_200          3.0 /   4.0 |   3.0 /   5.0 |   3.0 /   3.0 |   3.0 /   4.0
+      maxIncome        5.0 /   8.0 |   4.0 /   9.0 |   5.0 /   8.0 |   5.0 /   8.0
+      meanIncome       2.9 /   4.2 |   2.8 /   5.0 |   3.0 /   3.9 |   2.9 /   4.1
+      minesBuilt       4.0 /   6.0 |   4.0 /   6.0 |   4.0 /   6.0 |   4.0 /   6.0
+      mineUpgrades     4.0 /   8.0 |   4.0 /   9.0 |   4.0 /   8.0 |   4.0 /   8.0
+      towersBuilt      6.0 /   7.0 |   6.0 /   6.0 |   6.0 /   7.0 |   6.0 /   6.0
+      towers_100       4.0 /   4.0 |   4.0 /   4.0 |   4.0 /   4.0 |   4.0 /   4.0
+      towers_200       5.0 /   5.0 |   5.0 /   5.0 |   5.0 /   5.0 |   5.0 /   5.0
+      thp_100        2424.0 / 1952.0 | 2330.0 / 1934.0 | 2532.0 / 2004.0 | 2416.0 / 1916.0
+      thp_200        2512.0 / 2764.0 | 2308.0 / 2860.0 | 2548.0 / 2636.0 | 2508.0 / 2828.0
+      towerTopUps    109.0 /  63.5 |  82.0 /  64.0 | 124.0 /  63.0 |  89.0 /  63.5
+      trainK           8.5 /  12.0 |   8.0 /  12.0 |   9.0 /  11.0 |   8.0 /  11.5
+      trainG           0.0 /   0.0 |   0.0 /   0.0 |   0.0 /   0.0 |   0.0 /   0.0
+      barracksBuiltK   2.0 /   1.0 |   2.0 /   2.0 |   2.0 /   1.0 |   2.0 /   2.0
+      structuresLost   4.0 /   5.0 |   4.0 /   5.0 |   4.0 /   5.0 |   4.0 /   5.0
+      meanGold        63.7 /  59.9 |  60.5 /  59.2 |  64.7 /  60.3 |  63.9 /  61.2
+      gold_100        58.0 /  57.0 |  46.5 /  55.0 |  70.0 /  58.0 |  58.0 /  58.0
+      gold_150        67.5 /  57.0 |  67.5 /  57.0 |  66.5 /  56.5 |  60.0 /  60.0
+      gold_200        69.5 /  56.0 |  69.0 /  57.0 |  70.0 /  56.0 |  71.0 /  56.0
+
+7. The queens' turns by command class, share of all turns
+   v12              180 queens, 213 turns: top-up 27 %, walk to build 23 %, kite 19 %, move 11 %, idle pump 9 %, build on touch 8 %, flee/defence walk 1 %, top-up under knights 1 %; contact 22.5 %, 0.47 HP per contact turn
+   opponents 20+     58 queens, 216 turns: move 40 %, top-up 21 %, build on touch 12 %, walk to build 11 %, kite 9 %, top-up under knights 2 %, wait 1 %, flee/defence walk 1 %, idle pump 1 %; contact 13.7 %, 0.70 HP per contact turn
+   opponents 22+      2 queens, 236 turns: walk to build 30 %, move 17 %, build on touch 16 %, top-up 15 %, kite 7 %, wait 7 %, flee/defence walk 6 %, top-up under knights 2 %, idle pump 0 %; contact 17.6 %, 0.58 HP per contact turn
+   opponents <20    122 queens, 211 turns: move 35 %, top-up 20 %, walk to build 16 %, build on touch 11 %, kite 9 %, top-up under knights 3 %, wait 2 %, flee/defence walk 2 %, idle pump 1 %; contact 15.9 %, 0.90 HP per contact turn
+   v13              180 queens, 213 turns: top-up 31 %, walk to build 21 %, kite 18 %, move 11 %, idle pump 8 %, build on touch 7 %, top-up under knights 2 %, flee/defence walk 2 %; contact 22.0 %, 0.49 HP per contact turn
+   opponents 20+    122 queens, 204 turns: move 35 %, top-up 21 %, walk to build 18 %, build on touch 12 %, kite 9 %, top-up under knights 2 %, flee/defence walk 2 %, idle pump 0 %, wait 0 %; contact 14.6 %, 0.79 HP per contact turn
+   opponents 22+     45 queens, 204 turns: move 39 %, top-up 21 %, walk to build 15 %, build on touch 11 %, kite 9 %, top-up under knights 2 %, flee/defence walk 2 %, wait 0 %, idle pump 0 %; contact 14.2 %, 0.67 HP per contact turn
+   opponents <20     58 queens, 230 turns: move 35 %, top-up 21 %, walk to build 17 %, build on touch 11 %, kite 9 %, top-up under knights 3 %, flee/defence walk 2 %, wait 1 %, idle pump 1 %; contact 15.7 %, 0.77 HP per contact turn
+
+8. The first wave: the second tower's turn minus the first contact, the loss in the 20 turns from the contact
+   v12: first-wave loss, all games mean 6.8; lost 9.9, won 4.7; first contact turn median 26
+      t2-contact <=-3    50 games, score 64 %, first-wave loss 3.7
+      t2-contact -2..-1  29 games, score 79 %, first-wave loss 3.1
+      t2-contact 0..2    56 games, score 57 %, first-wave loss 7.7
+      t2-contact >=3     39 games, score 41 %, first-wave loss 12.9
+   v13: first-wave loss, all games mean 7.2; lost 10.5, won 5.0; first contact turn median 26
+      t2-contact <=-3    55 games, score 62 %, first-wave loss 4.1
+      t2-contact -2..-1  30 games, score 63 %, first-wave loss 5.9
+      t2-contact 0..2    60 games, score 57 %, first-wave loss 8.7
+      t2-contact >=3     30 games, score 53 %, first-wave loss 12.4
+
+9. Gold: the bank at the end of the game and the trainings
+   v12 lost races: our gold on the last turn median 89 (80 or more in 23 of 42); theirs 51; our gold above 160 on 2 % of turns, theirs 2 %
+   v12 won races : our gold on the last turn median 66 (80 or more in 25 of 73); theirs 46; our gold above 160 on 1 % of turns, theirs 4 %
+   v12 all       : our gold on the last turn median 66 (80 or more in 62 of 180); theirs 50; our gold above 160 on 1 % of turns, theirs 5 %
+   v13 lost races: our gold on the last turn median 63 (80 or more in 13 of 39); theirs 53; our gold above 160 on 1 % of turns, theirs 3 %
+   v13 won races : our gold on the last turn median 64 (80 or more in 28 of 78); theirs 52; our gold above 160 on 1 % of turns, theirs 4 %
+   v13 all       : our gold on the last turn median 60 (80 or more in 51 of 180); theirs 54; our gold above 160 on 1 % of turns, theirs 5 %

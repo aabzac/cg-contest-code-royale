@@ -208,8 +208,31 @@
   against 20.36, not clearly worse, **v13 selected** (`docs/arena-uploads.md`)
 - [x] Commit the v13 freeze and the records (75f4bf9, the user's request)
 - [x] Merge the branch `claude/bot-analysis-next-step-203390` into master (2026-11-09, fast-forward to a4baa17)
-- [ ] Next strength step over v13: the study's second lever is the economy (mines far from the home corner, no idle
-  pumping after the ladder) now that the walks are safe; the first-wave cap is parked (`docs/data/exp-2026-11-09-meet-waves/`)
+- [x] Study of v13's 180 Gold games and the next step (2026-11-09, `docs/data/study-2026-11-09-v13-gold/`): the gate
+  moved the midgame damage from the walks to the towers and slowed the ladder; the deaths outnumber the lost races
+  against 20+; the HP a contact turn costs falls with the own towers covering the queen, and a better-covered spot is
+  within three steps about half the time; a fifth of our turns top up a full tower; the economy's existing flags give
+  nothing over v13; the local opponents' midgame waves are weaker than the field's (their barracks stand farther)
+- [x] Stand where the towers overlap (2026-11-10, the user's "Да, начинай"; `docs/data/exp-2026-11-10-overlap/`): the
+  hold and the flight on the best-covered spot within five steps and the idle queen at the best-covered tower
+  (`HOLD_OVERLAP=300,IDLE_OVERLAP=1`) pass the P2 screen on screen-pv3 block 7: S 0.5473 against v13, field +1.6 pp,
+  rival +2.75 pp; the local champion by P2. The cover in the kiting's score loses; the search before the touch rule,
+  the weakest-tower pump and the gate's HP filter add nothing; off
+- [x] `HOLD_OVERLAP=300,IDLE_OVERLAP=1` the `current` default and frozen as v14 (2026-11-10, the user's decision), the
+  architecture page rewritten; the final evaluation against v13 on evaluation-pv3 block 3 passed (S 0.5533, field +1.5 pp,
+  rival +2.45 pp, no failure of v14); artifact `e4c8eeec` checked by both `procCheck`, the v01 series on its repeat (the
+  first run lost one game to the laptop's standby; `docs/data/exp-2026-11-10-overlap/`)
+- [x] Commit the v14 freeze and the records (2026-11-10, the user's request; the freeze commit, `git log`)
+- [ ] The mistaken paste of 2026-11-10 02:23 (agent 6868868 plays v12's `3208b011`, registered as "v14 upload 1" in the
+  main checkout): relabel it as v12's third Gold upload and record it; `tools/arena.py follow` to refuse a new label
+  whose default file holds another label's bytes
+- [ ] v14 in Gold, two uploads (an exception, S 0.553 below 0.60): `follow v14 --selected v13 --artifact
+  artifacts/e4c8eeec/Player.java` before the paste of that file, then P1 against v13 (`docs/arena-uploads.md`)
+- [ ] Merge the branch `claude/bot-analysis-next-step-17e972` into master (on the user's word)
+- [ ] After it: the towers' sites chosen for overlap (same experiment, Not tried); the economy with the queen's dead
+  turns (mines and upgrades under cover, a staged income target), and a rival whose barracks stand forward as the local
+  model of the Gold midgame (the study's sections 7 and 8; the first-wave cap stays parked,
+  `docs/data/exp-2026-11-09-meet-waves/`)
 - [ ] Companion flags for the same artifact: the TRAIN_SYNC release at the end of the game and at a kill shot; the
   enemy-range guard on the flight and the idle pump (a targeted fix); per-seat scores in `tools/bench_pair.py` (same study)
 - [ ] After the walks are safe: the economy step (mines far from the home corner, no idle pumping after the ladder; the

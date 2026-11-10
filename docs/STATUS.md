@@ -5,7 +5,7 @@ artifacts `docs/BOTS.md`, P1 comparisons and the noise margin `docs/arena-upload
 evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary for the user
 `docs/SUMMARY.md`. The history this page held until 2026-10-30: `git show 60f0b59:docs/STATUS.md`.
 
-- Date: 2026-11-09. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
+- Date: 2026-11-10. Phase 3 (strength). Game: Code Royale, permanent multiplayer arena (`code-royale`),
   no deadline. League: **Gold** since 2026-11-07 (CG promoted v11 upload 2 after its Silver placement, 21.74, rank
   1/200; CG's Gold agent 6857463 was made at 03:48). PV3 and PV4 lapsed with this league change; **PV5**
   (2026-11-07, the user's decision on `docs/data/study-2026-11-07-gold/`) renews the proxy for Gold with the panel and
@@ -19,11 +19,27 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   unrepresented, and candidates that depend on them are judged by the arena (`docs/local-screen.md`, PV3).
   **PV4** (2026-11-06, the user's decision) adds the rival R0 as gate G5 (spec `rival`). P2's gates are
   G0-G5, kept for Gold by PV5 (2026-11-07).
-- Local champion and `current` defaults: **v13** = v12 with no ladder walk into a visible wave (LADDER_CLEAR=500: after
+- Local champion and `current` defaults: **v14** = v13 with the queen standing where her towers overlap
+  (HOLD_OVERLAP=300: in v13's hold, an enemy knight within 500 and none within 250, and in the flight she takes the spot
+  within five steps that the most own towers cover instead of her nearest own tower, a tower's touch point before open
+  ground on a tie, v13's command when nothing is better covered; IDLE_OVERLAP=1: idle, she waits at the own tower with
+  the most own towers over its centre), frozen 2026-11-10 by the user's decision ("Да, v14"; `cr.bot.v14.GreedyBot`,
+  `versions/v14.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV14`). P2 strategy screen on PV3 screen block 7:
+  S 0.5473 (CI 0.5347..0.5598) against v13, boss delta 0.0000, field +0.0161, rival +0.0275, G0 by a quiet repeat, G3
+  skipped (`docs/data/exp-2026-11-10-overlap/`). Final evaluation against v13 on PV3 evaluation block 3: S 0.5533
+  (CI 0.5404..0.5661), boss 0.0000 on 499 maps, field +0.0151, rival +0.0245, no failure of v14 in 13,000 games; below
+  the 0.60 recommendation, so an upload is an exception. Artifact `e4c8eeec…` (95,590 chars, build `62ad918b`, config
+  `337e3891`; a second build and a clean export of the working tree through a temporary index (tree d2e1a1b0) rebuilt the same bytes;
+  kept copy `artifacts/e4c8eeec/Player.java`), procCheck 200/200 against `boss` and, on the repeat, against v01, later
+  turns at most 8.1 ms; the first run against v01 lost one game to the laptop's Modern Standby (a 63.7 s turn;
+  `docs/BOTS.md`, Artifacts). Committed 2026-11-10 on the branch `claude/bot-analysis-next-step-17e972` (the freeze
+  commit, `git log`; a clean export of its staged tree rebuilt the bytes before the commit); not merged into master, not
+  uploaded. The next P2 candidates are screened against v14.
+- Previous local champion: v13 (2026-11-09 to 2026-11-10) = v12 with no ladder walk into a visible wave (LADDER_CLEAR=500: after
   the first-wave window and with two own towers, while an enemy knight is within 500 of the queen and none within 250,
   the walk to the ladder's next site becomes a walk to her nearest own tower outside the enemy towers' ranges, a top-up
   when touched), frozen 2026-11-09 by the user's decision ("Заморозим v13"; `cr.bot.v13.GreedyBot`,
-  `versions/v13.properties`; `MainBotTest.withDefaultsCurrentPlaysAsV13`). P2 strategy screen on PV3 screen block 6:
+  `versions/v13.properties`; `MainBotTest.withV13ParamsCurrentPlaysAsV13`). P2 strategy screen on PV3 screen block 6:
   S 0.5960 (CI 0.5817..0.6103) against v12, boss delta 0.0000, field +0.0510, rival +0.0747, G0 by a quiet repeat, G3
   skipped (`docs/data/exp-2026-11-09-meet-waves/`). Final evaluation against v12 on PV3 evaluation block 2: S 0.5958
   (CI 0.5819..0.6096), boss 0.0000, field +0.0434, rival +0.0661, G0 by a quiet repeat; below the 0.60 recommendation by
@@ -42,7 +58,6 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   below the 0.60 recommendation. Artifact `3208b011…` (88,517 chars, build `58d513ae`, config `7b8e0525`; kept copy
   `artifacts/3208b011/Player.java`), procCheck 200/200 against v01 and against `boss`, later turns at most 7.7 ms
   (`docs/BOTS.md`, Artifacts); commit 08fbc49, merged into master. Also the selected version 2026-11-07 to 2026-11-09 (below).
-  The next P2 candidates are screened against v13, the local champion since 2026-11-09 (below).
 - Previous local champion: v11 (2026-11-07) = v10 with the ladder's sites on the enemy half only while the
   straight walk to them stays out of every enemy tower's range (SAFE_LADDER=1), frozen 2026-11-07 by the user's decision
   ("the default"; `cr.bot.v11.GreedyBot`, `versions/v11.properties`; `MainBotTest.withV11ParamsCurrentPlaysAsV11`). P2 as
@@ -62,7 +77,8 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   21.75 ± 0.43 against 20.27 ± 0.45 at Gold's refitted scale 2.71, +1.48 against −2 SE −1.23; `docs/arena-uploads.md`).
   Uploaded as an exception (S 0.5958 against v12 on the evaluation block). Artifact `85897d90…` (89,252 chars, build
   `a19a87ca`, config `0c433665`; commit 75f4bf9; kept copy `artifacts/85897d90/Player.java`). The rollback artifact.
-  The live agent is 6868474 (upload 2). Gold's own M is 2.09 on 3 df; the verdicts keep Bronze's 2.46.
+  The live agent was 6868474 (upload 2) until the mistaken paste of 2026-11-10 (the arena entry, below). Gold's own M is
+  2.09 on 3 df; the verdicts keep Bronze's 2.46.
 - Previous selected version: v12 (2026-11-07 to 2026-11-09), by P1 on two Gold placements, 19.64 and 21.07 (mean 20.36,
   SD 1.01), against v11's Gold 18.13 and 16.03 (mean 17.08): "not clearly worse" (+3.28 against −M −2.46; performance
   20.38 ± 0.48 against 16.89 ± 0.49 at Gold's scale 3.04, +3.48 against −2 SE −1.38; `docs/arena-uploads.md`). Uploaded
@@ -113,12 +129,16 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
   `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
   `route` configuration, artifact `da914c4c…`), selected 2026-11-02 to 2026-11-03; v03, 2026-10-30 to 2026-11-02.
-- Arena entry: `aabzac`, agent 6860166 = v12 upload 2, **Gold**, pasted 2026-11-07 19:37 local and followed by
-  `tools/arena.py follow v12 --selected v11`.
-  - The placement completed at 20:02: score 21.07, local rank 34/348 (global 148), `eligibleForPromotion` false.
-  - 90 games, 60 wins; opponents' median 19.51. Every game is identical to the artifact (`docs/BOTS.md`, Uploads;
-    `docs/data/arena-6860166-placement-2026-11-07.json`).
-  - It replaced agent 6860036 = v12 upload 1 (19.64, rank 88/348), which replaced v11 upload 4 (16.03).
+- Arena entry: `aabzac`, agent 6868868, **Gold**, pasted 2026-11-10 02:23 local: **v12's artifact `3208b011`** (build
+  `58d513ae`), pasted by mistake in place of v14's. The user ran `tools/arena.py follow v14 --selected v13` without
+  `--artifact` (the command as the session gave it); for the new label the tool named the main checkout's
+  `build/submit/Player.java`, still v12's build, and registered the paste in the main checkout's registry as "v14
+  upload 1" (artifact `3208b011`, config `7b8e0525`: v12's bytes under v14's label, submission 41679871).
+  - Its placement was running when this was written (02:26: 18 games, 14 won). Not v14's code: the entry is to be
+    relabelled as v12's third Gold upload. The tool's writes (the registry entry, the manifests of 6868868,
+    `replays/arena/v14/gold/upload-01/`) are uncommitted in the main checkout and not in this branch.
+  - It replaced agent 6868474 = v13 upload 2 (pasted 2026-11-09 21:35; placement 21.65, local rank 22/348, 90 games, 55
+    wins, every game identical to the artifact; `docs/BOTS.md`, Uploads), which replaced v13 upload 1 (21.95).
 - v11 in Gold (the study of 2026-11-07, `docs/data/study-2026-11-07-gold/`; its README has the numbers):
   - 44 of the 69 losses in 180 games are HP races at turn 250, 25 are deaths (towers 0.4 HP of a death's last 30
     turns);
@@ -129,9 +149,9 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     limit in 91 % (Gold 59 %); `field` 60 %; `rival`'s giants 85 % of its games.
 - Noise margins: **M = 2.46, borrowed from Bronze** (11 df) in Silver (the user's decision of 2026-11-04) and in
   **Gold** (2026-11-07), until they decide otherwise. The leagues' own M are printed as context: Silver 1.59 on 4 df
-  (v08's, v10's and v11's Silver placements), Gold 2.97 on 1 df (v11's two). See `noiseMargins` in the registry and
-  `docs/arena-uploads.md` (Silver and Gold noise margins). A Gold candidate rolls back early below 12.15 (v11's Gold
-  mean 17.08 less 2M = 4.93).
+  (v08's, v10's and v11's Silver placements), Gold 2.09 on 3 df (v11's, v12's and v13's pairs). See `noiseMargins` in the registry and
+  `docs/arena-uploads.md` (Silver and Gold noise margins). A Gold candidate rolls back early below 16.87 (v13's Gold
+  mean 21.80 less 2M = 4.93).
 - Silver boss: agent 1876720 (no pseudo), rating **21.87-21.99** during the fetches of 2026-11-04 00:05-23:24
   (the games manifests of v08 uploads 3-5), 21.84 falling to 21.54 during v10's second placement (2026-11-07
   01:05-01:22), 21.96 when the user looked on 2026-11-07. v08 won 6 of its 16 games against it, v10 all 4 (and
@@ -312,19 +332,35 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
 - The second tower before the first wave, retried over v11 (2026-11-07, `docs/data/exp-2026-11-07-first-wave-gold/`):
   `WAVE_TOWERS=2` and `TOPUP_FROM=2` score 0.45 against v11 on the development seeds and lose 2.5-7 pp against
   `field` and `rival`. Rejected before a screen; the flags stay off.
+- v13 in Gold (the study of 2026-11-09, `docs/data/study-2026-11-09-v13-gold/`; its README has the numbers):
+  - 73 losses in 180 games: 39 HP races and 34 deaths; against opponents rated 20 or more, 31 deaths and 28 lost races;
+  - the gate moved the midgame contact damage from the walks to the towers (15.5 → 15.7 HP a game against a stronger
+    field) and slowed the ladder (3.8 towers at turn 100, v12 4.2); v13 wins turns 0-50 by 7 HP and loses turns 100-200
+    by 5;
+  - the HP a contact turn costs our queen falls with the own towers covering her (1.11 under one, 0.46 under two, 0.17
+    under three); 27 of the 31.6 HP a lost game costs in midgame contacts go under one or two, and a better-covered spot
+    is within three steps on about half of those turns; the local panel shows the same gradient;
+  - 42.5 of our turns a game top up a tower that is already full; the opponents train 1.7 times our knights from turn
+    50 (income 5 against 3) at the same HP a knight; five economy arms of existing flags give nothing over v13;
+  - the local opponents release their midgame waves from 1,230-1,260 away, the Gold field from 990, and the field's
+    waves hurt two to seven times more.
 - Waiting on the user:
-  - **the P2 candidate `current?LADDER_CLEAR=500` passed the screen on PV3 block 6 (2026-11-09,
-    `docs/data/exp-2026-11-09-meet-waves/`): S 0.5960 (CI 0.5817..0.6103) against v12, field +5.1 pp, rival +7.5 pp,
-    boss unchanged, G0 by a quiet repeat; the local champion by P2.** The rule: after the first-wave window and with two
-    towers up, no ladder walk while an enemy knight is within 500; the nearest covered own tower instead. From the study
-    of v12's 180 Gold games (2026-11-08, `docs/data/study-2026-11-08-next-step/`: 200 of 360 midgame contact episodes in
-    lost races began on a walk, at 2.04 HP each against 0.97 at a tower). Frozen as v13 by the user's decision
-    (2026-11-09), the final evaluation passed (S 0.5958 against v12 on evaluation block 2), the artifact `85897d90` is
-    checked (above). **On the arena as an exception (S 0.596 below the 0.60 recommendation): two Gold placements on
-    2026-11-09, 21.95 (rank 18/348) and 21.65 (rank 22/348), SAME 180/180; against v12's mean 20.36 that is +1.44, inside
-    M 2.46: not clearly worse, v13 selected** (`docs/arena-uploads.md`). Committed as 75f4bf9 and merged into master (the user's requests, 2026-11-09). The first-wave cap
-    `WAVE_TOWER_HP` moved its mechanism but not the score and stays off. The Gold ladder: 347 agents, none eligible,
-    top 26.54, aabzac 34th with 21.07 (`docs/data/leaderboard-gold-2026-11-08.json`);
+  - **the mistaken paste of 2026-11-10 02:23** (the arena entry, above): agent 6868868 plays v12's code under the label
+    v14 in the main checkout's registry. To decide: let its placement finish (a third Gold placement of v12's bytes,
+    usable for v12's baseline and the noise margin) and relabel it as v12 upload 3 (the registry entry, the manifests
+    and `replays/arena/v14/gold/upload-01` in the main checkout), or cut it short by the next paste. Until the label is
+    fixed, `follow v14 --artifact artifacts/e4c8eeec/Player.java` refuses (one label, one configuration). Also open: a
+    refusal in `tools/arena.py follow` when a new label's default file holds another label's bytes (it knew them as
+    v12's and took them);
+  - **the upload of v14** after that (frozen 2026-11-10, above). S 0.5533 against v13 on the evaluation block is below
+    the 0.60 recommendation, so the upload is an exception and the user's decision, as v10's, v12's and v13's were (the
+    user started it on 2026-11-10). The file to paste is `artifacts/e4c8eeec/Player.java` (build `62ad918b`), after
+    `python -B -I tools/arena.py follow v14 --selected v13 --artifact artifacts/e4c8eeec/Player.java` from the main
+    checkout. Two placements; a first placement below 16.87 rolls back early;
+  - the merge of the branch `claude/bot-analysis-next-step-17e972` into master (the freeze is committed there);
+  - after it: the towers' sites chosen for overlap, the economy with the dead turns, a rival whose barracks stand
+    forward (`docs/data/exp-2026-11-10-overlap/`, Not tried; the study's sections 7 and 8). The Gold ladder on
+    2026-11-08: 347 agents, none eligible, top 26.54 (`docs/data/leaderboard-gold-2026-11-08.json`);
   - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).
 - Policies: P2 locally with gates G0-G5 (`docs/local-screen.md`; PV4 since 2026-11-06), then `submit` and both `procCheck`, then P1 on the arena
   (`docs/arena-uploads.md`, `tools/arena_compare.py`, registry `docs/data/arena-uploads.json`).

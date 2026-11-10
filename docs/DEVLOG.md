@@ -3915,3 +3915,167 @@ checkout's file still held v12's artifact, and the marker check stopped a correc
   epoch-1000 clock gave a file time before 1970; `file_time` now falls back to the raw seconds and the test uses 2023 times.
 - Records: the module docstring, `docs/arena-uploads.md` (Tools, steps 1 and 4), `.ai/project.md` (the arena row,
   AGENTS.md resynced), the memory note on the tool.
+
+## 2026-11-09 — Study of v13's 180 Gold games: the cover, the dead turns and the next step
+
+The user's request, the same as on 2026-11-08: an analysis and the single most promising next step. Worktree
+`claude/bot-analysis-next-step-17e972` at 639c33e, clean; no bot code changed. The whole record is
+`docs/data/study-2026-11-09-v13-gold/` (README, eight scripts with their outputs, the probe).
+- **Inputs:** `cgStudy` and `deathTrace` (our queen and the opponents') over v13's two Gold uploads into
+  `replays/study/gold-v13-2026-11-09/`; v12's inputs are those of the study of 2026-11-08. A new probe outside the build,
+  `probes/ArenaProbe.java`, replays the recorded games through `Rules` for both seats: the queen's turn with her
+  command's target, the tower HPs, the knights near her with their HP, the own towers covering her and the best cover
+  within reach; the structures built and lost with the cause; every barracks release with WaveScan's damage. Its `local`
+  mode traces in-process games (v13 against v13, `rival`, `field`, 100 maps each on 1 + 397 k).
+- **What v13 is on the arena:** 107 won, 73 lost (39 races, 34 deaths) against a stronger field (median 20.90, v12's
+  19.69); against 20+: 31 deaths, 28 lost races. The gate cut the contacts begun on a walk from 3.9 to 0.7 a game, but the
+  midgame contact damage stayed (15.5 → 15.7 HP a game; 27.2 → 28.8 against the 20-22 band) and the ladder slowed (3.80
+  towers at turn 100 against 4.22; 46 stalled games at 48 %).
+- **Where the HP goes:** +7 HP in turns 0-50, level to 100, −5.4 in turns 100-200. The opponents train 36.7 knights from
+  turn 50 to our 21.7 at the same HP a knight (0.43 and 0.49); but the same 41 enemy knights cost our queen 15.3 HP in
+  the lost races and 3.8 in the won ones: the races are decided by the defence.
+- **The cover:** the HP a contact turn costs our queen is 1.11 under one covering own tower, 0.46 under two, 0.17 under
+  three, 0.16 under four or more; the gradient holds within the tower count, the knight count, the result, v12's games
+  and every local series. In lost games 27.0 of 31.6 HP go under one or two towers. A better-covered spot is within 180
+  on 46 % of the contact turns and 52 % of the gate's turns; of the episodes begun under one tower (10.3 HP each) 77 %
+  had one. The gate, the flight and the idle rule pick the nearest tower, the kiting any step inside one tower's range.
+- **The dead turns:** 49.9 top-ups a game land on a tower at 700 HP or more and 42.5 add 10 HP or less; the opponents
+  rated 22+ add more tower HP with half the top-ups. A check against confounding: among releases that start with no
+  knight on the board, our towers' mean HP shows no gradient, the covering count does; so "thicker towers" is not the
+  claim.
+- **The economy:** thirteen exploratory arms of existing flags over v13 on the development seeds (`explore.sh`,
+  `explore.txt`; raw reports `replays/bench/study-2026-11-09-v13-gold/dev/`): the late income under cover 0.4675-0.5050
+  against v13, the income target 0.4655 and 0.3875, `TRAIN_SYNC=0` 0.5075, the spell cap 5 maps changed, more towers
+  0.4480. Nothing gains; no fresh block was used.
+- **The proxy:** from turn 50 the Gold opponents release from 991 away (damage 5.86 a release), `rival` from 1,228 (2.90),
+  `field` from 1,255 (0.34); the local midgame is two to seven times softer than the arena's.
+- **The proposal:** stand where the towers overlap — the hold, the flight and the kiting choose the spot by the number
+  of own towers covering it — with two companion flags (no top-up of a full tower; the gate ignores dying knights); a
+  development sweep, then P2 on screen-pv3 block 7. After it the economy with the dead turns and a rival with a forward
+  barracks. The user decides.
+- Files: the study directory; raw inputs and reports in the worktree's `replays/study/gold-v13-2026-11-09/` and
+  `replays/bench/study-2026-11-09-v13-gold/`, copied to the main checkout's `replays/` (gitignored). `Boss.java` was
+  copied into the worktree's `refs/` for the bench task (gitignored).
+
+Records: STATUS (v13 in Gold, waiting on the user), SUMMARY, PLAN, `docs/local-screen.md` (PV5, not represented). Not
+committed.
+
+## 2026-11-10 — Stand where the towers overlap: HOLD_OVERLAP=300 with IDLE_OVERLAP=1 passes P2
+
+The user's "Да, начинай" on the study's proposal. Worktree `claude/bot-analysis-next-step-17e972` at 639c33e with the
+study's and this experiment's uncommitted changes. The record is `docs/data/exp-2026-11-10-overlap/` (README with the
+hypothesis written first, the sweep, profile and screen scripts, their outputs).
+- **Code:** six parameters in `cr.bot.Params`, all 0 by default, and `MainBot`: `overlapSpot` (the spot with the most own
+  towers covering it among her place, 24 headings and the touch points of own towers, within ceil(R / 60) predicted
+  steps; none inside an enemy tower's range, in the hold none within THREAT_RANGE of an enemy knight; a tower's touch
+  point before open ground on a tie; null when nothing beats the end of v13's walk) for `HOLD_OVERLAP` in the gate's hold
+  and the flight, `OVERLAP_FIRST` (that search before the touch rule's top-up and mine upgrade), the bonus of
+  `KITE_OVERLAP` in the kiting's score, `idleTower` for `IDLE_OVERLAP` and `PUMP_LOW` (a planned walk), `clearOfKnights`
+  with a minimum HP for `CLEAR_HP`. The snapshots `versions/v01-v13.properties` list the six at 0.
+- **Tests:** four in `StrategyParamsTest` (the hold and the flight on a two-tower position with the reach, the touch
+  point, the knight's 250 and `OVERLAP_FIRST`; the kiting's bonus; the idle tower; the HP filter);
+  `MainBotTest.withDefaultsCurrentPlaysAsV13` and the snapshot test hold. `./gradlew test`: 177 tests, 3 corpus tests
+  skipped (no arena replays in the worktree), 29 s.
+- **Development sweeps** (`sweep.sh`, seeds 1 + 397 k, 500 maps, both seats; 27 arms): `HOLD_OVERLAP` 120 / 180 / 300
+  scores 0.5255 / 0.5350 / 0.5490 against v13 with the lower bounds above 0.50 (420 and 600: 0.5400, 0.5505);
+  `KITE_OVERLAP` 30 to 150 loses 0.4745 to 0.3335; `IDLE_OVERLAP=1` 0.5155; `PUMP_LOW` 0.501 and 0.505; `CLEAR_HP` 8 / 11 /
+  15: 0.5045 / 0.5000 / 0.4995; the bundle `HOLD_OVERLAP=300,IDLE_OVERLAP=1` 0.5545 (rival +2.1 pp, field +0.85 pp);
+  `OVERLAP_FIRST` 1 / 2 / 3 over it 0.5495 (without the idle flag) / 0.5485 / 0.5575; `CLEAR_HP=8` over it 0.5730.
+- **A second development set** (seeds 3 + 397 k, `sweep-b.txt`) for the four leading arms: the bundle 0.5505, the hold
+  alone 0.5390, with `CLEAR_HP=8` 0.5420 and 0.5340: the direct gain repeats, the HP filter's does not. The candidate:
+  `current?HOLD_OVERLAP=300,IDLE_OVERLAP=1`.
+- **Profiles** (`profile.sh`: the study's `ArenaProbe local`, 200 maps, both seats; `profiles.txt`, `episodes.txt`): own
+  towers covering the queen on contact turns 2.65 → 3.04 in the mirror, 2.15 → 2.47 against `rival`, 2.44 → 2.86 against
+  `field`; under three or more 53 → 66 %, 35 → 48 %, 44 → 65 %; her HP to knights on turns 50-249: 5.4 → 4.6, 9.3 → 6.5,
+  1.8 → 1.5; deaths per 400 games 11 → 9, 30 → 20, 3 → 2; towers, income, releases and the damage to the enemy queen
+  unchanged; episodes begun on a move 0.6-1.0 → 2.4-3.5 a game at the same total cost in the mirror and against `rival`.
+- **P2 screen** on screen-pv3 block 7 (1007000000 + 397 i, reserved in the ledger before the run; `screen.sh`):
+  G1 S 0.5473 (CI 0.5347..0.5598), W/D/L 1882/614/1504, 1802 of 2000 maps changed; G2 boss 1.0000 against 1.0000; G4
+  field +0.0161 (CI +0.0107..+0.0216); G5 rival +0.0275 (CI +0.0149..+0.0401); G3 skipped. G0: one slow turn of the
+  candidate in the field series at 8 threads (51.7 ms; v13's own field series had two); `rerun.sh` at 2 threads: the
+  same 4000 games (`same_games.py`: 0 differ), no slow turn (longest 42.5 ms). **The candidate passes and is the local
+  champion by P2**; the flags stay off (`current` plays as v13) until the user decides the default and the freeze of v14.
+- Files: `replays/bench/exp-2026-11-10-overlap/{dev,dev-b,screen}` and `screen.log`, copied to the main checkout
+  (gitignored); the profiles' csv files (426 MB) are not kept, `profile.sh` rebuilds them.
+
+Records: the experiment README, `docs/data/seed-ledger.json` (screen-pv3 block 7 used, next 8), BOTS (the flags table;
+its stale "defaults play as v12" corrected to v13), STATUS (waiting on the user), SUMMARY, PLAN. Not committed.
+
+## 2026-11-10 — Freeze v14: the queen stands where her towers overlap (HOLD_OVERLAP=300, IDLE_OVERLAP=1); the final evaluation and the artifact
+
+The user's "Да, v14" on the screen's result, then "Да, допиши" for these records (the session stopped at its usage limit
+after the checks).
+- `Params.HOLD_OVERLAP` defaults to 300 and `IDLE_OVERLAP` to 1 (`OVERLAP_FIRST`, `KITE_OVERLAP`, `PUMP_LOW` and `CLEAR_HP`
+  stay 0). `cr.bot.v14.GreedyBot`, `RoutePlanner` and `ApproachPlanner` are copies of `current` at the freeze (package,
+  class names, the frozen header, `name()`; no `queenSteps()`); `versions/v14.properties` is v13's snapshot with the two
+  values. `BotFactory`, `LocalGames` (v14 the default opponent, 17 bots), `visualizer/local.js`, `docs/visualizer.md` and
+  `.ai/project.md` (v00-v14; AGENTS.md resynced) know v14.
+- Tests: `MainBotTest.withDefaultsCurrentPlaysAsV14` (fixture seeds and PV3 screen block 7's first maps) and
+  `withV13ParamsCurrentPlaysAsV13` (`HOLD_OVERLAP=0,IDLE_OVERLAP=0`; the V02-V12 constants carry the same two zeros);
+  `BotFactoryTest`'s chain v13 → v14 and the live defaults = v14; `LocalGamesTest`'s bot count 17; the overlap tests of
+  `StrategyParamsTest` pin v13's flags where they assert v13's commands. Full suite green: 178 tests, 3 corpus tests
+  skipped (no arena replays in the worktree); the visualizer's node tests pass (18).
+- Identity on the 500 development maps (`replays/bench/exp-2026-11-10-overlap/freeze/`): `current` against v14 repeats
+  v14's mirror (0 maps changed); v14 against v13 repeats the screened arm's 1000 games (0 differ).
+- `docs/bot-architecture.html` rewritten for v14: the header, the decision flow, the pseudocode with `overlapSpot`, the
+  target choice, the versions table and paragraph, the files map, the gaps and the directions.
+
+**Final evaluation** (`eval.sh`, PV3 evaluation block 3, seeds 2003000000 + 397 i; the ledger's next evaluation block is
+4): G1 S 0.5533 (CI 0.5404..0.5661) against v13, W/D/L 1921/584/1495, 1800 of 2000 maps changed; G2 boss 1.0000 against
+1.0000 on 499 maps (map 2003145302 dropped from both arms: the boss process timed out in v14's series); G4 field 0.9816
+against 0.9665, +0.0151 (CI +0.0092..+0.0210); G5 rival 0.8414 against 0.8169, +0.0245 (CI +0.0122..+0.0368); G3 skipped.
+G0: v14 had no error, timeout, slow turn or extra line in its 13,000 games (longest turn 37.2 ms at 8 threads). The screen
+replicates (0.5473 → 0.5533, field +1.61 → +1.51 pp, rival +2.75 → +2.45 pp). S is below the 0.60 upload recommendation:
+an upload is an exception.
+
+**Artifact.** `./gradlew submit` with empty PARAMS: `e4c8eeec7fb4cfc010999efe18e1d630711f942bcb6b718031c872e5ccd27914`,
+95,590 chars (limit 100,000), 13 files, build `62ad918b` (turn 0: `TRAIN 6 2 10 13 9 1 8 11`), config `337e3891`;
+a second build and a clean export of the working tree through a temporary index (tree d2e1a1b0) rebuilt the same bytes; the kept copy
+`artifacts/e4c8eeec/Player.java` in the main checkout. procCheck vs boss 100 maps @6000: 200/200 identical to current, 200
+wins, 0 timeouts, no extra, late or stderr lines, max first turn 353.8 ms, later 7.9 ms. procCheck vs v01 100 maps @5000,
+the first run: 199/200, seed 5079 seat 1 killed on turn 11 by the timeout with the artifact's own `SLOW turn 11 63709ms`;
+the repeat: 200/200 identical to current, 200 wins, 0 timeouts, max first turn 217.6 ms, later 8.1 ms.
+
+**The 63.7 s turn was the laptop's standby.** Windows' System log, Kernel-Power: 01:35:12 event 506, "entering Modern
+Standby, Reason: Idle Timeout" (the user was away, the session ran in the background); 01:40:22 event 172, "Connectivity
+state in standby: Disconnected"; 01:41:17 "Connected" and event 507, "exiting Modern Standby, Reason: Input Mouse". The
+first v01 series ran 01:39:28-01:41:29 and `ProcessCheck` plays one game at a time: the turn that ended at the wake began
+about 01:40:14, when the standby froze the processes. The boss series (01:41:29-01:43:57) and the repeat (ended 01:45:49)
+ran with the machine awake. The same standby touches only the process series of the final evaluation: the in-process
+series ended by 01:33:25; v14's boss series ran 01:33:25-01:35:43, and the boss's one timeout (the 367th map of 500)
+falls about the standby's entry; v13's boss series ran 01:35:43-01:37:50 inside the standby's first minutes, with the
+processes still running, and has no failure. The first note of the previous turn called the cause "not established";
+the event log settles it. Lesson (memory `modern-standby-stalls`): request keep-awake before a background run, and read
+the Kernel-Power events when a turn stalls.
+
+**The upload's start.** The closing message of the previous turn gave the follow command without `--artifact`. The user
+ran it in the main checkout at 02:09:17: `follow v14 --selected v13` warned that `build/submit/Player.java` (2026-11-07)
+is older than the newest kept copy `artifacts/e4c8eeec/Player.java`, saved v13 upload 2 again (90 games, 55 wins, marker
+`a19a87ca` in all 90) and asked for the paste of `build/submit/Player.java`, sha256 `3208b011…`, build `58d513ae`: v12's
+file. Seen at 02:15 while these records were written (the main checkout's games manifest of 6868474 had a new fetch
+time); the user was told in the session at 02:16 not to paste that file and to rerun with
+`--artifact artifacts/e4c8eeec/Player.java`. No paste by 02:20.
+
+Records: the experiment README (v14, Final evaluation, Artifact), BOTS (versions, flags, Artifacts), STATUS (v14 the local
+champion; stale lines replaced: the arena entry, still v12 upload 2, Gold's own M and the early-rollback line), SUMMARY
+(a stale phrase about Gold's noise margin too), PLAN, the seed ledger (evaluation block 3 used, next 4),
+`docs/local-screen.md` (v14's row), the architecture page, `.ai/project.md` (the bot specs' range, v00-v14).
+
+**The paste was v12's file (02:23).** The follow's log: 02:23:49 "new agent 6868868 on the leaderboard: gold, placement
+8 %", 02:23:54 "the new agent plays build 58d513ae (game 919248394), the artifact's", then "registered agent 6868868 as
+v14 upload 1 in gold: artifact 3208b011, build 58d513ae, config 7b8e0525" (created 02:23:11, submission 41679871; the
+registry's source line reads "the same bytes as v12 upload 1"). For a new label the expected artifact is the default
+file itself, so a paste of that file matches: `identify` knew the bytes as v12's and `follow` took them under the label
+v14 all the same. The first version of these records, and the session's message to the user at 02:24, said that such a
+paste stops the command with nothing written: wrong, that guard covers a paste that differs from the expected file. The
+arena now plays v12's code in place of v13 upload 2 (v12's Gold placements: 19.64 and 21.07); at 02:26 the placement had
+18 games, 14 won. The main checkout holds the tool's uncommitted writes (the registry entry, the manifests of 6868868,
+`replays/arena/v14/gold/upload-01/`); none of it is in this branch. Until the label is fixed, `follow v14 --artifact
+artifacts/e4c8eeec/Player.java` refuses (`same_configuration`: the label v14 holds config `7b8e0525`). Open, the user's
+decisions: the relabel to v12's third Gold upload once the placement ends, a refusal in `follow` when a new label's
+default file holds another label's bytes, then v14's upload.
+
+**Commit.** The user's request ("Сделай коммит изменений рабочего дерева с осмысленным сообщением"): one commit on
+`claude/bot-analysis-next-step-17e972` with the study of v13's Gold games, the overlap experiment, the v14 freeze and
+these records; a clean export of its staged tree rebuilt the artifact's bytes (`e4c8eeec…`) before the commit. Not
+merged, not pushed.

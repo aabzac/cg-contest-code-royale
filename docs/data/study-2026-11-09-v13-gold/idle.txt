@@ -1,0 +1,34 @@
+v12: top-ups of a tower at 700 HP or more: 38.5 a game (18.1 % of our turns)
+   a knight within 250                      1.9 a game; towers 3.6 (6 or more in 7 %), barracks 1.3 (2 in 32 %), mines 1.3, income 2.5 (below 3 in 54 %); enemy knights alive 5.6; turn median 147
+                                          a free site not under an enemy tower exists in 98 % (the nearest 333 away, median); one under an own tower's cover in 96 % (with gold 85 %; nearest 333 away, median); another own tower below 700 in 95 %
+   a knight within 500, none within 250     5.1 a game; towers 5.1 (6 or more in 48 %), barracks 1.9 (2 in 87 %), mines 1.5, income 2.2 (below 3 in 53 %); enemy knights alive 4.2; turn median 210
+                                          a free site not under an enemy tower exists in 91 % (the nearest 423 away, median); one under an own tower's cover in 78 % (with gold 63 %; nearest 395 away, median); another own tower below 700 in 100 %
+   no knight within 500                    31.5 a game; towers 5.2 (6 or more in 58 %), barracks 1.9 (2 in 93 %), mines 1.5, income 2.6 (below 3 in 44 %); enemy knights alive 1.1; turn median 205
+                                          a free site not under an enemy tower exists in 86 % (the nearest 449 away, median); one under an own tower's cover in 78 % (with gold 58 %; nearest 420 away, median); another own tower below 700 in 100 %
+   with no knight within 500, by what stands: T6 B2: 18.2, T5 B2: 5.5, T4 B2: 3.4, T3 B2: 1.9, T4 B1: 0.8, T3 B1: 0.5, T5 B1: 0.4, T2 B2: 0.4
+   with no knight within 500, by turn: 0-50: 0.0, 50-100: 0.3, 100-150: 4.6, 150-200: 9.6, 200-250: 17.0
+   of them from turn 200 (the late hold when ahead, or the ladder's end): 17.0 a game
+   games with   0- 19 such top-ups:  70, won 41 %, mean rating 19.0, mean length 160
+   games with  20- 39 such top-ups:  31, won 58 %, mean rating 18.9, mean length 241
+   games with  40- 59 such top-ups:  27, won 85 %, mean rating 18.4, mean length 249
+   games with  60- 89 such top-ups:  33, won 73 %, mean rating 18.7, mean length 249
+   games with  90-998 such top-ups:  19, won 79 %, mean rating 18.4, mean length 246
+   the first one with no knight within 500 (from turn 30): in 121 games, turn median 155; towers 5.5, barracks 1.9, mines 1.9, income 3.5; a covered free gold site in 66 %
+
+v13: top-ups of a tower at 700 HP or more: 49.9 a game (23.5 % of our turns)
+   a knight within 250                      3.1 a game; towers 3.4 (6 or more in 8 %), barracks 1.3 (2 in 29 %), mines 1.3, income 2.2 (below 3 in 59 %); enemy knights alive 5.4; turn median 120
+                                          a free site not under an enemy tower exists in 98 % (the nearest 317 away, median); one under an own tower's cover in 97 % (with gold 90 %; nearest 315 away, median); another own tower below 700 in 88 %
+   a knight within 500, none within 250    18.5 a game; towers 3.8 (6 or more in 14 %), barracks 1.4 (2 in 42 %), mines 1.5, income 2.5 (below 3 in 48 %); enemy knights alive 4.4; turn median 137
+                                          a free site not under an enemy tower exists in 96 % (the nearest 316 away, median); one under an own tower's cover in 93 % (with gold 84 %; nearest 312 away, median); another own tower below 700 in 90 %
+   no knight within 500                    28.3 a game; towers 5.2 (6 or more in 59 %), barracks 1.9 (2 in 87 %), mines 1.5, income 2.7 (below 3 in 42 %); enemy knights alive 1.1; turn median 209
+                                          a free site not under an enemy tower exists in 86 % (the nearest 445 away, median); one under an own tower's cover in 81 % (with gold 63 %; nearest 424 away, median); another own tower below 700 in 99 %
+   with no knight within 500, by what stands: T6 B2: 16.6, T5 B2: 5.2, T4 B2: 2.2, T4 B1: 1.4, T3 B1: 1.3, T2 B1: 0.6, T3 B2: 0.5, T5 B1: 0.3
+   with no knight within 500, by turn: 0-50: 0.0, 50-100: 0.3, 100-150: 2.3, 150-200: 9.0, 200-250: 16.6
+   of them from turn 200 (the late hold when ahead, or the ladder's end): 16.6 a game
+   games with   0- 19 such top-ups:  57, won 47 %, mean rating 20.6, mean length 144
+   games with  20- 39 such top-ups:  23, won 26 %, mean rating 21.3, mean length 229
+   games with  40- 59 such top-ups:  27, won 52 %, mean rating 20.4, mean length 243
+   games with  60- 89 such top-ups:  40, won 80 %, mean rating 20.0, mean length 250
+   games with  90-998 such top-ups:  33, won 85 %, mean rating 19.8, mean length 250
+   the first one with no knight within 500 (from turn 30): in 107 games, turn median 169; towers 5.1, barracks 1.8, mines 1.8, income 3.4; a covered free gold site in 67 %
+

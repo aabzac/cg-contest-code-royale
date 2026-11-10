@@ -244,6 +244,45 @@ public final class Params {
      */
     public int LADDER_CLEAR = 500;
     public int LADDER_CLEAR_MAX = 0;
+    /**
+     * Standing where the own towers overlap (0: off, as v01-v13). From the study of 2026-11-09
+     * (docs/data/study-2026-11-09-v13-gold, section 6): the HP v13's queen loses on a turn with an enemy knight within 250
+     * is 1.11 under one covering own tower, 0.46 under two, 0.17 under three; in its lost Gold games 27.0 of the 31.6 HP
+     * of the midgame contacts go under one or two, and a better-covered spot lies within 180 of her on about half of
+     * those turns. Experiment docs/data/exp-2026-11-10-overlap.
+     * HOLD_OVERLAP=R &gt; 0: where LADDER_CLEAR's hold and the flight pick her nearest own tower, she takes the spot with
+     * the most own towers covering it among those within ceil(R / 60) steps (her position, the predicted positions on 24
+     * headings, the touch points of own towers on the straight walk to them; none inside an enemy tower's range, and in
+     * the hold none within THREAT_RANGE of an enemy knight): an own tower she touches, else an own tower's touch point,
+     * else where she stands, else the nearest of the others. With no spot better covered than the end of v13's walk,
+     * v13's command stands. OVERLAP_FIRST=N &gt; 0: in the hold's state that search also comes before the touch rule's
+     * top-up of an own tower and upgrade of an own mine (0: the touch rule first, as v13); N = 1 always, N &gt;= 2 only
+     * while fewer than N own towers cover her.
+     * KITE_OVERLAP=W &gt; 0: the kiting adds W for every own tower covering a step's end (and the place she stands on).
+     * IDLE_OVERLAP=1: the idle queen (the ladder complete or held) goes to the own tower with the most own towers
+     * covering its centre instead of the one nearest the home corner (a tie: nearer the corner; a tower inside an enemy
+     * tower's range only when no other stands).
+     * HOLD_OVERLAP=300 and IDLE_OVERLAP=1 by default since v14 (2026-11-10: P2 on PV3 screen block 7, S 0.5473 against
+     * v13, field +1.6 pp, rival +2.75 pp; the reach is a plateau from 300 up on the development seeds; the user's
+     * decision); 0 in v01-v13. KITE_OVERLAP loses (0.33-0.47 against v13) and OVERLAP_FIRST adds nothing: off.
+     */
+    public int HOLD_OVERLAP = 300;
+    public int OVERLAP_FIRST = 0;
+    public int KITE_OVERLAP = 0;
+    public int IDLE_OVERLAP = 1;
+    /**
+     * PUMP_LOW=H &gt; 0: the idle queen goes to her weakest own tower (outside the enemy towers' ranges) when it has less
+     * than H HP, where the touch rule tops it up to TOWER_HP, instead of pumping the idle tower (0: off, as v01-v13). Same
+     * study, section 5: 42.5 of v13's turns a game top up a tower with 790 HP or more, which adds 10 HP or less, while
+     * another own tower below 600 HP stands in 89 % of them.
+     */
+    public int PUMP_LOW = 0;
+    /**
+     * CLEAR_HP=K &gt; 0: LADDER_CLEAR does not count enemy knights with K HP or less (0: every knight, as v13). Same study,
+     * section 2: after a turn of the hold with no knight above 11 HP within 500 the queen loses 0.02-0.03 HP in the next 8
+     * turns (0.72 with one of 16 HP or more), on 6.0 of the hold's 30.1 turns a game.
+     */
+    public int CLEAR_HP = 0;
     public long SEED = 1;
     public int DEBUG = 0;
 

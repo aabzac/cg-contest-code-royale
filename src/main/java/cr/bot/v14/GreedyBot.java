@@ -1,0 +1,744 @@
+package cr.bot.v14;
+
+import cr.bot.Bot;
+import cr.bot.Params;
+import cr.core.Command;
+import cr.core.Const;
+import cr.core.GameState;
+import cr.core.Physics;
+
+/**
+ * v14 (frozen copy of current at the freeze commit of 2026-11-10; in the hold of v13 and in the flight the queen takes the
+ * spot with the most own towers covering it within five steps instead of her nearest own tower, HOLD_OVERLAP=300, and
+ * idle she waits at the own tower with the most own towers covering its centre, IDLE_OVERLAP=1, over v13's rules: no
+ * ladder walk while an enemy knight is within 500, the first-wave anchor to turn 30, the ladder's sites on the enemy half
+ * only with a straight walk outside every enemy tower's range, the second knight barracks at the centre, the late hold,
+ * the kiting bound to the towers, the second tower under threat, the second barracks with synchronous waves, 6 towers,
+ * the two-mines opening, the walk planner and early towers; the flags of the income, giants, waves, meet-back, meet-waves
+ * and overlap experiments are in the code, off):
+ * greedy baseline: MINES_FIRST mines, a knight barracks (BARRACKS of them, the later ones once
+ * BARRACKS_AFTER_TOWERS towers stand), mines (and with UPGRADE=1 upgrades) up to
+ * an income target, then towers near home; tops up a touched tower below TOWER_HP; flees from close
+ * enemy knights towards its towers. Trains whenever affordable. The walk to the next site is
+ * UNSTICK's detour (and APPROACH's last step) or, with ROUTE=1, {@link RoutePlanner}.
+ */
+public final class GreedyBot implements Bot {
+    /** Collision passes of a turn without spawns, one per creep sub-step (Rules.processCreeps). */
+    private static final int PASSES = 5;
+    /** A predicted step shorter than this counts as standing still (creeps make a stuck queen wobble by a unit). */
+    private static final double MIN_STEP = 2;
+    /** UNSTICK's plans: up to this many detour moves, and this many turns until the queen touches the site. */
+    private static final int MAX_DETOUR = 6, HORIZON = 25;
+    /** STAND_REACH's forced kite step moves the queen at least this far (a full step is 60). */
+    private static final double FORCED_STEP = 40;
+
+    private final Params p;
+    private final Physics ph = new Physics();
+    /** UNSTICK's detour: the BUILD site it serves, the turn of its last move, its heading (radians) and the moves left. */
+    private int detourSite = -1, detourTurn, detourLeft;
+    private double detourHeading;
+    private ApproachPlanner approach;
+    private RoutePlanner route;
+
+    public GreedyBot(Params p) { this.p = p; }
+
+    @Override public String name() { return "v14"; }
+
+    private static boolean free(GameState s, int i) { return s.stType[i] == Const.NONE; }
+
+    private static boolean underEnemyTower(GameState s, int site) {
+        for (int j = 0; j < s.nSites; j++) {
+            if (s.stType[j] != Const.TOWER || s.stOwner[j] != 1) continue;
+            if (Physics.distSq(s.sx[j], s.sy[j], s.sx[site], s.sy[site]) < (double) s.towerRange[j] * s.towerRange[j]) return true;
+        }
+        return false;
+    }
+
+    private static int nearest(GameState s, double x, double y, java.util.function.IntPredicate ok) {
+        int best = -1;
+        double bd = Double.MAX_VALUE;
+        for (int i = 0; i < s.nSites; i++) {
+            if (!ok.test(i)) continue;
+            double d = Physics.distSq(s.sx[i], s.sy[i], x, y);
+            if (d < bd) { bd = d; best = i; }
+        }
+        return best;
+    }
+
+    @Override
+    public Command play(GameState s, int touched, long deadlineNanos) {
+        int inc = 0, bar = 0, tow = 0, min = 0, gbar = 0, abar = 0;
+        for (int i = 0; i < s.nSites; i++) {
+            if (s.stOwner[i] != 0) continue;
+            if (s.stType[i] == Const.MINE) { inc += s.mineRate[i]; min++; }
+            if (s.stType[i] == Const.BARRACKS) {
+                if (s.barrType[i] == Const.GIANT) gbar++;
+                else if (s.barrType[i] == Const.ARCHER) abar++;
+                else bar++;
+            }
+            if (s.stType[i] == Const.TOWER) tow++;
+        }
+        final int income = inc, barracks = bar, towers = tow, mines = min;
+        // GIANTS: a giant barracks is wanted (none stands, from GIANT_TURN on, the enemy holds a tower, giants left).
+        final boolean wantGiant = p.GIANTS == 1 && gbar == 0 && s.turn >= p.GIANT_TURN && giantsLeft() && enemyTowers(s) > 0;
+        // ARCHERS: an archer barracks is wanted (none stands, an enemy giant near an own tower).
+        final boolean wantArcher = p.ARCHERS == 1 && abar == 0 && giantNearTowers(s, p.ARCHER_RANGE);
+        double qx = s.qx[0], qy = s.qy[0];
+        // Home corner: the side we started on (queen 0 starts top-left or bottom-right).
+        boolean left = homeLeft(s);
+        double hx = left ? 0 : Const.WIDTH, hy = left ? 0 : Const.HEIGHT;
+
+        Command cmd = null;
+        int threat = 0;
+        for (int i = 0; i < s.nCreeps; i++)
+            if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT && Physics.distSq(s.cx[i], s.cy[i], qx, qy) < (double) p.THREAT_RANGE * p.THREAT_RANGE) threat++;
+        // WAVE_TOWERS: an enemy knight wave is coming and too few own towers stand, so towers come before
+        // the income phase, mine upgrades and top-ups. The ladder sees the income target as met.
+        final boolean wave = p.WAVE_TOWERS > 0 && towers < p.WAVE_TOWERS && knightWaveComing(s);
+        final int ladderIncome = wave ? Math.max(income, p.INCOME_TARGET) : income;
+        final boolean topUp = !wave && towers >= p.TOPUP_FROM;
+        // WAVE_TOWER_HP: with one tower and the enemy's first wave coming, the touched tower is pumped only to this, so that
+        // the second tower stands before the contact.
+        final int topUpHp = p.WAVE_TOWER_HP > 0 && towers < 2 && knightWaveComing(s) ? p.WAVE_TOWER_HP : p.TOWER_HP;
+        // LATE_HOLD: late in the game and ahead on HP (the limit's score), the queen stops walking out to build.
+        final boolean hold = p.LATE_HOLD > 0 && s.turn >= p.LATE_HOLD && s.hp[0] > s.hp[1];
+
+        if (threat > 0 && p.THREAT_TOWERS_NEAR > 0) {
+            // Defence first: another tower near her beats topping up the one she touches.
+            double r2 = (double) p.THREAT_RADIUS * p.THREAT_RADIUS;
+            int near = 0;
+            for (int i = 0; i < s.nSites; i++)
+                if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && Physics.distSq(s.sx[i], s.sy[i], qx, qy) < r2) near++;
+            if (near < p.THREAT_TOWERS_NEAR) {
+                // DEFENCE_FWD: no site F or more ahead of her toward the enemy, except the one she touches (before DEFENCE_UNTIL).
+                boolean limit = p.DEFENCE_FWD > 0 && (p.DEFENCE_UNTIL <= 0 || s.turn < p.DEFENCE_UNTIL);
+                int d = nearest(s, qx, qy, i -> free(s, i) && !underEnemyTower(s, i) && Physics.distSq(s.sx[i], s.sy[i], qx, qy) < r2
+                    && (!limit || i == touched || (left ? s.sx[i] - qx : qx - s.sx[i]) < p.DEFENCE_FWD));
+                if (d >= 0 && (!hold || d == touched)) cmd = Command.build(d, "TOWER");
+            }
+        }
+        if (cmd == null && p.KITE >= 1) cmd = kite(s, qx, qy);
+        if (cmd == null && p.GIANT_GUARD > 0) {
+            // GIANT_GUARD: top up the own tower an enemy giant attacks (a walk only with no knight threat).
+            int g = guardTower(s, p.GIANT_GUARD);
+            if (g >= 0 && (threat == 0 || g == touched)) cmd = walkTo(s, Command.build(g, "TOWER"), g == touched, hx, hy, barracks, ladderIncome, towers);
+        }
+        if (cmd == null && touched >= 0 && !underEnemyTower(s, touched)) {
+            int t = touched;
+            if (s.stType[t] == Const.MINE && s.stOwner[t] == 0 && s.mineRate[t] < s.sMaxMine[t] && threat == 0 && !wave)
+                cmd = Command.build(t, "MINE");
+            else if (s.stType[t] == Const.TOWER && s.stOwner[t] == 0 && s.towerHp[t] < topUpHp && topUp)
+                cmd = Command.build(t, "TOWER");
+            else if (free(s, t)) {
+                if (mines < p.MINES_FIRST && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
+                else if (wantsBarracks(p, barracks, towers)) cmd = Command.build(t, "BARRACKS-KNIGHT");
+                else if (wantArcher) cmd = Command.build(t, "BARRACKS-ARCHER");
+                else if (wantGiant && !hold) cmd = Command.build(t, "BARRACKS-GIANT");
+                else if (ladderIncome < p.INCOME_TARGET && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
+                else if (towers < p.MAX_TOWERS) cmd = Command.build(t, "TOWER");
+                else if (income < p.INCOME_LATE && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
+            }
+        }
+        if (cmd == null && threat > 0) {
+            int tw = nearest(s, qx, qy, i -> s.stType[i] == Const.TOWER && s.stOwner[i] == 0);
+            if (tw >= 0) cmd = Command.build(tw, "TOWER");
+            else cmd = Command.move((int) hx, (int) hy);
+            // HOLD_OVERLAP: the flight goes to the best-covered spot within reach rather than to her nearest tower.
+            if (p.HOLD_OVERLAP > 0 && tw >= 0) {
+                Command o = overlapSpot(s, qx, qy, touched, tw, false);
+                if (o != null) cmd = o;
+            }
+        }
+        if (cmd == null && wantArcher && !wantsBarracks(p, barracks, towers)) {
+            // The archer barracks before the ladder's next site (a knight barracks the ladder wants comes first).
+            int a = nearest(s, (qx + hx) / 2, (qy + hy) / 2, i -> free(s, i) && !underEnemyTower(s, i));
+            if (a >= 0) cmd = walkTo(s, Command.build(a, "BARRACKS-ARCHER"), false, hx, hy, barracks, ladderIncome, towers);
+        }
+        if (cmd == null && wantGiant && !hold && !wantsBarracks(p, barracks, towers)) {
+            // The giant barracks before the ladder's next site (a knight barracks the ladder wants comes first).
+            int g = nearest(s, (qx + hx) / 2, (qy + hy) / 2, i -> free(s, i) && !underEnemyTower(s, i));
+            if (g >= 0) cmd = walkTo(s, Command.build(g, "BARRACKS-GIANT"), false, hx, hy, barracks, ladderIncome, towers);
+        }
+        // LADDER_CLEAR: an enemy knight within reach but not yet a threat, after the first wave and with two towers up: no
+        // walk to a new site; her nearest own tower outside the enemy towers' ranges instead (a top-up when she touches it).
+        // A spell lasts while a knight stays within LADDER_CLEAR; after LADDER_CLEAR_MAX holds it ends until they are clear.
+        // CLEAR_HP: knights with that HP or less do not open the hold. HOLD_OVERLAP: the hold stands on the best-covered spot
+        // within reach rather than at her nearest tower; with OVERLAP_FIRST that search also precedes the touched tower's top-up.
+        if (p.LADDER_CLEAR > 0) {
+            if (clearOfKnights(s, qx, qy, p.LADDER_CLEAR, p.CLEAR_HP)) clearRun = 0;
+            else if (threat == 0 && towers >= 2 && !firstWaveWindow(s, p) && (p.LADDER_CLEAR_MAX == 0 || clearRun < p.LADDER_CLEAR_MAX)) {
+                if (cmd == null) {
+                    int tw = nearest(s, qx, qy, i -> s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && !underEnemyTower(s, i));
+                    if (tw >= 0) {
+                        cmd = Command.build(tw, "TOWER");
+                        clearRun++;
+                        if (p.HOLD_OVERLAP > 0) {
+                            Command o = overlapSpot(s, qx, qy, touched, tw, true);
+                            if (o != null) cmd = o;
+                        }
+                    }
+                } else if (p.HOLD_OVERLAP > 0 && p.OVERLAP_FIRST >= 1 && touched >= 0 && cmd.queen == Command.BUILD && cmd.site == touched
+                    && s.stOwner[touched] == 0 && (s.stType[touched] == Const.TOWER || s.stType[touched] == Const.MINE)
+                    && (p.OVERLAP_FIRST == 1 || cover(s, qx, qy) < p.OVERLAP_FIRST)) {
+                    // OVERLAP_FIRST: the touch rule's top-up or mine upgrade gives way to a better-covered spot (N >= 2: only
+                    // while fewer than N own towers cover her).
+                    Command o = overlapSpot(s, qx, qy, touched, touched, true);
+                    if (o != null) cmd = o;
+                }
+            }
+        }
+        if (cmd == null) {
+            int target = hold ? -1 : nextSite(s, qx, qy, hx, hy, p, mines, barracks, ladderIncome, towers, -1);
+            if (target >= 0) {
+                String what = !free(s, target) || mines < p.MINES_FIRST && s.sGold[target] > 0 ? "MINE"
+                    : wantsBarracks(p, barracks, towers) ? "BARRACKS-KNIGHT" : ladderIncome < p.INCOME_TARGET ? "MINE" : "TOWER";
+                cmd = Command.build(target, what);
+                if (p.ROUTE == 1) {
+                    if (route == null) route = new RoutePlanner();
+                    cmd = route.plan(s, cmd, hx, hy, p, barracks, ladderIncome, towers);
+                } else {
+                    if (p.UNSTICK == 1) cmd = unstick(s, cmd);
+                    if (p.APPROACH == 1 && threat == 0 && cmd.queen == Command.BUILD) {
+                        if (approach == null) approach = new ApproachPlanner();
+                        cmd = approach.improve(s, cmd, hx, hy, p);
+                    }
+                }
+            } else {
+                int late = income < p.INCOME_LATE && threat == 0 && !hold && clearOfKnights(s, qx, qy, p.LATE_CLEAR)
+                    ? lateSite(s, (qx + hx) / 2, (qy + hy) / 2, p, hx, hy) : -1;
+                if (late >= 0) {
+                    // The ladder is complete: the idle queen raises the income instead of pumping her home tower.
+                    cmd = Command.build(late, "MINE");
+                    if (p.ROUTE == 1) {
+                        if (route == null) route = new RoutePlanner();
+                        cmd = route.plan(s, cmd, hx, hy, p, barracks, income, towers);
+                    } else if (p.UNSTICK == 1) cmd = unstick(s, cmd);
+                } else {
+                    int tw = nearest(s, hx, hy, i -> s.stType[i] == Const.TOWER && s.stOwner[i] == 0);
+                    if (tw >= 0 && (p.IDLE_OVERLAP == 1 || p.PUMP_LOW > 0)) {
+                        // IDLE_OVERLAP, PUMP_LOW: the idle tower is the best-covered one, or her weakest while it is low; a planned walk.
+                        int it = idleTower(s, hx, hy, tw);
+                        cmd = walkTo(s, Command.build(it, "TOWER"), it == touched, hx, hy, barracks, ladderIncome, towers);
+                    } else cmd = tw >= 0 ? Command.build(tw, "TOWER") : Command.move((int) hx, (int) hy);
+                }
+            }
+        }
+
+        return cmd.train(train(s));
+    }
+
+    /**
+     * TRAIN: own idle barracks in id order while the gold lasts, each wave kept within the live cap
+     * of {@link Const#CREEP_LIMIT} creeps alive plus requested (the referee refuses the whole line
+     * otherwise). With TRAIN_SYNC=1 nothing is trained while any own barracks trains or the gold
+     * does not cover every own barracks, so that all of them start together.
+     */
+    int[] train(GameState s) {
+        int gold = s.gold[0], units = 0, idle = 0, cost = 0;
+        for (int i = 0; i < s.nCreeps; i++) if (s.cOwner[i] == 0) units++;
+        int[] train = new int[s.nSites];
+        int n = 0;
+        // GIANTS and ARCHERS: their barracks first while they are wanted (giants: the enemy holds a tower and giants are
+        // left; archers: an enemy giant near an own tower). While one is idle and short of its gold, nothing else
+        // trains, so the cheaper knights do not spend the gold every time.
+        for (int i = 0; i < s.nSites; i++) {
+            if (s.stType[i] != Const.BARRACKS || s.stOwner[i] != 0 || s.barrType[i] == Const.KNIGHT || s.barrTraining[i]) continue;
+            int type = s.barrType[i];
+            boolean wanted = type == Const.GIANT ? p.GIANTS == 1 && giantsLeft() && enemyTowers(s) > 0
+                                                 : p.ARCHERS == 1 && giantNearTowers(s, p.ARCHER_RANGE);
+            if (!wanted) continue;
+            if (gold < Const.CREEP_COST[type]) return java.util.Arrays.copyOf(train, n);
+            if (units + Const.CREEP_COUNT[type] > Const.CREEP_LIMIT) continue;
+            gold -= Const.CREEP_COST[type];
+            units += Const.CREEP_COUNT[type];
+            train[n++] = i;
+            if (type == Const.GIANT) giantsTrained++;
+        }
+        for (int i = 0; i < s.nSites; i++) {
+            if (s.stType[i] != Const.BARRACKS || s.stOwner[i] != 0 || s.barrType[i] != Const.KNIGHT) continue;
+            if (s.barrTraining[i]) idle = Integer.MIN_VALUE;
+            else { idle++; cost += Const.CREEP_COST[s.barrType[i]]; }
+        }
+        if (p.TRAIN_SYNC == 1 && (idle <= 0 || gold < cost)) { readySince = -1; return java.util.Arrays.copyOf(train, n); }
+        if (p.TRAIN_SYNC == 1 && p.RELEASE_NEAR > 0 && p.RELEASE_HOLD > 0) {
+            // RELEASE_NEAR: the ready release waits for the enemy queen to come within RELEASE_NEAR of a knight barracks.
+            if (readySince < 0) readySince = s.turn;
+            if (s.turn - readySince < p.RELEASE_HOLD && !enemyQueenNearKnightBarracks(s, p.RELEASE_NEAR)) return java.util.Arrays.copyOf(train, n);
+        }
+        readySince = -1;
+        for (int i = 0; i < s.nSites; i++) {
+            if (s.stType[i] != Const.BARRACKS || s.stOwner[i] != 0 || s.barrTraining[i] || s.barrType[i] != Const.KNIGHT) continue;
+            int c = Const.CREEP_COST[s.barrType[i]], u = Const.CREEP_COUNT[s.barrType[i]];
+            if (gold < c || units + u > Const.CREEP_LIMIT) continue;
+            gold -= c;
+            units += u;
+            train[n++] = i;
+        }
+        return java.util.Arrays.copyOf(train, n);
+    }
+
+    /**
+     * KITE: with enemy knights within KITE_RANGE, the MOVE (200 ahead on the heading, kept on the board)
+     * whose predicted step leaves the queen farthest from the nearest of them, at least 5 farther than
+     * she stands now; the step must move her, end outside enemy tower range and, when an own tower
+     * covers her now and KITE_COVER=1, under an own tower's cover. Ties: the step ending nearer to her
+     * nearest own tower. Null when no knight is within range or no step gains; with STAND_REACH and the nearest knight
+     * within it, the best-scoring step that moves her at least {@link #FORCED_STEP} replaces that null.
+     */
+    private Command kite(GameState s, double qx, double qy) {
+        double r2 = (double) p.KITE_RANGE * p.KITE_RANGE, d0 = Double.MAX_VALUE;
+        int n = 0;
+        for (int i = 0; i < s.nCreeps; i++) {
+            if (s.cOwner[i] != 1 || s.cType[i] != Const.KNIGHT) continue;
+            double d = Physics.distSq(s.cx[i], s.cy[i], qx, qy);
+            if (d < r2) n++;
+            if (d < d0) d0 = d;
+        }
+        if (n == 0) { kiteRun = 0; return null; }
+        boolean bound = p.KITE >= 2;
+        if (bound && p.KITE_MAX > 0 && kiteRun >= p.KITE_MAX) { kiteRun = 0; return null; }
+        boolean coveredNow = p.KITE_COVER == 1 && coveredByOwnTower(s, qx, qy);
+        double pull = bound ? p.KITE_PULL / 100.0 : 0;
+        double a0 = Math.atan2(qy - Const.HEIGHT / 2.0, qx - Const.WIDTH / 2.0);
+        Command best = null;
+        double bestScore = Math.sqrt(d0) - pull * Math.sqrt(nearestOwnTowerSq(s, qx, qy)) + 5, bestTower = Double.MAX_VALUE;
+        // KITE_OVERLAP: every own tower covering a spot adds this to its score, for the step's end and for standing.
+        if (p.KITE_OVERLAP > 0) bestScore += p.KITE_OVERLAP * cover(s, qx, qy);
+        // STAND_REACH: with the nearest knight within reach, the best-scoring step that moves her FORCED_STEP or more,
+        // taken when no step gains.
+        boolean reach = p.STAND_REACH > 0 && d0 < (double) p.STAND_REACH * p.STAND_REACH;
+        Command forced = null;
+        double forcedScore = -Double.MAX_VALUE, forcedTower = Double.MAX_VALUE;
+        for (int k = 0; k < 24; k++) {
+            double a = a0 + k * Math.PI / 12;
+            Command m = heading(qx, qy, a);
+            ph.queenStep(s, qx, qy, m.x, m.y, PASSES);
+            double x = ph.rx, y = ph.ry;
+            if (Physics.distSq(x, y, qx, qy) < MIN_STEP * MIN_STEP) continue;
+            if (underEnemyTowerAt(s, x, y)) continue;
+            if (bound ? !coveredByOwnTower(s, x, y) : coveredNow && !coveredByOwnTower(s, x, y)) continue;
+            double near = Double.MAX_VALUE;
+            for (int i = 0; i < s.nCreeps; i++)
+                if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT) near = Math.min(near, Physics.distSq(s.cx[i], s.cy[i], x, y));
+            double tower = nearestOwnTowerSq(s, x, y);
+            double score = Math.sqrt(near) - pull * Math.sqrt(tower);
+            if (p.KITE_OVERLAP > 0) score += p.KITE_OVERLAP * cover(s, x, y);
+            if (score > bestScore || score == bestScore && tower < bestTower) { bestScore = score; bestTower = tower; best = m; }
+            if (reach && Physics.distSq(x, y, qx, qy) >= FORCED_STEP * FORCED_STEP
+                && (score > forcedScore || score == forcedScore && tower < forcedTower)) { forcedScore = score; forcedTower = tower; forced = m; }
+        }
+        if (best == null) best = forced;
+        kiteRun = best == null ? 0 : kiteRun + 1;
+        return best;
+    }
+
+    /** Consecutive turns of kiting so far (KITE_MAX). */
+    private int kiteRun;
+
+    /** Consecutive turns LADDER_CLEAR has held the queen at her tower (LADDER_CLEAR_MAX). */
+    private int clearRun;
+
+    /** Giant trainings started so far (GIANTS_MAX). */
+    private int giantsTrained;
+
+    /** RELEASE_HOLD: the turn the current knight release became ready, or -1. */
+    private int readySince = -1;
+
+    /** RELEASE_NEAR: the enemy queen within r of one of our knight barracks. */
+    static boolean enemyQueenNearKnightBarracks(GameState s, int r) {
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stType[i] == Const.BARRACKS && s.stOwner[i] == 0 && s.barrType[i] == Const.KNIGHT
+                && Physics.distSq(s.sx[i], s.sy[i], s.qx[1], s.qy[1]) < (double) r * r) return true;
+        return false;
+    }
+
+    private boolean giantsLeft() { return p.GIANTS_MAX == 0 || giantsTrained < p.GIANTS_MAX; }
+
+    private static int enemyTowers(GameState s) {
+        int n = 0;
+        for (int i = 0; i < s.nSites; i++) if (s.stType[i] == Const.TOWER && s.stOwner[i] == 1) n++;
+        return n;
+    }
+
+    /** GIANT_GUARD: the own tower with an enemy giant nearest its centre, within d, or -1. */
+    static int guardTower(GameState s, int d) {
+        int best = -1;
+        double bd = (double) d * d;
+        for (int i = 0; i < s.nSites; i++) {
+            if (s.stType[i] != Const.TOWER || s.stOwner[i] != 0) continue;
+            for (int c = 0; c < s.nCreeps; c++) {
+                if (s.cOwner[c] != 1 || s.cType[c] != Const.GIANT) continue;
+                double dd = Physics.distSq(s.cx[c], s.cy[c], s.sx[i], s.sy[i]);
+                if (dd < bd) { bd = dd; best = i; }
+            }
+        }
+        return best;
+    }
+
+    /** ARCHERS: an enemy giant within r of an own tower's centre; r = 0, any enemy giant on the board. */
+    static boolean giantNearTowers(GameState s, int r) {
+        for (int c = 0; c < s.nCreeps; c++) {
+            if (s.cOwner[c] != 1 || s.cType[c] != Const.GIANT) continue;
+            if (r <= 0) return true;
+            for (int i = 0; i < s.nSites; i++)
+                if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && Physics.distSq(s.cx[c], s.cy[c], s.sx[i], s.sy[i]) < (double) r * r) return true;
+        }
+        return false;
+    }
+
+    /** The walk to a BUILD target: as it is when the queen touches the site, else ROUTE's plan (or UNSTICK's detour). */
+    private Command walkTo(GameState s, Command build, boolean touching, double hx, double hy, int barracks, int income, int towers) {
+        if (touching) return build;
+        if (p.ROUTE == 1) {
+            if (route == null) route = new RoutePlanner();
+            return route.plan(s, build, hx, hy, p, barracks, income, towers);
+        }
+        return p.UNSTICK == 1 ? unstick(s, build) : build;
+    }
+
+    private static double nearestOwnTowerSq(GameState s, double x, double y) {
+        double tower = Double.MAX_VALUE;
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0) tower = Math.min(tower, Physics.distSq(s.sx[i], s.sy[i], x, y));
+        return tower == Double.MAX_VALUE ? 0 : tower;
+    }
+
+    private static boolean coveredByOwnTower(GameState s, double x, double y) {
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && Physics.distSq(s.sx[i], s.sy[i], x, y) < (double) s.towerRange[i] * s.towerRange[i]) return true;
+        return false;
+    }
+
+    private static boolean underEnemyTowerAt(GameState s, double x, double y) {
+        for (int j = 0; j < s.nSites; j++)
+            if (s.stType[j] == Const.TOWER && s.stOwner[j] == 1 && Physics.distSq(s.sx[j], s.sy[j], x, y) < (double) s.towerRange[j] * s.towerRange[j]) return true;
+        return false;
+    }
+
+    /**
+     * INCOME_LATE's target: the nearest to (cx, cy) of a free gold site not under an enemy tower and an own mine below
+     * its maximum, or -1. With LATE_COVER=1 only sites an own tower covers, with LATE_HALF=1 only sites nearer the home
+     * corner (hx, hy) than the enemy's.
+     */
+    static int lateSite(GameState s, double cx, double cy, Params p, double hx, double hy) {
+        double ex = Const.WIDTH - hx, ey = Const.HEIGHT - hy;
+        return nearest(s, cx, cy, i -> !underEnemyTower(s, i)
+            && (free(s, i) ? s.sGold[i] > 0 : s.stType[i] == Const.MINE && s.stOwner[i] == 0 && s.mineRate[i] < s.sMaxMine[i])
+            && (p.LATE_COVER == 0 || coveredByOwnTower(s, s.sx[i], s.sy[i]))
+            && (p.LATE_HALF == 0 || Physics.distSq(s.sx[i], s.sy[i], hx, hy) < Physics.distSq(s.sx[i], s.sy[i], ex, ey)));
+    }
+
+    /** LATE_CLEAR: no enemy knight within r of (x, y); r = 0 is always clear. */
+    static boolean clearOfKnights(GameState s, double x, double y, int r) {
+        return clearOfKnights(s, x, y, r, 0);
+    }
+
+    /** No enemy knight with more than minHp HP within r of (x, y) (CLEAR_HP; minHp = 0 counts every knight); r = 0 is always clear. */
+    static boolean clearOfKnights(GameState s, double x, double y, int r, int minHp) {
+        if (r <= 0) return true;
+        for (int i = 0; i < s.nCreeps; i++)
+            if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT && s.cHp[i] > minHp && Physics.distSq(s.cx[i], s.cy[i], x, y) < (double) r * r) return false;
+        return true;
+    }
+
+    /** The own towers whose range covers (x, y). */
+    static int cover(GameState s, double x, double y) {
+        int n = 0;
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && Physics.distSq(s.sx[i], s.sy[i], x, y) < (double) s.towerRange[i] * s.towerRange[i]) n++;
+        return n;
+    }
+
+    /** How deep (x, y) lies inside the own towers' ranges: the sum over the covering towers of the range less the distance. */
+    private static double depth(GameState s, double x, double y) {
+        double d = 0;
+        for (int i = 0; i < s.nSites; i++) {
+            if (s.stType[i] != Const.TOWER || s.stOwner[i] != 0) continue;
+            double r = s.towerRange[i] - Math.sqrt(Physics.distSq(s.sx[i], s.sy[i], x, y));
+            if (r > 0) d += r;
+        }
+        return d;
+    }
+
+    /**
+     * HOLD_OVERLAP: the command for the spot with the most own towers covering it among those within
+     * ceil(HOLD_OVERLAP / 60) steps of the queen, or null when none is better covered than the end of v13's straight walk
+     * to its tower (base). The spots: her position; the touch points of own towers outside enemy ranges on the straight
+     * walk to them; the predicted positions on 24 headings. None inside an enemy tower's range, and in the hold (no knight
+     * within THREAT_RANGE of her) none within THREAT_RANGE of an enemy knight. Among the best covered: an own tower's
+     * touch point (the fewest steps first; the one she touches is a top-up), then standing, then the fewest steps on a
+     * heading (the deepest inside the ranges on a tie).
+     */
+    private Command overlapSpot(GameState s, double qx, double qy, int touched, int base, boolean hold) {
+        int reach = (p.HOLD_OVERLAP + Const.QUEEN_SPEED - 1) / Const.QUEEN_SPEED;
+        double x = qx, y = qy;
+        for (int n = 0; n < HORIZON && !touches(s, base, x, y); n++) {
+            if (!advances(s, x, y, base)) break;
+            x = ph.rx;
+            y = ph.ry;
+        }
+        int here = cover(s, qx, qy), best = Math.max(cover(s, x, y), here);
+        // 0: nothing better than v13's walk; 1: an own tower's touch point; 2: standing; 3: a heading.
+        int kind = here > cover(s, x, y) ? 2 : 0, bestSteps = 0, bestTower = -1;
+        double bestDepth = 0;
+        Command bestMove = null;
+        for (int j = 0; j < s.nSites; j++) {
+            if (s.stType[j] != Const.TOWER || s.stOwner[j] != 0 || underEnemyTower(s, j)) continue;
+            double tx = qx, ty = qy;
+            int n = 0;
+            while (n < reach && !touches(s, j, tx, ty) && advances(s, tx, ty, j)) {
+                tx = ph.rx;
+                ty = ph.ry;
+                n++;
+            }
+            if (!touches(s, j, tx, ty) || underEnemyTowerAt(s, tx, ty) || hold && !clearOfKnights(s, tx, ty, p.THREAT_RANGE)) continue;
+            int c = cover(s, tx, ty);
+            if (c > best || c == best && (kind > 1 || kind == 1 && n < bestSteps)) {
+                best = c;
+                kind = 1;
+                bestSteps = n;
+                bestTower = j;
+            }
+        }
+        double a0 = Math.atan2(qy - Const.HEIGHT / 2.0, qx - Const.WIDTH / 2.0);
+        for (int k = 0; k < 24; k++) {
+            double a = a0 + k * Math.PI / 12, fx = qx, fy = qy;
+            Command first = null;
+            for (int n = 1; n <= reach; n++) {
+                Command m = heading(fx, fy, a);
+                if (!steps(s, fx, fy, m.x, m.y)) break;
+                fx = ph.rx;
+                fy = ph.ry;
+                if (n == 1) first = m;
+                if (underEnemyTowerAt(s, fx, fy) || hold && !clearOfKnights(s, fx, fy, p.THREAT_RANGE)) break;
+                int c = cover(s, fx, fy);
+                if (c < best || c == best && kind != 3) continue;
+                double d = depth(s, fx, fy);
+                if (c > best || n < bestSteps || n == bestSteps && d > bestDepth) {
+                    best = c;
+                    kind = 3;
+                    bestSteps = n;
+                    bestDepth = d;
+                    bestMove = first;
+                }
+            }
+        }
+        if (kind == 1) return Command.build(bestTower, "TOWER");
+        if (kind == 2) return Command.move((int) qx, (int) qy);
+        return kind == 3 ? bestMove : null;
+    }
+
+    /**
+     * The idle queen's tower: def (the own tower nearest the home corner); with IDLE_OVERLAP the own tower with the most
+     * own towers covering its centre (a tie: nearer the corner); with PUMP_LOW her weakest own tower while it has less
+     * than PUMP_LOW HP. Towers inside an enemy tower's range are candidates only when no other stands.
+     */
+    private int idleTower(GameState s, double hx, double hy, int def) {
+        boolean anySafe = false;
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stType[i] == Const.TOWER && s.stOwner[i] == 0 && !underEnemyTower(s, i)) anySafe = true;
+        final boolean safeOnly = anySafe;
+        int tw = def;
+        if (p.IDLE_OVERLAP == 1) {
+            int bestCover = -1;
+            double bd = Double.MAX_VALUE;
+            for (int i = 0; i < s.nSites; i++) {
+                if (s.stType[i] != Const.TOWER || s.stOwner[i] != 0 || safeOnly && underEnemyTower(s, i)) continue;
+                int c = cover(s, s.sx[i], s.sy[i]);
+                double d = Physics.distSq(s.sx[i], s.sy[i], hx, hy);
+                if (c > bestCover || c == bestCover && d < bd) {
+                    bestCover = c;
+                    bd = d;
+                    tw = i;
+                }
+            }
+        }
+        if (p.PUMP_LOW > 0) {
+            int low = -1;
+            for (int i = 0; i < s.nSites; i++) {
+                if (s.stType[i] != Const.TOWER || s.stOwner[i] != 0 || safeOnly && underEnemyTower(s, i)) continue;
+                if (s.towerHp[i] < p.PUMP_LOW && (low < 0 || s.towerHp[i] < s.towerHp[low])) low = i;
+            }
+            if (low >= 0) tw = low;
+        }
+        return tw;
+    }
+
+    /** An enemy knight wave is coming: an enemy knight barracks trains, or enemy knights are on the board. */
+    static boolean knightWaveComing(GameState s) {
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stOwner[i] == 1 && s.stType[i] == Const.BARRACKS && s.barrType[i] == Const.KNIGHT && s.barrTraining[i]) return true;
+        for (int i = 0; i < s.nCreeps; i++)
+            if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT) return true;
+        return false;
+    }
+
+    /**
+     * Whether the ladder wants a knight barracks next: fewer than BARRACKS stand, and the second and
+     * later ones wait until BARRACKS_AFTER_TOWERS own towers stand.
+     */
+    static boolean wantsBarracks(Params p, int barracks, int towers) {
+        return barracks < p.BARRACKS && (barracks == 0 || towers >= p.BARRACKS_AFTER_TOWERS);
+    }
+
+    /**
+     * The ladder's next site to take for the walker at (wx, wy) (the queen, or ROUTE's landing point), the nearest to
+     * the midpoint of the walker and home, or -1 when the ladder is complete; site skip is left out. Counts are the
+     * bot's own structures. (hx, hy) is the home corner, for the forward second barracks (BARRACKS_FORWARD).
+     * A free gold site while fewer than MINES_FIRST mines stand; otherwise, until the barracks, the
+     * income target and the tower cap are met, a free site, which needs gold in the mine phase (the
+     * barracks built, the income below its target), where with UPGRADE=1 an own mine below its
+     * maximum is a target too. Sites under an enemy tower are never targets, nor, with SAFE_LADDER, sites on the enemy
+     * half that the straight walk reaches only through an enemy tower's range (1) or at all (2). With WAVE_ANCHOR, in the
+     * first-wave window the tower-phase target, once a tower stands or is planned, is the nearest to the point at the
+     * walker's height WAVE_ANCHOR % of the way to the back edge instead.
+     */
+    static int nextSite(GameState s, double wx, double wy, double hx, double hy, Params p, int mines, int barracks, int income, int towers, int skip) {
+        double cx = (wx + hx) / 2, cy = (wy + hy) / 2;
+        java.util.function.IntPredicate ok = i -> i != skip && !underEnemyTower(s, i) && safeLadder(s, p, wx, wy, hx, hy, i);
+        if (mines < p.MINES_FIRST) {
+            int t = nearest(s, cx, cy, i -> ok.test(i) && free(s, i) && s.sGold[i] > 0);
+            if (t >= 0) return t;
+        }
+        boolean wantBarracks = wantsBarracks(p, barracks, towers);
+        if (!wantBarracks && income >= p.INCOME_TARGET && towers >= p.MAX_TOWERS) return -1;
+        if (wantBarracks && barracks >= 1 && p.BARRACKS_FORWARD > 0) {
+            // The second barracks forward: the free site nearest to the point BARRACKS_FORWARD % of the way from home to the enemy's corner.
+            double f = p.BARRACKS_FORWARD / 100.0, fx = hx + f * (Const.WIDTH - 2 * hx), fy = hy + f * (Const.HEIGHT - 2 * hy);
+            int t = nearest(s, fx, fy, i -> ok.test(i) && free(s, i));
+            if (t >= 0) return t;
+        }
+        boolean minePhase = !wantBarracks && income < p.INCOME_TARGET;
+        // WAVE_ANCHOR: in the first-wave window, once a tower stands or is planned, the tower target is the free site nearest
+        // the point at the walker's height WAVE_ANCHOR % of the way to the back edge, not the midpoint toward the home corner.
+        boolean anchor = p.WAVE_ANCHOR > 0 && !wantBarracks && !minePhase && towers >= 1 && firstWaveWindow(s, p);
+        double ax = anchor ? wx + (hx - wx) * (p.WAVE_ANCHOR / 100.0) : cx, ay = anchor ? wy : cy;
+        return nearest(s, ax, ay, i -> ok.test(i)
+            && (free(s, i) ? !minePhase || s.sGold[i] > 0
+                : p.UPGRADE == 1 && minePhase && s.stType[i] == Const.MINE && s.stOwner[i] == 0 && s.mineRate[i] < s.sMaxMine[i]));
+    }
+
+    /**
+     * WAVE_ANCHOR's first-wave window: an enemy knight barracks stands (training or not) or an enemy knight is on the
+     * board, and the turn is below WAVE_UNTIL (0: no end).
+     */
+    static boolean firstWaveWindow(GameState s, Params p) {
+        if (p.WAVE_UNTIL > 0 && s.turn >= p.WAVE_UNTIL) return false;
+        for (int i = 0; i < s.nSites; i++)
+            if (s.stOwner[i] == 1 && s.stType[i] == Const.BARRACKS && s.barrType[i] == Const.KNIGHT) return true;
+        for (int i = 0; i < s.nCreeps; i++)
+            if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT) return true;
+        return false;
+    }
+
+    /**
+     * SAFE_LADDER: whether site i may be the ladder's target for the walker at (wx, wy). A site on our half (not nearer
+     * the enemy's corner than ours) always may; one on the enemy half with SAFE_LADDER=1 only while the straight walk to
+     * it stays out of every enemy tower's range, with 2 never.
+     */
+    static boolean safeLadder(GameState s, Params p, double wx, double wy, double hx, double hy, int i) {
+        if (p.SAFE_LADDER == 0) return true;
+        if (Physics.distSq(s.sx[i], s.sy[i], hx, hy) <= Physics.distSq(s.sx[i], s.sy[i], Const.WIDTH - hx, Const.HEIGHT - hy)) return true;
+        return p.SAFE_LADDER == 1 && !walkUnderEnemyTower(s, wx, wy, i);
+    }
+
+    /** Whether the straight walk from (x, y) to site i, until she touches it, passes through an enemy tower's range (checked every 20). */
+    static boolean walkUnderEnemyTower(GameState s, double x, double y, int i) {
+        double d = Math.sqrt(Physics.distSq(x, y, s.sx[i], s.sy[i])), stop = s.sr[i] + Const.QUEEN_RADIUS + Const.TOUCHING_DELTA;
+        for (double w = 0; w <= d - stop; w += 20) {
+            double f = w / d;
+            if (underEnemyTowerAt(s, x + f * (s.sx[i] - x), y + f * (s.sy[i] - y))) return true;
+        }
+        return false;
+    }
+
+    /**
+     * UNSTICK, for the BUILD towards the next site to take. Such a BUILD walks the queen straight at
+     * the site's centre. When that step would leave her standing (a site straight ahead pushes her
+     * back, or two sites wedge her; v01 stood up to 43 turns), she detours: MOVEs on one heading, then
+     * the straight walk. The plan is predicted with the sites only ({@link Physics#queenStep}):
+     * headings turn from the straight line in 15-degree steps, with 1 to {@link #MAX_DETOUR} moves,
+     * and the plan that touches the site in the fewest turns wins (ties: the smaller turn, +15 degrees
+     * before -15, fewer moves). Its moves go on over the next turns while they move her and the BUILD
+     * site stays the same. Fleeing to a tower is left alone: there she may stand.
+     */
+    private Command unstick(GameState s, Command build) {
+        int t = build.site;
+        double qx = s.qx[0], qy = s.qy[0];
+        if (detourSite == t && detourTurn == s.turn - 1 && detourLeft > 0) {
+            Command m = heading(qx, qy, detourHeading);
+            if (steps(s, qx, qy, m.x, m.y)) {
+                detourTurn = s.turn;
+                detourLeft--;
+                return m;
+            }
+        }
+        detourSite = -1;
+        if (touches(s, t, qx, qy) || advances(s, qx, qy, t)) return build;
+        double a0 = Math.atan2(s.sy[t] - qy, s.sx[t] - qx);
+        int bestTurns = Integer.MAX_VALUE, bestMoves = 0;
+        double bestHeading = 0;
+        for (int k = 1; k <= 12; k++) {
+            for (int sign = 1; sign >= -1; sign -= 2) {
+                double a = a0 + sign * k * Math.PI / 12, x = qx, y = qy;
+                for (int n = 1; n <= MAX_DETOUR && n < bestTurns; n++) {
+                    Command m = heading(x, y, a);
+                    if (!steps(s, x, y, m.x, m.y)) break;
+                    x = ph.rx;
+                    y = ph.ry;
+                    int walk = walkTurns(s, x, y, t, Math.min(HORIZON, bestTurns - 1) - n);
+                    if (walk >= 0 && n + walk < bestTurns) {
+                        bestTurns = n + walk;
+                        bestMoves = n;
+                        bestHeading = a;
+                    }
+                }
+            }
+        }
+        if (bestTurns == Integer.MAX_VALUE) return build;
+        detourSite = t;
+        detourTurn = s.turn;
+        detourHeading = bestHeading;
+        detourLeft = bestMoves - 1;
+        return heading(qx, qy, bestHeading);
+    }
+
+    private static boolean touches(GameState s, int site, double x, double y) {
+        return Physics.lessInt(Physics.distSq(s.sx[site], s.sy[site], x, y), s.sr[site] + Const.QUEEN_RADIUS + Const.TOUCHING_DELTA);
+    }
+
+    /** Whether walking from (x,y) towards (tx,ty) moves the queen at least {@link #MIN_STEP}; she ends in ph.rx, ph.ry. */
+    private boolean steps(GameState s, double x, double y, double tx, double ty) {
+        ph.queenStep(s, x, y, tx, ty, PASSES);
+        return Physics.distSq(ph.rx, ph.ry, x, y) >= MIN_STEP * MIN_STEP;
+    }
+
+    /** Whether the straight step from (x,y) towards the site makes her touch it or moves her; she ends in ph.rx, ph.ry. */
+    private boolean advances(GameState s, double x, double y, int site) {
+        return steps(s, x, y, s.sx[site], s.sy[site]) || touches(s, site, ph.rx, ph.ry);
+    }
+
+    /** Turns the straight walk from (x,y) needs to touch the site, or -1 if she stands still first or needs more than max. */
+    private int walkTurns(GameState s, double x, double y, int site, int max) {
+        for (int n = 0; n <= max; n++) {
+            if (touches(s, site, x, y)) return n;
+            if (!advances(s, x, y, site)) return -1;
+            x = ph.rx;
+            y = ph.ry;
+        }
+        return -1;
+    }
+
+    /** A MOVE 200 ahead on the heading, kept on the board. */
+    private static Command heading(double x, double y, double a) {
+        return Command.move((int) Math.max(0, Math.min(Const.WIDTH, Math.round(x + 200 * Math.cos(a)))),
+            (int) Math.max(0, Math.min(Const.HEIGHT, Math.round(y + 200 * Math.sin(a)))));
+    }
+
+    private Boolean homeLeft;
+
+    private boolean homeLeft(GameState s) {
+        if (homeLeft == null) homeLeft = s.qx[0] < Const.WIDTH / 2.0;
+        return homeLeft;
+    }
+}

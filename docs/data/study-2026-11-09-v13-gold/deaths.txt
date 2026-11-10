@@ -1,0 +1,96 @@
+A. v13's deaths, one line each (sorted by the death turn)
+   gid seat rating opp | death | our hp t50/t100/t150 | income us/them t50, t100, t150 | towers us@hp t100, t150 | their knights alive t100/t150 | giants trained | our mines lost | last 30 turns: kd, contact turns, T at death, classes
+   919176884 1 22.1 Kristijonas    |  38 | -/-/- | -/- -/- -/- | -@- -@- | -/- | G0 | M-0 T-0 | kd 25, contact 12, T 2, kite 8, walk to build 7, top-up 6, build on touch 4
+   919183112 1 20.6 MichaelPu      |  45 | -/-/- | -/- -/- -/- | -@- -@- | -/- | G0 | M-0 T-0 | kd 30, contact 16, T 2, kite 12, top-up 8, walk to build 5, top-up under knights 3
+   919174692 1 23.6 PRO_G_r_A_m_ME | 100 | 29/-/- | 2/3 -/- -/- | -@- -@- | -/- | G0 | M-2 T-1 | kd 29, contact 16, T 3, kite 10, move 6, build on touch 4, walk to build 4
+   919184280 1 20.6 ArmandP        | 101 | 32/1/- | 2/2 5/9 -/- | 3@1044 -@- | 7/- | G0 | M-1 T-2 | kd 27, contact 28, T 3, kite 20, flee/defence walk 4, top-up under knights 3, walk to build 2
+   919183048 1 20.9 CrystalRushLea | 113 | 55/52/- | 3/3 3/9 -/- | 4@2368 -@- | 8/- | G0 | M-1 T-0 | kd 52, contact 16, T 4, top-up under knights 8, walk to build 6, move 5, kite 4
+   919176074 0 22.7 yoyo_305       | 118 | 25/25/- | 3/9 3/14 -/- | 3@1788 -@- | 11/- | G1 | M-2 T-2 | kd 25, contact 23, T 2, kite 14, top-up under knights 7, top-up 6, flee/defence walk 2
+   919171237 1 19.9 Tyir           | 119 | 8/8/- | 4/4 4/8 -/- | 4@2500 -@- | 0/- | G0 | M-1 T-1 | kd 8, contact 9, T 4, top-up 9, kite 9, walk to build 7, move 4
+   919173643 0 22.5 yoyo_305       | 119 | 45/42/- | 3/5 3/12 -/- | 5@2372 -@- | 8/- | G1 | M-0 T-3 | kd 45, contact 27, T 4, kite 13, flee/defence walk 11, top-up 3, build on touch 3
+   919173788 0 22.5 yoyo_305       | 126 | 55/31/- | 5/7 2/4 -/- | 4@1320 -@- | 8/- | G1 | M-2 T-8 | kd 32, contact 30, T 2, kite 16, flee/defence walk 8, build on touch 5, top-up under knights 1
+   919182752 1 21.3 invi2k         | 128 | 80/57/- | 6/5 2/6 -/- | 3@1764 -@- | 3/- | G0 | M-2 T-0 | kd 42, contact 27, T 4, kite 14, flee/defence walk 8, top-up under knights 4, top-up 2
+   919183986 0 20.7 MichaelPu      | 138 | 48/21/- | 3/2 3/5 -/- | 6@2792 -@- | 4/- | G0 | M-1 T-0 | kd 14, contact 18, T 6, kite 18, top-up 11, move 1
+   919176096 1 23.1 40R15T3        | 145 | 42/28/- | 5/6 4/0 -/- | 3@1900 -@- | 0/- | G0 | M-3 T-0 | kd 28, contact 19, T 5, kite 14, top-up 5, walk to build 3, build on touch 3
+   919187045 0 22.3 Cadmiom        | 148 | 25/19/- | 6/9 0/5 -/- | 2@1448 -@- | 0/- | G0 | M-3 T-0 | kd 16, contact 10, T 3, move 9, build on touch 8, walk to build 5, kite 5
+   919179259 0 21.6 IFleeXyZz      | 151 | 25/22/1 | 3/4 3/11 1/12 | 4@2444 2@796 | 5/12 | G1 | M-1 T-7 | kd 14, contact 30, T 2, kite 23, build on touch 4, top-up under knights 2, flee/defence walk 1
+   919173480 1 23.0 Donrico79      | 155 | 65/57/17 | 5/6 2/10 0/20 | 3@1412 3@1324 | 8/9 | G0 | M-2 T-1 | kd 50, contact 29, T 3, kite 21, flee/defence walk 5, top-up under knights 2, build on touch 1
+   919182845 0 20.9 Temba          | 156 | 90/90/23 | 5/6 2/6 0/18 | 2@1032 2@248 | 3/17 | G3 | M-2 T-13 | kd 71, contact 30, T 2, top-up under knights 10, flee/defence walk 9, build on touch 7, kite 4
+   919186300 0 21.9 Petras         | 157 | 75/63/15 | 3/3 3/7 1/6 | 4@2504 5@2472 | 3/8 | G0 | M-1 T-0 | kd 39, contact 21, T 5, kite 12, top-up under knights 7, walk to build 6, move 3
+   919172711 0 20.0 Bulgot         | 170 | 75/58/47 | 3/5 3/7 1/6 | 4@2052 1@492 | 2/4 | G1 | M-1 T-4 | kd 49, contact 27, T 2, flee/defence walk 13, kite 9, top-up 3, top-up under knights 3
+   919182511 0 21.3 invi2k         | 175 | 57/52/23 | 4/6 1/5 1/4 | 3@1848 3@1896 | 1/0 | G0 | M-3 T-0 | kd 10, contact 7, T 3, top-up 23, kite 4, flee/defence walk 3
+   919179260 0 20.7 nidup          | 176 | 49/45/45 | 3/4 3/8 1/19 | 3@1844 3@1440 | 4/11 | G0 | M-1 T-0 | kd 45, contact 30, T 3, kite 19, flee/defence walk 6, top-up under knights 5
+   919184556 1 20.9 nidup          | 188 | 100/100/97 | 6/9 0/3 0/20 | 2@1088 2@900 | 4/12 | G0 | M-3 T-1 | kd 95, contact 30, T 2, kite 16, top-up under knights 9, flee/defence walk 5
+   919174286 0 23.1 Donrico79      | 192 | 45/45/38 | 4/4 4/10 0/14 | 4@2500 5@2644 | 8/8 | G0 | M-2 T-0 | kd 38, contact 27, T 5, kite 15, top-up under knights 9, top-up 3, flee/defence walk 3
+   919173388 1 22.7 Konstanta      | 196 | 37/37/30 | 3/3 3/6 1/4 | 5@3112 6@3772 | 0/6 | G0 | M-1 T-0 | kd 19, contact 10, T 6, idle pump 16, kite 6, walk to build 4, top-up under knights 3
+   919185196 1 21.8 TODO_Slytherin | 199 | 42/30/15 | 4/5 4/7 3/5 | 4@2584 4@2168 | 0/8 | G0 | M-5 T-0 | kd 12, contact 18, T 4, kite 18, top-up 6, walk to build 4, move 2
+   919180759 1 20.3 yoannk         | 204 | 74/74/73 | 3/4 2/4 2/22 | 4@2656 4@2240 | 2/8 | G0 | M-1 T-0 | kd 49, contact 30, T 4, kite 28, flee/defence walk 1, top-up under knights 1
+   919175145 1 22.6 yoyo_305       | 205 | 64/64/36 | 4/11 4/14 0/3 | 3@1940 1@304 | 4/5 | G2 | M-2 T-15 | kd 27, contact 27, T 2, flee/defence walk 11, kite 10, build on touch 5, top-up 3
+   919171239 1 17.7 USaGiSaIKoU    | 208 | 85/83/77 | 4/4 1/4 1/7 | 4@2408 4@2160 | 0/0 | G1 | M-3 T-7 | kd 53, contact 30, T 3, kite 17, build on touch 6, flee/defence walk 6, top-up under knights 1
+   919173728 1 22.5 yoyo_305       | 209 | 54/54/31 | 4/9 1/7 1/8 | 3@1988 2@836 | 3/3 | G2 | M-1 T-4 | kd 26, contact 25, T 2, kite 21, top-up under knights 4, top-up 4, walk to build 1
+   919184045 1 20.4 yoannk         | 209 | 77/77/76 | 4/7 4/5 2/14 | 4@2892 4@2476 | 4/0 | G1 | M-3 T-3 | kd 71, contact 26, T 2, kite 9, flee/defence walk 9, top-up under knights 7, top-up 3
+   919183768 0 21.2 PACO_Adel-Le-b | 214 | 100/96/84 | 5/5 4/6 0/14 | 5@2748 4@2096 | 4/5 | G2 | M-4 T-6 | kd 73, contact 30, T 3, kite 19, flee/defence walk 5, top-up under knights 3, build on touch 3
+   919172597 1 20.6 nidup          | 217 | 100/100/98 | 5/5 2/8 0/22 | 2@1476 2@1280 | 7/12 | G0 | M-2 T-0 | kd 58, contact 30, T 2, kite 25, top-up under knights 3, flee/defence walk 2
+   919180110 0 18.6 Ethaniel       | 218 | 27/17/17 | 6/6 0/1 4/7 | 3@1908 4@2508 | 0/8 | G0 | M-6 T-0 | kd 16, contact 15, T 4, kite 14, move 10, walk to build 3, build on touch 2
+   919175522 1 23.0 40R15T3        | 224 | 36/34/34 | 4/4 3/1 1/3 | 3@1788 4@2388 | 0/3 | G0 | M-7 T-0 | kd 23, contact 26, T 4, flee/defence walk 14, kite 12, build on touch 2, walk to build 1
+   919174912 0 23.4 cdurbin        | 246 | 48/47/37 | 4/4 1/2 3/5 | 3@1820 6@2276 | 0/8 | G2 | M-3 T-18 | kd 15, contact 8, T 5, build on touch 13, top-up 11, flee/defence walk 4, top-up under knights 1
+
+B. Opponents by rating band (v13's 180 games): medians of their game, our score
+   band           0-20 | 20-21 | 21-22 | 22-23 | 23-99
+   games             57 |    37 |    40 |    34 |    11
+   our score %       75 |    59 |    57 |    38 |    45
+   our deaths         3 |    11 |     6 |     9 |     5
+   our kills          7 |     7 |    10 |     4 |     0
+   lost races        11 |     4 |    11 |    12 |     1
+   won races         36 |    15 |    13 |     9 |     5
+   inc_50           4.0 |   4.0 |   4.0 |   4.0 |   4.0
+   inc_100          4.0 |   5.0 |   5.0 |   4.0 |   2.5
+   inc_150          4.0 |   5.5 |   4.0 |   5.0 |   3.0
+   maxIncome        8.0 |   9.0 |   8.0 |   8.0 |   7.0
+   meanIncome       4.4 |   4.3 |   4.2 |   4.1 |   4.1
+   minesBuilt       6.0 |   6.0 |   6.0 |   5.0 |   5.0
+   mineUpgrades     9.0 |   9.0 |   8.0 |   8.0 |   8.0
+   towersBuilt      8.0 |   7.0 |   7.0 |   6.0 |   7.0
+   towers_100       4.0 |   4.0 |   3.0 |   3.0 |   3.5
+   thp_100        2184.0 | 1984.0 | 1744.0 | 2064.0 | 2172.0
+   thp_150        2392.0 | 2214.0 | 2436.0 | 2548.0 | 2288.0
+   towerTopUps     64.0 |  55.0 |  70.0 |  58.5 |  66.0
+   trainK          12.0 |  12.0 |  12.5 |  11.0 |  11.0
+   trainG           0.0 |   0.0 |   0.0 |   0.0 |   0.0
+   barracksBuiltK   1.0 |   1.0 |   2.0 |   1.5 |   1.0
+   firstBarracks   12.0 |  13.0 |  14.0 |  15.0 |  12.0
+   firstTower      16.0 |  16.0 |  18.0 |  19.0 |  15.0
+   knights_100      0.0 |   1.5 |   1.0 |   2.0 |   0.0
+   knights_150      0.0 |   1.0 |   3.0 |   3.0 |   4.0
+   ours, the same bands
+   inc_100          3.0 |   3.0 |   3.0 |   3.0 |   3.5
+   inc_150          3.0 |   2.0 |   3.0 |   3.0 |   2.0
+   maxIncome        5.0 |   5.0 |   5.0 |   4.0 |   5.0
+   meanIncome       3.0 |   2.8 |   2.9 |   2.9 |   2.9
+   mineUpgrades     4.0 |   3.0 |   4.0 |   3.5 |   6.0
+   trainK           9.0 |   7.0 |   8.5 |   8.0 |   9.0
+   towerTopUps    125.0 |  88.0 |  90.0 |  87.0 |  90.0
+   thp_100        2440.0 | 2462.0 | 2408.0 | 2384.0 | 2212.0
+   thp_150        2524.0 | 2406.0 | 2472.0 | 2492.0 | 2388.0
+   openings of the opponents 22+: [('M M BK', 25), ('M M T', 7), ('M M M', 5), ('M BK T', 5), ('M BK M', 3)]
+   openings of the opponents below 22: [('M M BK', 83), ('M M M', 24), ('M BK T', 9), ('BK M M', 6), ('M M T', 4), ('M BK M', 3)]
+
+C. Giants and archers by the opponent
+   v12: giants in 35 games (score 66 %, opponents' mean rating 18.94, our deaths 4, lost races 8); none in 145 (score 59 %, mean rating 18.74, deaths 25); archers in 3 (score 0 %)
+   v13: giants in 37 games (score 51 %, opponents' mean rating 20.62, our deaths 12, lost races 6); none in 143 (score 62 %, mean rating 20.33, deaths 22); archers in 1 (score 100 %)
+   v13, opponents 20-22: with giants 11 games 36 % (deaths 5); without 66 games 62 % (deaths 12)
+   v13, opponents 22-99: with giants 12 games 33 % (deaths 6); without 33 games 42 % (deaths 8)
+   v13, games with enemy giants: our towers lost a game 4.8 (without 0.6); our towers at t150 4.0 (without 4.6); first giant training by the opponent: n/a in the features
+   giant players (pseudo: games, our points): YALOKGAR 5/3, yoyo_305 5/0, Dingodino 3/3, PACO_Adel-Le-bogoss-du-59 3/2, IFleeXyZz 2/1, Taohbi 2/0, PACO_SponQy 1/1, pataplop 1/1, Gah 1/1, cdurbin 1/0, Icebox 1/1, yoannk 1/0, USaGiSaIKoU 1/0, Johny10 1/1, moarrrr 1/1, Maybe his dad 1/1, cheeser 1/0, Moez 1/1, Bulgot 1/0, LukvarTheCoder 1/0, VizGhar 1/1, Tyir 1/1, Temba 1/0
+
+D. The economy's course (means), v13: our income and theirs, our mines and theirs, by result
+   deaths     (34): t25 4.1/4.1 (mines 2.1/2.1, knights alive 6.3/4.4); t50 4.0/5.3 (mines 2.0/2.6, knights alive 2.0/2.0); t75 3.6/6.6 (mines 1.9/3.4, knights alive 1.9/2.7); t100 2.5/6.6 (mines 1.5/3.4, knights alive 0.6/3.6); t150 1.1/11.1 (mines 0.8/4.9, knights alive 0.4/7.0); t200 1.4/10.2 (mines 1.0/4.4, knights alive 0.5/7.3)
+   lost races (39): t25 4.2/4.1 (mines 2.1/2.1, knights alive 6.5/5.1); t50 4.2/4.6 (mines 2.1/2.3, knights alive 2.2/2.3); t75 3.7/5.0 (mines 2.0/2.6, knights alive 2.3/2.4); t100 3.1/4.2 (mines 1.8/2.5, knights alive 0.9/1.7); t150 3.1/4.7 (mines 1.7/2.5, knights alive 1.2/2.6); t200 2.7/4.8 (mines 1.6/2.4, knights alive 1.3/2.5)
+   won races  (78): t25 4.1/3.8 (mines 2.1/2.0, knights alive 6.0/4.6); t50 4.0/4.0 (mines 2.1/2.1, knights alive 2.1/2.1); t75 3.1/4.2 (mines 1.8/2.2, knights alive 1.7/2.4); t100 3.3/4.8 (mines 1.8/2.6, knights alive 0.7/2.0); t150 3.2/4.5 (mines 1.7/2.3, knights alive 1.7/1.9); t200 2.8/4.6 (mines 1.6/2.4, knights alive 1.4/2.2)
+   kills      (28): t25 4.2/3.6 (mines 2.2/2.0, knights alive 6.3/4.0); t50 4.1/4.0 (mines 2.2/2.5, knights alive 2.9/0.8); t75 3.7/4.3 (mines 2.1/2.7, knights alive 2.6/1.2); t100 3.1/4.8 (mines 1.9/2.8, knights alive 0.6/1.2); t150 3.6/5.7 (mines 1.7/2.8, knights alive 0.3/2.2); t200 4.8/3.8 (mines 2.0/2.4, knights alive 1.6/1.8)
+   mines lost a game (a drop of the M count in the trace), ours / theirs: deaths 2.1 / 3.2; lost races 3.5 / 4.7; won races 3.5 / 5.2; kills 1.3 / 2.5
+   gold mined over the game (sum of the income over the turns of the features' meanIncome), ours / theirs: deaths 439 / 1067; lost races 789 / 1057; won races 743 / 1034; kills 446 / 544
+
+E. Score by the income lead at turn 100 (theirs minus ours), v13 and v12
+   v12: -99..-1: 28 games 39 % (deaths 5, mean rating 18.8); +0..+1: 57 games 61 % (deaths 2, mean rating 18.8); +2..+3: 47 games 64 % (deaths 9, mean rating 19.1); +4..+98: 31 games 68 % (deaths 8, mean rating 18.8)
+   v13: -99..-1: 33 games 64 % (deaths 2, mean rating 20.7); +0..+1: 46 games 67 % (deaths 3, mean rating 20.3); +2..+3: 36 games 50 % (deaths 8, mean rating 20.5); +4..+98: 50 games 50 % (deaths 18, mean rating 20.5)

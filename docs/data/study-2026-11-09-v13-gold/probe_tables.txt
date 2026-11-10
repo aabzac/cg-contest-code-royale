@@ -1,0 +1,109 @@
+1. Knight waves (a release: the knight barracks that start training on one turn), us / the opponents
+   v12 all        (180): ours 7.3 releases a game (35.3 knights), barracks 1050 from the enemy queen (fwd 0.27), damage 6.68 a release; from turn 50: 4.1 releases,  951 away, damage 3.19
+                         theirs 10.7 releases a game (45.8 knights), barracks 1012 from the enemy queen (fwd 0.32), damage 5.37 a release; from turn 50: 7.8 releases,  982 away, damage 5.03
+   v12 won races  ( 73): ours 8.0 releases a game (39.8 knights), barracks 1016 from the enemy queen (fwd 0.28), damage 6.52 a release; from turn 50: 4.8 releases,  902 away, damage 3.52
+                         theirs 11.9 releases a game (52.1 knights), barracks 1055 from the enemy queen (fwd 0.31), damage 2.02 a release; from turn 50: 9.0 releases, 1019 away, damage 1.65
+   v12 lost races ( 42): ours 8.3 releases a game (41.5 knights), barracks 1094 from the enemy queen (fwd 0.28), damage 2.37 a release; from turn 50: 5.0 releases,  998 away, damage 0.92
+                         theirs 10.5 releases a game (43.9 knights), barracks 1049 from the enemy queen (fwd 0.30), damage 5.08 a release; from turn 50: 7.5 releases, 1029 away, damage 3.58
+   v12 our deaths ( 29): ours 6.4 releases a game (26.5 knights), barracks 1089 from the enemy queen (fwd 0.24), damage 7.15 a release; from turn 50: 3.0 releases, 1030 away, damage 2.99
+                         theirs 11.4 releases a game (49.4 knights), barracks  952 from the enemy queen (fwd 0.34), damage 15.89 a release; from turn 50: 8.4 releases,  921 away, damage 18.12
+   v12 vs <20     (122): ours 7.3 releases a game (35.2 knights), barracks 1043 from the enemy queen (fwd 0.27), damage 7.42 a release; from turn 50: 4.1 releases,  943 away, damage 3.63
+                         theirs 10.1 releases a game (44.2 knights), barracks 1010 from the enemy queen (fwd 0.33), damage 4.75 a release; from turn 50: 7.3 releases,  969 away, damage 4.55
+   v12 vs 20-22   ( 56): ours 7.3 releases a game (35.2 knights), barracks 1067 from the enemy queen (fwd 0.27), damage 5.15 a release; from turn 50: 4.1 releases,  968 away, damage 2.29
+                         theirs 11.7 releases a game (48.7 knights), barracks 1019 from the enemy queen (fwd 0.31), damage 5.74 a release; from turn 50: 8.8 releases, 1008 away, damage 4.96
+   v12 vs 22+     (  2): ours 9.0 releases a game (40.0 knights), barracks 1037 from the enemy queen (fwd 0.27), damage 5.06 a release; from turn 50: 5.0 releases,  946 away, damage 2.20
+                         theirs 14.0 releases a game (62.0 knights), barracks  954 from the enemy queen (fwd 0.32), damage 23.89 a release; from turn 50: 10.0 releases,  911 away, damage 27.95
+   v13 all        (180): ours 7.3 releases a game (34.3 knights), barracks 1064 from the enemy queen (fwd 0.26), damage 6.05 a release; from turn 50: 4.1 releases,  975 away, damage 2.58
+                         theirs 11.2 releases a game (47.6 knights), barracks 1007 from the enemy queen (fwd 0.34), damage 6.08 a release; from turn 50: 8.5 releases,  991 away, damage 5.86
+   v13 won races  ( 78): ours 8.0 releases a game (39.0 knights), barracks 1039 from the enemy queen (fwd 0.27), damage 5.67 a release; from turn 50: 4.8 releases,  927 away, damage 2.93
+                         theirs 12.0 releases a game (51.2 knights), barracks 1088 from the enemy queen (fwd 0.31), damage 1.38 a release; from turn 50: 9.3 releases, 1072 away, damage 0.70
+   v13 lost races ( 39): ours 8.5 releases a game (41.2 knights), barracks 1107 from the enemy queen (fwd 0.26), damage 2.74 a release; from turn 50: 5.3 releases, 1031 away, damage 0.88
+                         theirs 12.8 releases a game (53.2 knights), barracks  963 from the enemy queen (fwd 0.36), damage 5.05 a release; from turn 50: 9.7 releases,  941 away, damage 3.44
+   v13 our deaths ( 34): ours 5.9 releases a game (24.7 knights), barracks 1106 from the enemy queen (fwd 0.23), damage 6.89 a release; from turn 50: 2.8 releases, 1053 away, damage 2.25
+                         theirs 12.1 releases a game (51.3 knights), barracks  915 from the enemy queen (fwd 0.37), damage 18.30 a release; from turn 50: 9.4 releases,  903 away, damage 20.73
+   v13 vs <20     ( 58): ours 7.8 releases a game (36.8 knights), barracks 1038 from the enemy queen (fwd 0.27), damage 6.12 a release; from turn 50: 4.6 releases,  942 away, damage 2.91
+                         theirs 11.8 releases a game (48.9 knights), barracks 1079 from the enemy queen (fwd 0.32), damage 2.76 a release; from turn 50: 8.9 releases, 1063 away, damage 2.24
+   v13 vs 20-22   ( 77): ours 7.0 releases a game (32.7 knights), barracks 1068 from the enemy queen (fwd 0.26), damage 6.46 a release; from turn 50: 3.9 releases,  991 away, damage 2.67
+                         theirs 11.5 releases a game (49.8 knights), barracks  956 from the enemy queen (fwd 0.35), damage 8.07 a release; from turn 50: 8.9 releases,  950 away, damage 8.20
+   v13 vs 22+     ( 45): ours 7.1 releases a game (33.9 knights), barracks 1093 from the enemy queen (fwd 0.27), damage 5.27 a release; from turn 50: 4.0 releases,  998 away, damage 1.93
+                         theirs 10.1 releases a game (42.2 knights), barracks  997 from the enemy queen (fwd 0.33), damage 7.20 a release; from turn 50: 7.4 releases,  965 away, damage 6.63
+   damage a release by the distance from the releasing barracks to the enemy queen (releases from turn 30), v13's games
+         0- 600: ours  127 releases (13.5 %) damage 6.04, contact turns 7.2 | theirs  124 ( 7.3 %) damage 8.84, contact turns 11.7
+       600- 800: ours  113 releases (12.0 %) damage 2.44, contact turns 4.4 | theirs  273 (16.0 %) damage 8.54, contact turns 12.9
+       800-1000: ours  135 releases (14.4 %) damage 2.79, contact turns 5.2 | theirs  463 (27.1 %) damage 5.76, contact turns 10.4
+      1000-1200: ours  208 releases (22.1 %) damage 2.55, contact turns 5.4 | theirs  439 (25.7 %) damage 6.20, contact turns 11.8
+      1200-1500: ours  323 releases (34.4 %) damage 2.13, contact turns 4.8 | theirs  352 (20.6 %) damage 2.62, contact turns 7.3
+      1500-9999: ours   34 releases ( 3.6 %) damage 1.12, contact turns 2.9 | theirs   56 ( 3.3 %) damage 0.61, contact turns 5.1
+   damage a release by the enemy's towers at the release (from turn 30), v13's games
+      towers 0-1: ours   29 releases, damage 6.76 | theirs   18, damage 23.17
+      towers 2-2: ours  121 releases, damage 5.40 | theirs  331, damage 9.56
+      towers 3-3: ours  283 releases, damage 3.08 | theirs  404, damage 5.95
+      towers 4-4: ours  216 releases, damage 1.98 | theirs  521, damage 5.36
+      towers 5-5: ours  158 releases, damage 2.27 | theirs  244, damage 3.13
+      towers 6-98: ours  133 releases, damage 1.26 | theirs  189, damage 1.20
+   releases by size (knight barracks released together), v13's games: ours {1: 709, 2: 231}; theirs {1: 1594, 2: 108, 3: 5}
+      1 barracks: ours damage 2.54 a release (2.54 a barracks), 1162 away | theirs 5.72 (5.72 a barracks), 1015 away
+      2 barracks: ours damage 3.78 a release (1.89 a barracks),  632 away | theirs 5.30 (2.65 a barracks),  788 away
+      3 barracks: ours damage nan a release (nan a barracks),  nan away | theirs 17.60 (5.87 a barracks),  785 away
+
+2. Mines: built and lost, a game, us / the opponents
+   v12 all        (180): ours   built 4.1 (fwd 0.26, covered at build 47 %, max rate 2.4); lost to creeps 0.9 (gold left 205 each, covered 96 %), exhausted 2.2, to the enemy queen 0.0, rebuilt as another 0.0
+                         theirs built 6.4 (fwd 0.29, covered at build 53 %, max rate 2.5); lost to creeps 1.2 (gold left 198 each, covered 82 %), exhausted 2.5, to the enemy queen 0.0, rebuilt as another 0.3
+   v12 won        (109): ours   built 3.9 (fwd 0.25, covered at build 45 %, max rate 2.4); lost to creeps 0.8 (gold left 205 each, covered 97 %), exhausted 2.2, to the enemy queen 0.0, rebuilt as another 0.0
+                         theirs built 6.5 (fwd 0.29, covered at build 52 %, max rate 2.5); lost to creeps 1.4 (gold left 197 each, covered 81 %), exhausted 2.5, to the enemy queen 0.0, rebuilt as another 0.3
+   v12 lost       ( 71): ours   built 4.5 (fwd 0.26, covered at build 50 %, max rate 2.4); lost to creeps 1.1 (gold left 205 each, covered 96 %), exhausted 2.2, to the enemy queen 0.0, rebuilt as another 0.0
+                         theirs built 6.2 (fwd 0.29, covered at build 53 %, max rate 2.5); lost to creeps 1.0 (gold left 201 each, covered 86 %), exhausted 2.5, to the enemy queen 0.0, rebuilt as another 0.4
+   v12 our deaths ( 29): ours   built 3.5 (fwd 0.24, covered at build 38 %, max rate 2.4); lost to creeps 1.0 (gold left 229 each, covered 93 %), exhausted 1.4, to the enemy queen 0.0, rebuilt as another 0.0
+                         theirs built 7.2 (fwd 0.30, covered at build 53 %, max rate 2.6); lost to creeps 0.9 (gold left 237 each, covered 80 %), exhausted 1.9, to the enemy queen 0.0, rebuilt as another 0.5
+   v12 vs 22+     (  2): ours   built 6.0 (fwd 0.28, covered at build 67 %, max rate 2.9); lost to creeps 2.5 (gold left 246 each, covered 100 %), exhausted 3.0, to the enemy queen 0.0, rebuilt as another 0.0
+                         theirs built 10.0 (fwd 0.33, covered at build 40 %, max rate 2.8); lost to creeps 1.5 (gold left 236 each, covered 33 %), exhausted 4.0, to the enemy queen 0.0, rebuilt as another 0.0
+   v13 all        (180): ours   built 3.8 (fwd 0.25, covered at build 42 %, max rate 2.3); lost to creeps 0.8 (gold left 180 each, covered 93 %), exhausted 2.1, to the enemy queen 0.0, rebuilt as another 0.0
+                         theirs built 6.6 (fwd 0.29, covered at build 54 %, max rate 2.4); lost to creeps 1.3 (gold left 191 each, covered 83 %), exhausted 2.7, to the enemy queen 0.0, rebuilt as another 0.4
+   v13 won        (107): ours   built 3.7 (fwd 0.25, covered at build 41 %, max rate 2.3); lost to creeps 0.7 (gold left 164 each, covered 94 %), exhausted 2.2, to the enemy queen 0.0, rebuilt as another 0.0
+                         theirs built 6.5 (fwd 0.28, covered at build 55 %, max rate 2.4); lost to creeps 1.5 (gold left 190 each, covered 82 %), exhausted 2.6, to the enemy queen 0.0, rebuilt as another 0.4
+   v13 lost       ( 73): ours   built 4.0 (fwd 0.25, covered at build 44 %, max rate 2.3); lost to creeps 0.9 (gold left 201 each, covered 92 %), exhausted 2.0, to the enemy queen 0.0, rebuilt as another 0.0
+                         theirs built 6.7 (fwd 0.30, covered at build 52 %, max rate 2.4); lost to creeps 1.0 (gold left 194 each, covered 87 %), exhausted 3.0, to the enemy queen 0.0, rebuilt as another 0.3
+   v13 our deaths ( 34): ours   built 3.0 (fwd 0.22, covered at build 28 %, max rate 2.2); lost to creeps 0.9 (gold left 197 each, covered 90 %), exhausted 1.3, to the enemy queen 0.0, rebuilt as another 0.0
+                         theirs built 7.5 (fwd 0.31, covered at build 47 %, max rate 2.5); lost to creeps 0.7 (gold left 205 each, covered 79 %), exhausted 2.4, to the enemy queen 0.0, rebuilt as another 0.4
+   v13 vs 22+     ( 45): ours   built 4.0 (fwd 0.25, covered at build 44 %, max rate 2.4); lost to creeps 1.0 (gold left 197 each, covered 91 %), exhausted 2.0, to the enemy queen 0.0, rebuilt as another 0.0
+                         theirs built 6.1 (fwd 0.28, covered at build 54 %, max rate 2.5); lost to creeps 1.2 (gold left 192 each, covered 80 %), exhausted 2.2, to the enemy queen 0.0, rebuilt as another 0.4
+   gold under our structures, v13 (the site's gold when a tower or a barracks is built on it, summed a game): ours 1563 on 6.3 sites; theirs 1792 on 7.0 sites
+   the lifetime of a mine (turns from built to lost), v13: ours median 81 (lost to creeps 16, exhausted 103); theirs 74 (creeps 18, exhausted 100)
+   mines built by turn, v13: turns 0-15 ours 2.11 / theirs 2.09; turns 15-50 ours 0.01 / theirs 0.47; turns 50-100 ours 0.34 / theirs 1.33; turns 100-150 ours 0.73 / theirs 1.31; turns 150-250 ours 0.65 / theirs 1.37
+
+3. Towers: built and lost, a game, us / the opponents (v13's games)
+   all        (180): ours built 5.5 (fwd 0.28); melted 0.6, busted by giants 0.9, rebuilt as another 0.0 | theirs built 7.3 (fwd 0.32); melted 0.9, busted by giants 0.0, rebuilt as another 1.1
+   won        (107): ours built 5.1 (fwd 0.28); melted 0.7, busted by giants 0.5, rebuilt as another 0.0 | theirs built 7.3 (fwd 0.32); melted 0.8, busted by giants 0.0, rebuilt as another 1.2
+   lost       ( 73): ours built 6.0 (fwd 0.28); melted 0.4, busted by giants 1.5, rebuilt as another 0.0 | theirs built 7.2 (fwd 0.31); melted 1.0, busted by giants 0.0, rebuilt as another 1.0
+   our deaths ( 34): ours built 6.3 (fwd 0.29); melted 0.3, busted by giants 2.7, rebuilt as another 0.0 | theirs built 6.9 (fwd 0.34); melted 1.2, busted by giants 0.0, rebuilt as another 1.4
+   vs 22+     ( 45): ours built 6.0 (fwd 0.29); melted 0.6, busted by giants 1.5, rebuilt as another 0.0 | theirs built 6.7 (fwd 0.31); melted 0.8, busted by giants 0.0, rebuilt as another 1.0
+
+4. What a queen's turn goes to (share of all turns), us / the opponents by band
+   v12 ours          180 games: walk to a site 21.3 %, MOVE, knight within 250 19.1 %, top-up below 700 18.8 %, top-up at 700+ 17.2 %, MOVE, clear 9.4 %, walk to an own tower 3.2 %, new tower 2.7 %, mine upgrade 2.5 %, new mine 1.9 %, MOVE, knight within 500 1.5 %, top-up, knight within 250 1.5 %, new barracks 0.8 %
+   v12 ours, lost     71 games: walk to a site 23.3 %, MOVE, knight within 250 22.3 %, top-up below 700 18.7 %, top-up at 700+ 10.6 %, MOVE, clear 10.3 %, walk to an own tower 3.2 %, new tower 2.7 %, mine upgrade 2.7 %, new mine 2.1 %, top-up, knight within 250 1.8 %, MOVE, knight within 500 1.5 %, new barracks 0.8 %
+   v12 theirs <20    122 games: MOVE, clear 27.7 %, top-up below 700 18.6 %, walk to a site 12.0 %, MOVE, knight within 250 9.4 %, MOVE, knight within 500 7.1 %, walk to an own tower 5.9 %, mine upgrade 3.7 %, top-up, knight within 250 3.4 %, new tower 3.4 %, new mine 2.5 %, top-up at 700+ 2.3 %, WAIT 1.8 %, new barracks 0.9 %, rebuild 0.9 %, walk to an own mine 0.3 %
+   v12 theirs 20-22   56 games: MOVE, clear 31.6 %, top-up below 700 20.3 %, MOVE, knight within 500 9.7 %, MOVE, knight within 250 9.3 %, walk to a site 6.9 %, walk to an own tower 4.9 %, mine upgrade 4.4 %, new tower 3.2 %, new mine 2.9 %, top-up at 700+ 2.2 %, top-up, knight within 250 2.0 %, WAIT 1.2 %, new barracks 0.8 %, rebuild 0.6 %, walk to an own mine 0.1 %
+   v12 theirs 22+      2 games: walk to a site 23.1 %, MOVE, clear 15.9 %, top-up below 700 14.8 %, walk to an own tower 11.4 %, mine upgrade 6.8 %, MOVE, knight within 250 6.8 %, WAIT 6.8 %, new tower 3.8 %, new mine 3.2 %, top-up, knight within 250 2.1 %, new barracks 1.1 %, MOVE, knight within 500 1.1 %, top-up at 700+ 1.1 %, rebuild 1.1 %, walk to an own mine 1.1 %
+   v13 ours          180 games: top-up at 700+ 22.0 %, MOVE, knight within 250 17.6 %, walk to a site 17.5 %, top-up below 700 17.3 %, MOVE, clear 10.9 %, walk to an own tower 4.9 %, new tower 2.6 %, mine upgrade 2.3 %, top-up, knight within 250 2.2 %, new mine 1.8 %, new barracks 0.8 %, MOVE, knight within 500 0.1 %
+   v13 ours, lost     73 games: MOVE, knight within 250 22.4 %, walk to a site 18.0 %, top-up below 700 17.3 %, top-up at 700+ 14.4 %, MOVE, clear 11.6 %, walk to an own tower 4.9 %, top-up, knight within 250 3.4 %, new tower 2.9 %, mine upgrade 2.3 %, new mine 1.9 %, new barracks 0.8 %, MOVE, knight within 500 0.1 %
+   v13 theirs <20     58 games: MOVE, clear 28.2 %, top-up below 700 19.3 %, walk to a site 9.9 %, MOVE, knight within 250 9.5 %, walk to an own tower 8.3 %, MOVE, knight within 500 6.7 %, mine upgrade 3.6 %, new tower 3.2 %, top-up, knight within 250 3.0 %, top-up at 700+ 2.5 %, new mine 2.3 %, WAIT 1.4 %, rebuild 1.1 %, new barracks 0.7 %, walk to an own mine 0.1 %
+   v13 theirs 20-22   77 games: MOVE, clear 24.7 %, top-up below 700 18.9 %, walk to a site 12.2 %, MOVE, knight within 250 9.3 %, walk to an own tower 8.5 %, MOVE, knight within 500 8.1 %, mine upgrade 4.5 %, new mine 3.4 %, new tower 3.2 %, top-up, knight within 250 2.4 %, top-up at 700+ 2.3 %, new barracks 0.9 %, rebuild 0.8 %, WAIT 0.4 %, walk to an own mine 0.2 %
+   v13 theirs 22+     45 games: MOVE, clear 31.0 %, top-up below 700 18.7 %, walk to a site 10.4 %, MOVE, knight within 250 8.6 %, MOVE, knight within 500 7.9 %, walk to an own tower 6.5 %, mine upgrade 4.3 %, new tower 3.1 %, new mine 2.7 %, top-up at 700+ 2.4 %, top-up, knight within 250 2.2 %, new barracks 0.8 %, rebuild 0.7 %, WAIT 0.5 %, walk to an own mine 0.3 %
+
+5. The ladder gate's state in v13 (turn 30 on, two own towers or more, an enemy knight within 500 and none within 250), ours
+   30.1 turns a game
+   top-ups of the touched tower: 24.5 a game; by its HP before the top-up: below 500 2.9, 500-699 3.2, 700-749 1.8, 750-800 16.7 (a top-up adds 100 up to 800, so above 700 it is partly lost and at 796-800 it adds 0-4)
+   of the 18.4 top-ups a game at 700 or more: another own tower below 700 stands in 91 %; a free site lies inside an own tower's range in 93 % (with gold in 84 %), within 200 of her in 17 %, within 300 in 44 %; own mines under cover 1.40, the income 2.5, towers 3.9
+   walks in the state: 4.7 a game; to an own tower 4.7 (it stands 177 away, mean), to a free site 0.0, to an own mine 0.0
+   in the state the queen has: towers 3.8, mines 1.6, income 2.7, a free site under an own tower's cover in 95 % of the turns (with gold 87 %); outside the state: towers 4.3, mines 1.7, income 3.1
+
+6. All top-ups by the tower's HP before the top-up (a game), us / the opponents 22+ (v13's games)
+   ours         88.3 a game: below 300 11.3, 300-499 11.4, 500-699 15.7, 700-749 2.4, 750-800 47.5; with a knight within 250 4.8, within 500 only 26.0, none within 500 57.6
+   theirs 22+   47.5 a game: below 300 12.7, 300-499 13.0, 500-699 16.2, 700-749 3.7, 750-800 1.9; with a knight within 250 4.5, within 500 only 8.0, none within 500 35.0
+   theirs 20-22 48.4 a game: below 300 14.0, 300-499 15.1, 500-699 14.1, 700-749 1.8, 750-800 3.4; with a knight within 250 4.9, within 500 only 6.8, none within 500 36.6
+   own towers and their summed HP by turn (means over the games still running), ours / theirs 22+ / theirs 20-22
+      t50: 2.7 towers, 1670 HP, 630 each | 2.8 towers, 1311 HP, 476 each | 3.0 towers, 1305 HP, 429 each
+      t75: 3.4 towers, 2203 HP, 643 each | 3.1 towers, 1587 HP, 516 each | 3.3 towers, 1617 HP, 497 each
+      t100: 3.8 towers, 2344 HP, 617 each | 3.3 towers, 1909 HP, 573 each | 3.8 towers, 1905 HP, 501 each
+      t150: 4.4 towers, 2486 HP, 562 each | 4.4 towers, 2396 HP, 547 each | 4.6 towers, 2330 HP, 511 each
+      t200: 4.8 towers, 2373 HP, 495 each | 5.2 towers, 2828 HP, 548 each | 5.2 towers, 2693 HP, 522 each

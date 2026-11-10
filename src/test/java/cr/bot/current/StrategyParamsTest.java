@@ -747,6 +747,152 @@ class StrategyParamsTest {
         assertEquals("BUILD 0 TOWER", queen(s, "STAND_REACH=155"), "the knights 200 away: she tops A up");
     }
 
+    /** Follows the bot's commands for some turns with the sites-only step (the units stand still) and returns the position. */
+    private static GameState follow(GameState from, String params, int turns) {
+        GameState s = from.copy();
+        MainBot bot = new MainBot(new Params().apply(params));
+        cr.core.Physics ph = new cr.core.Physics();
+        for (int t = 0; t < turns; t++) {
+            int touched = Protocol.touchedSite(s, 0);
+            Command c = bot.play(s, touched, Long.MAX_VALUE);
+            if (c.queen == Command.MOVE || c.queen == Command.BUILD && c.site != touched) {
+                ph.queenStep(s, s.qx[0], s.qy[0], c.queen == Command.MOVE ? c.x : s.sx[c.site], c.queen == Command.MOVE ? c.y : s.sy[c.site], 5);
+                s.qx[0] = ph.rx;
+                s.qy[0] = ph.ry;
+            }
+            s.turn++;
+        }
+        return s;
+    }
+
+    /**
+     * HOLD_OVERLAP (2026-11-10, docs/data/exp-2026-11-10-overlap): own towers A (range 300) and B at 700 HP, an enemy
+     * knight 400 from the queen, turn 60: the ladder gate's hold. Touching A from the west she stands under A alone and
+     * v13 holds there; with a reach of three steps she walks to where B covers her too, with one step she stays. Standing
+     * between the towers under A alone, v13 walks to A, her nearest; B's touch point lies under both and is taken, unless
+     * the knight is within 250 of it. The flight (a knight within 250, no kiting) picks the same spot. With OVERLAP_FIRST
+     * the search comes before the top-up of the touched tower.
+     */
+    @Test
+    void holdOverlapStandsWhereTheTowersOverlap() {
+        String plain = "ROUTE=0,UNSTICK=0,IDLE_OVERLAP=0,HOLD_OVERLAP=0";   // v13: the hold at her nearest tower (300 and 1 by default since v14)
+        GameState s = position();
+        s.turn = 60;
+        for (int i : new int[]{0, 1}) { s.stType[i] = Const.TOWER; s.stOwner[i] = 0; s.towerHp[i] = 700; }
+        s.towerRange[0] = 300; s.towerRange[1] = 350;
+        s.qx[0] = 350 - 70 - Const.QUEEN_RADIUS - 2; s.qy[0] = 350;   // touching A from the west, 472 from B
+        s.nCreeps = 1; s.cOwner[0] = 1; s.cType[0] = Const.KNIGHT; s.cHp[0] = 25; s.cx[0] = 650; s.cy[0] = 550;   // 449 from her
+        assertEquals(0, Protocol.touchedSite(s, 0));
+        assertEquals(1, MainBot.cover(s, s.qx[0], s.qy[0]));
+        assertEquals("BUILD 0 TOWER", queen(s, plain), "v13: the hold at her nearest tower, under A alone");
+        assertEquals("BUILD 0 TOWER", queen(s, plain + ",HOLD_OVERLAP=60"), "one step reaches no better spot: v13's command");
+        assertTrue(queen(s, plain + ",HOLD_OVERLAP=180").startsWith("MOVE"), "three steps reach the overlap: " + queen(s, plain + ",HOLD_OVERLAP=180"));
+        assertTrue(queen(s, "ROUTE=0,UNSTICK=0").startsWith("MOVE"), "the defaults search five steps since v14");
+        GameState after = follow(s, plain + ",HOLD_OVERLAP=180", 3);
+        assertEquals(2, MainBot.cover(after, after.qx[0], after.qy[0]), "after three turns both towers cover her at " + after.qx[0] + "," + after.qy[0]);
+        GameState stays = follow(after, plain + ",HOLD_OVERLAP=180", 3);
+        assertEquals(2, MainBot.cover(stays, stays.qx[0], stays.qy[0]), "and she keeps the cover");
+
+        GameState low = s.copy();
+        low.towerHp[0] = 600;
+        assertEquals("BUILD 0 TOWER", queen(low, plain + ",HOLD_OVERLAP=180"), "the touched tower below 700: the touch rule's top-up first");
+        assertTrue(queen(low, plain + ",HOLD_OVERLAP=180,OVERLAP_FIRST=1").startsWith("MOVE"), "OVERLAP_FIRST: the better spot before the top-up");
+        assertTrue(queen(low, plain + ",HOLD_OVERLAP=180,OVERLAP_FIRST=2").startsWith("MOVE"), "one tower covers her, fewer than 2: the same");
+        assertEquals("BUILD 0 TOWER", queen(low, plain + ",OVERLAP_FIRST=1"), "nothing without HOLD_OVERLAP");
+        GameState both = low.copy();
+        both.qx[0] = 350 + 70 + Const.QUEEN_RADIUS + 2;   // touching A from the east: B covers her too
+        assertEquals(2, MainBot.cover(both, both.qx[0], both.qy[0]));
+        assertEquals("BUILD 0 TOWER", queen(both, plain + ",HOLD_OVERLAP=180,OVERLAP_FIRST=2"), "two towers cover her: the top-up");
+        // Touching her own mine C under A alone: the upgrade is the touch rule's; OVERLAP_FIRST walks her to the overlap first.
+        GameState mine = s.copy();
+        mine.stType[2] = Const.MINE; mine.stOwner[2] = 0; mine.mineRate[2] = 1;
+        mine.qx[0] = 300; mine.qy[0] = 700 - 70 - Const.QUEEN_RADIUS - 2;
+        mine.cx[0] = 700; mine.cy[0] = 700;   // 413 from her
+        assertEquals(2, Protocol.touchedSite(mine, 0));
+        assertEquals(1, MainBot.cover(mine, mine.qx[0], mine.qy[0]));
+        assertEquals("BUILD 2 MINE", queen(mine, plain + ",HOLD_OVERLAP=300"), "the touch rule's upgrade first");
+        assertTrue(queen(mine, plain + ",HOLD_OVERLAP=300,OVERLAP_FIRST=1").startsWith("MOVE"), "OVERLAP_FIRST: the overlap before the upgrade");
+        assertTrue(queen(mine, plain + ",HOLD_OVERLAP=300,OVERLAP_FIRST=2").startsWith("MOVE"), "and with fewer than 2 covering towers");
+
+        GameState t = s.copy();
+        t.towerRange[1] = 200;
+        t.qx[0] = 540; t.qy[0] = 330;   // 191 from A, 220 from B: under A alone
+        t.cx[0] = 540; t.cy[0] = 730;
+        assertEquals(-1, Protocol.touchedSite(t, 0));
+        assertEquals(1, MainBot.cover(t, t.qx[0], t.qy[0]));
+        assertEquals("BUILD 0 TOWER", queen(t, plain), "v13: her nearest tower A, where A alone covers her");
+        assertEquals("BUILD 1 TOWER", queen(t, plain + ",HOLD_OVERLAP=180"), "B's touch point lies under both towers");
+        t.cx[0] = 800; t.cy[0] = 100;   // 347 from her, 229 from B's touch point
+        assertNotEquals("BUILD 1 TOWER", queen(t, plain + ",HOLD_OVERLAP=180"), "no spot within 250 of the knight");
+        t.cx[0] = 540; t.cy[0] = 530;   // 200 from her: the flight (no kiting)
+        assertEquals("BUILD 0 TOWER", queen(t, plain + ",KITE=0"), "v13's flight: her nearest tower");
+        assertEquals("BUILD 1 TOWER", queen(t, plain + ",KITE=0,HOLD_OVERLAP=180"), "the flight to the better-covered touch point");
+    }
+
+    /**
+     * KITE_OVERLAP: the queen at her tower A under A alone (B's range ends short of her), two knights east of her. The
+     * kiting of v13 steps to a spot under A alone; with a weight of 500 a tower the step ends under both towers.
+     */
+    @Test
+    void kiteOverlapPrefersAStepUnderMoreTowers() {
+        GameState s = position();
+        s.stType[0] = Const.TOWER; s.stOwner[0] = 0; s.towerHp[0] = 400; s.towerRange[0] = 300;
+        s.stType[1] = Const.TOWER; s.stOwner[1] = 0; s.towerHp[1] = 400; s.towerRange[1] = 280;
+        s.qx[0] = 350 + 70 + Const.QUEEN_RADIUS + 2; s.qy[0] = 350;   // touching A from the east, 297 from B
+        s.nCreeps = 2;
+        for (int i = 0; i < 2; i++) { s.cOwner[i] = 1; s.cType[i] = Const.KNIGHT; s.cHp[i] = 25; s.cx[i] = s.qx[0] + 120 + 30 * i; s.cy[i] = 350; }
+        assertEquals(1, MainBot.cover(s, s.qx[0], s.qy[0]));
+        cr.core.Physics ph = new cr.core.Physics();
+        Command v13 = new MainBot(new Params()).play(s, Protocol.touchedSite(s, 0), Long.MAX_VALUE);
+        assertEquals(Command.MOVE, v13.queen, v13.queenLine());
+        ph.queenStep(s, s.qx[0], s.qy[0], v13.x, v13.y, 5);
+        assertEquals(1, MainBot.cover(s, ph.rx, ph.ry), "v13's step ends under A alone");
+        Command over = new MainBot(new Params().apply("KITE_OVERLAP=500")).play(s, Protocol.touchedSite(s, 0), Long.MAX_VALUE);
+        assertEquals(Command.MOVE, over.queen, over.queenLine());
+        ph.queenStep(s, s.qx[0], s.qy[0], over.x, over.y, 5);
+        assertEquals(2, MainBot.cover(s, ph.rx, ph.ry), "with the weight the step ends under both towers");
+    }
+
+    /**
+     * IDLE_OVERLAP and PUMP_LOW on the complete ladder: the home tower H (100,100) stands alone, the towers D (900,500) and
+     * E (1100,400) cover each other. v13 idles at H; IDLE_OVERLAP at D, the better covered of the two nearer the home
+     * corner, or at E when D lies inside an enemy tower's range. PUMP_LOW=600 sends her to the weakest tower below 600.
+     */
+    @Test
+    void idleOverlapAndPumpLowChooseTheIdleTower() {
+        GameState s = ladderComplete();
+        site(s, 4, 900, 500, 0, 0); s.stType[4] = Const.TOWER; s.stOwner[4] = 0; s.towerHp[4] = 700; s.towerRange[4] = 400;
+        site(s, 5, 1100, 400, 0, 0); s.stType[5] = Const.TOWER; s.stOwner[5] = 0; s.towerHp[5] = 700; s.towerRange[5] = 400;
+        String v13 = LADDER_DONE + ",IDLE_OVERLAP=0";   // the idle tower nearest home (IDLE_OVERLAP=1 by default since v14)
+        assertEquals("BUILD 3 TOWER", queen(s, v13), "v13: the tower nearest home");
+        assertEquals("BUILD 4 TOWER", queen(s, v13 + ",IDLE_OVERLAP=1"), "D and E cover each other; D is nearer the corner");
+        assertEquals("BUILD 4 TOWER", queen(s, LADDER_DONE), "the default since v14");
+        assertEquals("BUILD 3 TOWER", queen(s, v13 + ",PUMP_LOW=600"), "no tower below 600: the idle tower");
+        s.towerHp[5] = 550; s.towerHp[4] = 650;
+        assertEquals("BUILD 5 TOWER", queen(s, v13 + ",PUMP_LOW=600"), "E is the weakest and below 600");
+        assertEquals("BUILD 5 TOWER", queen(s, v13 + ",PUMP_LOW=600,IDLE_OVERLAP=1"), "the weak tower comes before the best-covered one");
+        s.towerHp[4] = 500;
+        assertEquals("BUILD 4 TOWER", queen(s, v13 + ",PUMP_LOW=600"), "D is weaker");
+        site(s, 6, 1000, 800, 0, 0); s.stType[6] = Const.TOWER; s.stOwner[6] = 1; s.towerHp[6] = 500; s.towerRange[6] = 400;   // 316 from D, 412 from E
+        assertEquals("BUILD 5 TOWER", queen(s, v13 + ",PUMP_LOW=600"), "D lies inside an enemy tower's range: E");
+        assertEquals("BUILD 5 TOWER", queen(s, v13 + ",IDLE_OVERLAP=1"), "and E is the idle tower");
+    }
+
+    /** CLEAR_HP: the gate's knight (400 away) with 10 HP holds her as v13 with CLEAR_HP=8 and not with CLEAR_HP=10. */
+    @Test
+    void clearHpIgnoresDyingKnights() {
+        String plain = "ROUTE=0,UNSTICK=0";
+        GameState s = position();
+        s.turn = 60;
+        for (int i : new int[]{0, 1}) { s.stType[i] = Const.TOWER; s.stOwner[i] = 0; s.towerHp[i] = 700; s.towerRange[i] = 400; }
+        s.nCreeps = 1; s.cOwner[0] = 1; s.cType[0] = Const.KNIGHT; s.cHp[0] = 10; s.cx[0] = 900; s.cy[0] = 350;
+        assertEquals("BUILD 0 TOWER", queen(s, plain), "v13: the hold");
+        assertEquals("BUILD 0 TOWER", queen(s, plain + ",CLEAR_HP=8"), "10 HP is above 8: the hold");
+        assertEquals("BUILD 2 MINE", queen(s, plain + ",CLEAR_HP=10"), "10 HP or less does not count: the ladder");
+        s.cx[0] = 700;
+        assertTrue(queen(s, plain + ",CLEAR_HP=10").startsWith("MOVE"), "within 250 it is still the kiting's");
+    }
+
     /** The forced step's MOVE moves the queen 40 or more and ends within an own tower's range. */
     private static void assertForcedStep(GameState s, String line) {
         assertTrue(line.startsWith("MOVE "), line);

@@ -1,0 +1,142 @@
+1. What a top-up adds (a BUILD TOWER on the touched own tower: +100 HP up to 800), v13's 180 Gold games
+   ours           88.3 top-ups a game add 4325 HP a game (49 each); 4504 HP a game is lost at the cap; top-ups that add 10 or less: 42.5 a game, 50 or less: 47.5
+   theirs 22+     47.5 top-ups a game add 4484 HP a game (94 each);  269 HP a game is lost at the cap; top-ups that add 10 or less: 1.1 a game, 50 or less: 1.9
+   theirs 20-22   48.4 top-ups a game add 4524 HP a game (94 each);  311 HP a game is lost at the cap; top-ups that add 10 or less: 1.6 a game, 50 or less: 3.4
+   theirs <20     57.0 top-ups a game add 5277 HP a game (93 each);  423 HP a game is lost at the cap; top-ups that add 10 or less: 2.2 a game, 50 or less: 4.3
+
+2. The ladder gate's state (turn 30 on, two own towers or more, an enemy knight within 500, none within 250), ours in v13
+   spells: 11.2 a game, length median 3, mean 2.7; of 10 turns or more: 0.1 a game (2 % of the state's turns)
+   knights within 500 there: 2.5 (mean), the strongest has 16 HP (mean); own towers covering the queen 2.6
+   the next turn: still within 500 63 %, a contact 28 %, clear 9 %
+   the strongest knight within 500 has  0- 5 HP:  2.1 turns a game; a contact within 4 turns in  7 %; HP lost to knights in the next 8 turns 0.02
+   the strongest knight within 500 has  6- 8 HP:  1.4 turns a game; a contact within 4 turns in 19 %; HP lost to knights in the next 8 turns 0.03
+   the strongest knight within 500 has  9-11 HP:  2.5 turns a game; a contact within 4 turns in 37 %; HP lost to knights in the next 8 turns 0.02
+   the strongest knight within 500 has 12-15 HP:  5.6 turns a game; a contact within 4 turns in 63 %; HP lost to knights in the next 8 turns 0.05
+   the strongest knight within 500 has 16-25 HP: 18.5 turns a game; a contact within 4 turns in 90 %; HP lost to knights in the next 8 turns 0.72
+
+3. The damage of a knight release (the HP the enemy queen loses in the next 35 turns on turns with the releaser's knights within 250), releases from turn 50
+   their releases against our towers (1535): the defender's towers (rows) by their mean HP (columns): releases, damage
+      1-2 towers |   0-400:   20, 29.35 | 400-550:   34, 30.85 | 550-700:   71, 12.76 | 700-800:   97,  3.75
+      3-3 towers |   0-400:   17, 11.88 | 400-550:   83,  9.98 | 550-700:  199,  5.52 | 700-800:   64,  2.73
+      4-4 towers |   0-400:   23, 13.65 | 400-550:  141,  9.40 | 550-700:  328,  3.36 | 700-800:   24,  2.12
+      5-5 towers |   0-400:   16,  2.25 | 400-550:  120,  3.76 | 550-700:  108,  2.56 | 700-800:    0,   nan
+      6+  towers |   0-400:   27,  0.37 | 400-550:  100,  0.78 | 550-700:   62,  2.23 | 700-800:    0,   nan
+      by turn: 50-100: 437 releases, damage 3.63, the defender's towers 3.3 @ 638; 100-150: 448 releases, damage 7.50, the defender's towers 3.9 @ 584; 150-200: 389 releases, damage 9.53, the defender's towers 4.2 @ 533
+   our releases against their towers (744): the defender's towers (rows) by their mean HP (columns): releases, damage
+      1-2 towers |   0-400:   18,  9.11 | 400-550:   16,  5.81 | 550-700:   25,  2.72 | 700-800:   17,  4.65
+      3-3 towers |   0-400:   35,  5.11 | 400-550:   57,  3.37 | 550-700:   65,  2.14 | 700-800:   26,  1.00
+      4-4 towers |   0-400:   32,  3.59 | 400-550:   74,  2.66 | 550-700:   77,  0.95 | 700-800:   12,  0.92
+      5-5 towers |   0-400:   26,  3.00 | 400-550:   66,  2.05 | 550-700:   57,  2.53 | 700-800:    5,  0.00
+      6+  towers |   0-400:   33,  2.00 | 400-550:   64,  1.28 | 550-700:   33,  0.58 | 700-800:    3,  0.00
+      by turn: 50-100: 308 releases, damage 2.40, the defender's towers 3.4 @ 487; 100-150: 176 releases, damage 2.71, the defender's towers 4.3 @ 533; 150-200: 161 releases, damage 2.93, the defender's towers 5.0 @ 505
+   from turn 50, a game: our queen loses 15.8 HP to knights, theirs 10.7; knights trained from turn 50: ours 21.7, theirs 36.7; HP a knight: ours 0.49, theirs 0.43
+
+4. The HP races by 25 turns (v13): towers @ HP each (lowest), top-ups of a tower at 700+ / below, HP lost to knights; then theirs; knights alive; income
+   margins of the lost races: [-1, -1, -2, -2, -3, -4, -4, -4, -5, -5, -5, -6, -7, -8, -9, -10, -10, -10, -11, -11, -11, -12, -13, -16, -16, -17, -17, -18, -20, -20, -20, -21, -24, -25, -26, -32, -43, -55, -76]
+   lost races (39)
+       50- 75: ours 2.9 @ 639 (500), top-ups  2.8 /  6.7, HP 2.62 | theirs 3.2 @ 490 (319), top-ups  0.5 /  5.7, HP 1.67 | knights alive: theirs 2.5, ours 2.8 | income 4.2 / 5.0
+       75-100: ours 3.5 @ 648 (522), top-ups  2.9 /  4.4, HP 1.77 | theirs 3.6 @ 534 (362), top-ups  0.6 /  5.8, HP 1.10 | knights alive: theirs 2.2, ours 2.2 | income 2.9 / 4.3
+      100-125: ours 4.0 @ 617 (463), top-ups  3.1 /  4.1, HP 0.41 | theirs 3.9 @ 559 (403), top-ups  1.2 /  5.5, HP 0.15 | knights alive: theirs 1.7, ours 1.0 | income 2.8 / 4.2
+      125-150: ours 4.3 @ 589 (411), top-ups  5.1 /  4.0, HP 1.64 | theirs 4.3 @ 552 (402), top-ups  0.8 /  5.2, HP 0.13 | knights alive: theirs 2.1, ours 1.4 | income 2.9 / 4.7
+      150-175: ours 4.5 @ 560 (369), top-ups  8.8 /  4.0, HP 4.00 | theirs 4.8 @ 552 (397), top-ups  0.9 /  6.0, HP 0.31 | knights alive: theirs 2.4, ours 1.8 | income 3.1 / 4.7
+      175-200: ours 4.8 @ 533 (321), top-ups  9.7 /  3.3, HP 2.10 | theirs 5.2 @ 546 (383), top-ups  1.0 /  6.0, HP 0.46 | knights alive: theirs 2.3, ours 1.3 | income 2.9 / 4.9
+      200-225: ours 4.8 @ 499 (262), top-ups  9.1 /  3.3, HP 1.62 | theirs 5.6 @ 546 (383), top-ups  0.8 /  6.6, HP 0.21 | knights alive: theirs 2.0, ours 1.2 | income 2.5 / 4.0
+      225-250: ours 4.8 @ 475 (222), top-ups  6.1 /  3.9, HP 1.18 | theirs 6.1 @ 544 (372), top-ups  1.3 /  5.8, HP 0.38 | knights alive: theirs 1.6, ours 1.1 | income 2.7 / 2.8
+      turns 150-249: top-ups of a tower at 700+ 33.7 a game, HP lost to knights 8.9
+      from turn 50: our knights trained 28.1 a game take 4.4 HP off their queen (0.16 a knight); theirs 40.9 take 15.3 off ours (0.37 a knight)
+   won races (77)
+       50- 75: ours 3.2 @ 644 (502), top-ups  2.9 /  6.5, HP 0.55 | theirs 3.1 @ 524 (372), top-ups  0.7 /  6.0, HP 1.87 | knights alive: theirs 2.3, ours 2.6 | income 4.0 / 4.4
+       75-100: ours 3.7 @ 639 (503), top-ups  3.4 /  3.7, HP 0.61 | theirs 3.6 @ 547 (398), top-ups  0.6 /  5.8, HP 1.45 | knights alive: theirs 2.2, ours 1.6 | income 2.8 / 4.4
+      100-125: ours 4.2 @ 608 (440), top-ups  4.2 /  4.4, HP 0.55 | theirs 4.2 @ 543 (380), top-ups  0.5 /  5.9, HP 2.90 | knights alive: theirs 2.3, ours 1.5 | income 3.1 / 4.8
+      125-150: ours 4.5 @ 578 (377), top-ups  5.7 /  3.7, HP 0.73 | theirs 4.7 @ 525 (354), top-ups  0.5 /  5.2, HP 1.90 | knights alive: theirs 2.2, ours 1.3 | income 2.8 / 4.4
+      150-175: ours 4.8 @ 548 (315), top-ups  9.0 /  3.5, HP 0.73 | theirs 5.0 @ 511 (322), top-ups  0.9 /  5.4, HP 1.40 | knights alive: theirs 2.3, ours 1.5 | income 3.1 / 4.6
+      175-200: ours 4.9 @ 517 (262), top-ups 10.6 /  3.2, HP 0.06 | theirs 5.2 @ 507 (308), top-ups  0.9 /  5.1, HP 1.69 | knights alive: theirs 2.0, ours 1.4 | income 3.0 / 4.5
+      200-225: ours 4.9 @ 479 (202), top-ups 18.2 /  2.2, HP 0.42 | theirs 5.6 @ 494 (284), top-ups  0.9 /  5.4, HP 1.96 | knights alive: theirs 2.1, ours 1.5 | income 2.3 / 4.1
+      225-250: ours 4.5 @ 443 (189), top-ups 22.6 /  0.7, HP 0.17 | theirs 5.9 @ 480 (262), top-ups  0.9 /  5.4, HP 0.99 | knights alive: theirs 2.0, ours 0.8 | income 1.3 / 3.6
+      turns 150-249: top-ups of a tower at 700+ 60.3 a game, HP lost to knights 1.4
+      from turn 50: our knights trained 26.2 a game take 14.2 HP off their queen (0.54 a knight); theirs 40.6 take 3.8 off ours (0.09 a knight)
+
+5. The turns before our queen's death (v13, deaths from turn 90)
+   100-125 turns before: towers 2.7 @ 615 (lowest 469), covering her 2.0; top-ups at 700+ 2.7, below 4.9, MOVE turns  8.0; HP to knights  2.25; enemy knights alive 2.5, giants 0.12; income 3.3 / 5.4; our knights alive 2.3
+    75-100 turns before: towers 3.0 @ 594 (lowest 462), covering her 2.1; top-ups at 700+ 3.4, below 4.1, MOVE turns 10.8; HP to knights  5.34; enemy knights alive 3.4, giants 0.21; income 2.9 / 6.2; our knights alive 2.0
+    50- 75 turns before: towers 3.4 @ 561 (lowest 372), covering her 2.1; top-ups at 700+ 3.4, below 4.0, MOVE turns 11.0; HP to knights  5.94; enemy knights alive 3.4, giants 0.31; income 2.2 / 7.3; our knights alive 1.4
+    25- 50 turns before: towers 3.4 @ 515 (lowest 322), covering her 1.9; top-ups at 700+ 3.2, below 3.6, MOVE turns 11.4; HP to knights  9.12; enemy knights alive 4.2, giants 0.43; income 1.7 / 8.4; our knights alive 0.9
+     0- 25 turns before: towers 3.3 @ 457 (lowest 280), covering her 1.6; top-ups at 700+ 2.3, below 3.0, MOVE turns 12.3; HP to knights 34.34; enemy knights alive 7.4, giants 0.41; income 1.6 / 9.6; our knights alive 1.1
+   32 deaths; our towers lost a game: 2.8 to giants and 0.3 melted in them, 0.5 and 0.7 in the other games; enemy giants on the board in 12 of the deaths
+      with giants     (12) the last 30 turns: towers 2.6 @ 374, covering her 1.3, enemy knights alive 7.8
+      without giants  (20) the last 30 turns: towers 3.7 @ 503, covering her 1.8, enemy knights alive 6.5
+
+6. Knight releases from turn 50: the releasing barracks' distance to the enemy queen and the damage, the arena beside the local panel
+   arena            ours    4.4 releases a game,  975 away (below 1000: 48 %, 1200 or more: 31 %), damage 2.58
+   arena            theirs  9.1 releases a game,  991 away (below 1000: 52 %, 1200 or more: 23 %), damage 5.86
+   local-v13-v13    ours    5.2 releases a game,  975 away (below 1000: 47 %, 1200 or more: 25 %), damage 1.14
+   local-v13-v13    theirs  5.2 releases a game,  975 away (below 1000: 47 %, 1200 or more: 25 %), damage 1.14
+   local-v13-rival  ours    4.9 releases a game,  959 away (below 1000: 45 %, 1200 or more: 23 %), damage 3.04
+   local-v13-rival  theirs  9.7 releases a game, 1228 away (below 1000: 12 %, 1200 or more: 54 %), damage 2.90
+   local-v13-field  ours    4.1 releases a game,  997 away (below 1000: 48 %, 1200 or more: 16 %), damage 5.63
+   local-v13-field  theirs 14.7 releases a game, 1255 away (below 1000:  4 %, 1200 or more: 62 %), damage 0.34
+
+7. v12 and v13 against the opponents rated 20-22: the HP both queens lose to knights by 50 turns, the midgame contact episodes of our queen by where they began
+   v12 (56 games, won 39 %): ours 9.3 | 6.3 | 5.2 | 4.0 | 2.4; theirs 11.0 | 2.8 | 2.2 | 2.8 | 2.0; episodes: on a walk 4.6 a game, 11.8 HP a game; at an own tower 3.1 a game, 3.5 HP a game; other 0.7 a game, 1.7 HP a game
+   v13 (77 games, won 58 %): ours 8.6 | 4.1 | 5.4 | 8.2 | 2.5; theirs 15.5 | 3.9 | 3.4 | 2.2 | 1.0; episodes: at an own tower 6.5 a game, 14.3 HP a game; on a walk 0.7 a game, 4.5 HP a game; other 0.2 a game, 1.0 HP a game
+
+8. How the queens move and keep their towers (v13's games)
+   theirs 22+   MOVE runs with no knight within 500: 18.6 a game, 3.3 turns each; followed by: walk to a site 21 %, top-up below 700 20 %, walk to an own tower 15 %, new tower 12 %, MOVE, knight within 500 11 %, new mine 8 %
+                from turn 60: 4.8 different towers topped up a game, 11.1 changes of the tower
+   theirs 20-22 MOVE runs with no knight within 500: 14.9 a game, 3.3 turns each; followed by: top-up below 700 24 %, new mine 19 %, new tower 18 %, MOVE, knight within 500 15 %, top-up at 700+ 9 %, new barracks 5 %
+                from turn 60: 5.2 different towers topped up a game, 10.4 changes of the tower
+   ours         MOVE runs with no knight within 500: 9.4 a game, 2.4 turns each; followed by: walk to a site 46 %, walk to an own tower 12 %, new mine 11 %, top-up below 700 10 %, new tower 9 %, top-up at 700+ 6 %
+                from turn 60: 4.0 different towers topped up a game, 6.4 changes of the tower
+
+9. What a walk in the gate's state cost v12, which had no gate: walks to a free site or an own mine beside turns at the touched own tower, by the strongest knight within 500
+   the strongest has  0- 8 HP: on a walk 0.6 turns a game, a contact within 4 turns in 27 %, HP lost in the next 8 turns 0.07; at the tower 1.6 turns a game, a contact within 4 turns in 11 %, HP lost in the next 8 turns 0.02
+   the strongest has  9-11 HP: on a walk 0.5 turns a game, a contact within 4 turns in 60 %, HP lost in the next 8 turns 0.28; at the tower 1.0 turns a game, a contact within 4 turns in 30 %, HP lost in the next 8 turns 0.02
+   the strongest has 12-15 HP: on a walk 1.6 turns a game, a contact within 4 turns in 82 %, HP lost in the next 8 turns 0.36; at the tower 2.8 turns a game, a contact within 4 turns in 55 %, HP lost in the next 8 turns 0.09
+   the strongest has 16-25 HP: on a walk 6.3 turns a game, a contact within 4 turns in 94 %, HP lost in the next 8 turns 1.60; at the tower 6.7 turns a game, a contact within 4 turns in 86 %, HP lost in the next 8 turns 0.71
+
+10. The own towers whose range covers the queen (turns from 50). Best within 180 / 300: the most covering towers at a point within three / five steps of her, outside the enemy towers' ranges (16 headings a ring of 60); full: as if every own tower had its full range, 510
+   v13 on the arena ours   contact turns 35.6 a game, HP lost a turn by the cover (0, 1, 2, 3, 4+): 1.61 | 1.11 | 0.46 | 0.17 | 0.16; turns a game: 0.3 | 4.7 | 16.5 | 9.8 | 4.2
+                           contact turns    covering now 2.37 (3 or more on 39 % of the turns, 4 or more on 12 %); best within 180 2.92 (higher in 46 % of the turns), within 300 3.14 (57 %), within 300 at full HP 3.48; own towers 3.6
+                           the gate's state covering now 2.68 (3 or more on 53 % of the turns, 4 or more on 18 %); best within 180 3.33 (higher in 52 % of the turns), within 300 3.53 (61 %), within 300 at full HP 3.90; own towers 3.9
+   v13 on the arena theirs contact turns 19.2 a game, HP lost a turn by the cover (0, 1, 2, 3, 4+): 0.97 | 0.77 | 0.64 | 0.46 | 0.32; turns a game: 0.7 | 3.4 | 5.5 | 5.7 | 3.9
+                           contact turns    covering now 2.53 (3 or more on 50 % of the turns, 4 or more on 20 %); best within 180 3.19 (higher in 52 % of the turns), within 300 3.37 (60 %), within 300 at full HP 3.88; own towers 4.0
+                           the gate's state covering now 2.97 (3 or more on 65 % of the turns, 4 or more on 30 %); best within 180 3.62 (higher in 51 % of the turns), within 300 3.80 (59 %), within 300 at full HP 4.21; own towers 4.3
+   v12 on the arena ours   contact turns 36.6 a game, HP lost a turn by the cover (0, 1, 2, 3, 4+): 1.32 | 0.94 | 0.44 | 0.28 | 0.17; turns a game: 0.2 | 4.9 | 14.3 | 12.4 | 4.8
+                           contact turns    covering now 2.47 (3 or more on 47 % of the turns, 4 or more on 13 %); best within 180 3.14 (higher in 56 % of the turns), within 300 3.40 (67 %), within 300 at full HP 3.84; own towers 4.0
+                           the gate's state covering now 2.83 (3 or more on 62 % of the turns, 4 or more on 24 %); best within 180 3.54 (higher in 57 % of the turns), within 300 3.80 (69 %), within 300 at full HP 4.30; own towers 4.3
+   v12 on the arena theirs contact turns 19.6 a game, HP lost a turn by the cover (0, 1, 2, 3, 4+): 1.11 | 0.96 | 0.73 | 0.52 | 0.51; turns a game: 0.4 | 3.3 | 5.3 | 6.1 | 4.4
+                           contact turns    covering now 2.64 (3 or more on 54 % of the turns, 4 or more on 23 %); best within 180 3.34 (higher in 54 % of the turns), within 300 3.56 (61 %), within 300 at full HP 4.11; own towers 4.2
+                           the gate's state covering now 3.00 (3 or more on 67 % of the turns, 4 or more on 31 %); best within 180 3.71 (higher in 54 % of the turns), within 300 3.90 (60 %), within 300 at full HP 4.34; own towers 4.4
+   local-v13-v13    ours   contact turns 25.8 a game, HP lost a turn by the cover (0, 1, 2, 3, 4+): 0.50 | 0.85 | 0.19 | 0.13 | 0.09; turns a game: 0.0 | 2.4 | 9.9 | 8.8 | 4.6
+                           contact turns    covering now 2.65 (3 or more on 52 % of the turns, 4 or more on 18 %); best within 180 3.33 (higher in 57 % of the turns), within 300 3.61 (69 %), within 300 at full HP 4.06; own towers 4.2
+                           the gate's state covering now 2.90 (3 or more on 64 % of the turns, 4 or more on 25 %); best within 180 3.69 (higher in 61 % of the turns), within 300 3.94 (71 %), within 300 at full HP 4.41; own towers 4.5
+   local-v13-rival  ours   contact turns 36.8 a game, HP lost a turn by the cover (0, 1, 2, 3, 4+): 1.53 | 0.64 | 0.17 | 0.03 | 0.03; turns a game: 0.9 | 8.8 | 13.7 | 10.2 | 3.3
+                           contact turns    covering now 2.17 (3 or more on 37 % of the turns, 4 or more on  9 %); best within 180 2.72 (higher in 48 % of the turns), within 300 2.91 (58 %), within 300 at full HP 3.26; own towers 3.3
+                           the gate's state covering now 2.52 (3 or more on 49 % of the turns, 4 or more on 13 %); best within 180 3.11 (higher in 50 % of the turns), within 300 3.31 (61 %), within 300 at full HP 3.62; own towers 3.6
+   local-v13-rival  theirs contact turns 32.7 a game, HP lost a turn by the cover (0, 1, 2, 3, 4+): 0.69 | 0.91 | 0.43 | 0.27 | 0.17; turns a game: 0.1 | 3.9 | 15.5 | 10.3 | 2.9
+                           contact turns    covering now 2.37 (3 or more on 41 % of the turns, 4 or more on  9 %); best within 180 2.95 (higher in 50 % of the turns), within 300 3.15 (61 %), within 300 at full HP 3.51; own towers 3.6
+                           the gate's state covering now 2.57 (3 or more on 53 % of the turns, 4 or more on 14 %); best within 180 3.12 (higher in 47 % of the turns), within 300 3.28 (56 %), within 300 at full HP 3.52; own towers 3.5
+   local-v13-field  ours   contact turns 35.7 a game, HP lost a turn by the cover (0, 1, 2, 3, 4+): nan | 0.23 | 0.03 | 0.01 | 0.01; turns a game: 0.0 | 4.3 | 14.8 | 12.0 | 4.7
+                           contact turns    covering now 2.49 (3 or more on 47 % of the turns, 4 or more on 13 %); best within 180 3.13 (higher in 54 % of the turns), within 300 3.37 (67 %), within 300 at full HP 3.71; own towers 3.8
+                           the gate's state covering now 2.64 (3 or more on 54 % of the turns, 4 or more on 15 %); best within 180 3.27 (higher in 54 % of the turns), within 300 3.50 (67 %), within 300 at full HP 3.86; own towers 3.9
+   local-v13-field  theirs contact turns 21.4 a game, HP lost a turn by the cover (0, 1, 2, 3, 4+): 1.00 | 1.22 | 1.18 | 0.84 | 0.80; turns a game: 0.1 | 1.6 | 9.0 | 8.7 | 2.1
+                           contact turns    covering now 2.52 (3 or more on 50 % of the turns, 4 or more on 10 %); best within 180 3.20 (higher in 55 % of the turns), within 300 3.39 (64 %), within 300 at full HP 3.64; own towers 3.7
+                           the gate's state covering now 2.71 (3 or more on 61 % of the turns, 4 or more on 17 %); best within 180 3.36 (higher in 53 % of the turns), within 300 3.54 (63 %), within 300 at full HP 3.72; own towers 3.7
+   v13 on the arena, ours, within strata (HP lost a contact turn by the cover 1, 2, 3, 4+; cells of 30 turns or more):
+      own towers 2 : 1.31 | 0.44 |   -  |   - 
+      own towers 3 : 0.87 | 0.41 | 0.18 |   - 
+      own towers 4 : 1.10 | 0.48 | 0.17 | 0.20
+      own towers 5 : 1.02 | 0.53 | 0.10 | 0.12
+      own towers 6+: 1.38 | 0.80 | 0.30 | 0.10
+      knights within 250: 1 : 0.28 | 0.10 | 0.04 | 0.05
+      knights within 250: 2 : 0.57 | 0.23 | 0.16 | 0.12
+      knights within 250: 3 : 1.06 | 0.64 | 0.29 | 0.31
+      knights within 250: 4 : 1.52 | 1.13 | 0.52 | 0.61
+      knights within 250: 5+: 2.50 | 2.46 | 1.20 |   - 
+      won games   (cover 0, 1, 2, 3, 4+): HP a turn 1.00 | 0.56 | 0.21 | 0.13 | 0.10; turns a game 0.1 | 2.0 | 10.1 | 9.6 | 4.6; HP a game 0.1 | 1.1 | 2.2 | 1.2 | 0.4
+      lost games  (cover 0, 1, 2, 3, 4+): HP a turn 1.67 | 1.29 | 0.61 | 0.23 | 0.28; turns a game 0.8 | 8.7 | 25.9 | 9.9 | 3.7; HP a game 1.3 | 11.3 | 15.7 | 2.3 | 1.0
+      against 22+ (cover 0, 1, 2, 3, 4+): HP a turn 1.41 | 0.96 | 0.47 | 0.12 | 0.16; turns a game 0.6 | 7.1 | 18.0 | 6.9 | 2.6; HP a game 0.9 | 6.8 | 8.5 | 0.8 | 0.4
+   v13 on the arena, ours: contact episodes from turn 50 (1342, 7.5 a game) by the cover on their first turn: 0: 7 episodes, 21.00 HP each (0.8 HP a game), 12.3 turns; 1: 75 episodes, 10.32 HP each (4.3 HP a game), 9.0 turns; 2: 597 episodes, 2.01 HP each (6.7 HP a game), 5.0 turns; 3: 446 episodes, 1.18 HP each (2.9 HP a game), 4.0 turns; 4+: 217 episodes, 0.43 HP each (0.5 HP a game), 3.2 turns
+      begun with 1 covering: a better spot within 180 on the first turn in 77 % of them; HP each with such a spot 8.47, without 16.65
+      begun with 2 covering: a better spot within 180 on the first turn in 54 % of them; HP each with such a spot 1.90, without 2.14
+   their releases from turn 50 with no enemy knight or giant alive at the release (501): the damage by our towers' mean HP: 0-450: 1.90 (n 52); 450-550: 1.88 (n 120); 550-650: 2.36 (n 204); 650-801: 3.17 (n 125); by the towers covering our queen at the release: 1: 4.35 (n 34); 2: 3.16 (n 163); 3: 1.56 (n 179); 4+: 1.49 (n 120)

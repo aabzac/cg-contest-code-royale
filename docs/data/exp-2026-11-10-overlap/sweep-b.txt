@@ -1,0 +1,6 @@
+Seeds 3 + 397 k, k < 500; each map on both seats. S against v13 with its 95 % CI and the maps whose games differ from v13's mirror; rival and field: the arm's map score minus v13's on the same maps (v13 scores 0.8275 against rival, 0.9675 against field) and the maps whose games differ.
+arm                                                        S vs v13                   changed  delta vs rival               changed  delta vs field               changed  candidate failures
+HOLD_OVERLAP=300                                           0.5390 (0.5143..0.5637)    444      -0.0075 (-0.0325..+0.0175)   473      +0.0175 (+0.0066..+0.0284)   447      0
+HOLD_OVERLAP=300,IDLE_OVERLAP=1                            0.5505 (0.5247..0.5763)    462      -0.0015 (-0.0277..+0.0247)   478      +0.0185 (+0.0074..+0.0296)   450      {'slow': 2}
+HOLD_OVERLAP=300,IDLE_OVERLAP=1,CLEAR_HP=8                 0.5420 (0.5152..0.5688)    468      +0.0065 (-0.0209..+0.0339)   489      +0.0140 (+0.0029..+0.0251)   480      0
+HOLD_OVERLAP=300,CLEAR_HP=8                                0.5340 (0.5073..0.5607)    457      +0.0005 (-0.0275..+0.0285)   489      +0.0120 (+0.0005..+0.0235)   480      {'slow': 1}
