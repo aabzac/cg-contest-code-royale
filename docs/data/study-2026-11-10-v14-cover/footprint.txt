@@ -1,0 +1,10 @@
+v14's 180 Gold games, 38565 turns: v13 would command differently in 158 games (22 the same game for game)
+  the games without a difference: 53 turns each (median), 15 of them shorter than 100 turns, 1 reached turn 250; won 15 of 22
+  turns with a different command: 5917 in all, 15.3 % of the turns; a game with a difference: mean 37.4, median 33, quartiles 14 and 55, the most 120
+  the first difference: turn 81 (median), quartiles 59 and 113, the earliest 27; before turn 50 in 21 games, in turns 50-99 in 84, 100-149 in 41, later in 12
+  what the first difference is (v14's recorded command):
+     87  a MOVE where v13 builds or walks to a site (BUILD TOWER)
+     71  another site, the same structure (BUILD TOWER)
+  the queen's line differs on the first difference in 158 games, the TRAIN line in 0
+  won  games (120): 39.9 different turns a game, 18.4 % of their turns
+  lost games ( 60): 18.8 different turns a game, 9.0 % of their turns

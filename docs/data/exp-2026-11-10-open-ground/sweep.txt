@@ -1,0 +1,21 @@
+Development sets BASE + 397 k, k < 500, each map on both seats. S against v14 with its 95 % CI and the maps whose games differ from v14's mirror; rival and field: the arm's map score minus v14's on the same maps, and the maps whose games differ.
+set dev-1: v14 scores 0.8485 against rival and 0.9805 against field
+set dev-3: v14 scores 0.8260 against rival and 0.9860 against field
+set dev-5: v14 scores 0.8610 against rival and 0.9905 against field
+set dev-7: v14 scores 0.8375 against rival and 0.9880 against field
+arm, set                            maps  S vs v14                   changed  delta vs rival               changed  delta vs field               changed  candidate failures
+OVERLAP_TOUCH=9, dev-1               500  0.4935 (0.4712..0.5158)    403      +0.0060 (-0.0153..+0.0273)   457      -0.0025 (-0.0111..+0.0061)   421      {'slow': 2}
+OVERLAP_TOUCH=9, dev-3               500  0.4830 (0.4613..0.5047)    415      -0.0015 (-0.0237..+0.0207)   449      -0.0030 (-0.0102..+0.0042)   423      0
+OVERLAP_TOUCH=9, dev-5               500  0.5030 (0.4829..0.5231)    386      -0.0160 (-0.0366..+0.0046)   459      -0.0090 (-0.0176..-0.0004)   420      {'slow': 32}
+OVERLAP_TOUCH=9, dev-7               500  0.4840 (0.4627..0.5053)    398      -0.0165 (-0.0386..+0.0056)   469      -0.0015 (-0.0086..+0.0056)   415      {'slow': 1}
+OVERLAP_TOUCH=9, pooled             2000  0.4909 (0.4802..0.5016)    1602     -0.0070 (-0.0178..+0.0038)   1834     -0.0040 (-0.0080..-0.0000)   1679     {'slow': 35}
+
+OVERLAP_TOUCH=1, dev-1               500  0.4990 (0.4775..0.5205)    388      +0.0130 (-0.0081..+0.0341)   448      +0.0010 (-0.0072..+0.0092)   417      0
+OVERLAP_TOUCH=1, dev-3               500  0.4995 (0.4777..0.5213)    401      +0.0075 (-0.0135..+0.0285)   443      -0.0025 (-0.0088..+0.0038)   420      {'slow': 9}
+OVERLAP_TOUCH=1, dev-5               500  0.5030 (0.4829..0.5231)    380      -0.0140 (-0.0349..+0.0069)   453      -0.0065 (-0.0140..+0.0010)   414      {'slow': 3}
+OVERLAP_TOUCH=1, dev-7               500  0.4960 (0.4757..0.5163)    388      -0.0080 (-0.0300..+0.0140)   460      -0.0025 (-0.0065..+0.0015)   409      0
+OVERLAP_TOUCH=1, pooled             2000  0.4994 (0.4889..0.5098)    1557     -0.0004 (-0.0110..+0.0102)   1804     -0.0026 (-0.0060..+0.0007)   1660     {'slow': 12}
+
+OVERLAP_TOUCH=1 minus OVERLAP_TOUCH=9 against v14, the sets pooled: +0.0085 (+0.0022..+0.0148) on 2000 maps (their map scores differ on 234)
+OVERLAP_TOUCH=1 minus OVERLAP_TOUCH=9 against rival, the sets pooled: +0.0066 (+0.0012..+0.0120) on 2000 maps (their map scores differ on 129)
+OVERLAP_TOUCH=1 minus OVERLAP_TOUCH=9 against field, the sets pooled: +0.0014 (-0.0017..+0.0044) on 2000 maps (their map scores differ on 34)

@@ -1,0 +1,137 @@
+1. Where the versions stand (the game result's ranks; a race is a game that reached turn 250; a death: our queen's HP 0 on the last turn)
+   v13  180 games, won 107 (59 %): races 78, kills 28, other 1; lost  73: races 39, deaths 34, other 0; opponents' median rating 20.90
+        below 17   13 games, won  13 (100 %): races 10, kills 2, other 1; lost   0: races 0, deaths 0, other 0
+        17-20      45 games, won  31 (69 %): races 26, kills 5, other 0; lost  14: races 11, deaths 3, other 0
+        20-22      77 games, won  45 (58 %): races 28, kills 17, other 0; lost  32: races 15, deaths 17, other 0
+        22 and up  45 games, won  18 (40 %): races 14, kills 4, other 0; lost  27: races 13, deaths 14, other 0
+        seat 0:  80 games, won  52 (65 %): races 32, kills 20, other 0; lost  28: races 13, deaths 15, other 0
+        seat 1: 100 games, won  55 (55 %): races 46, kills 8, other 1; lost  45: races 26, deaths 19, other 0
+   v14  180 games, won 120 (67 %): races 93, kills 25, other 2; lost  60: races 34, deaths 26, other 0; opponents' median rating 20.45
+        below 17   32 games, won  25 (78 %): races 19, kills 4, other 2; lost   7: races 4, deaths 3, other 0
+        17-20      45 games, won  37 (82 %): races 30, kills 7, other 0; lost   8: races 5, deaths 3, other 0
+        20-22      62 games, won  40 (65 %): races 28, kills 12, other 0; lost  22: races 8, deaths 14, other 0
+        22 and up  41 games, won  18 (44 %): races 16, kills 2, other 0; lost  23: races 17, deaths 6, other 0
+        upload 1   90 games, won  57 (63 %): races 43, kills 13, other 1; lost  33: races 21, deaths 12, other 0; median 21.18
+        upload 2   90 games, won  63 (70 %): races 50, kills 12, other 1; lost  27: races 13, deaths 14, other 0; median 19.79
+        seat 0:  82 games, won  55 (67 %): races 45, kills 9, other 1; lost  27: races 11, deaths 16, other 0
+        seat 1:  98 games, won  65 (66 %): races 48, kills 16, other 1; lost  33: races 23, deaths 10, other 0
+
+2. Our queen's contact turns from turn 50 by the cover
+   v13  contact turns  35.6 a game; by the cover 0 | 1 | 2 | 3 | 4+: HP a turn 1.61 | 1.11 | 0.46 | 0.17 | 0.16; turns a game  0.3 |  4.7 | 16.5 |  9.8 |  4.2; HP a game  0.5 |  5.2 |  7.7 |  1.7 |  0.7
+        covering now 2.37 (3 or more on 39 % of the turns, 4 or more on 12 %); best within 180 2.92 (higher on 46 %), within 300 3.14 (57 %); own towers 3.6
+        HP lost to knights on contact turns 15.8 a game; under one or two towers 21.2 turns and 12.9 HP a game; under three or more 14.0 turns and 2.4 HP
+        upload 1 (90 games, opponents' median 21.81): contact turns 34.4 a game, covering 2.32, 3 or more on 36 %; HP on contact turns 13.9 a game; under one or two towers 21.5 turns, 11.5 HP
+        upload 2 (90 games, opponents' median 20.44): contact turns 36.7 a game, covering 2.42, 3 or more on 42 %; HP on contact turns 17.7 a game; under one or two towers 21.0 turns, 14.2 HP
+   v14  contact turns  33.7 a game; by the cover 0 | 1 | 2 | 3 | 4+: HP a turn 1.87 | 1.23 | 0.44 | 0.15 | 0.11; turns a game  0.2 |  3.7 | 11.7 | 10.9 |  7.2; HP a game  0.4 |  4.6 |  5.1 |  1.7 |  0.8
+        covering now 2.67 (3 or more on 54 % of the turns, 4 or more on 21 %); best within 180 3.13 (higher on 40 %), within 300 3.25 (47 %); own towers 3.7
+        HP lost to knights on contact turns 12.6 a game; under one or two towers 15.4 turns and 9.7 HP a game; under three or more 18.1 turns and 2.5 HP
+        upload 1 (90 games, opponents' median 21.18): contact turns 32.0 a game, covering 2.76, 3 or more on 57 %; HP on contact turns 11.0 a game; under one or two towers 13.6 turns, 8.5 HP
+        upload 2 (90 games, opponents' median 19.79): contact turns 35.3 a game, covering 2.59, 3 or more on 51 %; HP on contact turns 14.2 a game; under one or two towers 17.2 turns, 10.9 HP
+   the opponents' queens, for scale:
+   v13  theirs: contact turns  19.2 a game; by the cover 0 | 1 | 2 | 3 | 4+: HP a turn 0.97 | 0.77 | 0.64 | 0.46 | 0.32; turns a game  0.7 |  3.4 |  5.5 |  5.7 |  3.9; HP a game  0.7 |  2.6 |  3.5 |  2.6 |  1.2
+        covering now 2.53 (3 or more on 50 % of the turns, 4 or more on 20 %); best within 180 3.19 (higher on 52 %), within 300 3.37 (60 %); own towers 4.0
+   v14  theirs: contact turns  20.3 a game; by the cover 0 | 1 | 2 | 3 | 4+: HP a turn 1.11 | 0.75 | 0.69 | 0.56 | 0.53; turns a game  0.5 |  3.2 |  6.1 |  6.1 |  4.5; HP a game  0.5 |  2.4 |  4.2 |  3.4 |  2.4
+        covering now 2.63 (3 or more on 52 % of the turns, 4 or more on 22 %); best within 180 3.31 (higher on 51 %), within 300 3.55 (61 %); own towers 4.2
+   uncertainty (v14 less v13; games resampled within each version):
+        the share of contact turns under three or more towers, %   v13  39.3, v14  53.7, difference +14.4 (+6.5..+22.7)
+        HP lost to knights on contact turns from turn 50, a game   v13  15.8, v14  12.6, difference  -3.2 (-8.1..+1.3)
+        contact turns under one or two towers, a game              v13  21.2, v14  15.4, difference  -5.9 (-10.5..-1.5)
+        HP lost under one or two towers, a game                    v13  12.9, v14   9.7, difference  -3.2 (-7.5..+1.0)
+
+3. The gate's state from turn 50 (a knight within 500, none within 250, two own towers or more): where the queen is and what she does
+   v13  26.9 turns a game; covering now 2.68 (3 or more on 53 % of the turns, 4 or more on 18 %); best within 180 3.33 (higher on 52 %), within 300 3.53 (61 %); own towers 3.9
+        her command: top-up at 700+ 16.9 a game (63 %), top-up below 700 4.9 a game (18 %), walk to an own tower 4.4 a game (16 %), mine upgrade 0.4 a game (2 %), new mine 0.2 a game (1 %), new tower 0.1 a game (0 %), new barracks 0.1 a game (0 %)
+        the next turn: still within 500 63 %, a contact 27 %, clear 10 %
+   v14  29.6 turns a game; covering now 3.11 (3 or more on 71 % of the turns, 4 or more on 34 %); best within 180 3.58 (higher on 41 %), within 300 3.69 (47 %); own towers 4.1
+        her command: top-up at 700+ 11.3 a game (38 %), walk to an own tower 6.4 a game (22 %), top-up below 700 5.8 a game (19 %), MOVE, knight within 500 5.2 a game (18 %), mine upgrade 0.4 a game (1 %), new tower 0.2 a game (1 %), new mine 0.2 a game (1 %)
+        the next turn: still within 500 64 %, a contact 28 %, clear 8 %
+
+4. What the queen does on contact turns from turn 50, and the top-ups
+   v13  contact turns: MOVE, knight within 250 29.2 a game (82 %), top-up, knight within 250 3.8 a game (11 %), walk to a site 1.3 a game (4 %), walk to an own tower 0.8 a game (2 %), new tower 0.5 a game (1 %)
+        top-ups 88.3 a game, of a tower at 700 or more 49.9, adding 10 HP or less 42.5; MOVE turns 60.8 a game (from turn 50: 46.2)
+        turns from 50 with no knight within 500: 100.9 a game; covering her 2.77 (3 or more on 58 %, 4 or more on 23 %); best within 300 3.90; own towers 4.4
+   v14  contact turns: MOVE, knight within 250 29.8 a game (89 %), top-up, knight within 250 1.9 a game (6 %), walk to a site 0.9 a game (3 %), walk to an own tower 0.6 a game (2 %), new tower 0.4 a game (1 %)
+        top-ups 77.6 a game, of a tower at 700 or more 36.7, adding 10 HP or less 30.4; MOVE turns 67.9 a game (from turn 50: 54.0)
+        turns from 50 with no knight within 500: 102.1 a game; covering her 3.08 (3 or more on 69 %, 4 or more on 34 %); best within 300 3.91; own towers 4.4
+
+5. Contact episodes from turn 50 by the cover on their first turn, and by where they began
+   v13  1342 episodes, 7.5 a game, 15.2 HP a game
+        by the cover on the first turn: 0: 0.0 a game, 21.00 HP each (0.8 HP a game), 12.3 turns; 1: 0.4 a game, 10.32 HP each (4.3 HP a game), 9.0 turns; 2: 3.3 a game, 2.01 HP each (6.7 HP a game), 5.0 turns; 3: 2.5 a game, 1.18 HP each (2.9 HP a game), 4.0 turns; 4+: 1.2 a game, 0.43 HP each (0.5 HP a game), 3.2 turns
+        the first turn: covering 2.61, 3 or more in 49 % of the episodes; a better spot within 180 in 48 %
+        begun at an own tower: 6.5 a game, 1.61 HP each (10.6 HP a game), covering 2.66 on the first turn; on a walk to an own tower: 0.7 a game, 3.94 HP each (2.7 HP a game), covering 2.38 on the first turn; on a walk to a new site or mine: 0.0 a game, 26.75 HP each (1.2 HP a game), covering 0.88 on the first turn; on open ground: 0.2 a game, 4.43 HP each (0.7 HP a game), covering 2.03 on the first turn
+        on open ground, the turn before was the upgrade of an own mine she touches: 23 episodes, 0.13 a game, 3.48 HP each (0.44 HP a game), covering 1.87 on the first turn, the knights' HP sum 24.2
+        on open ground, the turn before was a new structure on the free site she touches: 6 episodes, 0.03 a game, 8.17 HP each (0.27 HP a game), covering 2.50 on the first turn, the knights' HP sum 48.8
+        on open ground, the turn before was other: 1 episodes, 0.01 a game, 4.00 HP each (0.02 HP a game), covering 3.00 on the first turn, the knights' HP sum 25.0
+   v14  1486 episodes, 8.3 a game, 12.2 HP a game
+        by the cover on the first turn: 0: 0.0 a game, 24.33 HP each (0.4 HP a game), 19.3 turns; 1: 0.3 a game, 10.21 HP each (3.0 HP a game), 9.0 turns; 2: 2.1 a game, 2.58 HP each (5.4 HP a game), 5.1 turns; 3: 3.1 a game, 0.91 HP each (2.8 HP a game), 3.6 turns; 4+: 2.8 a game, 0.21 HP each (0.6 HP a game), 3.0 turns
+        the first turn: covering 3.09, 3 or more in 71 % of the episodes; a better spot within 180 in 30 %
+        begun at an own tower: 6.2 a game, 1.13 HP each (7.0 HP a game), covering 3.11 on the first turn; on open ground: 0.7 a game, 3.40 HP each (2.4 HP a game), covering 3.02 on the first turn; on a walk to an own tower: 1.3 a game, 1.53 HP each (2.0 HP a game), covering 3.06 on the first turn; on a walk to a new site or mine: 0.0 a game, 29.60 HP each (0.8 HP a game), covering 1.20 on the first turn
+        on open ground, the turn before was a MOVE with a knight within 500 (the hold's spot off the towers): 83 episodes, 0.46 a game, 1.86 HP each (0.86 HP a game), covering 3.35 on the first turn, the knights' HP sum 15.6
+        on open ground, the turn before was the upgrade of an own mine she touches: 27 episodes, 0.15 a game, 3.74 HP each (0.56 HP a game), covering 2.41 on the first turn, the knights' HP sum 35.7
+        on open ground, the turn before was a new structure on the free site she touches: 14 episodes, 0.08 a game, 10.86 HP each (0.84 HP a game), covering 2.21 on the first turn, the knights' HP sum 32.6
+        on open ground, the turn before was other: 1 episodes, 0.01 a game, 18.00 HP each (0.10 HP a game), covering 3.00 on the first turn, the knights' HP sum 75.0
+
+6. HP lost to knights a game by 50 turns (0-49 | 50-99 | 100-149 | 150-199 | 200-249), ours / theirs; the ladder
+   v13  ours 7.2 | 3.3 | 4.6 | 5.9 | 2.0 (from 50: 15.8); theirs 14.3 | 3.7 | 2.9 | 2.2 | 1.9 (from 50: 10.7); to towers: ours 0.6 a game
+        own towers at turn 100 3.80, at 150 4.43; barracks at 100 1.34; income at 50 4.05, at 100 3.07, at 150 2.88; games with two towers or fewer at turn 100: 16
+        theirs: towers at turn 100 3.75, at 150 4.58; income at 50 4.37, at 100 5.00, at 150 5.56
+        knights trained from turn 50: ours 21.7, theirs 36.7 a game
+   v14  ours 7.2 | 2.1 | 3.3 | 4.3 | 2.9 (from 50: 12.6); theirs 14.0 | 4.2 | 3.7 | 2.9 | 2.1 (from 50: 12.9); to towers: ours 0.6 a game
+        own towers at turn 100 3.94, at 150 4.51; barracks at 100 1.40; income at 50 4.21, at 100 2.75, at 150 2.87; games with two towers or fewer at turn 100: 18
+        theirs: towers at turn 100 3.97, at 150 4.98; income at 50 4.31, at 100 4.75, at 150 5.42
+        knights trained from turn 50: ours 20.8, theirs 36.6 a game
+
+7. Like for like: the same opponent bands (ratings at the fetch)
+   below 17  v13   13 games, won  13 (100 %): races 10, kills 2, other 1; lost   0: races 0, deaths 0, other 0
+                  contact turns 27.2 a game, covering 2.86, 3 or more on 65 %; HP a contact turn 0.17; under one or two towers 9.6 turns, 2.5 HP a game
+                  HP lost to knights from turn 50: ours 4.7, theirs 16.0 a game; enemy knights within 250 on a contact turn 1.70
+   below 17  v14   32 games, won  25 (78 %): races 19, kills 4, other 2; lost   7: races 4, deaths 3, other 0
+                  contact turns 35.7 a game, covering 2.49, 3 or more on 44 %; HP a contact turn 0.39; under one or two towers 19.3 turns, 10.6 HP a game
+                  HP lost to knights from turn 50: ours 14.1, theirs 20.2 a game; enemy knights within 250 on a contact turn 2.13
+   17-20     v13   45 games, won  31 (69 %): races 26, kills 5, other 0; lost  14: races 11, deaths 3, other 0
+                  contact turns 33.8 a game, covering 2.43, 3 or more on 44 %; HP a contact turn 0.29; under one or two towers 18.4 turns, 7.2 HP a game
+                  HP lost to knights from turn 50: ours 9.7, theirs 13.3 a game; enemy knights within 250 on a contact turn 1.84
+   17-20     v14   45 games, won  37 (82 %): races 30, kills 7, other 0; lost   8: races 5, deaths 3, other 0
+                  contact turns 31.3 a game, covering 2.79, 3 or more on 60 %; HP a contact turn 0.28; under one or two towers 12.4 turns, 5.4 HP a game
+                  HP lost to knights from turn 50: ours 8.7, theirs 14.6 a game; enemy knights within 250 on a contact turn 1.88
+   20-22     v13   77 games, won  45 (58 %): races 28, kills 17, other 0; lost  32: races 15, deaths 17, other 0
+                  contact turns 38.2 a game, covering 2.42, 3 or more on 40 %; HP a contact turn 0.53; under one or two towers 22.6 turns, 16.5 HP a game
+                  HP lost to knights from turn 50: ours 20.2, theirs 10.5 a game; enemy knights within 250 on a contact turn 2.40
+   20-22     v14   62 games, won  40 (65 %): races 28, kills 12, other 0; lost  22: races 8, deaths 14, other 0
+                  contact turns 31.4 a game, covering 2.63, 3 or more on 52 %; HP a contact turn 0.50; under one or two towers 15.0 turns, 12.7 HP a game
+                  HP lost to knights from turn 50: ours 15.8, theirs 11.3 a game; enemy knights within 250 on a contact turn 2.43
+   22 and up v13   45 games, won  18 (40 %): races 14, kills 4, other 0; lost  27: races 13, deaths 14, other 0
+                  contact turns 35.3 a game, covering 2.13, 3 or more on 27 %; HP a contact turn 0.50; under one or two towers 25.1 turns, 15.4 HP a game
+                  HP lost to knights from turn 50: ours 17.5, theirs 6.8 a game; enemy knights within 250 on a contact turn 2.37
+   22 and up v14   41 games, won  18 (44 %): races 16, kills 2, other 0; lost  23: races 17, deaths 6, other 0
+                  contact turns 38.0 a game, covering 2.76, 3 or more on 57 %; HP a contact turn 0.29; under one or two towers 16.1 turns, 9.3 HP a game
+                  HP lost to knights from turn 50: ours 10.9, theirs 7.5 a game; enemy knights within 250 on a contact turn 1.88
+
+8. Won and lost games: the contact turns from turn 50 under one or two towers
+   v13  won        (107): contact turns 26.4 a game,  5.0 HP; under one or two towers 12.1 turns,  3.3 HP; covering 2.66, 3 or more on 54 %; own towers there 3.7
+   v13  lost       ( 73): contact turns 49.0 a game, 31.6 HP; under one or two towers 34.7 turns, 27.0 HP; covering 2.15, 3 or more on 28 %; own towers there 3.4
+   v13  lost races ( 39): contact turns 44.0 a game, 15.3 HP; under one or two towers 26.4 turns, 11.8 HP; covering 2.47, 3 or more on 40 %; own towers there 3.6
+   v13  deaths     ( 34): contact turns 54.8 a game, 50.3 HP; under one or two towers 44.2 turns, 44.4 HP; covering 1.86, 3 or more on 16 %; own towers there 3.3
+        margins of the lost races: [-1, -1, -2, -2, -3, -4, -4, -4, -5, -5, -5, -6, -7, -8, -9, -10, -10, -10, -11, -11, -11, -12, -13, -16, -16, -17, -17, -18, -20, -20, -20, -21, -24, -25, -26, -32, -43, -55, -76]
+   v14  won        (120): contact turns 28.3 a game,  4.1 HP; under one or two towers  9.9 turns,  2.4 HP; covering 2.93, 3 or more on 65 %; own towers there 3.9
+   v14  lost       ( 60): contact turns 44.5 a game, 29.6 HP; under one or two towers 26.2 turns, 24.3 HP; covering 2.34, 3 or more on 40 %; own towers there 3.4
+   v14  lost races ( 34): contact turns 45.4 a game, 15.1 HP; under one or two towers 19.4 turns,  9.9 HP; covering 2.71, 3 or more on 57 %; own towers there 3.9
+   v14  deaths     ( 26): contact turns 43.2 a game, 48.5 HP; under one or two towers 35.2 turns, 43.2 HP; covering 1.83, 3 or more on 16 %; own towers there 2.8
+        margins of the lost races: [0, 0, -1, -1, -1, -1, -2, -2, -2, -2, -4, -5, -6, -6, -7, -7, -8, -9, -10, -12, -12, -15, -17, -17, -18, -18, -20, -24, -25, -28, -28, -34, -40, -49]
+
+9. v14's losses to opponents rated below 17 (the HP at the end ours:theirs; towers, income and knights alive at turn 100, ours vs theirs; giants: the most on the board)
+   upload 2 919310709 seat 0 vs kozuechan-AI    14.32: start HP  80, race  at turn 249, HP  24:73 ; turn 100: towers 4 vs 2, income 3 vs 7, knights alive 0 vs 2; giants 1; contact turns  95 (HP  56), under one or two  63 (HP  55); to enemy towers 0 HP
+   upload 2 919310810 seat 1 vs pierrot_le_fou  14.80: start HP  25, race  at turn 249, HP   1:3  ; turn 100: towers 3 vs 3, income 0 vs 2, knights alive 0 vs 4; giants 0; contact turns  53 (HP   4), under one or two  37 (HP   4); to enemy towers 0 HP
+   upload 2 919310876 seat 0 vs jamessizeland   12.68: start HP  70, death at turn 135, HP   0:3  ; turn 100: towers 4 vs 8, income 4 vs 6, knights alive 0 vs 4; giants 1; contact turns  37 (HP  57), under one or two  21 (HP  26); to enemy towers 12 HP
+   upload 2 919311090 seat 1 vs Kheopsian       14.88: start HP  40, race  at turn 249, HP   7:25 ; turn 100: towers 4 vs 3, income 1 vs 3, knights alive 1 vs 0; giants 0; contact turns  30 (HP   6), under one or two   5 (HP   2); to enemy towers 0 HP
+   upload 2 919311167 seat 0 vs Counterbalance  15.12: start HP  65, death at turn 218, HP   0:65 ; turn 100: towers 6 vs 4, income 3 vs 13, knights alive 0 vs 7; giants 2; contact turns  41 (HP  65), under one or two  31 (HP  65); to enemy towers 0 HP
+   upload 2 919311402 seat 1 vs VivienBillot    16.78: start HP  95, death at turn 226, HP   0:27 ; turn 100: towers 2 vs 2, income 0 vs 7, knights alive 0 vs 4; giants 0; contact turns  95 (HP  84), under one or two  95 (HP  84); to enemy towers 6 HP
+   upload 2 919311718 seat 1 vs VivienBillot    16.90: start HP  85, race  at turn 249, HP  14:38 ; turn 100: towers 5 vs 5, income 4 vs 3, knights alive 1 vs 0; giants 0; contact turns  45 (HP  20), under one or two   6 (HP   6); to enemy towers 0 HP
+
+10. Every Gold version by the opponent's band against the rating model: the logistic curve of tools/arena_compare.py at scale 3.00 and the version's
+    pooled rating (v11 16.88, v12 20.50, v13 21.84, v14 22.34); the games of the registry's Gold uploads; SD of the expected count
+    below 17  v11 132 games, won  90 (68 %), expected  91.3, -0.3 SD; v12  48 games, won  39 (81 %), expected  40.5, -0.6 SD; v13  13 games, won  13 (100 %), expected  11.7, +1.2 SD; v14  32 games, won  25 (78 %), expected  29.1, -2.6 SD
+    17-20     v11  44 games, won  21 (48 %), expected  19.0, +0.6 SD; v12 142 games, won  93 (65 %), expected  86.1, +1.2 SD; v13  45 games, won  31 (69 %), expected  32.5, -0.5 SD; v14  45 games, won  37 (82 %), expected  34.3, +1.0 SD
+    20-22     v11   3 games, won   0 ( 0 %), expected   0.7, -0.9 SD; v12  77 games, won  34 (44 %), expected  38.7, -1.1 SD; v13  77 games, won  45 (58 %), expected  43.7, +0.3 SD; v14  62 games, won  40 (65 %), expected  38.3, +0.4 SD
+    22 and up v11   1 games, won   0 ( 0 %), expected   0.1, -0.3 SD; v12   3 games, won   0 ( 0 %), expected   0.7, -0.9 SD; v13  45 games, won  18 (40 %), expected  19.1, -0.3 SD; v14  41 games, won  18 (44 %), expected  18.3, -0.1 SD
+    below 17 by upload: v11/3  48 games, won  35 (73 %), expected  31.7, +1.0 SD; v11/4  84 games, won  55 (65 %), expected  59.7, -1.2 SD; v12/1   8 games, won   8 (100 %), expected   6.8, +1.2 SD; v12/2  29 games, won  21 (72 %), expected  24.7, -1.9 SD; v12/3  11 games, won  10 (91 %), expected   9.0, +0.8 SD; v13/1   5 games, won   5 (100 %), expected   4.5, +0.7 SD; v13/2   8 games, won   8 (100 %), expected   7.2, +1.0 SD; v14/1   4 games, won   4 (100 %), expected   3.7, +0.6 SD; v14/2  28 games, won  21 (75 %), expected  25.4, -2.9 SD

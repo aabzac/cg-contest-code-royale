@@ -283,6 +283,30 @@ public final class Params {
      * turns (0.72 with one of 16 HP or more), on 6.0 of the hold's 30.1 turns a game.
      */
     public int CLEAR_HP = 0;
+    /**
+     * OVERLAP_TOUCH=N &gt; 0: HOLD_OVERLAP takes a spot off the towers (where she stands, or a heading) only when it has
+     * more than N covering own towers above the best of the own towers' touch points within reach and the end of v13's
+     * walk (0: one more is enough, as v14; 1: two more; 9: never, the touch points only). From the measurement of v14's
+     * Gold games (docs/data/study-2026-11-10-v14-cover, section 7): a contact episode begun on open ground cost 3.40 HP
+     * against 1.13 for one begun at an own tower, at the same cover. Experiment docs/data/exp-2026-11-10-open-ground:
+     * on 2000 development maps 9 scores 0.4909 against v14 and 1 scores 0.4994, the cover on contact turns falls and the
+     * HP she loses does not: off.
+     */
+    public int OVERLAP_TOUCH = 0;
+    /**
+     * CLEAR_TOUCH=B &gt; 0, a sum of 1, 2 and 4: in LADDER_CLEAR's state (after the first-wave window, two own towers, an
+     * enemy knight within LADDER_CLEAR and none within THREAT_RANGE) the hold comes before the touch rule's upgrade of an
+     * own mine she touches (1), its new mine or barracks on a free site she touches (2) and its new tower there (4); 0:
+     * the touch rule first, as v13 and v14. The hold then acts as if she touched nothing; when it leaves her standing
+     * where she is, or finds no own tower to go to, the touch rule's build stands. The top-up of a touched tower is not
+     * changed. From the open-ground experiment (docs/data/exp-2026-11-10-open-ground): the contact episodes that begin
+     * at a mine upgrade or a new structure cost 3.1 and 7.5 HP each in the mirror against 0.44 at an own tower, 1.0 HP a
+     * game together, and 1.4 HP a game on the arena. Experiment docs/data/exp-2026-11-10-gate-touch, 2000 development
+     * maps: 1 scores 0.5034 against v14 (the queen loses 0.4-0.7 HP a game less, 0.5-0.8 mine upgrades a game are lost and
+     * our knights do as much less damage), 2 is level, 4 loses (0.4904: the towers stand later); no value passes the
+     * bar: off.
+     */
+    public int CLEAR_TOUCH = 0;
     public long SEED = 1;
     public int DEBUG = 0;
 

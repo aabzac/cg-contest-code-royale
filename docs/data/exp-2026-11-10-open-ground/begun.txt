@@ -1,0 +1,98 @@
+Seeds 1 + 397 k, both seats. Episodes: a game / HP a game / HP each / own towers covering her on the first turn / HP sum of the knights within 250 on it.
+
+v14-v14: won 40.5 %, drawn 19.0 %, queen deaths 10; contact turns from turn 50 25.0 a game, 65 % under three or more own towers; HP to knights from turn 50 5.38 a game
+   the gate's state from turn 50: 29.5 turns a game; a MOVE 5.4, a walk to an own tower 6.7, a top-up of the touched tower 16.4
+   at an own tower                   5.51 a game   2.44 HP a game   0.44 HP each  cover 3.46  knights' HP  12.4
+   on a walk to an own tower         1.25 a game   0.90 HP a game   0.72 HP each  cover 3.33  knights' HP  12.5
+   on open ground                    0.70 a game   1.61 HP a game   2.30 HP each  cover 3.04  knights' HP  20.4
+   on a walk to a new site or mine   0.02 a game   0.39 HP a game  22.29 HP each  cover 1.71  knights' HP  64.3
+   all                               7.47 a game   5.34 HP a game   0.71 HP each  cover 3.39  knights' HP  13.3
+   on open ground, the turn before was a MOVE with a knight within 500 (the hold's spot off the towers): 0.44 a game  0.49 HP a game  1.11 HP each  cover 3.59  knights' HP 14.8
+   on open ground, the turn before was the upgrade of an own mine she touches: 0.19 a game  0.59 HP a game  3.09 HP each  cover 2.16  knights' HP 26.6
+   on open ground, the turn before was a new structure on the free site she touches: 0.06 a game  0.45 HP a game  7.46 HP each  cover 1.96  knights' HP 39.9
+   on open ground, the turn before was other: 0.01 a game  0.08 HP a game  16.00 HP each  cover 1.00  knights' HP 50.0
+
+v14-rival: won 84.8 %, drawn 0.5 %, queen deaths 20; contact turns from turn 50 33.4 a game, 48 % under three or more own towers; HP to knights from turn 50 6.53 a game
+   the gate's state from turn 50: 39.1 turns a game; a MOVE 5.4, a walk to an own tower 8.6, a top-up of the touched tower 23.5
+   at an own tower                   7.56 a game   3.71 HP a game   0.49 HP each  cover 2.91  knights' HP  10.5
+   on a walk to an own tower         1.56 a game   0.88 HP a game   0.56 HP each  cover 2.88  knights' HP  11.1
+   on open ground                    0.80 a game   1.71 HP a game   2.13 HP each  cover 2.53  knights' HP  14.7
+   on a walk to a new site or mine   0.02 a game   0.21 HP a game   9.33 HP each  cover 1.00  knights' HP  15.3
+   all                               9.95 a game   6.50 HP a game   0.65 HP each  cover 2.87  knights' HP  10.9
+   on open ground, the turn before was a MOVE with a knight within 500 (the hold's spot off the towers): 0.43 a game  0.50 HP a game  1.15 HP each  cover 3.03  knights' HP 11.9
+   on open ground, the turn before was the upgrade of an own mine she touches: 0.25 a game  0.50 HP a game  1.97 HP each  cover 2.11  knights' HP 16.7
+   on open ground, the turn before was a new structure on the free site she touches: 0.12 a game  0.71 HP a game  6.17 HP each  cover 1.57  knights' HP 20.7
+
+v14-field: won 98.0 %, drawn 0.5 %, queen deaths 2; contact turns from turn 50 30.2 a game, 65 % under three or more own towers; HP to knights from turn 50 1.50 a game
+   the gate's state from turn 50: 60.9 turns a game; a MOVE 9.5, a walk to an own tower 13.9, a top-up of the touched tower 35.8
+   at an own tower                   9.58 a game   0.82 HP a game   0.09 HP each  cover 3.11  knights' HP   8.8
+   on a walk to an own tower         1.90 a game   0.23 HP a game   0.12 HP each  cover 3.13  knights' HP   9.2
+   on open ground                    0.87 a game   0.43 HP a game   0.49 HP each  cover 2.87  knights' HP  11.6
+   on a walk to a new site or mine   0.00 a game   0.00 HP a game    nan HP each  cover nan  knights' HP   nan
+   all                              12.35 a game   1.49 HP a game   0.12 HP each  cover 3.09  knights' HP   9.0
+   on open ground, the turn before was a MOVE with a knight within 500 (the hold's spot off the towers): 0.59 a game  0.19 HP a game  0.32 HP each  cover 3.14  knights' HP 9.5
+   on open ground, the turn before was the upgrade of an own mine she touches: 0.25 a game  0.19 HP a game  0.77 HP each  cover 2.28  knights' HP 15.7
+   on open ground, the turn before was a new structure on the free site she touches: 0.03 a game  0.05 HP a game  1.58 HP each  cover 2.42  knights' HP 18.1
+
+OVERLAP_TOUCH-9-v14: won 41.2 %, drawn 15.2 %, queen deaths 8; contact turns from turn 50 25.5 a game, 62 % under three or more own towers; HP to knights from turn 50 4.95 a game
+   the gate's state from turn 50: 28.7 turns a game; a MOVE 0.0, a walk to an own tower 8.2, a top-up of the touched tower 19.7
+   at an own tower                   5.70 a game   2.43 HP a game   0.43 HP each  cover 3.26  knights' HP  12.6
+   on a walk to an own tower         1.46 a game   1.14 HP a game   0.78 HP each  cover 3.20  knights' HP  13.4
+   on open ground                    0.21 a game   0.88 HP a game   4.25 HP each  cover 2.18  knights' HP  28.6
+   on a walk to a new site or mine   0.04 a game   0.47 HP a game  12.40 HP each  cover 1.93  knights' HP  49.8
+   all                               7.40 a game   4.92 HP a game   0.66 HP each  cover 3.21  knights' HP  13.4
+   on open ground, the turn before was the upgrade of an own mine she touches: 0.17 a game  0.40 HP a game  2.32 HP each  cover 2.25  knights' HP 24.8
+   on open ground, the turn before was a new structure on the free site she touches: 0.04 a game  0.49 HP a game  13.00 HP each  cover 1.87  knights' HP 45.9
+
+OVERLAP_TOUCH-9-rival: won 86.2 %, drawn 0.8 %, queen deaths 23; contact turns from turn 50 33.8 a game, 45 % under three or more own towers; HP to knights from turn 50 6.83 a game
+   the gate's state from turn 50: 38.0 turns a game; a MOVE 0.0, a walk to an own tower 10.0, a top-up of the touched tower 26.6
+   at an own tower                   7.70 a game   4.22 HP a game   0.55 HP each  cover 2.75  knights' HP  10.6
+   on a walk to an own tower         1.78 a game   1.18 HP a game   0.66 HP each  cover 2.77  knights' HP  11.1
+   on open ground                    0.32 a game   1.10 HP a game   3.48 HP each  cover 1.98  knights' HP  17.2
+   on a walk to a new site or mine   0.03 a game   0.30 HP a game  12.00 HP each  cover 0.70  knights' HP  14.1
+   all                               9.81 a game   6.80 HP a game   0.69 HP each  cover 2.73  knights' HP  10.9
+   on open ground, the turn before was the upgrade of an own mine she touches: 0.24 a game  0.45 HP a game  1.89 HP each  cover 2.13  knights' HP 16.8
+   on open ground, the turn before was a new structure on the free site she touches: 0.08 a game  0.66 HP a game  8.19 HP each  cover 1.56  knights' HP 18.6
+
+OVERLAP_TOUCH-9-field: won 98.2 %, drawn 0.0 %, queen deaths 2; contact turns from turn 50 31.7 a game, 60 % under three or more own towers; HP to knights from turn 50 1.40 a game
+   the gate's state from turn 50: 60.8 turns a game; a MOVE 0.0, a walk to an own tower 16.0, a top-up of the touched tower 43.2
+   at an own tower                  10.58 a game   0.93 HP a game   0.09 HP each  cover 2.93  knights' HP   8.9
+   on a walk to an own tower         2.07 a game   0.27 HP a game   0.13 HP each  cover 2.95  knights' HP   9.3
+   on open ground                    0.30 a game   0.20 HP a game   0.64 HP each  cover 2.26  knights' HP  14.1
+   on a walk to a new site or mine   0.00 a game   0.00 HP a game    nan HP each  cover nan  knights' HP   nan
+   all                              12.95 a game   1.39 HP a game   0.11 HP each  cover 2.92  knights' HP   9.1
+   on open ground, the turn before was the upgrade of an own mine she touches: 0.27 a game  0.20 HP a game  0.72 HP each  cover 2.19  knights' HP 13.4
+   on open ground, the turn before was a new structure on the free site she touches: 0.03 a game  0.00 HP a game  0.00 HP each  cover 2.83  knights' HP 20.2
+
+OVERLAP_TOUCH-1-v14: won 41.2 %, drawn 15.5 %, queen deaths 9; contact turns from turn 50 25.3 a game, 64 % under three or more own towers; HP to knights from turn 50 5.00 a game
+   the gate's state from turn 50: 28.9 turns a game; a MOVE 0.7, a walk to an own tower 8.1, a top-up of the touched tower 19.2
+   at an own tower                   5.62 a game   2.36 HP a game   0.42 HP each  cover 3.29  knights' HP  12.6
+   on a walk to an own tower         1.46 a game   0.78 HP a game   0.53 HP each  cover 3.25  knights' HP  13.1
+   on open ground                    0.26 a game   1.32 HP a game   5.04 HP each  cover 2.44  knights' HP  25.9
+   on a walk to a new site or mine   0.04 a game   0.50 HP a game  12.56 HP each  cover 1.88  knights' HP  48.2
+   all                               7.38 a game   4.96 HP a game   0.67 HP each  cover 3.24  knights' HP  13.4
+   on open ground, the turn before was the upgrade of an own mine she touches: 0.17 a game  0.46 HP a game  2.77 HP each  cover 2.29  knights' HP 24.3
+   on open ground, the turn before was a MOVE with a knight within 500 (the hold's spot off the towers): 0.05 a game  0.28 HP a game  5.70 HP each  cover 3.25  knights' HP 18.8
+   on open ground, the turn before was a new structure on the free site she touches: 0.05 a game  0.58 HP a game  12.21 HP each  cover 2.11  knights' HP 38.7
+
+OVERLAP_TOUCH-1-rival: won 86.5 %, drawn 0.8 %, queen deaths 24; contact turns from turn 50 33.5 a game, 46 % under three or more own towers; HP to knights from turn 50 7.12 a game
+   the gate's state from turn 50: 38.0 turns a game; a MOVE 0.4, a walk to an own tower 9.9, a top-up of the touched tower 26.3
+   at an own tower                   7.64 a game   4.64 HP a game   0.61 HP each  cover 2.78  knights' HP  10.6
+   on a walk to an own tower         1.79 a game   1.20 HP a game   0.67 HP each  cover 2.79  knights' HP  10.9
+   on open ground                    0.32 a game   0.91 HP a game   2.82 HP each  cover 2.03  knights' HP  17.3
+   on a walk to a new site or mine   0.03 a game   0.35 HP a game  13.90 HP each  cover 0.60  knights' HP  17.2
+   all                               9.79 a game   7.10 HP a game   0.73 HP each  cover 2.75  knights' HP  10.9
+   on open ground, the turn before was the upgrade of an own mine she touches: 0.23 a game  0.45 HP a game  1.91 HP each  cover 2.10  knights' HP 17.6
+   on open ground, the turn before was a new structure on the free site she touches: 0.07 a game  0.46 HP a game  7.04 HP each  cover 1.81  knights' HP 19.7
+   on open ground, the turn before was a MOVE with a knight within 500 (the hold's spot off the towers): 0.03 a game  0.01 HP a game  0.30 HP each  cover 2.00  knights' HP 8.9
+
+OVERLAP_TOUCH-1-field: won 98.5 %, drawn 0.0 %, queen deaths 3; contact turns from turn 50 31.4 a game, 63 % under three or more own towers; HP to knights from turn 50 1.18 a game
+   the gate's state from turn 50: 61.4 turns a game; a MOVE 0.8, a walk to an own tower 16.2, a top-up of the touched tower 42.7
+   at an own tower                  10.52 a game   0.68 HP a game   0.06 HP each  cover 2.98  knights' HP   8.8
+   on a walk to an own tower         2.16 a game   0.28 HP a game   0.13 HP each  cover 3.00  knights' HP   9.4
+   on open ground                    0.34 a game   0.21 HP a game   0.62 HP each  cover 2.28  knights' HP  13.9
+   on a walk to a new site or mine   0.00 a game   0.00 HP a game    nan HP each  cover nan  knights' HP   nan
+   all                              13.02 a game   1.17 HP a game   0.09 HP each  cover 2.96  knights' HP   9.1
+   on open ground, the turn before was the upgrade of an own mine she touches: 0.27 a game  0.13 HP a game  0.49 HP each  cover 2.17  knights' HP 14.0
+   on open ground, the turn before was a new structure on the free site she touches: 0.04 a game  0.07 HP a game  1.69 HP each  cover 2.81  knights' HP 17.2
+   on open ground, the turn before was a MOVE with a knight within 500 (the hold's spot off the towers): 0.03 a game  0.01 HP a game  0.36 HP each  cover 2.64  knights' HP 8.3

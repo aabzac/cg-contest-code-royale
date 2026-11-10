@@ -35,7 +35,9 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `docs/BOTS.md`, Artifacts). Commit 931975a, merged into master on 2026-11-10 (a clean export of its staged tree rebuilt
   the bytes before the commit). Uploaded twice as an exception (2026-11-10: agents 6868933 and 6869279, placements 23.11
   and 22.10; `docs/arena-uploads.md`). Also the selected version since 2026-11-10 (below). The next P2 candidates are
-  screened against v14.
+  screened against v14. `current` has since gained two flags, `OVERLAP_TOUCH` and `CLEAR_TOUCH` (off: it plays as v14 game for game;
+  the two experiments below), so a `submit` of `current` now builds other bytes than `e4c8eeec…` with the same play:
+  96,486 characters of the 100,000.
 - Previous local champion: v13 (2026-11-09 to 2026-11-10) = v12 with no ladder walk into a visible wave (LADDER_CLEAR=500: after
   the first-wave window and with two own towers, while an enemy knight is within 500 of the queen and none within 250,
   the walk to the ladder's next site becomes a walk to her nearest own tower outside the enemy towers' ranges, a top-up
@@ -79,7 +81,8 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   Uploaded as an exception (S 0.5533 against v13 on the evaluation block). Artifact `e4c8eeec…` (95,590 chars, build
   `62ad918b`, config `337e3891`; commit 931975a; kept copy `artifacts/e4c8eeec/Player.java`). The rollback artifact.
   The live agent is 6869279 (upload 2; the arena entry, below). Its code was identical to the artifact in all 180
-  games. What the rule did on the arena is not measured yet.
+  games. On the arena the rule put the queen under three or more own towers on 54 % of her contact turns (v13 39 %);
+  the HP it saves, 3.2 a game, is not established (v14 in Gold, below).
 - Previous selected version: v13 (2026-11-09 to 2026-11-10), by P1 on two Gold placements, 21.95 and 21.65 (mean 21.80,
   SD 0.21), against v12's Gold 19.64 and 21.07 (mean 20.36): "not clearly worse" (+1.44 against −M −2.46; performance
   21.75 ± 0.43 against 20.27 ± 0.45 at Gold's refitted scale 2.71, +1.48 against −2 SE −1.23; `docs/arena-uploads.md`).
@@ -350,12 +353,50 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     50 (income 5 against 3) at the same HP a knight; five economy arms of existing flags give nothing over v13;
   - the local opponents release their midgame waves from 1,230-1,260 away, the Gold field from 990, and the field's
     waves hurt two to seven times more.
+- v14 in Gold (the measurement of 2026-11-10, `docs/data/study-2026-11-10-v14-cover/`; its README has the numbers):
+  - v13 would have commanded otherwise in 158 of the 180 games, on 15 % of the turns, and half as often in the games
+    we lose;
+  - three or more own towers cover the queen on 54 % of her contact turns from turn 50 (v13 39 %; +14.4 points, 95 %
+    interval +6.5..+22.7) and 15.4 contact turns a game pass under one or two towers (21.2); the HP lost on contact
+    turns falls from 15.8 to 12.6 a game, which is not established (−8.1..+1.3);
+  - against opponents rated 22 or more: 57 % under three or more (27 %), deaths 6 of 41 (14 of 45), lost races 17
+    (13);
+  - the 26 deaths (v13 34) are the games without a tower line: 2.8 own towers on the contact turns, an opponent with
+    twice the income; the ladder, the income and the knights trained are v13's;
+  - an episode begun on open ground costs 3.40 HP against 1.13 at a tower, but the class is a mixture (corrected with
+    the open-ground experiment): the hold's own spots off the towers cost 1.86 HP an episode (0.86 HP a game), the
+    queen caught at a mine upgrade or at a build on a free site she touches 3.7 and 10.9 (1.4 HP a game; v13 0.71);
+  - upload 2's seven losses to opponents rated below 17 are not tied to the rule (v13 would have played two of the
+    three deaths turn for turn; in six the opponent out-earned us at turn 100); v12's and v11's uploads had such runs
+    too.
+- The open-ground experiment (2026-11-10, the user's "Да, проверь"; `docs/data/exp-2026-11-10-open-ground/`): not
+  adopted, no candidate is pending.
+  - `OVERLAP_TOUCH=9` (the hold and the flight at the towers' touch points only) scores 0.4909 (0.4802..0.5016)
+    against v14 on 2000 development maps, −0.7 pp against `rival`, −0.4 pp against `field`; `OVERLAP_TOUCH=1` (a spot
+    off the towers only for two more towers) 0.4994 (0.4889..0.5098), −0.0 and −0.3 pp;
+  - without the spots off the towers the contact turns under three or more own towers fall by 3-5 points and the HP
+    lost to knights from turn 50 does not fall; a spot that adds two towers is worth taking (+0.85 pp against v14,
+    the interval above zero), one that adds a single tower changes nothing measurable;
+  - the flag is in `current`, off; screen-pv3 block 8 is unused.
+- The gate-touch experiment (2026-11-10, the user's "Да, проверь"; `docs/data/exp-2026-11-10-gate-touch/`): not
+  adopted, no candidate is pending.
+  - `CLEAR_TOUCH` puts the gate's hold before the touch rule's upgrade of a touched mine (1), new mine or barracks
+    on a touched free site (2) and new tower there (4). On 2000 development maps against v14: 1 scores 0.5034
+    (0.4977..0.5090), 3 scores 0.5066 (0.4991..0.5142), 2 is level (0.5000), 4 loses (0.4904, −1.6 pp against
+    `rival`), 7 scores 0.4960;
+  - with 1 the episodes begun at a mine upgrade vanish and the queen loses 0.66 HP a game less from turn 50 in the
+    mirror, but 0.5-0.8 upgrades a game are never made, the income at turn 150 is 0.1-0.25 lower and the enemy queen
+    loses 0.35-0.8 HP a game less to our knights;
+  - a new tower on the touched site is worth building with the knights within 500: set aside, 0.1-0.2 fewer own
+    towers stand at turn 150;
+  - the flag is in `current`, off; screen-pv3 block 8 is unused.
 - Waiting on the user:
   - the next step. Candidates on record: the towers' sites chosen for overlap, the economy with the dead turns, a
     rival whose barracks stand forward (`docs/data/exp-2026-11-10-overlap/`, Not tried; the study's sections 7 and 8).
-    Not done yet: a look at v14's 180 Gold games, what the rule did there and the 7 losses of upload 2 to players
-    rated below 17. The Gold ladder on 2026-11-08: 347 agents, none eligible, top 26.54
-    (`docs/data/leaderboard-gold-2026-11-08.json`); v14's mean is 3.9 below it;
+    The two narrow follow-ups of the measurement of v14's games are tested and not adopted (the open-ground and
+    gate-touch experiments above). The Gold ladder on
+    2026-11-08: 347 agents, none eligible, top 26.54 (`docs/data/leaderboard-gold-2026-11-08.json`); v14's mean is 3.9
+    below it;
   - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).
 - Policies: P2 locally with gates G0-G5 (`docs/local-screen.md`; PV4 since 2026-11-06), then `submit` and both `procCheck`, then P1 on the arena
   (`docs/arena-uploads.md`, `tools/arena_compare.py`, registry `docs/data/arena-uploads.json`).

@@ -1,0 +1,61 @@
+Seeds 1 + 397 k, k < 200, both seats: the arm minus v14 on the same maps, with the 95 % interval of a bootstrap over maps; v14's own value in brackets.
+
+OVERLAP_TOUCH-9 against v14 (200 maps)
+   score                                                      -0.0112  (-0.0475..+0.0250)  [v14 0.5000]
+   deaths per 400 games                                       -2.0  (-7.0..+3.0)  [v14 10.0]
+   HP to knights from turn 50, a game                         -0.42  (-1.37..+0.54)  [v14 5.38]
+   HP of episodes begun on open ground, a game                -0.73  (-1.29..-0.19)  [v14 1.61]
+   HP of episodes begun at or on a walk to a tower, a game    +0.23  (-0.56..+1.04)  [v14 3.34]
+   episodes begun on open ground, a game                      -0.49  (-0.59..-0.40)  [v14 0.70]
+   contact turns under one or two towers, a game              +0.90  (+0.05..+1.77)  [v14 8.73]
+   share of contact turns under three or more, points         -2.8  (-5.5..-0.2)  [v14 65.0]
+
+OVERLAP_TOUCH-9 against rival (200 maps)
+   score                                                      +0.0162  (-0.0137..+0.0450)  [v14 0.8500]
+   deaths per 400 games                                       +3.0  (-5.0..+12.0)  [v14 20.0]
+   HP to knights from turn 50, a game                         +0.30  (-0.99..+1.55)  [v14 6.53]
+   HP of episodes begun on open ground, a game                -0.60  (-1.32..+0.08)  [v14 1.71]
+   HP of episodes begun at or on a walk to a tower, a game    +0.81  (-0.35..+2.09)  [v14 4.59]
+   episodes begun on open ground, a game                      -0.48  (-0.58..-0.40)  [v14 0.80]
+   contact turns under one or two towers, a game              +1.09  (-0.22..+2.47)  [v14 17.51]
+   share of contact turns under three or more, points         -2.7  (-5.1..-0.5)  [v14 47.6]
+
+OVERLAP_TOUCH-9 against field (200 maps)
+   score                                                      +0.0000  (-0.0150..+0.0150)  [v14 0.9825]
+   deaths per 400 games                                       +0.0  (-4.0..+4.0)  [v14 2.0]
+   HP to knights from turn 50, a game                         -0.10  (-0.57..+0.39)  [v14 1.50]
+   HP of episodes begun on open ground, a game                -0.23  (-0.44..-0.05)  [v14 0.43]
+   HP of episodes begun at or on a walk to a tower, a game    +0.14  (-0.30..+0.58)  [v14 1.06]
+   episodes begun on open ground, a game                      -0.57  (-0.70..-0.44)  [v14 0.87]
+   contact turns under one or two towers, a game              +2.00  (+0.84..+3.18)  [v14 10.65]
+   share of contact turns under three or more, points         -4.6  (-7.5..-1.7)  [v14 64.7]
+
+OVERLAP_TOUCH-1 against v14 (200 maps)
+   score                                                      -0.0100  (-0.0463..+0.0250)  [v14 0.5000]
+   deaths per 400 games                                       -1.0  (-7.0..+5.0)  [v14 10.0]
+   HP to knights from turn 50, a game                         -0.38  (-1.33..+0.54)  [v14 5.38]
+   HP of episodes begun on open ground, a game                -0.29  (-0.82..+0.28)  [v14 1.61]
+   HP of episodes begun at or on a walk to a tower, a game    -0.20  (-0.86..+0.44)  [v14 3.34]
+   episodes begun on open ground, a game                      -0.44  (-0.53..-0.35)  [v14 0.70]
+   contact turns under one or two towers, a game              +0.43  (-0.36..+1.24)  [v14 8.73]
+   share of contact turns under three or more, points         -1.3  (-3.9..+1.2)  [v14 65.0]
+
+OVERLAP_TOUCH-1 against rival (200 maps)
+   score                                                      +0.0188  (-0.0112..+0.0475)  [v14 0.8500]
+   deaths per 400 games                                       +4.0  (-5.0..+13.0)  [v14 20.0]
+   HP to knights from turn 50, a game                         +0.59  (-0.77..+2.09)  [v14 6.53]
+   HP of episodes begun on open ground, a game                -0.80  (-1.49..-0.17)  [v14 1.71]
+   HP of episodes begun at or on a walk to a tower, a game    +1.25  (-0.05..+2.75)  [v14 4.59]
+   episodes begun on open ground, a game                      -0.48  (-0.58..-0.39)  [v14 0.80]
+   contact turns under one or two towers, a game              +0.75  (-0.42..+1.95)  [v14 17.51]
+   share of contact turns under three or more, points         -2.1  (-4.3..+0.0)  [v14 47.6]
+
+OVERLAP_TOUCH-1 against field (200 maps)
+   score                                                      +0.0025  (-0.0100..+0.0175)  [v14 0.9825]
+   deaths per 400 games                                       +1.0  (-3.0..+5.0)  [v14 2.0]
+   HP to knights from turn 50, a game                         -0.32  (-0.83..+0.13)  [v14 1.50]
+   HP of episodes begun on open ground, a game                -0.22  (-0.42..-0.04)  [v14 0.43]
+   HP of episodes begun at or on a walk to a tower, a game    -0.10  (-0.56..+0.32)  [v14 1.06]
+   episodes begun on open ground, a game                      -0.54  (-0.68..-0.41)  [v14 0.87]
+   contact turns under one or two towers, a game              +1.00  (-0.06..+2.07)  [v14 10.65]
+   share of contact turns under three or more, points         -1.8  (-4.6..+1.0)  [v14 64.7]

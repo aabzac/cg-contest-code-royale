@@ -82,7 +82,7 @@ public final class MainBot implements Bot {
         boolean left = homeLeft(s);
         double hx = left ? 0 : Const.WIDTH, hy = left ? 0 : Const.HEIGHT;
 
-        Command cmd = null;
+        Command cmd = null, deferred = null;
         int threat = 0;
         for (int i = 0; i < s.nCreeps; i++)
             if (s.cOwner[i] == 1 && s.cType[i] == Const.KNIGHT && Physics.distSq(s.cx[i], s.cy[i], qx, qy) < (double) p.THREAT_RANGE * p.THREAT_RANGE) threat++;
@@ -132,6 +132,15 @@ public final class MainBot implements Bot {
                 else if (towers < p.MAX_TOWERS) cmd = Command.build(t, "TOWER");
                 else if (income < p.INCOME_LATE && s.sGold[t] > 0 && threat == 0) cmd = Command.build(t, "MINE");
             }
+            // CLEAR_TOUCH: in the gate's state the hold comes before a mine upgrade (1), a new mine or barracks (2), a new
+            // tower (4); the build is set aside and stands only if the hold leaves her where she is.
+            if (cmd != null && p.CLEAR_TOUCH != 0 && s.stType[t] != Const.TOWER && gateOpen(s, qx, qy, threat, towers)) {
+                int bit = s.stType[t] == Const.MINE ? 1 : "TOWER".equals(cmd.structure) ? 4 : 2;
+                if ((p.CLEAR_TOUCH & bit) != 0) {
+                    deferred = cmd;
+                    cmd = null;
+                }
+            }
         }
         if (cmd == null && threat > 0) {
             int tw = nearest(s, qx, qy, i -> s.stType[i] == Const.TOWER && s.stOwner[i] == 0);
@@ -170,6 +179,8 @@ public final class MainBot implements Bot {
                             Command o = overlapSpot(s, qx, qy, touched, tw, true);
                             if (o != null) cmd = o;
                         }
+                        // CLEAR_TOUCH: the hold leaves her where she stands, so the touch rule's build costs nothing.
+                        if (deferred != null && cmd.queen == Command.MOVE && cmd.x == (int) qx && cmd.y == (int) qy) cmd = deferred;
                     }
                 } else if (p.HOLD_OVERLAP > 0 && p.OVERLAP_FIRST >= 1 && touched >= 0 && cmd.queen == Command.BUILD && cmd.site == touched
                     && s.stOwner[touched] == 0 && (s.stType[touched] == Const.TOWER || s.stType[touched] == Const.MINE)
@@ -181,6 +192,8 @@ public final class MainBot implements Bot {
                 }
             }
         }
+        // CLEAR_TOUCH: no hold after all (no own tower outside the enemy towers' ranges): the touch rule's build.
+        if (cmd == null && deferred != null) cmd = deferred;
         if (cmd == null) {
             int target = hold ? -1 : nextSite(s, qx, qy, hx, hy, p, mines, barracks, ladderIncome, towers, -1);
             if (target >= 0) {
@@ -332,6 +345,15 @@ public final class MainBot implements Bot {
     /** Consecutive turns LADDER_CLEAR has held the queen at her tower (LADDER_CLEAR_MAX). */
     private int clearRun;
 
+    /**
+     * LADDER_CLEAR's state: after the first-wave window and with two own towers, an enemy knight (above CLEAR_HP) within
+     * LADDER_CLEAR of the queen and none within THREAT_RANGE, the spell not at its cap.
+     */
+    private boolean gateOpen(GameState s, double qx, double qy, int threat, int towers) {
+        return p.LADDER_CLEAR > 0 && threat == 0 && towers >= 2 && !firstWaveWindow(s, p) && !clearOfKnights(s, qx, qy, p.LADDER_CLEAR, p.CLEAR_HP)
+            && (p.LADDER_CLEAR_MAX == 0 || clearRun < p.LADDER_CLEAR_MAX);
+    }
+
     /** Giant trainings started so far (GIANTS_MAX). */
     private int giantsTrained;
 
@@ -461,7 +483,8 @@ public final class MainBot implements Bot {
      * walk to them; the predicted positions on 24 headings. None inside an enemy tower's range, and in the hold (no knight
      * within THREAT_RANGE of her) none within THREAT_RANGE of an enemy knight. Among the best covered: an own tower's
      * touch point (the fewest steps first; the one she touches is a top-up), then standing, then the fewest steps on a
-     * heading (the deepest inside the ranges on a tie).
+     * heading (the deepest inside the ranges on a tie). OVERLAP_TOUCH=N: a spot off the towers (standing or a heading)
+     * needs more than N covering towers above the best of the touch points and the end of v13's walk.
      */
     private Command overlapSpot(GameState s, double qx, double qy, int touched, int base, boolean hold) {
         int reach = (p.HOLD_OVERLAP + Const.QUEEN_SPEED - 1) / Const.QUEEN_SPEED;
@@ -471,11 +494,8 @@ public final class MainBot implements Bot {
             x = ph.rx;
             y = ph.ry;
         }
-        int here = cover(s, qx, qy), best = Math.max(cover(s, x, y), here);
-        // 0: nothing better than v13's walk; 1: an own tower's touch point; 2: standing; 3: a heading.
-        int kind = here > cover(s, x, y) ? 2 : 0, bestSteps = 0, bestTower = -1;
-        double bestDepth = 0;
-        Command bestMove = null;
+        // At the towers: the end of v13's walk, then the best-covered touch point within reach that beats it.
+        int touch = cover(s, x, y), touchSteps = 0, touchTower = -1;
         for (int j = 0; j < s.nSites; j++) {
             if (s.stType[j] != Const.TOWER || s.stOwner[j] != 0 || underEnemyTower(s, j)) continue;
             double tx = qx, ty = qy;
@@ -487,13 +507,16 @@ public final class MainBot implements Bot {
             }
             if (!touches(s, j, tx, ty) || underEnemyTowerAt(s, tx, ty) || hold && !clearOfKnights(s, tx, ty, p.THREAT_RANGE)) continue;
             int c = cover(s, tx, ty);
-            if (c > best || c == best && (kind > 1 || kind == 1 && n < bestSteps)) {
-                best = c;
-                kind = 1;
-                bestSteps = n;
-                bestTower = j;
+            if (c > touch || c == touch && touchTower >= 0 && n < touchSteps) {
+                touch = c;
+                touchSteps = n;
+                touchTower = j;
             }
         }
+        // Off the towers: where she stands, then a heading that beats it.
+        int open = cover(s, qx, qy), openSteps = 0;
+        double openDepth = 0;
+        Command openMove = null;
         double a0 = Math.atan2(qy - Const.HEIGHT / 2.0, qx - Const.WIDTH / 2.0);
         for (int k = 0; k < 24; k++) {
             double a = a0 + k * Math.PI / 12, fx = qx, fy = qy;
@@ -506,20 +529,19 @@ public final class MainBot implements Bot {
                 if (n == 1) first = m;
                 if (underEnemyTowerAt(s, fx, fy) || hold && !clearOfKnights(s, fx, fy, p.THREAT_RANGE)) break;
                 int c = cover(s, fx, fy);
-                if (c < best || c == best && kind != 3) continue;
+                if (c < open || c == open && openMove == null) continue;
                 double d = depth(s, fx, fy);
-                if (c > best || n < bestSteps || n == bestSteps && d > bestDepth) {
-                    best = c;
-                    kind = 3;
-                    bestSteps = n;
-                    bestDepth = d;
-                    bestMove = first;
+                if (c > open || n < openSteps || n == openSteps && d > openDepth) {
+                    open = c;
+                    openSteps = n;
+                    openDepth = d;
+                    openMove = first;
                 }
             }
         }
-        if (kind == 1) return Command.build(bestTower, "TOWER");
-        if (kind == 2) return Command.move((int) qx, (int) qy);
-        return kind == 3 ? bestMove : null;
+        // A tie goes to the towers (v14); OVERLAP_TOUCH widens their margin.
+        if (open > touch + p.OVERLAP_TOUCH) return openMove != null ? openMove : Command.move((int) qx, (int) qy);
+        return touchTower >= 0 ? Command.build(touchTower, "TOWER") : null;
     }
 
     /**

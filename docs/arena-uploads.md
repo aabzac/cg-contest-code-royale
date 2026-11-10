@@ -1390,8 +1390,26 @@ is refitted at 3.00 on the nine Gold uploads (2.57 on eight, after upload 1), wh
   uploads (v13 less v14, stratified: −10.0 ± 9.9, −7.9 ± 15.2, −13.9 ± 12.5 and −15.1 ± 13.3 pp). The pairs share
   uploads, so they are not four independent samples.
 - **Local against arena:** P2's final evaluation gave S 0.5533 against v13 and the arena moved +0.81 points (v13's
-  0.5958 had moved +1.44, v12's 0.5716 +3.28). What the rule did on the arena (the own towers covering the queen on
-  contact turns and the HP those turns cost) is not yet measured on these 180 games; the study's probe can do it
-  (`docs/data/study-2026-11-09-v13-gold/probes/ArenaProbe.java`, `checks.py` section 10).
+  0.5958 had moved +1.44, v12's 0.5716 +3.28).
+- **The arena's view of the rule** (`docs/data/study-2026-11-10-v14-cover/`: the v13 study's probe on both versions'
+  180 games, measured the same day):
+
+  | our queen, turns from 50 | v13 (180 games) | v14 (180 games) |
+  | --- | --- | --- |
+  | contact turns with three or more own towers covering her | 39 % | 54 % |
+  | contact turns a game under one or two towers | 21.2 | 15.4 |
+  | HP lost to knights on contact turns, a game | 15.8 | 12.6 |
+  | deaths / lost races | 34 / 39 | 26 / 34 |
+
+  - The shift in the cover is established: +14.4 points (95 % interval +6.5..+22.7, games resampled), both v14
+    placements above both of v13's, and the size of the local profiles (53 % → 66 % in the mirror).
+  - The HP saving is not: −3.2 a game, interval −8.1..+1.3.
+  - v13 would have commanded otherwise in 158 of the 180 games, on 15 % of the turns.
+  - The deaths are the games without a tower line (2.8 own towers on the contact turns), where the rule acts half as
+    often. Against opponents rated 22 or more the deaths fell from 14 of 45 to 6 of 41 and the lost races rose from 13
+    to 17.
+  - Upload 2's seven losses to opponents rated below 17 are not tied to the rule: v13 would have played two of the
+    three deaths turn for turn, and in six of the seven the opponent out-earned us at turn 100. Whether the rule cost
+    anything in the other five is not known.
 - **Placement speed:** 24 minutes each from the agent's creation.
 - **The arena entry** is agent 6869279, v14 upload 2: the selected version.

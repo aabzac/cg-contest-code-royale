@@ -231,8 +231,20 @@
   23.11 (rank 9/348) and 22.10 (rank 18/349), SAME 180/180; `follow v14 --selected v13` named
   `artifacts/e4c8eeec/Player.java` itself both times. P1 against v13: mean 22.61 against 21.80, not clearly worse,
   **v14 selected** (`docs/arena-uploads.md`)
-- [ ] What v14's rule did on the arena, on its 180 Gold games (the cover on contact turns; the study's probe,
-  `docs/data/study-2026-11-09-v13-gold/probes/`), and upload 2's losses to players rated below 17
+- [x] What v14's rule did on the arena, on its 180 Gold games (2026-11-10, the user's "Закоммить и измерь";
+  `docs/data/study-2026-11-10-v14-cover/`): the cover on contact turns rose as locally, the HP saving is not
+  established, the deaths are the games without a tower line; upload 2's losses to players rated below 17 are not tied
+  to the rule
+- [x] A narrow follow-up inside the rule: the hold on open ground (2026-11-10, the user's "Да, проверь";
+  `docs/data/exp-2026-11-10-open-ground/`): `OVERLAP_TOUCH` keeps the hold to the towers' touch points (9) or takes a
+  spot off the towers only for two more towers (1). Neither gains on 2000 development maps (S 0.491 and 0.499 against
+  v14): not adopted, the flag stays off. The measurement's "three times" was a mixture; the hold's own spots off the
+  towers are its cheap part
+- [x] From it: the touch rule in the gate's state, where a mine upgrade or a build on a touched free site comes before
+  the hold (2026-11-10, the user's "Да, проверь"; `docs/data/exp-2026-11-10-gate-touch/`). `CLEAR_TOUCH` puts the hold
+  first for the mine upgrade (1), a new mine or barracks (2), a new tower (4). On 2000 development maps: 1 scores
+  0.5034 against v14 (the queen keeps 0.4-0.7 HP a game, 0.5-0.8 upgrades a game are lost and our knights do as much
+  less damage), 2 is level, 4 loses (0.4904). Not adopted, the flag stays off
 - [x] Merge the branch `claude/bot-analysis-next-step-17e972` into master (2026-11-10, the user's "Да, подготовь"; fast-forward) and move the upload's directory (`relabel.py move`)
 - [ ] After it: the towers' sites chosen for overlap (same experiment, Not tried); the economy with the queen's dead
   turns (mines and upgrades under cover, a staged income target), and a rival whose barracks stand forward as the local

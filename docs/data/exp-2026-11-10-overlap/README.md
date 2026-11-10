@@ -272,9 +272,14 @@ Two uploads of the kept copy by the user, each followed by `tools/arena.py follo
 it found the file by its play and passed over the main checkout's `build/submit/Player.java`, v12's): 23.11 (rank
 9/348) and 22.10 (rank 18/349), mean 22.61 against v13's 21.80; performance 22.34 ± 0.51 against 21.84 ± 0.48 at Gold's
 refitted scale 3.00. cgAttribute SAME 180/180. P1: not clearly worse (+0.81 against −M −2.46), **v14 selected**; the
-section and the tables are in `docs/arena-uploads.md`. What the rule did on the arena (the own towers covering the queen
-on contact turns and the HP those turns cost, the profile's terms) is not yet measured on these 180 games; the study's
-probe in its arena mode can do it (`docs/data/study-2026-11-09-v13-gold/probes/ArenaProbe.java`, `checks.py` section 10).
+section and the tables are in `docs/arena-uploads.md`. What the rule did on the arena, in the profile's terms
+(`docs/data/study-2026-11-10-v14-cover/`): three or more own towers cover the queen on 54 % of her contact turns from
+turn 50 (v13 39 %; the mirror's profile 53 % → 66 %), 15.4 contact turns a game pass under one or two towers (21.2),
+and she loses 12.6 HP a game on contact turns (15.8; the difference is not established, 95 % interval −8.1..+1.3). The
+tripwire holds: walks into a wave did not come back. An episode begun on open ground costs three times one begun at a
+tower, the one place inside the rule to test further. Tested the same day (`docs/data/exp-2026-11-10-open-ground/`):
+the class is a mixture, the hold's own spots off the towers are its cheap part, and keeping the hold to the towers
+gains nothing (S 0.491 against v14 on 2000 development maps); the rule stands.
 
 ## Artifact
 

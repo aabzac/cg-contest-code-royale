@@ -1,0 +1,174 @@
+Seeds 1 + 397 k, k < 200, both seats. Income at turns 100 / 150 / 200; own towers at turns 100 / 150.
+
+against v14
+v14                    score 0.5000, deaths 10; HP from turn 50  5.38 (theirs  5.38); episodes begun at a mine upgrade 0.19 a game / 0.59 HP, at a new structure 0.06 / 0.45, all 5.34 HP; the gate's turns to an upgrade 0.47, a new mine 0.18, barracks 0.13, tower 0.28; upgrades 7.54 a game; income 3.03 / 3.59 / 3.20; towers 4.03 / 5.11; mines 1.78, barracks 1.80 at 150; releases 8.36
+CLEAR_TOUCH-1          score 0.4963, deaths  8; HP from turn 50  4.71 (theirs  5.03); episodes begun at a mine upgrade 0.01 a game / 0.04 HP, at a new structure 0.06 / 0.36, all 4.68 HP; the gate's turns to an upgrade 0.00, a new mine 0.17, barracks 0.12, tower 0.29; upgrades 7.01 a game; income 2.98 / 3.51 / 3.07; towers 4.03 / 5.11; mines 1.80, barracks 1.81 at 150; releases 8.30
+CLEAR_TOUCH-3          score 0.5062, deaths  9; HP from turn 50  4.59 (theirs  4.93); episodes begun at a mine upgrade 0.01 a game / 0.03 HP, at a new structure 0.04 / 0.34, all 4.56 HP; the gate's turns to an upgrade 0.00, a new mine 0.00, barracks 0.00, tower 0.29; upgrades 7.07 a game; income 2.97 / 3.54 / 3.12; towers 4.01 / 5.07; mines 1.79, barracks 1.79 at 150; releases 8.36
+CLEAR_TOUCH-4          score 0.4637, deaths 12; HP from turn 50  5.71 (theirs  4.65); episodes begun at a mine upgrade 0.22 a game / 0.68 HP, at a new structure 0.04 / 0.24, all 5.68 HP; the gate's turns to an upgrade 0.50, a new mine 0.17, barracks 0.12, tower 0.00; upgrades 7.59 a game; income 3.04 / 3.56 / 3.23; towers 3.87 / 4.96; mines 1.76, barracks 1.77 at 150; releases 8.44
+
+against rival
+v14                    score 0.8500, deaths 20; HP from turn 50  6.53 (theirs 14.98); episodes begun at a mine upgrade 0.26 a game / 0.50 HP, at a new structure 0.12 / 0.71, all 6.50 HP; the gate's turns to an upgrade 0.75, a new mine 0.37, barracks 0.12, tower 0.41; upgrades 6.08 a game; income 2.77 / 3.52 / 2.93; towers 3.71 / 4.28; mines 1.76, barracks 1.64 at 150; releases 8.04
+CLEAR_TOUCH-1          score 0.8538, deaths 18; HP from turn 50  6.14 (theirs 14.23); episodes begun at a mine upgrade 0.00 a game / 0.01 HP, at a new structure 0.11 / 0.70, all 6.11 HP; the gate's turns to an upgrade 0.01, a new mine 0.37, barracks 0.12, tower 0.42; upgrades 5.32 a game; income 2.71 / 3.39 / 2.93; towers 3.71 / 4.26; mines 1.79, barracks 1.64 at 150; releases 7.99
+CLEAR_TOUCH-3          score 0.8538, deaths 17; HP from turn 50  6.15 (theirs 14.29); episodes begun at a mine upgrade 0.00 a game / 0.01 HP, at a new structure 0.07 / 0.42, all 6.12 HP; the gate's turns to an upgrade 0.01, a new mine 0.01, barracks 0.00, tower 0.40; upgrades 5.39 a game; income 2.67 / 3.43 / 2.88; towers 3.70 / 4.18; mines 1.75, barracks 1.60 at 150; releases 8.07
+CLEAR_TOUCH-4          score 0.8300, deaths 19; HP from turn 50  7.25 (theirs 14.53); episodes begun at a mine upgrade 0.23 a game / 0.33 HP, at a new structure 0.09 / 0.55, all 7.22 HP; the gate's turns to an upgrade 0.69, a new mine 0.33, barracks 0.10, tower 0.01; upgrades 6.06 a game; income 2.78 / 3.53 / 2.96; towers 3.55 / 4.19; mines 1.76, barracks 1.61 at 150; releases 8.14
+
+against field
+v14                    score 0.9825, deaths  2; HP from turn 50  1.50 (theirs 21.47); episodes begun at a mine upgrade 0.25 a game / 0.19 HP, at a new structure 0.03 / 0.05, all 1.49 HP; the gate's turns to an upgrade 0.88, a new mine 0.35, barracks 0.14, tower 0.26; upgrades 4.04 a game; income 2.62 / 2.13 / 2.01; towers 3.82 / 4.04; mines 1.30, barracks 1.38 at 150; releases 7.00
+CLEAR_TOUCH-1          score 0.9862, deaths  2; HP from turn 50  1.36 (theirs 20.65); episodes begun at a mine upgrade 0.00 a game / 0.00 HP, at a new structure 0.04 / 0.04, all 1.35 HP; the gate's turns to an upgrade 0.01, a new mine 0.34, barracks 0.14, tower 0.28; upgrades 3.19 a game; income 2.57 / 1.88 / 1.82; towers 3.82 / 4.03; mines 1.33, barracks 1.39 at 150; releases 6.82
+CLEAR_TOUCH-3          score 0.9862, deaths  1; HP from turn 50  1.07 (theirs 20.57); episodes begun at a mine upgrade 0.00 a game / 0.00 HP, at a new structure 0.01 / 0.00, all 1.06 HP; the gate's turns to an upgrade 0.01, a new mine 0.00, barracks 0.00, tower 0.27; upgrades 3.27 a game; income 2.56 / 1.82 / 1.83; towers 3.79 / 3.97; mines 1.25, barracks 1.30 at 150; releases 6.99
+CLEAR_TOUCH-4          score 0.9838, deaths  1; HP from turn 50  1.53 (theirs 21.45); episodes begun at a mine upgrade 0.24 a game / 0.22 HP, at a new structure 0.02 / 0.05, all 1.52 HP; the gate's turns to an upgrade 0.91, a new mine 0.34, barracks 0.13, tower 0.01; upgrades 3.99 a game; income 2.61 / 2.05 / 1.98; towers 3.65 / 3.84; mines 1.28, barracks 1.35 at 150; releases 7.04
+
+The arm minus v14 on the same maps, with the 95 % interval of a bootstrap over maps; v14's own value in brackets.
+
+CLEAR_TOUCH-1 against v14 (200 maps)
+   score                                                      -0.0037  (-0.0237..+0.0150)  [v14 0.5000]
+   deaths per 400 games                                       -2.0  (-6.0..+1.0)  [v14 10.0]
+   HP to knights from turn 50, a game                         -0.66  (-1.39..-0.12)  [v14 5.38]
+   HP of episodes begun at a mine upgrade, a game             -0.55  (-0.82..-0.30)  [v14 0.59]
+   HP of episodes begun at a new structure, a game            -0.09  (-0.28..+0.07)  [v14 0.45]
+   HP of all contact episodes from turn 50, a game            -0.66  (-1.39..-0.12)  [v14 5.34]
+   the enemy queen's HP to our knights from turn 50, a game   -0.35  (-0.84..+0.03)  [v14 5.38]
+   mine upgrades a game                                       -0.53  (-0.73..-0.35)  [v14 7.54]
+   income at turn 100                                         -0.05  (-0.08..-0.01)  [v14 3.03]
+   income at turn 150                                         -0.08  (-0.16..-0.01)  [v14 3.59]
+   income at turn 200                                         -0.13  (-0.24..-0.03)  [v14 3.20]
+   own towers at turn 150                                     +0.00  (-0.02..+0.03)  [v14 5.11]
+   own mines at turn 150                                      +0.02  (-0.00..+0.04)  [v14 1.78]
+   own barracks at turn 150                                   +0.01  (-0.01..+0.03)  [v14 1.80]
+   knight releases a game                                     -0.06  (-0.12..-0.00)  [v14 8.36]
+
+CLEAR_TOUCH-1 against rival (200 maps)
+   score                                                      +0.0038  (-0.0175..+0.0238)  [v14 0.8500]
+   deaths per 400 games                                       -2.0  (-7.0..+2.0)  [v14 20.0]
+   HP to knights from turn 50, a game                         -0.39  (-1.15..+0.33)  [v14 6.53]
+   HP of episodes begun at a mine upgrade, a game             -0.49  (-0.84..-0.22)  [v14 0.50]
+   HP of episodes begun at a new structure, a game            -0.01  (-0.25..+0.24)  [v14 0.71]
+   HP of all contact episodes from turn 50, a game            -0.39  (-1.15..+0.33)  [v14 6.50]
+   the enemy queen's HP to our knights from turn 50, a game   -0.75  (-1.48..-0.08)  [v14 14.98]
+   mine upgrades a game                                       -0.76  (-0.94..-0.58)  [v14 6.08]
+   income at turn 100                                         -0.06  (-0.11..-0.02)  [v14 2.77]
+   income at turn 150                                         -0.13  (-0.21..-0.06)  [v14 3.52]
+   income at turn 200                                         -0.00  (-0.15..+0.14)  [v14 2.93]
+   own towers at turn 150                                     -0.01  (-0.04..+0.02)  [v14 4.28]
+   own mines at turn 150                                      +0.02  (-0.01..+0.05)  [v14 1.76]
+   own barracks at turn 150                                   -0.01  (-0.02..+0.01)  [v14 1.64]
+   knight releases a game                                     -0.06  (-0.13..+0.01)  [v14 8.04]
+
+CLEAR_TOUCH-1 against field (200 maps)
+   score                                                      +0.0037  (-0.0075..+0.0162)  [v14 0.9825]
+   deaths per 400 games                                       +0.0  (-3.0..+3.0)  [v14 2.0]
+   HP to knights from turn 50, a game                         -0.14  (-0.40..+0.11)  [v14 1.50]
+   HP of episodes begun at a mine upgrade, a game             -0.19  (-0.29..-0.11)  [v14 0.19]
+   HP of episodes begun at a new structure, a game            -0.01  (-0.13..+0.11)  [v14 0.05]
+   HP of all contact episodes from turn 50, a game            -0.14  (-0.40..+0.11)  [v14 1.49]
+   the enemy queen's HP to our knights from turn 50, a game   -0.82  (-1.52..-0.18)  [v14 21.47]
+   mine upgrades a game                                       -0.84  (-1.00..-0.68)  [v14 4.04]
+   income at turn 100                                         -0.05  (-0.09..-0.01)  [v14 2.62]
+   income at turn 150                                         -0.25  (-0.35..-0.16)  [v14 2.13]
+   income at turn 200                                         -0.19  (-0.34..-0.04)  [v14 2.01]
+   own towers at turn 150                                     -0.01  (-0.04..+0.02)  [v14 4.04]
+   own mines at turn 150                                      +0.03  (+0.01..+0.06)  [v14 1.30]
+   own barracks at turn 150                                   +0.00  (-0.01..+0.02)  [v14 1.38]
+   knight releases a game                                     -0.18  (-0.28..-0.09)  [v14 7.00]
+
+CLEAR_TOUCH-3 against v14 (200 maps)
+   score                                                      +0.0062  (-0.0200..+0.0325)  [v14 0.5000]
+   deaths per 400 games                                       -1.0  (-5.0..+3.0)  [v14 10.0]
+   HP to knights from turn 50, a game                         -0.78  (-1.54..-0.16)  [v14 5.38]
+   HP of episodes begun at a mine upgrade, a game             -0.56  (-0.83..-0.31)  [v14 0.59]
+   HP of episodes begun at a new structure, a game            -0.11  (-0.33..+0.10)  [v14 0.45]
+   HP of all contact episodes from turn 50, a game            -0.78  (-1.54..-0.16)  [v14 5.34]
+   the enemy queen's HP to our knights from turn 50, a game   -0.45  (-1.15..+0.15)  [v14 5.38]
+   mine upgrades a game                                       -0.47  (-0.66..-0.29)  [v14 7.54]
+   income at turn 100                                         -0.06  (-0.10..-0.02)  [v14 3.03]
+   income at turn 150                                         -0.05  (-0.15..+0.05)  [v14 3.59]
+   income at turn 200                                         -0.08  (-0.20..+0.03)  [v14 3.20]
+   own towers at turn 150                                     -0.04  (-0.07..-0.00)  [v14 5.11]
+   own mines at turn 150                                      +0.01  (-0.02..+0.04)  [v14 1.78]
+   own barracks at turn 150                                   -0.01  (-0.04..+0.02)  [v14 1.80]
+   knight releases a game                                     +0.01  (-0.07..+0.08)  [v14 8.36]
+
+CLEAR_TOUCH-3 against rival (200 maps)
+   score                                                      +0.0038  (-0.0187..+0.0250)  [v14 0.8500]
+   deaths per 400 games                                       -3.0  (-8.0..+2.0)  [v14 20.0]
+   HP to knights from turn 50, a game                         -0.38  (-1.23..+0.44)  [v14 6.53]
+   HP of episodes begun at a mine upgrade, a game             -0.49  (-0.84..-0.22)  [v14 0.50]
+   HP of episodes begun at a new structure, a game            -0.29  (-0.59..-0.02)  [v14 0.71]
+   HP of all contact episodes from turn 50, a game            -0.38  (-1.23..+0.44)  [v14 6.50]
+   the enemy queen's HP to our knights from turn 50, a game   -0.69  (-1.49..+0.06)  [v14 14.98]
+   mine upgrades a game                                       -0.69  (-0.89..-0.49)  [v14 6.08]
+   income at turn 100                                         -0.10  (-0.16..-0.05)  [v14 2.77]
+   income at turn 150                                         -0.09  (-0.19..+0.00)  [v14 3.52]
+   income at turn 200                                         -0.05  (-0.20..+0.09)  [v14 2.93]
+   own towers at turn 150                                     -0.10  (-0.15..-0.05)  [v14 4.28]
+   own mines at turn 150                                      -0.01  (-0.05..+0.02)  [v14 1.76]
+   own barracks at turn 150                                   -0.04  (-0.07..-0.02)  [v14 1.64]
+   knight releases a game                                     +0.03  (-0.05..+0.11)  [v14 8.04]
+
+CLEAR_TOUCH-3 against field (200 maps)
+   score                                                      +0.0037  (-0.0137..+0.0212)  [v14 0.9825]
+   deaths per 400 games                                       -1.0  (-5.0..+2.0)  [v14 2.0]
+   HP to knights from turn 50, a game                         -0.43  (-0.95..-0.02)  [v14 1.50]
+   HP of episodes begun at a mine upgrade, a game             -0.19  (-0.29..-0.11)  [v14 0.19]
+   HP of episodes begun at a new structure, a game            -0.05  (-0.14..+0.00)  [v14 0.05]
+   HP of all contact episodes from turn 50, a game            -0.42  (-0.95..-0.02)  [v14 1.49]
+   the enemy queen's HP to our knights from turn 50, a game   -0.90  (-1.66..-0.10)  [v14 21.47]
+   mine upgrades a game                                       -0.77  (-0.94..-0.62)  [v14 4.04]
+   income at turn 100                                         -0.06  (-0.10..-0.02)  [v14 2.62]
+   income at turn 150                                         -0.31  (-0.42..-0.21)  [v14 2.13]
+   income at turn 200                                         -0.18  (-0.35..-0.02)  [v14 2.01]
+   own towers at turn 150                                     -0.07  (-0.11..-0.04)  [v14 4.04]
+   own mines at turn 150                                      -0.05  (-0.09..-0.01)  [v14 1.30]
+   own barracks at turn 150                                   -0.09  (-0.12..-0.05)  [v14 1.38]
+   knight releases a game                                     -0.01  (-0.12..+0.10)  [v14 7.00]
+
+CLEAR_TOUCH-4 against v14 (200 maps)
+   score                                                      -0.0363  (-0.0625..-0.0100)  [v14 0.5000]
+   deaths per 400 games                                       +2.0  (-2.0..+6.0)  [v14 10.0]
+   HP to knights from turn 50, a game                         +0.34  (-0.20..+0.88)  [v14 5.38]
+   HP of episodes begun at a mine upgrade, a game             +0.09  (-0.12..+0.37)  [v14 0.59]
+   HP of episodes begun at a new structure, a game            -0.21  (-0.43..-0.02)  [v14 0.45]
+   HP of all contact episodes from turn 50, a game            +0.34  (-0.19..+0.88)  [v14 5.34]
+   the enemy queen's HP to our knights from turn 50, a game   -0.73  (-1.29..-0.28)  [v14 5.38]
+   mine upgrades a game                                       +0.05  (-0.12..+0.23)  [v14 7.54]
+   income at turn 100                                         +0.01  (-0.03..+0.05)  [v14 3.03]
+   income at turn 150                                         -0.03  (-0.12..+0.05)  [v14 3.59]
+   income at turn 200                                         +0.03  (-0.08..+0.14)  [v14 3.20]
+   own towers at turn 150                                     -0.15  (-0.20..-0.10)  [v14 5.11]
+   own mines at turn 150                                      -0.02  (-0.05..+0.01)  [v14 1.78]
+   own barracks at turn 150                                   -0.03  (-0.06..-0.02)  [v14 1.80]
+   knight releases a game                                     +0.08  (+0.01..+0.15)  [v14 8.36]
+
+CLEAR_TOUCH-4 against rival (200 maps)
+   score                                                      -0.0200  (-0.0462..+0.0038)  [v14 0.8500]
+   deaths per 400 games                                       -1.0  (-6.0..+3.0)  [v14 20.0]
+   HP to knights from turn 50, a game                         +0.71  (-0.21..+1.72)  [v14 6.53]
+   HP of episodes begun at a mine upgrade, a game             -0.17  (-0.52..+0.11)  [v14 0.50]
+   HP of episodes begun at a new structure, a game            -0.16  (-0.36..-0.01)  [v14 0.71]
+   HP of all contact episodes from turn 50, a game            +0.71  (-0.21..+1.72)  [v14 6.50]
+   the enemy queen's HP to our knights from turn 50, a game   -0.45  (-1.10..+0.15)  [v14 14.98]
+   mine upgrades a game                                       -0.02  (-0.20..+0.16)  [v14 6.08]
+   income at turn 100                                         +0.01  (-0.03..+0.05)  [v14 2.77]
+   income at turn 150                                         +0.01  (-0.12..+0.12)  [v14 3.52]
+   income at turn 200                                         +0.03  (-0.08..+0.15)  [v14 2.93]
+   own towers at turn 150                                     -0.09  (-0.14..-0.04)  [v14 4.28]
+   own mines at turn 150                                      -0.00  (-0.04..+0.03)  [v14 1.76]
+   own barracks at turn 150                                   -0.03  (-0.06..-0.00)  [v14 1.64]
+   knight releases a game                                     +0.10  (+0.00..+0.19)  [v14 8.04]
+
+CLEAR_TOUCH-4 against field (200 maps)
+   score                                                      +0.0012  (-0.0062..+0.0088)  [v14 0.9825]
+   deaths per 400 games                                       -1.0  (-3.0..+0.0)  [v14 2.0]
+   HP to knights from turn 50, a game                         +0.03  (-0.51..+0.47)  [v14 1.50]
+   HP of episodes begun at a mine upgrade, a game             +0.03  (-0.01..+0.08)  [v14 0.19]
+   HP of episodes begun at a new structure, a game            +0.00  (+0.00..+0.02)  [v14 0.05]
+   HP of all contact episodes from turn 50, a game            +0.03  (-0.51..+0.47)  [v14 1.49]
+   the enemy queen's HP to our knights from turn 50, a game   -0.02  (-0.60..+0.56)  [v14 21.47]
+   mine upgrades a game                                       -0.04  (-0.16..+0.07)  [v14 4.04]
+   income at turn 100                                         -0.01  (-0.06..+0.04)  [v14 2.62]
+   income at turn 150                                         -0.08  (-0.18..+0.01)  [v14 2.13]
+   income at turn 200                                         -0.03  (-0.14..+0.09)  [v14 2.01]
+   own towers at turn 150                                     -0.20  (-0.26..-0.14)  [v14 4.04]
+   own mines at turn 150                                      -0.03  (-0.06..+0.01)  [v14 1.30]
+   own barracks at turn 150                                   -0.03  (-0.06..-0.01)  [v14 1.38]
+   knight releases a game                                     +0.04  (-0.05..+0.12)  [v14 7.00]

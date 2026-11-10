@@ -4260,3 +4260,168 @@ the arena entry, the margins, the waiting list), SUMMARY, PLAN, `docs/local-scre
 architecture page (v14 selected; v12's Gold mean of three, 20.53, which the table had as 20.36 of two), the experiment
 README (On the arena). Committed on the user's request ("Закоммить и измерь"; the commit of v14's uploads, `git log`);
 until the merge the main checkout holds the tool's uncommitted copies of the six data files, the same bytes.
+
+## 2026-11-10 — What the overlap rule did on the arena: v14's 180 Gold games beside v13's
+
+The user's "Закоммить и измерь". The records of v14's uploads were committed first (63c2c7e); then the measurement the
+records had left open. No bot code changed, no P2 block used. Study: `docs/data/study-2026-11-10-v14-cover/` (README,
+`cover.py` → `cover.txt`, `footprint.py` → `footprint.txt`).
+- **The probe** of the v13 study (`ArenaProbe.java`, unchanged) on v14's games:
+  `java -cp ... ArenaProbe 6868933,6869279 replays/study/gold-v14-2026-11-10/probe <R>/arena/v14/gold/upload-0{1,2}/games`
+  (180 games, 77,130 turn rows). The control, the same run on v13's games, gave the v13 study's three files byte for
+  byte. In Git Bash the class path needed `MSYS_NO_PATHCONV=1`: without it the gson jar's `C:` was rewritten and the run
+  failed with NoClassDefFoundError.
+- **v13's answers on v14's positions:** `./gradlew -q cgAttribute -Preplays=<R>/arena/v14/gold/upload-01/games
+  -Pagent=6868933 -Pbot=v13` and the same for upload 2: SAME 11 and 11, DIFF 79 and 79. v13 would have commanded
+  otherwise in 158 of 180 games, on 5,917 of 38,565 turns (15 %); the first difference at turn 81 (median); 18.8
+  different turns a game in the lost games, 39.9 in the won ones.
+- **The cover** (our queen, turns from 50; v13 → v14):
+  - contact turns with three or more own towers covering her 39 % → 54 % (+14.4 points, 95 % interval +6.5..+22.7,
+    games resampled; the placements 36 % and 42 % → 57 % and 51 %);
+  - contact turns under one or two towers 21.2 → 15.4 a game (−5.9, −10.5..−1.5);
+  - the gate's state 53 % → 71 % under three or more, the first turn of an episode 49 % → 71 %, idle 58 % → 69 %.
+- **The HP:** on contact turns 15.8 → 12.6 a game, −3.2 (−8.1..+1.3): the size the study had predicted (3.4), not
+  established. A contact turn costs the same under a given cover (1.11 / 0.46 / 0.17 / 0.16 and 1.23 / 0.44 / 0.15 /
+  0.11 HP under 1 / 2 / 3 / 4+).
+- **By band:** from 17 up v14 scores more in every band (82 %, 65 %, 44 % against 69 %, 58 %, 40 %). Against 22 and up:
+  57 % under three or more (27 %), 10.9 HP from turn 50 (17.5), deaths 6 of 41 (14 of 45), lost races 17 (13).
+- **What the rule does not reach:** the 26 deaths (v13 34) have 2.8 own towers on the contact turns and 1.83 covering
+  her, as v13's (3.3 and 1.86); towers at turn 100 3.94 (3.80), income at turn 100 2.75 against 4.75 (3.07 against
+  5.00), knights trained from turn 50 20.8 against 36.6.
+- **Open ground:** an episode begun on open ground costs 3.40 HP against 1.13 at a tower, at the same cover (3.02 and
+  3.11), with fresher knights on its first turn (HP sum 22.3 against 13.0): 0.7 a game, 2.4 HP a game. Walks into a
+  wave towards a new site did not come back (0.03 a game).
+- **Upload 2's seven losses to opponents rated below 17:** three deaths, four lost races; the opponent out-earned us at
+  turn 100 in six. v13 would have played two of the three deaths turn for turn. Against the rating model v14 won 25 of
+  32 such games where 29.1 are expected (−2.6 SD); v12 upload 2 had 21 of 29 (−1.9 SD).
+- Files: `replays/study/gold-v14-2026-11-10/` (`probe`, `probe-v13`, `as-v13-upload-0{1,2}.txt`; gitignored) in the
+  worktree and copied to the main checkout; sha256 in the study's README.
+
+Records: the study directory, `docs/arena-uploads.md` (the arena's view of the rule in v14's section), STATUS (v14 in
+Gold, the waiting list), SUMMARY, PLAN, `docs/local-screen.md` (v14's row), the experiment README (On the arena), the
+architecture page (the rule's paragraph). Committed with the two experiments that followed (the last entry of this
+day).
+
+## 2026-11-10 — The hold at the towers only: not adopted; the measurement's open-ground class was a mixture
+
+The user's decision ("Да, проверь", to the question whether to test locally the rule's variant in which the queen waits
+only at her own towers, without open ground). Experiment `docs/data/exp-2026-11-10-open-ground/`; its README has the
+hypothesis and the bar, written before the series, and the tables.
+
+- **The flag:** `Params.OVERLAP_TOUCH=N`, 0 by default. `HOLD_OVERLAP` takes a spot off the towers (where she stands, or
+  a heading) only when it has more than N covering own towers above the best touch point within reach and the end of
+  v13's walk: 0 is v14, 1 asks for two more, 9 never takes one. `MainBot.overlapSpot` now keeps the best touch point and
+  the best spot off the towers apart and compares them at the end. The frozen snapshots v01-v14 list the parameter
+  at 0.
+- **Tests:** `StrategyParamsTest.overlapTouchKeepsTheHoldAtTheTowers` (new). `./gradlew test`: 185 tests, 3 skipped (the
+  corpus tests, for want of the arena replays in the worktree), no failure; `MainBotTest.withDefaultsCurrentPlaysAsV14`
+  among them.
+- **Identity:** `./gradlew -q bench -Pbot1=current -Pbot2=v14 -Pmaps=500 -Pthreads=8 -PturnMs=50 -PseedBase=1
+  -PseedStride=397 -Pout=<R>/identity-current-v14.json`, then `python -B -I tools/bench_pair.py direct
+  <R>/identity-current-v14.json --mirror <R>/dev-1/ctrl-v14.json`: 0 of 500 maps changed (`<R>` is
+  `replays/bench/exp-2026-11-10-open-ground`).
+- **The sweep** (20:33-20:40, commit 63c2c7e with the uncommitted flag): `BASE=<1|3|5|7> bash
+  docs/data/exp-2026-11-10-open-ground/sweep.sh OVERLAP_TOUCH=9 OVERLAP_TOUCH=1`, then `sweep_table.py` → `sweep.txt`.
+  Four development sets, BASE + 397 k, k < 500, 2000 maps, both seats:
+  - `OVERLAP_TOUCH=9`: S 0.4909 (0.4802..0.5016) against v14 (0.4935, 0.4830, 0.5030, 0.4840 by set), 1602 maps
+    changed against v14's mirror; −0.0070 (−0.0178..+0.0038) against `rival`, −0.0040 (−0.0080..−0.0000) against `field`;
+  - `OVERLAP_TOUCH=1`: S 0.4994 (0.4889..0.5098) (0.4990, 0.4995, 0.5030, 0.4960), 1557 maps changed; −0.0004 against
+    `rival`, −0.0026 against `field`;
+  - 1 minus 9 on the same maps: +0.0085 (+0.0022..+0.0148) against v14, +0.0066 (+0.0012..+0.0120) against `rival`,
+    +0.0014 against `field`;
+  - slow turns at 8 threads: 0-30 a series for the arms, 0-3 for v14's control series; 18 and 30 of them in two series
+    written 15 seconds apart. Host noise; nothing depends on the clock in a development sweep.
+- **The profiles** (20:40-20:46): `bash docs/data/exp-2026-11-10-open-ground/profile.sh OVERLAP_TOUCH=9 OVERLAP_TOUCH=1`
+  (200 maps 1 + 397 k, both seats, against v14, `rival` and `field`), then `begun.py` → `begun.txt`, `paired.py` →
+  `paired.txt`, and the overlap experiment's `profile_table.py <R>/profiles` → `profiles.txt`. For `OVERLAP_TOUCH=9`
+  against v14 / `rival` / `field`, the arm minus v14 on the same maps:
+  - episodes begun on open ground −0.49 / −0.48 / −0.57 a game, their HP −0.73 (−1.29..−0.19) / −0.60 (−1.32..+0.08) /
+    −0.23 (−0.44..−0.05);
+  - the HP of the episodes begun at or on a walk to an own tower +0.23 / +0.81 / +0.14, the HP to knights from turn 50
+    −0.42 (−1.37..+0.54) / +0.30 (−0.99..+1.55) / −0.10 (−0.57..+0.39);
+  - the share of contact turns under three or more own towers −2.8 (−5.5..−0.2) / −2.7 (−5.1..−0.5) / −4.6 (−7.5..−1.7)
+    points; deaths per 400 games −2 / +3 / 0.
+- **The class "begun on open ground" is a mixture.** By the turn before the episode (v14 in the mirror, a game / HP a
+  game / HP each): a MOVE with a knight within 500, the hold's spot off the towers, 0.44 / 0.49 / 1.11; the upgrade of
+  an own mine she touches 0.19 / 0.59 / 3.09; a new structure on the free site she touches 0.06 / 0.45 / 7.46; an
+  episode begun at an own tower costs 0.44. The flag removes the first kind only.
+- **The correction to the measurement** (`docs/data/study-2026-11-10-v14-cover/`): `cover.py` got `open_kind` and
+  prints the class by the turn before; `cover.txt` gained seven lines in section 5 and is otherwise byte for byte the
+  same (`diff` against the copy made before the rerun). On the arena v14's 125 open-ground episodes are 83 at the
+  hold's spots off the towers (0.46 a game, 1.86 HP each, 0.86 HP a game, under 3.35 towers), 27 at a mine upgrade
+  (3.74 HP each, 0.56 a game), 14 at a new structure (10.86 each, 0.84 a game) and 1 other; v13's 30 are 23 at a mine
+  upgrade, 6 at a new structure and 1 other (0.71 HP a game). So "an episode begun on open ground costs three times one
+  begun at a tower" was true of the class and not of the rule's spots, which cost 1.6 times one (1.86 against 1.13).
+  The study's README, section 7, carries the correction; STATUS and SUMMARY are reworded.
+- **Verdict:** not adopted. Neither arm meets the bar (a lower bound of S above 0.50; the HP to knights from turn 50
+  falling): without the spots off the towers the cover falls and no HP is saved, and a spot that adds two towers is
+  worth taking. No screen, screen-pv3 block 8 unused, `OVERLAP_TOUCH` stays in the code at 0.
+- **What it left:** the touch rule in the gate's state. A mine upgrade or a build on a touched free site comes before
+  the hold; the episodes begun there cost 1.0-1.2 HP a game in the mirror and against `rival` and 1.4 on the arena. A
+  flag that puts the hold first is the user's decision (PLAN).
+- **The artifact of `current`:** `./gradlew submit` gives 95,555 characters, build `0f66bcd4`, config `1fe785e2`, sha256
+  `aef954a7d124ba6be2877651ea4dc1082fd43fb99518a501a38a619bf618a1f9`. It plays as v14 and is not a candidate. The
+  worktree's `build/submit/Player.java` now holds this build; v14's bytes are the kept copy
+  `artifacts/e4c8eeec/Player.java` in the main checkout.
+- Files: the raw reports in `replays/bench/exp-2026-11-10-open-ground/` (gitignored) in the worktree, copied to the
+  main checkout without the profiles' csv files (256 MB; `profile.sh` rebuilds them).
+
+Records: the experiment directory, the study's README and `cover.py` / `cover.txt`, PLAN, STATUS (the champion's block,
+v14 in Gold, the experiment's block, the waiting list), SUMMARY, BOTS (the flag's row; the `current` row said v13), the
+overlap experiment's README (On the arena), the architecture page (the two lists of the flags that are off), `Params`'
+comment. Committed with the next entry's experiment.
+
+## 2026-11-10 — The hold before the touch rule's upgrades and builds: not adopted
+
+The user's decision ("Да, проверь", to the question whether to test locally leaving for the towers before the mine
+upgrade while a knight is within 500). Experiment `docs/data/exp-2026-11-10-gate-touch/`; its README has the
+hypothesis and the bar, written before the series, and the tables.
+
+- **The flag:** `Params.CLEAR_TOUCH=B`, 0 by default, a sum of 1 (the upgrade of an own mine she touches), 2 (a new mine
+  or barracks on a free site she touches) and 4 (a new tower there). In `MainBot.play` the touch rule's build is set
+  aside in the gate's state (`gateOpen`: LADDER_CLEAR's condition) and the hold decides as if she touched nothing; the
+  build stands when the hold leaves her standing where she is or finds no own tower. The top-up of a touched tower is
+  not changed. The frozen snapshots v01-v14 list the parameter at 0.
+- **Tests:** `StrategyParamsTest.clearTouchPutsTheHoldBeforeUpgradesAndBuilds` (new). `./gradlew test`: 186 tests, 3
+  skipped (the corpus tests), no failure.
+- **Identity:** `current` against v14 on 500 maps (1 + 397 k) repeats v14's mirror game for game (`bench_pair.py
+  direct <R>/identity-current-v14.json --mirror <R>/dev-1/ctrl-v14.json`: 0 maps changed, no failure; `<R>` is
+  `replays/bench/exp-2026-11-10-gate-touch`). A first run right after 85 MB of profiles were copied had 5 and 8 slow
+  turns (longest 173 ms) with the same games; the repeat is clean (longest 34.5 ms).
+- **The controls had to be run again:** the open-ground experiment's control reports name one parameter fewer in v14's
+  effective configuration, and `bench_pair.py` refuses such a pair ("the control plays differently"). The games are the
+  same.
+- **The sweep** (21:26-21:41, commit 63c2c7e with the uncommitted flags): `OUT=<R>/dev-<base> BASE=<1|3|5|7> bash
+  docs/data/exp-2026-11-10-open-ground/sweep.sh CLEAR_TOUCH=1 CLEAR_TOUCH=2 CLEAR_TOUCH=4 CLEAR_TOUCH=3 CLEAR_TOUCH=7`,
+  then `python -B -I docs/data/exp-2026-11-10-open-ground/sweep_table.py <R>` → `sweep.txt`. 2000 maps pooled, S
+  against v14, deltas against `rival` and `field`:
+  - 1: 0.5034 (0.4977..0.5090), +0.0045 (−0.0019..+0.0109), +0.0005; 511 maps changed against the mirror;
+  - 2: 0.5000 (0.4934..0.5066), −0.0009, −0.0010;
+  - 4: 0.4904 (0.4824..0.4983), −0.0164 (−0.0244..−0.0084), −0.0035 (−0.0061..−0.0009);
+  - 3: 0.5066 (0.4991..0.5142), +0.0009, −0.0009; 3 minus 2 on the same maps +0.0066 (+0.0016..+0.0116) against v14;
+  - 7: 0.4960 (0.4862..0.5058), −0.0158 (−0.0261..−0.0054), −0.0054 (−0.0093..−0.0015).
+- **The profiles** (21:42-21:50): `OUT=<R>/profiles bash docs/data/exp-2026-11-10-open-ground/profile.sh CLEAR_TOUCH=1
+  CLEAR_TOUCH=3` and `CLEAR_TOUCH=4` (v14's three profiles copied from the open-ground experiment), then `touch.py` →
+  `touch.txt`. For 1 against v14 / `rival` / `field`, the arm minus v14 on the same maps:
+  - episodes begun at a mine upgrade 0.19 → 0.01, 0.26 → 0.00, 0.25 → 0.00 a game; their HP −0.55 (−0.82..−0.30) /
+    −0.49 (−0.84..−0.22) / −0.19 (−0.29..−0.11); the HP to knights from turn 50 −0.66 (−1.39..−0.12) / −0.39
+    (−1.15..+0.33) / −0.14 (−0.40..+0.11);
+  - mine upgrades −0.53 / −0.76 / −0.84 a game, the income at turn 150 −0.08 / −0.13 / −0.25, the enemy queen's HP to
+    our knights from turn 50 −0.35 (−0.84..+0.03) / −0.75 (−1.48..−0.08) / −0.82 (−1.52..−0.18).
+  For 4: own towers at turn 150 −0.15 / −0.09 / −0.20, every interval below zero.
+- **Verdict:** not adopted. No arm meets the bar (a lower bound of S above 0.50 on the pooled maps). Leaving the mine
+  saves the queen's HP as predicted and loses the upgrades; a new tower on the touched site is worth building under
+  an approaching wave. No screen, screen-pv3 block 8 unused, `CLEAR_TOUCH` stays in the code at 0.
+- **The artifact of `current`:** `./gradlew submit` gives 96,486 characters of the 100,000, build `4a7b89cd`, config
+  `1c638437`, sha256 `2f983ba2e5dd9246dd152b14610b5a2ee72beb5a04a6c1c0d6c528bca4c56a68`; `CLEAR_TOUCH` takes 931 of
+  them. It plays as v14 and is not a candidate.
+- Files: the raw reports in `replays/bench/exp-2026-11-10-gate-touch/` (gitignored) in the worktree, copied to the main
+  checkout without the profiles' csv files (`profile.sh` rebuilds them).
+
+Records: the experiment directory, PLAN, STATUS (the champion's block, the experiment's block, the waiting list),
+SUMMARY, BOTS (the flag's row), the open-ground experiment's README and the measurement's README (pointers), the
+architecture page (the two lists of the flags that are off), `Params`' comment.
+
+Committed on the user's request ("Сделай коммит изменений рабочего дерева с осмысленным сообщением."), in one commit with the
+measurement of v14's Gold games and the open-ground experiment (`git log`). The branch is not merged into master and
+nothing is pushed; the main checkout still holds the tool's uncommitted copies of the six data files of v14's uploads.
