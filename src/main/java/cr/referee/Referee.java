@@ -103,6 +103,11 @@ public final class Referee {
     }
 
     public static Result play(long seed, Bot b0, Bot b1, boolean record, long turnMs) {
+        return play(seed, b0, b1, record, turnMs, 1000);
+    }
+
+    /** With the first turn's budget given: a check of the commands, not of the time, passes long budgets. */
+    public static Result play(long seed, Bot b0, Bot b1, boolean record, long turnMs, long firstMs) {
         GameState s = MapGen.generate(seed, 4);
         Rules rules = new Rules();
         Bot[] bots = {b0, b1};
@@ -135,7 +140,7 @@ public final class Referee {
                 String[] raw = new String[2];
                 for (int p = 0; p < 2; p++) {
                     String text = Protocol.turnInput(s, p);
-                    long budget = (s.turn == 0 ? 1000 : turnMs) * 1_000_000L;
+                    long budget = (s.turn == 0 ? firstMs : turnMs) * 1_000_000L;
                     String l0, l1;
                     long t0 = System.nanoTime(), dt;
                     if (bots[p] instanceof ProcessBot) {

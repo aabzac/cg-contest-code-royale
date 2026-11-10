@@ -142,21 +142,29 @@ maps them.
   - `status` shows the leaderboard row of `aabzac` and the registered upload it belongs to; it writes
     nothing.
   - `follow <label> [--selected <label>]`, started just before the paste:
-    1. checks the artifact before anything else: the label's kept copy, or `build/submit/Player.java` for
-       a new label (`./gradlew artifactInfo -Pfile=...` for new bytes); another configuration under the
-       label is refused. Since 2026-11-09 a default older than the newest kept copy in `artifacts/` gets a
-       warning: a candidate built in a worktree leaves the main checkout's file at the previous version
-       (v13 upload 1);
+    1. finds the artifact and checks it before anything else. A label uploaded before: its kept copy. A label
+       never uploaded (since 2026-11-10): the file that plays as the frozen version of that name, looked for in
+       `build/submit/Player.java` and then among the kept copies no label registered, the newest first
+       (`./gradlew playsAs -Pfile=... -Pas=<label>`: a few games as a process against the version, on maps that
+       tell it from every other frozen version; about 6 s a file). A checkout without that version refuses and
+       asks for the merge of its freeze. `--artifact` names the file instead; for a label never uploaded it must
+       play as the version too. Bytes that another label registered are never taken, by default or by name
+       (`./gradlew artifactInfo -Pfile=...` describes new bytes); another configuration under the label is
+       refused. Before 2026-11-10 a new label took `build/submit/Player.java` unseen, with a warning when it was
+       older than the newest kept copy (the fix of 2026-11-09 after v13 upload 1): on 2026-11-10 that file was
+       v12's in the main checkout, `follow v14` named it for the paste and registered the paste as v14 upload 1;
     2. saves the live entry;
     3. names the file to paste, with its sha256 and build id, and warns when `build/submit/Player.java`
        holds other bytes. It then waits for the new agent. When the old agent's battle list is empty, the
        paste has reached CG and the leaderboard lags (7 minutes at upload 5): it says so instead of asking
        for another paste;
-    4. reads the new agent's first finished game: the artifact's turn-0 marker confirms the paste. Since
-       2026-11-09 the marker of a kept copy in `artifacts/` that no other label owns registers that copy
-       instead, with a warning (the expected file was a stale default; new bytes among the kept copies are
-       identified by `artifactInfo`, one Gradle call each). Any other build, including another label's
-       artifact, stops the command before the registration, with the replay kept under `unknown/`;
+    4. reads the new agent's first finished game: the artifact's turn-0 marker confirms the paste. The marker
+       of another kept copy in `artifacts/` that no other label owns registers that copy instead, with a warning
+       (since 2026-11-09; since 2026-11-10, for a label never uploaded, only when that copy plays as the version
+       too; new bytes among the kept copies are identified by `artifactInfo`, one Gradle call each). Any other
+       build, including another label's artifact, stops the command before the registration, with the replay
+       kept under `unknown/`; for another label's build the message names `follow <that label>`, which records
+       the upload under its own label;
     5. registers the agent and keeps the artifact in `artifacts/`;
     6. follows the placement at P1's cadence while fetching the finished games a minute after the last
        fetch ended, stops on games with another build's marker, and records the placement score;

@@ -134,8 +134,10 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `--artifact` (the command as the session gave it); for the new label the tool named the main checkout's
   `build/submit/Player.java`, still v12's build, and registered the paste in the main checkout's registry as "v14
   upload 1" (artifact `3208b011`, config `7b8e0525`: v12's bytes under v14's label, submission 41679871).
-  - Its placement was running when this was written (02:26: 18 games, 14 won). Not v14's code: the entry is to be
-    relabelled as v12's third Gold upload. The tool's writes (the registry entry, the manifests of 6868868,
+  - Its placement completed at 02:44: score 20.88, local rank 38/348 (global 152), 90 games, 57 wins; cgAttribute SAME
+    90 of 90 against `artifacts/3208b011/Player.java`: v12's code in every game. The entry is to be relabelled as v12's
+    third Gold upload (v12's Gold placements: 19.64, 21.07 and this 20.88); the P1 line the tool printed for the label
+    v14 is about v12's code. The tool's writes (the registry entry, the manifests of 6868868,
     `replays/arena/v14/gold/upload-01/`) are uncommitted in the main checkout and not in this branch.
   - It replaced agent 6868474 = v13 upload 2 (pasted 2026-11-09 21:35; placement 21.65, local rank 22/348, 90 games, 55
     wins, every game identical to the artifact; `docs/BOTS.md`, Uploads), which replaced v13 upload 1 (21.95).
@@ -348,16 +350,17 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   - **the mistaken paste of 2026-11-10 02:23** (the arena entry, above): agent 6868868 plays v12's code under the label
     v14 in the main checkout's registry. To decide: let its placement finish (a third Gold placement of v12's bytes,
     usable for v12's baseline and the noise margin) and relabel it as v12 upload 3 (the registry entry, the manifests
-    and `replays/arena/v14/gold/upload-01` in the main checkout), or cut it short by the next paste. Until the label is
-    fixed, `follow v14 --artifact artifacts/e4c8eeec/Player.java` refuses (one label, one configuration). Also open: a
-    refusal in `tools/arena.py follow` when a new label's default file holds another label's bytes (it knew them as
-    v12's and took them);
+    and `replays/arena/v14/gold/upload-01` in the main checkout); its placement is complete (20.88). Until the label
+    is corrected, `follow v14` refuses: the bytes registered under v14 are v12's (one artifact, one label);
   - **the upload of v14** after that (frozen 2026-11-10, above). S 0.5533 against v13 on the evaluation block is below
     the 0.60 recommendation, so the upload is an exception and the user's decision, as v10's, v12's and v13's were (the
-    user started it on 2026-11-10). The file to paste is `artifacts/e4c8eeec/Player.java` (build `62ad918b`), after
-    `python -B -I tools/arena.py follow v14 --selected v13 --artifact artifacts/e4c8eeec/Player.java` from the main
-    checkout. Two placements; a first placement below 16.87 rolls back early;
-  - the merge of the branch `claude/bot-analysis-next-step-17e972` into master (the freeze is committed there);
+    user started it on 2026-11-10). Since 2026-11-10 `python -B -I tools/arena.py follow v14 --selected v13` finds the
+    file itself, by its play (`./gradlew playsAs`; `docs/arena-uploads.md`, the tool's steps): it names
+    `artifacts/e4c8eeec/Player.java` (build `62ad918b`) once the main checkout has v14 and the label is corrected. Two
+    placements; a first placement below 16.87 rolls back early;
+  - the merge of the branch `claude/bot-analysis-next-step-17e972` into master: the main checkout needs v14 and the
+    tool's play check before `follow v14` (the freeze and the tool change of 2026-11-10 are
+    committed on the branch);
   - after it: the towers' sites chosen for overlap, the economy with the dead turns, a rival whose barracks stand
     forward (`docs/data/exp-2026-11-10-overlap/`, Not tried; the study's sections 7 and 8). The Gold ladder on
     2026-11-08: 347 agents, none eligible, top 26.54 (`docs/data/leaderboard-gold-2026-11-08.json`);

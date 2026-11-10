@@ -8,19 +8,25 @@ Run from the repository root:
   python -B -I tools/arena.py follow <label> [--artifact PATH] [--selected LABEL] [--wait MINUTES]
       Start it, wait for the line naming the file to paste, then paste that file in the IDE once. Started
       after the paste, it goes on from step 4.
-      1. Chooses the artifact and checks it: the label's kept copy artifacts/<sha256[:8]>/Player.java when
-         the label was uploaded before, else build/submit/Player.java (--artifact names another file). Its
-         sha256, build id and config id; another configuration under the label is refused here. A default
-         older than the newest kept copy gets a warning: a candidate built in another checkout leaves
-         this file at the previous version.
+      1. Finds the artifact and checks it. A label uploaded before: its kept copy
+         artifacts/<sha256[:8]>/Player.java. A label never uploaded: the file that plays as the frozen
+         version of that name (gradle playsAs: a few games as a process against the version, on maps
+         that tell it from every other frozen version), looked for in build/submit/Player.java and then
+         in the kept copies no label registered, the newest first. A checkout without that version
+         refuses: merge its freeze first. --artifact names the file instead; for a label never uploaded
+         it must play as the version too (unchecked, with a warning, where the checkout has no such
+         version). Bytes that another label registered are never taken, whatever names them. Then the
+         sha256, build id and config id; another configuration under the label is refused.
       2. Saves the live entry: a snapshot and its games (a replacement empties the old agent's battle list).
       3. Names the file to paste and waits for the new agent on the leaderboard (30 minutes by default). CG
          may list it minutes late: an empty battle list of the old agent shows that the paste has arrived,
          and the command says so instead of asking for another paste.
       4. Checks the new agent's first finished game: it must print the artifact's build marker on turn 0.
-         When it prints the build of a kept copy in artifacts/ that no other label owns, that copy is the
-         artifact registered, with a warning (the expected file was a stale default). Any other build
-         stops the command with nothing registered (the replay stays under unknown/).
+         When it prints the build of a kept copy in artifacts/ that no other label owns (and that, for a
+         label never uploaded, plays as the version), that copy is the artifact registered, with a
+         warning: another file than the named one was pasted. Any other build stops the command with
+         nothing registered (the replay stays under unknown/); for another label's build it names the
+         command that records the upload under that label.
       5. Registers the agent in docs/data/arena-uploads.json as the label's next upload, in the league it
          plays; the previous entry gets "replaced"; the artifact is kept in artifacts/.
       6. Follows the placement as P1 says: a snapshot every 3 minutes, every minute from 85 %, and the
@@ -214,10 +220,103 @@ def kept_copy(sha):
 
 
 def artifact_for(label, uploads, given):
+    """The file named with --artifact, else the kept copy of the label's last upload (find_artifact looks for the
+    file of a label that was never uploaded)."""
     if given:
         return Path(given)
     mine = [u for u in uploads if u["label"] == label]
-    return kept_copy(mine[-1]["artifact"]["sha256"]) if mine else Path("build/submit/Player.java")
+    return kept_copy(mine[-1]["artifact"]["sha256"])
+
+
+def owner(sha, uploads):
+    """The upload that first registered these bytes, or None: the artifact is that label's."""
+    same = [u for u in uploads if (u.get("artifact") or {}).get("sha256") == sha]
+    return min(same, key=created) if same else None
+
+
+def one_label(label, uploads, record, path=None):
+    """Refuses bytes that another label registered first: one artifact, one label."""
+    first = owner(record["sha256"], uploads)
+    if first is None or first["label"] == label:
+        return
+    mine = next((u for u in uploads if u["label"] == label and (u.get("artifact") or {}).get("sha256") == record["sha256"]), None)
+    raise Refused("%s is %s's artifact (%s upload %d, build %s), not %s's%s; a re-upload of it goes under the label %s" % (
+        path.as_posix() if path is not None else "sha256 %s..." % record["sha256"][:8], first["label"], first["label"],
+        first["upload"], record["build"], label,
+        ": %s upload %d registered the same bytes, and its label is to be corrected first" % (label, mine["upload"]) if mine else "",
+        first["label"]))
+
+
+def plays_as(path, label, run_gradle):
+    """Gradle's playsAs: does the file play as the frozen version named by the label? Its JSON verdict."""
+    code, output = run_gradle(["-q", "playsAs", "-Pfile=" + path.resolve().as_posix(), "-Pas=" + label])
+    line = next((l for l in reversed(output.splitlines()) if l.startswith("{")), None)
+    if line is None:
+        raise Refused("playsAs gave no verdict for %s (exit %d):\n%s" % (path.as_posix(), code, output.strip()))
+    return json.loads(line)
+
+
+def same_play(info):
+    return bool(info.get("known")) and info["games"] > 0 and info["same"] == info["games"]
+
+
+def play_text(info, label):
+    """What a verdict of plays_as says about the file, for one line."""
+    if same_play(info):
+        if info.get("notToldFrom"):
+            return "plays as %s in %d of %d games; WARNING: these games do not tell %s from %s" % (
+                label, info["same"], info["games"], label, ", ".join(info["notToldFrom"]))
+        return "plays as %s in %d of %d games, on maps that tell %s from each of the %d other versions" % (
+            label, info["same"], info["games"], label, info["toldFrom"])
+    if info.get("different"):
+        return "does not play as %s (%s)" % (label, info["first"])
+    return "could not be compared with %s: %d of its %d games ended without an answer (%s)" % (
+        label, info.get("inconclusive", 0), info["games"], info.get("first"))
+
+
+def find_artifact(label, uploads, log, run_gradle):
+    """The file of a label that was never uploaded, found by its play: build/submit/Player.java, then the kept copies,
+    the newest first; the first whose bytes no label registered and which plays as the frozen version of that name.
+
+    Another label's artifact is passed over whatever it plays: on 2026-11-10 build/submit/Player.java held v12's
+    artifact while v14's waited in artifacts/, and the default named v12's file for the paste."""
+    seen, notes = set(), []
+    for path in [Path("build/submit/Player.java")] + kept_copies():
+        if not path.is_file():
+            continue
+        sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        if sha in seen:
+            continue
+        seen.add(sha)
+        first = owner(sha, uploads)
+        if first is not None:
+            if path.parts[0] == "build":  # the file a paste usually takes: say why it is not the one
+                notes.append("%s is %s's artifact" % (path.as_posix(), first["label"]))
+                log.say("%s: not %s's file" % (notes[-1], label))
+            continue
+        info = plays_as(path, label, run_gradle)
+        if not info.get("known"):
+            raise Refused("this checkout has no frozen version %s to compare a file with: merge the freeze of %s into this "
+                          "checkout and run the command again, or name the file with --artifact" % (label, label))
+        if same_play(info):
+            log.say("%s %s: the file of %s" % (path.as_posix(), play_text(info, label), label))
+            return path
+        notes.append("%s %s" % (path.as_posix(), play_text(info, label)))
+        log.say(notes[-1])
+    raise Refused("no file here plays as %s: %s. Build its artifact (./gradlew submit at its freeze) or name the file with "
+                  "--artifact" % (label, "; ".join(notes) if notes else "no build/submit/Player.java and no kept copy without a label"))
+
+
+def check_named(path, label, log, run_gradle):
+    """A file named with --artifact for a label never uploaded: it plays as that version where this checkout has it."""
+    info = plays_as(path, label, run_gradle)
+    if not info.get("known"):
+        log.say("WARNING: this checkout has no frozen version %s: %s is taken as named, its play is not checked"
+                % (label, path.as_posix()))
+    elif same_play(info):
+        log.say("%s %s" % (path.as_posix(), play_text(info, label)))
+    else:
+        raise Refused("%s %s" % (path.as_posix(), play_text(info, label)))
 
 
 def identify(path, uploads, run_gradle):
@@ -282,26 +381,6 @@ def kept_copies():
     return sorted(Path("artifacts").glob("*/Player.java"), key=lambda p: p.stat().st_mtime, reverse=True)
 
 
-def file_time(path):
-    mtime = path.stat().st_mtime
-    try:
-        return datetime.datetime.fromtimestamp(mtime).astimezone().isoformat(timespec="minutes")
-    except (OSError, OverflowError, ValueError):  # a time the platform cannot render (Windows: before 1970)
-        return "%.0f s" % mtime
-
-
-def stale_default(path, log):
-    """A warning when the default build/submit/Player.java is older than the newest kept copy: a build in another
-    checkout (a worktree) leaves this checkout's file at the previous version (v13 upload 1, 2026-11-09)."""
-    kept = kept_copies()
-    if not kept or not path.is_file():
-        return
-    newest = kept[0]
-    if path.stat().st_mtime < newest.stat().st_mtime:
-        log.say("WARNING: %s (%s) is older than the newest kept copy %s (%s); if the file to paste is another build, stop "
-                "now and pass --artifact" % (path.as_posix(), file_time(path), newest.as_posix(), file_time(newest)))
-
-
 def kept_with_build(build, label, uploads, run_gradle):
     """(record, bytes) of the kept copy that prints this build marker and belongs to no other label, or None.
     Known bytes take their record from the registry; new bytes are identified by Gradle, one call per unknown copy."""
@@ -326,6 +405,7 @@ def register(reg_path, label, agent, league, created_ms, log, artifact, previous
     uploads = registry["uploads"]
     if any(u["agent"] == agent for u in uploads + registry.get("legacyUploads", [])):
         raise Refused("agent %d is registered already" % agent)
+    one_label(label, uploads, artifact)
     same_configuration(label, uploads, artifact)
     number = 1 + max((u["upload"] for u in uploads if u["label"] == label), default=0)
     day = time.strftime("%Y-%m-%d")
@@ -444,8 +524,9 @@ def wait_for_agent(old, deadline, log, clock, sleep, pasted=False, wait=30):
 
 def check_build(agent, league, expected, record, data, label, uploads, log, clock, sleep, run_gradle):
     """The (record, bytes) to register: the expected artifact when the agent's first finished games print its build
-    marker; the kept copy in artifacts/ that prints the agent's build when the expected file was another one (a
-    stale default: the candidate built in another checkout), with a warning; otherwise the command stops.
+    marker; the kept copy in artifacts/ that prints the agent's build when another file than the expected one was
+    pasted, with a warning (for a label never uploaded that copy must play as the version, where this checkout has
+    it); otherwise the command stops.
 
     Another label's artifact is never adopted: that marker means CG got another version's file. The replays stay under
     replays/arena/unknown/<league>/agent-<id>/games: arena_games takes them from there after the registration, and
@@ -474,14 +555,23 @@ def check_build(agent, league, expected, record, data, label, uploads, log, cloc
                 other = next((u for u in uploads if (u.get("artifact") or {}).get("build") == marker), None)
                 found = None if other is not None and other["label"] != label else kept_with_build(marker, label, uploads, run_gradle)
                 if found is not None:
+                    kept = kept_copy(found[0]["sha256"])
+                    if not any(u["label"] == label for u in uploads):  # a label never uploaded: the copy plays as the version
+                        info = plays_as(kept, label, run_gradle)
+                        if info.get("known") and not same_play(info):
+                            raise Stopped("agent %d plays build %s (game %d), the build of the kept copy %s, which %s: CG got "
+                                          "another file. Nothing is registered; the replay stays in %s" % (
+                                              agent, marker, gid, kept.as_posix(), play_text(info, label), path.parent.as_posix()))
                     log.say("WARNING: the expected file %s prints build %s, but agent %d plays build %s (game %d), the build of the "
-                            "kept copy %s: that copy is registered (the expected file was not the one pasted; a stale default?)"
-                            % (expected.as_posix(), record["build"], agent, marker, gid, kept_copy(found[0]["sha256"]).as_posix()))
+                            "kept copy %s: that copy is registered (the expected file was not the one pasted)"
+                            % (expected.as_posix(), record["build"], agent, marker, gid, kept.as_posix()))
                     return found
                 raise Stopped("agent %d plays build %s (game %d)%s, not build %s of the artifact %s: CG got another file. "
-                              "Nothing is registered; the replay stays in %s" % (
+                              "Nothing is registered; the replay stays in %s%s" % (
                                   agent, marker, gid, ", the artifact of %s upload %d" % (other["label"], other["upload"])
-                                  if other else "", record["build"], record["sha256"][:8], path.parent.as_posix()))
+                                  if other else "", record["build"], record["sha256"][:8], path.parent.as_posix(),
+                                  "; `tools/arena.py follow %s` records this upload under its own label" % other["label"]
+                                  if other else ""))
         if len(seen) >= MARKER_GAMES:
             raise Stopped("agent %d printed no build marker in its first %d games (the artifact's build is %s); nothing is "
                           "registered" % (agent, MARKER_GAMES, record["build"]))
@@ -649,11 +739,13 @@ def follow(label, log, artifact=None, selected=None, wait=30, reg_path=DEFAULT_R
     if entry is not None and (live is None or entry["agent"] != live["agent"]):
         raise Stopped("the leaderboard shows %s, which the registry does not list as live" % name(entry))
     # A new upload: the file and the label are checked before anything is saved or pasted.
-    path = artifact_for(label, uploads, artifact)
-    if artifact is None and not any(u["label"] == label for u in uploads):
-        stale_default(path, log)
+    fresh = not any(u["label"] == label for u in uploads)  # a label never uploaded: its file is known by its play
+    path = find_artifact(label, uploads, log, run_gradle) if fresh and artifact is None else artifact_for(label, uploads, artifact)
     record, data = identify(path, uploads, run_gradle)
+    one_label(label, uploads, record, path)
     same_configuration(label, uploads, record)
+    if fresh and artifact is not None:
+        check_named(path, label, log, run_gradle)
     saved = False
     if entry is not None:  # the leaderboard still shows the live entry
         log.to(live)
@@ -728,7 +820,8 @@ def main(argv=None):
     sub.add_parser("status", help="what plays on the arena now; writes nothing")
     f = sub.add_parser("follow", help="one upload, from the paste to its checked games")
     f.add_argument("label", help="the version uploaded, e.g. v09; the same label again for a re-upload")
-    f.add_argument("--artifact", help="the pasted file (default: the label's kept copy, else build/submit/Player.java)")
+    f.add_argument("--artifact", help="the pasted file (default: the label's kept copy; for a label never uploaded, the "
+                                      "file that plays as that frozen version)")
     f.add_argument("--selected", help="the selected version's label, for the P1 verdict")
     f.add_argument("--wait", type=int, default=30, help="minutes to wait for the new agent (default 30)")
     g = sub.add_parser("fetch", help="the games of a registered upload, then cgAttribute")

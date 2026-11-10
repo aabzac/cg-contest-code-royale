@@ -153,6 +153,13 @@ tasks.register('artifactInfo', JavaExec) {
     args prop('file', '')
 }
 
+// Does an artifact file play as a frozen version? One JSON line: -Pfile=<Player.java> -Pas=v14 [-Pmaps=3]
+tasks.register('playsAs', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'cr.runner.PlaysAs'
+    args prop('file', ''), prop('as', ''), prop('maps', '')
+}
+
 // Run the merged artifact as a process on both seats: -Popp=v00 -Pgames=5 -PseedBase=1
 tasks.register('procCheck', JavaExec) {
     dependsOn 'submit'

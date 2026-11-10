@@ -4079,3 +4079,70 @@ default file holds another label's bytes, then v14's upload.
 `claude/bot-analysis-next-step-17e972` with the study of v13's Gold games, the overlap experiment, the v14 freeze and
 these records; a clean export of its staged tree rebuilt the artifact's bytes (`e4c8eeec…`) before the commit. Not
 merged, not pushed.
+
+## 2026-11-10 — tools/arena.py follow finds a version's file by its play; another label's bytes are never taken
+
+The user's question after the mistaken paste (the fix of 2026-11-09 was to spare `--artifact`; cannot the tool tell by
+the versions v14 and v13 which artifact is whose?) and their "Да, сделай" on the proposal.
+
+**Why the fix of 2026-11-09 did not cover it.** It handled a right paste against a wrong expectation. On 2026-11-10 the
+tool's own choice was wrong: for a label never uploaded it took `build/submit/Player.java`; `identify` read its bytes as
+"the same bytes as v12 upload 1", and nothing compared that label with v14 (`same_configuration` looks only at the
+label's own uploads).
+
+**`./gradlew playsAs -Pfile=<Player.java> -Pas=<version>`** (`cr.runner.PlaysAs`; `Referee.play` gained an overload
+with the first turn's budget). The file is compiled from its bytes and plays as a process on both seats against the
+in-process frozen version; each game is compared with the version's mirror game on that map, line for line, the build
+marker in place of the empty turn-0 TRAIN. The maps (seeds 1 + 397 k) are the first three plus, for every other frozen
+version of the checkout, a map on which that version in the file's place plays another game: searched among the first
+150 when the three do not tell it apart, reported in `notToldFrom` when none does. Budgets of 20 s and 5 s a turn: a
+game cut by a timeout is inconclusive, not different. The first different command ends the check. One JSON line; exit
+0 only when every game is the same; `known: false` when the checkout has no such version (v + two digits that
+`BotFactory` builds in-process).
+
+On the kept copies of the main checkout (read only):
+
+| file | as | verdict | time |
+| --- | --- | --- | --- |
+| `e4c8eeec` (v14's) | v14 | 6 of 6 games the same, told from 14 other versions | 6.3 s |
+| `85897d90` (v13's) | v14 | different in the first game (seed 398 seat 0, line 182) | 4.6 s |
+| `3208b011` (v12's) | v14 | different in the first game (line 72) | 4.8 s |
+| `85897d90` | v13 | 6 of 6 | 6.2 s |
+| `3208b011` | v12 | 6 of 6 | 6.2 s |
+| `cf71d566` (v11's) | v11 | 8 of 8: a fourth map added | 7.4 s |
+| `21665009` (v10's) | v10 | 8 of 8 | 7.6 s |
+| `21665009` (v10's) | v11 | 7 the same, different on the added map (seed 2780 seat 1, line 425) | 8.0 s |
+| `cf71d566` (v11's) | v10 | 7 the same, different on the added map | 7.6 s |
+| `e4c8eeec` | v15 | `known: false` | 2.2 s |
+
+The search for a telling map is what makes the answer hold for a targeted fix: v11 changed 148 of v10's 2000 mirror
+maps, the first three maps play the same for both, and without the fourth a file of v10 passes as v11.
+
+**`tools/arena.py`.** `find_artifact` for a label never uploaded: `build/submit/Player.java`, then the kept copies, the
+newest first; bytes a label registered are passed over, the first file that plays as the version is named; a checkout
+without the version refuses and asks for the merge. `check_named`: a file named with `--artifact` for such a label must
+play as it too (unchecked, with a warning, where the checkout has no such version). `one_label`: bytes that another
+label registered first are refused before the paste, for `--artifact` and in `register`. The adoption of a pasted kept
+copy needs its play for a new label; the stop on another label's build names `follow <that label>`. `stale_default`
+and its mtime warning are gone: the search replaces the guess.
+
+**Checks.** `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: 71 tests (nine new in
+`test_arena_follow.py`: the incident, no file, no version, a named file of another label, a named file that plays
+differently, a named file unchecked, the mislabelled registry, the adoption with and without the play; the
+stale-default test rewritten). `./gradlew test`: 184 tests, 3 corpus tests skipped (`PlaysAsTest`, six). The night
+replayed with the real files and Gradle (a temporary copy of the main checkout's `build/submit` and `artifacts/`, the
+registries read only): with the branch's registry the search passes over `build/submit/Player.java` ("is v12's
+artifact: not v14's file") and names `artifacts/e4c8eeec/Player.java` ("plays as v14 in 6 of 6 games, on maps that
+tell v14 from each of the 14 other versions", 6.8 s); a version the checkout lacks is refused with the merge;
+`--artifact build/submit/Player.java` is refused as v12's; with the main checkout's registry as it is, `follow v14` is
+refused until the label of v14 upload 1 is corrected, and `follow v12` passes.
+
+**The mistaken upload ended.** Agent 6868868 (v12's bytes under the label v14 in the main checkout's registry):
+placement complete at 02:44:58, 20.88, rank 38 of 348 (global 152), 90 games, 57 won; cgAttribute SAME 90 of 90 against
+`artifacts/3208b011/Player.java`: v12's code in every game. The "P1 verdict against v13" the tool printed for the
+label v14 is about v12's code, not a verdict on v14. Open, on the user's word: the relabel to v12 upload 3 (v12's Gold
+placements become 19.64, 21.07 and 20.88), the merge of the branch into master (the main checkout needs v14 and this
+tool), then `follow v14 --selected v13`.
+
+Records: `.ai/project.md` (the follow row and a row for `playsAs`; AGENTS.md resynced), `docs/arena-uploads.md` (the
+tool's steps 1 and 4), STATUS, SUMMARY, PLAN. Committed on the branch at the user's "Да, подготовь" (`git log`).

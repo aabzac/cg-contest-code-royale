@@ -80,11 +80,24 @@ class Arena:
 
 
 class Gradle:
+    """artifactInfo, cgAttribute and playsAs: known says whether this checkout has the frozen version a label names,
+    plays holds the sha256 of the files that play as it."""
+
     def __init__(self, config="cfg2"):
-        self.calls, self.config = [], config
+        self.calls, self.config, self.known, self.plays = [], config, True, {NEW_SHA}
 
     def __call__(self, args):
         self.calls.append(args)
+        if "playsAs" in args:
+            path = next(a for a in args if a.startswith("-Pfile="))[7:]
+            sha = hashlib.sha256(Path(path).read_bytes()).hexdigest()
+            same = self.known and sha in self.plays
+            games = 0 if not self.known else 6 if same else 1
+            return (0 if same else 1), "> Task :playsAs\n" + json.dumps({
+                "file": path, "sha256": sha, "as": next(a for a in args if a.startswith("-Pas="))[5:], "known": self.known,
+                "games": games, "same": games if same else 0, "different": int(self.known and not same), "inconclusive": 0,
+                "first": None if same or not self.known else "seed 398 seat 0 line 72: 0 WAIT | TRAIN, the version: 0 MOVE 1 2 | TRAIN",
+                "toldFrom": 1 if self.known else 0, "notToldFrom": []}) + "\n"
         if "artifactInfo" in args:
             data = Path(next(a for a in args if a.startswith("-Pfile="))[7:]).read_bytes()
             build = NEW_BUILD if data == NEW_ARTIFACT else STALE_BUILD
@@ -269,33 +282,141 @@ class FollowTest(unittest.TestCase):
             self.follow()
         self.assertIn("agent 200 plays build %s (game 21), the artifact of v01 upload 1, not build %s" % (OLD_BUILD, NEW_BUILD),
                       str(e.exception))
+        self.assertIn("`tools/arena.py follow v01` records this upload under its own label", str(e.exception))
         self.assertEqual(before, REGISTRY.read_bytes(), "nothing registered, nothing replaced")
         self.assertTrue(Path("replays/arena/unknown/bronze/agent-200/games/21.json").is_file(), "the evidence stays")
 
-    def test_a_stale_default_is_warned_about_and_the_kept_copy_the_agent_plays_is_registered(self):
-        # The candidate was built in another checkout: build/submit/Player.java here still holds the previous version,
-        # while the kept copy of the candidate exists and is what the user pastes (v13 upload 1, 2026-11-09).
+    def keep(self, data, mtime=1_700_086_400):
+        """A kept copy artifacts/<sha256[:8]>/Player.java of the bytes; returns its path."""
+        kept = Path("artifacts/%s/Player.java" % hashlib.sha256(data).hexdigest()[:8])
+        kept.parent.mkdir(parents=True, exist_ok=True)
+        kept.write_bytes(data)
+        os.utime(kept, (mtime, mtime))
+        return kept
+
+    def refused(self, label="v02", **kw):
+        """The refusal of a follow that must change nothing."""
+        before = REGISTRY.read_bytes()
+        with self.assertRaises(arena.Refused) as e:
+            self.follow(label, **kw)
+        self.assertEqual(before, REGISTRY.read_bytes(), "nothing registered")
+        self.assertFalse(Path("replays").exists(), "nothing saved, so nothing was asked for")
+        return str(e.exception)
+
+    def test_a_new_labels_file_is_found_by_its_play_when_build_submit_holds_another_version(self):
+        # The candidate was built in another checkout: build/submit/Player.java here still holds an earlier build,
+        # while the kept copy of the candidate waits in artifacts/ (v13 upload 1, 2026-11-09).
         Path("build/submit/Player.java").write_bytes(STALE_ARTIFACT)
-        os.utime("build/submit/Player.java", (1_700_000_000, 1_700_000_000))  # a day before the kept copy
-        kept = Path("artifacts/%s/Player.java" % NEW_SHA[:8])
-        kept.parent.mkdir(parents=True)
-        kept.write_bytes(NEW_ARTIFACT)
-        os.utime(kept, (1_700_086_400, 1_700_086_400))
+        kept = self.keep(NEW_ARTIFACT)
         self.arena.rows = [(0, row(100)), (T0 + 100, row(200, pct=40, busy=True)), (T0 + 700, row(200, pct=100, score=21.5))]
         code, out = self.follow()
         self.assertEqual(0, code, out)
-        self.assertIn("WARNING: build/submit/Player.java (", out)
-        self.assertIn("is older than the newest kept copy artifacts/%s/Player.java" % NEW_SHA[:8], out)
-        self.assertIn("paste build/submit/Player.java in the IDE now (sha256 %s..., build %s)"
-                      % (hashlib.sha256(STALE_ARTIFACT).hexdigest()[:8], STALE_BUILD), out)
-        self.assertIn("WARNING: the expected file build/submit/Player.java prints build %s, but agent 200 plays build %s (game 21), "
-                      "the build of the kept copy artifacts/%s/Player.java: that copy is registered" % (STALE_BUILD, NEW_BUILD, NEW_SHA[:8]), out)
+        self.assertIn("build/submit/Player.java does not play as v02 (seed 398 seat 0 line 72", out)
+        self.assertIn("artifacts/%s/Player.java plays as v02 in 6 of 6 games, on maps that tell v02 from each of the 1 other "
+                      "versions: the file of v02" % NEW_SHA[:8], out)
+        self.assertIn("paste artifacts/%s/Player.java in the IDE now (sha256 %s..., build %s); not build/submit/Player.java, "
+                      "which holds other bytes (%s)" % (NEW_SHA[:8], NEW_SHA[:8], NEW_BUILD,
+                                                        hashlib.sha256(STALE_ARTIFACT).hexdigest()[:8]), out)
+        self.assertIn("the new agent plays build %s (game 21), the artifact's" % NEW_BUILD, out)
+        self.assertNotIn("WARNING", out)
         new = self.entries()[("v02", 1)]
         self.assertEqual((NEW_SHA, NEW_BUILD, "cfg2"), (new["artifact"]["sha256"], new["artifact"]["build"], new["artifact"]["config"]))
         self.assertIn("kept copy artifacts/%s/Player.java" % NEW_SHA[:8], new["artifact"]["source"])
         self.assertEqual(NEW_ARTIFACT, kept.read_bytes(), "the kept copy is untouched")
-        self.assertEqual(2, sum("artifactInfo" in c for c in self.gradle.calls), "the default and the kept copy were identified")
         self.assertEqual(21.5, new["placement"]["score"])
+
+    def test_another_labels_file_in_build_submit_is_never_named_for_a_new_label(self):
+        # 2026-11-10: build/submit/Player.java held v12's artifact, v14's waited in artifacts/, and `follow v14` named
+        # v12's file for the paste and registered the paste as v14 upload 1.
+        sha = self.keep_live_artifact()
+        Path("build/submit/Player.java").write_bytes(Path("artifacts/%s/Player.java" % sha[:8]).read_bytes())
+        self.gradle.plays.add(sha)  # even if the games could not tell it apart: a registered artifact has its label
+        self.keep(NEW_ARTIFACT)
+        self.arena.rows = [(0, row(100)), (T0 + 100, row(200, pct=40, busy=True)), (T0 + 700, row(200, pct=100, score=21.5))]
+        code, out = self.follow()
+        self.assertEqual(0, code, out)
+        self.assertIn("build/submit/Player.java is v01's artifact: not v02's file", out)
+        self.assertIn("paste artifacts/%s/Player.java in the IDE now (sha256 %s..., build %s); not build/submit/Player.java, "
+                      "which holds other bytes (%s, v01's artifact)" % (NEW_SHA[:8], NEW_SHA[:8], NEW_BUILD, sha[:8]), out)
+        self.assertEqual(NEW_SHA, self.entries()[("v02", 1)]["artifact"]["sha256"])
+        self.assertEqual(1, sum("playsAs" in c for c in self.gradle.calls), "a registered artifact is not played")
+
+    def test_without_a_file_that_plays_as_the_version_nothing_is_asked_for(self):
+        sha = self.keep_live_artifact()
+        Path("build/submit/Player.java").write_bytes(Path("artifacts/%s/Player.java" % sha[:8]).read_bytes())
+        self.keep(STALE_ARTIFACT)
+        self.arena.rows = [(0, row(100))]
+        text = self.refused()
+        self.assertIn("no file here plays as v02: build/submit/Player.java is v01's artifact; artifacts/%s/Player.java does not "
+                      "play as v02" % hashlib.sha256(STALE_ARTIFACT).hexdigest()[:8], text)
+        self.assertIn("or name the file with --artifact", text)
+
+    def test_a_version_this_checkout_does_not_have_is_refused_before_the_paste(self):
+        self.gradle.known = False
+        self.arena.rows = [(0, row(100))]
+        text = self.refused()
+        self.assertIn("this checkout has no frozen version v02 to compare a file with: merge the freeze of v02", text)
+
+    def test_a_named_file_of_another_label_is_refused(self):
+        sha = self.keep_live_artifact()
+        self.arena.rows = [(0, row(100))]
+        text = self.refused(artifact="artifacts/%s/Player.java" % sha[:8])
+        self.assertIn("artifacts/%s/Player.java is v01's artifact (v01 upload 1, build %s), not v02's; a re-upload of it goes "
+                      "under the label v01" % (sha[:8], OLD_BUILD), text)
+        self.assertFalse(any("playsAs" in c for c in self.gradle.calls))
+
+    def test_a_named_file_that_plays_differently_is_refused(self):
+        Path("build/submit/Player.java").write_bytes(STALE_ARTIFACT)
+        self.arena.rows = [(0, row(100))]
+        self.assertIn("build/submit/Player.java does not play as v02 (seed 398", self.refused(artifact="build/submit/Player.java"))
+
+    def test_a_named_file_is_taken_unchecked_where_the_version_is_unknown(self):
+        self.gradle.known = False
+        self.arena.rows = [(0, row(100)), (T0 + 100, row(200, pct=40, busy=True)), (T0 + 700, row(200, pct=100, score=21.5))]
+        code, out = self.follow(artifact="build/submit/Player.java")
+        self.assertEqual(0, code, out)
+        self.assertIn("WARNING: this checkout has no frozen version v02: build/submit/Player.java is taken as named", out)
+        self.assertEqual(NEW_SHA, self.entries()[("v02", 1)]["artifact"]["sha256"])
+
+    def test_a_label_registered_with_another_labels_bytes_is_refused_until_it_is_corrected(self):
+        # The registry after the paste of 2026-11-10: v02 upload 1 holds v01's bytes.
+        sha = self.keep_live_artifact()
+        registry = json.loads(REGISTRY.read_text(encoding="utf-8"))
+        registry["uploads"][0]["replaced"] = "2026-11-02T10:00:00+02:00 by v02 upload 1"
+        registry["uploads"].append(dict(registry["uploads"][0], label="v02", upload=1, agent=200, created="2026-11-02T10:00:00+02:00",
+                                        snapshots="docs/data/arena-200-placement.json", games="docs/data/arena-200-games.json"))
+        del registry["uploads"][1]["replaced"]
+        REGISTRY.write_text(json.dumps(registry, indent=1) + "\n", encoding="utf-8")
+        self.arena.rows = [(0, row(200))]
+        text = self.refused()
+        self.assertIn("artifacts/%s/Player.java is v01's artifact (v01 upload 1, build %s), not v02's: v02 upload 1 registered "
+                      "the same bytes, and its label is to be corrected first; a re-upload of it goes under the label v01"
+                      % (sha[:8], OLD_BUILD), text)
+
+    def test_a_pasted_kept_copy_of_another_build_of_the_version_is_registered_with_a_warning(self):
+        other = b"class Player {}\n// the candidate, another build of it\n"
+        kept = self.keep(other, mtime=1_600_000_000)  # older than build/submit: the search names build/submit first
+        self.gradle.plays.add(hashlib.sha256(other).hexdigest())
+        for gid in (21, 22):
+            self.arena.replays[gid] = replay(gid, 200, STALE_BUILD)  # the fake Gradle's build of every other file
+        self.arena.rows = [(0, row(100)), (T0 + 100, row(200, pct=40, busy=True)), (T0 + 700, row(200, pct=100, score=21.5))]
+        code, out = self.follow()
+        self.assertEqual(0, code, out)
+        self.assertIn("paste build/submit/Player.java in the IDE now (sha256 %s..., build %s)" % (NEW_SHA[:8], NEW_BUILD), out)
+        self.assertIn("WARNING: the expected file build/submit/Player.java prints build %s, but agent 200 plays build %s (game 21), "
+                      "the build of the kept copy %s: that copy is registered" % (NEW_BUILD, STALE_BUILD, kept.as_posix()), out)
+        self.assertEqual(hashlib.sha256(other).hexdigest(), self.entries()[("v02", 1)]["artifact"]["sha256"])
+
+    def test_a_pasted_kept_copy_that_does_not_play_as_the_version_stops(self):
+        kept = self.keep(STALE_ARTIFACT, mtime=1_600_000_000)
+        self.arena.replays[21] = replay(21, 200, STALE_BUILD)
+        self.arena.rows = [(0, row(200, pct=40, busy=True))]
+        before = REGISTRY.read_bytes()
+        with self.assertRaises(arena.Stopped) as e:
+            self.follow()
+        self.assertIn("agent 200 plays build %s (game 21), the build of the kept copy %s, which does not play as v02"
+                      % (STALE_BUILD, kept.as_posix()), str(e.exception))
+        self.assertEqual(before, REGISTRY.read_bytes(), "nothing registered")
 
     def test_another_labels_build_stops_even_when_its_kept_copy_exists(self):
         self.keep_live_artifact()
