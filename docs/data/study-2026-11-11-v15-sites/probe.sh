@@ -23,3 +23,9 @@ date
 ./gradlew -q cgAttribute "-Preplays=$R/arena/v15/gold/upload-02/games" -Pagent=6871202 -Pbot=v14 > "$OUT/as-v14-upload-02.txt" 2>&1; echo "cgAttribute upload 2 exit $?"
 date
 sha256sum "$OUT"/probe/*.csv "$OUT"/probe-v14/*.csv "$OUT"/as-v14-upload-0*.txt
+# The third placement (pasted 2026-11-11 20:03, after the measurement; the README's addendum, upload3.py): the same
+# probe on upload 3 alone. Run on its own at 20:45; the files above are those of 01:58.
+if [ -d "$R/arena/v15/gold/upload-03/games" ]; then
+  MSYS_NO_PATHCONV=1 java -cp "$CP" ArenaProbe 6873629 "$OUT/probe-u3" "$R/arena/v15/gold/upload-03/games"
+  sha256sum "$OUT"/probe-u3/*.csv
+fi

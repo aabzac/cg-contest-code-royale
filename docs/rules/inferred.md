@@ -35,7 +35,7 @@ Result in strict mode (no corrections): **97/98 and 137/138 games match on every
 
 ## Not explained
 
-1. **Tie-break.** Twenty-three games end with equal scores:
+1. **Tie-break.** Twenty-four games end with equal scores:
    - 911493205 (turn 250, 11:11);
    - 908057307 (both queens die on turn 72, 0:0);
    - 913398184 (v02 upload 1, 2026-10-30, both queens die on turn 38, 0:0);
@@ -58,17 +58,18 @@ Result in strict mode (no corrections): **97/98 and 137/138 games match on every
    - 919264164 (v14 upload 1, Gold, 2026-11-10, turn 250, 55:55; player 0 was the opponent);
    - 919316915 (v14 upload 2, Gold, 2026-11-10, turn 250, 79:79; player 0 was us);
    - 919623558 (v15 upload 1, Gold, 2026-11-11, turn 250, 17:17; player 0 was us);
-   - 919633674 (v15 upload 2, Gold, 2026-11-11, turn 250, 55:55; player 0 was us).
+   - 919633674 (v15 upload 2, Gold, 2026-11-11, turn 250, 55:55; player 0 was us);
+   - 920032727 (v15 upload 3, Gold, 2026-11-11, turn 250, 55:55; player 0 was the opponent).
 
-   The game result (`gameResult/findByGameId`) ranks player 0 first in all twenty-three, while the simulator
-   calls a draw (`winner 0 vs -1`). A tie-break by seat would fit all twenty-three; it is not adopted on twenty-three
+   The game result (`gameResult/findByGameId`) ranks player 0 first in all twenty-four, while the simulator
+   calls a draw (`winner 0 vs -1`). A tie-break by seat would fit all twenty-four; it is not adopted on twenty-four
    samples. No game of v01's 180 placement games had equal scores.
 
    The battle list (`findLastBattlesByAgentId`) says otherwise: it gives both players position 0, a draw,
-   in each of our twenty-one such games with saved lists. That is every saved list that holds the finished game:
-   80, 48, 24, 16, 27, 4, 15, 20, 9, 3, 19, 10, 33, 12, 12, 23, 15, 6, 10, 22 and 9 lists for 913398184, 913453290,
+   in each of our twenty-two such games with saved lists. That is every saved list that holds the finished game:
+   80, 48, 24, 16, 27, 4, 15, 20, 9, 3, 19, 10, 33, 12, 12, 23, 15, 6, 10, 22, 9 and 36 lists for 913398184, 913453290,
    913522461, 916297591, 916719390, 917804072, 917810075, 917833240, 917834882, 917850788, 917985146, 917987888,
-   918143672, 918166983, 919175620, 919249780, 919263364, 919264164, 919316915, 919623558 and 919633674. Which of the
+   918143672, 918166983, 919175620, 919249780, 919263364, 919264164, 919316915, 919623558, 919633674 and 920032727. Which of the
    two CG's rating uses is not known. The manifests and `arena_compare.py` count by the game result's
    ranks, so such a game is a win for player 0. The battle-list summaries of `arena_snapshot.py` count it as
    neither: 47 wins against the manifest's 48 in v08 upload 5.

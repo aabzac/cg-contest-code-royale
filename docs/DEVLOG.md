@@ -4718,3 +4718,69 @@ Everything is in `docs/data/study-2026-11-11-v15-sites/` (README, `probe.sh`, `f
 Records: STATUS (the selected version's line, "v15 in Gold", the waiting list), SUMMARY (Сейчас and an entry), PLAN,
 `docs/arena-uploads.md` (the v15 section), the experiment README (On the arena), a pointer in the v14 study's README.
 The probe's outputs are copied to the main checkout's gitignored `replays/study/gold-v15-2026-11-11`. Not committed.
+
+## 2026-11-11 — v15's third Gold upload: 23.76, the best placement; the first game against the Gold boss
+
+The user's "Прогнал ещё одну загрузку. Можешь добавить?". The morning's records and the measurement had been
+committed (3460911) and merged into master by then (the user's "Да, влей": master fast-forwarded from a55fa1e after
+the tool's six uncommitted data files in the main checkout, byte for byte the branch's, were backed up and dropped;
+there: 71 tools tests, a fresh `./gradlew test` of 188 tests with none skipped, the same P1 verdict from
+`arena_compare.py`).
+- **The upload.** The paste at 20:03:43 (agent 6873629, submission 41692001). `tools/arena.py follow v15 --selected
+  v14`, started in the main checkout after it, found the agent at 20:04:02, saved what was left of upload 2 (90
+  games, 63 wins), registered the agent at 20:04:09 at 1 % once game 920028845 showed build `72a6959d`, and took
+  snapshots at 1, 17, 27, 35, 44, 55, 66, 77, 87, 91, 94, 98 and 100 %.
+- **The placement** complete at 20:32:17: local rank 8/350 (global 123), score 23.76, `eligibleForPromotion` false.
+  - 90 games, 54 wins by the game results and by the battle lists (seat 0: 27 of 46, seat 1: 27 of 44); 57 games
+    reached turn 250; 36 losses: 19 deaths and 17 lost races.
+  - Opponents: median 22.61; 54 games against 22 and up (24 won), 23 against 20-22 (17), 9 against 17-20 (9), 4
+    below 17 (4); 49 distinct.
+  - The referee removed the opponent in 920028861 (Zenoscave, a timeout on turn 0).
+  - One equal score, 920032727 against 40R15T3: 55:55 at turn 250 with us as player 1, ranked a loss by the game
+    result; both players at position 0 in the 36 saved battle lists that hold it. The twenty-fourth such game, the
+    first of ours as player 1.
+  - `cgAttribute` against `artifacts/7a5b28c4/Player.java`: SAME 90/90, 19,383 turns; markers {72a6959d=90}.
+- **P1** (`arena_compare.py --candidate v15 --selected v14`, the tool's run and the branch's, the same output):
+  - Gold's scale refitted at 3.12 on twelve uploads; performances 21.71 ± 0.72, 20.68 ± 0.76 and 23.71 ± 0.71;
+  - v15: mean 22.23, SD 1.39, performance 22.15 ± 0.43 (270 games); v14: 22.61, 22.41 ± 0.52;
+  - mean −0.38 against −M = −2.46; performance −0.26 ± 0.68 against −2 SE = −1.36: not clearly worse, v15 stays
+    selected;
+  - Gold's own M 2.12 on 7 df (pooled SD 1.06; 1.69 before); the next candidate's early rollback below 17.30.
+- **The Gold boss.** 920054964 is the first game against it: the replay's `arenaboss` record gives agent 1886843 the
+  nickname "Empress Boss" and the score 27.37 (the manifest's opponent has `pseudo: null`). Lost 29:55 at turn 250 as
+  player 1 (seed 754588407, start HP 55): 24 HP in 17 contact turns before turn 50, the first at turn 25 with one own
+  tower standing; 2 HP after; the boss's queen lost none; 15 knight releases against our 9.
+- **By band and by shared opponents, three uploads against v14's two** (the manifests; a throwaway script of the
+  session, the bands also in `upload3.txt`): below 17 79 % (52 games) against 78 % (32); 17-20 74 % (76) against
+  82 % (45); 20-22 64 % (76) against 65 % (62); 22 and up 44 % (66) against 44 % (41). 65 shared players: v15 93 of
+  142, v14 75 of 117, stratified +2.3 pp over 94 weighted games.
+- **The measurement's addendum** (`docs/data/study-2026-11-11-v15-sites/`: `upload3.py` → `upload3.txt`, the README's
+  last section; `probe.sh`'s last block ran the probe on upload 3 at 20:45 into `probe-u3`):
+  - the measures of `measure.py`, unchanged, on the third placement and on all three against v14: the third tower's
+    links 1.50 (three uploads +0.41, +0.29..+0.52); contact turns under three or more 57.1 % (+1.1 points,
+    −6.8..+9.2); under four or more 27.5 % (+5.8, +0.6..+11.1); HP from turn 50 17.3 a game (+0.8, −3.4..+4.8);
+    deaths 21.1 % (+1.9, −5.0..+8.3);
+  - against 22 and up, upload 3: 24 of 54 with 16 deaths and 7 kills (v14: 18 of 41, 6 and 2), 20.9 HP lost from
+    turn 50 (10.9) and 14.1 taken (7.5);
+  - against the rating model at the refit: the field of v15's three uploads expects 179.4 wins at v14's rating, v15
+    won 175 (−0.6 SD; −2.2 on two uploads); below 17 v14 has 25 of 32 (−2.4 SD) and v15 41 of 52 (−2.7 SD);
+  - `measure.py` now reads only the eleven Gold uploads of the measurement (`GOLD_AGENTS`): its section 8 read every
+    Gold upload of the registry, so the third upload changed its output; with the list `measure.txt` is reproduced
+    byte for byte.
+- **Reading.** The third placement moves v15's mean from 1.14 below v14 to 0.38 below: the morning's shortfall was
+  inside the spread of one artifact's placements, which this one widens to 2.71 points (SD 1.39). The arena shows
+  neither the local gain nor a loss. The shortfall against players rated below 17 is not an upload's run: it is in
+  v14's and v15's placements alike (66 of 84 where about 76 are expected), and the share of wins there has not risen
+  since v12.
+- Files: `replays/arena/v15/gold/upload-03` (`games`, `snapshots`, `checks`) in the main checkout; the registry, the
+  placement, the manifest and the re-fetched manifest of upload 2 copied into the worktree, byte for byte.
+- Checks: `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: 71 tests; `footprint.py`, `measure.py`
+  and `decompose.py` give the committed outputs byte for byte, and a second run of `upload3.py` its saved one; no
+  source file changed, so `./gradlew test` was not run. The probe's files of upload 3 are copied to the main
+  checkout's gitignored `replays/study/gold-v15-2026-11-11/probe-u3`.
+
+Records: BOTS (versions, Uploads, Artifacts), `docs/arena-uploads.md` (a new section), STATUS (the selected version,
+the arena entry, the margins, the Gold boss, "v15 in Gold", the waiting list), SUMMARY, PLAN, `docs/local-screen.md`,
+`docs/rules/inferred.md`, the architecture page (three placements; two passages that still said "not measured"), the
+experiment README, the study's README (the addendum). Not committed: the main checkout holds the tool's uncommitted
+copies of the same four data files.

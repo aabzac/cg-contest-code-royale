@@ -338,6 +338,12 @@ and she stands under three or more by turn 60 in 72 % of the games (62 %). The s
 no covered spot within 300) halves as in the profiles, but on the arena it holds 2 of the 34 contact turns a game;
 8 of them pass with two own towers or fewer standing, a class that is small in the mirror and against `field`.
 
+**A third upload that evening** (agent 6873629, the same bytes): 23.76, rank 8/350, the best of our Gold placements,
+against the strongest field met (opponents' median 22.61). On three placements v15's mean is 22.23 against v14's 22.61
+(−0.38) and the performance 22.15 ± 0.43 against 22.41 ± 0.52: the arena shows neither the gain nor a loss, and the
+placements of this one artifact span 2.71 points. The measurement's addendum has the third placement: its findings
+stand on 270 games.
+
 ## Limits
 
 - One arm was screened, the one the rule named. `SITE_NEAR=100` and `SITE_COVER=100,SITE_NEAR=50` score 0.5441 and

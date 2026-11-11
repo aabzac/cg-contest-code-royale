@@ -211,3 +211,49 @@ No decision is taken here; these are the measured openings.
 - The local profiles are 400 games against three opponents; the arena is 180 games against 100 and more. The
   classes of section 3 are read from the probe's columns (own towers standing, towers covering her, the best cover
   within 300), not from a replay of the rule.
+
+## Addendum: v15's third placement (2026-11-11, 20:03)
+
+The user pasted the same artifact a third time that evening (agent 6873629, `docs/arena-uploads.md`): 23.76, rank
+8/350, our best Gold placement, against the strongest field any of our Gold uploads met (opponents' median 22.61; 54
+of the 90 games against players rated 22 and up). Everything above stays the measurement of the first two placements
+(`measure.py` reads only the eleven Gold uploads of that time). `upload3.py` → `upload3.txt` runs the same measures on
+the third, from its own probe files (`probe.sh`'s last block, 20:45; gitignored `probe-u3/`: turns.csv, 38,766 rows,
+`7df2ec5e…303ba88b`; events.csv `3d774f4a…73a15bee`; waves.csv `fbcbf163…2fda792f`).
+
+| | v14 | v15, uploads 1-2 | v15, upload 3 | v15's three uploads less v14 (95 %) |
+| --- | --- | --- | --- | --- |
+| own towers within 400 of the third tower when it is built | 1.13 | 1.55 | 1.50 | **+0.41 (+0.29..+0.52)** |
+| games in which she stands under three or more by turn 60 | 61.7 % | 71.7 % | 67.8 % | +8.7 (−0.2..+17.6) |
+| contact turns from turn 50 under three or more | 53.7 % | 53.5 % | 57.1 % | +1.1 (−6.8..+9.2) |
+| ... under four or more | 21.3 % | 26.8 % | 27.5 % | **+5.8 (+0.6..+11.1)** |
+| contact turns with three towers standing and no covered spot, a game | 2.1 | 1.1 | 1.3 | −0.9 (−2.0..+0.1) |
+| contact turns with two own towers or fewer standing, a game | 6.9 | 8.1 | 6.9 | +0.9 (−2.3..+3.8) |
+| HP lost to knights from turn 50, a game | 12.6 | 11.5 | 17.3 | +0.8 (−3.4..+4.8) |
+| HP lost to knights before turn 50, a game | 7.2 | 8.0 | 8.3 | +1.0 (−0.9..+2.8) |
+| queen deaths | 14.4 % | 13.9 % | 21.1 % | +1.9 (−5.0..+8.3) |
+| own towers at turn 100 | 3.94 | 3.98 | 3.89 | +0.01 (−0.20..+0.21) |
+| games won | 66.7 % | 67.2 % | 60.0 % | −1.9 (−10.9..+7.2) |
+
+- **The findings stand on 270 games.** The sites are the rule's in the third placement too (1.50); the share of the
+  contact turns under three or more is still v14's (+1.1 points, −6.8..+9.2); four towers in place of three is now off
+  zero (+5.8 points of the contact turns); the HP and the deaths are not different.
+- **The third placement's larger losses are its field's.** Against players rated 22 and up it won 24 of 54 games
+  (44 %; v14 18 of 41, 44 %; v15's first two placements 5 of 12). Those games were sharper both ways than v14's in the
+  band: 16 deaths and 7 kills (v14: 6 and 2), 20.9 HP lost to knights from turn 50 (10.9) and 14.1 taken from the
+  enemy queen (7.5). Below 22 it won 30 of 36.
+- **Against the rating model** (refitted on the twelve Gold uploads: scale 3.12, v14 22.41, v15 22.15) the field v15
+  met in its three placements expects 179.4 wins at v14's rating; v15 won 175 (−0.6 SD; −2.2 SD on the first two).
+  From 17 up v15 is at or above its own expectation in every band (−0.2, +0.8, +0.7 SD).
+- **Below 17 the shortfall is both versions':** v14 won 25 of 32 where its rating expects 28.9 (−2.4 SD), v15 41 of
+  52 where 46.8 are expected (−2.7 SD): 66 of 84 over the five placements, in which only the two second uploads met
+  many such players. v12 and v13 had 52 of 61 at lower ratings. The share of wins against players below 17 has not
+  risen since v12 (81 %, 100 % on 13 games, 78 %, 79 %) while the rating rose by 1.6.
+- **The first game against the Gold boss** (920054964; the replay's `arenaboss` record names agent 1886843 "Empress
+  Boss", score 27.37; the manifest has no pseudo for it): lost 29:55 at turn 250 as player 1, start HP 55. Our queen
+  lost 24 HP in 17 contact turns before turn 50 (the first contact at turn 25, with one tower standing against the
+  boss's two and eight knights of each side on the board) and 2 HP in the 200 turns after; the boss's queen lost none
+  in the whole game. It released knights 15 times to our 9.
+- **The equal-score game** 920032727 (55:55 at turn 250) had us as player 1 and is ranked a loss: the twenty-fourth
+  such game of `docs/rules/inferred.md`, and player 0 is first in all of them. Of the 17 lost races 6 were lost by 5
+  HP or less, and 11 were behind at turn 50 in the knights' HP count (13.8 HP lost by then against 6.7).

@@ -38,6 +38,9 @@ NAMES = ("v14", "v15")
 BANDS = (("below 17", -99, 17), ("17-20", 17, 20), ("20-22", 20, 22), ("22 and up", 22, 99))
 # The versions' Gold ratings from tools/arena_compare.py on the eleven Gold uploads (logistic scale 3.25), 2026-11-11.
 SCALE, RATING = 3.25, {"v11": 16.98, "v12": 20.60, "v13": 21.91, "v14": 22.48, "v15": 21.31}
+# Those eleven uploads. Section 8 reads the registry, which grows: an upload registered after the measurement (v15's
+# third came the same evening; upload3.py has it) is left out, so that the output stays the measurement's.
+GOLD_AGENTS = (6857463, 6858567, 6860036, 6860166, 6868408, 6868474, 6868868, 6868933, 6869279, 6871160, 6871202)
 
 
 def meta(name):
@@ -332,7 +335,7 @@ def main():
     reg = json.load(open(os.path.join("docs", "data", "arena-uploads.json"), encoding="utf-8"))
     tot = {}
     for u in reg["uploads"]:
-        if u["league"] != "gold":
+        if u["league"] != "gold" or u["agent"] not in GOLD_AGENTS:
             continue
         for g in json.load(open(u["games"], encoding="utf-8"))["games"]:
             r = g["opponent"]["ratingAtFetch"]
@@ -353,7 +356,7 @@ def main():
     for label in ("v15",):
         exp = var = won = n = 0.0
         for u in reg["uploads"]:
-            if u["league"] == "gold" and u["label"] == label:
+            if u["league"] == "gold" and u["label"] == label and u["agent"] in GOLD_AGENTS:
                 for g in json.load(open(u["games"], encoding="utf-8"))["games"]:
                     p = 1.0 / (1.0 + math.exp(-(RATING["v14"] - g["opponent"]["ratingAtFetch"]) / SCALE))
                     exp += p

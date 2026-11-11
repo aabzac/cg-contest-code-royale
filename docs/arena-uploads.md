@@ -1498,3 +1498,71 @@ is refitted at 3.25 on the eleven Gold uploads (3.03 on ten, after upload 1), wh
   mechanism for a loss of the size of −1.14 and none for a gain.
 - **Placement speed:** 24 and 20 minutes from the agent's creation.
 - **The arena entry** is agent 6871202, v15 upload 2: the selected version.
+
+## The selected v15, a third upload (2026-11-11)
+
+The user pasted the same artifact `7a5b28c4` a third time at 20:03:43 ("Прогнал ещё одну загрузку"), replacing upload
+2. `python -B -I tools/arena.py follow v15 --selected v14`, started in the main checkout after the paste, found agent
+6873629 (submission 41692001) on the leaderboard at 20:04:02, saved what was left of upload 2 (its 90 games, nothing
+new), registered the agent at 20:04:09 at 1 %, once game 920028845 showed build `72a6959d`, and followed the placement
+to its end at 20:32:17.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v15/upload-1 (Gold) | 6871160 | 21.87, rank 19/351 | 90 | 64.4 ± 5.0 | 36 of 46 | 22 of 44 | 19.98 | 21.71 ± 0.72 |
+| v15/upload-2 (Gold) | 6871202 | 21.05, rank 34/351 | 90 | 70.0 ± 4.8 | 30 of 45 | 33 of 45 | 17.74 | 20.68 ± 0.76 |
+| v15/upload-3 (Gold) | 6873629 | 23.76, rank 8/350 | 90 | 60.0 ± 5.2 | 27 of 46 | 27 of 44 | 22.61 | 23.71 ± 0.71 |
+| v15 in Gold, three uploads | | mean 22.23, SD 1.39 | 270 | | | | | 22.15 ± 0.43 |
+| v14 in Gold, both | | mean 22.61, SD 0.71 | 180 | | | | 19.79-21.18 | 22.41 ± 0.52 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it (upload 3's `checks/arena-compare.json`);
+`python -B -I tools/arena_compare.py --candidate v15 --selected v14` on the branch prints the same. Gold's logistic scale
+is refitted at 3.12 on the twelve Gold uploads (3.25 on eleven), which moves v14's rating from 22.48 to 22.41 and v15's
+first two placements from 21.78 and 20.77 to 21.71 and 20.68.
+- **The placement:** 23.76, local rank 8/350 (global 123), `eligibleForPromotion` false; followed from 1 %. It is the
+  best of our Gold placements (v14 upload 1's 23.11, rank 9/348, before).
+- **Same code:** `cgAttribute` against the kept copy: SAME 90/90 (19,383 turns); the marker `72a6959d` is in all 90.
+- **The field is the strongest any of our Gold uploads met:** opponents' median 22.61 (v13 upload 1's 21.81 before).
+  54 of the 90 games met players rated 22 or more (24 won), 23 players at 20-22 (17 won), 9 at 17-20 and 4 below 17
+  (all 13 won). 57 games reached turn 250. The 36 losses are 19 deaths and 17 lost races.
+- **The referee removed the opponent** in 920028861 (Zenoscave), a timeout on turn 0, an ordinary win.
+- **One equal score, the first with us as player 1:** 920032727 against 40R15T3, 55:55 at turn 250. The game result
+  ranks player 0 first, so it is a loss in the manifest (the twenty-fourth such game of `docs/rules/inferred.md`). The 36
+  saved battle lists that hold the finished game give both players position 0; the lists and the manifest both count 54
+  wins.
+- **The first game against the Gold boss:** 920054964. The replay's `arenaboss` record names agent 1886843 "Empress
+  Boss" with the score **27.37**; the manifest carries it without a pseudo. We were player 1 and lost the race 29:55
+  (start HP 55): 24 HP went in the first wave before turn 50, 2 HP in the 200 turns after, and the boss's queen lost
+  none (`docs/data/study-2026-11-11-v15-sites/`, the addendum).
+- **v15's baseline in Gold** is three placements: mean 22.23, SD 1.39; pooled performance 22.15 ± 0.43 (270 games).
+  - P1 against v14: mean −0.38 against −M = −2.46; performance −0.26 ± 0.68 against −2 SE = −1.36. "Not clearly
+    worse": the verdict of that morning stands and v15 stays the selected version.
+  - The next candidate's first placement rolls back early below 17.30 (22.23 − 2M; 16.53 before).
+- **Noise:** v11's pair, v12's three, the pairs of v13 and v14 and v15's three pool to SD 1.06 on 7 df: Gold's own M is
+  **2.12** (1.69 on 6 df before). The verdicts keep Bronze's 2.46.
+- **Ratings of identical code:** 21.71, 20.68 and 23.71, SD 1.54 against standard errors of about 0.73. As with v01,
+  v03 and v05, the spread between placements of one artifact exceeds the rating's standard error; the placement scores
+  of this one span 2.71 points.
+- **By the opponents' rating**, with the third upload (the manifests, the rating at the fetch):
+
+  | opponents rated | v14: games, won | v15, three uploads: games, won |
+  | --- | --- | --- |
+  | below 17 | 32, 78 % | 52, 79 % |
+  | 17-20 | 45, 82 % | 76, 74 % |
+  | 20-22 | 62, 65 % | 76, 64 % |
+  | 22 and up | 41, 44 % | 66, 44 % |
+  | all | 180: 120 won, 26 deaths, 34 lost races | 270: 175 won, 44 deaths, 51 lost races |
+
+  Three bands of four are now level; 17-20 is lower (−8.5 points on 45 and 76 games).
+- **Shared opponents (context):** against the players it shared with v14's uploads, upload 3 won more (v14 less v15:
+  −7.4 ± 11.2 and −24.3 ± 16.2 pp). Over all uploads the two versions met 65 players in common: v14 won 75 of 117
+  games against them, v15 93 of 142; stratified by player, v15 less v14 is +2.3 pp over 94 weighted games (−9.4 pp on
+  the first two uploads).
+- **Local against arena:** S 0.5510 against v14 and −0.38 points on three placements (−1.14 on two). The arena still
+  shows no gain; it shows no loss either. The morning's "largest shortfall of a candidate so far" was two placements
+  of an artifact whose placements span 2.71 points.
+- **The measurement** of the rule on the arena has an addendum with this placement
+  (`docs/data/study-2026-11-11-v15-sites/`): its findings stand on 270 games.
+- **Placement speed:** 29 minutes from the agent's creation.
+- **The gap to the boss:** 27.37 is 5.1 above v15's mean and 3.6 above this placement.
+- **The arena entry** is agent 6873629, v15 upload 3: the selected version.

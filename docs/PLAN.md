@@ -264,6 +264,9 @@
 - [x] v15 in Gold, two uploads (2026-11-11, an exception, S 0.551 below 0.60): agents 6871160 and 6871202, placements
   21.87 (rank 19/351) and 21.05 (rank 34/351), SAME 180/180. P1 against v14: mean 21.46 against 22.61, not clearly
   worse, **v15 selected**; the arena does not show the local gain (`docs/arena-uploads.md`)
+- [x] v15 in Gold, a third upload (2026-11-11 20:03): agent 6873629, placement 23.76 (rank 8/350, our best in Gold),
+  SAME 90/90, against the strongest field met (54 games against 22 and up); the first game against the Gold boss
+  (27.37), lost 29:55. v15's baseline: mean 22.23 on three placements, −0.38 against v14, not clearly worse
 - [x] What v15's rule did on the arena, on its 180 Gold games beside v14's (2026-11-11, the user's "Да, измерь";
   `docs/data/study-2026-11-11-v15-sites/`): the sites and the ladder are the local ones, the cover on contact turns
   and the HP did not move beyond noise; most of the knights' damage falls before turn 50 or where no tower line

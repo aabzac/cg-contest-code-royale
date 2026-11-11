@@ -33,8 +33,8 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   bytes; kept copy `artifacts/7a5b28c4/Player.java`), procCheck 200/200 against v01 and against `boss`, later turns at
   most 8.6 ms; it plays as v15 and is told from each of the other 15 versions (`docs/BOTS.md`, Artifacts). Commit
   03a16bc, merged into master on 2026-11-11 (a clean export of its staged tree rebuilt the bytes before the commit, and
-  `./gradlew submit` in the main checkout rebuilds them from master). Uploaded twice as an exception (2026-11-11:
-  agents 6871160 and 6871202, placements 21.87 and 21.05; `docs/arena-uploads.md`). Also the selected version since
+  `./gradlew submit` in the main checkout rebuilds them from master). Uploaded three times, as an exception (2026-11-11:
+  agents 6871160, 6871202 and 6873629, placements 21.87, 21.05 and 23.76; `docs/arena-uploads.md`). Also the selected version since
   2026-11-11 (below). The next P2 candidates are screened against v15. The artifact holds the
   flags that are off; 2,136 characters of the 100,000 are left.
 - Previous local champion: v14 (2026-11-10 to 2026-11-11) = v13 with the queen standing where her towers overlap
@@ -90,15 +90,17 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   upload"; `cr.bot.v09.GreedyBot`, `versions/v09.properties`; `MainBotTest.withV09ParamsCurrentPlaysAsV09`). P2
   screen on PV3 block 0: S 0.5269 against v08, +1.46 pp against `field` (`docs/data/exp-2026-11-05-late-hold/`).
   Not uploaded, no final evaluation, no artifact checked.
-- Selected version (the arena's): **v15** since 2026-11-11, by P1 on two Gold placements, 21.87 and 21.05 (mean 21.46,
-  SD 0.58), against v14's Gold 23.11 and 22.10 (mean 22.61): "not clearly worse" (−1.14 against −M −2.46; performance
-  21.31 ± 0.54 against 22.48 ± 0.54 at Gold's refitted scale 3.25, −1.17 against −2 SE −1.54; `docs/arena-uploads.md`).
-  **The arena does not show the local gain**: both differences are negative, inside the margin and about 1.5 SE of
-  the rating difference. v15 won 121 of its 180 games (v14 120) and lost them the same way (25 deaths and 34 lost
-  races against 26 and 34), against a weaker field (opponents' medians 19.98 and 17.74 against 21.18 and 19.79).
+- Selected version (the arena's): **v15** since 2026-11-11, by P1 on two Gold placements, 21.87 and 21.05, against
+  v14's Gold 23.11 and 22.10 (mean 22.61): "not clearly worse". A third placement that evening scored **23.76** (rank
+  8/350, our best in Gold, against the strongest field met: opponents' median 22.61). v15's Gold baseline is now three
+  placements, mean 22.23 (SD 1.39): −0.38 against −M −2.46; performance 22.15 ± 0.43 against 22.41 ± 0.52 at Gold's
+  refitted scale 3.12, −0.26 against −2 SE −1.36 (`docs/arena-uploads.md`).
+  **The arena shows neither the local gain nor a loss**: the first two placements alone gave −1.14 and −1.17, and the
+  three placements of the one artifact span 2.71 points. v15 won 175 of its 270 games (64.8 %; v14 120 of 180, 66.7 %),
+  level with v14 in three bands of opponents and lower at 17-20 (74 % against 82 %).
   Uploaded as an exception (S 0.5510 against v14 on the evaluation block). Artifact `7a5b28c4…` (97,864 chars, build
   `72a6959d`, config `ce9faaa7`; commit 03a16bc; kept copy `artifacts/7a5b28c4/Player.java`). The rollback artifact.
-  The live agent is 6871202 (upload 2; the arena entry, below). Its code was identical to the artifact in all 180
+  The live agent is 6873629 (upload 3; the arena entry, below). Its code was identical to the artifact in all 270
   games. On the arena the rule does to the board what it does locally (the third tower is built with 1.55 own towers
   within 400, v14 1.13; she stands under three by turn 60 in 72 % of the games, v14 62 %; the ladder is no slower), but
   the share of her contact turns under three or more did not move (53.5 % against 53.7 %; locally +8 to +13 points)
@@ -169,14 +171,15 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
   `docs/arena-uploads.md`); artifact `13b3ec0c…` (commit 496bcc5, kept in `artifacts/13b3ec0c/`;
   `docs/BOTS.md`, Artifacts). The rollback artifact for the next candidate is `13b3ec0c`. Previous: v04 (the
   `route` configuration, artifact `da914c4c…`), selected 2026-11-02 to 2026-11-03; v03, 2026-10-30 to 2026-11-02.
-- Arena entry: `aabzac`, agent 6871202 = **v15 upload 2**, **Gold**, pasted 2026-11-11 01:18 local: the main checkout's
-  `build/submit/Player.java`, byte for byte the kept copy `artifacts/7a5b28c4/Player.java`, named by `tools/arena.py
-  follow v15 --selected v14`. The arena entry is the selected version.
-  - The placement completed at 01:38: score 21.05, local rank 34/351 (global 148), `eligibleForPromotion` false.
-  - 90 games, 63 wins; opponents' median 17.74. Every game is identical to the artifact (`docs/BOTS.md`, Uploads;
-    `docs/data/arena-6871202-placement-2026-11-11.json`).
-  - It replaced agent 6871160 = v15 upload 1 (21.87, rank 19/351; 00:54), which replaced 6869279 = v14 upload 2 (22.10,
-    rank 18/349). v14 upload 1's 23.11 (rank 9/348) is the best Gold placement so far.
+- Arena entry: `aabzac`, agent 6873629 = **v15 upload 3**, **Gold**, pasted 2026-11-11 20:03 local: the artifact
+  `7a5b28c4` a third time (the paste's file is not recorded; `tools/arena.py follow v15 --selected v14` was started
+  after it and found the agent by the build marker). The arena entry is the selected version.
+  - The placement completed at 20:32: score 23.76, local rank 8/350 (global 123), `eligibleForPromotion` false. It is
+    the best Gold placement so far (v14 upload 1's 23.11, rank 9/348, before).
+  - 90 games, 54 wins; opponents' median 22.61, 54 games against players rated 22 or more. Every game is identical to
+    the artifact (`docs/BOTS.md`, Uploads; `docs/data/arena-6873629-placement-2026-11-11.json`).
+  - It replaced agent 6871202 = v15 upload 2 (21.05, rank 34/351; 01:18), which replaced 6871160 = v15 upload 1 (21.87,
+    rank 19/351; 00:54).
 - v11 in Gold (the study of 2026-11-07, `docs/data/study-2026-11-07-gold/`; its README has the numbers):
   - 44 of the 69 losses in 180 games are HP races at turn 250, 25 are deaths (towers 0.4 HP of a death's last 30
     turns);
@@ -187,9 +190,13 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     limit in 91 % (Gold 59 %); `field` 60 %; `rival`'s giants 85 % of its games.
 - Noise margins: **M = 2.46, borrowed from Bronze** (11 df) in Silver (the user's decision of 2026-11-04) and in
   **Gold** (2026-11-07), until they decide otherwise. The leagues' own M are printed as context: Silver 1.59 on 4 df
-  (v08's, v10's and v11's Silver placements), Gold 1.69 on 6 df (v11's pair, v12's three and the pairs of v13, v14 and v15). See `noiseMargins` in the registry and
-  `docs/arena-uploads.md` (Silver and Gold noise margins). A Gold candidate rolls back early below 16.53 (v15's Gold
-  mean 21.46 less 2M = 4.93).
+  (v08's, v10's and v11's Silver placements), Gold 2.12 on 7 df (v11's pair, v12's three, the pairs of v13 and v14 and v15's three). See `noiseMargins` in the registry and
+  `docs/arena-uploads.md` (Silver and Gold noise margins). A Gold candidate rolls back early below 17.30 (v15's Gold
+  mean 22.23 less 2M = 4.93).
+- Gold boss: agent 1886843, "Empress Boss" in the replay's `arenaboss` record (the manifests carry it without a
+  pseudo), score **27.37** on 2026-11-11 20:31. Met once, in v15 upload 3 (920054964): lost 29:55 at turn 250 as
+  player 1; 24 of our 26 HP went in the first wave before turn 50, and the boss's queen lost none. v15's mean is 5.1
+  below the boss, its best placement 3.6.
 - Silver boss: agent 1876720 (no pseudo), rating **21.87-21.99** during the fetches of 2026-11-04 00:05-23:24
   (the games manifests of v08 uploads 3-5), 21.84 falling to 21.54 during v10's second placement (2026-11-07
   01:05-01:22), 21.96 when the user looked on 2026-11-07. v08 won 6 of its 16 games against it, v10 all 4 (and
@@ -415,7 +422,12 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     stand: two thirds are outside the reach of the hold and of the sites; 22 of the 34 lost races are behind at turn
     50, in both versions;
   - upload 2 again lost to opponents rated below 17 (9 of 37; 11 of 48 over both uploads, −1.9 SD of the rating
-    model): seven deaths, six of them to an opponent with more income at turn 100, and four races.
+    model): seven deaths, six of them to an opponent with more income at turn 100, and four races;
+  - the addendum with the third placement (90 games, 54 of them against players rated 22 or more): the findings
+    stand on 270 games (the third tower's links +0.41, +0.29..+0.52; the contact turns under three or more +1.1
+    points, −6.8..+9.2; under four or more +5.8 points, +0.6..+11.1; HP from turn 50 +0.8, −3.4..+4.8). Against 22
+    and up v15 wins 44 % like v14 (29 of 66, 18 of 41). Below 17 both versions win 78-79 % where their ratings expect
+    about 90 % (66 of 84 over five placements; v12 and v13 had 52 of 61).
 - The open-ground experiment (2026-11-10, the user's "Да, проверь"; `docs/data/exp-2026-11-10-open-ground/`): not
   adopted.
   - `OVERLAP_TOUCH=9` (the hold and the flight at the towers' touch points only) scores 0.4909 (0.4802..0.5016)
@@ -455,14 +467,14 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     together score 0.544 and 0.550 against v14 and +4.7 and +4.9 pp against `rival` on the development maps);
   - the final evaluation of v15 against v14 on evaluation-pv3 block 4: S 0.5510 (0.5377..0.5643), rival +2.5 pp,
     field +0.4 pp, boss unchanged;
-  - on the arena (two Gold uploads, 2026-11-11): 21.87 and 21.05, mean 21.46 against v14's 22.61; selected by P1,
-    with no sign of the local gain (the selected version's block above);
+  - on the arena (three Gold uploads, 2026-11-11): 21.87, 21.05 and 23.76, mean 22.23 against v14's 22.61; selected
+    by P1 on the first two, with no sign of the local gain and none of a loss (the selected version's block above);
   - `SITE_COVER` is in `current`, off. The next screen block is 9, the next evaluation block 5.
 - Waiting on the user:
-  - nothing P1 requires: v15 is the selected version. The arena gives no sign of its local gain (mean −1.14 and
-    performance −1.17 ± 0.76 against v14, inside the margin), and the measurement of its 180 games (v15 in Gold,
-    above) finds no mechanism for a loss of that size and none for a gain. Whether v14 goes back on the arena is
-    open to the user: a decision outside P1's rollback rule;
+  - nothing P1 requires: v15 is the selected version. The arena gives no sign of its local gain and none of a loss
+    (mean −0.38 and performance −0.26 ± 0.68 against v14 on three placements; −1.14 and −1.17 on the first two), and
+    the measurement of its games (v15 in Gold, above) finds no mechanism for either. Whether v14 goes back on the
+    arena is open to the user: a decision outside P1's rollback rule;
   - the next step. Candidates on record: the economy with the dead turns, a rival whose barracks stand
     forward (`docs/data/exp-2026-11-10-overlap/`, Not tried; the study's sections 7 and 8), and what the tower-sites
     experiment left untried (a heavier weight on a fresh block, the same measure for the defence rule's and the touch
@@ -471,8 +483,8 @@ evidence `docs/DEVLOG.md`, the backlog `docs/PLAN.md`, a short Russian summary f
     holds 1.0. The two narrow follow-ups of the measurement of v14's games are tested and not adopted (the
     open-ground and gate-touch experiments above). The artifact has 2,136 characters left of its 100,000: the flags
     that are off take room a later candidate may need. The Gold ladder on
-    2026-11-08: 347 agents, none eligible, top 26.54 (`docs/data/leaderboard-gold-2026-11-08.json`); v15's mean is 5.1
-    below it (v14's 3.9);
+    2026-11-08: 347 agents, none eligible, top 26.54 (`docs/data/leaderboard-gold-2026-11-08.json`); the boss's own
+    score was 27.37 on 2026-11-11 (Gold boss, above): v15's mean is 5.1 below it, v14's 4.8;
   - the code of 3315948 in `refs/old-3315948/Player.java` (opponent `old`, gate G3 of P2).
 - Policies: P2 locally with gates G0-G5 (`docs/local-screen.md`; PV4 since 2026-11-06), then `submit` and both `procCheck`, then P1 on the arena
   (`docs/arena-uploads.md`, `tools/arena_compare.py`, registry `docs/data/arena-uploads.json`).
