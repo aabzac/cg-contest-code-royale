@@ -181,7 +181,8 @@ No decision is taken here; these are the measured openings.
   and the towers' sites chosen for overlap (`docs/data/exp-2026-11-10-overlap/`, Not tried). The sites were tested
   the same day (`docs/data/exp-2026-11-10-tower-sites/`): a ladder that puts each new tower beside the two nearest
   ones passes the P2 screen (S 0.5425 against v14) and raises the cover on contact turns by 8-13 points locally; it
-  is the default since v15 (2026-11-11).
+  is the default since v15 (2026-11-11). On the arena (`docs/data/study-2026-11-11-v15-sites/`) the sites are the
+  local ones and the cover on contact turns did not rise: the deaths' games have no line to stand in.
 - A narrow follow-up inside the rule: open ground. A flag that keeps the hold to the touch points of own towers, or
   takes open ground only when it adds two towers, is a development sweep on the seeds of the overlap experiment.
   Done 2026-11-10 (`docs/data/exp-2026-11-10-open-ground/`): neither gains (S 0.491 and 0.499 against v14 on 2000

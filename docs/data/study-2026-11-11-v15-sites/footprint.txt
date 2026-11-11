@@ -1,0 +1,17 @@
+v15's 180 Gold games, 39668 turns: v14 would command differently in 161 games (19 the same game for game); by upload 83 of 90, 78 of 90
+  the games without a difference: 250 turns each (median), 2 of them shorter than 100 turns, 13 reached turn 250; won 11 of 19
+  turns with a different command: 1015 in all, 2.6 % of the turns; a game with a difference: mean 6.3, median 6, quartiles 3 and 9, the most 25
+  the first difference: turn 31 (median), quartiles 18 and 42, the earliest 7; before turn 50 in 131 games, in turns 50-99 in 25, 100-149 in 2, later in 3
+  what the first difference is (v15's recorded command):
+     70  a MOVE to another point                                        first on turn  34 (median), from 7 to 155
+     38  a MOVE where v14 builds or walks to a site (BUILD TOWER)       first on turn  22 (median), from 7 to 161
+     26  another site, the same structure (BUILD TOWER)                 first on turn  21 (median), from 15 to 85
+     23  a BUILD TOWER where v14 moves                                  first on turn  30 (median), from 7 to 63
+      2  a BUILD BARRACKS-KNIGHT where v14 moves                        first on turn  74 (median), from 72 to 77
+      1  a BUILD MINE where v14 moves                                   first on turn  37 (median), from 37 to 37
+      1  a MOVE where v14 builds or walks to a site (BUILD MINE)        first on turn 215 (median), from 215 to 215
+  the queen's line differs on the first difference in 161 games, the TRAIN line in 0
+  won  games (121): 6.1 different turns a game, 2.8 % of their turns; without a difference 11
+  lost games ( 59): 4.6 different turns a game, 2.1 % of their turns; without a difference 8
+  the 11 losses to opponents rated below 17: 919620934: 8 of 219 turns differ, the first at 38; 919621417: 7 of 250 turns differ, the first at 7; 919631017: 7 of 184 turns differ, the first at 41; 919631171: turn for turn v14's; 919631375: 3 of 185 turns differ, the first at 81; 919631524: 2 of 250 turns differ, the first at 30; 919631666: turn for turn v14's; 919631738: 7 of 250 turns differ, the first at 9; 919632110: 7 of 186 turns differ, the first at 47; 919632168: 6 of 185 turns differ, the first at 41; 919632245: 1 of 219 turns differ, the first at 77
+  by the number of different turns: none: 19 games, won 11 (58 %); 1-5: 73 games, won 47 (64 %); 6-10: 70 games, won 48 (69 %); 11-20: 16 games, won 13 (81 %); more than 20: 2 games, won 2 (100 %)

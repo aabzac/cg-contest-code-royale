@@ -4593,3 +4593,128 @@ Open: v15's two uploads, the user's: `python -B -I tools/arena.py follow v15 --s
 then the paste of the file it names. Records: STATUS, SUMMARY, PLAN, BOTS (the commit of v15's artifact), the
 experiment's README. Committed on the user's request ("Да, доведи") in a records commit of its own, and master
 fast-forwarded to it (`git log`); not pushed.
+
+## 2026-11-11 — v15's two Gold uploads: 21.87 and 21.05; P1 verdict: v15 selected, the local gain not shown
+
+The user's "завершилось 2 загрузки": both placements were over. Both pastes were the main checkout's
+`build/submit/Player.java`, byte for byte the kept copy `artifacts/7a5b28c4/Player.java`, each with `python -B -I
+tools/arena.py follow v15 --selected v14` running in the main checkout.
+- **Upload 1.**
+  - 00:50:37 "build/submit/Player.java plays as v15 in 6 of 6 games, on maps that tell v15 from each of the 15 other
+    versions: the file of v15" (the file had been rebuilt from master after the merge).
+  - v14 upload 2 saved (90 games, 63 wins); the paste line at 00:50:43.
+  - Agent 6871160 (created 00:54:38, submission 41686724) seen at 00:55:06 at 1 %, build `72a6959d` in game 919617513,
+    registered at 00:55:11. Snapshots at 1, 17, 28, 41, 52, 64, 76, 90, 94 and 100 %.
+- **Placement 1** complete at 01:18:18: local rank 19/351 (global 133), score 21.87, `eligibleForPromotion` false.
+  - 90 games, 58 wins by the game results (seat 0: 36 of 46, seat 1: 22 of 44), 57 in the battle lists; 58 of 90 games
+    reached turn 250. 32 losses: 15 deaths and 17 lost races.
+  - No game with a removed player.
+  - One equal score: 919623558 against Sibwara, 17:17 at turn 250 with us as player 0, ranked a win.
+  - Opponents' median 19.98: 1 game against a player rated 23 or more (lost), 43 against 20-23 (24 won), 35 against
+    17-20 (25), 11 below 17 (9).
+  - `cgAttribute`: SAME 90/90, 19,981 turns; marker `72a6959d` in all 90.
+  - After it: performance 21.67 ± 0.70 (Gold scale 3.03 on ten uploads), −0.74 against v14's mean, no early rollback
+    (below 17.68): "upload the candidate again".
+- **Upload 2.** The paste at 01:18:46, half a minute after placement 1 completed and before its run printed its report
+  (01:19:02). The command, started again, found agent 6871202 (created 01:18:46, submission 41686821) on the
+  leaderboard at 01:19:23 at 11 %, saved what was left of upload 1, read build `72a6959d` in game 919630363 and
+  registered the agent at 01:19:30. Snapshots at 11, 27, 42, 55, 67, 78, 95 and 100 %.
+- **Placement 2** complete at 01:38:33: local rank 34/351 (global 148), score 21.05, `eligibleForPromotion` false.
+  - 90 games, 63 wins by the game results (seat 0: 30 of 45, seat 1: 33 of 45), 62 in the battle lists; 63 of 90 games
+    reached turn 250. 27 losses: 10 deaths and 17 lost races.
+  - The referee removed the opponent in 919630854 (jfaixo, a turn-0 timeout).
+  - One equal score: 919633674 against ruu, 55:55 at turn 250 with us as player 0, ranked a win.
+  - Opponents' median 17.74: 1 game against 23 or more (lost), 20 against 20-23 (13 won), 32 against 17-20 (22), 36
+    below 17 (27). The nine losses below 17: FLPMLN three times, NF_Elvis, BUG, tashman01, Bob, Dominik123 and
+    Counterbalance (ratings 15.25-16.09); six deaths and three lost races.
+  - `cgAttribute`: SAME 90/90, 19,687 turns; marker `72a6959d` in all 90.
+- **P1 against v14** (upload 2's `checks/arena-compare.json`; `python -B -I tools/arena_compare.py --candidate v15
+  --selected v14` on the branch prints the same; Gold's scale refitted at 3.25 on eleven uploads):
+  - mean 21.46 (21.87, 21.05; SD 0.58) against 22.61, −1.14 against −M = −2.46;
+  - performance 21.31 ± 0.54 against 22.48 ± 0.54, −1.17 ± 0.76 against −2 SE = −1.54;
+  - neither rollback condition holds: by P1 **v15 is the selected version**; `7a5b28c4` is the rollback artifact for
+    the next candidate, whose first placement rolls back early below 16.53. Gold's own M is 1.69 on 6 df; the verdicts
+    keep Bronze's 2.46 (the user's decision of 2026-11-07), and Gold's own would not roll back either.
+- **The arena does not show the local gain.** Both differences are negative, about 1.5 SE of the rating difference.
+  - v15 won 121 of its 180 games, v14 120; deaths and lost races 25 and 34 against 26 and 34.
+  - The field was weaker: 12 games against players rated 22 or more (v14: 41), 48 below 17 (32).
+  - By the opponents' rating (v14 → v15, share of wins): below 17 78 % → 77 % (32 and 48 games), 17-20 82 % → 70 % (45
+    and 67), 20-22 65 % → 60 % (62 and 53), 22 and up 44 % → 42 % (41 and 12). Every band a little lower; the largest
+    gap, at 17-20, is about 1.5 SE.
+  - The 53 players both versions met: v14 won 66 of 95 games against them, v15 57 of 89; stratified by player, v15
+    less v14 is −9.4 pp over 64 weighted games. `arena_compare.py`'s four pairs of uploads (v14 less v15): +2.2 ±
+    12.6, +6.0 ± 19.3, +16.9 ± 13.5 and +23.6 ± 15.5 pp, not independent samples.
+  - These are views of the same 360 games, none of them conclusive. What the rule did on the arena (the towers'
+    links, the cover on contact turns, the HP) is not measured.
+- **Local against arena:** S 0.5510 → −1.14 points (v14: 0.5533 → +0.81; v13: 0.5958 → +1.44; v12: 0.5716 → +3.28). The
+  largest shortfall of a candidate so far (v07 −0.71, v10 −0.20), inside the margin like those. PV5 stands: P1 did not
+  roll the candidate back.
+- **Equal scores:** the twenty-second and twenty-third games of `docs/rules/inferred.md`. Player 0 is ranked first in
+  all twenty-three; the battle lists give a draw in every saved list that holds the game (22 and 9 lists for the new
+  two).
+- Files: `replays/arena/v15/gold/upload-01` and `upload-02` (`games`, `snapshots`, `checks`) in the main checkout. The
+  registry, the two placements, the two manifests and the re-fetched manifest of v14 upload 2 are copied into the
+  worktree, byte for byte. The band and shared-opponent counts above come from the manifests (`ratingAtFetch`, `ranks`,
+  `scores`), computed by a throwaway script of this session; `arena_compare.py` prints the rest.
+
+Records: BOTS (versions, Uploads, Artifacts), `docs/arena-uploads.md` (the v15 section), STATUS (the selected version,
+the arena entry, the margins, the waiting list), SUMMARY, PLAN, `docs/local-screen.md`, `docs/rules/inferred.md`, the
+architecture page (v15 selected), the experiment README (On the arena). Not committed: the main checkout holds the
+tool's uncommitted copies of the same six data files.
+
+## 2026-11-11 — What v15's rule did on the arena: the sites as locally, the cover on contact turns and the HP unmoved
+
+The user's "Да, измерь" (to "Измерить, что правило v15 сделало на арене?"). No bot code changed, no P2 block used.
+Everything is in `docs/data/study-2026-11-11-v15-sites/` (README, `probe.sh`, `footprint.py`, `measure.py`,
+`decompose.py` and their outputs).
+- **Runs** (worktree at a55fa1e with the upload records uncommitted; nothing else running):
+  - 01:58 `bash docs/data/study-2026-11-11-v15-sites/probe.sh`: the v13 study's `ArenaProbe`, unchanged, on v15's
+    two placements (agents 6871160, 6871202 → `replays/study/gold-v15-2026-11-11/probe`) and on v14's two as the
+    control (`probe-v14`: byte for byte the v14 study's three files), then `./gradlew -q cgAttribute ... -Pbot=v14` on
+    each of v15's uploads (`as-v14-upload-0{1,2}.txt`; exit code 1 as expected). sha256 of the outputs in the README.
+  - `python -B -I docs/data/study-2026-11-11-v15-sites/footprint.py <as-v14-upload-01.txt> <as-v14-upload-02.txt>`,
+    `.../measure.py`, `.../decompose.py` (the last also reads the experiment's local profiles of v14 and
+    `SITE_NEAR=50`, which are in the worktree only).
+- **Footprint:** v14 would command otherwise in 161 of 180 games, on 1,015 of 39,668 turns (2.6 %; v14's rule against
+  v13: 15 %), first at turn 31 (median), before turn 50 in 131 games; the earliest at turns 7-11, on the walk to the
+  first tower's site (the approach planner aims the touch point at the site that comes next).
+- **The sites, as locally** (v15 less v14, bootstrap over games within a version, 95 %):
+  - the third tower's own towers within 400 at its birth 1.13 → 1.55, +0.43 (+0.29..+0.55); the profiles had
+    1.50-1.59;
+  - the third tower on turn 50.7 (50.8), the fourth on 69.5 (75.2), the second barracks in 72.2 % of the games
+    (66.7 %), own towers at turn 100 3.98 (3.94), income at 100 2.85 (2.75): no interval points to a cost.
+- **The queen:**
+  - under three or more by turn 60 in 71.7 % of the games (61.7 %), +10.0 (+0.6..+19.4);
+  - contact turns from turn 50 under three or more 53.5 % (53.7 %), −0.3 (−9.2..+8.5); the profiles had +13.2, +7.8,
+    +12.1 points;
+  - by class, a game (v14 → v15; the profiles' change): two towers or fewer standing 6.9 → 8.1 (−1.1, −1.7, −2.2);
+    three standing, a covered spot within 300 but not under her 6.6 → 6.0 (−1.8, −0.7, −1.1); three standing, no such
+    spot 2.1 → 1.1 (−1.0, −1.4, −1.1); under exactly three 10.9 → 8.8 (−0.5, −0.6, −1.7); under four or more 7.2 →
+    8.8 (+1.8, +1.7, +2.9);
+  - HP lost to knights from turn 50: 11.5 a game (12.6), −1.1 (−5.4..+3.3); with three standing and no spot 1.0
+    (2.6), −1.6 (−3.2..−0.0), the only HP interval off zero; before turn 50 8.0 (7.2), +0.9 (−1.2..+2.8);
+  - deaths 25 (26), lost races 34 (34); the opponents' queens lose 12.9 from turn 50 in both.
+- **Like for like:** no band of opponents and not the 53 shared opponents (95 and 89 games; 69 % and 64 % won,
+  −5.4, −19.3..+7.7) show a difference except in the towers' links.
+- **Where the HP goes** (v15, 19.5 a game to knights): 8.0 before turn 50, 5.1 from turn 50 with two own towers or
+  fewer standing, 6.4 with three or more standing. 22 of the 34 lost races are behind at turn 50 in the knights' HP
+  count, in v14's games too; 19 of v15's were lost by 7 HP or less.
+- **Below 17:** 37 of 48 won where the rating model at v15's rating expects 41.4 (−1.9 SD); 9 of the 11 losses are
+  upload 2's. Seven deaths (in six the opponent has more income at turn 100; three to one player) and four races.
+  v14 would have played two of the eleven turn for turn.
+- **Reading:** the rule does to the board what the profiles showed; its effect on the result is below what 180 games
+  and two placements resolve (the mirror's S 0.5510 is at most +0.67 of rating at Gold's scale 3.25; the arena moved
+  −1.14 and −1.17 ± 0.77). The games give no mechanism for a loss of that size. Two thirds of the knights' damage is
+  outside the reach of both cover rules: the first wave, and the games where the line does not stand.
+- **Limits:** different fields (opponents' medians 19.21 and 20.45; 12 games against 22 and up for v15, 41 for v14);
+  the intervals do not hold the spread between placements; ratings at the fetch; the footprint is v14's answers on
+  v15's positions.
+- Checks: the control probe is identical to the v14 study's; the scripts' totals agree with the manifests (180 games
+  a version, 121 and 120 wins, 25 and 26 deaths, 34 lost races each); a second run of the three scripts gives the
+  saved outputs byte for byte; `python -B -I -m unittest discover -s tools/tests -p "test_*.py"`: 71 tests;
+  `./gradlew test`: up to date, no source file changed since the run of 188 tests (3 corpus tests skipped in the
+  worktree).
+
+Records: STATUS (the selected version's line, "v15 in Gold", the waiting list), SUMMARY (Сейчас and an entry), PLAN,
+`docs/arena-uploads.md` (the v15 section), the experiment README (On the arena), a pointer in the v14 study's README.
+The probe's outputs are copied to the main checkout's gitignored `replays/study/gold-v15-2026-11-11`. Not committed.

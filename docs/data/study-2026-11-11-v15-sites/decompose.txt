@@ -1,0 +1,25 @@
+Contact turns from turn 50 a game by class: no line | off the line | no spot | under three | under four
+
+1. The arena (Gold): v14's and v15's two placements
+   v14                          180 games; contact turns  33.7 a game:   6.9 |   6.6 |   2.1 |  10.9 |   7.2; under three or more 54 %; deaths 14.4 %; three towers stand by turn 60 in 76 %
+                                          HP to knights there      :   4.9 |   2.6 |   2.6 |   1.7 |   0.8; games with such a turn, %:  33 |  68 |  18 |  77 |  68
+   v15                          180 games; contact turns  32.8 a game:   8.1 |   6.0 |   1.1 |   8.8 |   8.8; under three or more 53 %; deaths 13.9 %; three towers stand by turn 60 in 80 %
+                                          HP to knights there      :   5.1 |   3.3 |   1.0 |   1.4 |   0.7; games with such a turn, %:  30 |  63 |  14 |  83 |  77
+   v15 less v14                           the rule's change, turns :  +1.3 |  -0.6 |  -1.0 |  -2.2 |  +1.6;  HP:  +0.2 |  +0.6 |  -1.6 |  -0.3 |  -0.1
+
+2. The local profiles: v14 and SITE_NEAR=50 on the same 200 maps, both seats
+   v14 against v14              400 games; contact turns  25.0 a game:   2.2 |   5.4 |   1.2 |   8.0 |   8.3; under three or more 65 %; deaths  2.5 %; three towers stand by turn 60 in 80 %
+                                          HP to knights there      :   0.3 |   2.6 |   1.1 |   0.9 |   0.5; games with such a turn, %:  24 |  67 |  16 |  94 |  93
+   SITE_NEAR=50 against v14     400 games; contact turns  22.4 a game:   1.0 |   3.6 |   0.2 |   7.5 |  10.0; under three or more 78 %; deaths  1.2 %; three towers stand by turn 60 in 90 %
+                                          HP to knights there      :   0.1 |   1.5 |   0.4 |   0.6 |   0.4; games with such a turn, %:  16 |  60 |   6 |  94 |  96
+   the arm less v14                       the rule's change, turns :  -1.1 |  -1.8 |  -1.0 |  -0.5 |  +1.8;  HP:  -0.2 |  -1.1 |  -0.8 |  -0.3 |  -0.0
+   v14 against rival            400 games; contact turns  33.4 a game:   7.7 |   6.5 |   3.4 |  10.3 |   5.7; under three or more 48 %; deaths  5.0 %; three towers stand by turn 60 in 78 %
+                                          HP to knights there      :   2.8 |   1.1 |   2.2 |   0.3 |   0.1; games with such a turn, %:  46 |  77 |  31 |  90 |  73
+   SITE_NEAR=50 against rival   400 games; contact turns  30.7 a game:   6.0 |   5.8 |   1.9 |   9.7 |   7.4; under three or more 55 %; deaths  2.2 %; three towers stand by turn 60 in 89 %
+                                          HP to knights there      :   2.1 |   1.2 |   1.1 |   0.4 |   0.1; games with such a turn, %:  38 |  73 |  25 |  92 |  84
+   the arm less v14                       the rule's change, turns :  -1.7 |  -0.7 |  -1.4 |  -0.6 |  +1.7;  HP:  -0.7 |  +0.1 |  -1.1 |  +0.1 |  +0.0
+   v14 against field            400 games; contact turns  30.2 a game:   4.1 |   5.0 |   1.6 |  12.3 |   7.2; under three or more 65 %; deaths  0.5 %; three towers stand by turn 60 in 84 %
+                                          HP to knights there      :   0.2 |   0.7 |   0.4 |   0.2 |   0.0; games with such a turn, %:  18 |  60 |  12 |  83 |  70
+   SITE_NEAR=50 against field   400 games; contact turns  26.9 a game:   1.9 |   3.9 |   0.5 |  10.6 |  10.1; under three or more 77 %; deaths  0.0 %; three towers stand by turn 60 in 92 %
+                                          HP to knights there      :   0.1 |   0.3 |   0.2 |   0.2 |   0.0; games with such a turn, %:   9 |  56 |   6 |  83 |  79
+   the arm less v14                       the rule's change, turns :  -2.2 |  -1.1 |  -1.1 |  -1.7 |  +2.9;  HP:  -0.1 |  -0.4 |  -0.2 |  -0.0 |  +0.0

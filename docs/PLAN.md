@@ -261,11 +261,19 @@
 - [x] Merge the branch `claude/happy-northcutt-76f8b5` into master (2026-11-11, the user's "Да, влей"; fast-forward
   to 03a16bc) and check the main checkout for v15's upload (the tests, the artifact rebuilt from master, the tool's
   steps before the paste)
-- [ ] v15 in Gold, two uploads under P1 against v14 (an exception, S 0.551 below 0.60: the user's decision)
+- [x] v15 in Gold, two uploads (2026-11-11, an exception, S 0.551 below 0.60): agents 6871160 and 6871202, placements
+  21.87 (rank 19/351) and 21.05 (rank 34/351), SAME 180/180. P1 against v14: mean 21.46 against 22.61, not clearly
+  worse, **v15 selected**; the arena does not show the local gain (`docs/arena-uploads.md`)
+- [x] What v15's rule did on the arena, on its 180 Gold games beside v14's (2026-11-11, the user's "Да, измерь";
+  `docs/data/study-2026-11-11-v15-sites/`): the sites and the ladder are the local ones, the cover on contact turns
+  and the HP did not move beyond noise; most of the knights' damage falls before turn 50 or where no tower line
+  stands
 - [ ] After it: the economy with the queen's dead
   turns (mines and upgrades under cover, a staged income target), and a rival whose barracks stand forward as the local
   model of the Gold midgame (the study's sections 7 and 8; the first-wave cap stays parked,
-  `docs/data/exp-2026-11-09-meet-waves/`); from the tower-sites experiment: a heavier weight or both measures on a
+  `docs/data/exp-2026-11-09-meet-waves/`). The v15 measurement sizes the openings: of the 19.5 HP a game the queen
+  loses to knights in Gold, 8.0 fall before turn 50 and 5.1 where two own towers or fewer stand. From the tower-sites
+  experiment (the class these act on holds 1.0 HP a game on the arena): a heavier weight or both measures on a
   fresh block, the same measure for the defence rule's and the touch rule's towers
 - [ ] Housekeeping before the artifact runs out of room (v15's has 97,864 of 100,000 characters with every flag that is off):
   retire the rejected flags with their tests, by a decision (the common rules, "Retire rejected/parked code")

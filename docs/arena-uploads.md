@@ -1413,3 +1413,88 @@ is refitted at 3.00 on the nine Gold uploads (2.57 on eight, after upload 1), wh
     anything in the other five is not known.
 - **Placement speed:** 24 minutes each from the agent's creation.
 - **The arena entry** is agent 6869279, v14 upload 2: the selected version.
+
+## Thirteenth candidate: v15 (the towers stand beside the towers), two Gold uploads and the P1 verdict (2026-11-11): v15 selected
+
+v15 = v14 with `SITE_NEAR=50` (`docs/data/exp-2026-11-10-tower-sites/`: P2 screen S 0.5425 on block 8, final evaluation
+S 0.5510 on evaluation block 4, below the 0.60 recommendation; uploaded as an exception by the user's decision). The user
+pasted the main checkout's `build/submit/Player.java`, byte for byte the kept copy `artifacts/7a5b28c4/Player.java`,
+twice, with `python -B -I tools/arena.py follow v15 --selected v14` running in the main checkout, and reported when
+both placements were over ("завершилось 2 загрузки").
+- **Upload 1.**
+  - At 00:50:37 the command took `build/submit/Player.java` ("plays as v15 in 6 of 6 games, on maps that tell v15 from
+    each of the 15 other versions: the file of v15"). The main checkout's build had been rebuilt from master after the
+    merge of the freeze, so the file a paste usually takes was v15's.
+  - It saved v14 upload 2 (90 games, 63 wins) and named the file for the paste at 00:50:43.
+  - It saw the new agent 6871160 at 00:55:06 (created 00:54:38, submission 41686724, 1 % played) and registered it at
+    00:55:11, once game 919617513 showed build `72a6959d`.
+  - The placement completed at 01:18:18.
+- **Upload 2.**
+  - The second paste went in at 01:18:46, half a minute after upload 1's placement completed and before its run had
+    printed its report (01:19:02).
+  - The command, started again, found agent 6871202 on the leaderboard at 01:19:23 (created 01:18:46, submission
+    41686821, 11 % played), saved what was left of upload 1 and registered the agent at 01:19:30, once game 919630363
+    showed the build.
+  - The placement completed at 01:38:33.
+
+| upload | agent | placement score | games | win % | seat 0 | seat 1 | opp. median | performance |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| v15/upload-1 (Gold) | 6871160 | 21.87, rank 19/351 | 90 | 64.4 ± 5.0 | 36 of 46 | 22 of 44 | 19.98 | 21.78 ± 0.74 |
+| v15/upload-2 (Gold) | 6871202 | 21.05, rank 34/351 | 90 | 70.0 ± 4.8 | 30 of 45 | 33 of 45 | 17.74 | 20.77 ± 0.79 |
+| v15 in Gold, both | | mean 21.46, SD 0.58 | 180 | | | | | 21.31 ± 0.54 |
+| v14 in Gold, both | | mean 22.61, SD 0.71 | 180 | | | | 19.79-21.18 | 22.48 ± 0.54 |
+
+The figures come from `arena_compare.py` as `tools/arena.py` ran it (upload 2's `checks/arena-compare.json`);
+`python -B -I tools/arena_compare.py --candidate v15 --selected v14` on the branch prints the same. Gold's logistic scale
+is refitted at 3.25 on the eleven Gold uploads (3.03 on ten, after upload 1), which moves v14's rating from 22.34 to
+22.48 and upload 1's from 21.67 to 21.78.
+- **Same code:** `cgAttribute` finds every game identical to `7a5b28c4`: SAME 90/90 in each upload, 19,981 and 19,687
+  turns. The marker `72a6959d` is in all 180.
+- **The referee removed the opponent** in one game of upload 2, 919630854 (jfaixo), a timeout on turn 0, an ordinary
+  win; in none of upload 1.
+- **Equal scores:** two games, both at turn 250 with us as player 0, both ranked wins (the twenty-second and
+  twenty-third in `docs/rules/inferred.md`): 919623558 of upload 1 against Sibwara, 17:17, and 919633674 of upload 2
+  against ruu, 55:55. Their saved battle lists (22 and 9) give both players position 0; the lists' summaries count 57
+  and 62 wins where the manifests have 58 and 63.
+- **The fields are weaker than v14's.** 58 and 63 of the 90 games reached turn 250.
+  - Upload 1's opponents have the median 19.98: 1 game against a player rated 23 or more (lost), 43 against 20-23 (24
+    won), 35 against 17-20 (25), 11 below 17 (9).
+  - Upload 2's median is 17.74, the lowest of the Gold uploads but v11's two: 1 game against 23 or more (lost), 20
+    against 20-23 (13 won), 32 against 17-20 (22) and 36 below 17, of which 9 were lost.
+- **By the opponents' rating** (the manifests of both versions, the rating at the fetch):
+
+  | opponents rated | v14: games, won | v15: games, won |
+  | --- | --- | --- |
+  | below 17 | 32, 78 % | 48, 77 % |
+  | 17-20 | 45, 82 % | 67, 70 % |
+  | 20-22 | 62, 65 % | 53, 60 % |
+  | 22 and up | 41, 44 % | 12, 42 % |
+  | all | 180: 120 won, 26 deaths, 34 lost races | 180: 121 won, 25 deaths, 34 lost races |
+
+  v15 won as many games as v14 and lost them the same way, against a weaker field: 12 of its games met players rated
+  22 or more (v14: 41) and 48 players below 17 (32). In every band its share of wins is a little lower, the most at
+  17-20 (−12 points on 45 and 67 games, about 1.5 SE).
+- **P1 after upload 1:** 21.87 against v14's mean 22.61 (−0.74; M 2.46): no early rollback (that would need a score
+  below 17.68).
+- **P1 verdict against v14.** M is 2.46, borrowed from Bronze. Gold's own M is now 1.69 on 6 df (pooled SD 0.85 from
+  v11's pair, v12's three and the pairs of v13, v14 and v15), printed as context.
+  - Mean: 21.46 against 22.61, −1.14 against −M = −2.46.
+  - Performance: 21.31 ± 0.54 against 22.48 ± 0.54, −1.17 ± 0.76 against −2 SE = −1.54.
+  - Neither rollback condition holds: by P1 **v15 is the selected version** (2026-11-11). Its artifact `7a5b28c4` is
+    the rollback artifact for the next candidate, whose first placement rolls back early below 16.53 (21.46 − 2M).
+  - **The arena does not show the local gain.** Both differences are negative, inside M and about 1.5 SE of the rating
+    difference: "not clearly worse" is all the verdict says. With Gold's own M the mean would not roll back either
+    (−1.14 against −1.69).
+- **Shared opponents (context):** against the players both versions met, v14 won more in each of the four pairs of
+  uploads (v14 less v15, stratified: +2.2 ± 12.6, +6.0 ± 19.3, +16.9 ± 13.5 and +23.6 ± 15.5 pp). The pairs share
+  uploads, so they are not four independent samples. Against v13's uploads v15 won more in three pairs of four (v13
+  less v15: −7.0 ± 14.6, −2.5 ± 19.4, −15.9 ± 12.0 and +1.5 ± 15.1 pp).
+- **Local against arena:** P2's final evaluation gave S 0.5510 against v14 and the arena moved −1.14 points (v14's
+  0.5533 had moved +0.81, v13's 0.5958 +1.44, v12's 0.5716 +3.28). It is the largest shortfall of a candidate against
+  the version it replaced so far (v07: −0.71, v10: −0.20), and inside the margin like those.
+- **What the rule did on the arena** (measured the same day, `docs/data/study-2026-11-11-v15-sites/`): the towers'
+  sites and the ladder's pace are the local ones, the share of the contact turns under three or more own towers and
+  the HP lost to knights did not move beyond noise, and no band of opponents shows a difference. The games give no
+  mechanism for a loss of the size of −1.14 and none for a gain.
+- **Placement speed:** 24 and 20 minutes from the agent's creation.
+- **The arena entry** is agent 6871202, v15 upload 2: the selected version.

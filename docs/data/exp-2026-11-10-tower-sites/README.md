@@ -315,6 +315,29 @@ the staged tree rebuilt the artifact's bytes before the commit), merged into mas
 `./gradlew submit` rebuilds the same bytes from master, and what `tools/arena.py follow v15 --selected v14` does before
 the paste, run there without the network, names that file (`docs/DEVLOG.md`, 2026-11-11).
 
+## On the arena (Gold, 2026-11-11)
+
+Two uploads by the user of the main checkout's `build/submit/Player.java` (the kept copy's bytes), each followed by
+`tools/arena.py follow v15 --selected v14`: 21.87 (rank 19/351) and 21.05 (rank 34/351), mean 21.46 against v14's
+22.61; performance 21.31 ± 0.54 against 22.48 ± 0.54 at Gold's refitted scale 3.25. cgAttribute SAME 180/180. P1: not
+clearly worse (−1.14 against −M −2.46; −1.17 against −2 SE −1.54), **v15 selected**; the section and the tables are in
+`docs/arena-uploads.md`.
+
+**The arena does not show the local gain.** Both differences are negative, inside the margin and about 1.5 SE of the
+rating difference. v15 won 121 of its 180 games (v14 120), with 25 deaths and 34 lost races (26 and 34), against a
+weaker field (opponents' medians 19.98 and 17.74 against 21.18 and 19.79); band for band its share of wins is a
+little below v14's (below 17: 77 % against 78 %; 17-20: 70 % against 82 %; 20-22: 60 % against 65 %; 22 and up: 42 %
+against 44 %, on 12 games against 41).
+
+**What the rule did there** (measured the same day with the probe of the v14 measurement,
+`docs/data/study-2026-11-11-v15-sites/`): the first half of the mechanism is the profiles', the second is not seen.
+The third tower is built with 1.55 own towers within 400 (v14 1.13; the profiles 1.50-1.59), the ladder is no slower,
+and she stands under three or more by turn 60 in 72 % of the games (62 %). The share of her contact turns from turn
+50 under three or more is 53.5 % against 53.7 % (the profiles: +8 to +13 points) and the HP lost to knights from turn
+50 is 11.5 a game against 12.6 (−1.1, 95 % interval −5.4..+3.3). The class the rule removes (three towers standing,
+no covered spot within 300) halves as in the profiles, but on the arena it holds 2 of the 34 contact turns a game;
+8 of them pass with two own towers or fewer standing, a class that is small in the mirror and against `field`.
+
 ## Limits
 
 - One arm was screened, the one the rule named. `SITE_NEAR=100` and `SITE_COVER=100,SITE_NEAR=50` score 0.5441 and
